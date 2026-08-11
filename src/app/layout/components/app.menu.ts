@@ -143,18 +143,7 @@ export class AppMenu {
                                     routerLink: ['/dashboard/portalUsers'],
                                     tooltip: '',
                                 },
-                                {
-                                    label: 'Drivers',
-                                    icon: 'pi pi-fw pi-users',
-                                    routerLink: ['/dashboard/drivers'],
-                                    tooltip: '',
-                                },
-                                {
-                                    label: 'Historic Service Data',
-                                    icon: 'pi pi-fw pi-briefcase',
-                                    routerLink: ['/dashboard/service-history/view'],
-                                    tooltip: '',
-                                },
+                                
                                 {
                                     label: 'Historic Invoices',
                                     icon: 'pi pi-fw pi-server',
