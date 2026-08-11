@@ -1,0 +1,91 @@
+ 
+  <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">  
+			   						<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Category</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pInputText name="Category" formControlName="Category"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('Category')?.errors?.required && editForm.get('Category')?.dirty ">
+										Category is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Category')?.errors?.maxlength && editForm.get('Category')?.dirty ">
+										The maximum allowed len of a valid Category is 50 chars.</small>
+								</div>
+							</div>
+						<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Item Name</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pInputText name="ItemName" formControlName="ItemName"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('ItemName')?.errors?.required && editForm.get('ItemName')?.dirty ">
+										ItemName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('ItemName')?.errors?.maxlength && editForm.get('ItemName')?.dirty ">
+										The maximum allowed len of a valid ItemName is 50 chars.</small>
+								</div>
+							</div>
+ <div class="grid grid-cols-12 gap-2">
+								<label for="Description"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Description</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea pTextarea placeholder="Deleted Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 100 chars.</small>
+								</div>
+							</div>
+						<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">System</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pInputText name="IsSystem" formControlName="IsSystem"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('IsSystem')?.errors?.required && editForm.get('IsSystem')?.dirty ">
+										IsSystem is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('IsSystem')?.errors?.maxlength && editForm.get('IsSystem')?.dirty ">
+										The maximum allowed len of a valid IsSystem is 0 chars.</small>
+								</div>
+							</div>
+						<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Partner Id</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pInputText name="PartnerId" formControlName="PartnerId"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('PartnerId')?.errors?.required && editForm.get('PartnerId')?.dirty ">
+										PartnerId is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PartnerId')?.errors?.maxlength && editForm.get('PartnerId')?.dirty ">
+										The maximum allowed len of a valid PartnerId is 0 chars.</small>
+								</div>
+							</div>
+
+              </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,174 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="LocationCode">Location Code 
+							</label> 
+							<input pInputText id="LocationCode" type="text" pSize="small"	formControlName="LocationCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LocationCode')"
+											label="Location Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="LocationName">Location Name 
+							</label> 
+							<input pInputText id="LocationName" type="text" pSize="small"	formControlName="LocationName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LocationName')"
+											label="Location Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Location Type" class="mb-1">LocationType</label>
+        <p-dropdown
+            inputId="LocationType" 
+            [options]="locationtypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LocationType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LocationType')"
+											label="Location Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="AddressLine1">Address Line1 
+							</label> 
+							<input pInputText id="AddressLine1" type="text" pSize="small"	formControlName="AddressLine1"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine1')"
+											label="Address Line1">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AddressLine2">Address Line2 
+							</label> 
+							<input pInputText id="AddressLine2" type="text" pSize="small"	formControlName="AddressLine2"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine2')"
+											label="Address Line2">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="Landmark">Landmark 
+							</label> 
+							<input pInputText id="Landmark" type="text" pSize="small"	formControlName="Landmark"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Landmark')"
+											label="Landmark">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="City" class="mb-1">City</label>
+        <p-dropdown
+            inputId="City" 
+            [options]="cityOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="City"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('City')"
+											label="City">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="State Province Code" class="mb-1">StateProvinceCode</label>
+        <p-dropdown
+            inputId="StateProvinceCode" 
+            [options]="stateprovincecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StateProvinceCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StateProvinceCode')"
+											label="State Province Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PostalCode">Postal Code 
+							</label> 
+							<input pInputText id="PostalCode" type="text" pSize="small"	formControlName="PostalCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PostalCode')"
+											label="Postal Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Country Code" class="mb-1">CountryCode</label>
+        <p-dropdown
+            inputId="CountryCode" 
+            [options]="countrycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CountryCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CountryCode')"
+											label="Country Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="GeoLocation">Geo Location 
+							</label> 
+							<input pInputText id="GeoLocation" type="text" pSize="small"	formControlName="GeoLocation"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('GeoLocation')"
+											label="Geo Location">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="Email">Email 
+							</label> 
+							<input pInputText id="Email" type="text" pSize="small"	formControlName="Email"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Email')"
+											label="Email">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ContactPhone">Contact Phone 
+							</label> 
+							<input pInputText id="ContactPhone" type="text" pSize="small"	formControlName="ContactPhone"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContactPhone')"
+											label="Contact Phone">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

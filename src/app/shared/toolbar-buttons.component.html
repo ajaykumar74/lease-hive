@@ -1,0 +1,61 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="p-grid">
+				<div class="p-col-4">
+					  <p (click)="viewModelData()" style="text-align: start;" class="text-surface-900 dark:text-surface-0 text-2xl mb-6 font-medium">{{Caption}}</p>
+					
+				</div>
+				<div class="p-col-8 align-end">
+					<div class="button-container p-3">
+
+						<ng-content></ng-content>
+						<div *ngIf="PageType == 'List'; then ListTools"></div>
+						<ng-template #ListTools> 
+							
+							<p-button label="Refresh" size="small" severity="primary"
+								(click)="onButtonClicked('Refresh')" />
+							
+							<p-button [hidden]="IsHideCreate" label="Create" size="small"   (click)="onButtonClicked('Create')"
+								[disabled]="!permission.CanCreate" />
+							<p-button label="Back" size="small" [hidden]="IsHideBack"
+								(click)="confirmBack()" />
+						</ng-template>
+
+						<div *ngIf="PageType == 'Details'; then DetailsTools"></div>
+						<ng-template #DetailsTools> 
+ 
+							<p-button label="Save" pRipple size="small" [disabled]="IsSaveDisabled()"
+								(click)="confirmSave()" />
+							<p-button label="Cancel" size="small" [disabled]="!form.dirty"
+								(click)="confirmCancel()" />
+							<!-- <p-button [hidden]="IsHideCreate" label="Create" size="small" severity="help"
+								[disabled]="!form.dirty ||  !permission.CanCreate" /> -->
+							<p-button label="Delete"  size="small"
+								[hidden]="!IsShowDelete || !permission.CanDelete" (click)="confirmDelete()" />
+							<p-button label="Back"  size="small" [hidden]="IsHideBack"
+								(click)="confirmBack()" />
+
+						</ng-template>
+						<div *ngIf="PageType == 'View'; then ViewTools"></div>
+						<ng-template #ViewTools>
+							<!-- <p-button [hidden]="IsHideCreate" label="Create" size="small" severity="help" (click)="onButtonClicked('Create')"
+								[disabled]="!permission.CanCreate" /> -->
+							<p-button label="Back"  size="small" [hidden]="IsHideBack"
+								(click)="confirmBack()" />
+						</ng-template>
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<p-toast [life]="2000"></p-toast>
+		<p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
+			message="Are you sure you want to proceed?" [style]="{width: '350px'}" rejectLabel="Cancel"
+			acceptLabel="{{acceptLabel}}" acceptButtonStyleClass="p-button"
+			rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+	</div>
+</div>

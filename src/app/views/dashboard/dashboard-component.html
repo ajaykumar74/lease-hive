@@ -1,0 +1,65 @@
+<div class="grid grid-cols-12 gap-8">
+    <div class="col-span-12 md:col-span-12 xl:col-span-12" [hidden]="customerType =='Individual'">
+        <div class="card h-full">
+            <label class="mt-2 ml-4">Month : </label> <p-select class="w-1/4  mt-2" name="selectedMonth"
+                [(ngModel)]="dirverScoreSelectedMonth" [options]="monthOptions" optionLabel="label" optionValue="value"
+                (onChange)="onGaugeMonthChange('driver')" placeholder="Select a month">
+            </p-select>
+            <div class="flex justify-between items-start mt-4">
+
+                <div class="flex flex-col ml-8">
+                    <div class="w-[300px] h-[300px] relative">
+
+
+                        <p-chart type="doughnut" [data]="gaugeData1" [options]="gaugeOptions1"
+                            class="w-[300px] h-[300px]"></p-chart>
+                    </div>
+
+                    <div class="flex gap-2 mt-1">
+                        <p-tag severity="secondary" [rounded]="true">Your Fleet: {{yourFleetScore}}</p-tag>
+                        <p-tag severity="info" [rounded]="true">Industry Benchmark: {{benchmarkFleetScore}}</p-tag>
+                    </div>
+                    <p-tag severity="secondary" [rounded]="">Fleet Score
+                        <!-- <p-select class="w-1/2 ml-4"
+                            name="selectedMonth" [(ngModel)]="fleetScoreSelectedMonth" [options]="monthOptions"
+                            (onChange)="onGaugeMonthChange('fleet')" optionLabel="label" optionValue="value"
+                            placeholder="Select a month">
+                        </p-select> -->
+                    </p-tag>
+                </div>
+                <div class="flex flex-col">
+
+                    <div class="w-[300px] h-[300px] relative">
+
+                        <p-chart type="doughnut" [data]="gaugeData1" [options]="gaugeOptions1"
+                            class="w-[300px] h-[300px]"></p-chart>
+                    </div>
+                    <div class="flex gap-2 mt-1">
+                        <p-tag severity="secondary" [rounded]="true">Your Fleet: {{yourDirverScore}}</p-tag>
+                        <p-tag severity="info" [rounded]="true">Industry Benchmark: {{benchmarkDirverScore}}</p-tag>
+                    </div>
+                    <p-tag severity="secondary" [rounded]="">Dirver Score</p-tag>
+                </div>
+            </div>
+            <div *ngIf="!isBenchmarkAvailable">
+                <small class="p-war block">
+                    *You need to update the benchmarking source data to view the benchmarking score <p-button
+                        class="blue-link-button1 text-sm" label="Add" [link]="true"
+                        routerLink="/dashboard/service-history/view" />
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="col-span-12 md:col-span-12 xl:col-span-12" [hidden]="customerType =='Individual'">
+        <div class="card h-full">
+            <span class="font-semibold text-lg">Expenses</span>
+            <div>
+                <p-chart type="bar" height="400px" [data]="data" [options]="options" />
+            </div>
+            <div *ngIf="!isBenchmarkAvailable">
+                <small>* Based on recent vehicle service history</small>
+            </div>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,27 @@
+.p-grid {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+}
+
+.p-col-4 {
+    flex: 0 0 33.33%; /* Set the width of the column (adjust as needed) */
+}
+
+.p-col-8 {
+    flex: 0 0 66.67%; /* Set the width of the column (adjust as needed) */
+}
+
+.align-end {
+    display: flex;
+    justify-content: flex-end; /* Align content to the end (right side) */
+}
+
+.button-container {
+    display: flex;
+    gap: 8px; /* Adjust as needed for spacing between buttons */
+}
+/*p-inputtext p-component p-element ng-untouched ng-pristine ng-invalid*/
+
+.form-control.ng-pristine.ng-invalid{
+	border-left-color: red;
+}

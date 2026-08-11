@@ -1,0 +1,35 @@
+<div class="relative overflow-hidden flex flex-col justify-center">
+    <div
+        class="bg-circle opacity-50"
+        [style]="{ top: '-200px', left: '-700px' }"
+    ></div>
+    <div
+        class="bg-circle hidden lg:flex"
+        [style]="{
+            top: '50px',
+            right: '-800px',
+            transform: 'rotate(60deg)',
+        }"
+    ></div>
+    <div class="landing-wrapper">
+        <topbar-widget />
+        <div class="py-6 px-6 mx-0 md:mx-12 lg:mx-20 lg:px-20 z-20">
+ 
+ 
+ 
+            
+            <div class="flex justify-center">
+                <p-button
+                    label="Get Started"
+                    icon="pi pi-arrow-right"
+                    class="p-button-raised p-button-rounded p-button-info w-1/2 md:w-1/4 lg:w-1/5"
+                    (click)="onNext()"
+                ></p-button>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<app-configurator [simple]="true"/>

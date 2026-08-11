@@ -1,0 +1,64 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Id</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{contact?.Id}}</div>
+
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Name
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ contact?.FirstName }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									EmailId
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ contact?.EmailId }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Mobile Number
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ contact?.Mobile }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Designation
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ contact?.Designation }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Department
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ contact?.Department }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<app-audit-details [model]="contact"></app-audit-details>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<app-message [AlertType]="'message'"></app-message>
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+				[Caption]="'PicklistItem List'" [PageType]="'List'">
+			</app-toolbar-buttons>
+			<app-spinner></app-spinner>
+			<div class="col-12 md:col-6">
+				<p-inputGroup>
+					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
+						[(ngModel)]="objSearch.Name" />
+					<p-inputgroup-addon>
+						<i class="pi pi-times" style="cursor: pointer;" (click)="clearSearch()"></i>
+					</p-inputgroup-addon>
+					<p-button label="Search" pRipple size="small" (click)="search()" />
+				</p-inputGroup>
+				<label for="Records Found" style=" font-size:small;">Records Found: {{totalNoOfRecords}}</label>
+			</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+				responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:60px">Id <p-sortIcon field="Id" /> </th>
+						<th style="width:200px">Category </th>
+						<th style="width:200px" pSortableColumn="ItemName">Item Name <p-sortIcon field="ItemName" />
+						</th>
+						<th style="width:200px">Description </th>
+
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td pFrozenColumn pTooltip="Click here to view details">
+							<i class="pi pi-file-edit" style="font-size: small" style="margin-right: -10px;"></i>
+							<p-button label="{{obj.Id}}" [link]="true" (click)="onDetailsClick(obj)" />
+						</td>
+						<td>{{obj.Category}}</td>
+						<td>{{obj.ItemName}}</td>
+						<td>{{obj.Description}}</td>
+
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

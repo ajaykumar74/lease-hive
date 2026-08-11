@@ -1,0 +1,6 @@
+<div class="container col-md-12 text-right text-muted">  
+  <span>Created by : {{model?.CreatedByCode}} on {{model?.CreatedDateTime | date:'dd-MMM-yyyy HH:mm'}}</span> | 
+   
+  <span [hidden]= "model?.ModifiedByCode == null">Modified by : {{model?.ModifiedByCode}} on {{model?.ModifiedDateTime |  date:'dd-MMM-yyyy HH:mm'}}</span>  
+  <span [hidden]= "model?.ModifiedByCode != null">never modified</span>  
+</div> 

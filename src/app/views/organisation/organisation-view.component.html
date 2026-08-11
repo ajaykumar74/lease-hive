@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation Code" [value]="organisation.OrganisationCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Legal Name" [value]="organisation.LegalName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Trade Name" [value]="organisation.TradeName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Organisation Type" [value]="organisation.OrganisationType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Registration Number" [value]="organisation.RegistrationNumber">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PAN" [value]="organisation.PAN">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Country Code" [value]="organisation.CountryCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Functional Currency" [value]="organisation.FunctionalCurrency">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="TimeZoneId" [value]="organisation.TimeZoneId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Financial Year StartMonth" [value]="organisation.FinancialYearStartMonth">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax System" [value]="organisation.TaxSystem">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status" [value]="organisation.Status">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Description" [value]="organisation.Description">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="organisation.EffectiveFrom">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

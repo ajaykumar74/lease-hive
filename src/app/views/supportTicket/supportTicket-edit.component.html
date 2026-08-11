@@ -1,0 +1,115 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+				<form [formGroup]="editForm" (ngSubmit)="Save()" autocomplete="off">
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Category"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Category</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="Category"
+										[options]="['Vehicle','Billing', 'Subscription','General']"
+										placeholder="Select a Category" formControlName="Category">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('Category')?.errors?.required && editForm.get('Category')?.dirty ">
+										Category For is required field.</small>
+
+								</div>
+							</div>
+
+
+
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="RequestType"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Request
+									Type</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="RequestType"
+										[options]="['Feature Request','Bug Report','Need solution']"
+										placeholder="Select a RequestType" formControlName="RequestType">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('RequestType')?.errors?.required && editForm.get('RequestType')?.dirty ">
+										RequestType For is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Priority"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Priority</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="Priority"
+										[options]="['Low', 'Medium','High']" placeholder="Select a Priority"
+										formControlName="Priority">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('Priority')?.errors?.required && editForm.get('Priority')?.dirty ">
+										Priority For is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Title</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="Title" formControlName="Title"
+										class="w-1/2" />
+									<small class="p-error block" *ngIf="
+							editForm.get('Title')?.errors?.required && editForm.get('Title')?.dirty ">
+										Title is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Title')?.errors?.maxlength && editForm.get('Title')?.dirty ">
+										The maximum allowed len of a valid Title is 100 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Description"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Description</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true"
+										rows="3" class="w-full" cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 2000 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Ticket
+									Closed</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-inputSwitch formControlName="TicketClosed"></p-inputSwitch>
+									<small class="p-error block" *ngIf="
+							editForm.get('TicketClosed')?.errors?.required && editForm.get('TicketClosed')?.dirty ">
+										TicketClosed is required field.</small>
+									<small class="p-error block" *ngIf="
+								editForm.get('TicketClosed')?.value == true">
+										The ticket will be closed.</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<app-audit-details [model]="supportTicket"></app-audit-details>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

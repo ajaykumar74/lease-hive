@@ -1,0 +1,77 @@
+<p-drawer [visible]="visible()" (onHide)="onDrawerHide()" position="right"
+    [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'" styleClass="layout-profile-sidebar w-full sm:w-25rem">
+    <div class="flex flex-col mx-auto md:mx-0">
+        <span class="mb-2 font-semibold">Welcome</span>
+        <span class="text-surface-500 dark:text-surface-400 font-medium mb-8">{{Username}}</span>
+
+        <ul class="list-none m-0 p-0">
+            <li>
+                <a
+                    (click)="onProfileClick()"
+                    routerLink="/dashboard/customers"
+                    class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150">
+                    <span>
+                        <i class="pi pi-user text-xl text-primary"></i>
+                    </span>
+                    <div class="ml-4">
+                        <span class="mb-2 font-semibold">Profile</span>
+                        <p class="text-surface-500 dark:text-surface-400 m-0">
+                            Manage your profile
+                        </p>
+                    </div>
+                </a>
+            </li>
+
+
+            <li>
+                <a  (click)="onSupportClick()"
+                    class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150">
+                    <span>
+                        <i class="pi pi-question text-xl text-primary"></i>
+                    </span>
+                    <div class="ml-4">
+                        <span class="mb-2 font-semibold">Support</span>
+                        <p class="text-surface-500 dark:text-surface-400 m-0">
+                            Get help and support
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a   (click)="onSettingsClick()"
+                    routerLink="/dashboard/customers"
+                    class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150">
+                    <span>
+                        <i class="pi pi-cog text-xl text-primary"></i>
+                    </span>
+                    <div class="ml-4">
+                        <span class="mb-2 font-semibold">Settings</span>
+                        <p class="text-surface-500 dark:text-surface-400 m-0">
+                            Change profile settings
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a   (click)="onLogoutClick()"
+                    routerLink="/dashboard/customers"
+                    class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150">
+                    <span>
+                        <i class="pi pi-power-off text-xl text-primary"></i>
+                    </span>
+                    <div class="ml-4">
+                        <span class="mb-2 font-semibold">Sign Out</span>
+
+                    </div>
+                </a>
+            </li>
+            <li>
+                                <div class="mt-2 flex flex-col justify-center items-center">
+                    <span class="text-sm text-primary-600"><i>Developed by vloot technologies</i>.</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</p-drawer>

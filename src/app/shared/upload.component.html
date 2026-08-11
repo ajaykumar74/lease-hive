@@ -1,0 +1,14 @@
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-2">
+      <input type="file"   #file placeholder="Choose file" (change)="uploadFileSingle(file.files)" multiple> 
+<!--       <button type="button" class="btn btn-sm btn-ghost-success" (click)="file.click()">Upload file</button> -->
+    </div>   
+    <div class="col-md-10"> 
+      <span class="upload" *ngIf="message">
+        {{message}} {{progress}}%  
+      </span>
+      <span *ngFor="let f of filenames"> 
+        {{f}}
+      </span>
+    </div>
+  </div>

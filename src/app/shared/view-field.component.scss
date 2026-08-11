@@ -1,0 +1,40 @@
+.view-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.view-field__label {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-color-secondary);
+}
+
+.view-field__value {
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-color);
+  background: var(--surface-50);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+}
+
+.view-field__boolean {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.view-field__boolean--true {
+  color: var(--green-600);
+}
+
+.view-field__boolean--false {
+  color: var(--red-500);
+}

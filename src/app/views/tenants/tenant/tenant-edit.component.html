@@ -1,0 +1,267 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">					 
+						<p-splitbutton size="small" label="options" [model]="menuItems"></p-splitbutton> 
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+				<form [formGroup]="editForm" (ngSubmit)="Save()">
+					<p-fluid>
+						<div class="flex mt-8">
+							<div class="card flex flex-col gap-4 w-full">
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+
+										<label for="TenantCode">Tenant Code
+										</label>
+										<input pInputText id="TenantCode" type="text" pSize="small"
+											formControlName="TenantCode" />
+										<div class="validation-space">
+											<small class="p-error block"
+												*ngIf="editForm.get('TenantCode')?.errors?.required && editForm.get('TenantCode')?.dirty ">
+												Tenant Code is required field.</small>
+											<small class="p-error block" *ngIf="
+							editForm.get('TenantCode')?.errors?.maxlength && editForm.get('TenantCode')?.dirty ">
+												The maximum allowed len of a valid Tenant Code is 20 chars.</small>
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+
+										<label for="TenantName">Tenant Name
+										</label>
+										<input pInputText id="TenantName" type="text" pSize="small"
+											formControlName="TenantName" />
+										<div class="validation-space">
+											<small class="p-error block"
+												*ngIf="editForm.get('TenantName')?.errors?.required && editForm.get('TenantName')?.dirty ">
+												Tenant Name is required field.</small>
+											<small class="p-error block" *ngIf="
+							editForm.get('TenantName')?.errors?.maxlength && editForm.get('TenantName')?.dirty ">
+												The maximum allowed len of a valid Tenant Name is 200 chars.</small>
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+
+										<label for="LegalName">Legal Name
+										</label>
+										<input pInputText id="LegalName" type="text" pSize="small"
+											formControlName="LegalName" />
+										<div class="validation-space">
+											<small class="p-error block"
+												*ngIf="editForm.get('LegalName')?.errors?.required && editForm.get('LegalName')?.dirty ">
+												Legal Name is required field.</small>
+											<small class="p-error block" *ngIf="
+							editForm.get('LegalName')?.errors?.maxlength && editForm.get('LegalName')?.dirty ">
+												The maximum allowed len of a valid Legal Name is 200 chars.</small>
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+
+										<label for="BaseCountry">Base Country
+										</label>
+										<input pInputText id="BaseCountry" type="text" pSize="small"
+											formControlName="BaseCountry" />
+										<div class="validation-space">
+											<small class="p-error block"
+												*ngIf="editForm.get('BaseCountry')?.errors?.required && editForm.get('BaseCountry')?.dirty ">
+												Base Country is required field.</small>
+											<small class="p-error block" *ngIf="
+							editForm.get('BaseCountry')?.errors?.maxlength && editForm.get('BaseCountry')?.dirty ">
+												The maximum allowed len of a valid Base Country is 100 chars.</small>
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Currency" class="mb-1">DefaultCurrency</label>
+										<p-dropdown inputId="DefaultCurrency" [options]="defaultcurrencyOptions"
+											optionLabel="Text" formControlName="DefaultCurrency"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('DefaultCurrency')?.errors?.required && editForm.get('DefaultCurrency')?.dirty ">
+												Currency is required field.</small>
+
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="TimeZone" class="mb-1">DefaultTimeZone</label>
+										<p-dropdown inputId="DefaultTimeZone" [options]="defaulttimezoneOptions"
+											optionLabel="Text" formControlName="DefaultTimeZone"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('DefaultTimeZone')?.errors?.required && editForm.get('DefaultTimeZone')?.dirty ">
+												TimeZone is required field.</small>
+
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Date Format" class="mb-1">DateFormat</label>
+										<p-dropdown inputId="DateFormat" [options]="dateformatOptions"
+											optionLabel="Text" formControlName="DateFormat" placeholder="Select One"
+											class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('DateFormat')?.errors?.required && editForm.get('DateFormat')?.dirty ">
+												Date Format is required field.</small>
+
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Time Format" class="mb-1">TimeFormat</label>
+										<p-dropdown inputId="TimeFormat" [options]="timeformatOptions"
+											optionLabel="Text" formControlName="TimeFormat" placeholder="Select One"
+											class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('TimeFormat')?.errors?.required && editForm.get('TimeFormat')?.dirty ">
+												Time Format is required field.</small>
+
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Number Format" class="mb-1">NumberFormat</label>
+										<p-dropdown inputId="NumberFormat" [options]="numberformatOptions"
+											optionLabel="Text" formControlName="NumberFormat" placeholder="Select One"
+											class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('NumberFormat')?.errors?.required && editForm.get('NumberFormat')?.dirty ">
+												Number Format is required field.</small>
+
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Financial Year StartMonth"
+											class="mb-1">FinancialYearStartMonth</label>
+										<p-dropdown inputId="FinancialYearStartMonth"
+											[options]="financialyearstartmonthOptions" optionLabel="Text"
+											formControlName="FinancialYearStartMonth" placeholder="Select One"
+											class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('FinancialYearStartMonth')?.errors?.required && editForm.get('FinancialYearStartMonth')?.dirty ">
+												Financial Year StartMonth is required field.</small>
+
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Tax System" class="mb-1">BaseTaxSystem</label>
+										<p-dropdown inputId="BaseTaxSystem" [options]="basetaxsystemOptions"
+											optionLabel="Text" formControlName="BaseTaxSystem" placeholder="Select One"
+											class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('BaseTaxSystem')?.errors?.required && editForm.get('BaseTaxSystem')?.dirty ">
+												Tax System is required field.</small>
+
+										</div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MultiOrganisationEnabled" binary="true"
+												formControlName="MultiOrganisationEnabled">
+											</p-checkbox>
+											<label for="MultiOrganisationEnabled">Multi-Organisation Enabled</label>
+										</div>
+										<div class="validation-space"></div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MultiCurrencyEnabled" binary="true"
+												formControlName="MultiCurrencyEnabled">
+											</p-checkbox>
+											<label for="MultiCurrencyEnabled">Multi-Currency Enabled</label>
+										</div>
+										<div class="validation-space"></div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MultiCountryEnabled" binary="true"
+												formControlName="MultiCountryEnabled">
+											</p-checkbox>
+											<label for="MultiCountryEnabled">Multi-Country Enabled</label>
+										</div>
+										<div class="validation-space"></div>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MultiLanguageEnabled" binary="true"
+												formControlName="MultiLanguageEnabled">
+											</p-checkbox>
+											<label for="MultiLanguageEnabled">Multi-Language Enabled</label>
+										</div>
+										<div class="validation-space"></div>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Status" class="mb-1">Status</label>
+										<p-dropdown inputId="Status" [options]="statusOptions" optionLabel="Text"
+											formControlName="Status" placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<div class="validation-space">
+											<small class="p-error block" *ngIf="
+							editForm.get('Status')?.errors?.required && editForm.get('Status')?.dirty ">
+												Status is required field.</small>
+
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-wrap">
+									<div class="flex flex-col w-full">
+										<label for="address">Description</label>
+										<textarea size="small" pTextarea placeholder="Type Description"
+											[autoResize]="true" rows="3" class="w-full" cols="30"
+											formControlName="Description"
+											[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+
+										<div class="validation-space">
+											<small class="p-error block"
+												*ngIf="editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+												Description is required field.</small>
+											<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+												The maximum allowed len of a valid Description is 256 chars.</small>
+										</div>
+
+
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</p-fluid>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

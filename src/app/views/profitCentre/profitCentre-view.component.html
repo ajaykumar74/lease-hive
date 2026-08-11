@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ProfitCentreCode" [value]="profitCentre.ProfitCentreCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="ProfitCentreName" [value]="profitCentre.ProfitCentreName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ParentProfitCentreId" [value]="profitCentre.ParentProfitCentreId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="OrganisationUnitId" [value]="profitCentre.OrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ExternalLedgerCode" [value]="profitCentre.ExternalLedgerCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RecordStatus" [value]="profitCentre.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EffectiveFrom" [value]="profitCentre.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EffectiveTo" [value]="profitCentre.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

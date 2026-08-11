@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Location List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="LocationId" style="width:200px">Id <p-sortIcon field="LocationId" /> </th> 
+				 
+<th style="width:200px">Location Code <p-sortIcon field="LocationCode" /> </th> 
+<th style="width:200px">Location Name <p-sortIcon field="LocationName" /> </th> 
+<th style="width:200px">Location Type <p-sortIcon field="LocationType" /> </th> 
+<th style="width:200px">Address Line1 <p-sortIcon field="AddressLine1" /> </th> 
+<th style="width:200px">City <p-sortIcon field="City" /> </th> 
+<th style="width:200px">State Province Code <p-sortIcon field="StateProvinceCode" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.LocationId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.LocationCode}}</td>
+ <td style="width:200px">{{obj.LocationName}}</td>
+ <td style="width:200px">{{obj.LocationType}}</td>
+ <td style="width:200px">{{obj.AddressLine1}}</td>
+ <td style="width:200px">{{obj.City}}</td>
+ <td style="width:200px">{{obj.StateProvinceCode}}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

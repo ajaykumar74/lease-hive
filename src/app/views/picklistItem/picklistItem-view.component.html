@@ -1,0 +1,21 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<div class="field grid">
+						<label For="Name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+						<div class="col-12 md:col-10">
+							<label For="Name" class="col-12 mb-2 md:col-2 md:mb-0">{{PicklistItem?.Name}}</label>
+						</div>
+					</div>
+					<app-audit-details [model]="picklistItem"></app-audit-details>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

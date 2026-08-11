@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tenant Code" [value]="tenant.TenantCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tenant Name" [value]="tenant.TenantName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Legal Name" [value]="tenant.LegalName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Base Country" [value]="tenant.BaseCountry">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency" [value]="tenant.DefaultCurrency">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="TimeZone" [value]="tenant.DefaultTimeZone">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Date Format" [value]="tenant.DateFormat">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Time Format" [value]="tenant.TimeFormat">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Number Format" [value]="tenant.NumberFormat">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Financial Year StartMonth" [value]="tenant.FinancialYearStartMonth">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax System" [value]="tenant.BaseTaxSystem">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Multi-Organisation Enabled" [value]="tenant.MultiOrganisationEnabled">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Multi-Currency Enabled" [value]="tenant.MultiCurrencyEnabled">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Multi-Country Enabled" [value]="tenant.MultiCountryEnabled">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Multi-Language Enabled" [value]="tenant.MultiLanguageEnabled">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status" [value]="tenant.Status">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,176 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'">
+					<p-button label="Close Ticket" size="small" *ngIf="isCustomer && supportTicket.Status !=='Closed'"
+						(onClick)="onUpdateTicketStatus('Closed')">
+					</p-button>
+
+					<p-button label="Mark Resolved" size="small" *ngIf="!isCustomer && supportTicket.Status !='Closed'"
+						[disabled]="supportTicket.Status ==='Resolved'" (onClick)="onUpdateTicketStatus('Resolved')">
+					</p-button>
+					<p-button label="History" size="small" *ngIf="!isCustomer" (onClick)="onShowTicketStatusHistory()">
+					</p-button>
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+				<p-dialog header="Support Ticket Status History" [modal]="true" [(visible)]="isShowHistory"
+					[breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+
+					<div class="container">
+						<div class="grid">
+							<div class="col-12 md:col-12">
+								<div class="p-fluid">
+									<div class="md:w-1/2">
+										<p-table [size]="" [value]="ticketStatusHistory" scrollDirection="both"
+											[scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+											responsiveLayout="scroll">
+											<ng-template pTemplate="header">
+												<tr>
+													<!-- <th pFrozenColumn pSortableColumn="Id" style="width:60px">Id
+														<p-sortIcon field="Id" />
+													</th> -->
+													<th style="width:200px">Status History</th>
+													<!-- <th style="width:200px">Old Status </th> -->
+
+													<th style="width:200px">Description</th>
+													<th style="width:200px" *ngIf="isCustomer">Changed By</th>
+													<th style="width:200px" *ngIf="isCustomer">Changed On</th>
+												</tr>
+											</ng-template>
+											<ng-template pTemplate="body" let-obj>
+												<tr>
+													<!-- <td pFrozenColumn pTooltip="Click here to view details">
+							<i class="pi pi-file-edit" style="font-size: small" style="margin-right: -10px;"></i>
+							<p-button  label="{{obj.Id}}" [link]="true" />
+													</td> -->
+													<td> {{obj.NewStatus}}</td>
+													<!-- <td>{{obj.OldStatus}}</td> -->
+													<td>{{obj.Description}}</td>
+													<td *ngIf="isCustomer">{{obj.CreatedByCode}}</td>
+													<td *ngIf="isCustomer">{{obj.CreatedDateTime | date:
+														brandPartner.DateFormat + ' ' +
+														brandPartner.TimeFormat}} </td>
+												</tr>
+											</ng-template>
+										</p-table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p-dialog>
+				<div class="card">
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Customer</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.BusinessName}}
+								</div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Priority</label>
+								<div class="col-span-12 md:col-span-10 font-medium">
+									: <p-tag [severity]="getTagSeverity(supportTicket?.Priority)"
+										[value]="supportTicket?.Priority" [rounded]="true" /></div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Status</label>
+								<div class="col-span-12 md:col-span-10 font-medium">
+									: <p-tag [severity]="getTagSeverity(supportTicket?.Status)"
+										[value]="supportTicket?.Status" [rounded]="true" /></div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Title</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.Title}}</div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Description</label>
+								<div class="col-span-12 md:col-span-10 font-medium">
+									<pre style="text-wrap: auto;"
+										class="font-medium">: {{supportTicket?.Description}}</pre>
+								</div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Category</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.Category}}</div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Request Type </label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.RequestType}}
+								</div>
+								<label class="col-span-12 md:col-span-2 font-semibold">Created By</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.CreatedByCode}}
+								</div>
+								<label class="col-span-12 md:col-span-2 font-semibold"> Created On</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{supportTicket?.CreatedDateTime |
+									date:
+									brandPartner.DateFormat + ' ' +
+									brandPartner.TimeFormat}}
+								</div>
+								<label *ngIf="!isCustomer"
+									class="col-span-12 md:col-span-2 font-semibold">LoggedInUserJson</label>
+								<div *ngIf="!isCustomer" class="col-span-12 md:col-span-10 font-medium">
+									<p-accordion value="-1">
+										<p-accordion-panel value="0">
+											<p-accordion-header>: View Json</p-accordion-header>
+											<p-accordion-content>
+												<p>
+												<pre style="white-space: pre-wrap; word-wrap: break-word;"
+													class="m-0">{{ supportTicket.LoggedInUserFormatted }}</pre>
+											</p-accordion-content>
+										</p-accordion-panel>
+									</p-accordion>
+								</div>
+							</div>
+							<div class="flex flex-col h-full" style="max-height: 100vh;">
+								<div #messageContainer
+									class="user-message-container p-4 md:px-6 lg:px-12 lg:py-6 mt-2 overflow-y-auto">
+									<div class="ng-star-inserted" *ngFor="let msg of supportTicket.TicketMessages">
+										<div class="grid gap-4 grid-nogutter mb-6 ng-star-inserted">
+											<div class="col mt-4">
+												<p class="text-surface-900 dark:text-surface-0 font-semibold mb-4">
+													{{msg.CreatedByCode}} - {{msg.CreatedDateTime | date:
+													brandPartner.DateFormat + ' ' +
+													brandPartner.TimeFormat}}<i
+														class="pi pi-check ml-2 text-green-400"></i>
+												</p><span
+													class="text-surface-700 dark:text-surface-100 inline-block font-medium border border-surface-200 dark:border-surface-700 p-4 whitespace-normal rounded"
+													style="word-break: break-word; max-width: 80%;">
+													<pre style="text-wrap: auto;"
+														class="font-medium"> {{msg.Message}}</pre>
+												</span>
+												<span style="color: red" *ngIf="msg.IsInternalNote">Internal
+													Note</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<form [formGroup]="editForm" autocomplete="off">
+									<div
+										class="p-4 md:p-6 lg:p-12 flex flex-col sm:flex-row items-center mt-auto border-t border-surface-200 dark:border-surface-700 gap-4">
+
+
+										<textarea size="small" pTextarea placeholder="Type Message" [autoResize]="true"
+											rows="3" class="w-full" cols="30" formControlName="Message"
+											[ngClass]="{'is-invalid': (editForm.get('Message').touched || editForm.get('Message').dirty) && !editForm.get('Message').valid }"></textarea>
+										<small class="p-error block"
+											*ngIf="editForm.get('Message')?.errors?.required && editForm.get('Message')?.dirty ">
+											Description is required field.</small>
+										<small class="p-error block"
+											*ngIf="editForm.get('Message')?.errors?.maxlength && editForm.get('Message')?.dirty ">
+											The maximum allowed len of a valid Description is 2000 chars.</small>
+										<div class="flex w-full sm:w-auto gap-4">
+											<div class="flex items-center" *ngIf="!isCustomer">
+												<p-checkbox binary="true" inputId="IsInternalNote"
+													formControlName="IsInternalNote"></p-checkbox>
+												<label class="ml-2" for="IsInternalNote">Internal Note</label>
+											</div>
+
+											<p-button
+												[disabled]="!editForm.value.Message || editForm.value.Message.trim() === ''"
+												label="Send" icon="pi pi-send" size="small" (onClick)="onSaveMessage()">
+											</p-button>
+										</div>
+									</div>
+									<!-- <app-audit-details [model]="supportTicket"></app-audit-details> -->
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

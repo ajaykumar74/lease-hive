@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="BusinessCalendarId" [value]="businessCalendarHoliday.BusinessCalendarId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="HolidayDate" [value]="businessCalendarHoliday.HolidayDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="HolidayName" [value]="businessCalendarHoliday.HolidayName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="DayCounts" [value]="businessCalendarHoliday.DayCounts">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="DayType" [value]="businessCalendarHoliday.DayType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="StartTime" [value]="businessCalendarHoliday.StartTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EndTime" [value]="businessCalendarHoliday.EndTime">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RecordStatus" [value]="businessCalendarHoliday.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EffectiveFrom" [value]="businessCalendarHoliday.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EffectiveTo" [value]="businessCalendarHoliday.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

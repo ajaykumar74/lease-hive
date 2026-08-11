@@ -1,0 +1,99 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PlanCode">Plan Code 
+							</label> 
+							<input pInputText id="PlanCode" type="text" pSize="small"	formControlName="PlanCode"  />
+	<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('PlanCode')?.errors?.required && editForm.get('PlanCode')?.dirty ">
+										Plan Code is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PlanCode')?.errors?.maxlength && editForm.get('PlanCode')?.dirty ">
+										The maximum allowed len of a valid Plan Code is 20 chars.</small> 
+</div>
+						 </div><div class="flex flex-col w-full">					
+							<label for="PlanName">Plan Name 
+							</label> 
+							<input pInputText id="PlanName" type="text" pSize="small"	formControlName="PlanName"  />
+	<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('PlanName')?.errors?.required && editForm.get('PlanName')?.dirty ">
+										Plan Name is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PlanName')?.errors?.maxlength && editForm.get('PlanName')?.dirty ">
+										The maximum allowed len of a valid Plan Name is 50 chars.</small> 
+</div>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MaxUsers">Max Users 
+							</label> 
+							<p-inputNumber id="MaxUsers"  pSize="small"	formControlName="MaxUsers"  >
+</p-inputNumber>
+	<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('MaxUsers')?.errors?.required && editForm.get('MaxUsers')?.dirty ">
+										Max Users is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('MaxUsers')?.errors?.maxlength && editForm.get('MaxUsers')?.dirty ">
+										The maximum allowed len of a valid Max Users is 0 chars.</small> 
+</div>
+						 </div><div class="flex flex-col w-full">							<label for="MaxAssets">Max Assets 
+							</label> 
+							<p-inputNumber id="MaxAssets"  pSize="small"	formControlName="MaxAssets"  >
+</p-inputNumber>
+	<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('MaxAssets')?.errors?.required && editForm.get('MaxAssets')?.dirty ">
+										Max Assets is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('MaxAssets')?.errors?.maxlength && editForm.get('MaxAssets')?.dirty ">
+										The maximum allowed len of a valid Max Assets is 0 chars.</small> 
+</div>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="StorageGB">Storage GB 
+							</label> 
+							<p-inputNumber id="StorageGB"  pSize="small"	formControlName="StorageGB"  >
+</p-inputNumber>
+	<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('StorageGB')?.errors?.required && editForm.get('StorageGB')?.dirty ">
+										Storage GB is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('StorageGB')?.errors?.maxlength && editForm.get('StorageGB')?.dirty ">
+										The maximum allowed len of a valid Storage GB is 20 chars.</small> 
+</div>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+
+<div class="validation-space">
+							<small class="p-error block" *ngIf="editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 256 chars.</small> 
+</div>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

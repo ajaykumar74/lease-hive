@@ -1,0 +1,678 @@
+<div class="container">
+	<div class="grid">
+
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+
+				<form [formGroup]="editForm" (ngSubmit)="Save()">
+					<p-fluid>
+						<div class="flex mt-8">
+							<div class="card flex flex-col gap-4 w-full">
+								<div class="flex flex-col md:flex-row gap-12 items-start">
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="firstname2">
+											Firstname
+											<small class="text-info" *ngIf="1==1">
+												*required.
+											</small>
+										</label>
+
+										<input pInputText id="firstname2" type="text" />
+										<small class="text-info">
+											PermanentAddress.
+										</small>
+									</div>
+
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="lastname2">Lastname</label>
+
+										<input pInputText id="lastname2" type="text" />
+
+										<small class="text-info">
+											PermanentAddress.
+										</small>
+									</div>
+								</div>
+
+								<div class="flex flex-col md:flex-row gap-12 items-start">
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="firstname2">
+											Firstname
+											<small class="text-info" *ngIf="1==1">
+												*required.
+											</small>
+										</label>
+
+										<input pInputText id="firstname2" type="text" />
+										<small class="text-info">
+											PermanentAddress.
+										</small>
+									</div>
+
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="lastname2">Lastname</label>
+
+										<input pInputText id="lastname2" type="text" />
+
+										<small class="text-info">
+											PermanentAddress.
+										</small>
+									</div>
+								</div>
+
+								<div class="flex flex-wrap">
+									<label for="address">Address</label>
+									<textarea pTextarea id="address" rows="4"></textarea>
+								</div>
+
+								<div class="flex flex-wrap">
+									<label for="address">Email Id </label>
+									<input pInputText id="lastname2" type="text" />
+								</div>
+
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="state">State</label>
+										<p-dropdown id="state" [(ngModel)]="dropdownItem" [options]="dropdownItems"
+											optionLabel="name" placeholder="Select One" class="w-full"></p-dropdown>
+									</div>
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="zip">Zip</label>
+										<input pInputText id="zip" type="text" />
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="state">State</label>
+										<p-dropdown id="state" [(ngModel)]="dropdownItem" [options]="dropdownItems"
+											optionLabel="name" placeholder="Select One" class="w-full"></p-dropdown>
+									</div>
+									<div class="flex flex-wrap gap-2 w-full">
+										<label for="zip">Zip</label>
+										<input pInputText id="zip" type="text" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</p-fluid>
+
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">CustomerCode</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="CustomerCode"
+										formControlName="CustomerCode" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('CustomerCode')?.errors?.required && editForm.get('CustomerCode')?.dirty ">
+										CustomerCode is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('CustomerCode')?.errors?.maxlength && editForm.get('CustomerCode')?.dirty ">
+										The maximum allowed len of a valid CustomerCode is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">FirstName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="FirstName"
+										formControlName="FirstName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('FirstName')?.errors?.required && editForm.get('FirstName')?.dirty ">
+										FirstName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('FirstName')?.errors?.maxlength && editForm.get('FirstName')?.dirty ">
+										The maximum allowed len of a valid FirstName is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">MiddleName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="MiddleName"
+										formControlName="MiddleName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('MiddleName')?.errors?.required && editForm.get('MiddleName')?.dirty ">
+										MiddleName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('MiddleName')?.errors?.maxlength && editForm.get('MiddleName')?.dirty ">
+										The maximum allowed len of a valid MiddleName is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">LastName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="LastName"
+										formControlName="LastName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('LastName')?.errors?.required && editForm.get('LastName')?.dirty ">
+										LastName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('LastName')?.errors?.maxlength && editForm.get('LastName')?.dirty ">
+										The maximum allowed len of a valid LastName is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="DateOfBirth"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">DateOfBirth</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-calendar class="w-full" size="small" [showIcon]="true" inputId="icon"
+										formControlName="DateOfBirth" dateFormat="dd-MM-yy"
+										[ngClass]="{'is-invalid': (editForm.get('DateOfBirth').touched || editForm.get('DateOfBirth').dirty) && !editForm.get('DateOfBirth').valid }"></p-calendar>
+
+									<small class="p-error block" *ngIf="
+							editForm.get('DateOfBirth')?.errors?.required && editForm.get('DateOfBirth')?.dirty ">
+										DateOfBirth is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Gender"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Gender</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="Gender" [options]="['M','F']"
+										placeholder="Select a value" formControlName="Gender">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('Gender')?.errors?.required && editForm.get('Gender')?.dirty ">
+										Gender is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="MaritalStatus"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">MaritalStatus</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="MaritalStatus"
+										[options]="['Married','Single','Divorced','Widowed']"
+										placeholder="Select a value" formControlName="MaritalStatus">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('MaritalStatus')?.errors?.required && editForm.get('MaritalStatus')?.dirty ">
+										MaritalStatus is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">FatherOrSpouseName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="FatherOrSpouseName"
+										formControlName="FatherOrSpouseName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('FatherOrSpouseName')?.errors?.required && editForm.get('FatherOrSpouseName')?.dirty ">
+										FatherOrSpouseName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('FatherOrSpouseName')?.errors?.maxlength && editForm.get('FatherOrSpouseName')?.dirty ">
+										The maximum allowed len of a valid FatherOrSpouseName is 50 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">MobileNumber</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="MobileNumber"
+										formControlName="MobileNumber" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('MobileNumber')?.errors?.required && editForm.get('MobileNumber')?.dirty ">
+										MobileNumber is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('MobileNumber')?.errors?.maxlength && editForm.get('MobileNumber')?.dirty ">
+										The maximum allowed len of a valid MobileNumber is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">AlternateMobile</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="AlternateMobile"
+										formControlName="AlternateMobile" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('AlternateMobile')?.errors?.required && editForm.get('AlternateMobile')?.dirty ">
+										AlternateMobile is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('AlternateMobile')?.errors?.maxlength && editForm.get('AlternateMobile')?.dirty ">
+										The maximum allowed len of a valid AlternateMobile is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Email</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="Email" formControlName="Email"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('Email')?.errors?.required && editForm.get('Email')?.dirty ">
+										Email is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Email')?.errors?.maxlength && editForm.get('Email')?.dirty ">
+										The maximum allowed len of a valid Email is 100 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PAN</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="PAN" formControlName="PAN"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('PAN')?.errors?.required && editForm.get('PAN')?.dirty ">
+										PAN is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PAN')?.errors?.maxlength && editForm.get('PAN')?.dirty ">
+										The maximum allowed len of a valid PAN is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">AadhaarNumber</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="AadhaarNumber"
+										formControlName="AadhaarNumber" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('AadhaarNumber')?.errors?.required && editForm.get('AadhaarNumber')?.dirty ">
+										AadhaarNumber is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('AadhaarNumber')?.errors?.maxlength && editForm.get('AadhaarNumber')?.dirty ">
+										The maximum allowed len of a valid AadhaarNumber is 12 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">DrivingLicenseNumber</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="DrivingLicenseNumber"
+										formControlName="DrivingLicenseNumber" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('DrivingLicenseNumber')?.errors?.required && editForm.get('DrivingLicenseNumber')?.dirty ">
+										DrivingLicenseNumber is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('DrivingLicenseNumber')?.errors?.maxlength && editForm.get('DrivingLicenseNumber')?.dirty ">
+										The maximum allowed len of a valid DrivingLicenseNumber is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="DrivingLicenseExpiry"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">DrivingLicenseExpiry</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-calendar class="w-full" size="small" [showIcon]="true" inputId="icon"
+										formControlName="DrivingLicenseExpiry" dateFormat="dd-MM-yy"
+										[ngClass]="{'is-invalid': (editForm.get('DrivingLicenseExpiry').touched || editForm.get('DrivingLicenseExpiry').dirty) && !editForm.get('DrivingLicenseExpiry').valid }"></p-calendar>
+
+									<small class="p-error block" *ngIf="
+							editForm.get('DrivingLicenseExpiry')?.errors?.required && editForm.get('DrivingLicenseExpiry')?.dirty ">
+										DrivingLicenseExpiry is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Status"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Status</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="Status" [options]="['Active','Blocked','On-Hold']"
+										placeholder="Select a value" formControlName="Status">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('Status')?.errors?.required && editForm.get('Status')?.dirty ">
+										Status is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">CompanyName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="CompanyName"
+										formControlName="CompanyName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('CompanyName')?.errors?.required && editForm.get('CompanyName')?.dirty ">
+										CompanyName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('CompanyName')?.errors?.maxlength && editForm.get('CompanyName')?.dirty ">
+										The maximum allowed len of a valid CompanyName is 150 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">ShortName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="ShortName"
+										formControlName="ShortName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('ShortName')?.errors?.required && editForm.get('ShortName')?.dirty ">
+										ShortName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('ShortName')?.errors?.maxlength && editForm.get('ShortName')?.dirty ">
+										The maximum allowed len of a valid ShortName is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">CIN</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="CIN" formControlName="CIN"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('CIN')?.errors?.required && editForm.get('CIN')?.dirty ">
+										CIN is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('CIN')?.errors?.maxlength && editForm.get('CIN')?.dirty ">
+										The maximum allowed len of a valid CIN is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">BusinessPAN</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="BusinessPAN"
+										formControlName="BusinessPAN" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('BusinessPAN')?.errors?.required && editForm.get('BusinessPAN')?.dirty ">
+										BusinessPAN is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('BusinessPAN')?.errors?.maxlength && editForm.get('BusinessPAN')?.dirty ">
+										The maximum allowed len of a valid BusinessPAN is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">AuthorizedSignatoryName</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="AuthorizedSignatoryName"
+										formControlName="AuthorizedSignatoryName" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('AuthorizedSignatoryName')?.errors?.required && editForm.get('AuthorizedSignatoryName')?.dirty ">
+										AuthorizedSignatoryName is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('AuthorizedSignatoryName')?.errors?.maxlength && editForm.get('AuthorizedSignatoryName')?.dirty ">
+										The maximum allowed len of a valid AuthorizedSignatoryName is 50 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">AuthorizedSignatoryPAN</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="AuthorizedSignatoryPAN"
+										formControlName="AuthorizedSignatoryPAN" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('AuthorizedSignatoryPAN')?.errors?.required && editForm.get('AuthorizedSignatoryPAN')?.dirty ">
+										AuthorizedSignatoryPAN is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('AuthorizedSignatoryPAN')?.errors?.maxlength && editForm.get('AuthorizedSignatoryPAN')?.dirty ">
+										The maximum allowed len of a valid AuthorizedSignatoryPAN is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">AuthorizedSignatoryMobile</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="AuthorizedSignatoryMobile"
+										formControlName="AuthorizedSignatoryMobile" class="w-full" />
+									<small class="p-error block"
+										*ngIf="
+							editForm.get('AuthorizedSignatoryMobile')?.errors?.required && editForm.get('AuthorizedSignatoryMobile')?.dirty ">
+										AuthorizedSignatoryMobile is required field.</small>
+									<small class="p-error block"
+										*ngIf="
+							editForm.get('AuthorizedSignatoryMobile')?.errors?.maxlength && editForm.get('AuthorizedSignatoryMobile')?.dirty ">
+										The maximum allowed len of a valid AuthorizedSignatoryMobile is 10
+										chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="RegisteredOfficeAddress"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">RegisteredOfficeAddress</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type RegisteredOfficeAddress"
+										[autoResize]="true" rows="3" class="w-full" cols="30"
+										formControlName="RegisteredOfficeAddress"
+										[ngClass]="{'is-invalid': (editForm.get('RegisteredOfficeAddress').touched || editForm.get('RegisteredOfficeAddress').dirty) && !editForm.get('RegisteredOfficeAddress').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('RegisteredOfficeAddress')?.errors?.required && editForm.get('RegisteredOfficeAddress')?.dirty ">
+										RegisteredOfficeAddress is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('RegisteredOfficeAddress')?.errors?.maxlength && editForm.get('RegisteredOfficeAddress')?.dirty ">
+										The maximum allowed len of a valid RegisteredOfficeAddress is 150 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="NatureOfBusiness"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">NatureOfBusiness</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="NatureOfBusiness"
+										[options]="['Manufacturing','Trading','Logistics','Real Estate','IT','Healthcare','Education','Retail','Finance','Agriculture','Professional Services']"
+										placeholder="Select a value" formControlName="NatureOfBusiness">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('NatureOfBusiness')?.errors?.required && editForm.get('NatureOfBusiness')?.dirty ">
+										NatureOfBusiness is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">YearsInBusiness</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="YearsInBusiness"
+										formControlName="YearsInBusiness" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('YearsInBusiness')?.errors?.required && editForm.get('YearsInBusiness')?.dirty ">
+										YearsInBusiness is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('YearsInBusiness')?.errors?.maxlength && editForm.get('YearsInBusiness')?.dirty ">
+										The maximum allowed len of a valid YearsInBusiness is 0 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="PermanentAddress"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PermanentAddress</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type PermanentAddress"
+										[autoResize]="true" rows="3" class="w-full" cols="30"
+										formControlName="PermanentAddress"
+										[ngClass]="{'is-invalid': (editForm.get('PermanentAddress').touched || editForm.get('PermanentAddress').dirty) && !editForm.get('PermanentAddress').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentAddress')?.errors?.required && editForm.get('PermanentAddress')?.dirty ">
+										PermanentAddress is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentAddress')?.errors?.maxlength && editForm.get('PermanentAddress')?.dirty ">
+										The maximum allowed len of a valid PermanentAddress is 100 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="PermanentCity"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PermanentCity</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="PermanentCity" [options]="['M','F']"
+										placeholder="Select a value" formControlName="PermanentCity">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentCity')?.errors?.required && editForm.get('PermanentCity')?.dirty ">
+										PermanentCity is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="PermanentState"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PermanentState</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="PermanentState" [options]="['M','F']"
+										placeholder="Select a value" formControlName="PermanentState">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentState')?.errors?.required && editForm.get('PermanentState')?.dirty ">
+										PermanentState is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PermanentPin</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="PermanentPin"
+										formControlName="PermanentPin" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentPin')?.errors?.required && editForm.get('PermanentPin')?.dirty ">
+										PermanentPin is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentPin')?.errors?.maxlength && editForm.get('PermanentPin')?.dirty ">
+										The maximum allowed len of a valid PermanentPin is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">PermanentLandmark</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="PermanentLandmark"
+										formControlName="PermanentLandmark" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentLandmark')?.errors?.required && editForm.get('PermanentLandmark')?.dirty ">
+										PermanentLandmark is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('PermanentLandmark')?.errors?.maxlength && editForm.get('PermanentLandmark')?.dirty ">
+										The maximum allowed len of a valid PermanentLandmark is 20 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="WorkAddress"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">WorkAddress</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type WorkAddress" [autoResize]="true"
+										rows="3" class="w-full" cols="30" formControlName="WorkAddress"
+										[ngClass]="{'is-invalid': (editForm.get('WorkAddress').touched || editForm.get('WorkAddress').dirty) && !editForm.get('WorkAddress').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkAddress')?.errors?.required && editForm.get('WorkAddress')?.dirty ">
+										WorkAddress is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkAddress')?.errors?.maxlength && editForm.get('WorkAddress')?.dirty ">
+										The maximum allowed len of a valid WorkAddress is 100 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="WorkCity"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">WorkCity</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="WorkCity" [options]="['M','F']"
+										placeholder="Select a value" formControlName="WorkCity">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkCity')?.errors?.required && editForm.get('WorkCity')?.dirty ">
+										WorkCity is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="WorkState"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">WorkState</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="WorkState" [options]="['M','F']"
+										placeholder="Select a value" formControlName="WorkState">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkState')?.errors?.required && editForm.get('WorkState')?.dirty ">
+										WorkState is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">WorkPin</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="WorkPin" formControlName="WorkPin"
+										class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkPin')?.errors?.required && editForm.get('WorkPin')?.dirty ">
+										WorkPin is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkPin')?.errors?.maxlength && editForm.get('WorkPin')?.dirty ">
+										The maximum allowed len of a valid WorkPin is 10 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">WorkLandmark</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="WorkLandmark"
+										formControlName="WorkLandmark" class="w-full" />
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkLandmark')?.errors?.required && editForm.get('WorkLandmark')?.dirty ">
+										WorkLandmark is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('WorkLandmark')?.errors?.maxlength && editForm.get('WorkLandmark')?.dirty ">
+										The maximum allowed len of a valid WorkLandmark is 20 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="CustomerCategory"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">CustomerCategory</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="CustomerCategory"
+										[options]="['Individual','Corporate']" placeholder="Select a value"
+										formControlName="CustomerCategory">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('CustomerCategory')?.errors?.required && editForm.get('CustomerCategory')?.dirty ">
+										CustomerCategory is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Description"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Description</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true"
+										rows="3" class="w-full" cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 100 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Classification"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Classification</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-dropdown size="small" name="Classification"
+										[options]="['Normal','VIP', 'High Rishk']" placeholder="Select a value"
+										formControlName="Classification">
+									</p-dropdown>
+									<small class="p-error block" *ngIf="
+							editForm.get('Classification')?.errors?.required && editForm.get('Classification')?.dirty ">
+										Classification is required field.</small>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

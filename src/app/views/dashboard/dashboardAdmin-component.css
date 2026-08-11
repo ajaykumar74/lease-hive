@@ -1,0 +1,36 @@
+ 
+  .scheduler {
+    display: grid;
+    grid-template-columns: 100px repeat(7, 1fr);
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+  }
+
+  .time-slot, .day-header {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #f9f9f9;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .cell {
+    border: 1px solid #eee;
+    position: relative;
+    min-height: 80px;
+  }
+
+  .card {
+    background-color: white; 
+    padding: 6px;
+    margin: 4px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .card small {
+    display: block;
+    font-size: 0.75em;
+    opacity: 0.8;
+  } 

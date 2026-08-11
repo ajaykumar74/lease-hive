@@ -1,0 +1,56 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<div class="grid grid-cols-12 gap-2">
+
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Name:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{ prospect?.Name || '-' }}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							EmailId:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{ prospect?.EmailIds || '-' }}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Domain Name:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{ prospect?.DomainNames || '-' }}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Potential:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{ prospect?.Potentials || '-' }}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							City:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{ prospect?.City || '-' }}
+						</div>
+					</div>
+					<app-audit-details [model]="prospect"></app-audit-details>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

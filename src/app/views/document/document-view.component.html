@@ -1,0 +1,62 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'">
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Document Type</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.DocumentType }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Document Number</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.DocumentNumber }}
+								</div>
+							</div><div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">File Name</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.DisplayName }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Description</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.Description }}</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Issued By</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.IssuedBy }}</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">IssuedOnDate</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.IssuedOnDate | date:
+									brandPartner.DateFormat }}</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold">Valid Till</label>
+								<div class="col-span-12 md:col-span-10 font-medium">: {{ document.ValidTillDate | date:
+									brandPartner.DateFormat}}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="col-span-12 md:col-span-2 font-semibold"></label>
+								<div class="col-span-12 md:col-span-10 font-medium">: <app-download
+										[IsAllowRemove]="false" [FileName]="document?.DisplayName"
+										[ElementType]="'Button'" [DownloadType]="'Document'" outlined
+										[DocumentId]="document?.Id" (onFileError)="onFileError($event)">
+									</app-download>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<app-audit-details [model]="document"></app-audit-details>
+				</form>
+			</div>
+		</div>
+	</div>

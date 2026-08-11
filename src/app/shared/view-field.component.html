@@ -1,0 +1,58 @@
+<div class="view-field">
+  <label class="view-field__label">
+    {{ label }}
+  </label>
+
+  <div class="view-field__value">
+    <ng-container [ngSwitch]="type">
+
+      <ng-container *ngSwitchCase="'boolean'">
+        <span
+          class="view-field__boolean"
+          [class.view-field__boolean--true]="booleanValue"
+          [class.view-field__boolean--false]="!booleanValue">
+
+          <i
+            class="pi"
+            [ngClass]="
+              booleanValue
+                ? 'pi-check-circle'
+                : 'pi-times-circle'
+            ">
+          </i>
+
+          {{ booleanText }}
+        </span>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'date'">
+        {{
+          dateValue !== null
+            ? (dateValue | date: dateFormat)
+            : emptyText
+        }}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'datetime'">
+        {{
+          dateValue !== null
+            ? (dateValue | date: 'dd-MMM-yyyy hh:mm a')
+            : emptyText
+        }}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'currency'">
+        {{
+          numericValue !== null
+            ? (numericValue | currency: currencyCode)
+            : emptyText
+        }}
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        {{ displayValue }}
+      </ng-container>
+
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.download {
+    font-weight:bold;
+    color:#28a745;
+    margin-left: 10px;
+    line-height: 36px;
+}
+.downloadError {
+    font-weight:bold;
+    color:#c00303;
+    margin-left: 10px;
+    line-height: 36px;
+}
+div {
+    margin-top: 5px;
+}

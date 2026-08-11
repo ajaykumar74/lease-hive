@@ -1,0 +1,95 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<th style="width:300px"></th>
+					<th style="width:150px"></th>
+					<th style="width:100px"></th>
+					<th style="width:100px"></th>
+					<th style="width:100px"></th>
+					<th style="width:100px"></th>
+					<th style="width:100px"></th>
+
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							To:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.To}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							SubmittedAt:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.SubmittedAt}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Subject:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.Subject}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Status:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.Status}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							RecordByType:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.RecordByType}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Name:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.Name}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Description:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.Description}}
+						</div>
+					</div>
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							CustomerId:
+						</label>
+						<div class="col-span-12 md:col-span-10 flex items-center">
+							{{notification.CustomerId}}
+						</div>
+					</div>
+					<hr class="mt-4 mb-4">
+					<div class="grid grid-cols-12 gap-2">
+						<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+							Content:
+						</label>
+					<div class="col-span-12 md:col-span-10 prose" [innerHTML]="notification.Content"></div>
+
+					</div>
+					<app-audit-details [model]="notification"></app-audit-details>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

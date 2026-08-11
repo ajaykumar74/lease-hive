@@ -1,0 +1,19 @@
+<span>
+  <p-button *ngIf="ElementType == 'Button'" label="{{FileName}}" size="small" (click)="onDownloadClicked()"></p-button>
+  <p-button *ngIf="ElementType == 'Link'" label="{{FileName}}" [link]="true" size="small"
+    (click)="onDownloadClicked()"></p-button>
+
+  <button [hidden]="!IsAllowRemove" type="button" class="btn btn-link" (click)="remove()">Remove</button>
+</span>
+
+<!--  <div class="col-md-4" [hidden]="IsTableContent == true">
+    <span class="download" *ngIf="progress > 0">
+      {{progress}}%
+    </span>
+    <span [hidden]="HasError" class="download">
+      {{message}} 
+    </span>   
+    <span [hidden]="!HasError" class="downloadError">
+      {{message}} 
+    </span>      
+  </div> -->

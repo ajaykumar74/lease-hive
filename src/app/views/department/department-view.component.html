@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="OrganisationUnitId" [value]="department.OrganisationUnitId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="ParentDepartmentId" [value]="department.ParentDepartmentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="DepartmentCode" [value]="department.DepartmentCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="DepartmentName" [value]="department.DepartmentName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="DepartmentType" [value]="department.DepartmentType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="HeadUserId" [value]="department.HeadUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="CostCentreCode" [value]="department.CostCentreCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RecordStatus" [value]="department.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EffectiveFrom" [value]="department.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EffectiveTo" [value]="department.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

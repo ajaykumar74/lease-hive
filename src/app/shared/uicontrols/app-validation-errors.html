@@ -1,0 +1,91 @@
+<ng-container *ngIf="control && (control.dirty || control.touched)">
+
+  <!-- Common validation -->
+  <small
+    class="p-error block"
+    *ngIf="control.hasError('required')">
+    {{ label }} is a required field.
+  </small>
+
+  <ng-container [ngSwitch]="type">
+
+    <!-- NUMBER -->
+    <ng-container *ngSwitchCase="'number'">
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('max')">
+        The maximum allowed value is
+        {{ control.getError('max')?.max }}.
+      </small>
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('min')">
+        The minimum allowed value is
+        {{ control.getError('min')?.min }}.
+      </small>
+
+    </ng-container>
+
+    <!-- TEXT -->
+    <ng-container *ngSwitchCase="'text'">
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('maxlength')">
+        {{ label }} cannot exceed
+        {{ control.getError('maxlength')?.requiredLength }}
+        characters.
+      </small>
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('minlength')">
+        {{ label }} must contain at least
+        {{ control.getError('minlength')?.requiredLength }}
+        characters.
+      </small>
+
+    </ng-container>
+
+    <!-- EMAIL -->
+    <ng-container *ngSwitchCase="'email'">
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('email')">
+        Please enter a valid email address.
+      </small>
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('maxlength')">
+        {{ label }} cannot exceed
+        {{ control.getError('maxlength')?.requiredLength }}
+        characters.
+      </small>
+
+    </ng-container>
+
+	 <ng-container *ngSwitchCase="'date'">
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('min')">
+        {{ label }} cannot be earlier than
+        {{ control.getError('min')?.min | date:'MM/dd/yyyy' }}.
+      </small>
+
+      <small
+        class="p-error block"
+        *ngIf="control.hasError('max')">
+        {{ label }} cannot be later than
+        {{ control.getError('max')?.max | date:'MM/dd/yyyy' }}.
+      </small>
+
+    </ng-container>
+
+  </ng-container>
+
+</ng-container>

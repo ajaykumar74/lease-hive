@@ -1,0 +1,143 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+				<form [formGroup]="editForm" (ngSubmit)="Save()">
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									First Name
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ portalUser?.FirstName || '-' }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Last Name
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ portalUser?.LastName || '-' }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									EmailId
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ portalUser?.EmailId || '-' }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0 font-medium">
+									Mobile Number
+								</label>
+								<div class="col-span-12 md:col-span-10 flex items-center">
+									: {{ portalUser?.Mobile || '-' }}
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Department"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Department</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="Department"
+										[options]="pickListServiceOptions.getDepartmentOptions()" optionLabel="label"
+										optionValue="value" placeholder="Select a department"
+										formControlName="Department">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('Department')?.errors?.required && editForm.get('Department')?.dirty ">
+										Department is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Role"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Access Role</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="Role" [options]="roleOptions"
+										optionLabel="Text" optionValue="Value" placeholder="Select a role"
+										formControlName="Role">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('Role')?.errors?.required && editForm.get('Role')?.dirty ">
+										Role is required field.</small>
+									<small class="block">
+										{{ pickListServiceOptions.getRoleDescription(editForm.value.Role) }}
+										<i class="pi pi-info-circle mt-1" style="cursor: pointer;"
+											(click)="isShowRolePermissions = !isShowRolePermissions"></i>
+									</small>
+									<p-dialog header="User Permissions - Roles" [modal]="true"
+										[(visible)]="isShowRolePermissions"
+										[breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+										<p> <portalUser-rolePermission></portalUser-rolePermission> </p>
+									</p-dialog>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Description"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Description</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true"
+										rows="3" class="w-full" cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 255 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="name3"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Deleted</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-inputSwitch formControlName="IsDeleted"></p-inputSwitch>
+									<small class="p-error block" *ngIf="
+							editForm.get('IsDeleted')?.errors?.required && editForm.get('IsDeleted')?.dirty ">
+										IsDeleted is required field.</small>
+									<small class="p-error block" *ngIf="
+								editForm.get('IsDeleted')?.value == true">
+										The user details will not be available for creating new transaction
+										data.</small>
+								</div>
+							</div>
+							<div [hidden]="editForm.get('IsDeleted').value === false">
+								<div class="grid grid-cols-12 gap-2">
+									<label for="DeletedReason"
+										class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Deleted
+										Reason</label>
+									<div class="col-span-12 md:col-span-10">
+
+										<textarea pTextarea placeholder="Deleted Reason" rows="3" class="w-full"
+											cols="30" formControlName="DeletedReason"
+											[ngClass]="{'is-invalid': (editForm.get('DeletedReason').touched || editForm.get('DeletedReason').dirty) && !editForm.get('DeletedReason').valid }"></textarea>
+										<small class="p-error block" *ngIf="
+							editForm.get('DeletedReason')?.errors?.required && editForm.get('DeletedReason')?.dirty ">
+											Deleted Reason is required field.</small>
+										<small class="p-error block" *ngIf="
+							editForm.get('DeletedReason')?.errors?.maxlength && editForm.get('DeletedReason')?.dirty ">
+											The maximum allowed len of a valid Deleted Reason is 100 chars.</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<app-audit-details [model]="portalUser"></app-audit-details>
+				</form>
+
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,146 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="OrganisationUnitId" class="mb-1">OrganisationUnitId</label>
+        <p-dropdown
+            inputId="OrganisationUnitId" 
+            [options]="organisationunitidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="OrganisationUnitId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('OrganisationUnitId')"
+											label="OrganisationUnitId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="ParentDepartmentId" class="mb-1">ParentDepartmentId</label>
+        <p-dropdown
+            inputId="ParentDepartmentId" 
+            [options]="parentdepartmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ParentDepartmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ParentDepartmentId')"
+											label="ParentDepartmentId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="DepartmentCode" class="mb-1">DepartmentCode</label>
+        <p-dropdown
+            inputId="DepartmentCode" 
+            [options]="departmentcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DepartmentCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentCode')"
+											label="DepartmentCode">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="DepartmentName">DepartmentName 
+							</label> 
+							<input pInputText id="DepartmentName" type="text" pSize="small"	formControlName="DepartmentName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentName')"
+											label="DepartmentName">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="DepartmentType" class="mb-1">DepartmentType</label>
+        <p-dropdown
+            inputId="DepartmentType" 
+            [options]="departmenttypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DepartmentType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentType')"
+											label="DepartmentType">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="HeadUserId" class="mb-1">HeadUserId</label>
+        <p-dropdown
+            inputId="HeadUserId" 
+            [options]="headuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="HeadUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('HeadUserId')"
+											label="HeadUserId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CostCentreCode" class="mb-1">CostCentreCode</label>
+        <p-dropdown
+            inputId="CostCentreCode" 
+            [options]="costcentrecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CostCentreCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CostCentreCode')"
+											label="CostCentreCode">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="RecordStatus" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="RecordStatus">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">EffectiveFrom 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="EffectiveFrom">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">EffectiveTo 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="EffectiveTo">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Description')"
+											label="Description">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,141 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons>
+				<app-spinner></app-spinner>
+
+				<form [formGroup]="editForm" (ngSubmit)="Save()" autocomplete="off">
+					<div class="md:w-1/2">
+						<div class="card flex flex-col gap-4">
+
+							<div *ngIf="isBrandPartner" class="grid grid-cols-12 gap-2">
+								<label for="Role"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Document
+									Related To</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="RelatedTo" [options]="lstCustomer"
+										optionLabel="BusinessName" optionValue="Id" formControlName="RelatedTo">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('RelatedTo')?.errors?.required && editForm.get('RelatedTo')?.dirty ">
+										Document Related To is required field.</small>
+								</div>
+							</div>
+
+							<div  class="grid grid-cols-12 gap-2">
+								<label for="Role"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Document
+									Type</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-select class="w-1/2" size="small" name="DocumentType"
+										[options]="pickListServiceOptions.getDocumentType(recordType)"
+										optionLabel="label" optionValue="value" placeholder="Select a DocumentType"
+										formControlName="DocumentType">
+									</p-select>
+									<small class="p-error block" *ngIf="
+							editForm.get('DocumentType')?.errors?.required && editForm.get('DocumentType')?.dirty ">
+										Document Type is required field.</small>
+								</div>
+							</div>
+
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="DocumentNumber"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Document
+									Number</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="DocumentNumber"
+										inputFormat="singleWhitespace|trim" formControlName="DocumentNumber"
+										class="w-1/2" />
+									<small class="p-error block" *ngIf="
+							editForm.get('DocumentNumber')?.errors?.required && editForm.get('DocumentNumber')?.dirty ">
+										Document Number is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('DocumentNumber')?.errors?.maxlength && editForm.get('DocumentNumber')?.dirty ">
+										The maximum allowed len of a valid Document Number is 20 chars.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="Description"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Description</label>
+								<div class="col-span-12 md:col-span-10">
+
+									<textarea inputFormat="singleWhitespace|trim" size="small" pTextarea
+										placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.required && editForm.get('Description')?.dirty ">
+										Description is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('Description')?.errors?.maxlength && editForm.get('Description')?.dirty ">
+										The maximum allowed len of a valid Description is 100 chars.</small>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="IssuedBy"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Issued By</label>
+								<div class="col-span-12 md:col-span-10">
+									<input type="text" pSize="small" pInputText name="IssuedBy"
+										inputFormat="singleWhitespace|trim" formControlName="IssuedBy" class="w-1/2" />
+									<small class="p-error block" *ngIf="
+							editForm.get('IssuedBy')?.errors?.required && editForm.get('IssuedBy')?.dirty ">
+										Issued By is required field.</small>
+									<small class="p-error block" *ngIf="
+							editForm.get('IssuedBy')?.errors?.maxlength && editForm.get('IssuedBy')?.dirty ">
+										The maximum allowed len of a valid Issued By is 50 chars.</small>
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="IssuedOnDate"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Issued On</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-calendar class="w-1/2" size="small" [showIcon]="true" inputId="icon"
+										formControlName="IssuedOnDate" dateFormat="dd-MM-yy"
+										[ngClass]="{'is-invalid': (editForm.get('IssuedOnDate').touched || editForm.get('IssuedOnDate').dirty) && !editForm.get('IssuedOnDate').valid }"></p-calendar>
+
+									<small class="p-error block" *ngIf="
+							editForm.get('IssuedOnDate')?.errors?.required && editForm.get('IssuedOnDate')?.dirty ">
+										IssuedOnDate is required field.</small>
+
+								</div>
+							</div>
+							<div class="grid grid-cols-12 gap-2">
+								<label for="ValidTillDate"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Valid Till
+									Date</label>
+								<div class="col-span-12 md:col-span-10">
+									<p-calendar class="w-1/2" size="small" [showIcon]="true" inputId="icon"
+										formControlName="ValidTillDate" dateFormat="dd-MM-yy"
+										[ngClass]="{'is-invalid': (editForm.get('ValidTillDate').touched || editForm.get('ValidTillDate').dirty) && !editForm.get('ValidTillDate').valid }"></p-calendar>
+
+									<small class="p-error block" *ngIf="
+							editForm.get('ValidTillDate')?.errors?.required && editForm.get('ValidTillDate')?.dirty ">
+										ValidTillDate is required field.</small>
+
+								</div>
+							</div>
+
+							<div class="grid grid-cols-12 gap-2">
+								<label for="InsurancePolicyNumber"
+									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Upload
+									Files</label>
+								<div class="col-span-12 md:col-span-10">
+									<app-upload [UploadType]="'Document'" (onUploadFinished)="onUploadFinished($event)"
+										(onFileError)="onFileError($event)"></app-upload>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

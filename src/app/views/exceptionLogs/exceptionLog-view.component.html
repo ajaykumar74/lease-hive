@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12 md:col-12">
+      <div class="card p-fluid">
+        <app-message [AlertType]="'message'"></app-message>
+        <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+          [PageType]="'View'"></app-toolbar-buttons>
+        <app-spinner></app-spinner>
+
+        <form>
+          <div class="md:w-1/2">
+            <div class="card flex flex-col gap-4">
+
+              <h4 class="font-bold mt-4">Error Summary</h4>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">ExceptionType</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.ExceptionType}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">Message</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.Message}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">StatusCode</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.StatusCode}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">CreatedDateTime</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.CreatedDateTime}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">CorrelationId</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.CorrelationId}}</div>
+              </div>
+
+
+              <h4 class="font-bold mt-4">Request Context</h4>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">RequestPath</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.RequestPath}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">RequestMethod</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.RequestMethod}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">QueryString</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.QueryString}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">UserId</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.UserId}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">IpAddress</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.IpAddress}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">UserAgent</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.UserAgent}}</div>
+              </div>
+
+
+              <h4 class="font-bold mt-4">Exception Details</h4>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">StackTrace</label>
+                <div class="col-span-12 md:col-span-10">
+                  <pre class="bg-gray-100 p-2 rounded overflow-auto text-sm">
+<code>{{ExceptionLog?.StackTrace}}</code></pre>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">InnerException</label>
+                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.InnerException}}</div>
+              </div>
+
+              <div class="grid grid-cols-12 gap-2">
+                <label class="col-span-12 md:col-span-2 font-semibold">AdditionalDataJson</label>
+                <div class="col-span-12 md:col-span-10">
+                  <pre class="bg-gray-100 p-2 rounded overflow-auto text-sm">
+<code>{{ExceptionLog?.AdditionalDataJson}}</code></pre>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

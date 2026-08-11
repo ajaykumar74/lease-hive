@@ -1,0 +1,42 @@
+/* .body1 {
+background-color: hsl(0deg 0% 0%) !important;
+    color: #ffffff !important;
+}
+.body2 {
+background-color: hwb(143 10% 44%) !important;
+    color: hsl(0, 80%, 38%) !important;
+}
+.brand-nav-bg {
+    background-color: black;
+}
+
+.brand-ghost-button {
+    background-color: #5DC56B00;
+    font-family: "Inter", Sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    fill: #FFE74A;
+    color: #FFE74A;
+    border-style: solid;
+    border-radius: 8px 8px 8px 8px;
+    padding: 010px 18px 10px 18px;
+    width: auto;
+    box-shadow: none;
+    text-decoration: none;
+    text-align: center;
+    transition: all .3s;
+    box-sizing: border-box;
+    --align-self: center;
+}
+
+.btn-action {
+    background-color: #FFE74A;
+    font-family: "Inter", Sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    fill: #000000;
+    color: #000000;
+    border-style: none;
+    border-radius: 8px 8px 8px 8px;
+    padding: 010px 24px 10px 24px;
+} */

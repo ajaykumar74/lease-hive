@@ -1,0 +1,40 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" > 					
+							<label for="FeatureCode">Feature Code 
+							</label> 
+							<input pInputText id="FeatureCode" type="text" pSize="small"	formControlName="FeatureCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FeatureCode')"
+											label="Feature Code">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 					
+							<label for="FeatureName">Feature Name 
+							</label> 
+							<input pInputText id="FeatureName" type="text" pSize="small"	formControlName="FeatureName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FeatureName')"
+											label="Feature Name">
+										</app-validation-errors>
+						 </div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

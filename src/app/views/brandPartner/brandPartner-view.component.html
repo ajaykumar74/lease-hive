@@ -1,0 +1,143 @@
+<div class="container">
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <app-message [AlertType]="'message'"></app-message>
+                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                    [Caption]="Caption" [PageType]="'View'">
+                    <p-button label="Tax Details" size="small" severity="primary"
+                        (click)="onOptionItemClicked('TaxDetails')" />
+                    <p-button label="Contacts" size="small" severity="primary"
+                        (click)="onOptionItemClicked('Contact')" />
+					<p-button label="Documents" size="small" severity="primary"
+						(click)="onOptionItemClicked('Document')" />
+                </app-toolbar-buttons>
+                <app-spinner></app-spinner>
+                <form>
+                    <div class="md:w-1/2">
+                        <div class="card flex flex-col gap-6">
+
+                            <!-- Business Section -->
+                            <h2 class="text-lg font-semibold border-b pb-1">Business Details</h2>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Id</label>
+                                    <div>: {{ brandPartner.Id }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Code</label>
+                                    <div>: {{ brandPartner.Code }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Business Id</label>
+                                    <div>: {{ brandPartner.BusinessId }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Business Name</label>
+                                    <div>: {{ brandPartner.BusinessName }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Email</label>
+                                    <div>: {{ brandPartner.EmailId }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Mobile</label>
+                                    <div>: {{ brandPartner.Mobile }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Landline</label>
+                                    <div>: {{ brandPartner.Landline }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Short Name</label>
+                                    <div>: {{ brandPartner.ShortName }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Address Section -->
+                            <h2 class="text-lg font-semibold border-b pb-1 mt-4">Address</h2>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Address Line 1</label>
+                                    <div>: {{ brandPartner.AddressLine1 }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Address Line 2</label>
+                                    <div>: {{ brandPartner.AddressLine2 }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">City</label>
+                                    <div>: {{ brandPartner.City }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Country</label>
+                                    <div>: {{ brandPartner.Country }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Postal Code</label>
+                                    <div>: {{ brandPartner.PostalCode }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Formats Section -->
+                            <h2 class="text-lg font-semibold border-b pb-1 mt-4">Format Settings</h2>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Customer Limit</label>
+                                    <div>: {{ brandPartner.CustomerLimit }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Currency Symbol</label>
+                                    <div>: {{ brandPartner.CurrencySymbol }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Time Zone</label>
+                                    <div>: {{ brandPartner.TimeZone }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Date Format</label>
+                                    <div>: {{ brandPartner.DateFormat }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Time Format</label>
+                                    <div>: {{ brandPartner.TimeFormat }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Other Section -->
+                            <h2 class="text-lg font-semibold border-b pb-1 mt-4">Other Information</h2>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Description</label>
+                                    <div>: {{ brandPartner.Description }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Deleted</label>
+                                    <div>: {{ brandPartner.IsDeleted ? 'Yes' : 'No' }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Deleted Reason</label>
+                                    <div>: {{ brandPartner.DeletedReason }}</div>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-40 font-medium">Xero TenentId </label>
+                                    <div>: {{ brandPartner.TenentId }}</div>
+                                </div> 
+                            </div>
+
+                            <p-button  label="Authorize Xero" size="small" severity="primary"
+                                (click)="onOptionItemClicked('ConnectXero')" />
+                        </div>
+                    </div>
+                    <app-audit-details [model]="brandPartner"></app-audit-details>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+					<p-button label="Holidays" size="small"  
+								(click)="onOptionItemClicked('Holidays')" />
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+					
+							<label for="CalendarCode">Calendar Code 
+							</label> 
+							<input pInputText id="CalendarCode" type="text" pSize="small"	formControlName="CalendarCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CalendarCode')"
+											label="Calendar Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">
+					
+							<label for="CalendarName">Calendar Name 
+							</label> 
+							<input pInputText id="CalendarName" type="text" pSize="small"	formControlName="CalendarName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CalendarName')"
+											label="Calendar Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Country Code" class="mb-1">CountryCode</label>
+        <p-dropdown
+            inputId="CountryCode" 
+            [options]="countrycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CountryCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CountryCode')"
+											label="Country Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">
+ <label for="State Province Code" class="mb-1">StateProvinceCode</label>
+        <p-dropdown
+            inputId="StateProvinceCode" 
+            [options]="stateprovincecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StateProvinceCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StateProvinceCode')"
+											label="State Province Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+					
+							<label for="WeekendPattern">Weekend Pattern 
+							</label> 
+							<input pInputText id="WeekendPattern" type="text" pSize="small"	formControlName="WeekendPattern"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('WeekendPattern')"
+											label="Weekend Pattern">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">
+ <label for="TimeZone Id" class="mb-1">TimeZoneId</label>
+        <p-dropdown
+            inputId="TimeZoneId" 
+            [options]="timezoneidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TimeZoneId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TimeZoneId')"
+											label="TimeZone Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+			
+							<label for="DayStartTime">Day Start Time 
+							</label> 
+							<p-calendar id="DayStartTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="DayStartTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('DayStartTime')"
+											label="Day Start Time">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">
+			
+							<label for="DayEndTime">Day End Time 
+							</label> 
+							<p-calendar id="DayEndTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="DayEndTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('DayEndTime')"
+											label="Day End Time">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div><div class="flex flex-col w-full">
+			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > 
+<div class="flex flex-col w-full">
+			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

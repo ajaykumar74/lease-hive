@@ -1,0 +1,47 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<app-message [AlertType]="'message'"></app-message>
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+				[Caption]="'OrganisationUnit List'" [PageType]="'List'">
+			</app-toolbar-buttons>
+			<app-spinner></app-spinner>
+			<div class="col-12 md:col-6">
+				<p-inputGroup>
+					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
+						[(ngModel)]="objSearch.Name" />
+					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
+				</p-inputGroup>
+			</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+				responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
+						<th style="width:200px">Organisation Id <p-sortIcon field="OrganisationId" /> </th>
+						<th style="width:200px">Unit Code <p-sortIcon field="UnitCode" /> </th>
+						<th style="width:200px">Unit Name <p-sortIcon field="UnitName" /> </th>
+						<th style="width:200px">UnitType <p-sortIcon field="UnitType" /> </th>
+						<th style="width:200px">Status <p-sortIcon field="Status" /> </th>
+						<th style="width:200px">Hierarchy Path <p-sortIcon field="HierarchyPath" /> </th>
+
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn><p-button label="{{obj.Id}}" [link]="true"
+								(click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+						<td style="width:200px">{{obj.UnitCode}}</td>
+						<td style="width:200px">{{obj.UnitName}}</td>
+						<td style="width:200px">{{obj.UnitType}}</td>
+						<td style="width:200px">{{obj.Status}}</td>
+						<td style="width:200px">{{obj.HierarchyPath}}</td>
+
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12 md:col-12">
+      <div class="card p-fluid">
+        <app-message [AlertType]="'message'"></app-message>
+
+        <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+          [PageType]="'Details'" [form]="editForm">
+        </app-toolbar-buttons>
+
+        <app-spinner></app-spinner>
+
+        <form [formGroup]="editForm" (ngSubmit)="Save()" autocomplete="off">
+          <div class="md:w-1/2">
+            <div class="card flex flex-col gap-4">
+
+              <!-- Records Per Page -->
+              <div class="grid grid-cols-12 gap-2">
+                <label for="RecordsPerPage" class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+                  Records Per Page
+                </label>
+                <div class="col-span-12 md:col-span-10">
+                  <p-select class="w-1/2" name="RecordsPerPage" [options]="recordsPerPageOptions" optionLabel="text"
+                    optionValue="value" placeholder="Select Records" formControlName="RecordsPerPage" size="small">
+                  </p-select>
+                  <small class="p-error block"
+                    *ngIf="editForm.get('RecordsPerPage')?.errors?.required && editForm.get('RecordsPerPage')?.dirty">
+                    Records Per Page is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Grid Size -->
+              <div class="grid grid-cols-12 gap-2">
+                <label for="GridSize" class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+                  Grid Size
+                </label>
+                <div class="col-span-12 md:col-span-10">
+                  <p-select class="w-1/2" name="GridSize" [options]="gridSizeOptions" optionLabel="text"
+                    optionValue="value" placeholder="Select Grid Size" formControlName="GridSize" size="small">
+                  </p-select>
+                  <small class="p-error block"
+                    *ngIf="editForm.get('GridSize')?.errors?.required && editForm.get('GridSize')?.dirty">
+                    Grid Size is required.
+                  </small>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+
+
+
+
+        <div *ngif="showTestTab" class="md:w-1/2  mt-4">
+          <div class="card flex flex-col gap-4">
+            <div class="grid grid-cols-12 gap-2">
+              <label for="RecordsPerPage" class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+                Email Id
+              </label>
+              <div class="col-span-12 md:col-span-10">
+                <input pSize="small" type="text" class="p-inputtext-sm" pInputText placeholder="Email Id"
+                  [(ngModel)]="emailId" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2">
+              <label for="GridSize" class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+                Test Code
+              </label>
+              <div class="col-span-12 md:col-span-10">
+                <input pSize="small" type="text" class="p-inputtext-sm" pInputText placeholder="type code"
+                  [(ngModel)]="testCode" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2">
+              <label for="GridSize" class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+
+              </label>
+              <div class="col-span-12 md:col-span-10">
+                <p-button label="Send Test Email" size="small" severity="primary" (click)="SendTestEmail()" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2">
+              <label class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">
+
+              </label>
+              <div class="col-span-12 md:col-span-10">
+                <p-button label="Test Taskworker" size="small" severity="primary" (click)="TestTaskworker()" />
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
