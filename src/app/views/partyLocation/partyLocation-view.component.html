@@ -1,0 +1,53 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="partyLocation.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="LocationId" [value]="partyLocation.LocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Party GST RegistrationId" [value]="partyLocation.PartyGSTRegistrationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Location Code" [value]="partyLocation.LocationCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Location Name" [value]="partyLocation.LocationName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Location Usage Type" [value]="partyLocation.LocationType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AddressLine1" [value]="partyLocation.AddressLine1">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="AddressLine2" [value]="partyLocation.AddressLine2">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="City" [value]="partyLocation.City">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="State Code" [value]="partyLocation.StateCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Postal Code" [value]="partyLocation.PostalCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Registered Office" [value]="partyLocation.IsRegisteredOffice">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Is Bill To" [value]="partyLocation.IsBillTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Ship To" [value]="partyLocation.IsShipTo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Is Default Bill To" [value]="partyLocation.IsDefaultBillTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Default Ship To" [value]="partyLocation.IsDefaultShipTo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Working Hours" [value]="partyLocation.WorkingHours">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="partyLocation.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="partyLocation.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="partyLocation.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

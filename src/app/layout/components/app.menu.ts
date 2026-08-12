@@ -303,12 +303,18 @@ export class AppMenu {
                                 {
                                     label: 'Party relationships',
                                     icon: 'pi pi-fw pi-question',
-                                    routerLink: ['/auth/forgotpassword'],
+                                    routerLink: ['dashboard/partyRelationships/list'],
                                 },
                                 {
                                     label: 'Contacts and documents',
                                     icon: 'pi pi-fw pi-cog',
-                                    routerLink: ['/auth/newpassword'],
+                                    items: [
+                                        {
+                                            label: 'Party contacts',
+                                            icon: 'pi pi-fw pi-question',
+                                            routerLink: ['/dashboard/partyContacts/list'],
+                                        }
+                                    ]
                                 }
                             ],
                         },
@@ -319,13 +325,19 @@ export class AppMenu {
                                 {
                                     label: 'GST registrations',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    routerLink: ['/dashboard/partyGSTRegistrations/list'],
+                                    tooltip: 'see your gst registrations here',
+                                },
+                                 {
+                                    label: 'Party Locations',
+                                    icon: 'pi pi-fw pi-home',
+                                    routerLink: ['/dashboard/partyLocations/list'],
+                                    tooltip: 'see your party locations here',
                                 },
                                 {
                                     label: 'Tax profiles',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
+                                    routerLink: ['/dashboard/partyTaxProfiles/list'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {

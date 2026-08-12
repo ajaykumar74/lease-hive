@@ -1,0 +1,206 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="PartyId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="LocationId" class="mb-1">LocationId</label>
+        <p-dropdown
+            inputId="LocationId" 
+            [options]="locationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LocationId')"
+											label="LocationId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Party GST RegistrationId" class="mb-1">PartyGSTRegistrationId</label>
+        <p-dropdown
+            inputId="PartyGSTRegistrationId" 
+            [options]="partygstregistrationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyGSTRegistrationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyGSTRegistrationId')"
+											label="Party GST RegistrationId">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="LocationCode">Location Code 
+							</label> 
+							<input pInputText id="LocationCode" type="text" pSize="small"	formControlName="LocationCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LocationCode')"
+											label="Location Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="LocationName">Location Name 
+							</label> 
+							<input pInputText id="LocationName" type="text" pSize="small"	formControlName="LocationName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LocationName')"
+											label="Location Name">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Location Usage Type" class="mb-1">LocationType</label>
+        <p-dropdown
+            inputId="LocationType" 
+            [options]="locationtypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LocationType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LocationType')"
+											label="Location Usage Type">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AddressLine1">AddressLine1 
+							</label> 
+							<input pInputText id="AddressLine1" type="text" pSize="small"	formControlName="AddressLine1"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine1')"
+											label="AddressLine1">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AddressLine2">AddressLine2 
+							</label> 
+							<input pInputText id="AddressLine2" type="text" pSize="small"	formControlName="AddressLine2"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine2')"
+											label="AddressLine2">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="City" class="mb-1">City</label>
+        <p-dropdown
+            inputId="City" 
+            [options]="cityOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="City"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('City')"
+											label="City">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="State Code" class="mb-1">StateCode</label>
+        <p-dropdown
+            inputId="StateCode" 
+            [options]="statecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StateCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StateCode')"
+											label="State Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PostalCode">Postal Code 
+							</label> 
+							<input pInputText id="PostalCode" type="text" pSize="small"	formControlName="PostalCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PostalCode')"
+											label="Postal Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsRegisteredOffice" binary="true" formControlName="IsRegisteredOffice">
+											</p-checkbox>
+											<label for="IsRegisteredOffice">Is Registered Office</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsBillTo" binary="true" formControlName="IsBillTo">
+											</p-checkbox>
+											<label for="IsBillTo">Is Bill To</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsShipTo" binary="true" formControlName="IsShipTo">
+											</p-checkbox>
+											<label for="IsShipTo">Is Ship To</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsDefaultBillTo" binary="true" formControlName="IsDefaultBillTo">
+											</p-checkbox>
+											<label for="IsDefaultBillTo">Is Default Bill To</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsDefaultShipTo" binary="true" formControlName="IsDefaultShipTo">
+											</p-checkbox>
+											<label for="IsDefaultShipTo">Is Default Ship To</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="WorkingHours">Working Hours 
+							</label> 
+							<input pInputText id="WorkingHours" type="text" pSize="small"	formControlName="WorkingHours"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('WorkingHours')"
+											label="Working Hours">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

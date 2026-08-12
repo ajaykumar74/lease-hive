@@ -1,0 +1,46 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'PartyLocation List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">PartyId <p-sortIcon field="PartyId" /> </th> 
+<th style="width:200px">LocationId <p-sortIcon field="LocationId" /> </th> 
+<th style="width:200px">Party GST RegistrationId <p-sortIcon field="PartyGSTRegistrationId" /> </th> 
+<th style="width:200px">Location Code <p-sortIcon field="LocationCode" /> </th> 
+<th style="width:200px">Location Name <p-sortIcon field="LocationName" /> </th> 
+<th style="width:200px">Location Usage Type <p-sortIcon field="LocationType" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LocationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.PartyGSTRegistrationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LocationCode}}</td>
+ <td style="width:200px">{{obj.LocationName}}</td>
+ <td style="width:200px">{{obj.LocationType}}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  
