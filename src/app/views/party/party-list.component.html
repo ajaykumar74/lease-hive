@@ -1,0 +1,45 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<app-message [AlertType]="'message'"></app-message>
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+				[Caption]="'Party List'" [PageType]="'List'">
+			</app-toolbar-buttons>
+			<app-spinner></app-spinner>
+			<div class="col-12 md:col-6">
+				<p-inputGroup>
+					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
+						[(ngModel)]="objSearch.Name" />
+					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
+				</p-inputGroup>
+			</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+				responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="PartyId" style="width:200px">Id <p-sortIcon field="PartyId" /> </th>
+						<th style="width:200px">Code <p-sortIcon field="PartyCode" /> </th>
+						<th style="width:200px">Kind <p-sortIcon field="PartyKind" /> </th>
+						<th style="width:200px">Trade Name <p-sortIcon field="TradeName" /> </th>
+						<th style="width:200px">Registration Number <p-sortIcon field="RegistrationNumber" /> </th>
+						<th style="width:200px">Industry Code <p-sortIcon field="IndustryCode" /> </th>
+						<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn><p-button label="{{obj.PartyId}}" [link]="true"
+								(click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px">{{obj.PartyCode}}</td>
+						<td style="width:200px">{{obj.PartyKind}}</td>
+						<td style="width:200px">{{obj.TradeName}}</td>
+						<td style="width:200px">{{obj.RegistrationNumber}}</td>
+						<td style="width:200px">{{obj.IndustryCode}}</td>
+						<td style="width:200px">{{obj.RecordStatus}}</td>
+
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

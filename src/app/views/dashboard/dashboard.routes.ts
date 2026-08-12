@@ -104,6 +104,16 @@ const routes: Routes = [
         data: { breadcrumb: 'Profit Centers' },
         loadChildren: () => import('@/views/profitCentre/profitCentre.module').then(c => c.ProfitCentreModule),
       },
+   {
+        path: 'partys',
+        data: { breadcrumb: 'Parties' },
+        loadChildren: () => import('@/views/party/party.module').then(c => c.PartyModule),
+      },
+  {
+        path: 'partyRoles',
+        data: { breadcrumb: 'Party Roles' },
+        loadChildren: () => import('@/views/partyRole/partyRole.module').then(c => c.PartyRoleModule),
+      },
       {
         path: 'planFeatures',
         data: { breadcrumb: 'plan Features' },

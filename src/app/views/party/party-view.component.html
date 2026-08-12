@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyCode" [value]="party.PartyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyKind" [value]="party.PartyKind">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="LegalName" [value]="party.LegalName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="TradeName" [value]="party.TradeName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PAN" [value]="party.PAN">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RegistrationNumber" [value]="party.RegistrationNumber">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IncorporationDate" [value]="party.IncorporationDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CountryOfRegistration" [value]="party.CountryOfRegistration">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IndustryCode" [value]="party.IndustryCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="WebsiteUrl" [value]="party.WebsiteUrl">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PreferredCurrencyCode" [value]="party.PreferredCurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="TaxResidencyCountryCode" [value]="party.TaxResidencyCountryCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IsRelatedParty" [value]="party.IsRelatedParty">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RiskClassification" [value]="party.RiskClassification">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="OnboardingStatus" [value]="party.OnboardingStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RecordStatus" [value]="party.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EffectiveFrom" [value]="party.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EffectiveTo" [value]="party.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

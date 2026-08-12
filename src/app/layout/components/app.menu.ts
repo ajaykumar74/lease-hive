@@ -283,7 +283,7 @@ export class AppMenu {
                                 {
                                     label: 'All parties',
                                     icon: 'pi pi-fw pi-sign-in',
-                                    routerLink: ['/auth/login'],
+                                    routerLink: ['/dashboard/partys/list'],
                                 },
                                 {
                                     label: 'Customer profiles',
@@ -298,7 +298,7 @@ export class AppMenu {
                                 {
                                     label: 'Party roles',
                                     icon: 'pi pi-fw pi-user-plus',
-                                    routerLink: ['/auth/register'],
+                                    routerLink: ['/dashboard/partyRoles/list'],
                                 },
                                 {
                                     label: 'Party relationships',
