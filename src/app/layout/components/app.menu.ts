@@ -343,18 +343,18 @@ export class AppMenu {
                                 {
                                     label: 'Bank accounts',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
+                                    routerLink: ['/dashboard/partyBankAccounts/list'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Credit profiles',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
+                                    routerLink: ['/dashboard/partyCreditProfiles/list/'],
                                     tooltip: '',
                                 }, {
                                     label: 'KYC documents',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
+                                    routerLink: ['/dashboard/partyDocuments/list/'],
                                     tooltip: '',
                                 }, {
                                     label: 'Verification status',

@@ -1,0 +1,188 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="PartyId">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="BankName">Bank Name 
+							</label> 
+							<input pInputText id="BankName" type="text" pSize="small"	formControlName="BankName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('BankName')"
+											label="Bank Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="BranchName">Branch Name 
+							</label> 
+							<input pInputText id="BranchName" type="text" pSize="small"	formControlName="BranchName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('BranchName')"
+											label="Branch Name">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AccountHolderName">Account Holder Name 
+							</label> 
+							<input pInputText id="AccountHolderName" type="text" pSize="small"	formControlName="AccountHolderName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AccountHolderName')"
+											label="Account Holder Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AccountNumber">Account Number 
+							</label> 
+							<input pInputText id="AccountNumber" type="text" pSize="small"	formControlName="AccountNumber"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AccountNumber')"
+											label="Account Number">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AccountNumberMasked">AccountNumber Masked 
+							</label> 
+							<input pInputText id="AccountNumberMasked" type="text" pSize="small"	formControlName="AccountNumberMasked"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AccountNumberMasked')"
+											label="AccountNumber Masked">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AccountNumberEncrypted">AccountNumber Encrypted 
+							</label> 
+							<input pInputText id="AccountNumberEncrypted" type="text" pSize="small"	formControlName="AccountNumberEncrypted"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AccountNumberEncrypted')"
+											label="AccountNumber Encrypted">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Account Type" class="mb-1">AccountType</label>
+        <p-dropdown
+            inputId="AccountType" 
+            [options]="accounttypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AccountType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AccountType')"
+											label="Account Type">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="IFSCCode">IFS CCode 
+							</label> 
+							<input pInputText id="IFSCCode" type="text" pSize="small"	formControlName="IFSCCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('IFSCCode')"
+											label="IFS CCode">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="SWIFTCode">SWIFT Code 
+							</label> 
+							<input pInputText id="SWIFTCode" type="text" pSize="small"	formControlName="SWIFTCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SWIFTCode')"
+											label="SWIFT Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsDefaultForPayments" binary="true" formControlName="IsDefaultForPayments">
+											</p-checkbox>
+											<label for="IsDefaultForPayments">IsDefault For Payments</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsDefaultForRefunds" binary="true" formControlName="IsDefaultForRefunds">
+											</p-checkbox>
+											<label for="IsDefaultForRefunds">IsDefault For Refunds</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Verification Status" class="mb-1">VerificationStatus</label>
+        <p-dropdown
+            inputId="VerificationStatus" 
+            [options]="verificationstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="VerificationStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('VerificationStatus')"
+											label="Verification Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="VerifiedAt">Verified At 
+							</label> 
+							<p-calendar id="VerifiedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="VerifiedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('VerifiedAt')"
+											label="Verified At">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

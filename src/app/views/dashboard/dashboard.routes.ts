@@ -134,6 +134,22 @@ const routes: Routes = [
         data: { breadcrumb: 'Party Contacts' },
         loadChildren: () => import('@/views/partyContact/partyContact.module').then(c => c.PartyContactModule),
       },
+  {
+        path: 'partyBankAccounts',
+        data: { breadcrumb: 'Party Bank Accounts' },
+        loadChildren: () => import('@/views/partyBankAccount/partyBankAccount.module').then(c => c.PartyBankAccountModule),
+      },
+{
+        path: 'partyDocuments',
+        data: { breadcrumb: 'Party Documents' },
+        loadChildren: () => import('@/views/partyDocument/partyDocument.module').then(c => c.PartyDocumentModule),
+      },
+      {
+        path: 'partyCreditProfiles',
+        data: { breadcrumb: 'Party Credit Profiles' },
+        loadChildren: () => import('@/views/partyCreditProfile/partyCreditProfile.module').then(c => c.PartyCreditProfileModule),
+      },
+      
       {
         path: 'planFeatures',
         data: { breadcrumb: 'plan Features' },

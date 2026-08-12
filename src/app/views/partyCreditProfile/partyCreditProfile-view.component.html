@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="partyCreditProfile.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Credit Policy Code" [value]="partyCreditProfile.CreditPolicyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Risk Grade" [value]="partyCreditProfile.RiskGrade">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="External Credit Score" [value]="partyCreditProfile.ExternalCreditScore">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved Exposure Limit" [value]="partyCreditProfile.ApprovedExposureLimit">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="partyCreditProfile.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Current Exposure" [value]="partyCreditProfile.CurrentExposure">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Available Exposure" [value]="partyCreditProfile.AvailableExposure">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Terms Days" [value]="partyCreditProfile.PaymentTermsDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Review Frequency Months" [value]="partyCreditProfile.ReviewFrequencyMonths">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Next Review Date" [value]="partyCreditProfile.NextReviewDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="partyCreditProfile.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="partyCreditProfile.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="partyCreditProfile.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
