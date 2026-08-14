@@ -1,0 +1,140 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ApplicationUserId">Application UserId 
+							</label> 
+							<input pInputText id="ApplicationUserId" type="text" pSize="small"	formControlName="ApplicationUserId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ApplicationUserId')"
+											label="Application UserId">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ActionType">Action Type 
+							</label> 
+							<input pInputText id="ActionType" type="text" pSize="small"	formControlName="ActionType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ActionType')"
+											label="Action Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="EntityType">Entity Type 
+							</label> 
+							<input pInputText id="EntityType" type="text" pSize="small"	formControlName="EntityType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('EntityType')"
+											label="Entity Type">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="EntityId">Entity Id 
+							</label> 
+							<input pInputText id="EntityId" type="text" pSize="small"	formControlName="EntityId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('EntityId')"
+											label="Entity Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="OrganisationUnitId">Organisation UnitId 
+							</label> 
+							<input pInputText id="OrganisationUnitId" type="text" pSize="small"	formControlName="OrganisationUnitId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('OrganisationUnitId')"
+											label="Organisation UnitId">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="PartyId">Party Id 
+							</label> 
+							<input pInputText id="PartyId" type="text" pSize="small"	formControlName="PartyId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="Party Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="OccurredAt">OccurredAt 
+							</label> 
+							<input pInputText id="OccurredAt" type="text" pSize="small"	formControlName="OccurredAt"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('OccurredAt')"
+											label="OccurredAt">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="IPAddress">IPAddress 
+							</label> 
+							<input pInputText id="IPAddress" type="text" pSize="small"	formControlName="IPAddress"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('IPAddress')"
+											label="IPAddress">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="UserAgent">User Agent 
+							</label> 
+							<input pInputText id="UserAgent" type="text" pSize="small"	formControlName="UserAgent"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('UserAgent')"
+											label="User Agent">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="CorrelationId">Correlation Id 
+							</label> 
+							<input pInputText id="CorrelationId" type="text" pSize="small"	formControlName="CorrelationId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CorrelationId')"
+											label="Correlation Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="BeforeJson">Before Json 
+							</label> 
+							<input pInputText id="BeforeJson" type="text" pSize="small"	formControlName="BeforeJson"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('BeforeJson')"
+											label="Before Json">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AfterJson">After Json 
+							</label> 
+							<input pInputText id="AfterJson" type="text" pSize="small"	formControlName="AfterJson"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AfterJson')"
+											label="After Json">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Outcome">Outcome 
+							</label> 
+							<input pInputText id="Outcome" type="text" pSize="small"	formControlName="Outcome"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Outcome')"
+											label="Outcome">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="FailureReason">Failure Reason 
+							</label> 
+							<input pInputText id="FailureReason" type="text" pSize="small"	formControlName="FailureReason"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FailureReason')"
+											label="Failure Reason">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">					
+							<label for="TenantId">TenantId 
+							</label> 
+							<input pInputText id="TenantId" type="text" pSize="small"	formControlName="TenantId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TenantId')"
+											label="TenantId">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

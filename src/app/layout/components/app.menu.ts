@@ -437,7 +437,7 @@ export class AppMenu {
                                 {
                                     label: 'Audit log',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
+                                    routerLink: ['/dashboard/auditLogs/list/'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
@@ -470,7 +470,18 @@ export class AppMenu {
                                 }
                             ],
                         },
-
+                     {
+                            label: 'Configurations and masters',
+                            icon: 'pi pi-fw pi-user',
+                            items: [
+                                {
+                                    label: 'Number sequences',
+                                    icon: 'pi pi-fw pi-home',
+                                    routerLink: ['/dashboard/numberSequences/'],
+                                    tooltip: 'See your fleet/ actions and costs here',
+                                } 
+                            ],
+                        },
                     ],
 
                 },

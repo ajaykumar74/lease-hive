@@ -78,8 +78,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+    this.partyidOptions.push({Text: 'Party1', Value: '1' });
+this.partyidOptions.push({Text: 'Party2', Value: '2' });
 this.accounttypeOptions.push({Text: 'Current', Value: 'Current' });
 this.accounttypeOptions.push({Text: 'Savings', Value: 'Savings' });
 this.accounttypeOptions.push({Text: 'Escrow', Value: 'Escrow' });

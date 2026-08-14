@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Application UserId" [value]="auditLog.ApplicationUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Action Type" [value]="auditLog.ActionType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Entity Type" [value]="auditLog.EntityType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Entity Id" [value]="auditLog.EntityId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation UnitId" [value]="auditLog.OrganisationUnitId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Party Id" [value]="auditLog.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="OccurredAt" [value]="auditLog.OccurredAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="IPAddress" [value]="auditLog.IPAddress">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="User Agent" [value]="auditLog.UserAgent">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Correlation Id" [value]="auditLog.CorrelationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Before Json" [value]="auditLog.BeforeJson">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="After Json" [value]="auditLog.AfterJson">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Outcome" [value]="auditLog.Outcome">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Failure Reason" [value]="auditLog.FailureReason">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -42,7 +42,6 @@ const routes: Routes = [
           breadcrumb: 'Users'
         }
       },
-
       {
         path: 'customers',
         data: { breadcrumb: 'Customers' },
@@ -88,7 +87,6 @@ const routes: Routes = [
         data: { breadcrumb: 'Subscription Plans' },
         loadChildren: () => import('@/views/tenants/subscriptionPlan/subscriptionPlan.module').then(c => c.SubscriptionPlanModule),
       },
-
       {
         path: 'departments',
         data: { breadcrumb: 'Departments' },
@@ -134,12 +132,12 @@ const routes: Routes = [
         data: { breadcrumb: 'Party Contacts' },
         loadChildren: () => import('@/views/partyContact/partyContact.module').then(c => c.PartyContactModule),
       },
-  {
+      {
         path: 'partyBankAccounts',
         data: { breadcrumb: 'Party Bank Accounts' },
         loadChildren: () => import('@/views/partyBankAccount/partyBankAccount.module').then(c => c.PartyBankAccountModule),
       },
-{
+      {
         path: 'partyDocuments',
         data: { breadcrumb: 'Party Documents' },
         loadChildren: () => import('@/views/partyDocument/partyDocument.module').then(c => c.PartyDocumentModule),
@@ -149,48 +147,47 @@ const routes: Routes = [
         data: { breadcrumb: 'Party Credit Profiles' },
         loadChildren: () => import('@/views/partyCreditProfile/partyCreditProfile.module').then(c => c.PartyCreditProfileModule),
       },
-         {
+      {
         path: 'customerProfiles',
         data: { breadcrumb: 'Customer Profiles' },
         loadChildren: () => import('@/views/customerProfile/customerProfile.module').then(c => c.CustomerProfileModule),
       },
-       {
+      {
         path: 'customerDepartments',
         data: { breadcrumb: 'Customer Departments' },
         loadChildren: () => import('@/views/customerDepartment/customerDepartment.module').then(c => c.CustomerDepartmentModule),
       },
-       {
+      {
         path: 'assetUsers',
         data: { breadcrumb: 'Asset Users' },
         loadChildren: () => import('@/views/assetUser/assetUser.module').then(c => c.AssetUserModule),
       },
-       {
+      {
         path: 'applicationUsers',
         data: { breadcrumb: 'Application Users' },
         loadChildren: () => import('@/views/applicationUser/applicationUser.module').then(c => c.ApplicationUserModule),
       },
-         {
+      {
         path: 'roles',
         data: { breadcrumb: 'Roles' },
         loadChildren: () => import('@/views/role/role.module').then(c => c.RoleModule),
       },
-         {
+      {
         path: 'permissions',
         data: { breadcrumb: 'Permissions' },
         loadChildren: () => import('@/views/permission/permission.module').then(c => c.PermissionModule),
-      },
-         ,
-         {
+      }, 
+      {
         path: 'rolePermissions',
         data: { breadcrumb: 'Role Permissions' },
         loadChildren: () => import('@/views/rolePermission/rolePermission.module').then(c => c.RolePermissionModule),
       },
-       {
+      {
         path: 'userRoles',
         data: { breadcrumb: 'User Roles' },
         loadChildren: () => import('@/views/userRole/userRole.module').then(c => c.UserRoleModule),
       },
-       {
+      {
         path: 'userOrganisationUnits',
         data: { breadcrumb: 'User Organisation Units' },
         loadChildren: () => import('@/views/userOrganisationUnit/userOrganisationUnit.module').then(c => c.UserOrganisationUnitModule),
@@ -205,18 +202,27 @@ const routes: Routes = [
         data: { breadcrumb: 'Approval Authorities' },
         loadChildren: () => import('@/views/approvalAuthority/approvalAuthority.module').then(c => c.ApprovalAuthorityModule),
       },
-  {
+      {
         path: 'userDelegations',
         data: { breadcrumb: 'User Delegations' },
         loadChildren: () => import('@/views/userDelegation/userDelegation.module').then(c => c.UserDelegationModule),
       },
-      
-         {
+      {
+        path: 'numberSequences',
+        data: { breadcrumb: 'Number Sequences' },
+        loadChildren: () => import('@/views/numberSequence/numberSequence.module').then(c => c.NumberSequenceModule),
+      },
+      {
+        path: 'auditLogs',
+        data: { breadcrumb: 'Audit Logs' },
+        loadChildren: () => import('@/views/auditLog/auditLog.module').then(c => c.AuditLogModule),
+      },
+      {
         path: 'supplierProfiles',
         data: { breadcrumb: 'Supplier Profiles' },
         loadChildren: () => import('@/views/supplierProfile/supplierProfile.module').then(c => c.SupplierProfileModule),
       },
-        {
+      {
         path: 'supplierServiceAreas',
         data: { breadcrumb: 'Supplier Service Areas' },
         loadChildren: () => import('@/views/supplierServiceArea/supplierServiceArea.module').then(c => c.SupplierServiceAreaModule),
@@ -226,21 +232,16 @@ const routes: Routes = [
         data: { breadcrumb: 'plan Features' },
         loadChildren: () => import('@/views/tenants/planFeature/planFeature.module').then(c => c.PlanFeatureModule),
       },
-
       {
         path: 'prospects',
         data: { breadcrumb: 'Prospects' },
         loadChildren: () => import('@/views/prospect/prospect.module').then(c => c.ProspectModule),
       },
-
       {
         path: 'supportTickets',
         data: { breadcrumb: 'Support Tickets' },
         loadChildren: () => import('@/views/supportTicket/supportTicket.module').then(c => c.SupportTicketModule),
       },
-
-
-
       {
         path: 'portalUsers',
         data: { breadcrumb: 'Portal Users' },
