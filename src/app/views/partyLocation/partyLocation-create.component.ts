@@ -82,8 +82,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: '1' });
-this.partyidOptions.push({Text: 'Party2', Value: '2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.locationidOptions.push({Text: 'Location1', Value: '1' });
 this.locationidOptions.push({Text: 'LOcation2', Value: '2' });
 this.partygstregistrationidOptions.push({Text: 'PartGST1', Value: '1' });

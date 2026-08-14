@@ -71,8 +71,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.partyidOptions.push({Text: 'Role1', Value: 'Role1' });
-this.partyidOptions.push({Text: 'Role2', Value: 'Role2' });
+
 this.applicationuseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
 this.applicationuseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
 this.partyroletypeOptions.push({Text: 'Customer', Value: 'Customer' });
@@ -113,6 +112,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IUserPartyAccess): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

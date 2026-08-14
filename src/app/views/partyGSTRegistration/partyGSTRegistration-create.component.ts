@@ -76,8 +76,10 @@ EffectiveTo: new FormControl(new Date(), []),
 IsDefault: new FormControl(false, []),
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: '1' });
-this.partyidOptions.push({Text: 'Party2', Value: '2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
 this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
 this.statecodeOptions.push({Text: 'MH', Value: 'MH' });

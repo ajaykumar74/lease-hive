@@ -84,8 +84,7 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+
 this.supplierprofileidOptions.push({Text: 'SupProfile1', Value: 'SupProfile1' });
 this.supplierprofileidOptions.push({Text: 'SubProfile2', Value: 'SubProfile2' });
 this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
@@ -131,6 +130,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: ISupplierServiceArea): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

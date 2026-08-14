@@ -78,8 +78,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
 this.accounttypeOptions.push({Text: 'Current', Value: 'Current' });
 this.accounttypeOptions.push({Text: 'Savings', Value: 'Savings' });
 this.accounttypeOptions.push({Text: 'Escrow', Value: 'Escrow' });
@@ -109,12 +107,20 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
         this.partyBankAccount = data.data;
 		this.permission = data.permission;
         this.objMaster = { ...this.partyBankAccount };
+        this.loadPartyOptions(this.partyBankAccount.PartyId);
         this.populateUI(this.partyBankAccount);
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
     }); 
   } 
+
+  private loadPartyOptions(selectedId?: number): void {
+    this.loggedInUserService.getPartyOptions(selectedId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
+  }
 
   populateUI(obj: IPartyBankAccount): void {  
     this.editForm.patchValue(

@@ -75,8 +75,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+
 this.customerprofileidOptions.push({Text: 'CustProfile1', Value: 'CustProfile1' });
 this.customerprofileidOptions.push({Text: 'CustProfile2', Value: 'CustProfile2' });
 this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
@@ -117,6 +116,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: ICustomerDepartment): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

@@ -78,8 +78,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: '1' });
-this.partyidOptions.push({Text: 'Party2', Value: '2' });
+    this.loadPartyOptions();
 this.accounttypeOptions.push({Text: 'Current', Value: 'Current' });
 this.accounttypeOptions.push({Text: 'Savings', Value: 'Savings' });
 this.accounttypeOptions.push({Text: 'Escrow', Value: 'Escrow' });
@@ -92,6 +91,13 @@ this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
+  }
+
+  private loadPartyOptions(): void {
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
   }
  
  loadUI(): void {

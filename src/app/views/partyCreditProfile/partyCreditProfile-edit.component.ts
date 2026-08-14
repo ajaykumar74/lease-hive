@@ -75,8 +75,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+
 this.creditpolicycodeOptions.push({Text: 'PAN', Value: 'PAN' });
 this.creditpolicycodeOptions.push({Text: 'GSTCertificate', Value: 'GSTCertificate' });
 this.creditpolicycodeOptions.push({Text: 'CINCertificate', Value: 'CINCertificate' });
@@ -129,6 +128,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyCreditProfile): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

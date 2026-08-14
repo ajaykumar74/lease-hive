@@ -44,6 +44,7 @@ export class PartyBankAccountService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
 }
 
 

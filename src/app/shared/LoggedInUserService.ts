@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { BaseService } from './IBaseService';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, throwError } from 'rxjs';
 
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { loggedInUser } from './IloggedInUser';
 import { IBrandPartner } from '@/views/brandPartner/brandPartner';
+import { ISelectItem } from './ISelectItem';
 
 @Injectable({
   providedIn: 'root',
@@ -112,6 +113,28 @@ export class LoggedInUserService {
 
   get headers(): HttpHeaders {
     return this.baseService.getHeaders();
+  }
+
+  getPartyOptions(selectedId?: number): Observable<ISelectItem[]> {
+    const tenant = this.loggedInUser?.Tenant;
+    const tenantId = tenant?.Id ?? tenant?.TenantId;
+
+    if (!tenantId) {
+      return throwError(() => 'Tenant information is not available for the logged-in user.');
+    }
+
+    const selectedIdQuery = selectedId && selectedId > 0
+      ? `&selectedId=${selectedId}`
+      : '';
+    const url = `${this.baseService.C_APP_URL}/Lookups/parties?tenantId=${tenantId}&pageSize=100${selectedIdQuery}`;
+
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
+      map(response => (response.data || []).map(item => ({
+        Id: item.Id,
+        Value: item.Id,
+        Text: item.DisplayText
+      })))
+    );
   }
 
 

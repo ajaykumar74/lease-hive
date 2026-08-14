@@ -72,8 +72,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+
 this.partylocationidOptions.push({Text: 'Location1', Value: 'Location1' });
 this.partylocationidOptions.push({Text: 'LOcation2', Value: 'LOcation2' });
 this.contacttypeOptions.push({Text: 'Person', Value: 'Person' });
@@ -108,6 +107,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyContact): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

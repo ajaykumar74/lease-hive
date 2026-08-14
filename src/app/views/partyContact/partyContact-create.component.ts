@@ -72,8 +72,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.partylocationidOptions.push({Text: 'Location1', Value: 'Location1' });
 this.partylocationidOptions.push({Text: 'LOcation2', Value: 'LOcation2' });
 this.contacttypeOptions.push({Text: 'Person', Value: 'Person' });

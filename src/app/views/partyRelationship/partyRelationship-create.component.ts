@@ -69,10 +69,13 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.frompartyidOptions.push({Text: 'Party1', Value: '1' });
-this.frompartyidOptions.push({Text: 'Party2', Value: '2' });
-this.topartyidOptions.push({Text: 'Party1', Value: '1' });
-this.topartyidOptions.push({Text: 'Party2', Value: '2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => {
+        this.frompartyidOptions = options;
+        this.topartyidOptions = [...options];
+      },
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 
 this.relationshiptypeOptions.push({Text: 'ParentCompany', Value: 'ParentCompany' });
 this.relationshiptypeOptions.push({Text: 'Child', Value: 'Child' });

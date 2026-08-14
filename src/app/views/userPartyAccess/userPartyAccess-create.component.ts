@@ -71,8 +71,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.partyidOptions.push({Text: 'Role1', Value: '1' });
-this.partyidOptions.push({Text: 'Role2', Value: '2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.applicationuseridOptions.push({Text: 'AppUser1', Value: '1' });
 this.applicationuseridOptions.push({Text: 'AppUser2', Value: '2' });
 this.partyroletypeOptions.push({Text: 'Customer', Value: 'Customer' });

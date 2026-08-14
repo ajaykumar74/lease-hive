@@ -69,10 +69,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.frompartyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.frompartyidOptions.push({Text: 'Party2', Value: 'Party2' });
-this.topartyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.topartyidOptions.push({Text: 'Party2', Value: 'Party2' });
 this.relationshiptypeOptions.push({Text: 'ParentCompany', Value: 'ParentCompany' });
 this.relationshiptypeOptions.push({Text: 'Child', Value: 'Child' });
 this.controltypeOptions.push({Text: 'Legal', Value: 'Legal' });
@@ -107,6 +103,14 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyRelationship): void {  
+    this.loggedInUserService.getPartyOptions(obj.FromPartyId).subscribe({
+      next: options => this.frompartyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
+    this.loggedInUserService.getPartyOptions(obj.ToPartyId).subscribe({
+      next: options => this.topartyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

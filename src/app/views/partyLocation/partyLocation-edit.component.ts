@@ -82,8 +82,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-  this.partyidOptions.push({Text: 'Party1', Value: '1' });
-this.partyidOptions.push({Text: 'Party2', Value: '2' });
+
 this.locationidOptions.push({Text: 'Location1', Value: '1' });
 this.locationidOptions.push({Text: 'LOcation2', Value: '2' });
 this.partygstregistrationidOptions.push({Text: 'PartGST1', Value: '1' });
@@ -128,6 +127,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyLocation): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

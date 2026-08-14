@@ -84,8 +84,10 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-    this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.supplierprofileidOptions.push({Text: 'SupProfile1', Value: 'SupProfile1' });
 this.supplierprofileidOptions.push({Text: 'SubProfile2', Value: 'SubProfile2' });
 this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });

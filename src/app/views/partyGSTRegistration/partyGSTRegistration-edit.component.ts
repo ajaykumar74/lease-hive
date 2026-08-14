@@ -76,8 +76,7 @@ IsDefault: new FormControl(false),
 
     });
 
-   this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+
 this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
 this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
 this.statecodeOptions.push({Text: 'MH', Value: 'MH' });
@@ -119,6 +118,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyGSTRegistration): void {  
+    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
