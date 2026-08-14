@@ -1,0 +1,56 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="supplierProfile.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Code" [value]="supplierProfile.SupplierCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Tier" [value]="supplierProfile.SupplierTier">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Category" [value]="supplierProfile.SupplierCategory">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Procurement Owner UserId" [value]="supplierProfile.ProcurementOwnerUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Owning Organisation UnitId" [value]="supplierProfile.OwningOrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default GST RegistrationId" [value]="supplierProfile.DefaultGSTRegistrationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Default Remittance Bank AccountId" [value]="supplierProfile.DefaultRemittanceBankAccountId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lead Time Days" [value]="supplierProfile.LeadTimeDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Minimum Order Value" [value]="supplierProfile.MinimumOrderValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default Payment TermsDays" [value]="supplierProfile.DefaultPaymentTermsDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lead Time Days" [value]="supplierProfile.LeadTimeDays">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Minimum Order Value" [value]="supplierProfile.MinimumOrderValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="supplierProfile.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Rating" [value]="supplierProfile.SupplierRating">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="OnTime Delivery Percentage" [value]="supplierProfile.OnTimeDeliveryPercentage">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quality Acceptance Percentage" [value]="supplierProfile.QualityAcceptancePercentage">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Purchase Blocked" [value]="supplierProfile.IsPurchaseBlocked">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Block Reason" [value]="supplierProfile.BlockReason">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="supplierProfile.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="supplierProfile.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="supplierProfile.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

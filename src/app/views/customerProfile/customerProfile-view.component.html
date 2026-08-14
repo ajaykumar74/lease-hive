@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="customerProfile.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Code" [value]="customerProfile.CustomerCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Segment" [value]="customerProfile.CustomerSegment">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Category" [value]="customerProfile.CustomerCategory">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Relationship Manager UserId" [value]="customerProfile.RelationshipManagerUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Owning Organisation UnitId" [value]="customerProfile.OwningOrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default GST RegistrationId" [value]="customerProfile.DefaultGSTRegistrationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Default Billing LocationId" [value]="customerProfile.DefaultBillingLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default Delivery LocationId" [value]="customerProfile.DefaultDeliveryLocationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Default Payment Terms Days" [value]="customerProfile.DefaultPaymentTermsDays">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Preferred Billing Frequency" [value]="customerProfile.PreferredBillingFrequency">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Purchase Order Required" [value]="customerProfile.PurchaseOrderRequired">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Since Date" [value]="customerProfile.CustomerSinceDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="customerProfile.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="customerProfile.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="customerProfile.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

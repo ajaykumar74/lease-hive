@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="User Name" [value]="applicationUser.UserName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Display Name" [value]="applicationUser.DisplayName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Email" [value]="applicationUser.Email">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Mobile Country Code" [value]="applicationUser.MobileCountryCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Mobile Number" [value]="applicationUser.MobileNumber">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Identity Provider" [value]="applicationUser.IdentityProvider">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="External SubjectId" [value]="applicationUser.ExternalSubjectId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="User Type" [value]="applicationUser.UserType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Party ContactId" [value]="applicationUser.PartyContactId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset UserId" [value]="applicationUser.AssetUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default Organisation UnitId" [value]="applicationUser.DefaultOrganisationUnitId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Time ZoneId" [value]="applicationUser.TimeZoneId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Last Login At" [value]="applicationUser.LastLoginDateTime">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Failed LoginCount" [value]="applicationUser.FailedLoginCount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="applicationUser.RecordStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="applicationUser.EffectiveFrom">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -288,12 +288,12 @@ export class AppMenu {
                                 {
                                     label: 'Customer profiles',
                                     icon: 'pi pi-fw pi-times-circle',
-                                    routerLink: ['/auth/error'],
+                                    routerLink: ['/dashboard/customerProfiles/list'],
                                 },
                                 {
                                     label: 'Supplier profiles',
                                     icon: 'pi pi-fw pi-lock',
-                                    routerLink: ['/auth/access'],
+                                    routerLink: ['/dashboard/supplierProfiles/list'],
                                 },
                                 {
                                     label: 'Party roles',
@@ -371,20 +371,46 @@ export class AppMenu {
                                 {
                                     label: 'Application users',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
+                                    routerLink: ['/dashboard/applicationUsers/list'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Asset users',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
+                                    routerLink: ['/dashboard/assetUsers/list'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Roles and permissions',
-                                    icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/admin/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    icon: 'pi pi-fw pi-home',  
+                                    items: [
+                                          {
+                                            label: 'Roles',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/roles/list']
+                                        },
+                                        {
+                                            label: 'Permissions',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/permissions/list']
+                                        },
+                                         {
+                                            label: 'User Roles',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/userRoles/list']
+                                        },
+                                          {
+                                            label: 'User Organisation Units',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/userOrganisationUnits/list']
+                                        },
+                                         {
+                                            label: 'User Party Access',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/userPartyAccesss/list']
+                                        },
+                                          
+                                    ]
                                 },
                                 {
                                     label: 'Organisation scope',
@@ -394,12 +420,12 @@ export class AppMenu {
                                 }, {
                                     label: 'Approval authority',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
+                                   routerLink: ['/dashboard/approvalAuthoritys/list'],
                                     tooltip: '',
                                 }, {
                                     label: 'Delegation',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
+                                    routerLink: ['/dashboard/userDelegations/list/'],
                                     tooltip: '',
                                 }
                             ],

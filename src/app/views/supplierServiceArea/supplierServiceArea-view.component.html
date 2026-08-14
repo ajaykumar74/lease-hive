@@ -1,0 +1,53 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="supplierServiceArea.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier ProfileId" [value]="supplierServiceArea.SupplierProfileId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Party LocationId" [value]="supplierServiceArea.PartyLocationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Country Code" [value]="supplierServiceArea.CountryCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="State Province Code" [value]="supplierServiceArea.StateProvinceCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="City" [value]="supplierServiceArea.City">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Postal Code Pattern" [value]="supplierServiceArea.PostalCodePattern">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset CategoryId" [value]="supplierServiceArea.AssetCategoryId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset TypeId" [value]="supplierServiceArea.AssetTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Can Supply" [value]="supplierServiceArea.CanSupply">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Can Install" [value]="supplierServiceArea.CanInstall">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Can Maintain" [value]="supplierServiceArea.CanMaintain">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Can Inspect" [value]="supplierServiceArea.CanInspect">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Can Recover" [value]="supplierServiceArea.CanRecover">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Can Dispose" [value]="supplierServiceArea.CanDispose">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Standard Lead Time Days" [value]="supplierServiceArea.StandardLeadTimeDays">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="supplierServiceArea.RecordStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="supplierServiceArea.EffectiveFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="supplierServiceArea.EffectiveTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Description" [value]="supplierServiceArea.Description">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

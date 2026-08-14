@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ProcessCode" [value]="approvalAuthority.ProcessCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="ApprovalLevel" [value]="approvalAuthority.ApprovalLevel">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AuthorityType" [value]="approvalAuthority.AuthorityType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RoleId" [value]="approvalAuthority.RoleId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ApplicationUserId" [value]="approvalAuthority.ApplicationUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="OrganisationUnitId" [value]="approvalAuthority.OrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="MinimumAmount" [value]="approvalAuthority.MinimumAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="MaximumAmount" [value]="approvalAuthority.MaximumAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RequiredApproverCount" [value]="approvalAuthority.RequiredApproverCount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CanDelegate" [value]="approvalAuthority.CanDelegate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="approvalAuthority.RecordStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="approvalAuthority.EffectiveFrom">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RoleId" [value]="userRole.RoleId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Application UserId" [value]="userRole.ApplicationUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Scope Type" [value]="userRole.ScopeType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Scope ReferenceId" [value]="userRole.ScopeReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assigned By" [value]="userRole.AssignedById">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assigned At" [value]="userRole.AssignedAt">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Is Delegated" [value]="userRole.IsDelegated">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="userRole.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="userRole.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="userRole.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

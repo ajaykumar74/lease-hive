@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer ProfileId" [value]="assetUser.CustomerProfileId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Party LocationId" [value]="assetUser.PartyLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer DepartmentId" [value]="assetUser.CustomerDepartmentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="User Type" [value]="assetUser.UserType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Employee Code" [value]="assetUser.EmployeeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Full Name" [value]="assetUser.FullName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Designation" [value]="assetUser.Designation">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Email" [value]="assetUser.Email">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Mobile CountryCode" [value]="assetUser.MobileCountryCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Mobile Number" [value]="assetUser.MobileNumber">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Driving Licence Number" [value]="assetUser.DrivingLicenceNumber">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Driving Licence ExpiryDate" [value]="assetUser.DrivingLicenceExpiryDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="NationalId Masked" [value]="assetUser.NationalIdMasked">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Emergency Contact Name" [value]="assetUser.EmergencyContactName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Emergency Contact Mobile" [value]="assetUser.EmergencyContactMobile">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="assetUser.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="assetUser.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetUser.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

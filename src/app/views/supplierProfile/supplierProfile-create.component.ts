@@ -1,0 +1,258 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common'; 
+
+
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { ISupplierProfile } from './supplierProfile';
+import { SupplierProfileService } from './supplierProfile.service';
+
+@Component({
+  selector: 'app-supplierProfile-create',
+  standalone: false,
+  templateUrl: './supplierProfile-create.component.html' ,
+   providers: [ MessageService]
+})
+export class SupplierProfileCreateComponent implements OnInit {
+
+   
+  selectedId: number; 
+  isLoading : boolean = false;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  supplierProfile: ISupplierProfile = null;
+  partyidOptions: ISelectItem[] = [];
+suppliertierOptions: ISelectItem[] = [];
+suppliercategoryOptions: ISelectItem[] = [];
+procurementowneruseridOptions: ISelectItem[] = [];
+owningorganisationunitidOptions: ISelectItem[] = [];
+defaultgstregistrationidOptions: ISelectItem[] = [];
+defaultremittancebankaccountidOptions: ISelectItem[] = [];
+currencycodeOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+  editForm: any; 
+  objMaster : ISupplierProfile = {} as ISupplierProfile;
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+  constructor(
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location, 
+	private supplierProfileService: SupplierProfileService,
+	private loggedInUserService : LoggedInUserService
+	
+  ) {
+  }
+ 
+
+ 
+
+  
+  ngOnInit(): void {
+   this.objMaster = { ...this.supplierProfile };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, []),
+PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+SupplierTier: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+SupplierCategory: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+ProcurementOwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+OwningOrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+DefaultGSTRegistrationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+DefaultRemittanceBankAccountId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeadTimeDays: new FormControl(0, [Validators.min(0), Validators.max(255)]),
+MinimumOrderValue: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+DefaultPaymentTermsDays: new FormControl(0, [Validators.min(0), Validators.max(255)]), 
+CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
+SupplierRating: new FormControl(0, []),
+OnTimeDeliveryPercentage: new FormControl(0, []),
+QualityAcceptancePercentage: new FormControl(0, []),
+IsPurchaseBlocked: new FormControl(false, []),
+BlockReason: new FormControl('', [Validators.maxLength(100), ]), 
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+EffectiveTo: new FormControl(new Date(), []),
+Description: new FormControl('', [Validators.maxLength(100), ]), 
+
+    });
+    this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
+this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
+this.suppliertierOptions.push({Text: 'Strategic', Value: 'Strategic' });
+this.suppliertierOptions.push({Text: 'Preferred', Value: 'Preferred' });
+this.suppliertierOptions.push({Text: 'Approved', Value: 'Approved' });
+this.suppliertierOptions.push({Text: 'Conditional', Value: 'Conditional' });
+this.suppliertierOptions.push({Text: 'Blocked', Value: 'Blocked' });
+this.suppliercategoryOptions.push({Text: '"OEM', Value: '"OEM' });
+this.procurementowneruseridOptions.push({Text: 'Employee1', Value: 'Employee1' });
+this.procurementowneruseridOptions.push({Text: 'Employee2', Value: 'Employee2' });
+this.owningorganisationunitidOptions.push({Text: 'Org1', Value: 'Org1' });
+this.owningorganisationunitidOptions.push({Text: 'Org2', Value: 'Org2' });
+this.defaultgstregistrationidOptions.push({Text: 'PartyGST1', Value: 'PartyGST1' });
+this.defaultgstregistrationidOptions.push({Text: 'PartyGST2', Value: 'PartyGST2' });
+this.defaultremittancebankaccountidOptions.push({Text: 'BankAcId1', Value: 'BankAcId1' });
+this.defaultremittancebankaccountidOptions.push({Text: 'BankAcId2', Value: 'BankAcId2' });
+this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
+this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
+this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+
+  }
+ 
+ loadUI(): void {
+    this.isLoading = true;    
+    this.supplierProfileService.getById(this.selectedId).subscribe({
+      next: data => {
+        this.supplierProfile = data;
+        this.objMaster = { ...this.supplierProfile };
+        this.populateUI(data);
+      },
+      error: err => {  this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  }  
+
+
+  populateUI(obj: ISupplierProfile): void {
+     this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  PartyId: obj.PartyId || 0,
+SupplierCode: obj.SupplierCode || '',
+SupplierTier: obj.SupplierTier || '',
+SupplierCategory: obj.SupplierCategory || '',
+ProcurementOwnerUserId: obj.ProcurementOwnerUserId || 0,
+OwningOrganisationUnitId: obj.OwningOrganisationUnitId || 0,
+DefaultGSTRegistrationId: obj.DefaultGSTRegistrationId || 0,
+DefaultRemittanceBankAccountId: obj.DefaultRemittanceBankAccountId || 0,
+LeadTimeDays: obj.LeadTimeDays || 0,
+MinimumOrderValue: obj.MinimumOrderValue || 0,
+DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0, 
+CurrencyCode: obj.CurrencyCode || '',
+SupplierRating: obj.SupplierRating || 0,
+OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
+QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
+IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
+BlockReason: obj.BlockReason || '',
+RecordStatus: obj.RecordStatus || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+Description: obj.Description || '',
+ 
+      }
+    );
+  }
+
+ 
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/supplierProfiles/create']);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
+  }
+
+  onCancel(): void {
+    this.supplierProfile = { ...this.objMaster };
+    var obj  = this.supplierProfile;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  PartyId: obj.PartyId || 0,
+SupplierCode: obj.SupplierCode || '',
+SupplierTier: obj.SupplierTier || '',
+SupplierCategory: obj.SupplierCategory || '',
+ProcurementOwnerUserId: obj.ProcurementOwnerUserId || 0,
+OwningOrganisationUnitId: obj.OwningOrganisationUnitId || 0,
+DefaultGSTRegistrationId: obj.DefaultGSTRegistrationId || 0,
+DefaultRemittanceBankAccountId: obj.DefaultRemittanceBankAccountId || 0,
+LeadTimeDays: obj.LeadTimeDays || 0,
+MinimumOrderValue: obj.MinimumOrderValue || 0,
+DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0, 
+CurrencyCode: obj.CurrencyCode || '',
+SupplierRating: obj.SupplierRating || 0,
+OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
+QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
+IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
+BlockReason: obj.BlockReason || '',
+RecordStatus: obj.RecordStatus || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+Description: obj.Description || '',
+ 
+      }
+    );
+    this.editForm.reset(); 
+  } 
+
+  Save(): void {    
+   
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }	
+  
+  
+	const formValues  = this.editForm.value ;
+	var createdObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     PartyId: formValues.PartyId || 0,
+SupplierCode: formValues.SupplierCode || null,
+SupplierTier: formValues.SupplierTier || null,
+SupplierCategory: formValues.SupplierCategory || null,
+ProcurementOwnerUserId: formValues.ProcurementOwnerUserId || 0,
+OwningOrganisationUnitId: formValues.OwningOrganisationUnitId || 0,
+DefaultGSTRegistrationId: formValues.DefaultGSTRegistrationId || 0,
+DefaultRemittanceBankAccountId: formValues.DefaultRemittanceBankAccountId || 0,
+LeadTimeDays: formValues.LeadTimeDays || null,
+MinimumOrderValue: formValues.MinimumOrderValue || 0,
+DefaultPaymentTermsDays: formValues.DefaultPaymentTermsDays || null, 
+CurrencyCode: formValues.CurrencyCode || null,
+SupplierRating: formValues.SupplierRating || 0,
+OnTimeDeliveryPercentage: formValues.OnTimeDeliveryPercentage || 0,
+QualityAcceptancePercentage: formValues.QualityAcceptancePercentage || 0,
+IsPurchaseBlocked: formValues.IsPurchaseBlocked || false,
+BlockReason: formValues.BlockReason || null,
+RecordStatus: formValues.RecordStatus || null,
+EffectiveFrom: formValues.EffectiveFrom || null,
+EffectiveTo: formValues.EffectiveTo || null,
+Description: formValues.Description || null,
+
+    } as ISupplierProfile ; 
+	
+	  this.spinner.show(); 
+    this.supplierProfileService.create(createdObj).subscribe({
+      next: data => {	   
+         // this.messageService.showSuccess(SupplierProfile +  'Details Updated sucessfully.');
+		 this._location.back();     
+      },
+      error: err => { 
+	   this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide(); }
+    });
+  } 
+
+}
+
+
+

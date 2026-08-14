@@ -1,0 +1,102 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="RoleId" class="mb-1">RoleId</label>
+        <p-dropdown
+            inputId="RoleId" 
+            [options]="roleidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RoleId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RoleId')"
+											label="RoleId">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Permission Id" class="mb-1">PermissionId</label>
+        <p-dropdown
+            inputId="PermissionId" 
+            [options]="permissionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PermissionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PermissionId')"
+											label="Permission Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Grant Type" class="mb-1">GrantType</label>
+        <p-dropdown
+            inputId="GrantType" 
+            [options]="granttypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="GrantType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('GrantType')"
+											label="Grant Type">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 					
+							<label for="ConstraintJson">Constraint Json 
+							</label> 
+							<input pInputText id="ConstraintJson" type="text" pSize="small"	formControlName="ConstraintJson"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ConstraintJson')"
+											label="Constraint Json">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

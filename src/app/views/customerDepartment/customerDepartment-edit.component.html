@@ -1,0 +1,159 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="PartyId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Customer ProfileId" class="mb-1">CustomerProfileId</label>
+        <p-dropdown
+            inputId="CustomerProfileId" 
+            [options]="customerprofileidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CustomerProfileId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerProfileId')"
+											label="Customer ProfileId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Party LocationId" class="mb-1">PartyLocationId</label>
+        <p-dropdown
+            inputId="PartyLocationId" 
+            [options]="partylocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyLocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyLocationId')"
+											label="Party LocationId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Parent Customer DepartmentId" class="mb-1">ParentCustomerDepartmentId</label>
+        <p-dropdown
+            inputId="ParentCustomerDepartmentId" 
+            [options]="parentcustomerdepartmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ParentCustomerDepartmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ParentCustomerDepartmentId')"
+											label="Parent Customer DepartmentId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="DepartmentCode">Department Code 
+							</label> 
+							<input pInputText id="DepartmentCode" type="text" pSize="small"	formControlName="DepartmentCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentCode')"
+											label="Department Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="DepartmentName">Department Name 
+							</label> 
+							<input pInputText id="DepartmentName" type="text" pSize="small"	formControlName="DepartmentName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentName')"
+											label="Department Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CostCentre Code" class="mb-1">CostCentreCode</label>
+        <p-dropdown
+            inputId="CostCentreCode" 
+            [options]="costcentrecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CostCentreCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CostCentreCode')"
+											label="CostCentre Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Department Head ContactId" class="mb-1">DepartmentHeadContactId</label>
+        <p-dropdown
+            inputId="DepartmentHeadContactId" 
+            [options]="departmentheadcontactidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DepartmentHeadContactId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentHeadContactId')"
+											label="Department Head ContactId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Billing Reference" class="mb-1">BillingReference</label>
+        <p-dropdown
+            inputId="BillingReference" 
+            [options]="billingreferenceOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="BillingReference"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('BillingReference')"
+											label="Billing Reference">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

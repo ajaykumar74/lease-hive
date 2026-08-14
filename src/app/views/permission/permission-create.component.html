@@ -1,0 +1,122 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PermissionCode">Permission Code 
+							</label> 
+							<input pInputText id="PermissionCode" type="text" pSize="small"	formControlName="PermissionCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PermissionCode')"
+											label="Permission Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Module Code" class="mb-1">ModuleCode</label>
+        <p-dropdown
+            inputId="ModuleCode" 
+            [options]="modulecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ModuleCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ModuleCode')"
+											label="Module Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Resource Type" class="mb-1">ResourceType</label>
+        <p-dropdown
+            inputId="ResourceType" 
+            [options]="resourcetypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ResourceType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ResourceType')"
+											label="Resource Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="ResourceName">Resource Name 
+							</label> 
+							<input pInputText id="ResourceName" type="text" pSize="small"	formControlName="ResourceName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ResourceName')"
+											label="Resource Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Action Name" class="mb-1">ActionName</label>
+        <p-dropdown
+            inputId="ActionName" 
+            [options]="actionnameOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ActionName"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ActionName')"
+											label="Action Name">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Description')"
+											label="Description">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsSensitive" binary="true" formControlName="IsSensitive">
+											</p-checkbox>
+											<label for="IsSensitive">Is Sensitive</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>
