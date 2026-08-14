@@ -66,8 +66,7 @@ export class RolePermissionCreateComponent implements OnInit {
       EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.granttypeOptions.push({ Text: 'Allow', Value: 'Allow' });
-    this.granttypeOptions.push({ Text: 'Deny', Value: 'Deny' });
+this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType');
         this.loggedInUserService.getLookupOptions('permissions').subscribe({
       next: options => this.permissionidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -76,8 +75,7 @@ export class RolePermissionCreateComponent implements OnInit {
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-    this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 

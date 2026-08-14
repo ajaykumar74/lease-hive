@@ -74,7 +74,7 @@ export class DocumentCreateComponent implements OnInit {
       FileType: new FormControl(''),
       Size: 0
     });
-    this.discounttypeOptions.push({ Text: '', Value: '' });
+this.discounttypeOptions = this.loggedInUserService.getPicklistOptions('DiscountType');
   }
 
   ngAfterViewInit(): void {

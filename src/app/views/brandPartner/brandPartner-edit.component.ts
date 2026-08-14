@@ -91,9 +91,9 @@ export class BrandPartnerEditComponent implements OnInit {
 
     this.countryOptions.push({ Text: '', Value: '' });
     this.currencysymbolOptions.push({ Text: '', Value: '' });
-    this.timezoneOptions.push({ Text: '', Value: '' });
-    this.dateformatOptions.push({ Text: '', Value: '' });
-    this.timeformatOptions.push({ Text: '', Value: '' });
+this.timezoneOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.dateformatOptions = this.loggedInUserService.getPicklistOptions('DateFormat');
+this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat');
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

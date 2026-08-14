@@ -68,22 +68,10 @@ export class PermissionEditComponent implements OnInit {
       EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-    this.modulecodeOptions.push({ Text: 'Party', Value: 'Party' });
-    this.modulecodeOptions.push({ Text: 'Organization', Value: 'Organization' });
-    this.resourcetypeOptions.push({ Text: 'Screen', Value: 'Screen' });
-    this.resourcetypeOptions.push({ Text: 'API', Value: 'API' });
-    this.resourcetypeOptions.push({ Text: 'Report', Value: 'Report' });
-    this.resourcetypeOptions.push({ Text: 'Entity', Value: 'Entity' });
-    this.resourcetypeOptions.push({ Text: 'Action', Value: 'Action' });
-    this.actionnameOptions.push({ Text: 'View', Value: 'View' });
-    this.actionnameOptions.push({ Text: 'Create', Value: 'Create' });
-    this.actionnameOptions.push({ Text: 'Update', Value: 'Update' });
-    this.actionnameOptions.push({ Text: 'Delete', Value: 'Delete' });
-    this.actionnameOptions.push({ Text: 'Approve', Value: 'Approve' });
-    this.actionnameOptions.push({ Text: 'Export', Value: 'Export' });
-    this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-    this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+this.modulecodeOptions = this.loggedInUserService.getPicklistOptions('ModuleCode');
+this.resourcetypeOptions = this.loggedInUserService.getPicklistOptions('ResourceType');
+this.actionnameOptions = this.loggedInUserService.getPicklistOptions('ActionName');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

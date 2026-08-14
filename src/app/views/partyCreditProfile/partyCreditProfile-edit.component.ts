@@ -81,13 +81,8 @@ this.creditpolicycodeOptions.push({Text: 'GSTCertificate', Value: 'GSTCertificat
 this.creditpolicycodeOptions.push({Text: 'CINCertificate', Value: 'CINCertificate' });
 this.creditpolicycodeOptions.push({Text: 'BankProof', Value: 'BankProof' });
 this.creditpolicycodeOptions.push({Text: 'AddressProof', Value: 'AddressProof' });
-this.riskgradeOptions.push({Text: 'A', Value: 'A' });
-this.riskgradeOptions.push({Text: 'B', Value: 'B' });
-this.riskgradeOptions.push({Text: 'C', Value: 'C' });
-this.riskgradeOptions.push({Text: 'D', Value: 'D' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.riskgradeOptions = this.loggedInUserService.getPicklistOptions('RiskGrade');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.reviewfrequencymonthsOptions.push({Text: '1', Value: '1' });
 this.reviewfrequencymonthsOptions.push({Text: '2', Value: '2' });
 this.reviewfrequencymonthsOptions.push({Text: '3', Value: '3' });
@@ -100,8 +95,7 @@ this.reviewfrequencymonthsOptions.push({Text: '9', Value: '9' });
 this.reviewfrequencymonthsOptions.push({Text: '10', Value: '10' });
 this.reviewfrequencymonthsOptions.push({Text: '11', Value: '11' });
 this.reviewfrequencymonthsOptions.push({Text: '12', Value: '12' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

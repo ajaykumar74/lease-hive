@@ -74,11 +74,7 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
   next: options => this.applicationuseridOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
 });
-this.scopetypeOptions.push({Text: 'Tenant', Value: 'Tenant' });
-this.scopetypeOptions.push({Text: 'Organisation', Value: 'Organisation' });
-this.scopetypeOptions.push({Text: 'OrganisationUnit', Value: 'OrganisationUnit' });
-this.scopetypeOptions.push({Text: 'Party', Value: 'Party' });
-this.scopetypeOptions.push({Text: 'Self', Value: 'Self' });
+this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType');
     this.loggedInUserService.getLookupOptions('application-users').subscribe({
       next: options => this.assignedbyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -87,8 +83,7 @@ this.scopetypeOptions.push({Text: 'Self', Value: 'Self' });
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

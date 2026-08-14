@@ -89,15 +89,9 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.suppliertierOptions.push({Text: 'Strategic', Value: 'Strategic' });
-this.suppliertierOptions.push({Text: 'Preferred', Value: 'Preferred' });
-this.suppliertierOptions.push({Text: 'Approved', Value: 'Approved' });
-this.suppliertierOptions.push({Text: 'Conditional', Value: 'Conditional' });
-this.suppliertierOptions.push({Text: 'Blocked', Value: 'Blocked' });
-this.suppliercategoryOptions.push({Text: '"OEM', Value: '"OEM' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.suppliertierOptions = this.loggedInUserService.getPicklistOptions('SupplierTier');
+this.suppliercategoryOptions = this.loggedInUserService.getPicklistOptions('SupplierCategory');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.loggedInUserService.getLookupOptions('party-gst-registrations').subscribe({
       next: options => this.defaultgstregistrationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -114,8 +108,7 @@ this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
       next: options => this.procurementowneruseridOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

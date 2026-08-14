@@ -69,8 +69,7 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
     });
 this.externalledgercodeOptions.push({Text: 'Ledger1', Value: 'Ledger1' });
 this.externalledgercodeOptions.push({Text: 'Ledger2', Value: 'Ledger2' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

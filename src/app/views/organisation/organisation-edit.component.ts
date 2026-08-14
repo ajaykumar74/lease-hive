@@ -76,23 +76,13 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.organisationtypeOptions.push({Text: 'Private', Value: 'Private' });
-this.organisationtypeOptions.push({Text: 'Limited', Value: 'Limited' });
-this.organisationtypeOptions.push({Text: 'Company', Value: 'Company' });
-this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
-this.countrycodeOptions.push({Text: 'US', Value: 'US' });
-this.functionalcurrencyOptions.push({Text: 'INR', Value: 'INR' });
-this.functionalcurrencyOptions.push({Text: 'USD', Value: 'USD' });
-this.timezoneidOptions.push({Text: 'UTC', Value: 'UTC' });
-this.timezoneidOptions.push({Text: 'IST', Value: 'IST' });
-this.financialyearstartmonthOptions.push({Text: 'Jan', Value: 'Jan' });
-this.financialyearstartmonthOptions.push({Text: 'Feb', Value: 'Feb' });
-this.financialyearstartmonthOptions.push({Text: '', Value: '' });
-this.taxsystemOptions.push({Text: 'GST', Value: 'GST' });
-this.taxsystemOptions.push({Text: 'VAT', Value: 'VAT' });
-this.statusOptions.push({Text: 'Active', Value: 'Active' });
-this.statusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.organisationtypeOptions = this.loggedInUserService.getPicklistOptions('OrganisationType');
+this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.functionalcurrencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
+this.taxsystemOptions = this.loggedInUserService.getPicklistOptions('TaxSystem');
+this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

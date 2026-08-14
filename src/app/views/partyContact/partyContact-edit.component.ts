@@ -71,12 +71,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
-this.contacttypeOptions.push({Text: 'Person', Value: 'Person' });
-this.contacttypeOptions.push({Text: 'DepartmentMailbox', Value: 'DepartmentMailbox' });
-this.contacttypeOptions.push({Text: 'Helpdesk', Value: 'Helpdesk' });
-this.contacttypeOptions.push({Text: 'Other', Value: 'Other' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

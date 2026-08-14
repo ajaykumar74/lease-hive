@@ -70,16 +70,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
-this.countrycodeOptions.push({Text: 'USA', Value: 'USA' });
-this.countrycodeOptions.push({Text: 'UK', Value: 'UK' });
-this.stateprovincecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.stateprovincecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.stateprovincecodeOptions.push({Text: 'DL', Value: 'DL' });
-this.timezoneidOptions.push({Text: 'UTC', Value: 'UTC' });
-this.timezoneidOptions.push({Text: 'IST', Value: 'IST' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

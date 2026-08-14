@@ -99,8 +99,7 @@ this.billingreferenceOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

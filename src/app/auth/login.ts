@@ -158,7 +158,14 @@ export class Login {
           user.Tenant = data.Tenant;
           
           this.loggedInUserService.updateloggedInUser(user);
-          this.router.navigate(['dashboard/']);
+          this.loggedInUserService.loadPicklistCache().subscribe({
+            next: () => this.router.navigate(['dashboard/']),
+            error: err => {
+              this.submitted = false;
+              this.btnCaption = 'Login';
+              this.messageService.add({ severity: 'error', summary: '', detail: err });
+            }
+          });
          /*  if (this.loggedInUserService.loggedInUser.AccountType == 'Customer') {
             this.router.navigate(['dashboard/']);
           }

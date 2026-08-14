@@ -86,8 +86,7 @@ export class DocumentEditComponent implements OnInit {
       IssuedOnDate: new FormControl(null),
       ValidTillDate: new FormControl(null),
     });
-
-    this.discounttypeOptions.push({ Text: '', Value: '' });
+this.discounttypeOptions = this.loggedInUserService.getPicklistOptions('DiscountType');
     this.selectedId = this.activatedRouter.snapshot.params['id'];
 
   }

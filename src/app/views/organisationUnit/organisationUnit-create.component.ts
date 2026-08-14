@@ -77,17 +77,12 @@ Description: new FormControl('', [Validators.maxLength(256), ]),
 
     });
     // Keep the optional entry visually blank without allowing the dropdown label to collapse.
-
-this.unittypeOptions.push({Text: 'Branch', Value: 'Branch' });
-this.unittypeOptions.push({Text: 'Hub', Value: 'Hub' });
-this.unittypeOptions.push({Text: 'Warehouse', Value: 'Warehouse' });
-this.unittypeOptions.push({Text: 'ServiceCenter', Value: 'ServiceCenter' });
+this.unittypeOptions = this.loggedInUserService.getPicklistOptions('UnitType');
 this.costcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.costcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
 this.profitcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.profitcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
-this.statusOptions.push({Text: 'Active', Value: 'Active' });
-this.statusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
     this.loggedInUserService.getLookupOptions('locations').subscribe({
       next: options => this.defaultlocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))

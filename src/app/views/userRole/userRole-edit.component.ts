@@ -69,14 +69,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-this.scopetypeOptions.push({Text: 'Tenant', Value: 'Tenant' });
-this.scopetypeOptions.push({Text: 'Organisation', Value: 'Organisation' });
-this.scopetypeOptions.push({Text: 'OrganisationUnit', Value: 'OrganisationUnit' });
-this.scopetypeOptions.push({Text: 'Party', Value: 'Party' });
-this.scopetypeOptions.push({Text: 'Self', Value: 'Self' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -72,11 +72,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.authoritytypeOptions.push({Text: 'Role', Value: 'Role' });
-this.authoritytypeOptions.push({Text: 'User', Value: 'User' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

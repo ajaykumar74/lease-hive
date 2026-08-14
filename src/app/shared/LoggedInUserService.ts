@@ -20,6 +20,7 @@ export class LoggedInUserService {
   private loggedInUserSubject: BehaviorSubject<loggedInUser>;
   public loggedInUserEvent$: Observable<loggedInUser>;
   private datePipe: DatePipe = new DatePipe('en-US');
+  private picklistCache = new Map<string, ISelectItem[]>();
   // private _brandPartner : IBrandPartner ;
   constructor(
     private http: HttpClient,
@@ -89,10 +90,12 @@ export class LoggedInUserService {
     this.baseService.timeZoneId = user?.BrandPartner?.TimeZone;
 
     this.loggedInUserEvent$ = this.loggedInUserSubject.asObservable();
+    this.restorePicklistCache();
   }
 
 
   public updateloggedInUser(user: loggedInUser): void {
+    this.clearPicklistCache();
     localStorage.setItem('loggedInUser', JSON.stringify(user));
     this.baseService.timeZoneId = user.BrandPartner?.TimeZone;
     this.loggedInUserSubject.next(user);
@@ -107,12 +110,73 @@ export class LoggedInUserService {
     localStorage.removeItem('jwt'); // Clear token from local storage
     localStorage.removeItem('refreshToken');
     this.baseService.resetProperties(); // Reset all properties in BaseService
+    this.clearPicklistCache();
 
   }
 
 
   get headers(): HttpHeaders {
     return this.baseService.getHeaders();
+  }
+
+  loadPicklistCache(): Observable<void> {
+    const tenant = this.loggedInUser?.Tenant;
+    const tenantId = tenant?.Id ?? tenant?.TenantId;
+    if (!tenantId) return throwError(() => 'Tenant information is not available for the logged-in user.');
+    const url = `${this.baseService.C_APP_URL}/PicklistItems/bootstrap?tenantId=${tenantId}`;
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
+      map(response => {
+        this.picklistCache.clear();
+        for (const item of (response.data || [])) {
+          const key = this.normalizePicklistCategory(item.Category);
+          const options = this.picklistCache.get(key) || [];
+          options.push({ Id: item.Id, Value: item.ItemName, Text: item.ItemName });
+          this.picklistCache.set(key, options);
+        }
+        const tenant = this.loggedInUser?.Tenant;
+        const tenantId = tenant?.Id ?? tenant?.TenantId;
+        sessionStorage.setItem('picklistCache', JSON.stringify({ tenantId, items: response.data || [] }));
+      })
+    );
+  }
+
+  refreshPicklistCache(): Observable<void> {
+    return this.loadPicklistCache();
+  }
+
+  getPicklistOptions(category: string): ISelectItem[] {
+    return [...(this.picklistCache.get(this.normalizePicklistCategory(category)) || [])];
+  }
+
+  clearPicklistCache(): void {
+    this.picklistCache.clear();
+    sessionStorage.removeItem('picklistCache');
+  }
+
+  private restorePicklistCache(): void {
+    const stored = sessionStorage.getItem('picklistCache');
+    if (!stored) return;
+    try {
+      const cached = JSON.parse(stored);
+      const tenant = this.loggedInUser?.Tenant;
+      const tenantId = tenant?.Id ?? tenant?.TenantId;
+      if (!tenantId || cached.tenantId !== tenantId) {
+        sessionStorage.removeItem('picklistCache');
+        return;
+      }
+      for (const item of (cached.items || [])) {
+        const key = this.normalizePicklistCategory(item.Category);
+        const options = this.picklistCache.get(key) || [];
+        options.push({ Id: item.Id, Value: item.ItemName, Text: item.ItemName });
+        this.picklistCache.set(key, options);
+      }
+    } catch {
+      sessionStorage.removeItem('picklistCache');
+    }
+  }
+
+  private normalizePicklistCategory(category: string): string {
+    return (category || '').trim().toLowerCase();
   }
 
   getLookupOptions(

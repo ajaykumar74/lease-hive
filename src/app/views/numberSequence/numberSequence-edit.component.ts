@@ -72,16 +72,9 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.entitytypeOptions.push({Text: 'Customer', Value: 'Customer' });
-this.entitytypeOptions.push({Text: 'Party', Value: 'Party' });
-this.entitytypeOptions.push({Text: 'SupplierProfile', Value: 'SupplierProfile' });
-this.resetfrequencyOptions.push({Text: 'Never', Value: 'Never' });
-this.resetfrequencyOptions.push({Text: 'Yearly', Value: 'Yearly' });
-this.resetfrequencyOptions.push({Text: 'Monthly', Value: 'Monthly' });
-this.resetfrequencyOptions.push({Text: 'Daily', Value: 'Daily' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.entitytypeOptions = this.loggedInUserService.getPicklistOptions('EntityType');
+this.resetfrequencyOptions = this.loggedInUserService.getPicklistOptions('ResetFrequency');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

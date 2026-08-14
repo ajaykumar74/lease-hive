@@ -80,23 +80,14 @@ IsDefault: new FormControl(false, []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
-this.statecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.registrationtypeOptions.push({Text: 'Regular', Value: 'Regular' });
-this.registrationtypeOptions.push({Text: 'Composition', Value: 'Composition' });
-this.registrationtypeOptions.push({Text: 'SEZ', Value: 'SEZ' });
-this.registrationtypeOptions.push({Text: 'Casual', Value: 'Casual' });
-this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
-this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
-this.verificationstatusOptions.push({Text: 'Failed', Value: 'Failed' });
-this.verificationstatusOptions.push({Text: 'Expired', Value: 'Expired' });
+this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.registrationtypeOptions = this.loggedInUserService.getPicklistOptions('RegistrationType');
+this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
     this.loggedInUserService.getLookupOptions('party-locations').subscribe({
       next: options => this.principallocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

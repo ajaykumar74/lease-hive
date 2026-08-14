@@ -72,16 +72,12 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
   next: options => this.applicationuseridOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
 });
-this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
-this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
-this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
-this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
+this.accesslevelOptions = this.loggedInUserService.getPicklistOptions('AccessLevel');
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

@@ -80,8 +80,7 @@ export class ProfitCentreCreateComponent implements OnInit {
       next: options => this.parentprofitcentreidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-    this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 

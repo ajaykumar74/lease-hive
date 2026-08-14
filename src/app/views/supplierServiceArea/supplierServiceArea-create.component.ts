@@ -88,19 +88,11 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
-this.countrycodeOptions.push({Text: 'USA', Value: 'USA' });
-this.countrycodeOptions.push({Text: 'UK', Value: 'UK' });
-this.stateprovincecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.stateprovincecodeOptions.push({Text: 'DL', Value: 'DL' });
-this.stateprovincecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.cityOptions.push({Text: 'Mumbai', Value: 'Mumbai' });
-this.cityOptions.push({Text: 'Gurugram', Value: 'Gurugram' });
-this.cityOptions.push({Text: 'New Delhi', Value: 'New Delhi' });
-this.assetcategoryidOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
-this.assetcategoryidOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
-this.assettypeidOptions.push({Text: 'AssetYppe1', Value: 'AssetYppe1' });
-this.assettypeidOptions.push({Text: 'AssetType2', Value: 'AssetType2' });
+this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
+this.assetcategoryidOptions = this.loggedInUserService.getPicklistOptions('AssetCategory');
+this.assettypeidOptions = this.loggedInUserService.getPicklistOptions('AssetType');
     this.loggedInUserService.getLookupOptions('party-locations').subscribe({
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -109,8 +101,7 @@ this.assettypeidOptions.push({Text: 'AssetType2', Value: 'AssetType2' });
       next: options => this.supplierprofileidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

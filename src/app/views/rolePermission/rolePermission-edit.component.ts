@@ -65,10 +65,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.granttypeOptions.push({Text: 'Allow', Value: 'Allow' });
-this.granttypeOptions.push({Text: 'Deny', Value: 'Deny' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

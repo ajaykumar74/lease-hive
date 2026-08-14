@@ -78,19 +78,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.identityproviderOptions.push({Text: '"Local', Value: '"Local' });
-this.usertypeOptions.push({Text: 'Internal', Value: 'Internal' });
-this.usertypeOptions.push({Text: 'Customer', Value: 'Customer' });
-this.usertypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
-this.usertypeOptions.push({Text: 'Auditor', Value: 'Auditor' });
-this.usertypeOptions.push({Text: 'APIService', Value: 'APIService' });
-this.timezoneidOptions.push({Text: 'IST', Value: 'IST' });
-this.timezoneidOptions.push({Text: 'UTC', Value: 'UTC' });
-this.timezoneidOptions.push({Text: 'PST', Value: 'PST' });
-this.timezoneidOptions.push({Text: 'CST', Value: 'CST' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.identityproviderOptions = this.loggedInUserService.getPicklistOptions('IdentityProvider');
+this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
+this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

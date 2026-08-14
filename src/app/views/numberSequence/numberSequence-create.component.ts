@@ -73,23 +73,17 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.entitytypeOptions.push({Text: 'Customer', Value: 'Customer' });
-this.entitytypeOptions.push({Text: 'Party', Value: 'Party' });
-this.entitytypeOptions.push({Text: 'SupplierProfile', Value: 'SupplierProfile' });
+this.entitytypeOptions = this.loggedInUserService.getPicklistOptions('EntityType');
 this.loggedInUserService.getOrganisationOptions().subscribe({
   next: options => this.organisationidOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
 });
-this.resetfrequencyOptions.push({Text: 'Never', Value: 'Never' });
-this.resetfrequencyOptions.push({Text: 'Yearly', Value: 'Yearly' });
-this.resetfrequencyOptions.push({Text: 'Monthly', Value: 'Monthly' });
-this.resetfrequencyOptions.push({Text: 'Daily', Value: 'Daily' });
+this.resetfrequencyOptions = this.loggedInUserService.getPicklistOptions('ResetFrequency');
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

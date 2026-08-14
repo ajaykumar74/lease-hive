@@ -77,18 +77,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-this.accounttypeOptions.push({Text: 'Current', Value: 'Current' });
-this.accounttypeOptions.push({Text: 'Savings', Value: 'Savings' });
-this.accounttypeOptions.push({Text: 'Escrow', Value: 'Escrow' });
-this.accounttypeOptions.push({Text: 'Nodal', Value: 'Nodal' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
-this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.accounttypeOptions = this.loggedInUserService.getPicklistOptions('AccountType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -64,17 +64,12 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.purposetypeOptions.push({Text: 'RegisteredOffice', Value: 'RegisteredOffice' });
-this.purposetypeOptions.push({Text: 'BillingOffice', Value: 'BillingOffice' });
-this.purposetypeOptions.push({Text: 'Yard', Value: 'Yard' });
-this.purposetypeOptions.push({Text: 'Warehouse', Value: 'Warehouse' });
-this.purposetypeOptions.push({Text: 'ServiceCentre', Value: 'ServiceCentre' });
+this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeType');
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

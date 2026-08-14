@@ -110,15 +110,15 @@ export class CustomerCreateComponent implements OnInit {
       Classification: new FormControl('', [Validators.required, Validators.maxLength(20),]),
 
     });
-    this.genderOptions.push({ Text: '', Value: '' });
-    this.maritalstatusOptions.push({ Text: '', Value: '' });
-    this.statusOptions.push({ Text: '', Value: '' });
-    this.natureofbusinessOptions.push({ Text: '', Value: '' });
+this.genderOptions = this.loggedInUserService.getPicklistOptions('Gender');
+this.maritalstatusOptions = this.loggedInUserService.getPicklistOptions('MaritalStatus');
+this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
+this.natureofbusinessOptions = this.loggedInUserService.getPicklistOptions('NatureOfBusiness');
     this.permanentcityOptions.push({ Text: '', Value: '' });
     this.permanentstateOptions.push({ Text: '', Value: '' });
     this.workcityOptions.push({ Text: '', Value: '' });
     this.workstateOptions.push({ Text: '', Value: '' });
-    this.customercategoryOptions.push({ Text: '', Value: '' });
+this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('CustomerCategory');
     this.classificationOptions.push({ Text: '', Value: '' });
     this.Caption = 'Create Customer';
   }

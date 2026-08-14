@@ -82,28 +82,16 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-    this.partykindOptions.push({Text: 'Organisation', Value: 'Organisation' });
-this.partykindOptions.push({Text: 'Individual', Value: 'Individual' });
-this.countryofregistrationOptions.push({Text: 'IN', Value: 'IN' });
-this.countryofregistrationOptions.push({Text: 'USA', Value: 'USA' });
-this.countryofregistrationOptions.push({Text: 'UK', Value: 'UK' });
-this.industrycodeOptions.push({Text: 'LOGISTICS', Value: 'LOGISTICS' });
-this.industrycodeOptions.push({Text: 'FMS', Value: 'FMS' });
-this.industrycodeOptions.push({Text: 'IT', Value: 'IT' });
-this.preferredcurrencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.preferredcurrencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.preferredcurrencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.partykindOptions = this.loggedInUserService.getPicklistOptions('PartyKind');
+this.countryofregistrationOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.industrycodeOptions = this.loggedInUserService.getPicklistOptions('IndustryCode');
+this.preferredcurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.taxresidencycountrycodeOptions.push({Text: 'IN', Value: 'IN' });
 this.taxresidencycountrycodeOptions.push({Text: 'USA', Value: 'USA' });
 this.taxresidencycountrycodeOptions.push({Text: 'UK', Value: 'UK' });
-this.riskclassificationOptions.push({Text: 'Low', Value: 'Low' });
-this.riskclassificationOptions.push({Text: 'Medium', Value: 'Medium' });
-this.riskclassificationOptions.push({Text: 'High', Value: 'High' });
-this.onboardingstatusOptions.push({Text: 'Pending', Value: 'Pending' });
-this.onboardingstatusOptions.push({Text: 'InProgress', Value: 'InProgress' });
-this.onboardingstatusOptions.push({Text: 'Approved', Value: 'Approved' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.riskclassificationOptions = this.loggedInUserService.getPicklistOptions('RiskClassification');
+this.onboardingstatusOptions = this.loggedInUserService.getPicklistOptions('OnboardingStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

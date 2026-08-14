@@ -75,21 +75,11 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.locationtypeOptions.push({Text: 'Branch', Value: 'Branch' });
-this.locationtypeOptions.push({Text: 'Hub', Value: 'Hub' });
-this.locationtypeOptions.push({Text: 'Warehouse', Value: 'Warehouse' });
-this.locationtypeOptions.push({Text: 'ServiceCenter', Value: 'ServiceCenter' });
-this.cityOptions.push({Text: 'Gurugram', Value: 'Gurugram' });
-this.cityOptions.push({Text: 'Mumbai', Value: 'Mumbai' });
-this.cityOptions.push({Text: 'New Delhi', Value: 'New Delhi' });
-this.stateprovincecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.stateprovincecodeOptions.push({Text: 'DL', Value: 'DL' });
-this.stateprovincecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
-this.countrycodeOptions.push({Text: 'US', Value: 'US' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.locationtypeOptions = this.loggedInUserService.getPicklistOptions('LocationType');
+this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
+this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

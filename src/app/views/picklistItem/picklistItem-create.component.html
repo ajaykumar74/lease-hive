@@ -72,14 +72,14 @@
 								<label for="name3"
 									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Partner Id</label>
 								<div class="col-span-12 md:col-span-10">
-									<input type="text" pInputText name="PartnerId" formControlName="PartnerId"
+<input type="text" pInputText name="TenantId" formControlName="TenantId"
 										class="w-full" />
 									<small class="p-error block" *ngIf="
-							editForm.get('PartnerId')?.errors?.required && editForm.get('PartnerId')?.dirty ">
-										PartnerId is required field.</small>
+editForm.get('TenantId')?.errors?.required && editForm.get('TenantId')?.dirty ">
+TenantId is required field.</small>
 									<small class="p-error block" *ngIf="
-							editForm.get('PartnerId')?.errors?.maxlength && editForm.get('PartnerId')?.dirty ">
-										The maximum allowed len of a valid PartnerId is 0 chars.</small>
+editForm.get('TenantId')?.errors?.maxlength && editForm.get('TenantId')?.dirty ">
+The maximum allowed len of a valid TenantId is 0 chars.</small>
 								</div>
 							</div>
 

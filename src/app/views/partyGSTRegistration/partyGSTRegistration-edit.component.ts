@@ -75,21 +75,10 @@ EffectiveTo: new FormControl(new Date(), []),
 IsDefault: new FormControl(false), 
 
     });
-
-
-this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
-this.statecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.registrationtypeOptions.push({Text: 'Regular', Value: 'Regular' });
-this.registrationtypeOptions.push({Text: 'Composition', Value: 'Composition' });
-this.registrationtypeOptions.push({Text: 'SEZ', Value: 'SEZ' });
-this.registrationtypeOptions.push({Text: 'Casual', Value: 'Casual' });
-this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
-this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
-this.verificationstatusOptions.push({Text: 'Failed', Value: 'Failed' });
-this.verificationstatusOptions.push({Text: 'Expired', Value: 'Expired' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.registrationtypeOptions = this.loggedInUserService.getPicklistOptions('RegistrationType');
+this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

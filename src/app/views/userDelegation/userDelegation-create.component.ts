@@ -74,10 +74,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.delegationtypeOptions.push({Text: 'Task', Value: 'Task' });
-this.delegationtypeOptions.push({Text: 'Approval', Value: 'Approval' });
-this.delegationtypeOptions.push({Text: 'Role', Value: 'Role' });
-this.delegationtypeOptions.push({Text: 'Full', Value: 'Full' });
+this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('DelegationType');
     this.loggedInUserService.getLookupOptions('application-users').subscribe({
       next: options => this.approvedbyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -94,8 +91,7 @@ this.delegationtypeOptions.push({Text: 'Full', Value: 'Full' });
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

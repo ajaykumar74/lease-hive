@@ -6,6 +6,6 @@ Category :string;
 ItemName :string;
 Description :string;
 IsSystem : boolean;
-PartnerId :number;
+TenantId :number;
 
 }

@@ -94,25 +94,14 @@ export class TenantEditComponent implements OnInit {
         command: () => this.onCommandClicked('PlanFeature')
       }
     ];
-
-
-    this.defaultcurrencyOptions.push({ Text: 'INR', Value: 'INR' });
-    this.defaultcurrencyOptions.push({ Text: 'POUND', Value: 'POUND' });
-    this.defaulttimezoneOptions.push({ Text: 'IST', Value: 'IST' });
-    this.defaulttimezoneOptions.push({ Text: 'UTC', Value: 'UTC' });
-    this.dateformatOptions.push({ Text: 'dd-MM-yyyy', Value: 'dd-MM-yyyy' });
-    this.dateformatOptions.push({ Text: 'dd/MM/yy', Value: 'dd/MM/yy' });
-    this.timeformatOptions.push({ Text: 'hh:mm:ss', Value: 'hh:mm:ss' });
-    this.numberformatOptions.push({ Text: '', Value: '' });
-    this.financialyearstartmonthOptions.push({ Text: 'January', Value: 'January' });
-    this.financialyearstartmonthOptions.push({ Text: 'February', Value: 'February' });
-    this.financialyearstartmonthOptions.push({ Text: 'March', Value: 'March' });
-    this.financialyearstartmonthOptions.push({ Text: 'April', Value: 'April' });
-    this.financialyearstartmonthOptions.push({ Text: 'May', Value: 'May' });
-    this.basetaxsystemOptions.push({ Text: 'GST', Value: 'GST' });
-    this.basetaxsystemOptions.push({ Text: 'VAT', Value: 'VAT' });
-    this.statusOptions.push({ Text: 'Active', Value: 'Active' });
-    this.statusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+this.defaultcurrencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.defaulttimezoneOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.dateformatOptions = this.loggedInUserService.getPicklistOptions('DateFormat');
+this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat');
+this.numberformatOptions = this.loggedInUserService.getPicklistOptions('NumberFormat');
+this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
+this.basetaxsystemOptions = this.loggedInUserService.getPicklistOptions('BaseTaxSystem');
+this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

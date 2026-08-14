@@ -56,7 +56,7 @@ export class PicklistItemEditComponent implements OnInit {
       ItemName: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       Description: new FormControl('', [Validators.maxLength(100),]),
       IsSystem: new FormControl(false, []),
-      PartnerId: new FormControl(null, [])
+      TenantId: new FormControl(null, [])
     });
 
 
@@ -92,7 +92,7 @@ export class PicklistItemEditComponent implements OnInit {
         ItemName: obj.ItemName || '',
         Description: obj.Description || '',
         IsSystem: obj.IsSystem || false,
-        PartnerId: obj.PartnerId || 0,
+        TenantId: obj.TenantId || 0,
 
       }
     );
@@ -141,7 +141,7 @@ export class PicklistItemEditComponent implements OnInit {
       ItemName: formValues.ItemName || null,
       Description: formValues.Description || null,
       IsSystem: formValues.IsSystem || false,
-      PartnerId: formValues.PartnerId || this.loggedInUserService.loggedInUser.BrandPartner.id,
+      TenantId: formValues.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
       ModifiedById: this.loggedInUserService.getRecordId,
 
     } as IPicklistItem;
@@ -150,7 +150,10 @@ export class PicklistItemEditComponent implements OnInit {
     this.picklistItemService.update(this.picklistItem.Id, updatedObj).subscribe({
       next: data => {
         this.picklistItemService.CacheData.IsLoaded = false;
-        this._location.back();
+        this.loggedInUserService.refreshPicklistCache().subscribe({
+          next: () => this._location.back(),
+          error: err => this.messageService.showError(err)
+        });
       },
       error: err => {
         this.messageService.showError(err);

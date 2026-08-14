@@ -67,12 +67,8 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-   this.daytypeOptions.push({Text: 'Holiday', Value: 'Holiday' });
-this.daytypeOptions.push({Text: 'Halfday', Value: 'Halfday' });
-this.daytypeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.daytypeOptions = this.loggedInUserService.getPicklistOptions('DayType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

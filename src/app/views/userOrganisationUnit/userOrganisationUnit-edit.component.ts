@@ -67,13 +67,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
-this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
-this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
-this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.accesslevelOptions = this.loggedInUserService.getPicklistOptions('AccessLevel');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

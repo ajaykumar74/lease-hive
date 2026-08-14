@@ -75,12 +75,10 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
 this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
 this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
-this.departmenttypeOptions.push({Text: 'Risk', Value: 'Risk' });
-this.departmenttypeOptions.push({Text: 'Sales', Value: 'Sales' });
+this.departmenttypeOptions = this.loggedInUserService.getPicklistOptions('DepartmentType');
 this.costcentrecodeOptions.push({Text: 'Center1', Value: 'Center1' });
 this.costcentrecodeOptions.push({Text: 'Center2', Value: 'Center2' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -70,20 +70,10 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.roletypeOptions.push({Text: 'Customer', Value: 'Customer' });
-this.roletypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
-this.roletypeOptions.push({Text: 'Manufacturer', Value: 'Manufacturer' });
-this.roletypeOptions.push({Text: 'Dealer', Value: 'Dealer' });
-this.roletypeOptions.push({Text: 'Insurer', Value: 'Insurer' });
-this.roletypeOptions.push({Text: 'Financier', Value: 'Financier' });
-this.roletypeOptions.push({Text: 'Broker', Value: 'Broker' });
-this.roletypeOptions.push({Text: 'ServiceProvider', Value: 'ServiceProvider' });
+this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
 this.rolecodeOptions.push({Text: '', Value: '' });
-this.rolestatusOptions.push({Text: 'Active', Value: 'Active' });
-this.rolestatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -78,8 +78,7 @@ this.costcentrecodeOptions.push({Text: 'CostCenter1', Value: 'CostCenter1' });
 this.costcentrecodeOptions.push({Text: 'CostCenter2', Value: 'CostCenter2' });
 this.billingreferenceOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
 this.billingreferenceOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

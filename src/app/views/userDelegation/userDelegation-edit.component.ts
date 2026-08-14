@@ -73,12 +73,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.delegationtypeOptions.push({Text: 'Task', Value: 'Task' });
-this.delegationtypeOptions.push({Text: 'Approval', Value: 'Approval' });
-this.delegationtypeOptions.push({Text: 'Role', Value: 'Role' });
-this.delegationtypeOptions.push({Text: 'Full', Value: 'Full' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('DelegationType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

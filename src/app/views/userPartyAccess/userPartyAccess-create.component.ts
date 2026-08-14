@@ -79,12 +79,8 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
   next: options => this.applicationuseridOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
 });
-this.partyroletypeOptions.push({Text: 'Customer', Value: 'Customer' });
-this.partyroletypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
-this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
-this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
-this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
-this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
+this.partyroletypeOptions = this.loggedInUserService.getPicklistOptions('PartyRoleType');
+this.accesslevelOptions = this.loggedInUserService.getPicklistOptions('AccessLevel');
     this.loggedInUserService.getLookupOptions('customer-departments').subscribe({
       next: options => this.customerdepartmentidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -93,8 +89,7 @@ this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

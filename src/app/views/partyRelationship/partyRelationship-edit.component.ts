@@ -68,15 +68,9 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-this.relationshiptypeOptions.push({Text: 'ParentCompany', Value: 'ParentCompany' });
-this.relationshiptypeOptions.push({Text: 'Child', Value: 'Child' });
-this.controltypeOptions.push({Text: 'Legal', Value: 'Legal' });
-this.controltypeOptions.push({Text: 'Financial', Value: 'Financial' });
-this.controltypeOptions.push({Text: 'Operational', Value: 'Operational' });
-this.controltypeOptions.push({Text: 'None', Value: 'None' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.relationshiptypeOptions = this.loggedInUserService.getPicklistOptions('RelationshipType');
+this.controltypeOptions = this.loggedInUserService.getPicklistOptions('ControlType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -73,21 +73,11 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-
-this.documenttypeOptions.push({Text: 'PAN', Value: 'PAN' });
-this.documenttypeOptions.push({Text: 'GSTCertificate', Value: 'GSTCertificate' });
-this.documenttypeOptions.push({Text: 'CINCertificate', Value: 'CINCertificate' });
-this.documenttypeOptions.push({Text: 'BankProof', Value: 'BankProof' });
-this.documenttypeOptions.push({Text: 'AddressProof', Value: 'AddressProof' });
-this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
-this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
-this.verificationstatusOptions.push({Text: 'Rejected', Value: 'Rejected' });
-this.verificationstatusOptions.push({Text: 'Expired', Value: 'Expired' });
+this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
+this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
 this.verifiedbyOptions.push({Text: 'Emp1', Value: 'Emp1' });
 this.verifiedbyOptions.push({Text: 'Emp2', Value: 'Emp2' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

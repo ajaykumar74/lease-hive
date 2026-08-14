@@ -57,7 +57,7 @@ Category: new FormControl('', [Validators.required, Validators.maxLength(50), ])
 ItemName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 IsSystem: new FormControl(false, []),
-PartnerId: new FormControl(null, []),
+TenantId: new FormControl(null, []),
 
     });
     
@@ -85,7 +85,7 @@ PartnerId: new FormControl(null, []),
 ItemName: obj.ItemName || '',
 Description: obj.Description || '',
 IsSystem:  obj.IsSystem || false,
-PartnerId: obj.PartnerId || 0,
+TenantId: obj.TenantId || 0,
  
       }
     );
@@ -117,7 +117,7 @@ PartnerId: obj.PartnerId || 0,
 ItemName: obj.ItemName || '',
 Description: obj.Description || '',
 IsSystem:  obj.IsSystem || false,
-PartnerId: obj.PartnerId || 0,
+TenantId: obj.TenantId || 0,
  
       }
     );
@@ -140,15 +140,18 @@ PartnerId: obj.PartnerId || 0,
 ItemName: formValues.ItemName || null,
 Description: formValues.Description || null,
 IsSystem: formValues.IsSystem || null,
-PartnerId: formValues.PartnerId || null,
+TenantId: formValues.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
 
     } as IPicklistItem ; 
 	
 	  this.spinner.show(); 
     this.picklistItemService.create(createdObj).subscribe({
-      next: data => {	   
+      next: data => {
         this.picklistItemService.CacheData.IsLoaded = false;
-         this._location.back();     
+        this.loggedInUserService.refreshPicklistCache().subscribe({
+          next: () => this._location.back(),
+          error: err => this.messageService.showError(err)
+        });
       },
       error: err => { 
 	   this.messageService.showError(err);

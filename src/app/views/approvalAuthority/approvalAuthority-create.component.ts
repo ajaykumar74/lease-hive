@@ -73,8 +73,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.authoritytypeOptions.push({Text: 'Role', Value: 'Role' });
-this.authoritytypeOptions.push({Text: 'User', Value: 'User' });
+this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
 this.loggedInUserService.getApplicationUserOptions().subscribe({
   next: options => this.applicationuseridOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
@@ -87,8 +86,7 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

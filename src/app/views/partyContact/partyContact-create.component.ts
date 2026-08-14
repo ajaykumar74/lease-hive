@@ -76,16 +76,12 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.contacttypeOptions.push({Text: 'Person', Value: 'Person' });
-this.contacttypeOptions.push({Text: 'DepartmentMailbox', Value: 'DepartmentMailbox' });
-this.contacttypeOptions.push({Text: 'Helpdesk', Value: 'Helpdesk' });
-this.contacttypeOptions.push({Text: 'Other', Value: 'Other' });
+this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactType');
     this.loggedInUserService.getLookupOptions('party-locations').subscribe({
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

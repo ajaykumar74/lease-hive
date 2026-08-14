@@ -86,18 +86,9 @@ EffectiveTo: new FormControl(new Date(), []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.locationtypeOptions.push({Text: 'RegisteredOffice', Value: 'RegisteredOffice' });
-this.locationtypeOptions.push({Text: 'Billing', Value: 'Billing' });
-this.locationtypeOptions.push({Text: 'Delivery', Value: 'Delivery' });
-this.locationtypeOptions.push({Text: 'Warehouse', Value: 'Warehouse' });
-this.locationtypeOptions.push({Text: 'Branch', Value: 'Branch' });
-this.locationtypeOptions.push({Text: 'ServiceCentre', Value: 'ServiceCentre' });
-this.cityOptions.push({Text: 'New Delhi', Value: 'New Delhi' });
-this.cityOptions.push({Text: 'Gurugram', Value: 'Gurugram' });
-this.cityOptions.push({Text: 'Mumbai', Value: 'Mumbai' });
-this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
-this.statecodeOptions.push({Text: 'MH', Value: 'MH' });
-this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
+this.locationtypeOptions = this.loggedInUserService.getPicklistOptions('LocationType');
+this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
+this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
     this.loggedInUserService.getLookupOptions('locations').subscribe({
       next: options => this.locationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -106,8 +97,7 @@ this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
       next: options => this.partygstregistrationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

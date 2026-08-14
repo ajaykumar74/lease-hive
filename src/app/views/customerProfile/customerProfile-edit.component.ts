@@ -81,21 +81,10 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-
-this.customersegmentOptions.push({Text: 'Enterprise', Value: 'Enterprise' });
-this.customersegmentOptions.push({Text: 'SME', Value: 'SME' });
-this.customersegmentOptions.push({Text: 'Retail', Value: 'Retail' });
-this.customersegmentOptions.push({Text: 'Government', Value: 'Government' });
-this.customercategoryOptions.push({Text: 'Strategic', Value: 'Strategic' });
-this.customercategoryOptions.push({Text: 'Key', Value: 'Key' });
-this.customercategoryOptions.push({Text: 'Standard', Value: 'Standard' });
-this.customercategoryOptions.push({Text: 'HighRisk', Value: 'HighRisk' });
-this.preferredbillingfrequencyOptions.push({Text: '"Monthly', Value: '"Monthly' });
-this.preferredbillingfrequencyOptions.push({Text: 'Quarterly', Value: 'Quarterly' });
-this.preferredbillingfrequencyOptions.push({Text: 'Annual', Value: 'Annual' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.customersegmentOptions = this.loggedInUserService.getPicklistOptions('CustomerSegment');
+this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('CustomerCategory');
+this.preferredbillingfrequencyOptions = this.loggedInUserService.getPicklistOptions('PreferredBillingFrequency');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
