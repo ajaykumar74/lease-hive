@@ -72,18 +72,11 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-   this.organisationunitidOptions.push({Text: 'Unit1', Value: 'Unit1' });
-this.organisationunitidOptions.push({Text: 'Unit2', Value: 'Unit2' });
-this.parentdepartmentidOptions.push({Text: 'Department1', Value: 'Department1' });
-this.parentdepartmentidOptions.push({Text: 'Department2', Value: 'Department2' });
 this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
 this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
 this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
 this.departmenttypeOptions.push({Text: 'Risk', Value: 'Risk' });
 this.departmenttypeOptions.push({Text: 'Sales', Value: 'Sales' });
-this.headuseridOptions.push({Text: 'Emp1', Value: 'Emp1' });
-this.headuseridOptions.push({Text: 'Emp2', Value: 'Emp2' });
 this.costcentrecodeOptions.push({Text: 'Center1', Value: 'Center1' });
 this.costcentrecodeOptions.push({Text: 'Center2', Value: 'Center2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
@@ -113,7 +106,19 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IDepartment): void {  
+  populateUI(obj: IDepartment): void {
+    this.loggedInUserService.getLookupOptions('application-users', obj.HeadUserId).subscribe({
+      next: options => this.headuseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('departments', obj.ParentDepartmentId).subscribe({
+      next: options => this.parentdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

@@ -84,8 +84,6 @@ this.registrationtypeOptions.push({Text: 'Regular', Value: 'Regular' });
 this.registrationtypeOptions.push({Text: 'Composition', Value: 'Composition' });
 this.registrationtypeOptions.push({Text: 'SEZ', Value: 'SEZ' });
 this.registrationtypeOptions.push({Text: 'Casual', Value: 'Casual' });
-this.principallocationidOptions.push({Text: 'Loc1', Value: 'Loc1' });
-this.principallocationidOptions.push({Text: 'Loc2', Value: 'Loc2' });
 this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
 this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
 this.verificationstatusOptions.push({Text: 'Failed', Value: 'Failed' });
@@ -117,7 +115,11 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IPartyGSTRegistration): void {  
+  populateUI(obj: IPartyGSTRegistration): void {
+    this.loggedInUserService.getLookupOptions('party-locations', obj.PrincipalLocationId).subscribe({
+      next: options => this.principallocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

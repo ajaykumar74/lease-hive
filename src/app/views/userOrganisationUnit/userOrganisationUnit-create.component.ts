@@ -68,14 +68,18 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.organisationunitidOptions.push({Text: 'Role1', Value: '1' });
-this.organisationunitidOptions.push({Text: 'Role2', Value: '2' });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: '1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: '2' });
+this.loggedInUserService.getApplicationUserOptions().subscribe({
+  next: options => this.applicationuseridOptions = options,
+  error: err => setTimeout(() => this.messageService?.showError(err))
+});
 this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
 this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
 this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
 this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

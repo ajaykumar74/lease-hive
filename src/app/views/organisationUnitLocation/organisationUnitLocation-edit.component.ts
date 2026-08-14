@@ -63,8 +63,6 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-   this.organisationunitidOptions.push({Text: '', Value: '' });
 this.purposetypeOptions.push({Text: 'RegisteredOffice', Value: 'RegisteredOffice' });
 this.purposetypeOptions.push({Text: 'BillingOffice', Value: 'BillingOffice' });
 this.purposetypeOptions.push({Text: 'Yard', Value: 'Yard' });
@@ -97,7 +95,11 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IOrganisationUnitLocation): void {  
+  populateUI(obj: IOrganisationUnitLocation): void {
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

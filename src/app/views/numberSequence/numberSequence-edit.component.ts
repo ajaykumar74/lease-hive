@@ -76,10 +76,6 @@ EffectiveTo: new FormControl(new Date(), []),
    this.entitytypeOptions.push({Text: 'Customer', Value: 'Customer' });
 this.entitytypeOptions.push({Text: 'Party', Value: 'Party' });
 this.entitytypeOptions.push({Text: 'SupplierProfile', Value: 'SupplierProfile' });
-this.organisationidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.organisationidOptions.push({Text: 'Org2', Value: 'Org2' });
-this.organisationunitidOptions.push({Text: 'OrgUnit1', Value: 'OrgUnit1' });
-this.organisationunitidOptions.push({Text: 'OrgUnit2', Value: 'OrgUnit2' });
 this.resetfrequencyOptions.push({Text: 'Never', Value: 'Never' });
 this.resetfrequencyOptions.push({Text: 'Yearly', Value: 'Yearly' });
 this.resetfrequencyOptions.push({Text: 'Monthly', Value: 'Monthly' });
@@ -111,7 +107,15 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: INumberSequence): void {  
+  populateUI(obj: INumberSequence): void {
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
+    this.loggedInUserService.getOrganisationOptions(obj.OrganisationId).subscribe({
+      next: options => this.organisationidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

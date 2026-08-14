@@ -70,17 +70,11 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.roleidOptions.push({Text: 'Role1', Value: 'Role1' });
-this.roleidOptions.push({Text: 'Role2', Value: 'Role2' });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
 this.scopetypeOptions.push({Text: 'Tenant', Value: 'Tenant' });
 this.scopetypeOptions.push({Text: 'Organisation', Value: 'Organisation' });
 this.scopetypeOptions.push({Text: 'OrganisationUnit', Value: 'OrganisationUnit' });
 this.scopetypeOptions.push({Text: 'Party', Value: 'Party' });
 this.scopetypeOptions.push({Text: 'Self', Value: 'Self' });
-this.assignedbyidOptions.push({Text: 'User1', Value: 'User1' });
-this.assignedbyidOptions.push({Text: 'User2', Value: 'User2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
@@ -108,7 +102,19 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IUserRole): void {  
+  populateUI(obj: IUserRole): void {
+    this.loggedInUserService.getLookupOptions('application-users', obj.AssignedById).subscribe({
+      next: options => this.assignedbyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('roles', obj.RoleId).subscribe({
+      next: options => this.roleidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
+    this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
+      next: options => this.applicationuseridOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

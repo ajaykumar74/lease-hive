@@ -75,12 +75,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
    this.authoritytypeOptions.push({Text: 'Role', Value: 'Role' });
 this.authoritytypeOptions.push({Text: 'User', Value: 'User' });
-this.roleidOptions.push({Text: 'Role1', Value: 'Role1' });
-this.roleidOptions.push({Text: 'Role2', Value: 'Role2' });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
-this.organisationunitidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.organisationunitidOptions.push({Text: 'Org2', Value: 'Org2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
@@ -108,7 +102,19 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IApprovalAuthority): void {  
+  populateUI(obj: IApprovalAuthority): void {
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('roles', obj.RoleId).subscribe({
+      next: options => this.roleidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
+    this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
+      next: options => this.applicationuseridOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

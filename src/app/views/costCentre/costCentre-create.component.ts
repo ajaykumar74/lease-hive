@@ -68,16 +68,19 @@ export class CostCentreCreateComponent implements OnInit {
       Description: new FormControl('', [Validators.maxLength(100),]),
 
     });
-    this.parentcostcentreidOptions.push({ Text: 'CostCenter1', Value: '1' });
-    this.parentcostcentreidOptions.push({ Text: 'CostCenter2', Value: '2' });
-
-    this.organisationunitidOptions.push({ Text: 'OrgUnit1', Value: '1' });
-    this.organisationunitidOptions.push({ Text: 'OrgUnit2', Value: '2' });
 
     this.externalledgercodeOptions.push({ Text: 'Ledger1', Value: 'Ledger1' });
     this.externalledgercodeOptions.push({ Text: 'Ledger2', Value: 'Ledger2' });
 
-    this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
+        this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('cost-centres').subscribe({
+      next: options => this.parentcostcentreidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
     this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
 
   }

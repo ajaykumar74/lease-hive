@@ -87,12 +87,14 @@ this.registrationtypeOptions.push({Text: 'Regular', Value: 'Regular' });
 this.registrationtypeOptions.push({Text: 'Composition', Value: 'Composition' });
 this.registrationtypeOptions.push({Text: 'SEZ', Value: 'SEZ' });
 this.registrationtypeOptions.push({Text: 'Casual', Value: 'Casual' });
-this.principallocationidOptions.push({Text: 'Loc1', Value: '1' });
-this.principallocationidOptions.push({Text: 'Loc2', Value: '2' });
 this.verificationstatusOptions.push({Text: 'Pending', Value: 'Pending' });
 this.verificationstatusOptions.push({Text: 'Verified', Value: 'Verified' });
 this.verificationstatusOptions.push({Text: 'Failed', Value: 'Failed' });
 this.verificationstatusOptions.push({Text: 'Expired', Value: 'Expired' });
+    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
+      next: options => this.principallocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

@@ -88,10 +88,6 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.supplierprofileidOptions.push({Text: 'SupProfile1', Value: 'SupProfile1' });
-this.supplierprofileidOptions.push({Text: 'SubProfile2', Value: 'SubProfile2' });
-this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
 this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
 this.countrycodeOptions.push({Text: 'USA', Value: 'USA' });
 this.countrycodeOptions.push({Text: 'UK', Value: 'UK' });
@@ -105,6 +101,14 @@ this.assetcategoryidOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
 this.assetcategoryidOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
 this.assettypeidOptions.push({Text: 'AssetYppe1', Value: 'AssetYppe1' });
 this.assettypeidOptions.push({Text: 'AssetType2', Value: 'AssetType2' });
+    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('supplier-profiles').subscribe({
+      next: options => this.supplierprofileidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

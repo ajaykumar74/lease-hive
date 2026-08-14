@@ -73,19 +73,25 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-    this.organisationunitidOptions.push({Text: 'Unit1', Value: '1' });
-this.organisationunitidOptions.push({Text: 'Unit2', Value: '2' });
-this.parentdepartmentidOptions.push({Text: 'Department1', Value: '1' });
-this.parentdepartmentidOptions.push({Text: 'Department2', Value: '2' });
 this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
 this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
 this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
 this.departmenttypeOptions.push({Text: 'Risk', Value: 'Risk' });
 this.departmenttypeOptions.push({Text: 'Sales', Value: 'Sales' });
-this.headuseridOptions.push({Text: 'Emp1', Value: '1' });
-this.headuseridOptions.push({Text: 'Emp2', Value: '2' });
 this.costcentrecodeOptions.push({Text: 'Center1', Value: '1' });
 this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
+    this.loggedInUserService.getLookupOptions('application-users').subscribe({
+      next: options => this.headuseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('departments').subscribe({
+      next: options => this.parentdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

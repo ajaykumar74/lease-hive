@@ -71,10 +71,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
-
-
-this.partylocationidOptions.push({Text: 'Location1', Value: 'Location1' });
-this.partylocationidOptions.push({Text: 'LOcation2', Value: 'LOcation2' });
 this.contacttypeOptions.push({Text: 'Person', Value: 'Person' });
 this.contacttypeOptions.push({Text: 'DepartmentMailbox', Value: 'DepartmentMailbox' });
 this.contacttypeOptions.push({Text: 'Helpdesk', Value: 'Helpdesk' });
@@ -106,7 +102,11 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IPartyContact): void {  
+  populateUI(obj: IPartyContact): void {
+    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

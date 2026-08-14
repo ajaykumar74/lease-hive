@@ -74,18 +74,8 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-
-
-this.customerprofileidOptions.push({Text: 'CustProfile1', Value: 'CustProfile1' });
-this.customerprofileidOptions.push({Text: 'CustProfile2', Value: 'CustProfile2' });
-this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
-this.parentcustomerdepartmentidOptions.push({Text: 'CustDepart1', Value: 'CustDepart1' });
-this.parentcustomerdepartmentidOptions.push({Text: 'CustDepart2', Value: 'CustDepart2' });
 this.costcentrecodeOptions.push({Text: 'CostCenter1', Value: 'CostCenter1' });
 this.costcentrecodeOptions.push({Text: 'CostCenter2', Value: 'CostCenter2' });
-this.departmentheadcontactidOptions.push({Text: 'CustContact1', Value: 'CustContact1' });
-this.departmentheadcontactidOptions.push({Text: 'CustContact2', Value: 'CustContact2' });
 this.billingreferenceOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
 this.billingreferenceOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
@@ -115,7 +105,23 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: ICustomerDepartment): void {  
+  populateUI(obj: ICustomerDepartment): void {
+    this.loggedInUserService.getLookupOptions('customer-profiles', obj.CustomerProfileId).subscribe({
+      next: options => this.customerprofileidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-contacts', obj.DepartmentHeadContactId).subscribe({
+      next: options => this.departmentheadcontactidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('customer-departments', obj.ParentCustomerDepartmentId).subscribe({
+      next: options => this.parentcustomerdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

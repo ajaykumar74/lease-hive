@@ -83,12 +83,6 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-
-this.supplierprofileidOptions.push({Text: 'SupProfile1', Value: 'SupProfile1' });
-this.supplierprofileidOptions.push({Text: 'SubProfile2', Value: 'SubProfile2' });
-this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
 this.countrycodeOptions.push({Text: 'IN', Value: 'IN' });
 this.countrycodeOptions.push({Text: 'USA', Value: 'USA' });
 this.countrycodeOptions.push({Text: 'UK', Value: 'UK' });
@@ -129,7 +123,15 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: ISupplierServiceArea): void {  
+  populateUI(obj: ISupplierServiceArea): void {
+    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('supplier-profiles', obj.SupplierProfileId).subscribe({
+      next: options => this.supplierprofileidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

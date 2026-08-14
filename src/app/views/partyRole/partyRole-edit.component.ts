@@ -80,8 +80,6 @@ this.roletypeOptions.push({Text: 'Financier', Value: 'Financier' });
 this.roletypeOptions.push({Text: 'Broker', Value: 'Broker' });
 this.roletypeOptions.push({Text: 'ServiceProvider', Value: 'ServiceProvider' });
 this.rolecodeOptions.push({Text: '', Value: '' });
-this.organisationidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.organisationidOptions.push({Text: 'Org2', Value: 'Org2' });
 this.rolestatusOptions.push({Text: 'Active', Value: 'Active' });
 this.rolestatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
@@ -112,6 +110,10 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: IPartyRole): void {  
+    this.loggedInUserService.getOrganisationOptions(obj.OrganisationId).subscribe({
+      next: options => this.organisationidOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

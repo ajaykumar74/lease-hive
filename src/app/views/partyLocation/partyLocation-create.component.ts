@@ -86,10 +86,6 @@ EffectiveTo: new FormControl(new Date(), []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.locationidOptions.push({Text: 'Location1', Value: '1' });
-this.locationidOptions.push({Text: 'LOcation2', Value: '2' });
-this.partygstregistrationidOptions.push({Text: 'PartGST1', Value: '1' });
-this.partygstregistrationidOptions.push({Text: ' PartyGST2', Value: '2' });
 this.locationtypeOptions.push({Text: 'RegisteredOffice', Value: 'RegisteredOffice' });
 this.locationtypeOptions.push({Text: 'Billing', Value: 'Billing' });
 this.locationtypeOptions.push({Text: 'Delivery', Value: 'Delivery' });
@@ -102,6 +98,14 @@ this.cityOptions.push({Text: 'Mumbai', Value: 'Mumbai' });
 this.statecodeOptions.push({Text: 'HR', Value: 'HR' });
 this.statecodeOptions.push({Text: 'MH', Value: 'MH' });
 this.statecodeOptions.push({Text: 'DL', Value: 'DL' });
+    this.loggedInUserService.getLookupOptions('locations').subscribe({
+      next: options => this.locationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-gst-registrations').subscribe({
+      next: options => this.partygstregistrationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

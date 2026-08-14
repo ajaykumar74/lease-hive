@@ -77,8 +77,6 @@ export class OrganisationUnitEditComponent implements OnInit {
 
 
     });
-
-    this.parentorganisationunitidOptions.push({ Text: '', Value: '' });
     this.unittypeOptions.push({ Text: 'Branch', Value: 'Branch' });
     this.unittypeOptions.push({ Text: 'Hub', Value: 'Hub' });
     this.unittypeOptions.push({ Text: 'Warehouse', Value: 'Warehouse' });
@@ -87,8 +85,6 @@ export class OrganisationUnitEditComponent implements OnInit {
     this.costcentrecodeOptions.push({ Text: 'U002', Value: 'U002' });
     this.profitcentrecodeOptions.push({ Text: 'U001', Value: 'U001' });
     this.profitcentrecodeOptions.push({ Text: 'U002', Value: 'U002' });
-    this.defaultlocationidOptions.push({ Text: 'LOC01', Value: 'LOC01' });
-    this.defaultlocationidOptions.push({ Text: 'LOC02', Value: 'LOC02' });
     this.statusOptions.push({ Text: 'Active', Value: 'Active' });
     this.statusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
 
@@ -139,6 +135,14 @@ export class OrganisationUnitEditComponent implements OnInit {
   }
 
   populateUI(obj: IOrganisationUnit): void {
+    this.loggedInUserService.getLookupOptions('locations', obj.DefaultLocationId).subscribe({
+      next: options => this.defaultlocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.ParentOrganisationUnitId).subscribe({
+      next: options => this.parentorganisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
     this.editForm.patchValue(
       {
         Id: obj.Id || 0,

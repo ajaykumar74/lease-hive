@@ -68,10 +68,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.organisationunitidOptions.push({Text: 'Role1', Value: 'Role1' });
-this.organisationunitidOptions.push({Text: 'Role2', Value: 'Role2' });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
 this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
 this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
 this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
@@ -103,7 +99,15 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IUserOrganisationUnit): void {  
+  populateUI(obj: IUserOrganisationUnit): void {
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
+    this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
+      next: options => this.applicationuseridOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

@@ -81,12 +81,6 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.customerprofileidOptions.push({Text: 'CustProfile1', Value: 'CustProfile1' });
-this.customerprofileidOptions.push({Text: 'CustProfile2', Value: 'CustProfile2' });
-this.partylocationidOptions.push({Text: 'PartyLOcation1', Value: 'PartyLOcation1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
-this.customerdepartmentidOptions.push({Text: 'CustDepart1', Value: 'CustDepart1' });
-this.customerdepartmentidOptions.push({Text: 'CustDepart2', Value: 'CustDepart2' });
 this.usertypeOptions.push({Text: 'Employee', Value: 'Employee' });
 this.usertypeOptions.push({Text: 'Driver', Value: 'Driver' });
 this.usertypeOptions.push({Text: 'Contractor', Value: 'Contractor' });
@@ -99,6 +93,18 @@ this.designationOptions.push({Text: 'CustContact1', Value: 'CustContact1' });
 this.designationOptions.push({Text: 'CustContact2', Value: 'CustContact2' });
 this.emailOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
 this.emailOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
+    this.loggedInUserService.getLookupOptions('customer-departments').subscribe({
+      next: options => this.customerdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('customer-profiles').subscribe({
+      next: options => this.customerprofileidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

@@ -72,18 +72,13 @@ EffectiveTo: new FormControl(new Date(), []),
     });
 
 
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
+
 this.partyroletypeOptions.push({Text: 'Customer', Value: 'Customer' });
 this.partyroletypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
 this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
 this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
 this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
 this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
-this.partylocationidOptions.push({Text: 'PartyLocation1', Value: 'PartyLocation1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
-this.customerdepartmentidOptions.push({Text: 'CustDept1', Value: 'CustDept1' });
-this.customerdepartmentidOptions.push({Text: 'CustDepat2', Value: 'CustDepat2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
@@ -111,7 +106,19 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IUserPartyAccess): void {  
+  populateUI(obj: IUserPartyAccess): void {
+    this.loggedInUserService.getLookupOptions('customer-departments', obj.CustomerDepartmentId).subscribe({
+      next: options => this.customerdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
+    this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
+      next: options => this.applicationuseridOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

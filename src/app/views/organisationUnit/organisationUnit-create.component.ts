@@ -77,8 +77,6 @@ Description: new FormControl('', [Validators.maxLength(256), ]),
 
     });
     // Keep the optional entry visually blank without allowing the dropdown label to collapse.
-    this.parentorganisationunitidOptions.push({Text: '\u00A0', Value: ' ' });
-     this.parentorganisationunitidOptions.push({Text: 'U001', Value: '1' });
 
 this.unittypeOptions.push({Text: 'Branch', Value: 'Branch' });
 this.unittypeOptions.push({Text: 'Hub', Value: 'Hub' });
@@ -88,10 +86,16 @@ this.costcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.costcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
 this.profitcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.profitcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
-this.defaultlocationidOptions.push({Text: 'LOC01', Value: '1' });
-this.defaultlocationidOptions.push({Text: 'LOC02', Value: '2' });
 this.statusOptions.push({Text: 'Active', Value: 'Active' });
 this.statusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+    this.loggedInUserService.getLookupOptions('locations').subscribe({
+      next: options => this.defaultlocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.parentorganisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 
   }
  

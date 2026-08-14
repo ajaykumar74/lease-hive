@@ -74,18 +74,26 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.delegatoruseridOptions.push({Text: 'User1', Value: 'User1' });
-this.delegatoruseridOptions.push({Text: 'User2', Value: 'User2' });
-this.delegateuseridOptions.push({Text: 'User1', Value: 'User1' });
-this.delegateuseridOptions.push({Text: 'User2', Value: 'User2' });
 this.delegationtypeOptions.push({Text: 'Task', Value: 'Task' });
 this.delegationtypeOptions.push({Text: 'Approval', Value: 'Approval' });
 this.delegationtypeOptions.push({Text: 'Role', Value: 'Role' });
 this.delegationtypeOptions.push({Text: 'Full', Value: 'Full' });
-this.organisationunitidOptions.push({Text: 'OrgUnit1', Value: 'OrgUnit1' });
-this.organisationunitidOptions.push({Text: 'OrgUnit2', Value: 'OrgUnit2' });
-this.approvedbyidOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.approvedbyidOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
+    this.loggedInUserService.getLookupOptions('application-users').subscribe({
+      next: options => this.approvedbyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('application-users').subscribe({
+      next: options => this.delegateuseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('application-users').subscribe({
+      next: options => this.delegatoruseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

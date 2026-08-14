@@ -95,17 +95,25 @@ this.suppliertierOptions.push({Text: 'Approved', Value: 'Approved' });
 this.suppliertierOptions.push({Text: 'Conditional', Value: 'Conditional' });
 this.suppliertierOptions.push({Text: 'Blocked', Value: 'Blocked' });
 this.suppliercategoryOptions.push({Text: '"OEM', Value: '"OEM' });
-this.procurementowneruseridOptions.push({Text: 'Employee1', Value: 'Employee1' });
-this.procurementowneruseridOptions.push({Text: 'Employee2', Value: 'Employee2' });
-this.owningorganisationunitidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.owningorganisationunitidOptions.push({Text: 'Org2', Value: 'Org2' });
-this.defaultgstregistrationidOptions.push({Text: 'PartyGST1', Value: 'PartyGST1' });
-this.defaultgstregistrationidOptions.push({Text: 'PartyGST2', Value: 'PartyGST2' });
-this.defaultremittancebankaccountidOptions.push({Text: 'BankAcId1', Value: 'BankAcId1' });
-this.defaultremittancebankaccountidOptions.push({Text: 'BankAcId2', Value: 'BankAcId2' });
 this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
 this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
 this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+    this.loggedInUserService.getLookupOptions('party-gst-registrations').subscribe({
+      next: options => this.defaultgstregistrationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-bank-accounts').subscribe({
+      next: options => this.defaultremittancebankaccountidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.owningorganisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('application-users').subscribe({
+      next: options => this.procurementowneruseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

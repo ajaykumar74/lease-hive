@@ -81,8 +81,10 @@ export class PartyRoleCreateComponent implements OnInit {
     this.roletypeOptions.push({ Text: 'ServiceProvider', Value: 'ServiceProvider' });
     this.rolecodeOptions.push({ Text: '', Value: '' });
 
-    this.organisationidOptions.push({ Text: 'Org1', Value: '1' });
-    this.organisationidOptions.push({ Text: 'Org2', Value: '2' });
+    this.loggedInUserService.getOrganisationOptions().subscribe({
+      next: options => this.organisationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 
     this.rolestatusOptions.push({ Text: 'Active', Value: 'Active' });
     this.rolestatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });

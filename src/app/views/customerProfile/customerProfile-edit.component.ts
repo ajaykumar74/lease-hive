@@ -91,16 +91,6 @@ this.customercategoryOptions.push({Text: 'Strategic', Value: 'Strategic' });
 this.customercategoryOptions.push({Text: 'Key', Value: 'Key' });
 this.customercategoryOptions.push({Text: 'Standard', Value: 'Standard' });
 this.customercategoryOptions.push({Text: 'HighRisk', Value: 'HighRisk' });
-this.relationshipmanageruseridOptions.push({Text: 'Employee1', Value: 'Employee1' });
-this.relationshipmanageruseridOptions.push({Text: 'Employee2', Value: 'Employee2' });
-this.owningorganisationunitidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.owningorganisationunitidOptions.push({Text: 'Org2', Value: 'Org2' });
-this.defaultgstregistrationidOptions.push({Text: 'PartyGST1', Value: 'PartyGST1' });
-this.defaultgstregistrationidOptions.push({Text: 'PartyGST2', Value: 'PartyGST2' });
-this.defaultbillinglocationidOptions.push({Text: 'PartyLocation1', Value: 'PartyLocation1' });
-this.defaultbillinglocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
-this.defaultdeliverylocationidOptions.push({Text: 'PartyLocation1', Value: 'PartyLocation1' });
-this.defaultdeliverylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
 this.preferredbillingfrequencyOptions.push({Text: '"Monthly', Value: '"Monthly' });
 this.preferredbillingfrequencyOptions.push({Text: 'Quarterly', Value: 'Quarterly' });
 this.preferredbillingfrequencyOptions.push({Text: 'Annual', Value: 'Annual' });
@@ -131,7 +121,27 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: ICustomerProfile): void {  
+  populateUI(obj: ICustomerProfile): void {
+    this.loggedInUserService.getLookupOptions('party-locations', obj.DefaultBillingLocationId).subscribe({
+      next: options => this.defaultbillinglocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-locations', obj.DefaultDeliveryLocationId).subscribe({
+      next: options => this.defaultdeliverylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-gst-registrations', obj.DefaultGSTRegistrationId).subscribe({
+      next: options => this.defaultgstregistrationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
+      next: options => this.owningorganisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('application-users', obj.RelationshipManagerUserId).subscribe({
+      next: options => this.relationshipmanageruseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

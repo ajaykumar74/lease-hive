@@ -85,12 +85,6 @@ this.usertypeOptions.push({Text: 'Customer', Value: 'Customer' });
 this.usertypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
 this.usertypeOptions.push({Text: 'Auditor', Value: 'Auditor' });
 this.usertypeOptions.push({Text: 'APIService', Value: 'APIService' });
-this.partycontactidOptions.push({Text: 'PartyContact1', Value: 'PartyContact1' });
-this.partycontactidOptions.push({Text: 'PartyContact2', Value: 'PartyContact2' });
-this.assetuseridOptions.push({Text: 'AssetUser1', Value: 'AssetUser1' });
-this.assetuseridOptions.push({Text: 'AssetUser2', Value: 'AssetUser2' });
-this.defaultorganisationunitidOptions.push({Text: 'OrganisationUnit1', Value: 'OrganisationUnit1' });
-this.defaultorganisationunitidOptions.push({Text: 'OrganisationUnit2', Value: 'OrganisationUnit2' });
 this.timezoneidOptions.push({Text: 'IST', Value: 'IST' });
 this.timezoneidOptions.push({Text: 'UTC', Value: 'UTC' });
 this.timezoneidOptions.push({Text: 'PST', Value: 'PST' });
@@ -122,7 +116,19 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IApplicationUser): void {  
+  populateUI(obj: IApplicationUser): void {
+    this.loggedInUserService.getLookupOptions('asset-users', obj.AssetUserId).subscribe({
+      next: options => this.assetuseridOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.DefaultOrganisationUnitId).subscribe({
+      next: options => this.defaultorganisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-contacts', obj.PartyContactId).subscribe({
+      next: options => this.partycontactidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

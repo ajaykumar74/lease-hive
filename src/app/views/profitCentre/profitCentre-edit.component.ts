@@ -67,11 +67,6 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-   this.parentprofitcentreidOptions.push({Text: 'CostCenter1', Value: 'CostCenter1' });
-this.parentprofitcentreidOptions.push({Text: 'CostCenter2', Value: 'CostCenter2' });
-this.organisationunitidOptions.push({Text: 'OrgUnit1', Value: 'OrgUnit1' });
-this.organisationunitidOptions.push({Text: 'OrgUnit2', Value: 'OrgUnit2' });
 this.externalledgercodeOptions.push({Text: 'Ledger1', Value: 'Ledger1' });
 this.externalledgercodeOptions.push({Text: 'Ledger2', Value: 'Ledger2' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
@@ -101,7 +96,15 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
     }); 
   } 
 
-  populateUI(obj: IProfitCentre): void {  
+  populateUI(obj: IProfitCentre): void {
+    this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('profit-centres', obj.ParentProfitCentreId).subscribe({
+      next: options => this.parentprofitcentreidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });  
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

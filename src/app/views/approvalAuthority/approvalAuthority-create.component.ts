@@ -75,12 +75,18 @@ EffectiveTo: new FormControl(new Date(), []),
     });
     this.authoritytypeOptions.push({Text: 'Role', Value: 'Role' });
 this.authoritytypeOptions.push({Text: 'User', Value: 'User' });
-this.roleidOptions.push({Text: 'Role1', Value: '1' });
-this.roleidOptions.push({Text: 'Role2', Value: '2' });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: '1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: '2' });
-this.organisationunitidOptions.push({Text: 'Org1', Value: '1' });
-this.organisationunitidOptions.push({Text: 'Org2', Value: '2' });
+this.loggedInUserService.getApplicationUserOptions().subscribe({
+  next: options => this.applicationuseridOptions = options,
+  error: err => setTimeout(() => this.messageService?.showError(err))
+});
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
+      next: options => this.organisationunitidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('roles').subscribe({
+      next: options => this.roleidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 

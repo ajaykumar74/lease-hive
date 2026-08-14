@@ -75,18 +75,24 @@ EffectiveTo: new FormControl(new Date(), []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.applicationuseridOptions.push({Text: 'AppUser1', Value: '1' });
-this.applicationuseridOptions.push({Text: 'AppUser2', Value: '2' });
+this.loggedInUserService.getApplicationUserOptions().subscribe({
+  next: options => this.applicationuseridOptions = options,
+  error: err => setTimeout(() => this.messageService?.showError(err))
+});
 this.partyroletypeOptions.push({Text: 'Customer', Value: 'Customer' });
 this.partyroletypeOptions.push({Text: 'Supplier', Value: 'Supplier' });
 this.accesslevelOptions.push({Text: 'Read', Value: 'Read' });
 this.accesslevelOptions.push({Text: 'Transact', Value: 'Transact' });
 this.accesslevelOptions.push({Text: 'Approve', Value: 'Approve' });
 this.accesslevelOptions.push({Text: 'Admin', Value: 'Admin' });
-this.partylocationidOptions.push({Text: 'PartyLocation1', Value: '1' });
-this.partylocationidOptions.push({Text: 'PartyLocation2', Value: '2' });
-this.customerdepartmentidOptions.push({Text: 'CustDept1', Value: '1' });
-this.customerdepartmentidOptions.push({Text: 'CustDepat2', Value: '2' });
+    this.loggedInUserService.getLookupOptions('customer-departments').subscribe({
+      next: options => this.customerdepartmentidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
+      next: options => this.partylocationidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
