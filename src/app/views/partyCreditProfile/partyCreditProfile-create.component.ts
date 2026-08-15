@@ -32,7 +32,6 @@ creditpolicycodeOptions: ISelectItem[] = [];
 riskgradeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 reviewfrequencymonthsOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyCreditProfile = {} as IPartyCreditProfile;
@@ -70,7 +69,6 @@ AvailableExposure: new FormControl(0, [Validators.required, Validators.min(-2147
 PaymentTermsDays: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
 ReviewFrequencyMonths: new FormControl(0, []),
 NextReviewDate: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -98,7 +96,6 @@ this.reviewfrequencymonthsOptions.push({Text: '9', Value: '9' });
 this.reviewfrequencymonthsOptions.push({Text: '10', Value: '10' });
 this.reviewfrequencymonthsOptions.push({Text: '11', Value: '11' });
 this.reviewfrequencymonthsOptions.push({Text: '12', Value: '12' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -131,7 +128,6 @@ AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
 NextReviewDate:  obj.NextReviewDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -172,7 +168,6 @@ AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
 NextReviewDate:  obj.NextReviewDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -204,7 +199,7 @@ AvailableExposure: formValues.AvailableExposure || 0,
 PaymentTermsDays: formValues.PaymentTermsDays || null,
 ReviewFrequencyMonths: formValues.ReviewFrequencyMonths || null,
 NextReviewDate: formValues.NextReviewDate || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

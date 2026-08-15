@@ -36,7 +36,6 @@ defaultgstregistrationidOptions: ISelectItem[] = [];
 defaultbillinglocationidOptions: ISelectItem[] = [];
 defaultdeliverylocationidOptions: ISelectItem[] = [];
 preferredbillingfrequencyOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerProfile = {} as ICustomerProfile;
@@ -76,7 +75,6 @@ DefaultPaymentTermsDays: new FormControl(0, [Validators.min(0), Validators.max(2
 PreferredBillingFrequency: new FormControl('', [Validators.maxLength(20), ]), 
 PurchaseOrderRequired: new FormControl(false, []),
 CustomerSinceDate: new FormControl(new Date(), [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
@@ -109,7 +107,6 @@ this.preferredbillingfrequencyOptions = this.loggedInUserService.getPicklistOpti
       next: options => this.relationshipmanageruseridOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -144,7 +141,6 @@ DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -188,7 +184,6 @@ DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -223,7 +218,7 @@ DefaultPaymentTermsDays: formValues.DefaultPaymentTermsDays || null,
 PreferredBillingFrequency: formValues.PreferredBillingFrequency || null,
 PurchaseOrderRequired: formValues.PurchaseOrderRequired || false,
 CustomerSinceDate: formValues.CustomerSinceDate || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

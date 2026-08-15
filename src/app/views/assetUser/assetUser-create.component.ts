@@ -34,7 +34,6 @@ usertypeOptions: ISelectItem[] = [];
 fullnameOptions: ISelectItem[] = [];
 designationOptions: ISelectItem[] = [];
 emailOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetUser = {} as IAssetUser;
@@ -76,7 +75,6 @@ DrivingLicenceExpiryDate: new FormControl(new Date(), [Validators.required]),
 NationalIdMasked: new FormControl('', [Validators.maxLength(20), ]), 
 EmergencyContactName: new FormControl('', [Validators.maxLength(50), ]), 
 EmergencyContactMobile: new FormControl('', [Validators.maxLength(10), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -100,7 +98,6 @@ this.emailOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -137,7 +134,6 @@ DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -182,7 +178,6 @@ DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -218,7 +213,7 @@ DrivingLicenceExpiryDate: formValues.DrivingLicenceExpiryDate || null,
 NationalIdMasked: formValues.NationalIdMasked || null,
 EmergencyContactName: formValues.EmergencyContactName || null,
 EmergencyContactMobile: formValues.EmergencyContactMobile || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

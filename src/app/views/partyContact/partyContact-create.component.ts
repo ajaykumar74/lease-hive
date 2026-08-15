@@ -30,7 +30,6 @@ export class PartyContactCreateComponent implements OnInit {
   partyidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 contacttypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyContact = {} as IPartyContact;
@@ -68,7 +67,6 @@ DepartmentName: new FormControl('', [Validators.maxLength(20), ]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
@@ -81,7 +79,6 @@ this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactTy
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -114,7 +111,6 @@ DepartmentName: obj.DepartmentName || '',
 Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '',
 MobileNumber: obj.MobileNumber || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
  
       }
@@ -154,7 +150,6 @@ DepartmentName: obj.DepartmentName || '',
 Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '',
 MobileNumber: obj.MobileNumber || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
  
       }
@@ -185,7 +180,7 @@ DepartmentName: formValues.DepartmentName || null,
 Email: formValues.Email || null,
 MobileCountryCode: formValues.MobileCountryCode || null,
 MobileNumber: formValues.MobileNumber || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 
     } as IPartyContact ; 

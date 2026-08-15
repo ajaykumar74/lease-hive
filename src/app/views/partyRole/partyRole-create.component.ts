@@ -31,7 +31,6 @@ export class PartyRoleCreateComponent implements OnInit {
   rolecodeOptions: ISelectItem[] = [];
   organisationidOptions: ISelectItem[] = [];
   rolestatusOptions: ISelectItem[] = [];
-  recordstatusOptions: ISelectItem[] = [];
   approvedbyOptions: ISelectItem[] = [];
   editForm: any;
   objMaster: IPartyRole = {} as IPartyRole;
@@ -66,7 +65,6 @@ export class PartyRoleCreateComponent implements OnInit {
       ApprovedBy: new FormControl('', [  Validators.maxLength(20),]),
       ApprovedById: new FormControl('', []),
       ApprovedAt: new FormControl(new Date(), [Validators.required]),
-      RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       EffectiveTo: new FormControl(new Date(), []),
 
@@ -79,7 +77,6 @@ this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
     this.approvedbyOptions.push({ Text: 'User1', Value: '1' });
     this.approvedbyOptions.push({ Text: 'User2', Value: '2' });
@@ -113,7 +110,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         ApprovedBy: obj.ApprovedBy || '',
         ApprovedById: obj.ApprovedById || 0,
         ApprovedAt: obj.ApprovedAt || new Date(),
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
 
@@ -151,7 +147,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         ApprovedBy: obj.ApprovedBy || '',
         ApprovedById: obj.ApprovedById || '',
         ApprovedAt: obj.ApprovedAt || new Date(),
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
 
@@ -181,7 +176,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       ApprovedBy: formValues.ApprovedBy || null,
       ApprovedById: formValues.ApprovedById || null,
       ApprovedAt: formValues.ApprovedAt || null,
-      RecordStatus: formValues.RecordStatus || null,
+      RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,
       EffectiveTo: formValues.EffectiveTo || null,
 

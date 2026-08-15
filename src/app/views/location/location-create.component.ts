@@ -31,7 +31,6 @@ export class LocationCreateComponent implements OnInit {
 cityOptions: ISelectItem[] = [];
 stateprovincecodeOptions: ISelectItem[] = [];
 countrycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ILocation = {} as ILocation;
@@ -71,7 +70,6 @@ CountryCode: new FormControl('', [Validators.required, Validators.maxLength(10),
 GeoLocation: new FormControl('', [Validators.maxLength(100), ]), 
 Email: new FormControl('', [Validators.maxLength(100), ]), 
 ContactPhone: new FormControl('', [Validators.maxLength(30), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -80,7 +78,6 @@ this.locationtypeOptions = this.loggedInUserService.getPicklistOptions('Location
 this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
 this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
 this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ CountryCode: obj.CountryCode || '',
 GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -158,7 +154,6 @@ CountryCode: obj.CountryCode || '',
 GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -193,7 +188,7 @@ CountryCode: formValues.CountryCode || null,
 GeoLocation: formValues.GeoLocation || null,
 Email: formValues.Email || null,
 ContactPhone: formValues.ContactPhone || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

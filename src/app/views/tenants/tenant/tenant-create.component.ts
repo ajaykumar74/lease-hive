@@ -34,7 +34,6 @@ timeformatOptions: ISelectItem[] = [];
 numberformatOptions: ISelectItem[] = [];
 financialyearstartmonthOptions: ISelectItem[] = [];
 basetaxsystemOptions: ISelectItem[] = [];
-statusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ITenant = {} as ITenant;
@@ -76,7 +75,6 @@ MultiOrganisationEnabled: new FormControl(false, []),
 MultiCurrencyEnabled: new FormControl(false, []),
 MultiCountryEnabled: new FormControl(false, []),
 MultiLanguageEnabled: new FormControl(false, []),
-Status: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Description: new FormControl('', [Validators.maxLength(256), ]), 
 
     });
@@ -87,7 +85,6 @@ this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat
 this.numberformatOptions = this.loggedInUserService.getPicklistOptions('NumberFormat');
 this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
 this.basetaxsystemOptions = this.loggedInUserService.getPicklistOptions('BaseTaxSystem');
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 
   }
  
@@ -124,7 +121,6 @@ MultiOrganisationEnabled:  obj.MultiOrganisationEnabled || false,
 MultiCurrencyEnabled:  obj.MultiCurrencyEnabled || false,
 MultiCountryEnabled:  obj.MultiCountryEnabled || false,
 MultiLanguageEnabled:  obj.MultiLanguageEnabled || false,
-Status: obj.Status || '',
 Description: obj.Description || '',
  
       }
@@ -168,7 +164,6 @@ MultiOrganisationEnabled:  obj.MultiOrganisationEnabled || false,
 MultiCurrencyEnabled:  obj.MultiCurrencyEnabled || false,
 MultiCountryEnabled:  obj.MultiCountryEnabled || false,
 MultiLanguageEnabled:  obj.MultiLanguageEnabled || false,
-Status: obj.Status || '',
 Description: obj.Description || '',
  
       }
@@ -203,7 +198,7 @@ MultiOrganisationEnabled: formValues.MultiOrganisationEnabled || null,
 MultiCurrencyEnabled: formValues.MultiCurrencyEnabled || null,
 MultiCountryEnabled: formValues.MultiCountryEnabled || null,
 MultiLanguageEnabled: formValues.MultiLanguageEnabled || null,
-Status: formValues.Status || null,
+Status: 'Active',
 Description: formValues.Description || null,
 
     } as ITenant ; 

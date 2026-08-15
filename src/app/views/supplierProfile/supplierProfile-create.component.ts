@@ -35,7 +35,6 @@ owningorganisationunitidOptions: ISelectItem[] = [];
 defaultgstregistrationidOptions: ISelectItem[] = [];
 defaultremittancebankaccountidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierProfile = {} as ISupplierProfile;
@@ -79,7 +78,6 @@ OnTimeDeliveryPercentage: new FormControl(0, []),
 QualityAcceptancePercentage: new FormControl(0, []),
 IsPurchaseBlocked: new FormControl(false, []),
 BlockReason: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
@@ -108,7 +106,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
       next: options => this.procurementowneruseridOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -147,7 +144,6 @@ OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
 QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -195,7 +191,6 @@ OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
 QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -234,7 +229,7 @@ OnTimeDeliveryPercentage: formValues.OnTimeDeliveryPercentage || 0,
 QualityAcceptancePercentage: formValues.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked: formValues.IsPurchaseBlocked || false,
 BlockReason: formValues.BlockReason || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

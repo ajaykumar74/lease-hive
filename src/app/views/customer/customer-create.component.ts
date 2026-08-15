@@ -29,7 +29,6 @@ export class CustomerCreateComponent implements OnInit {
   customer: ICustomer = null;
   genderOptions: ISelectItem[] = [];
   maritalstatusOptions: ISelectItem[] = [];
-  statusOptions: ISelectItem[] = [];
   natureofbusinessOptions: ISelectItem[] = [];
   permanentcityOptions: ISelectItem[] = [];
   permanentstateOptions: ISelectItem[] = [];
@@ -84,7 +83,6 @@ export class CustomerCreateComponent implements OnInit {
       AadhaarNumber: new FormControl('', [Validators.maxLength(12),]),
       DrivingLicenseNumber: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       DrivingLicenseExpiry: new FormControl(new Date(), [Validators.required]),
-      Status: new FormControl('', [Validators.maxLength(20),]),
       CompanyName: new FormControl('', [Validators.maxLength(150),]),
       ShortName: new FormControl('', [Validators.maxLength(10),]),
       CIN: new FormControl('', [Validators.maxLength(20),]),
@@ -112,7 +110,6 @@ export class CustomerCreateComponent implements OnInit {
     });
 this.genderOptions = this.loggedInUserService.getPicklistOptions('Gender');
 this.maritalstatusOptions = this.loggedInUserService.getPicklistOptions('MaritalStatus');
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 this.natureofbusinessOptions = this.loggedInUserService.getPicklistOptions('NatureOfBusiness');
     this.permanentcityOptions.push({ Text: '', Value: '' });
     this.permanentstateOptions.push({ Text: '', Value: '' });
@@ -156,7 +153,6 @@ this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('Cust
         AadhaarNumber: obj.AadhaarNumber || '',
         DrivingLicenseNumber: obj.DrivingLicenseNumber || '',
         DrivingLicenseExpiry: obj.DrivingLicenseExpiry || new Date(),
-        Status: obj.Status || '',
         CompanyName: obj.CompanyName || '',
         ShortName: obj.ShortName || '',
         CIN: obj.CIN || '',
@@ -222,7 +218,6 @@ this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('Cust
         AadhaarNumber: obj.AadhaarNumber || '',
         DrivingLicenseNumber: obj.DrivingLicenseNumber || '',
         DrivingLicenseExpiry: obj.DrivingLicenseExpiry || new Date(),
-        Status: obj.Status || '',
         CompanyName: obj.CompanyName || '',
         ShortName: obj.ShortName || '',
         CIN: obj.CIN || '',
@@ -279,7 +274,7 @@ this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('Cust
       AadhaarNumber: formValues.AadhaarNumber || null,
       DrivingLicenseNumber: formValues.DrivingLicenseNumber || null,
       DrivingLicenseExpiry: formValues.DrivingLicenseExpiry || null,
-      Status: formValues.Status || null,
+      Status: 'Active',
       CompanyName: formValues.CompanyName || null,
       ShortName: formValues.ShortName || null,
       CIN: formValues.CIN || null,

@@ -31,7 +31,6 @@ export class NumberSequenceCreateComponent implements OnInit {
 organisationidOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
 resetfrequencyOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : INumberSequence = {} as INumberSequence;
@@ -68,7 +67,6 @@ NumberLength: new FormControl(0, [Validators.min(0), Validators.max(255)]),
 ResetFrequency: new FormControl('', [Validators.maxLength(20), ]), 
 LastResetDate: new FormControl(new Date(), []),
 ExampleNumber: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -83,7 +81,6 @@ this.resetfrequencyOptions = this.loggedInUserService.getPicklistOptions('ResetF
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
 LastResetDate:  obj.LastResetDate || new Date(),
 ExampleNumber: obj.ExampleNumber || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -155,7 +151,6 @@ NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
 LastResetDate:  obj.LastResetDate || new Date(),
 ExampleNumber: obj.ExampleNumber || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -186,7 +181,7 @@ NumberLength: formValues.NumberLength || null,
 ResetFrequency: formValues.ResetFrequency || null,
 LastResetDate: formValues.LastResetDate || null,
 ExampleNumber: formValues.ExampleNumber || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -33,7 +33,6 @@ departmentcodeOptions: ISelectItem[] = [];
 departmenttypeOptions: ISelectItem[] = [];
 headuseridOptions: ISelectItem[] = [];
 costcentrecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDepartment = {} as IDepartment;
@@ -67,7 +66,6 @@ DepartmentName: new FormControl('', [Validators.required, Validators.maxLength(1
 DepartmentType: new FormControl('', [Validators.maxLength(20), ]), 
 HeadUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CostCentreCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
@@ -91,7 +89,6 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
       next: options => this.parentdepartmentidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -120,7 +117,6 @@ DepartmentName: obj.DepartmentName || '',
 DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -158,7 +154,6 @@ DepartmentName: obj.DepartmentName || '',
 DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -187,7 +182,7 @@ DepartmentName: formValues.DepartmentName || null,
 DepartmentType: formValues.DepartmentType || null,
 HeadUserId: formValues.HeadUserId || null,
 CostCentreCode: formValues.CostCentreCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

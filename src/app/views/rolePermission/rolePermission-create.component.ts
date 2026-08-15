@@ -30,7 +30,6 @@ export class RolePermissionCreateComponent implements OnInit {
   roleidOptions: ISelectItem[] = [];
   permissionidOptions: ISelectItem[] = [];
   granttypeOptions: ISelectItem[] = [];
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any;
   objMaster: IRolePermission = {} as IRolePermission;
@@ -61,7 +60,6 @@ export class RolePermissionCreateComponent implements OnInit {
       PermissionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
       GrantType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       ConstraintJson: new FormControl('', [Validators.required, Validators.maxLength(2000),]),
-      RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       EffectiveTo: new FormControl(new Date(), []),
 
@@ -75,7 +73,6 @@ this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType')
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -101,7 +98,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         PermissionId: obj.PermissionId || 0,
         GrantType: obj.GrantType || '',
         ConstraintJson: obj.ConstraintJson || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
 
@@ -135,7 +131,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         PermissionId: obj.PermissionId || 0,
         GrantType: obj.GrantType || '',
         ConstraintJson: obj.ConstraintJson || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
 
@@ -160,7 +155,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       PermissionId: formValues.PermissionId || 0,
       GrantType: formValues.GrantType || null,
       ConstraintJson: formValues.ConstraintJson || null,
-      RecordStatus: formValues.RecordStatus || null,
+      RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,
       EffectiveTo: formValues.EffectiveTo || null,
 

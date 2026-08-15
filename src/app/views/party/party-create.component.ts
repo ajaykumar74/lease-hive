@@ -34,7 +34,6 @@ preferredcurrencycodeOptions: ISelectItem[] = [];
 taxresidencycountrycodeOptions: ISelectItem[] = [];
 riskclassificationOptions: ISelectItem[] = [];
 onboardingstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IParty = {} as IParty;
@@ -76,7 +75,6 @@ TaxResidencyCountryCode: new FormControl('', [Validators.maxLength(2), ]),
 IsRelatedParty: new FormControl(false, []),
 RiskClassification: new FormControl('', [Validators.maxLength(20), ]), 
 OnboardingStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
@@ -91,7 +89,6 @@ this.taxresidencycountrycodeOptions.push({Text: 'USA', Value: 'USA' });
 this.taxresidencycountrycodeOptions.push({Text: 'UK', Value: 'UK' });
 this.riskclassificationOptions = this.loggedInUserService.getPicklistOptions('RiskClassification');
 this.onboardingstatusOptions = this.loggedInUserService.getPicklistOptions('OnboardingStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -128,7 +125,6 @@ TaxResidencyCountryCode: obj.TaxResidencyCountryCode || '',
 IsRelatedParty:  obj.IsRelatedParty || false,
 RiskClassification: obj.RiskClassification || '',
 OnboardingStatus: obj.OnboardingStatus || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -174,7 +170,6 @@ TaxResidencyCountryCode: obj.TaxResidencyCountryCode || '',
 IsRelatedParty:  obj.IsRelatedParty || false,
 RiskClassification: obj.RiskClassification || '',
 OnboardingStatus: obj.OnboardingStatus || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -212,7 +207,7 @@ TaxResidencyCountryCode: formValues.TaxResidencyCountryCode || null,
 IsRelatedParty: formValues.IsRelatedParty || null,
 RiskClassification: formValues.RiskClassification || null,
 OnboardingStatus: formValues.OnboardingStatus || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

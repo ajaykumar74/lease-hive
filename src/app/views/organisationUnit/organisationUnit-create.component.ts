@@ -32,7 +32,6 @@ unittypeOptions: ISelectItem[] = [];
 costcentrecodeOptions: ISelectItem[] = [];
 profitcentrecodeOptions: ISelectItem[] = [];
 defaultlocationidOptions: ISelectItem[] = [];
-statusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IOrganisationUnit = {} as IOrganisationUnit;
@@ -71,7 +70,6 @@ IsContractingUnit: new FormControl(false, [Validators.required]),
 IsBillingUnit: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-Status: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 HierarchyPath: new FormControl('', [Validators.maxLength(256), ]), 
 Description: new FormControl('', [Validators.maxLength(256), ]), 
 
@@ -82,7 +80,6 @@ this.costcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.costcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
 this.profitcentrecodeOptions.push({Text: 'U001', Value: 'U001' });
 this.profitcentrecodeOptions.push({Text: 'U002', Value: 'U002' });
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
     this.loggedInUserService.getLookupOptions('locations').subscribe({
       next: options => this.defaultlocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -124,7 +121,6 @@ IsContractingUnit:  obj.IsContractingUnit || false,
 IsBillingUnit:  obj.IsBillingUnit || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-Status: obj.Status || '',
 HierarchyPath: obj.HierarchyPath || '',
 Description: obj.Description || '',
  
@@ -166,7 +162,6 @@ IsContractingUnit:  obj.IsContractingUnit || false,
 IsBillingUnit:  obj.IsBillingUnit || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-Status: obj.Status || '',
 HierarchyPath: obj.HierarchyPath || '',
 Description: obj.Description || '',
  
@@ -199,7 +194,7 @@ IsContractingUnit: formValues.IsContractingUnit || null,
 IsBillingUnit: formValues.IsBillingUnit || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-Status: formValues.Status || null,
+Status: 'Active',
 HierarchyPath: formValues.HierarchyPath || null,
 Description: formValues.Description || null,
 

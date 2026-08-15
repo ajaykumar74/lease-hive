@@ -31,7 +31,6 @@ export class PartyBankAccountCreateComponent implements OnInit {
 accounttypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 verificationstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyBankAccount = {} as IPartyBankAccount;
@@ -73,7 +72,6 @@ IsDefaultForPayments: new FormControl(false, [Validators.required]),
 IsDefaultForRefunds: new FormControl(false, [Validators.required]),
 VerificationStatus: new FormControl('', [Validators.maxLength(20), ]), 
 VerifiedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -82,7 +80,6 @@ EffectiveTo: new FormControl(new Date(), []),
 this.accounttypeOptions = this.loggedInUserService.getPicklistOptions('AccountType');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -126,7 +123,6 @@ IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -171,7 +167,6 @@ IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -207,7 +202,7 @@ IsDefaultForPayments: formValues.IsDefaultForPayments || false,
 IsDefaultForRefunds: formValues.IsDefaultForRefunds || false,
 VerificationStatus: formValues.VerificationStatus || null,
 VerifiedAt: formValues.VerifiedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

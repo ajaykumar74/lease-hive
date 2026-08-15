@@ -316,19 +316,7 @@
 								</div>
 							</div>
 
-							<div class="grid grid-cols-12 gap-2">
-								<label for="Status"
-									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Status</label>
-								<div class="col-span-12 md:col-span-10">
-									<p-dropdown size="small" name="Status" [options]="['Active','Blocked','On-Hold']"
-										placeholder="Select a value" formControlName="Status">
-									</p-dropdown>
-									<small class="p-error block" *ngIf="
-							editForm.get('Status')?.errors?.required && editForm.get('Status')?.dirty ">
-										Status is required field.</small>
-
-								</div>
-							</div>
+							
 							<div class="grid grid-cols-12 gap-2">
 								<label for="name3"
 									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">CompanyName</label>

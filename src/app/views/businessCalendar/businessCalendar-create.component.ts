@@ -30,7 +30,6 @@ export class BusinessCalendarCreateComponent implements OnInit {
   countrycodeOptions: ISelectItem[] = [];
 stateprovincecodeOptions: ISelectItem[] = [];
 timezoneidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBusinessCalendar = {} as IBusinessCalendar;
@@ -65,7 +64,6 @@ WeekendPattern: new FormControl('', [Validators.required, Validators.maxLength(1
 TimeZoneId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DayStartTime: new FormControl(new Date(), [Validators.required]),
 DayEndTime: new FormControl(new Date(), [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -73,7 +71,6 @@ EffectiveTo: new FormControl(new Date(), []),
 this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
 this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
 this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
 DayStartTime:  obj.DayStartTime || new Date(),
 DayEndTime:  obj.DayEndTime || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -141,7 +137,6 @@ WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
 DayStartTime:  obj.DayStartTime || new Date(),
 DayEndTime:  obj.DayEndTime || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -170,7 +165,7 @@ WeekendPattern: formValues.WeekendPattern || null,
 TimeZoneId: formValues.TimeZoneId || null,
 DayStartTime: formValues.DayStartTime || null,
 DayEndTime: formValues.DayEndTime || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

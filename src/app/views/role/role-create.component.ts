@@ -29,7 +29,6 @@ export class RoleCreateComponent implements OnInit {
   role: IRole = null;
   roletypeOptions: ISelectItem[] = [];
 scopetypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IRole = {} as IRole;
@@ -62,14 +61,12 @@ RoleType: new FormControl('', [Validators.required, Validators.maxLength(20), ])
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 IsSystemRole: new FormControl(false, [Validators.required]),
 ScopeType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
 this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -97,7 +94,6 @@ RoleType: obj.RoleType || '',
 Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -133,7 +129,6 @@ RoleType: obj.RoleType || '',
 Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -160,7 +155,7 @@ RoleType: formValues.RoleType || null,
 Description: formValues.Description || null,
 IsSystemRole: formValues.IsSystemRole || false,
 ScopeType: formValues.ScopeType || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -31,7 +31,6 @@ export class PartyDocumentCreateComponent implements OnInit {
 documenttypeOptions: ISelectItem[] = [];
 verificationstatusOptions: ISelectItem[] = [];
 verifiedbyOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyDocument = {} as IPartyDocument;
@@ -69,7 +68,6 @@ VerificationStatus: new FormControl('', [Validators.required, Validators.maxLeng
 VerifiedBy: new FormControl('', [Validators.maxLength(30), ]), 
 VerifiedAt: new FormControl(new Date(), []),
 RejectionReason: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -82,7 +80,6 @@ this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('Document
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
 this.verifiedbyOptions.push({Text: 'Emp1', Value: 'Emp1' });
 this.verifiedbyOptions.push({Text: 'Emp2', Value: 'Emp2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ VerificationStatus: obj.VerificationStatus || '',
 VerifiedBy: obj.VerifiedBy || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 RejectionReason: obj.RejectionReason || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -156,7 +152,6 @@ VerificationStatus: obj.VerificationStatus || '',
 VerifiedBy: obj.VerifiedBy || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 RejectionReason: obj.RejectionReason || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -188,7 +183,7 @@ VerificationStatus: formValues.VerificationStatus || null,
 VerifiedBy: formValues.VerifiedBy || null,
 VerifiedAt: formValues.VerifiedAt || null,
 RejectionReason: formValues.RejectionReason || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

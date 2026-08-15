@@ -31,7 +31,6 @@ export class ApprovalAuthorityCreateComponent implements OnInit {
 roleidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IApprovalAuthority = {} as IApprovalAuthority;
@@ -68,7 +67,6 @@ MinimumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2
 MaximumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 RequiredApproverCount: new FormControl(0, [Validators.min(0), Validators.max(255)]),
 CanDelegate: new FormControl(false, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -86,7 +84,6 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -118,7 +115,6 @@ MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -158,7 +154,6 @@ MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -189,7 +184,7 @@ MinimumAmount: formValues.MinimumAmount || 0,
 MaximumAmount: formValues.MaximumAmount || 0,
 RequiredApproverCount: formValues.RequiredApproverCount || null,
 CanDelegate: formValues.CanDelegate || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -31,7 +31,6 @@ export class PartyRelationshipCreateComponent implements OnInit {
 topartyidOptions: ISelectItem[] = [];
 relationshiptypeOptions: ISelectItem[] = [];
 controltypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyRelationship = {} as IPartyRelationship;
@@ -64,7 +63,6 @@ RelationshipType: new FormControl('', [Validators.required, Validators.maxLength
 OwnershipPercentage: new FormControl(0, [Validators.required]),
 ControlType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RelationshipReference: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -78,7 +76,6 @@ EffectiveTo: new FormControl(new Date(), []),
     });
 this.relationshiptypeOptions = this.loggedInUserService.getPicklistOptions('RelationshipType');
 this.controltypeOptions = this.loggedInUserService.getPicklistOptions('ControlType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -106,7 +103,6 @@ RelationshipType: obj.RelationshipType || '',
 OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -142,7 +138,6 @@ RelationshipType: obj.RelationshipType || '',
 OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -170,7 +165,7 @@ RelationshipType: formValues.RelationshipType || null,
 OwnershipPercentage: formValues.OwnershipPercentage || null,
 ControlType: formValues.ControlType || null,
 RelationshipReference: formValues.RelationshipReference || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

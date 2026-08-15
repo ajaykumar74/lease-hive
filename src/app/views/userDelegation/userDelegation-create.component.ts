@@ -32,7 +32,6 @@ delegateuseridOptions: ISelectItem[] = [];
 delegationtypeOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
 approvedbyidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IUserDelegation = {} as IUserDelegation;
@@ -69,7 +68,6 @@ StartDateTime: new FormControl(new Date(), []),
 EndDateTime: new FormControl(new Date(), []),
 Reason: new FormControl('', [Validators.maxLength(100), ]), 
 ApprovedById: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -91,7 +89,6 @@ this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('Delega
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -123,7 +120,6 @@ StartDateTime:  obj.StartDateTime || new Date(),
 EndDateTime:  obj.EndDateTime || new Date(),
 Reason: obj.Reason || '',
 ApprovedById: obj.ApprovedById || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -163,7 +159,6 @@ StartDateTime:  obj.StartDateTime || new Date(),
 EndDateTime:  obj.EndDateTime || new Date(),
 Reason: obj.Reason || '',
 ApprovedById: obj.ApprovedById || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -194,7 +189,7 @@ StartDateTime: formValues.StartDateTime || null,
 EndDateTime: formValues.EndDateTime || null,
 Reason: formValues.Reason || null,
 ApprovedById: formValues.ApprovedById || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

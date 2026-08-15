@@ -28,7 +28,6 @@ export class BusinessCalendarHolidayCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   businessCalendarHoliday: IBusinessCalendarHoliday = null;
   daytypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 businessCalendarOptions: ISelectItem[] = [];
   editForm: any; 
   objMaster : IBusinessCalendarHoliday = {} as IBusinessCalendarHoliday;
@@ -62,14 +61,12 @@ DayCounts: new FormControl(0, [Validators.min(-2147483648), Validators.max(21474
 DayType: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
 StartTime: new FormControl('', [Validators.maxLength(5), ]), 
 EndTime: new FormControl('', [Validators.maxLength(5), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
 this.daytypeOptions = this.loggedInUserService.getPicklistOptions('DayType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
  
 this.businessCalendarOptions.push({Text: 'Calendar 1', Value: '1' });
 this.businessCalendarOptions.push({Text: 'Calendar 2', Value: '2' });   
@@ -100,7 +97,6 @@ DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -138,7 +134,6 @@ DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -167,7 +162,7 @@ DayCounts: formValues.DayCounts || null,
 DayType: formValues.DayType || null,
 StartTime: formValues.StartTime || null,
 EndTime: formValues.EndTime || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

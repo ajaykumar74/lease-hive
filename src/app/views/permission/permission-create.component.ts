@@ -30,7 +30,6 @@ export class PermissionCreateComponent implements OnInit {
   modulecodeOptions: ISelectItem[] = [];
 resourcetypeOptions: ISelectItem[] = [];
 actionnameOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAppPermission = {} as IAppPermission;
@@ -64,7 +63,6 @@ ResourceName: new FormControl('', [Validators.required, Validators.maxLength(30)
 ActionName: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 IsSensitive: new FormControl(false, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -72,7 +70,6 @@ EffectiveTo: new FormControl(new Date(), []),
 this.modulecodeOptions = this.loggedInUserService.getPicklistOptions('ModuleCode');
 this.resourcetypeOptions = this.loggedInUserService.getPicklistOptions('ResourceType');
 this.actionnameOptions = this.loggedInUserService.getPicklistOptions('ActionName');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -101,7 +98,6 @@ ResourceName: obj.ResourceName || '',
 ActionName: obj.ActionName || '',
 Description: obj.Description || '',
 IsSensitive:  obj.IsSensitive || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -138,7 +134,6 @@ ResourceName: obj.ResourceName || '',
 ActionName: obj.ActionName || '',
 Description: obj.Description || '',
 IsSensitive:  obj.IsSensitive || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -166,7 +161,7 @@ ResourceName: formValues.ResourceName || null,
 ActionName: formValues.ActionName || null,
 Description: formValues.Description || null,
 IsSensitive: formValues.IsSensitive || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

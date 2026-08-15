@@ -30,7 +30,6 @@ export class UserOrganisationUnitCreateComponent implements OnInit {
   organisationunitidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];
 accesslevelOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IUserOrganisationUnit = {} as IUserOrganisationUnit;
@@ -63,7 +62,6 @@ AccessLevel: new FormControl('', [Validators.required, Validators.maxLength(20),
 CanViewChildUnits: new FormControl(false, []),
 CanViewParentUnits: new FormControl(false, []),
 IsDefault: new FormControl(false, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -77,7 +75,6 @@ this.accesslevelOptions = this.loggedInUserService.getPicklistOptions('AccessLev
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -105,7 +102,6 @@ AccessLevel: obj.AccessLevel || '',
 CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -141,7 +137,6 @@ AccessLevel: obj.AccessLevel || '',
 CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -168,7 +163,7 @@ AccessLevel: formValues.AccessLevel || null,
 CanViewChildUnits: formValues.CanViewChildUnits || false,
 CanViewParentUnits: formValues.CanViewParentUnits || false,
 IsDefault: formValues.IsDefault || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

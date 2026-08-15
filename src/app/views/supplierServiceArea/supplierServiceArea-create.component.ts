@@ -35,7 +35,6 @@ stateprovincecodeOptions: ISelectItem[] = [];
 cityOptions: ISelectItem[] = [];
 assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierServiceArea = {} as ISupplierServiceArea;
@@ -78,7 +77,6 @@ CanInspect: new FormControl(false, []),
 CanRecover: new FormControl(false, []),
 CanDispose: new FormControl(false, []),
 StandardLeadTimeDays: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
@@ -101,7 +99,6 @@ this.assettypeidOptions = this.loggedInUserService.getPicklistOptions('AssetType
       next: options => this.supplierprofileidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -139,7 +136,6 @@ CanInspect:  obj.CanInspect || false,
 CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -186,7 +182,6 @@ CanInspect:  obj.CanInspect || false,
 CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
@@ -224,7 +219,7 @@ CanInspect: formValues.CanInspect || false,
 CanRecover: formValues.CanRecover || false,
 CanDispose: formValues.CanDispose || false,
 StandardLeadTimeDays: formValues.StandardLeadTimeDays || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 Description: formValues.Description || null,

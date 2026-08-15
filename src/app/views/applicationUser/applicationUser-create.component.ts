@@ -33,7 +33,6 @@ partycontactidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 defaultorganisationunitidOptions: ISelectItem[] = [];
 timezoneidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IApplicationUser = {} as IApplicationUser;
@@ -74,7 +73,6 @@ DefaultOrganisationUnitId: new FormControl(0, [Validators.required, Validators.m
 TimeZoneId: new FormControl('', [Validators.maxLength(20), ]), 
 LastLoginDateTime: new FormControl(new Date(), []),
 FailedLoginCount: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -94,7 +92,6 @@ this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone')
       next: options => this.partycontactidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -130,7 +127,6 @@ DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
 LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
 FailedLoginCount: obj.FailedLoginCount || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -174,7 +170,6 @@ DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
 LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
 FailedLoginCount: obj.FailedLoginCount || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -209,7 +204,7 @@ DefaultOrganisationUnitId: formValues.DefaultOrganisationUnitId || 0,
 TimeZoneId: formValues.TimeZoneId || null,
 LastLoginDateTime: formValues.LastLoginDateTime || null,
 FailedLoginCount: formValues.FailedLoginCount || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

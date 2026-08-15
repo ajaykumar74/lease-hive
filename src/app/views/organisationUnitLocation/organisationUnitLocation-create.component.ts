@@ -29,7 +29,6 @@ export class OrganisationUnitLocationCreateComponent implements OnInit {
   organisationUnitLocation: IOrganisationUnitLocation = null;
   organisationunitidOptions: ISelectItem[] = [];
 purposetypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IOrganisationUnitLocation = {} as IOrganisationUnitLocation;
@@ -59,7 +58,6 @@ recordstatusOptions: ISelectItem[] = [];
 OrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 PurposeType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IsPrimary: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -69,7 +67,6 @@ this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeTy
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -94,7 +91,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -127,7 +123,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -151,7 +146,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      OrganisationUnitId: formValues.OrganisationUnitId || null,
 PurposeType: formValues.PurposeType || null,
 IsPrimary: formValues.IsPrimary || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

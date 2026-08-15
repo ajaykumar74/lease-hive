@@ -30,7 +30,6 @@ export class ProfitCentreCreateComponent implements OnInit {
   parentprofitcentreidOptions: ISelectItem[] = [];
   organisationunitidOptions: ISelectItem[] = [];
   externalledgercodeOptions: ISelectItem[] = [];
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any;
   objMaster: IProfitCentre = {} as IProfitCentre;
@@ -62,7 +61,6 @@ export class ProfitCentreCreateComponent implements OnInit {
       ParentProfitCentreId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       OrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       ExternalLedgerCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
-      RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       EffectiveTo: new FormControl(new Date(), []),
       Description: new FormControl('', [Validators.maxLength(100),]),
@@ -80,7 +78,6 @@ export class ProfitCentreCreateComponent implements OnInit {
       next: options => this.parentprofitcentreidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -107,7 +104,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         ParentProfitCentreId: obj.ParentProfitCentreId || 0,
         OrganisationUnitId: obj.OrganisationUnitId || 0,
         ExternalLedgerCode: obj.ExternalLedgerCode || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
@@ -143,7 +139,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         ParentProfitCentreId: obj.ParentProfitCentreId || 0,
         OrganisationUnitId: obj.OrganisationUnitId || 0,
         ExternalLedgerCode: obj.ExternalLedgerCode || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
@@ -170,7 +165,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       ParentProfitCentreId: formValues.ParentProfitCentreId || null,
       OrganisationUnitId: formValues.OrganisationUnitId || null,
       ExternalLedgerCode: formValues.ExternalLedgerCode || null,
-      RecordStatus: formValues.RecordStatus || null,
+      RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,
       EffectiveTo: formValues.EffectiveTo || null,
       Description: formValues.Description || null,

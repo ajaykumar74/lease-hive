@@ -31,7 +31,6 @@ export class UserRoleCreateComponent implements OnInit {
 applicationuseridOptions: ISelectItem[] = [];
 scopetypeOptions: ISelectItem[] = [];
 assignedbyidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IUserRole = {} as IUserRole;
@@ -65,7 +64,6 @@ ScopeReferenceId: new FormControl(0, [Validators.required, Validators.min(-21474
 AssignedById: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssignedAt: new FormControl(new Date(), []),
 IsDelegated: new FormControl(false, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -83,7 +81,6 @@ this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType')
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -112,7 +109,6 @@ ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
 AssignedAt:  obj.AssignedAt || new Date(),
 IsDelegated:  obj.IsDelegated || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -149,7 +145,6 @@ ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
 AssignedAt:  obj.AssignedAt || new Date(),
 IsDelegated:  obj.IsDelegated || false,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -177,7 +172,7 @@ ScopeReferenceId: formValues.ScopeReferenceId || 0,
 AssignedById: formValues.AssignedById || 0,
 AssignedAt: formValues.AssignedAt || null,
 IsDelegated: formValues.IsDelegated || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -33,7 +33,6 @@ partygstregistrationidOptions: ISelectItem[] = [];
 locationtypeOptions: ISelectItem[] = [];
 cityOptions: ISelectItem[] = [];
 statecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyLocation = {} as IPartyLocation;
@@ -77,7 +76,6 @@ IsShipTo: new FormControl(false, []),
 IsDefaultBillTo: new FormControl(false, [Validators.required]),
 IsDefaultShipTo: new FormControl(false, [Validators.required]),
 WorkingHours: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -97,7 +95,6 @@ this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode')
       next: options => this.partygstregistrationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -136,7 +133,6 @@ IsShipTo:  obj.IsShipTo || false,
 IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -183,7 +179,6 @@ IsShipTo:  obj.IsShipTo || false,
 IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -222,7 +217,7 @@ IsShipTo: formValues.IsShipTo || false,
 IsDefaultBillTo: formValues.IsDefaultBillTo || false,
 IsDefaultShipTo: formValues.IsDefaultShipTo || false,
 WorkingHours: formValues.WorkingHours || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

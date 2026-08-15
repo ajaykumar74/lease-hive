@@ -33,7 +33,6 @@ partyroletypeOptions: ISelectItem[] = [];
 accesslevelOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 customerdepartmentidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IUserPartyAccess = {} as IUserPartyAccess;
@@ -66,7 +65,6 @@ PartyRoleType: new FormControl('', [Validators.maxLength(20), ]),
 AccessLevel: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 PartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 CustomerDepartmentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -89,7 +87,6 @@ this.accesslevelOptions = this.loggedInUserService.getPicklistOptions('AccessLev
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -117,7 +114,6 @@ PartyRoleType: obj.PartyRoleType || '',
 AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -153,7 +149,6 @@ PartyRoleType: obj.PartyRoleType || '',
 AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -180,7 +175,7 @@ PartyRoleType: formValues.PartyRoleType || null,
 AccessLevel: formValues.AccessLevel || null,
 PartyLocationId: formValues.PartyLocationId || 0,
 CustomerDepartmentId: formValues.CustomerDepartmentId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

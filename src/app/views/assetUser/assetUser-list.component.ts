@@ -113,6 +113,7 @@ export class AssetUserListComponent implements OnInit {
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
       { DBName: 'FullName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'EmployeeCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
     ];
 
 

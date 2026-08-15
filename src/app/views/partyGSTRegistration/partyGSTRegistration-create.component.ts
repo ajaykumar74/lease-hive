@@ -32,7 +32,6 @@ statecodeOptions: ISelectItem[] = [];
 registrationtypeOptions: ISelectItem[] = [];
 principallocationidOptions: ISelectItem[] = [];
 verificationstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyGSTRegistration = {} as IPartyGSTRegistration;
@@ -70,7 +69,6 @@ PrincipalLocationId: new FormControl(0, [Validators.required, Validators.min(-21
 VerificationStatus: new FormControl('', [Validators.maxLength(20), ]), 
 VerifiedAt: new FormControl(new Date(), []),
 CancellationDate: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 IsDefault: new FormControl(false, []),
@@ -87,7 +85,6 @@ this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('Ve
       next: options => this.principallocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -120,7 +117,6 @@ PrincipalLocationId: obj.PrincipalLocationId || 0,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 CancellationDate:  obj.CancellationDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 IsDefault:  obj.IsDefault || false,
@@ -162,7 +158,6 @@ PrincipalLocationId: obj.PrincipalLocationId || 0,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 CancellationDate:  obj.CancellationDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 IsDefault:  obj.IsDefault || false,
@@ -195,7 +190,7 @@ PrincipalLocationId: formValues.PrincipalLocationId || null,
 VerificationStatus: formValues.VerificationStatus || null,
 VerifiedAt: formValues.VerifiedAt || null,
 CancellationDate: formValues.CancellationDate || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 IsDefault: formValues.IsDefault || null,

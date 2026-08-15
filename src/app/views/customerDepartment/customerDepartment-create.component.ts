@@ -34,7 +34,6 @@ parentcustomerdepartmentidOptions: ISelectItem[] = [];
 costcentrecodeOptions: ISelectItem[] = [];
 departmentheadcontactidOptions: ISelectItem[] = [];
 billingreferenceOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerDepartment = {} as ICustomerDepartment;
@@ -70,7 +69,6 @@ DepartmentName: new FormControl('', [Validators.required, Validators.maxLength(3
 CostCentreCode: new FormControl('', [Validators.maxLength(30), ]), 
 DepartmentHeadContactId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 BillingReference: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
@@ -99,7 +97,6 @@ this.billingreferenceOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -130,7 +127,6 @@ DepartmentName: obj.DepartmentName || '',
 CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -169,7 +165,6 @@ DepartmentName: obj.DepartmentName || '',
 CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -199,7 +194,7 @@ DepartmentName: formValues.DepartmentName || null,
 CostCentreCode: formValues.CostCentreCode || null,
 DepartmentHeadContactId: formValues.DepartmentHeadContactId || 0,
 BillingReference: formValues.BillingReference || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

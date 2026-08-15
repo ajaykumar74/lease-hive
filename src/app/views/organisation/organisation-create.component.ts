@@ -33,7 +33,6 @@ export class OrganisationCreateComponent implements OnInit {
   timezoneidOptions: ISelectItem[] = [];
   financialyearstartmonthOptions: ISelectItem[] = [];
   taxsystemOptions: ISelectItem[] = [];
-  statusOptions: ISelectItem[] = [];
 
   editForm: any;
   objMaster: IOrganisation = {} as IOrganisation;
@@ -71,7 +70,6 @@ export class OrganisationCreateComponent implements OnInit {
       TimeZoneId: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       FinancialYearStartMonth: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
       TaxSystem: new FormControl('', [Validators.required, Validators.maxLength(20),]),
-      Status: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       Description: new FormControl('', [Validators.maxLength(256),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       EffectiveTo: new FormControl(new Date(), [])
@@ -82,7 +80,6 @@ this.functionalcurrencyOptions = this.loggedInUserService.getPicklistOptions('Cu
 this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
 this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
 this.taxsystemOptions = this.loggedInUserService.getPicklistOptions('TaxSystem');
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 
   }
 
@@ -115,7 +112,6 @@ this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
         TimeZoneId: obj.TimeZoneId || '',
         FinancialYearStartMonth: obj.FinancialYearStartMonth || 0,
         TaxSystem: obj.TaxSystem || '',
-        Status: obj.Status || '',
         Description: obj.Description || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
@@ -157,7 +153,6 @@ this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
         TimeZoneId: obj.TimeZoneId || '',
         FinancialYearStartMonth: obj.FinancialYearStartMonth || 0,
         TaxSystem: obj.TaxSystem || '',
-        Status: obj.Status || '',
         Description: obj.Description || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
         EffectiveTo: obj.EffectiveTo || new Date(),
@@ -191,7 +186,7 @@ this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
       TimeZoneId: formValues.TimeZoneId || null,
       FinancialYearStartMonth: formValues.FinancialYearStartMonth || null,
       TaxSystem: formValues.TaxSystem || null,
-      Status: formValues.Status || null,
+      Status: 'Active',
       Description: formValues.Description || null,
       EffectiveFrom: formValues.EffectiveFrom || null,
       EffectiveTo: formValues.EffectiveTo || null,
