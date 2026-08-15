@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetCategoryId" [value]="assetType.AssetCategoryId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Type Code" [value]="assetType.AssetTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Type Name" [value]="assetType.AssetTypeName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Default UsefulLife Months" [value]="assetType.DefaultUsefulLifeMonths">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default Residual Percent" [value]="assetType.DefaultResidualPercent">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Requires SerialNo" [value]="assetType.RequiresSerialNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Requires Registration No" [value]="assetType.RequiresRegistrationNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="assetType.EffectiveFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetType.EffectiveTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="assetType.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

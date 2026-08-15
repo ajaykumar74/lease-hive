@@ -1,0 +1,97 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="MakeCode">Make Code 
+							</label> 
+							<input pInputText id="MakeCode" type="text" pSize="small"	formControlName="MakeCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MakeCode')"
+											label="Make Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="MakeName">Make Name 
+							</label> 
+							<input pInputText id="MakeName" type="text" pSize="small"	formControlName="MakeName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MakeName')"
+											label="Make Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset CategoryId" class="mb-1">AssetCategoryId</label>
+        <p-dropdown
+            inputId="AssetCategoryId" 
+            [options]="assetcategoryidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetCategoryId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
+											label="Asset CategoryId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Country Code" class="mb-1">CountryCode</label>
+        <p-dropdown
+            inputId="CountryCode" 
+            [options]="countrycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CountryCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CountryCode')"
+											label="Country Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

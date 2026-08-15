@@ -519,19 +519,19 @@ export class AppMenu {
                     items: [
                         {
                             label: 'Asset Categories',
-                            routerLink: ['/assets/categories']
+                            routerLink: ['/dashboard/assetCategorys/list']
                         },
                         {
                             label: 'Asset Types',
-                            routerLink: ['/assets/types']
+                            routerLink: ['/dashboard/assetTypes']
                         },
                         {
-                            label: 'Makes',
-                            routerLink: ['/assets/makes']
+                            label: 'Asset Makes',
+                            routerLink: ['/dashboard/assetMakes']
                         },
                         {
                             label: 'Models & Variants',
-                            routerLink: ['/assets/models']
+                            routerLink: ['/dashboard/assetModels']
                         },
                         {
                             label: 'Attribute Definitions',

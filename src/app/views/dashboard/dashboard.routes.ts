@@ -283,6 +283,27 @@ const routes: Routes = [
       },
 
 
+      {
+        path: 'assetCategorys',
+        data: { breadcrumb: 'Asset Categories' },
+        loadChildren: () => import('@/views/assets/assetCategory/assetCategory.module').then(c => c.AssetCategoryModule),
+      },
+
+      {
+        path: 'assetTypes',
+        data: { breadcrumb: 'Asset Types' },
+        loadChildren: () => import('@/views/assets/assetType/assetType.module').then(c => c.AssetTypeModule),
+      },
+      {
+        path: 'assetMakes',
+        data: { breadcrumb: 'Asset Makes' },
+        loadChildren: () => import('@/views/assets/assetMake/assetMake.module').then(c => c.AssetMakeModule),
+      },
+ {
+        path: 'assetModels',
+        data: { breadcrumb: 'Asset Models' },
+        loadChildren: () => import('@/views/assets/assetModel/assetModel.module').then(c => c.AssetModelModule),
+      },
     ]
   }
 ];

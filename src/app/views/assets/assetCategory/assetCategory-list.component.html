@@ -1,0 +1,49 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<app-message [AlertType]="'message'"></app-message>
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+				[Caption]="'AssetCategory List'" [PageType]="'List'">
+			</app-toolbar-buttons>
+			<app-spinner></app-spinner>
+			<div class="col-12 md:col-6">
+				<p-inputGroup>
+					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
+						[(ngModel)]="objSearch.Name" />
+					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
+				</p-inputGroup>
+			</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+				responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
+						<th style="width:200px">CategoryCode <p-sortIcon field="CategoryCode" /> </th> 
+						<th style="width:200px">CategoryName <p-sortIcon field="CategoryName" /> </th>
+						<th style="width:200px">SupportsRegistration <p-sortIcon field="SupportsRegistration" /> </th>
+						<th style="width:200px">SupportsMeasure <p-sortIcon field="SupportsMeasure" /> </th>
+						<th style="width:200px">RecordStatus <p-sortIcon field="RecordStatus" /> </th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn><p-button label="{{obj.Id}}" [link]="true"
+								(click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px">{{obj.CategoryCode}}</td>
+<td style="width:200px">{{obj.CategoryCode}}</td>
+
+<td style="width:200px">{{obj.CategoryName}}</td>
+
+<td style="width:200px">{{obj.SupportsRegistration}}</td>
+
+<td style="width:200px">{{obj.SupportsMeasure}}</td>
+
+<td style="width:200px">{{obj.RecordStatus}}</td>
+
+
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

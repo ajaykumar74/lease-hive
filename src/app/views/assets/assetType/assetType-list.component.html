@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetType List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">AssetCategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Asset Type Code <p-sortIcon field="AssetTypeCode" /> </th> 
+<th style="width:200px">Asset Type Name <p-sortIcon field="AssetTypeName" /> </th> 
+<th style="width:200px">Default UsefulLife Months <p-sortIcon field="DefaultUsefulLifeMonths" /> </th> 
+<th style="width:200px">Default Residual Percent <p-sortIcon field="DefaultResidualPercent" /> </th> 
+<th style="width:200px">Requires SerialNo <p-sortIcon field="RequiresSerialNo" /> </th> 
+<th style="width:200px">Requires Registration No <p-sortIcon field="RequiresRegistrationNo" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.AssetCategoryId}}</td>
+ <td style="width:200px">{{obj.AssetTypeCode}}</td>
+ <td style="width:200px">{{obj.AssetTypeName}}</td>
+ <td style="width:200px">{{obj.DefaultUsefulLifeMonths | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DefaultResidualPercent | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RequiresSerialNo | yesNo }}</td>
+ <td style="width:200px">{{obj.RequiresRegistrationNo | yesNo }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

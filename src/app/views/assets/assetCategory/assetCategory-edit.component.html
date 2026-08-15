@@ -1,0 +1,97 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="CategoryCode">CategoryCode 
+							</label> 
+							<input pInputText id="CategoryCode" type="text" pSize="small"	formControlName="CategoryCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CategoryCode')"
+											label="CategoryCode">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="CategoryName">CategoryName 
+							</label> 
+							<input pInputText id="CategoryName" type="text" pSize="small"	formControlName="CategoryName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CategoryName')"
+											label="CategoryName">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="SupportsRegistration" binary="true" formControlName="SupportsRegistration">
+											</p-checkbox>
+											<label for="SupportsRegistration">SupportsRegistration</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="SupportsMeasure" binary="true" formControlName="SupportsMeasure">
+											</p-checkbox>
+											<label for="SupportsMeasure">SupportsMeasure</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="ExtensionTypeCode" class="mb-1">ExtensionTypeCode</label>
+        <p-dropdown
+            inputId="ExtensionTypeCode" 
+            [options]="extensiontypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ExtensionTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ExtensionTypeCode')"
+											label="ExtensionTypeCode">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">EffectiveFrom 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="EffectiveFrom">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">EffectiveTo 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="EffectiveTo">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="RecordStatus" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="RecordStatus">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
