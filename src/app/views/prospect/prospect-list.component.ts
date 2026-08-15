@@ -32,7 +32,7 @@ export class ProspectListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = { CanCreate: true } as IPermission;
-  objSearch: any = { Name: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -75,7 +75,7 @@ export class ProspectListComponent implements OnInit {
     // }
   }
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 

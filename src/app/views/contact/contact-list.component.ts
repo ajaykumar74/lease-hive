@@ -33,7 +33,7 @@ export class ContactListComponent implements OnInit {
   maxPageCount: number = 10;
   Caption: string = '';
   permission = { CanCreate: true } as IPermission;
-  objSearch: any = { Name: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
   stateData: IStateData;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
@@ -82,7 +82,7 @@ export class ContactListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -145,9 +145,6 @@ this.loggedInUserService.loggedInUser.Role
 
 
     var auditCriteria = null;
-    if (this.objSearch.IncludeDeleted == false) {
-      Items.push({ DBName: 'IsDeleted', Value: 'false', DataType: DataType.bit, Operator: Operator.EqualTo })
-    }
 
     if (this.objSearch.AuditType == 'Created') {
       auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);

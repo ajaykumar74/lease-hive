@@ -31,7 +31,7 @@ export class RoleListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -51,7 +51,7 @@ export class RoleListComponent implements OnInit {
   }
 
   onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
+    this.objSearch = { ...obj, RecordStatus: obj.RecordStatus || 'Active' };
     this.search();
   }
 
@@ -65,7 +65,7 @@ export class RoleListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { RecordStatus: 'Active', Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -110,6 +110,7 @@ export class RoleListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
+      { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
       { DBName: 'RoleName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'RoleCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
@@ -117,11 +118,7 @@ export class RoleListComponent implements OnInit {
 
 
     var auditCriteria = null;
-    if (this.objSearch.IncludeDeleted == false) {
-      Items.push({ DBName: 'IsDeleted', Value: 'false', DataType: DataType.bit, Operator: Operator.EqualTo })
-    }
-
-    if (this.objSearch.AuditType == 'Created') {
+if (this.objSearch.AuditType == 'Created') {
       auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
     }
     else if (this.objSearch.AuditType == 'Modified') {

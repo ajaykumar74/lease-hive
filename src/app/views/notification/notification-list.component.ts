@@ -38,7 +38,6 @@ export class NotificationListComponent implements OnInit {
 
   objSearch: any = {
     Title: '',
-    IncludeDeleted: false,
     CreatedByName: '',
     AuditType: '',
     Days: 1,
@@ -85,7 +84,6 @@ export class NotificationListComponent implements OnInit {
   clearSearch(): void {
     this.objSearch = {
       Title: '',
-      IncludeDeleted: false,
       CreatedByName: '',
       AuditType: '',
       Days: 1,

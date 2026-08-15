@@ -31,7 +31,7 @@ export class AssetUserListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -51,7 +51,7 @@ export class AssetUserListComponent implements OnInit {
   }
 
   onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
+    this.objSearch = { ...obj, RecordStatus: obj.RecordStatus || 'Active' };
     this.search();
   }
 
@@ -65,7 +65,7 @@ export class AssetUserListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { RecordStatus: 'Active', Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 

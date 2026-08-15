@@ -36,7 +36,7 @@ export class DocumentListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = { CanCreate: true } as IPermission;
-  objSearch: any = { Name: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Status: 'Active', Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
   stateData: IStateData;
   Caption: string = '';
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
@@ -74,7 +74,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
+    this.objSearch = { ...obj, Status: obj.Status || 'Active' };
     this.search();
   }
 
@@ -88,7 +88,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Status: 'Active', Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -145,6 +145,7 @@ export class DocumentListComponent implements OnInit {
   getSearchParams() {
     if (this.stateData != null) {
       Items = [
+      { DBName: 'Status', Value: this.objSearch.Status, DataType: DataType.Text, Operator: Operator.EqualTo },
         { DBName: 'RecordByType', Value: this.stateData.RecordType, DataType: DataType.Text, Operator: Operator.EqualTo, },
         { DBName: 'RecordById', Value: this.stateData.Id.toString(), DataType: DataType.Text, Operator: Operator.EqualTo },
       ];
@@ -153,6 +154,7 @@ export class DocumentListComponent implements OnInit {
     var Items = [];
     if (this.stateData != null) {
       Items = [
+      { DBName: 'Status', Value: this.objSearch.Status, DataType: DataType.Text, Operator: Operator.EqualTo },
         { DBName: 'RecordByType', Value: this.stateData.RecordType, DataType: DataType.Text, Operator: Operator.EqualTo, },
         { DBName: 'RecordById', Value: this.stateData.Id.toString(), DataType: DataType.Text, Operator: Operator.EqualTo },
       ];
@@ -164,8 +166,6 @@ export class DocumentListComponent implements OnInit {
     Items.push({ DBName: 'CreatedById', Value: this.loggedInUserService.loggedInUser.RecordId.toString(), DataType: DataType.Text, Operator: Operator.EqualTo, CombineCriteria: CombineCriteriaType.CombineOR, GroupName:'OR' });
 
     var auditCriteria = null;
-    if (this.objSearch.IncludeDeleted == false) {
-    }
 
     if (this.objSearch.AuditType == 'Created') {
       auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);

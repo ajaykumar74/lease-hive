@@ -31,7 +31,7 @@ export class TenantListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Status: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -51,7 +51,7 @@ export class TenantListComponent implements OnInit {
   }
 
   onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
+    this.objSearch = { ...obj, Status: obj.Status || 'Active' };
     this.search();
   }
 
@@ -65,7 +65,7 @@ export class TenantListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Status: 'Active', Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -110,6 +110,7 @@ export class TenantListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
+      { DBName: 'Status', Value: this.objSearch.Status, DataType: DataType.Text, Operator: Operator.EqualTo },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
       { DBName: 'TenantName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'TenantCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
