@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierProfile } from './supplierProfile';
 import { SupplierProfileService } from './supplierProfile.service';
+import { PartyService } from '@/views/party/party.service';
+import { IParty } from '@/views/party/party';
 
 @Component({
   selector: 'app-supplierProfile-create',
@@ -27,6 +29,8 @@ export class SupplierProfileCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   supplierProfile: ISupplierProfile = null;
+  partyId: number | null = null;
+  party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
 suppliertierOptions: ISelectItem[] = [];
 suppliercategoryOptions: ISelectItem[] = [];
@@ -44,9 +48,11 @@ currencycodeOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private supplierProfileService: SupplierProfileService,
+	private partyService: PartyService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -87,6 +93,13 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
+      this.loadParty(this.partyId);
+    }
 this.suppliertierOptions = this.loggedInUserService.getPicklistOptions('SupplierTier');
 this.suppliercategoryOptions = this.loggedInUserService.getPicklistOptions('SupplierCategory');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
@@ -108,7 +121,17 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
     });
 
   }
- 
+
+  private loadParty(partyId: number): void {
+    this.partyService.getById(partyId).subscribe({
+      next: response => {
+        this.party = response.data;
+        this.Caption = `Create Supplier Profile - ${this.party.PartyCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.supplierProfileService.getById(this.selectedId).subscribe({
@@ -169,6 +192,10 @@ Description: obj.Description || '',
   }
 
   onCancel(): void {
+    if (this.partyId) {
+      this.router.navigate(['/dashboard/supplierProfiles/party', this.partyId]);
+      return;
+    }
     this.supplierProfile = { ...this.objMaster };
     var obj  = this.supplierProfile;
    this.editForm.patchValue(
@@ -209,10 +236,11 @@ Description: obj.Description || '',
   
   
 	const formValues  = this.editForm.value ;
+	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: formValues.PartyId || 0,
+     PartyId: selectedPartyId || 0,
 SupplierCode: formValues.SupplierCode || null,
 SupplierTier: formValues.SupplierTier || null,
 SupplierCategory: formValues.SupplierCategory || null,

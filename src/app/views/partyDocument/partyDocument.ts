@@ -4,6 +4,7 @@ export interface IPartyDocument extends IBase {
 	Id :number;
 TenantId :number;
 PartyId :number;
+PartyIDocumentd :string;
 DocumentType :string;
 DocumentNumber :string;
 FileDocumentId :number;

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPartyDocument } from './partyDocument';
 import { PartyDocumentService } from './partyDocument.service';
+import { PartyService } from '@/views/party/party.service';
+import { IParty } from '@/views/party/party';
 
 @Component({
   selector: 'app-partyDocument-create',
@@ -27,6 +29,8 @@ export class PartyDocumentCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   partyDocument: IPartyDocument = null;
+  partyId: number | null = null;
+  party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
 documenttypeOptions: ISelectItem[] = [];
 verificationstatusOptions: ISelectItem[] = [];
@@ -40,9 +44,11 @@ verifiedbyOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private partyDocumentService: PartyDocumentService,
+	private partyService: PartyService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -72,15 +78,37 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loggedInUserService.getPartyOptions().subscribe({
-      next: options => this.partyidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.loadParty(this.partyId);
+    }
+    else {
+      this.loadPartyOptions();
+    }
 this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
 this.verifiedbyOptions.push({Text: 'Emp1', Value: 'Emp1' });
 this.verifiedbyOptions.push({Text: 'Emp2', Value: 'Emp2' });
+    this.Caption = 'Create Party Document';
+  }
 
+  private loadParty(partyId: number): void {
+    this.partyService.getById(partyId).subscribe({
+      next: response => {
+        this.party = response.data;
+        this.Caption = `Create Document - ${this.party.PartyCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  private loadPartyOptions(): void {
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
   }
  
  loadUI(): void {
@@ -136,6 +164,10 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   }
 
   onCancel(): void {
+    if (this.partyId) {
+      this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+      return;
+    }
     this.partyDocument = { ...this.objMaster };
     var obj  = this.partyDocument;
    this.editForm.patchValue(
@@ -169,10 +201,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   
   
 	const formValues  = this.editForm.value ;
+	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: formValues.PartyId || 0,
+     PartyId: selectedPartyId || 0,
 DocumentType: formValues.DocumentType || null,
 DocumentNumber: formValues.DocumentNumber || null,
 FileDocumentId: formValues.FileDocumentId || 0,
@@ -193,7 +226,12 @@ EffectiveTo: formValues.EffectiveTo || null,
     this.partyDocumentService.create(createdObj).subscribe({
       next: data => {	   
          // this.messageService.showSuccess(PartyDocument +  'Details Updated sucessfully.');
-		 this._location.back();     
+		 if (this.partyId) {
+		   this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+		 }
+		 else {
+		   this._location.back();
+		 }
       },
       error: err => { 
 	   this.messageService.showError(err);

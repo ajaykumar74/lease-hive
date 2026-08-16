@@ -23,6 +23,7 @@ import { PartyLocationService } from './partyLocation.service';
 export class PartyLocationEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyLocation: IPartyLocation = null;
   permission = {} as IPermission;
@@ -87,6 +88,9 @@ this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode')
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -101,6 +105,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyLocationService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyLocation = data.data;
+		if (this.partyId && this.partyLocation.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyLocations/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyLocation };
         this.populateUI(this.partyLocation);
@@ -214,7 +223,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 LocationId:  formValues.LocationId || null,
 PartyGSTRegistrationId:  formValues.PartyGSTRegistrationId || null,
 LocationCode:  formValues.LocationCode || null,

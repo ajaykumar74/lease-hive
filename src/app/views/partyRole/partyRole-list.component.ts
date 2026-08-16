@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class PartyRoleListComponent implements OnInit {
 
   constructor(
     private partyRoleService: PartyRoleService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,16 @@ export class PartyRoleListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  partyId: number | null = null;
   objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.partyRoleService.CacheData.IsLoaded) {
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.partyRoleService.CacheData.CurrentPage;
       this.objSearch = this.partyRoleService.CacheData.objSearch;
       this.permission = this.partyRoleService.CacheData.permission;
@@ -46,7 +50,7 @@ export class PartyRoleListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.partyRoleService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +93,7 @@ export class PartyRoleListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.partyRoleService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.partyRoleService.setCache(res.data, this.permission, this.objSearch, pgEvent.page, this.contextKey);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -115,6 +119,10 @@ export class PartyRoleListComponent implements OnInit {
       { DBName: 'RoleCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
+    if (this.partyId) {
+      Items.push({ DBName: 'PartyId', Value: this.partyId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
    
@@ -133,24 +141,35 @@ export class PartyRoleListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/partyRoles/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/partyRoles/view/' + obj.Id]);
-    } 
+    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
+    const route = this.partyId
+      ? ['dashboard/partyRoles/party', this.partyId, page, obj.Id]
+      : ['dashboard/partyRoles', page, obj.Id];
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/partyRoles/create']);
+      const route = this.partyId
+        ? ['dashboard/partyRoles/party', this.partyId, 'create']
+        : ['dashboard/partyRoles/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string {
+    return this.partyId ? `party:${this.partyId}` : 'all';
+  }
+
+  private isCurrentContextCached(): boolean {
+    return !!this.partyRoleService.CacheData.IsLoaded
+      && this.partyRoleService.CacheContextKey === this.contextKey;
   }
 }
 

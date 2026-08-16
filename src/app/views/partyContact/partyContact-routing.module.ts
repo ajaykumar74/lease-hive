@@ -39,6 +39,10 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      { path: 'party/:partyId/create', canActivate: [AuthGuard], component: PartyContactCreateComponent, data: { title: 'Create' } },
+      { path: 'party/:partyId/edit/:id', canActivate: [AuthGuard], component: PartyContactEditComponent },
+      { path: 'party/:partyId/view/:id', canActivate: [AuthGuard], component: PartyContactViewComponent },
+      { path: 'party/:partyId', canActivate: [AuthGuard], component: PartyContactListComponent, data: { title: 'List' } },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

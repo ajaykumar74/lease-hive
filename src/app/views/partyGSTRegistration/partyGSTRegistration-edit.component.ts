@@ -23,6 +23,7 @@ import { PartyGSTRegistrationService } from './partyGSTRegistration.service';
 export class PartyGSTRegistrationEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyGSTRegistration: IPartyGSTRegistration = null;
   permission = {} as IPermission;
@@ -81,6 +82,9 @@ this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('Ve
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -95,6 +99,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyGSTRegistrationService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyGSTRegistration = data.data;
+		if (this.partyId && this.partyGSTRegistration.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyGSTRegistrations/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyGSTRegistration };
         this.populateUI(this.partyGSTRegistration);
@@ -194,7 +203,7 @@ IsDefault:  obj.IsDefault || false,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 GSTIN:  formValues.GSTIN || null,
 LegalNameAsPerGST:  formValues.LegalNameAsPerGST || null,
 TradeNameAsPerGST:  formValues.TradeNameAsPerGST || null,

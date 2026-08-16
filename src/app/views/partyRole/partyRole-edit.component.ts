@@ -23,6 +23,7 @@ import { PartyRoleService } from './partyRole.service';
 export class PartyRoleEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyRole: IPartyRole = null;
   permission = {} as IPermission;
@@ -76,6 +77,8 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
   }
 
   ngAfterViewInit(): void {
@@ -90,6 +93,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyRoleService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyRole = data.data;
+		if (this.partyId && this.partyRole.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyRoles/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyRole };
         this.populateUI(this.partyRole);
@@ -177,6 +185,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+     PartyId: this.partyId ?? this.objMaster.PartyId,
      RoleType:  formValues.RoleType || null,
 RoleCode:  formValues.RoleCode || null,
 OrganisationId:  formValues.OrganisationId || null,

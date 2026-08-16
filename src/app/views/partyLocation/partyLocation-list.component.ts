@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class PartyLocationListComponent implements OnInit {
 
   constructor(
     private partyLocationService: PartyLocationService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,16 @@ export class PartyLocationListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  partyId: number | null = null;
   objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.partyLocationService.CacheData.IsLoaded) {
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.partyLocationService.CacheData.CurrentPage;
       this.objSearch = this.partyLocationService.CacheData.objSearch;
       this.permission = this.partyLocationService.CacheData.permission;
@@ -46,7 +50,7 @@ export class PartyLocationListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.partyLocationService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +93,7 @@ export class PartyLocationListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.partyLocationService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.partyLocationService.setCache(res.data, this.permission, this.objSearch, pgEvent.page, this.contextKey);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -116,6 +120,10 @@ export class PartyLocationListComponent implements OnInit {
       { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
+    if (this.partyId) {
+      Items.push({ DBName: 'PartyId', Value: this.partyId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
     
@@ -134,24 +142,31 @@ export class PartyLocationListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/dashboard/partyLocations/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['/dashboard/partyLocations/view/' + obj.Id]);
-    } 
+    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
+    const route = this.partyId
+      ? ['dashboard/partyLocations/party', this.partyId, page, obj.Id]
+      : ['dashboard/partyLocations', page, obj.Id];
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/dashboard/partyLocations/create']);
+      const route = this.partyId
+        ? ['dashboard/partyLocations/party', this.partyId, 'create']
+        : ['dashboard/partyLocations/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string { return this.partyId ? `party:${this.partyId}` : 'all'; }
+  private isCurrentContextCached(): boolean {
+    return !!this.partyLocationService.CacheData.IsLoaded && this.partyLocationService.CacheContextKey === this.contextKey;
   }
 }
 

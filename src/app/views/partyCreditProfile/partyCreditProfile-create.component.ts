@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPartyCreditProfile } from './partyCreditProfile';
 import { PartyCreditProfileService } from './partyCreditProfile.service';
+import { PartyService } from '@/views/party/party.service';
+import { IParty } from '@/views/party/party';
 
 @Component({
   selector: 'app-partyCreditProfile-create',
@@ -27,6 +29,8 @@ export class PartyCreditProfileCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   partyCreditProfile: IPartyCreditProfile = null;
+  partyId: number | null = null;
+  party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
 creditpolicycodeOptions: ISelectItem[] = [];
 riskgradeOptions: ISelectItem[] = [];
@@ -41,9 +45,11 @@ reviewfrequencymonthsOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private partyCreditProfileService: PartyCreditProfileService,
+	private partyService: PartyService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -77,6 +83,13 @@ EffectiveTo: new FormControl(new Date(), []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
+      this.loadParty(this.partyId);
+    }
 this.creditpolicycodeOptions.push({Text: 'PAN', Value: 'PAN' });
 this.creditpolicycodeOptions.push({Text: 'GSTCertificate', Value: 'GSTCertificate' });
 this.creditpolicycodeOptions.push({Text: 'CINCertificate', Value: 'CINCertificate' });
@@ -98,7 +111,17 @@ this.reviewfrequencymonthsOptions.push({Text: '11', Value: '11' });
 this.reviewfrequencymonthsOptions.push({Text: '12', Value: '12' });
 
   }
- 
+
+  private loadParty(partyId: number): void {
+    this.partyService.getById(partyId).subscribe({
+      next: response => {
+        this.party = response.data;
+        this.Caption = `Create Credit Profile - ${this.party.PartyCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.partyCreditProfileService.getById(this.selectedId).subscribe({
@@ -152,6 +175,10 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   }
 
   onCancel(): void {
+    if (this.partyId) {
+      this.router.navigate(['/dashboard/partyCreditProfiles/party', this.partyId]);
+      return;
+    }
     this.partyCreditProfile = { ...this.objMaster };
     var obj  = this.partyCreditProfile;
    this.editForm.patchValue(
@@ -185,10 +212,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   
   
 	const formValues  = this.editForm.value ;
+	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: formValues.PartyId || 0,
+     PartyId: selectedPartyId || 0,
 CreditPolicyCode: formValues.CreditPolicyCode || null,
 RiskGrade: formValues.RiskGrade || null,
 ExternalCreditScore: formValues.ExternalCreditScore || 0,

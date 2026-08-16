@@ -20,6 +20,7 @@ standalone: false,
 })
 export class PartyDocumentViewComponent implements OnInit {
     selectedId: number;
+    partyId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     partyDocument: IPartyDocument = {} as IPartyDocument;
@@ -42,7 +43,9 @@ export class PartyDocumentViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.selectedId = this.activatedRouter.snapshot.params['id'];
+        const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+        this.partyId = routePartyId > 0 ? routePartyId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,6 +60,11 @@ export class PartyDocumentViewComponent implements OnInit {
         this.partyDocumentService.getById(this.selectedId).subscribe({
             next: data => {
                 this.partyDocument = data.data;
+                if (this.partyId && this.partyDocument.PartyId !== this.partyId) {
+                    this.messageService.showError('This document does not belong to the selected party.');
+                    this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+                    return;
+                }
                 this.permission = data.permission; 
                 this.populateUI(this.partyDocument);
             },

@@ -23,6 +23,7 @@ import { PartyCreditProfileService } from './partyCreditProfile.service';
 export class PartyCreditProfileEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyCreditProfile: IPartyCreditProfile = null;
   permission = {} as IPermission;
@@ -98,6 +99,9 @@ this.reviewfrequencymonthsOptions.push({Text: '12', Value: '12' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -112,6 +116,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyCreditProfileService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyCreditProfile = data.data;
+		if (this.partyId && this.partyCreditProfile.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyCreditProfiles/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyCreditProfile };
         this.populateUI(this.partyCreditProfile);
@@ -205,7 +214,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 CreditPolicyCode:  formValues.CreditPolicyCode || null,
 RiskGrade:  formValues.RiskGrade || null,
 ExternalCreditScore:  formValues.ExternalCreditScore || null,

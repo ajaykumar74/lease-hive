@@ -20,6 +20,7 @@ standalone: false,
 })
 export class PartyRoleViewComponent implements OnInit {
     selectedId: number;
+    partyId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     partyRole: IPartyRole = {} as IPartyRole;
@@ -42,7 +43,9 @@ export class PartyRoleViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.selectedId = this.activatedRouter.snapshot.params['id'];
+        const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+        this.partyId = routePartyId > 0 ? routePartyId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,6 +60,11 @@ export class PartyRoleViewComponent implements OnInit {
         this.partyRoleService.getById(this.selectedId).subscribe({
             next: data => {
                 this.partyRole = data.data;
+                if (this.partyId && this.partyRole.PartyId !== this.partyId) {
+                    this.messageService.showError('This record does not belong to the selected party.');
+                    this.router.navigate(['/dashboard/partyRoles/party', this.partyId]);
+                    return;
+                }
                 this.permission = data.permission; 
                 this.populateUI(this.partyRole);
             },

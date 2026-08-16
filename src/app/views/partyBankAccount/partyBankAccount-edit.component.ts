@@ -23,6 +23,7 @@ import { PartyBankAccountService } from './partyBankAccount.service';
 export class PartyBankAccountEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyBankAccount: IPartyBankAccount = null;
   permission = {} as IPermission;
@@ -83,6 +84,9 @@ this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('Ve
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +101,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyBankAccountService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyBankAccount = data.data;
+		if (this.partyId && this.partyBankAccount.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyBankAccounts/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyBankAccount };
         this.loadPartyOptions(this.partyBankAccount.PartyId);
@@ -202,7 +211,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 BankName:  formValues.BankName || null,
 BranchName:  formValues.BranchName || null,
 AccountHolderName:  formValues.AccountHolderName || null,

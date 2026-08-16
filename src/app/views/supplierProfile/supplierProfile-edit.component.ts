@@ -23,6 +23,7 @@ import { SupplierProfileService } from './supplierProfile.service';
 export class SupplierProfileEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   supplierProfile: ISupplierProfile = null;
   permission = {} as IPermission;
@@ -90,6 +91,9 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -104,6 +108,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.supplierProfileService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.supplierProfile = data.data;
+		if (this.partyId && this.supplierProfile.PartyId !== this.partyId) {
+		  this.messageService.showError('This record does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/supplierProfiles/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.supplierProfile };
         this.populateUI(this.supplierProfile);
@@ -230,7 +239,7 @@ Description: obj.Description || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 SupplierCode:  formValues.SupplierCode || null,
 SupplierTier:  formValues.SupplierTier || null,
 SupplierCategory:  formValues.SupplierCategory || null,

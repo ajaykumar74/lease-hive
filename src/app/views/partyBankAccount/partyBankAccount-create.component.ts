@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPartyBankAccount } from './partyBankAccount';
 import { PartyBankAccountService } from './partyBankAccount.service';
+import { PartyService } from '@/views/party/party.service';
+import { IParty } from '@/views/party/party';
 
 @Component({
   selector: 'app-partyBankAccount-create',
@@ -27,6 +29,8 @@ export class PartyBankAccountCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   partyBankAccount: IPartyBankAccount = null;
+  partyId: number | null = null;
+  party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
 accounttypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
@@ -40,9 +44,11 @@ verificationstatusOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private partyBankAccountService: PartyBankAccountService,
+	private partyService: PartyService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -88,8 +94,25 @@ this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('Ve
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)
     });
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
+      this.loadParty(this.partyId);
+    }
   }
- 
+
+  private loadParty(partyId: number): void {
+    this.partyService.getById(partyId).subscribe({
+      next: response => {
+        this.party = response.data;
+        this.Caption = `Create Bank Account - ${this.party.PartyCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.partyBankAccountService.getById(this.selectedId).subscribe({
@@ -147,6 +170,10 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   }
 
   onCancel(): void {
+    if (this.partyId) {
+      this.router.navigate(['/dashboard/partyBankAccounts/party', this.partyId]);
+      return;
+    }
     this.partyBankAccount = { ...this.objMaster };
     var obj  = this.partyBankAccount;
    this.editForm.patchValue(
@@ -184,10 +211,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   
   
 	const formValues  = this.editForm.value ;
+	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: formValues.PartyId || 0,
+     PartyId: selectedPartyId || 0,
 BankName: formValues.BankName || null,
 BranchName: formValues.BranchName || null,
 AccountHolderName: formValues.AccountHolderName || null,

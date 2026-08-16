@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPartyGSTRegistration } from './partyGSTRegistration';
 import { PartyGSTRegistrationService } from './partyGSTRegistration.service';
+import { PartyService } from '@/views/party/party.service';
+import { IParty } from '@/views/party/party';
 
 @Component({
   selector: 'app-partyGSTRegistration-create',
@@ -27,6 +29,8 @@ export class PartyGSTRegistrationCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   partyGSTRegistration: IPartyGSTRegistration = null;
+  partyId: number | null = null;
+  party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
 statecodeOptions: ISelectItem[] = [];
 registrationtypeOptions: ISelectItem[] = [];
@@ -41,9 +45,11 @@ verificationstatusOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private partyGSTRegistrationService: PartyGSTRegistrationService,
+	private partyService: PartyService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -78,6 +84,13 @@ IsDefault: new FormControl(false, []),
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
+    const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
+    this.partyId = routePartyId > 0 ? routePartyId : null;
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
+      this.loadParty(this.partyId);
+    }
 this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
 this.registrationtypeOptions = this.loggedInUserService.getPicklistOptions('RegistrationType');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
@@ -87,7 +100,17 @@ this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('Ve
     });
 
   }
- 
+
+  private loadParty(partyId: number): void {
+    this.partyService.getById(partyId).subscribe({
+      next: response => {
+        this.party = response.data;
+        this.Caption = `Create GST Registration - ${this.party.PartyCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.partyGSTRegistrationService.getById(this.selectedId).subscribe({
@@ -142,6 +165,10 @@ IsDefault:  obj.IsDefault || false,
   }
 
   onCancel(): void {
+    if (this.partyId) {
+      this.router.navigate(['/dashboard/partyGSTRegistrations/party', this.partyId]);
+      return;
+    }
     this.partyGSTRegistration = { ...this.objMaster };
     var obj  = this.partyGSTRegistration;
    this.editForm.patchValue(
@@ -176,10 +203,11 @@ IsDefault:  obj.IsDefault || false,
   
   
 	const formValues  = this.editForm.value ;
+	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: formValues.PartyId || null,
+     PartyId: selectedPartyId || null,
 GSTIN: formValues.GSTIN || null,
 LegalNameAsPerGST: formValues.LegalNameAsPerGST || null,
 TradeNameAsPerGST: formValues.TradeNameAsPerGST || null,

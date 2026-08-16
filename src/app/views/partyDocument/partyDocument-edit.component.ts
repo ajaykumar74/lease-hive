@@ -23,6 +23,7 @@ import { PartyDocumentService } from './partyDocument.service';
 export class PartyDocumentEditComponent implements OnInit {
 
   selectedId: number;
+  partyId: number | null = null;
   isLoading: boolean = false;
   partyDocument: IPartyDocument = null;
   permission = {} as IPermission;
@@ -80,6 +81,9 @@ this.verifiedbyOptions.push({Text: 'Emp2', Value: 'Emp2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
+     this.partyId = routePartyId > 0 ? routePartyId : null;
+     if (this.partyId) this.editForm.controls.PartyId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -94,6 +98,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.partyDocumentService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.partyDocument = data.data;
+		if (this.partyId && this.partyDocument.PartyId !== this.partyId) {
+		  this.messageService.showError('This document does not belong to the selected party.');
+		  this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.partyDocument };
         this.populateUI(this.partyDocument);
@@ -187,7 +196,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId:  formValues.PartyId || null,
+     PartyId:  this.partyId ?? formValues.PartyId ?? this.objMaster.PartyId,
 DocumentType:  formValues.DocumentType || null,
 DocumentNumber:  formValues.DocumentNumber || null,
 FileDocumentId:  formValues.FileDocumentId || null,

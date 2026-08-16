@@ -39,6 +39,10 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      { path: 'party/:partyId/create', canActivate: [AuthGuard], component: SupplierProfileCreateComponent, data: { title: 'Create' } },
+      { path: 'party/:partyId/edit/:id', canActivate: [AuthGuard], component: SupplierProfileEditComponent },
+      { path: 'party/:partyId/view/:id', canActivate: [AuthGuard], component: SupplierProfileViewComponent },
+      { path: 'party/:partyId', canActivate: [AuthGuard], component: SupplierProfileListComponent, data: { title: 'List' } },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],
