@@ -636,15 +636,15 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Measure Definitions',
-                                            routerLink: ['/assets/measures']
+                                            routerLink: ['/dashboard/assetMeasureDefinitions']
                                         },
                                         {
                                             label: 'Record Reading',
-                                            routerLink: ['/assets/readings/create']
+                                            routerLink: ['/dashboard/assetMeasureReadings/list']
                                         },
                                         {
                                             label: 'Reading History',
-                                            routerLink: ['/assets/readings']
+                                            routerLink: ['/dashboard/assetMeasureReadings/history']
                                         }
                                     ]
                                 },
@@ -654,7 +654,7 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Inspection Worklist',
-                                            routerLink: ['/assets/inspections']
+                                            routerLink: ['/dashboard/assetInspections']
                                         },
                                         {
                                             label: 'Create Inspection',

@@ -388,14 +388,29 @@ const routes: Routes = [
         path: 'assetAssignments',
         data: { breadcrumb: 'Asset Assignments' },
         loadChildren: () => import('@/views/assets/assetAssignment/assetAssignment.module').then(c => c.AssetAssignmentModule),
-      }
- ,
+      },
        {
         path: 'assetAssignmentHistorys',
         data: { breadcrumb: 'Asset Assignment History' },
         loadChildren: () => import('@/views/assets/assetAssignmentHistory/assetAssignmentHistory.module').then(c => c.AssetAssignmentHistoryModule),
       }
-      
+,
+       {
+        path: 'assetMeasureDefinitions',
+        data: { breadcrumb: 'Asset Measure Definitions' },
+        loadChildren: () => import('@/views/assets/assetMeasureDefinition/assetMeasureDefinition.module').then(c => c.AssetMeasureDefinitionModule),
+      },
+       {
+        path: 'assetMeasureReadings',
+        data: { breadcrumb: 'Asset Measure Readings' },
+        loadChildren: () => import('@/views/assets/assetMeasureReading/assetMeasureReading.module').then(c => c.AssetMeasureReadingModule),
+      } 
+,
+       {
+        path: 'assetInspections',
+        data: { breadcrumb: 'Asset Inspections' },
+        loadChildren: () => import('@/views/assets/assetInspection/assetInspection.module').then(c => c.AssetInspectionModule),
+      } 
     ]
   }
 ];
