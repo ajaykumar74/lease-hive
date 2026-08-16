@@ -544,21 +544,39 @@ export class AppMenu {
                                             label: 'Attribute Definitions',
                                             items: [
                                                 {
-                                                    label: 'assetAttributeDefinitions',
+                                                    label: 'Asset Attribute Definitions',
                                                     routerLink: ['/dashboard/assetAttributeDefinitions']
                                                 },
                                                  {
-                                                    label: 'assetAttributeOptions',
+                                                    label: 'Asset Attribute Options',
                                                     routerLink: ['/dashboard/assetAttributeOptions']
                                                 },
                                              {
-                                                    label: 'assetAttributeValues',
+                                                    label: 'Asset Attribute Values',
                                                     routerLink: ['/dashboard/assetAttributeValues']
                                                 },
                                                  {
-                                                    label: 'assetStatuss',
+                                                    label: 'Asset Statuses',
                                                     routerLink: ['/dashboard/assetStatuss']
                                                 }, 
+                                               {
+                                                    label: 'Asset Status History',
+                                                    routerLink: ['/dashboard/assetStatusHistorys']
+                                                },  
+                                              {
+                                                    label: 'Asset Condition Grades',
+                                                    routerLink: ['/dashboard/assetConditionGrades']
+                                                },     
+                                                  {
+                                                    label: 'Asset Ownership History',
+                                                    routerLink: ['/dashboard/assetOwnershipHistorys']
+                                                },    
+                                                  {
+                                                    label: 'Asset Location History',
+                                                    routerLink: ['/dashboard/assetLocationHistorys']
+                                                } 
+                                                
+                                                
                                             ]
                                         },
 
@@ -574,7 +592,7 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Current Assignments',
-                                            routerLink: ['/assets/assignments']
+                                            routerLink: ['/assets/assetAssignments']
                                         },
                                         {
                                             label: 'Assign Asset',
@@ -586,7 +604,7 @@ export class AppMenu {
                                         },
                                         {
                                             label: 'Assignment History',
-                                            routerLink: ['/assets/assignments/history']
+                                            routerLink: ['/assets/assetAssignmentHistorys']
                                         }
                                     ]
                                 },

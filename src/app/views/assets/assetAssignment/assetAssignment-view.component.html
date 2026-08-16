@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="assetAssignment.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="assetAssignment.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyLocationId" [value]="assetAssignment.PartyLocationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CustomerDepartmentId" [value]="assetAssignment.CustomerDepartmentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetUserId" [value]="assetAssignment.AssetUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="AssignmentType" [value]="assetAssignment.AssignmentType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssignedFrom" [value]="assetAssignment.AssignedFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="AssignedTo" [value]="assetAssignment.AssignedTo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IsPrimary" [value]="assetAssignment.IsPrimary">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="AssignmentStatusId" [value]="assetAssignment.AssignmentStatusId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ReferenceType" [value]="assetAssignment.ReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="ReferenceId" [value]="assetAssignment.ReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="assetAssignment.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetAssignment.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

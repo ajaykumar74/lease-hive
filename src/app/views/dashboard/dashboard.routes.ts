@@ -360,6 +360,41 @@ const routes: Routes = [
         data: { breadcrumb: 'Asset Statuses' },
         loadChildren: () => import('@/views/assets/assetStatus/assetStatus.module').then(c => c.AssetStatusModule),
       }
+       ,
+       {
+        path: 'assetStatusHistorys',
+        data: { breadcrumb: 'Asset Status History' },
+        loadChildren: () => import('@/views/assets/assetStatusHistory/assetStatusHistory.module').then(c => c.AssetStatusHistoryModule),
+      }
+        ,
+       {
+        path: 'assetConditionGrades',
+        data: { breadcrumb: 'Asset Condition Grades' },
+        loadChildren: () => import('@/views/assets/assetConditionGrade/assetConditionGrade.module').then(c => c.AssetConditionGradeModule),
+      }
+        ,
+       {
+        path: 'assetOwnershipHistorys',
+        data: { breadcrumb: 'Asset Ownership History' },
+        loadChildren: () => import('@/views/assets/assetOwnershipHistory/assetOwnershipHistory.module').then(c => c.AssetOwnershipHistoryModule),
+      }   ,
+       {
+        path: 'assetLocationHistorys',
+        data: { breadcrumb: 'Asset Location History' },
+        loadChildren: () => import('@/views/assets/assetLocationHistory/assetLocationHistory.module').then(c => c.AssetLocationHistoryModule),
+      }
+       ,
+       {
+        path: 'assetAssignments',
+        data: { breadcrumb: 'Asset Assignments' },
+        loadChildren: () => import('@/views/assets/assetAssignment/assetAssignment.module').then(c => c.AssetAssignmentModule),
+      }
+ ,
+       {
+        path: 'assetAssignmentHistorys',
+        data: { breadcrumb: 'Asset Assignment History' },
+        loadChildren: () => import('@/views/assets/assetAssignmentHistory/assetAssignmentHistory.module').then(c => c.AssetAssignmentHistoryModule),
+      }
       
     ]
   }

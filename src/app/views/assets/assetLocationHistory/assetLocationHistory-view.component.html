@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="assetLocationHistory.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="From LocationId" [value]="assetLocationHistory.FromLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="To LocationId" [value]="assetLocationHistory.ToLocationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Party LocationId" [value]="assetLocationHistory.PartyLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Movement Type" [value]="assetLocationHistory.MovementType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Movement DateTime" [value]="assetLocationHistory.MovementDateTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="assetLocationHistory.ReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="assetLocationHistory.ReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="assetLocationHistory.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetLocationHistory.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

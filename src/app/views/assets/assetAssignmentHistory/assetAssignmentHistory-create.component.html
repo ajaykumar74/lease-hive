@@ -1,0 +1,105 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="EventTypeId" class="mb-1">EventTypeId</label>
+        <p-dropdown
+            inputId="EventTypeId" 
+            [options]="eventtypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="EventTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('EventTypeId')"
+											label="EventTypeId">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="EventDateTime">EventDateTime 
+							</label> 
+							<p-calendar id="EventDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EventDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EventDateTime')"
+											label="EventDateTime">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="FromAssetUserId" class="mb-1">FromAssetUserId</label>
+        <p-dropdown
+            inputId="FromAssetUserId" 
+            [options]="fromassetuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="FromAssetUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('FromAssetUserId')"
+											label="FromAssetUserId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="ToAssetUserId" class="mb-1">ToAssetUserId</label>
+        <p-dropdown
+            inputId="ToAssetUserId" 
+            [options]="toassetuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ToAssetUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ToAssetUserId')"
+											label="ToAssetUserId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="FromPartyLocationId" class="mb-1">FromPartyLocationId</label>
+        <p-dropdown
+            inputId="FromPartyLocationId" 
+            [options]="frompartylocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="FromPartyLocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('FromPartyLocationId')"
+											label="FromPartyLocationId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="ToPartyLocationId" class="mb-1">ToPartyLocationId</label>
+        <p-dropdown
+            inputId="ToPartyLocationId" 
+            [options]="topartylocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ToPartyLocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ToPartyLocationId')"
+											label="ToPartyLocationId">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Remarks</label>
+                    <textarea size="small" pTextarea placeholder="Type Remarks" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Remarks"
+										[ngClass]="{'is-invalid': (editForm.get('Remarks').touched || editForm.get('Remarks').dirty) && !editForm.get('Remarks').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Remarks')"
+											label="Remarks">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>
