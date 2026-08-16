@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetInspection } from './assetInspection';
 import { AssetInspectionService } from './assetInspection.service';
+import { AssetService } from '@/views/assets/asset/asset.service';
+import { IAsset } from '@/views/assets/asset/asset';
 
 @Component({
   selector: 'app-assetInspection-create',
@@ -28,6 +30,7 @@ export class AssetInspectionCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   assetInspection: IAssetInspection = null;
   assetId: number | null = null;
+  asset: IAsset | null = null;
   assetidOptions: ISelectItem[] = [];
 locationidOptions: ISelectItem[] = [];
 partyidOptions: ISelectItem[] = [];
@@ -47,6 +50,7 @@ inspectionstatusidOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private assetInspectionService: AssetInspectionService,
+	private assetService: AssetService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -78,9 +82,11 @@ CompletedOn: new FormControl(new Date(), []),
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
     this.assetId = routeAssetId > 0 ? routeAssetId : null;
     if (this.assetId) {
-      this.assetidOptions = [{ Text: `Asset #${this.assetId}`, Value: this.assetId.toString() }];
-      this.editForm.patchValue({ AssetId: this.assetId.toString() });
-      this.editForm.controls.AssetId.disable();
+      this.editForm.patchValue({ AssetId: this.assetId });
+      this.loadAsset(this.assetId);
+    }
+    else {
+      this.loadAssetOptions();
     }
     this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
 this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
@@ -96,7 +102,31 @@ this.inspectionstatusidOptions.push({Text: 'InspectionStatus1', Value: 'Inspecti
 this.inspectionstatusidOptions.push({Text: 'InspectionStatus2', Value: 'InspectionStatus2' });
 
   }
- 
+
+  private loadAsset(assetId: number): void {
+    this.assetService.getById(assetId).subscribe({
+      next: response => {
+        this.asset = response.data;
+        this.Caption = `Create Inspection - ${this.asset.AssetNo}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  private loadAssetOptions(): void {
+    this.assetService.GetAll(false).subscribe({
+      next: (response: any) => {
+        const assets: IAsset[] = response.data || response || [];
+        this.assetidOptions = assets.map(asset => ({
+          Id: asset.Id,
+          Value: asset.Id.toString(),
+          Text: `${asset.AssetNo}${asset.PrimarySerialNo ? ' - ' + asset.PrimarySerialNo : ''}`
+        }));
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.assetInspectionService.getById(this.selectedId).subscribe({

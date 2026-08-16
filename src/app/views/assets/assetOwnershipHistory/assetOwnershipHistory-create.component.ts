@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetOwnershipHistory } from './assetOwnershipHistory';
 import { AssetOwnershipHistoryService } from './assetOwnershipHistory.service';
+import { AssetService } from '@/views/assets/asset/asset.service';
+import { IAsset } from '@/views/assets/asset/asset';
 
 @Component({
   selector: 'app-assetOwnershipHistory-create',
@@ -28,6 +30,7 @@ export class AssetOwnershipHistoryCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   assetOwnershipHistory: IAssetOwnershipHistory = null;
   assetId: number | null = null;
+  asset: IAsset | null = null;
   assetidOptions: ISelectItem[] = [];
 ownershiptypeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -44,6 +47,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private assetOwnershipHistoryService: AssetOwnershipHistoryService,
+	private assetService: AssetService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -71,9 +75,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
     this.assetId = routeAssetId > 0 ? routeAssetId : null;
     if (this.assetId) {
-      this.assetidOptions = [{ Text: `Asset #${this.assetId}`, Value: this.assetId.toString() }];
-      this.editForm.patchValue({ AssetId: this.assetId.toString() });
-      this.editForm.controls.AssetId.disable();
+      this.editForm.patchValue({ AssetId: this.assetId });
+      this.loadAsset(this.assetId);
+    }
+    else {
+      this.loadAssetOptions();
     }
     this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
 this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
@@ -83,7 +89,31 @@ this.ownershiptypeOptions.push({Text: 'Financed', Value: 'Financed' });
 this.recordstatusOptions.push({Text: '', Value: '' });
 
   }
- 
+
+  private loadAsset(assetId: number): void {
+    this.assetService.getById(assetId).subscribe({
+      next: response => {
+        this.asset = response.data;
+        this.Caption = `Create Ownership History - ${this.asset.AssetNo}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  private loadAssetOptions(): void {
+    this.assetService.GetAll(false).subscribe({
+      next: (response: any) => {
+        const assets: IAsset[] = response.data || response || [];
+        this.assetidOptions = assets.map(asset => ({
+          Id: asset.Id,
+          Value: asset.Id.toString(),
+          Text: `${asset.AssetNo}${asset.PrimarySerialNo ? ' - ' + asset.PrimarySerialNo : ''}`
+        }));
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.assetOwnershipHistoryService.getById(this.selectedId).subscribe({

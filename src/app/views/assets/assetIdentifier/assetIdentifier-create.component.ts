@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetIdentifier } from './assetIdentifier';
 import { AssetIdentifierService } from './assetIdentifier.service';
+import { AssetService } from '@/views/assets/asset/asset.service';
+import { IAsset } from '@/views/assets/asset/asset';
 
 @Component({
   selector: 'app-assetIdentifier-create',
@@ -28,6 +30,8 @@ export class AssetIdentifierCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   assetIdentifier: IAssetIdentifier = null;
   assetId: number | null = null;
+  asset: IAsset | null = null;
+  assetidOptions: ISelectItem[] = [];
   identifiertypecodeOptions: ISelectItem[] = [];
 issuingcountrycodeOptions: ISelectItem[] = [];
 issuingstatecodeOptions: ISelectItem[] = [];
@@ -45,6 +49,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private assetIdentifierService: AssetIdentifierService,
+	private assetService: AssetService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -74,8 +79,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
     this.assetId = routeAssetId > 0 ? routeAssetId : null;
     if (this.assetId) {
-      this.editForm.patchValue({ AssetId: this.assetId.toString() });
-      this.editForm.controls.AssetId.disable();
+      this.editForm.patchValue({ AssetId: this.assetId });
+      this.loadAsset(this.assetId);
+    }
+    else {
+      this.loadAssetOptions();
     }
     this.identifiertypecodeOptions.push({Text: '', Value: '' });
 this.issuingcountrycodeOptions.push({Text: '', Value: '' });
@@ -83,7 +91,31 @@ this.issuingstatecodeOptions.push({Text: '', Value: '' });
 this.recordstatusOptions.push({Text: '', Value: '' });
 
   }
- 
+
+  private loadAsset(assetId: number): void {
+    this.assetService.getById(assetId).subscribe({
+      next: response => {
+        this.asset = response.data;
+        this.Caption = `Create Identifier - ${this.asset.AssetNo}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  private loadAssetOptions(): void {
+    this.assetService.GetAll(false).subscribe({
+      next: (response: any) => {
+        const assets: IAsset[] = response.data || response || [];
+        this.assetidOptions = assets.map(asset => ({
+          Id: asset.Id,
+          Value: asset.Id.toString(),
+          Text: `${asset.AssetNo}${asset.PrimarySerialNo ? ' - ' + asset.PrimarySerialNo : ''}`
+        }));
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.assetIdentifierService.getById(this.selectedId).subscribe({
