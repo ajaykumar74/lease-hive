@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="equipmentAsset.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Equipment SerialNo" [value]="equipmentAsset.EquipmentSerialNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Capacity Value" [value]="equipmentAsset.CapacityValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CapacityUOMId" [value]="equipmentAsset.CapacityUOMId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Power Rating" [value]="equipmentAsset.PowerRating">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PowerUOMId" [value]="equipmentAsset.PowerUOMId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Manufacture Date" [value]="equipmentAsset.ManufactureDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Safety Class" [value]="equipmentAsset.SafetyClass">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="equipmentAsset.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="equipmentAsset.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

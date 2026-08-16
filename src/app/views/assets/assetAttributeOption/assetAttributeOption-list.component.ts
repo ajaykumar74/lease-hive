@@ -5,24 +5,24 @@ import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
-import { PartyService } from './party.service';
-import { IParty } from './party';
+import { AssetAttributeOptionService } from './assetAttributeOption.service';
+import { IAssetAttributeOption } from './assetAttributeOption';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './party-list.component.html'
+  templateUrl: './assetAttributeOption-list.component.html'
 })
-export class PartyListComponent implements OnInit {
+export class AssetAttributeOptionListComponent implements OnInit {
 
   constructor(
-    private partyService: PartyService,
+    private assetAttributeOptionService: AssetAttributeOptionService,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IParty[]; 
+  lstMain: IAssetAttributeOption[]; 
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -31,27 +31,27 @@ export class PartyListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Name: '',  IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.partyService.CacheData.IsLoaded) {
-      this.currentPage = this.partyService.CacheData.CurrentPage;
-      this.objSearch = this.partyService.CacheData.objSearch;
-      this.permission = this.partyService.CacheData.permission;
+     if (this.assetAttributeOptionService.CacheData.IsLoaded) {
+      this.currentPage = this.assetAttributeOptionService.CacheData.CurrentPage;
+      this.objSearch = this.assetAttributeOptionService.CacheData.objSearch;
+      this.permission = this.assetAttributeOptionService.CacheData.permission;
     }  
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.partyService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.assetAttributeOptionService.CacheData.IsLoaded);
     }, 500);
   }
 
   onAdvSearchClicked(obj: any): void {
-    this.objSearch = { ...obj, RecordStatus: obj.RecordStatus || 'Active' };
+    this.objSearch = obj;
     this.search();
   }
 
@@ -65,7 +65,7 @@ export class PartyListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { RecordStatus: 'Active', Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Name: '', Code: '', IncludeDeleted: false, CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -75,7 +75,7 @@ export class PartyListComponent implements OnInit {
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
 
-    if (isReload || this.partyService.CacheData.CurrentPage != pgEvent.page) {
+    if (isReload || this.assetAttributeOptionService.CacheData.CurrentPage != pgEvent.page) {
 
       var searchParam = {
         Skip: pgEvent.first,
@@ -85,18 +85,18 @@ export class PartyListComponent implements OnInit {
         Conditions: this.getSearchParams()  
       }
       this.isLoading = true;
-      this.partyService.search(searchParam).subscribe({
+      this.assetAttributeOptionService.search(searchParam).subscribe({
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.partyService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.assetAttributeOptionService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
       });
     }
     else {
-      this.SetListData(this.partyService.CacheData.Data, this.partyService.CacheData.TotalRecords);
+      this.SetListData(this.assetAttributeOptionService.CacheData.Data, this.assetAttributeOptionService.CacheData.TotalRecords);
     }
   }
 
@@ -110,10 +110,9 @@ export class PartyListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-      { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-    { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-      { DBName: 'PartyName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'PartyCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+    //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
+      { DBName: 'OptionName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'OptionCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
 
@@ -136,17 +135,17 @@ export class PartyListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/partys/edit/' + obj.Id]);
+        this.router.navigate(['dashboard/assetAttributeOptions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/partys/view/' + obj.Id]);
+        this.router.navigate(['dashboard/assetAttributeOptions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/partys/create']);
+      this.router.navigate(['dashboard/assetAttributeOptions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

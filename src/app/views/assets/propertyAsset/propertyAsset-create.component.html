@@ -1,0 +1,127 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetId" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="AssetId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="PropertyType" class="mb-1">PropertyType</label>
+        <p-dropdown
+            inputId="PropertyType" 
+            [options]="propertytypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PropertyType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PropertyType')"
+											label="PropertyType">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="SurveyNo">SurveyNo 
+							</label> 
+							<input pInputText id="SurveyNo" type="text" pSize="small"	formControlName="SurveyNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SurveyNo')"
+											label="SurveyNo">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="BuiltUpArea">BuiltUpArea 
+							</label> 
+							<p-inputNumber id="BuiltUpArea"  pSize="small"	formControlName="BuiltUpArea"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('BuiltUpArea')"
+											label="BuiltUpArea">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="AreaUOMId">AreaUOMId 
+							</label> 
+							<p-inputNumber id="AreaUOMId"  pSize="small"	formControlName="AreaUOMId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('AreaUOMId')"
+											label="AreaUOMId">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="FloorNo">FloorNo 
+							</label> 
+							<input pInputText id="FloorNo" type="text" pSize="small"	formControlName="FloorNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FloorNo')"
+											label="FloorNo">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="PossessionDate">PossessionDate 
+							</label> 
+							<p-calendar id="PossessionDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="PossessionDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('PossessionDate')"
+											label="PossessionDate">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">TitleReference</label>
+                    <textarea size="small" pTextarea placeholder="Type TitleReference" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="TitleReference"
+										[ngClass]="{'is-invalid': (editForm.get('TitleReference').touched || editForm.get('TitleReference').dirty) && !editForm.get('TitleReference').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('TitleReference')"
+											label="TitleReference">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

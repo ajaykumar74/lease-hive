@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="iTAsset.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Device SerialNo" [value]="iTAsset.DeviceSerialNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Processor" [value]="iTAsset.Processor">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RAMGB" [value]="iTAsset.RAMGB">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="StorageGB" [value]="iTAsset.StorageGB">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Operating System" [value]="iTAsset.OperatingSystem">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="MACAddress" [value]="iTAsset.MACAddress">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="IMEI" [value]="iTAsset.IMEI">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Warranty Expiry Date" [value]="iTAsset.WarrantyExpiryDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="MDM DeviceId" [value]="iTAsset.MDMDeviceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="iTAsset.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="iTAsset.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

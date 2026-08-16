@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset CategoryId" [value]="assetAttributeDefinition.AssetCategoryId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset TypeId" [value]="assetAttributeDefinition.AssetTypeId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Attribute Code" [value]="assetAttributeDefinition.AttributeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Attribute Name" [value]="assetAttributeDefinition.AttributeName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="DataType Code" [value]="assetAttributeDefinition.DataTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="UnitMeasureType" [value]="assetAttributeDefinition.UnitMeasureType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IsRequired" [value]="assetAttributeDefinition.IsRequired">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="IsSearchable" [value]="assetAttributeDefinition.IsSearchable">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="assetAttributeDefinition.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetAttributeDefinition.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

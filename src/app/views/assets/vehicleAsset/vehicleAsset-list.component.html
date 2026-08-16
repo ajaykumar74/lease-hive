@@ -1,0 +1,50 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'VehicleAsset List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">VIN <p-sortIcon field="VIN" /> </th> 
+<th style="width:200px">RegistrationNo <p-sortIcon field="RegistrationNo" /> </th> 
+<th style="width:200px">RegistrationDate <p-sortIcon field="RegistrationDate" /> </th> 
+<th style="width:200px">RegistrationExpiryDate <p-sortIcon field="RegistrationExpiryDate" /> </th> 
+<th style="width:200px">EngineNo <p-sortIcon field="EngineNo" /> </th> 
+<th style="width:200px">ChassisNo <p-sortIcon field="ChassisNo" /> </th> 
+<th style="width:200px">FuleTypeCode <p-sortIcon field="FuelTypeCode" /> </th> 
+<th style="width:200px">SeatingCapacity <p-sortIcon field="SeatingCapacity" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.VIN}}</td>
+ <td style="width:200px">{{obj.RegistrationNo}}</td>
+ <td style="width:200px">{{obj.RegistrationDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RegistrationExpiryDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.EngineNo}}</td>
+ <td style="width:200px">{{obj.ChassisNo}}</td>
+ <td style="width:200px">{{obj.FuelTypeCode}}</td>
+ <td style="width:200px">{{obj.SeatingCapacity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

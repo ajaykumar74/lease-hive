@@ -1,0 +1,132 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset CategoryId" class="mb-1">AssetCategoryId</label>
+        <p-dropdown
+            inputId="AssetCategoryId" 
+            [options]="assetcategoryidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetCategoryId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
+											label="Asset CategoryId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset TypeId" class="mb-1">AssetTypeId</label>
+        <p-dropdown
+            inputId="AssetTypeId" 
+            [options]="assettypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
+											label="Asset TypeId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AttributeCode">Attribute Code 
+							</label> 
+							<input pInputText id="AttributeCode" type="text" pSize="small"	formControlName="AttributeCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AttributeCode')"
+											label="Attribute Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AttributeName">Attribute Name 
+							</label> 
+							<input pInputText id="AttributeName" type="text" pSize="small"	formControlName="AttributeName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AttributeName')"
+											label="Attribute Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="DataType Code" class="mb-1">DataTypeCode</label>
+        <p-dropdown
+            inputId="DataTypeCode" 
+            [options]="datatypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DataTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DataTypeCode')"
+											label="DataType Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="UnitMeasureType" class="mb-1">UnitMeasureType</label>
+        <p-dropdown
+            inputId="UnitMeasureType" 
+            [options]="unitmeasuretypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="UnitMeasureType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('UnitMeasureType')"
+											label="UnitMeasureType">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsRequired" binary="true" formControlName="IsRequired">
+											</p-checkbox>
+											<label for="IsRequired">IsRequired</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsSearchable" binary="true" formControlName="IsSearchable">
+											</p-checkbox>
+											<label for="IsSearchable">IsSearchable</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

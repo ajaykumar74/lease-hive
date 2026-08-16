@@ -1,0 +1,138 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<app-spinner></app-spinner>
+				<form>
+					<p-fluid>
+						<div class="flex mt-8">
+							<div class="card flex flex-col gap-4 w-full">
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="AssetNo" [value]="asset.AssetNo">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Asset CategoryId" [value]="asset.AssetCategoryId">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Asset TypeId" [value]="asset.AssetTypeId">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Asset MakeId" [value]="asset.AssetMakeId">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Asset ModelId" [value]="asset.AssetModelId">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Owning OrganisationId"
+											[value]="asset.OwningOrganisationId">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Responsible OrganisationUnitId"
+											[value]="asset.ResponsibleOrganisationUnitId">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Current LocationId" [value]="asset.CurrentLocationId">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Current PartyId" [value]="asset.CurrentPartyId">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Current PartyLocationId"
+											[value]="asset.CurrentPartyLocationId">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Primary SerialNo" [value]="asset.PrimarySerialNo">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Acquisition Date" [value]="asset.AcquisitionDate">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="InService Date" [value]="asset.InServiceDate">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Acquisition CurrencyCode"
+											[value]="asset.AcquisitionCurrencyCode">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Acquisition Cost" [value]="asset.AcquisitionCost">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Residual Value Amount"
+											[value]="asset.ResidualValueAmount">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Asset Status Code" [value]="asset.AssetStatusId">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="ConditionGrade Code" [value]="asset.ConditionGradeCode">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="IsLeaseable" [value]="asset.IsLeaseable">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Effective From" [value]="asset.EffectiveFrom">
+										</app-view-field>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<app-view-field label="Effective To" [value]="asset.EffectiveTo">
+										</app-view-field>
+									</div>
+									<div class="flex flex-col w-full">
+										<app-view-field label="Record Status" [value]="asset.RecordStatus">
+										</app-view-field>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</p-fluid>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

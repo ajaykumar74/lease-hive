@@ -1,0 +1,138 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetId" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="AssetId">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="DeviceSerialNo">Device SerialNo 
+							</label> 
+							<input pInputText id="DeviceSerialNo" type="text" pSize="small"	formControlName="DeviceSerialNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DeviceSerialNo')"
+											label="Device SerialNo">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Processor">Processor 
+							</label> 
+							<input pInputText id="Processor" type="text" pSize="small"	formControlName="Processor"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Processor')"
+											label="Processor">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="RAMGB">RAMGB 
+							</label> 
+							<p-inputNumber id="RAMGB"  pSize="small"	formControlName="RAMGB"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('RAMGB')"
+											label="RAMGB">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="StorageGB">StorageGB 
+							</label> 
+							<p-inputNumber id="StorageGB"  pSize="small"	formControlName="StorageGB"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('StorageGB')"
+											label="StorageGB">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="OperatingSystem">Operating System 
+							</label> 
+							<input pInputText id="OperatingSystem" type="text" pSize="small"	formControlName="OperatingSystem"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('OperatingSystem')"
+											label="Operating System">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="MACAddress">MACAddress 
+							</label> 
+							<input pInputText id="MACAddress" type="text" pSize="small"	formControlName="MACAddress"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MACAddress')"
+											label="MACAddress">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="IMEI">IMEI 
+							</label> 
+							<input pInputText id="IMEI" type="text" pSize="small"	formControlName="IMEI"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('IMEI')"
+											label="IMEI">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="WarrantyExpiryDate">Warranty Expiry Date 
+							</label> 
+							<p-calendar id="WarrantyExpiryDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="WarrantyExpiryDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('WarrantyExpiryDate')"
+											label="Warranty Expiry Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="MDMDeviceId">MDM DeviceId 
+							</label> 
+							<input pInputText id="MDMDeviceId" type="text" pSize="small"	formControlName="MDMDeviceId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MDMDeviceId')"
+											label="MDM DeviceId">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

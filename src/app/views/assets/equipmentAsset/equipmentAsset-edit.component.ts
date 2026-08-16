@@ -1,0 +1,196 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';  
+ 
+ 
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IEquipmentAsset } from './equipmentAsset';
+import { EquipmentAssetService } from './equipmentAsset.service';
+
+
+@Component({
+  selector: 'app-equipmentAsset-edit',
+  standalone: false,
+  templateUrl: './equipmentAsset-edit.component.html',
+  providers: [ MessageService]
+})
+export class EquipmentAssetEditComponent implements OnInit {
+
+  selectedId: number;
+  isLoading: boolean = false;
+  equipmentAsset: IEquipmentAsset = null;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  assetidOptions: ISelectItem[] = [];
+safetyclassOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+   editForm: any; 
+  objMaster : IEquipmentAsset = {} as IEquipmentAsset;
+
+
+  constructor( 
+    private activatedRouter: ActivatedRoute,  
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location,
+	private equipmentAssetService: EquipmentAssetService, 
+	private loggedInUserService : LoggedInUserService
+	) {
+  }
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+ 
+
+  ngOnInit(): void {
+   this.objMaster = { ...this.equipmentAsset };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, [Validators.required]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+EquipmentSerialNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
+CapacityUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+PowerUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+ManufactureDate: new FormControl(new Date(), [Validators.required]),
+SafetyClass: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+EffectiveTo: new FormControl(new Date(), []),
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+
+   this.assetidOptions.push({Text: '', Value: '' });
+this.safetyclassOptions.push({Text: '', Value: '' });
+this.recordstatusOptions.push({Text: '', Value: '' });
+
+     this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadUI();
+    }, 500); 
+  }
+
+
+  loadUI(): void {
+    this.isLoading = true; 
+    this.equipmentAssetService.getById(this.selectedId).subscribe({
+      next: data => {	        
+        this.equipmentAsset = data.data;
+		this.permission = data.permission;
+        this.objMaster = { ...this.equipmentAsset };
+        this.populateUI(this.equipmentAsset);
+      },
+      error: err => { this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  } 
+
+  populateUI(obj: IEquipmentAsset): void {  
+    this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  AssetId: obj.AssetId || 0,
+EquipmentSerialNo: obj.EquipmentSerialNo || '',
+CapacityUOMId: obj.CapacityUOMId || 0,
+PowerUOMId: obj.PowerUOMId || 0,
+ManufactureDate:  obj.ManufactureDate || new Date(),
+SafetyClass: obj.SafetyClass || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+	 this.Caption = "EquipmentAsset Details #" + obj.Id;
+  } 
+
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/equipmentAsset/create', { id: -1 }]);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+
+  }
+
+
+
+  onCancel(): void {
+    this.equipmentAsset = { ...this.objMaster };
+	var obj  = this.equipmentAsset;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  AssetId: obj.AssetId || 0,
+EquipmentSerialNo: obj.EquipmentSerialNo || '',
+CapacityUOMId: obj.CapacityUOMId || 0,
+PowerUOMId: obj.PowerUOMId || 0,
+ManufactureDate:  obj.ManufactureDate || new Date(),
+SafetyClass: obj.SafetyClass || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+    this.editForm.reset();
+  }
+
+
+
+  Save(): void {
+  
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }
+	
+     const formValues = this.editForm.value; 
+	 var updatedObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     AssetId:  formValues.AssetId || null,
+EquipmentSerialNo:  formValues.EquipmentSerialNo || null,
+CapacityValue:  formValues.CapacityValue || null,
+CapacityUOMId:  formValues.CapacityUOMId || null,
+PowerRating:  formValues.PowerRating || null,
+PowerUOMId:  formValues.PowerUOMId || null,
+ManufactureDate:  formValues.ManufactureDate || null,
+SafetyClass:  formValues.SafetyClass || null,
+EffectiveFrom:  formValues.EffectiveFrom || null,
+EffectiveTo:  formValues.EffectiveTo || null,
+RecordStatus:  formValues.RecordStatus || null,
+
+    } as IEquipmentAsset ;
+	
+	this.spinner.show();  	   
+    this.equipmentAssetService.update(this.equipmentAsset.Id, updatedObj).subscribe({
+      next: data => {
+        //this.messageService.showSuccess(EquipmentAsset +  'Details Updated sucessfully.');
+		//this.editForm.reset();
+		this._location.back();
+      },
+      error: err => { 
+       this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide();}
+    });
+  }
+}

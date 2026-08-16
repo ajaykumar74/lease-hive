@@ -176,7 +176,7 @@ const routes: Routes = [
         path: 'permissions',
         data: { breadcrumb: 'Permissions' },
         loadChildren: () => import('@/views/permission/permission.module').then(c => c.PermissionModule),
-      }, 
+      },
       {
         path: 'rolePermissions',
         data: { breadcrumb: 'Role Permissions' },
@@ -299,11 +299,68 @@ const routes: Routes = [
         data: { breadcrumb: 'Asset Makes' },
         loadChildren: () => import('@/views/assets/assetMake/assetMake.module').then(c => c.AssetMakeModule),
       },
- {
+      {
         path: 'assetModels',
         data: { breadcrumb: 'Asset Models' },
         loadChildren: () => import('@/views/assets/assetModel/assetModel.module').then(c => c.AssetModelModule),
       },
+       {
+        path: 'assetAttributeDefinitions',
+        data: { breadcrumb: 'Asset Attribute Definitions' },
+        loadChildren: () => import('@/views/assets/assetAttributeDefinition/assetAttributeDefinition.module').then(c => c.AssetAttributeDefinitionModule),
+      },
+  {
+        path: 'assetAttributeOptions',
+        data: { breadcrumb: 'Asset Attribute Options' },
+        loadChildren: () => import('@/views/assets/assetAttributeOption/assetAttributeOption.module').then(c => c.AssetAttributeOptionModule),
+      },
+      {
+        path: 'assets',
+        data: { breadcrumb: 'Assets' },
+        loadChildren: () => import('@/views/assets/asset/asset.module').then(c => c.AssetModule),
+      },
+       {
+        path: 'assetIdentifiers',
+        data: { breadcrumb: 'Asset Identifiers' },
+        loadChildren: () => import('@/views/assets/assetIdentifier/assetIdentifier.module').then(c => c.AssetIdentifierModule),
+      },
+       {
+        path: 'assetAttributeValues',
+        data: { breadcrumb: 'Asset Attribute Values' },
+        loadChildren: () => import('@/views/assets/assetAttributeValue/assetAttributeValue.module').then(c => c.AssetAttributeValueModule),
+      }
+,
+       {
+        path: 'vehicleAssets',
+        data: { breadcrumb: 'Vehicle Assets' },
+        loadChildren: () => import('@/views/assets/vehicleAsset/vehicleAsset.module').then(c => c.VehicleAssetModule),
+      }
+      ,
+       {
+        path: 'iTAssets',
+        data: { breadcrumb: 'IT Assets' },
+        loadChildren: () => import('@/views/assets/iTAsset/iTAsset.module').then(c => c.ITAssetModule),
+      }
+      ,
+       {
+        path: 'equipmentAssets',
+        data: { breadcrumb: 'Equipment Assets' },
+        loadChildren: () => import('@/views/assets/equipmentAsset/equipmentAsset.module').then(c => c.EquipmentAssetModule),
+      }
+
+       ,
+       {
+        path: 'propertyAssets',
+        data: { breadcrumb: 'Property Assets' },
+        loadChildren: () => import('@/views/assets/propertyAsset/propertyAsset.module').then(c => c.PropertyAssetModule),
+      }
+ ,
+       {
+        path: 'assetStatuss',
+        data: { breadcrumb: 'Asset Statuses' },
+        loadChildren: () => import('@/views/assets/assetStatus/assetStatus.module').then(c => c.AssetStatusModule),
+      }
+      
     ]
   }
 ];

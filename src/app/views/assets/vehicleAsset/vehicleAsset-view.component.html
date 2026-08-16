@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="vehicleAsset.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="VIN" [value]="vehicleAsset.VIN">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RegistrationNo" [value]="vehicleAsset.RegistrationNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RegistrationDate" [value]="vehicleAsset.RegistrationDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RegistrationExpiryDate" [value]="vehicleAsset.RegistrationExpiryDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EngineNo" [value]="vehicleAsset.EngineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="ChassisNo" [value]="vehicleAsset.ChassisNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="FuleTypeCode" [value]="vehicleAsset.FuelTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EmissionNormCode" [value]="vehicleAsset.EmissionNormCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="SeatingCapacity" [value]="vehicleAsset.SeatingCapacity">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="GrossVehicleWeightKg" [value]="vehicleAsset.GrossVehicleWeightKg">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="vehicleAsset.EffectiveFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="vehicleAsset.EffectiveTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="vehicleAsset.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

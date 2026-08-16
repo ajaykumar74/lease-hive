@@ -143,7 +143,7 @@ export class AppMenu {
                                     routerLink: ['/dashboard/portalUsers'],
                                     tooltip: '',
                                 },
-                                
+
                                 {
                                     label: 'Historic Invoices',
                                     icon: 'pi pi-fw pi-server',
@@ -328,7 +328,7 @@ export class AppMenu {
                                     routerLink: ['/dashboard/partyGSTRegistrations/list'],
                                     tooltip: 'see your gst registrations here',
                                 },
-                                 {
+                                {
                                     label: 'Party Locations',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/partyLocations/list'],
@@ -382,9 +382,9 @@ export class AppMenu {
                                 },
                                 {
                                     label: 'Roles and permissions',
-                                    icon: 'pi pi-fw pi-home',  
+                                    icon: 'pi pi-fw pi-home',
                                     items: [
-                                          {
+                                        {
                                             label: 'Roles',
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/roles/list']
@@ -394,22 +394,22 @@ export class AppMenu {
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/permissions/list']
                                         },
-                                         {
+                                        {
                                             label: 'User Roles',
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/userRoles/list']
                                         },
-                                          {
+                                        {
                                             label: 'User Organisation Units',
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/userOrganisationUnits/list']
                                         },
-                                         {
+                                        {
                                             label: 'User Party Access',
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/userPartyAccesss/list']
                                         },
-                                          
+
                                     ]
                                 },
                                 {
@@ -420,7 +420,7 @@ export class AppMenu {
                                 }, {
                                     label: 'Approval authority',
                                     icon: 'pi pi-fw pi-address-book',
-                                   routerLink: ['/dashboard/approvalAuthoritys/list'],
+                                    routerLink: ['/dashboard/approvalAuthoritys/list'],
                                     tooltip: '',
                                 }, {
                                     label: 'Delegation',
@@ -470,7 +470,7 @@ export class AppMenu {
                                 }
                             ],
                         },
-                     {
+                        {
                             label: 'Configurations and masters',
                             icon: 'pi pi-fw pi-user',
                             items: [
@@ -479,228 +479,253 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/numberSequences/'],
                                     tooltip: 'See your fleet/ actions and costs here',
-                                } 
+                                }
                             ],
                         },
                     ],
-                },                
-                {
-    label: 'Business',
-    icon: 'pi pi-th-large',
-    items: [
-        {
-            label: 'CRM & Origination',
-            icon: 'pi pi-fw pi-users',
-            items: [
-            ],
-        },
-        {
-            label: 'Assets',
-            icon: 'pi pi-fw pi-box',
-            items: [
-                {
-                    label: 'Asset Dashboard',
-                    icon: 'pi pi-fw pi-chart-bar',
-                    routerLink: ['/assets/dashboard']
                 },
                 {
-                    label: 'Asset Worklist',
-                    icon: 'pi pi-fw pi-list',
-                    routerLink: ['/assets']
-                },
-                {
-                    label: 'Create Asset',
-                    icon: 'pi pi-fw pi-plus-circle',
-                    routerLink: ['/assets/create']
-                },
-                {
-                    label: 'Classification',
-                    icon: 'pi pi-fw pi-sitemap',
+                    label: 'Business',
+                    icon: 'pi pi-th-large',
                     items: [
                         {
-                            label: 'Asset Categories',
-                            routerLink: ['/dashboard/assetCategorys/list']
+                            label: 'CRM & Origination',
+                            icon: 'pi pi-fw pi-users',
+                            items: [
+                            ],
                         },
                         {
-                            label: 'Asset Types',
-                            routerLink: ['/dashboard/assetTypes']
+                            label: 'Assets',
+                            icon: 'pi pi-fw pi-box',
+                            items: [
+                                {
+                                    label: 'Asset Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['dashboard/assets/list'],
+                                    tooltip: 'See your fleet/ actions and costs here',
+                                },
+                                {
+                                    label: 'Asset Worklist',
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['/assets']
+                                },
+                                {
+                                    label: 'Create Asset',
+                                    icon: 'pi pi-fw pi-plus-circle',
+                                    routerLink: ['/assets/create']
+                                },
+                                {
+                                    label: 'Classification',
+                                    icon: 'pi pi-fw pi-sitemap',
+                                    items: [
+                                        {
+                                            label: 'Asset Categories',
+                                            routerLink: ['/dashboard/assetCategorys/list']
+                                        },
+                                        {
+                                            label: 'Asset Types',
+                                            routerLink: ['/dashboard/assetTypes']
+                                        },
+                                        {
+                                            label: 'Asset Makes',
+                                            routerLink: ['/dashboard/assetMakes']
+                                        },
+                                        {
+                                            label: 'Models & Variants',
+                                            routerLink: ['/dashboard/assetModels']
+                                        },
+                                          {
+                                            label: 'Asset identifiers',
+                                            routerLink: ['/dashboard/assetIdentifiers']
+                                        },
+
+
+                                        {
+                                            label: 'Attribute Definitions',
+                                            items: [
+                                                {
+                                                    label: 'assetAttributeDefinitions',
+                                                    routerLink: ['/dashboard/assetAttributeDefinitions']
+                                                },
+                                                 {
+                                                    label: 'assetAttributeOptions',
+                                                    routerLink: ['/dashboard/assetAttributeOptions']
+                                                },
+                                             {
+                                                    label: 'assetAttributeValues',
+                                                    routerLink: ['/dashboard/assetAttributeValues']
+                                                },
+                                                 {
+                                                    label: 'assetStatuss',
+                                                    routerLink: ['/dashboard/assetStatuss']
+                                                }, 
+                                            ]
+                                        },
+
+                                        {
+                                            label: 'Attribute Options',
+                                            routerLink: ['/assets/attribute-options']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Assignments & Custody',
+                                    icon: 'pi pi-fw pi-users',
+                                    items: [
+                                        {
+                                            label: 'Current Assignments',
+                                            routerLink: ['/assets/assignments']
+                                        },
+                                        {
+                                            label: 'Assign Asset',
+                                            routerLink: ['/assets/assignments/create']
+                                        },
+                                        {
+                                            label: 'Transfer Custody',
+                                            routerLink: ['/assets/assignments/transfer']
+                                        },
+                                        {
+                                            label: 'Assignment History',
+                                            routerLink: ['/assets/assignments/history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Locations & Movements',
+                                    icon: 'pi pi-fw pi-map-marker',
+                                    items: [
+                                        {
+                                            label: 'Current Locations',
+                                            routerLink: ['/assets/locations']
+                                        },
+                                        {
+                                            label: 'Move Asset',
+                                            routerLink: ['/assets/movements/create']
+                                        },
+                                        {
+                                            label: 'Branch Transfers',
+                                            routerLink: ['/assets/movements/transfers']
+                                        },
+                                        {
+                                            label: 'Movement History',
+                                            routerLink: ['/assets/movements/history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Measures & Readings',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    items: [
+                                        {
+                                            label: 'Measure Definitions',
+                                            routerLink: ['/assets/measures']
+                                        },
+                                        {
+                                            label: 'Record Reading',
+                                            routerLink: ['/assets/readings/create']
+                                        },
+                                        {
+                                            label: 'Reading History',
+                                            routerLink: ['/assets/readings']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Inspections',
+                                    icon: 'pi pi-fw pi-check-square',
+                                    items: [
+                                        {
+                                            label: 'Inspection Worklist',
+                                            routerLink: ['/assets/inspections']
+                                        },
+                                        {
+                                            label: 'Create Inspection',
+                                            routerLink: ['/assets/inspections/create']
+                                        },
+                                        {
+                                            label: 'Condition Grades',
+                                            routerLink: ['/assets/condition-grades']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Compliance',
+                                    icon: 'pi pi-fw pi-verified',
+                                    items: [
+                                        {
+                                            label: 'Compliance Dashboard',
+                                            routerLink: ['/assets/compliance']
+                                        },
+                                        {
+                                            label: 'Compliance Types',
+                                            routerLink: ['/assets/compliance/types']
+                                        },
+                                        {
+                                            label: 'Certificates & Permits',
+                                            routerLink: ['/assets/compliance/records']
+                                        },
+                                        {
+                                            label: 'Expiry Worklist',
+                                            routerLink: ['/assets/compliance/expiring']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Documents',
+                                    icon: 'pi pi-fw pi-folder',
+                                    routerLink: ['/assets/documents']
+                                },
+                                {
+                                    label: 'Valuations',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    routerLink: ['/assets/valuations']
+                                },
+                                {
+                                    label: 'Warranty & Insurance',
+                                    icon: 'pi pi-fw pi-shield',
+                                    items: [
+                                        {
+                                            label: 'Warranties',
+                                            routerLink: ['/assets/warranties']
+                                        },
+                                        {
+                                            label: 'Insurance',
+                                            routerLink: ['/assets/insurance']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Lifecycle History',
+                                    icon: 'pi pi-fw pi-history',
+                                    routerLink: ['/assets/lifecycle']
+                                }
+                            ],
                         },
                         {
-                            label: 'Asset Makes',
-                            routerLink: ['/dashboard/assetMakes']
+                            label: 'Procurement',
+                            icon: 'pi pi-fw pi-shopping-cart',
+                            items: [
+                            ],
                         },
                         {
-                            label: 'Models & Variants',
-                            routerLink: ['/dashboard/assetModels']
+                            label: 'Contracts',
+                            icon: 'pi pi-fw pi-file',
+                            items: [
+                            ],
                         },
                         {
-                            label: 'Attribute Definitions',
-                            routerLink: ['/assets/attributes']
+                            label: 'Billing and Finance',
+                            icon: 'pi pi-fw pi-wallet',
+                            items: [
+                            ],
                         },
                         {
-                            label: 'Attribute Options',
-                            routerLink: ['/assets/attribute-options']
-                        }
+                            label: 'Operations',
+                            icon: 'pi pi-fw pi-cog',
+                            items: [
+                            ],
+                        },
                     ]
-                },
-                {
-                    label: 'Assignments & Custody',
-                    icon: 'pi pi-fw pi-users',
-                    items: [
-                        {
-                            label: 'Current Assignments',
-                            routerLink: ['/assets/assignments']
-                        },
-                        {
-                            label: 'Assign Asset',
-                            routerLink: ['/assets/assignments/create']
-                        },
-                        {
-                            label: 'Transfer Custody',
-                            routerLink: ['/assets/assignments/transfer']
-                        },
-                        {
-                            label: 'Assignment History',
-                            routerLink: ['/assets/assignments/history']
-                        }
-                    ]
-                },
-                {
-                    label: 'Locations & Movements',
-                    icon: 'pi pi-fw pi-map-marker',
-                    items: [
-                        {
-                            label: 'Current Locations',
-                            routerLink: ['/assets/locations']
-                        },
-                        {
-                            label: 'Move Asset',
-                            routerLink: ['/assets/movements/create']
-                        },
-                        {
-                            label: 'Branch Transfers',
-                            routerLink: ['/assets/movements/transfers']
-                        },
-                        {
-                            label: 'Movement History',
-                            routerLink: ['/assets/movements/history']
-                        }
-                    ]
-                },
-                {
-                    label: 'Measures & Readings',
-                    icon: 'pi pi-fw pi-chart-line',
-                    items: [
-                        {
-                            label: 'Measure Definitions',
-                            routerLink: ['/assets/measures']
-                        },
-                        {
-                            label: 'Record Reading',
-                            routerLink: ['/assets/readings/create']
-                        },
-                        {
-                            label: 'Reading History',
-                            routerLink: ['/assets/readings']
-                        }
-                    ]
-                },
-                {
-                    label: 'Inspections',
-                    icon: 'pi pi-fw pi-check-square',
-                    items: [
-                        {
-                            label: 'Inspection Worklist',
-                            routerLink: ['/assets/inspections']
-                        },
-                        {
-                            label: 'Create Inspection',
-                            routerLink: ['/assets/inspections/create']
-                        },
-                        {
-                            label: 'Condition Grades',
-                            routerLink: ['/assets/condition-grades']
-                        }
-                    ]
-                },
-                {
-                    label: 'Compliance',
-                    icon: 'pi pi-fw pi-verified',
-                    items: [
-                        {
-                            label: 'Compliance Dashboard',
-                            routerLink: ['/assets/compliance']
-                        },
-                        {
-                            label: 'Compliance Types',
-                            routerLink: ['/assets/compliance/types']
-                        },
-                        {
-                            label: 'Certificates & Permits',
-                            routerLink: ['/assets/compliance/records']
-                        },
-                        {
-                            label: 'Expiry Worklist',
-                            routerLink: ['/assets/compliance/expiring']
-                        }
-                    ]
-                },
-                {
-                    label: 'Documents',
-                    icon: 'pi pi-fw pi-folder',
-                    routerLink: ['/assets/documents']
-                },
-                {
-                    label: 'Valuations',
-                    icon: 'pi pi-fw pi-chart-line',
-                    routerLink: ['/assets/valuations']
-                },
-                {
-                    label: 'Warranty & Insurance',
-                    icon: 'pi pi-fw pi-shield',
-                    items: [
-                        {
-                            label: 'Warranties',
-                            routerLink: ['/assets/warranties']
-                        },
-                        {
-                            label: 'Insurance',
-                            routerLink: ['/assets/insurance']
-                        }
-                    ]
-                },
-                {
-                    label: 'Lifecycle History',
-                    icon: 'pi pi-fw pi-history',
-                    routerLink: ['/assets/lifecycle']
-                }
-            ],
-        },
-        {
-            label: 'Procurement',
-            icon: 'pi pi-fw pi-shopping-cart',
-            items: [
-            ],
-        },
-        {
-            label: 'Contracts',
-            icon: 'pi pi-fw pi-file',
-            items: [
-            ],
-        },
-        {
-            label: 'Billing and Finance',
-            icon: 'pi pi-fw pi-wallet',
-            items: [
-            ],
-        },
-        {
-            label: 'Operations',
-            icon: 'pi pi-fw pi-cog',
-            items: [
-            ],
-        },
-    ]
                 },
                 {
                     label: 'Administration',

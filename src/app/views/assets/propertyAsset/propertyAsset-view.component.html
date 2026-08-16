@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AssetId" [value]="propertyAsset.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PropertyType" [value]="propertyAsset.PropertyType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="SurveyNo" [value]="propertyAsset.SurveyNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="BuiltUpArea" [value]="propertyAsset.BuiltUpArea">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="AreaUOMId" [value]="propertyAsset.AreaUOMId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="FloorNo" [value]="propertyAsset.FloorNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PossessionDate" [value]="propertyAsset.PossessionDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="TitleReference" [value]="propertyAsset.TitleReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="propertyAsset.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="propertyAsset.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
