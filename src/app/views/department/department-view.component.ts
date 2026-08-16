@@ -20,6 +20,7 @@ standalone: false,
 })
 export class DepartmentViewComponent implements OnInit {
     selectedId: number;
+    organisationUnitId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     department: IDepartment = {} as IDepartment;
@@ -42,7 +43,9 @@ export class DepartmentViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.selectedId = this.activatedRouter.snapshot.params['id'];
+        const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
+        this.organisationUnitId = routeId > 0 ? routeId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,6 +60,11 @@ export class DepartmentViewComponent implements OnInit {
         this.departmentService.getById(this.selectedId).subscribe({
             next: data => {
                 this.department = data.data;
+                if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
+                    this.messageService.showError('This record does not belong to the selected organisation unit.');
+                    this.router.navigate(['/dashboard/departments/organisation-unit', this.organisationUnitId]);
+                    return;
+                }
                 this.permission = data.permission; 
                 this.populateUI(this.department);
             },

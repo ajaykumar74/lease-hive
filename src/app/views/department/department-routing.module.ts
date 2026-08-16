@@ -39,6 +39,10 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      { path: 'organisation-unit/:organisationUnitId/create', canActivate: [AuthGuard], component: DepartmentCreateComponent, data: { title: 'Create' } },
+      { path: 'organisation-unit/:organisationUnitId/edit/:id', canActivate: [AuthGuard], component: DepartmentEditComponent },
+      { path: 'organisation-unit/:organisationUnitId/view/:id', canActivate: [AuthGuard], component: DepartmentViewComponent },
+      { path: 'organisation-unit/:organisationUnitId', canActivate: [AuthGuard], component: DepartmentListComponent, data: { title: 'List' } },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

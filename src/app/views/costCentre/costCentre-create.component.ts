@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ICostCentre } from './costCentre';
 import { CostCentreService } from './costCentre.service';
+import { OrganisationUnitService } from '@/views/organisationUnit/organisationUnit.service';
+import { IOrganisationUnit } from '@/views/organisationUnit/organisationUnit';
 
 @Component({
   selector: 'app-costCentre-create',
@@ -27,6 +29,8 @@ export class CostCentreCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   costCentre: ICostCentre = null;
+  organisationUnitId: number | null = null;
+  organisationUnit: IOrganisationUnit | null = null;
   parentcostcentreidOptions: ISelectItem[] = [];
   organisationunitidOptions: ISelectItem[] = [];
   externalledgercodeOptions: ISelectItem[] = [];
@@ -38,10 +42,12 @@ export class CostCentreCreateComponent implements OnInit {
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
-    private fb: FormBuilder,
+	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
     private router: Router,
     private _location: Location,
-    private costCentreService: CostCentreService,
+	private costCentreService: CostCentreService,
+	private organisationUnitService: OrganisationUnitService,
     private loggedInUserService: LoggedInUserService
 
   ) {
@@ -66,6 +72,13 @@ export class CostCentreCreateComponent implements OnInit {
       Description: new FormControl('', [Validators.maxLength(100),]),
 
     });
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+    if (this.organisationUnitId) {
+      this.editForm.patchValue({ OrganisationUnitId: this.organisationUnitId });
+      this.editForm.controls.OrganisationUnitId.disable();
+      this.loadOrganisationUnit(this.organisationUnitId);
+    }
 
     this.externalledgercodeOptions.push({ Text: 'Ledger1', Value: 'Ledger1' });
     this.externalledgercodeOptions.push({ Text: 'Ledger2', Value: 'Ledger2' });
@@ -79,6 +92,16 @@ export class CostCentreCreateComponent implements OnInit {
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 
+  }
+
+  private loadOrganisationUnit(organisationUnitId: number): void {
+    this.organisationUnitService.getById(organisationUnitId).subscribe({
+      next: response => {
+        this.organisationUnit = response.data;
+        this.Caption = `Create Cost Centre - ${this.organisationUnit.UnitCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
   }
 
   loadUI(): void {
@@ -129,6 +152,10 @@ export class CostCentreCreateComponent implements OnInit {
   }
 
   onCancel(): void {
+    if (this.organisationUnitId) {
+      this.router.navigate(['/dashboard/costCenters/organisation-unit', this.organisationUnitId]);
+      return;
+    }
     this.costCentre = { ...this.objMaster };
     var obj = this.costCentre;
     this.editForm.patchValue(
@@ -157,13 +184,14 @@ export class CostCentreCreateComponent implements OnInit {
 
 
     const formValues = this.editForm.value;
+    const selectedOrganisationUnitId = this.organisationUnitId ?? Number(formValues.OrganisationUnitId);
     var createdObj = {
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
       CostCentreCode: formValues.CostCentreCode || null,
       CostCentreName: formValues.CostCentreName || null,
       ParentCostCentreId: formValues.ParentCostCentreId || null,
-      OrganisationUnitId: formValues.OrganisationUnitId || null,
+      OrganisationUnitId: selectedOrganisationUnitId || null,
       ExternalLedgerCode: formValues.ExternalLedgerCode || null,
       RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,

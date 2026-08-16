@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class DepartmentListComponent implements OnInit {
 
   constructor(
     private departmentService: DepartmentService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,16 @@ export class DepartmentListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  organisationUnitId: number | null = null;
   objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.departmentService.CacheData.IsLoaded) {
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.departmentService.CacheData.CurrentPage;
       this.objSearch = this.departmentService.CacheData.objSearch;
       this.permission = this.departmentService.CacheData.permission;
@@ -46,7 +50,7 @@ export class DepartmentListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.departmentService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +93,7 @@ export class DepartmentListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.departmentService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.departmentService.setCache(res.data, this.permission, this.objSearch, pgEvent.page, this.contextKey);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -116,6 +120,10 @@ export class DepartmentListComponent implements OnInit {
       { DBName: 'DepartmentCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
+    if (this.organisationUnitId) {
+      Items.push({ DBName: 'OrganisationUnitId', Value: this.organisationUnitId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
     
@@ -135,24 +143,34 @@ export class DepartmentListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/departments/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/departments/view/' + obj.Id]);
-    } 
+    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
+    const route = this.organisationUnitId
+      ? ['dashboard/departments/organisation-unit', this.organisationUnitId, page, obj.Id]
+      : ['dashboard/departments', page, obj.Id];
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/departments/create']);
+      const route = this.organisationUnitId
+        ? ['dashboard/departments/organisation-unit', this.organisationUnitId, 'create']
+        : ['dashboard/departments/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string {
+    return this.organisationUnitId ? `organisation-unit:${this.organisationUnitId}` : 'all';
+  }
+
+  private isCurrentContextCached(): boolean {
+    return !!this.departmentService.CacheData.IsLoaded && this.departmentService.CacheContextKey === this.contextKey;
   }
 }
 

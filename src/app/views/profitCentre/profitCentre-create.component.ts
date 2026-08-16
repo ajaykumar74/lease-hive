@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IProfitCentre } from './profitCentre';
 import { ProfitCentreService } from './profitCentre.service';
+import { OrganisationUnitService } from '@/views/organisationUnit/organisationUnit.service';
+import { IOrganisationUnit } from '@/views/organisationUnit/organisationUnit';
 
 @Component({
   selector: 'app-profitCentre-create',
@@ -27,6 +29,8 @@ export class ProfitCentreCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   profitCentre: IProfitCentre = null;
+  organisationUnitId: number | null = null;
+  organisationUnit: IOrganisationUnit | null = null;
   parentprofitcentreidOptions: ISelectItem[] = [];
   organisationunitidOptions: ISelectItem[] = [];
   externalledgercodeOptions: ISelectItem[] = [];
@@ -39,9 +43,11 @@ export class ProfitCentreCreateComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private _location: Location,
     private profitCentreService: ProfitCentreService,
+    private organisationUnitService: OrganisationUnitService,
     private loggedInUserService: LoggedInUserService
 
   ) {
@@ -66,6 +72,13 @@ export class ProfitCentreCreateComponent implements OnInit {
       Description: new FormControl('', [Validators.maxLength(100),]),
 
     });
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+    if (this.organisationUnitId) {
+      this.editForm.patchValue({ OrganisationUnitId: this.organisationUnitId });
+      this.editForm.controls.OrganisationUnitId.disable();
+      this.loadOrganisationUnit(this.organisationUnitId);
+    }
 
     this.externalledgercodeOptions.push({ Text: 'Ledger1', Value: 'Ledger1' });
     this.externalledgercodeOptions.push({ Text: 'Ledger2', Value: 'Ledger2' });
@@ -79,6 +92,16 @@ export class ProfitCentreCreateComponent implements OnInit {
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 
+  }
+
+  private loadOrganisationUnit(organisationUnitId: number): void {
+    this.organisationUnitService.getById(organisationUnitId).subscribe({
+      next: response => {
+        this.organisationUnit = response.data;
+        this.Caption = `Create Profit Centre - ${this.organisationUnit.UnitCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
   }
 
   loadUI(): void {
@@ -129,6 +152,10 @@ export class ProfitCentreCreateComponent implements OnInit {
   }
 
   onCancel(): void {
+    if (this.organisationUnitId) {
+      this.router.navigate(['/dashboard/profitCenters/organisation-unit', this.organisationUnitId]);
+      return;
+    }
     this.profitCentre = { ...this.objMaster };
     var obj = this.profitCentre;
     this.editForm.patchValue(
@@ -157,13 +184,14 @@ export class ProfitCentreCreateComponent implements OnInit {
 
 
     const formValues = this.editForm.value;
+    const selectedOrganisationUnitId = this.organisationUnitId ?? Number(formValues.OrganisationUnitId);
     var createdObj = {
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
       ProfitCentreCode: formValues.ProfitCentreCode || null,
       ProfitCentreName: formValues.ProfitCentreName || null,
       ParentProfitCentreId: formValues.ParentProfitCentreId || null,
-      OrganisationUnitId: formValues.OrganisationUnitId || null,
+      OrganisationUnitId: selectedOrganisationUnitId || null,
       ExternalLedgerCode: formValues.ExternalLedgerCode || null,
       RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,

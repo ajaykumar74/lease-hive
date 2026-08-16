@@ -39,6 +39,10 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      { path: 'organisation-unit/:organisationUnitId/create', canActivate: [AuthGuard], component: OrganisationUnitLocationCreateComponent, data: { title: 'Create' } },
+      { path: 'organisation-unit/:organisationUnitId/edit/:id', canActivate: [AuthGuard], component: OrganisationUnitLocationEditComponent },
+      { path: 'organisation-unit/:organisationUnitId/view/:id', canActivate: [AuthGuard], component: OrganisationUnitLocationViewComponent },
+      { path: 'organisation-unit/:organisationUnitId', canActivate: [AuthGuard], component: OrganisationUnitLocationListComponent, data: { title: 'List' } },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

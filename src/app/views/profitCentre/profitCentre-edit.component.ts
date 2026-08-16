@@ -23,6 +23,7 @@ import { ProfitCentreService } from './profitCentre.service';
 export class ProfitCentreEditComponent implements OnInit {
 
   selectedId: number;
+  organisationUnitId: number | null = null;
   isLoading: boolean = false;
   profitCentre: IProfitCentre = null;
   permission = {} as IPermission;
@@ -72,6 +73,9 @@ this.externalledgercodeOptions.push({Text: 'Ledger2', Value: 'Ledger2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
+     this.organisationUnitId = routeId > 0 ? routeId : null;
+     if (this.organisationUnitId) this.editForm.controls.OrganisationUnitId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -86,6 +90,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.profitCentreService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.profitCentre = data.data;
+		if (this.organisationUnitId && this.profitCentre.OrganisationUnitId !== this.organisationUnitId) {
+		  this.messageService.showError('This record does not belong to the selected organisation unit.');
+		  this.router.navigate(['/dashboard/profitCenters/organisation-unit', this.organisationUnitId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.profitCentre };
         this.populateUI(this.profitCentre);
@@ -176,7 +185,7 @@ Description: obj.Description || '',
      ProfitCentreCode:  formValues.ProfitCentreCode || null,
 ProfitCentreName:  formValues.ProfitCentreName || null,
 ParentProfitCentreId:  formValues.ParentProfitCentreId || null,
-OrganisationUnitId:  formValues.OrganisationUnitId || null,
+     OrganisationUnitId:  this.organisationUnitId ?? formValues.OrganisationUnitId ?? this.objMaster.OrganisationUnitId,
 ExternalLedgerCode:  formValues.ExternalLedgerCode || null,
 RecordStatus:  formValues.RecordStatus || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,

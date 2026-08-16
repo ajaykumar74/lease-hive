@@ -13,6 +13,7 @@ export class ProfitCentreService extends BaseCrudService<any> {
 
   protected baseUrl: string;
   public CacheData: ICacheData;
+  public CacheContextKey = '';
 
   constructor(protected override http: HttpClient, protected override baseService: BaseService) {
     super(http, baseService);
@@ -20,16 +21,18 @@ export class ProfitCentreService extends BaseCrudService<any> {
     this.CacheData = {} as ICacheData;
     this.baseService.isTokenUpdated().subscribe(token => {
       this.CacheData = {} as ICacheData;
+      this.CacheContextKey = '';
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache(result: any, permission: any, objsearch: any, curPage: number, contextKey: string): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
     this.CacheData.IsLoaded = (result.TotalRecords > 0);
     this.CacheData.CurrentPage = curPage;
     this.CacheData.objSearch = objsearch;
+    this.CacheContextKey = contextKey;
   } 
  
  search(  searchParam: any): Observable<any> {

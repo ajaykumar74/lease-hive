@@ -23,6 +23,7 @@ import { DepartmentService } from './department.service';
 export class DepartmentEditComponent implements OnInit {
 
   selectedId: number;
+  organisationUnitId: number | null = null;
   isLoading: boolean = false;
   department: IDepartment = null;
   permission = {} as IPermission;
@@ -81,6 +82,9 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: 'Center2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
+     this.organisationUnitId = routeId > 0 ? routeId : null;
+     if (this.organisationUnitId) this.editForm.controls.OrganisationUnitId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -95,6 +99,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.departmentService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.department = data.data;
+		if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
+		  this.messageService.showError('This record does not belong to the selected organisation unit.');
+		  this.router.navigate(['/dashboard/departments/organisation-unit', this.organisationUnitId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.department };
         this.populateUI(this.department);
@@ -190,7 +199,7 @@ Description: obj.Description || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     OrganisationUnitId:  formValues.OrganisationUnitId || null,
+     OrganisationUnitId:  this.organisationUnitId ?? formValues.OrganisationUnitId ?? this.objMaster.OrganisationUnitId,
 ParentDepartmentId:  formValues.ParentDepartmentId || null,
 DepartmentCode:  formValues.DepartmentCode || null,
 DepartmentName:  formValues.DepartmentName || null,

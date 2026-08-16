@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IOrganisationUnitLocation } from './organisationUnitLocation';
 import { OrganisationUnitLocationService } from './organisationUnitLocation.service';
+import { OrganisationUnitService } from '@/views/organisationUnit/organisationUnit.service';
+import { IOrganisationUnit } from '@/views/organisationUnit/organisationUnit';
 
 @Component({
   selector: 'app-organisationUnitLocation-create',
@@ -27,6 +29,8 @@ export class OrganisationUnitLocationCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   organisationUnitLocation: IOrganisationUnitLocation = null;
+  organisationUnitId: number | null = null;
+  organisationUnit: IOrganisationUnit | null = null;
   organisationunitidOptions: ISelectItem[] = [];
 purposetypeOptions: ISelectItem[] = [];
 
@@ -38,9 +42,11 @@ purposetypeOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private organisationUnitLocationService: OrganisationUnitLocationService,
+	private organisationUnitService: OrganisationUnitService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -62,6 +68,13 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+    if (this.organisationUnitId) {
+      this.editForm.patchValue({ OrganisationUnitId: this.organisationUnitId });
+      this.editForm.controls.OrganisationUnitId.disable();
+      this.loadOrganisationUnit(this.organisationUnitId);
+    }
 this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeType');
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.organisationunitidOptions = options,
@@ -69,7 +82,17 @@ this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeTy
     });
 
   }
- 
+
+  private loadOrganisationUnit(organisationUnitId: number): void {
+    this.organisationUnitService.getById(organisationUnitId).subscribe({
+      next: response => {
+        this.organisationUnit = response.data;
+        this.Caption = `Create Mapped Location - ${this.organisationUnit.UnitCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.organisationUnitLocationService.getById(this.selectedId).subscribe({
@@ -115,6 +138,10 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   }
 
   onCancel(): void {
+    if (this.organisationUnitId) {
+      this.router.navigate(['/dashboard/organisationUnitLocations/organisation-unit', this.organisationUnitId]);
+      return;
+    }
     this.organisationUnitLocation = { ...this.objMaster };
     var obj  = this.organisationUnitLocation;
    this.editForm.patchValue(
@@ -140,10 +167,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   
   
 	const formValues  = this.editForm.value ;
+	const selectedOrganisationUnitId = this.organisationUnitId ?? Number(formValues.OrganisationUnitId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     OrganisationUnitId: formValues.OrganisationUnitId || null,
+     OrganisationUnitId: selectedOrganisationUnitId || null,
 PurposeType: formValues.PurposeType || null,
 IsPrimary: formValues.IsPrimary || null,
 RecordStatus: 'Active',

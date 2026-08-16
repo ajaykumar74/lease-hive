@@ -87,26 +87,18 @@ export class OrganisationUnitEditComponent implements OnInit {
     this.selectedId = this.activatedRouter.snapshot.params['id'];
 
     this.menuItems = [
-      {
-        label: 'Mapped Locations',
-        icon: 'pi pi-pencil',
-        command: () => this.onCommandClicked('Locations')
-      },
-      {
-        label: 'PlanFeature',
-        icon: 'pi pi-trash',
-        command: () => this.onCommandClicked('PlanFeature')
-      }
+      { label: 'Departments', icon: 'pi pi-sitemap', command: () => this.onCommandClicked('Departments') },
+      { label: 'Mapped Locations', icon: 'pi pi-map-marker', command: () => this.onCommandClicked('Locations') },
+      { label: 'Cost Centres', icon: 'pi pi-wallet', command: () => this.onCommandClicked('CostCentres') },
+      { label: 'Profit Centres', icon: 'pi pi-chart-line', command: () => this.onCommandClicked('ProfitCentres') }
     ];
   }
 
   onCommandClicked(key: string) {
-    if (key == "Locations") {
-      this.router.navigate(['/dashboard/organisationUnitLocations/list', { id: this.organisationUnit.Id }]);
-    }
-    else if (key == "PlanFeature") {
-      this.router.navigate(['/planFeature/create', { id: -1 }]);
-    }
+    if (key == "Departments") this.router.navigate(['/dashboard/departments/organisation-unit', this.organisationUnit.Id]);
+    else if (key == "Locations") this.router.navigate(['/dashboard/organisationUnitLocations/organisation-unit', this.organisationUnit.Id]);
+    else if (key == "CostCentres") this.router.navigate(['/dashboard/costCenters/organisation-unit', this.organisationUnit.Id]);
+    else if (key == "ProfitCentres") this.router.navigate(['/dashboard/profitCenters/organisation-unit', this.organisationUnit.Id]);
   }
 
   ngAfterViewInit(): void {

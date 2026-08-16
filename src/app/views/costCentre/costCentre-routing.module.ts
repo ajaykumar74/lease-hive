@@ -39,6 +39,10 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      { path: 'organisation-unit/:organisationUnitId/create', canActivate: [AuthGuard], component: CostCentreCreateComponent, data: { title: 'Create' } },
+      { path: 'organisation-unit/:organisationUnitId/edit/:id', canActivate: [AuthGuard], component: CostCentreEditComponent },
+      { path: 'organisation-unit/:organisationUnitId/view/:id', canActivate: [AuthGuard], component: CostCentreViewComponent },
+      { path: 'organisation-unit/:organisationUnitId', canActivate: [AuthGuard], component: CostCentreListComponent, data: { title: 'List' } },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

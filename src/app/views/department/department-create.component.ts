@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IDepartment } from './department';
 import { DepartmentService } from './department.service';
+import { OrganisationUnitService } from '@/views/organisationUnit/organisationUnit.service';
+import { IOrganisationUnit } from '@/views/organisationUnit/organisationUnit';
 
 @Component({
   selector: 'app-department-create',
@@ -27,6 +29,8 @@ export class DepartmentCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   department: IDepartment = null;
+  organisationUnitId: number | null = null;
+  organisationUnit: IOrganisationUnit | null = null;
   organisationunitidOptions: ISelectItem[] = [];
 parentdepartmentidOptions: ISelectItem[] = [];
 departmentcodeOptions: ISelectItem[] = [];
@@ -42,9 +46,11 @@ costcentrecodeOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private departmentService: DepartmentService,
+	private organisationUnitService: OrganisationUnitService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -71,6 +77,13 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+    if (this.organisationUnitId) {
+      this.editForm.patchValue({ OrganisationUnitId: this.organisationUnitId });
+      this.editForm.controls.OrganisationUnitId.disable();
+      this.loadOrganisationUnit(this.organisationUnitId);
+    }
 this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
 this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
 this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
@@ -91,7 +104,17 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
     });
 
   }
- 
+
+  private loadOrganisationUnit(organisationUnitId: number): void {
+    this.organisationUnitService.getById(organisationUnitId).subscribe({
+      next: response => {
+        this.organisationUnit = response.data;
+        this.Caption = `Create Department - ${this.organisationUnit.UnitCode}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
  loadUI(): void {
     this.isLoading = true;    
     this.departmentService.getById(this.selectedId).subscribe({
@@ -142,6 +165,10 @@ Description: obj.Description || '',
   }
 
   onCancel(): void {
+    if (this.organisationUnitId) {
+      this.router.navigate(['/dashboard/departments/organisation-unit', this.organisationUnitId]);
+      return;
+    }
     this.department = { ...this.objMaster };
     var obj  = this.department;
    this.editForm.patchValue(
@@ -172,10 +199,11 @@ Description: obj.Description || '',
   
   
 	const formValues  = this.editForm.value ;
+	const selectedOrganisationUnitId = this.organisationUnitId ?? Number(formValues.OrganisationUnitId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     OrganisationUnitId: formValues.OrganisationUnitId || null,
+     OrganisationUnitId: selectedOrganisationUnitId || null,
 ParentDepartmentId: formValues.ParentDepartmentId || null,
 DepartmentCode: formValues.DepartmentCode || null,
 DepartmentName: formValues.DepartmentName || null,

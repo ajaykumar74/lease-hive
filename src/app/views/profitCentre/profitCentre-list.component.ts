@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class ProfitCentreListComponent implements OnInit {
 
   constructor(
     private profitCentreService: ProfitCentreService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,16 @@ export class ProfitCentreListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  organisationUnitId: number | null = null;
   objSearch: any = { RecordStatus: 'Active', Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.profitCentreService.CacheData.IsLoaded) {
+    const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
+    this.organisationUnitId = routeId > 0 ? routeId : null;
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.profitCentreService.CacheData.CurrentPage;
       this.objSearch = this.profitCentreService.CacheData.objSearch;
       this.permission = this.profitCentreService.CacheData.permission;
@@ -46,7 +50,7 @@ export class ProfitCentreListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.profitCentreService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +93,7 @@ export class ProfitCentreListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.profitCentreService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.profitCentreService.setCache(res.data, this.permission, this.objSearch, pgEvent.page, this.contextKey);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -116,6 +120,10 @@ export class ProfitCentreListComponent implements OnInit {
       { DBName: 'ProfitCentreCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
+    if (this.organisationUnitId) {
+      Items.push({ DBName: 'OrganisationUnitId', Value: this.organisationUnitId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
      
@@ -134,24 +142,34 @@ export class ProfitCentreListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/profitCenters/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/profitCenters/view/' + obj.Id]);
-    } 
+    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
+    const route = this.organisationUnitId
+      ? ['dashboard/profitCenters/organisation-unit', this.organisationUnitId, page, obj.Id]
+      : ['dashboard/profitCenters', page, obj.Id];
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/profitCenters/create']);
+      const route = this.organisationUnitId
+        ? ['dashboard/profitCenters/organisation-unit', this.organisationUnitId, 'create']
+        : ['dashboard/profitCenters/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string {
+    return this.organisationUnitId ? `organisation-unit:${this.organisationUnitId}` : 'all';
+  }
+
+  private isCurrentContextCached(): boolean {
+    return !!this.profitCentreService.CacheData.IsLoaded && this.profitCentreService.CacheContextKey === this.contextKey;
   }
 }
 

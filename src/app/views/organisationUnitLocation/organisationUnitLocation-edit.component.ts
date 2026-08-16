@@ -23,6 +23,7 @@ import { OrganisationUnitLocationService } from './organisationUnitLocation.serv
 export class OrganisationUnitLocationEditComponent implements OnInit {
 
   selectedId: number;
+  organisationUnitId: number | null = null;
   isLoading: boolean = false;
   organisationUnitLocation: IOrganisationUnitLocation = null;
   permission = {} as IPermission;
@@ -67,6 +68,9 @@ this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeTy
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
+     this.organisationUnitId = routeId > 0 ? routeId : null;
+     if (this.organisationUnitId) this.editForm.controls.OrganisationUnitId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -81,6 +85,11 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.organisationUnitLocationService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.organisationUnitLocation = data.data;
+		if (this.organisationUnitId && this.organisationUnitLocation.OrganisationUnitId !== this.organisationUnitId) {
+		  this.messageService.showError('This record does not belong to the selected organisation unit.');
+		  this.router.navigate(['/dashboard/organisationUnitLocations/organisation-unit', this.organisationUnitId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.organisationUnitLocation };
         this.populateUI(this.organisationUnitLocation);
@@ -158,7 +167,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     OrganisationUnitId:  formValues.OrganisationUnitId || null,
+     OrganisationUnitId:  this.organisationUnitId ?? formValues.OrganisationUnitId ?? this.objMaster.OrganisationUnitId,
 PurposeType:  formValues.PurposeType || null,
 IsPrimary:  formValues.IsPrimary || null,
 RecordStatus:  formValues.RecordStatus || null,
