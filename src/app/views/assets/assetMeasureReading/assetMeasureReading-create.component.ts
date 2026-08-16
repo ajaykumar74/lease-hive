@@ -25,7 +25,7 @@ export class AssetMeasureReadingCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Measure Reading';
   assetMeasureReading: IAssetMeasureReading = null;
   assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];

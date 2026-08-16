@@ -25,7 +25,7 @@ export class VehicleAssetCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Vehicle Asset';
   vehicleAsset: IVehicleAsset = null;
   fueltypecodeOptions: ISelectItem[] = [];
 emissionnormcodeOptions: ISelectItem[] = [];

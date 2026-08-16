@@ -25,7 +25,7 @@ export class EquipmentAssetCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Equipment Asset';
   equipmentAsset: IEquipmentAsset = null;
   assetidOptions: ISelectItem[] = [];
 safetyclassOptions: ISelectItem[] = [];

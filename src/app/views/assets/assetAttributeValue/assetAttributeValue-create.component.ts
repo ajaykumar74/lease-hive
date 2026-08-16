@@ -27,7 +27,7 @@ export class AssetAttributeValueCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Attribute Value';
   assetAttributeValue: IAssetAttributeValue = null;
   assetId: number | null = null;
   asset: IAsset | null = null;

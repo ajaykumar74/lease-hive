@@ -25,7 +25,7 @@ export class BusinessCalendarHolidayCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Business Calendar Holiday';
   businessCalendarHoliday: IBusinessCalendarHoliday = null;
   daytypeOptions: ISelectItem[] = [];
 businessCalendarOptions: ISelectItem[] = [];

@@ -25,7 +25,7 @@ export class AssetStatusCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Status';
   assetStatus: IAssetStatus = null;
   recordstatusOptions: ISelectItem[] = [];
 

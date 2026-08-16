@@ -25,7 +25,7 @@ export class ProspectCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Prospect';
   prospect: IProspect = null;
 
   editForm: any;

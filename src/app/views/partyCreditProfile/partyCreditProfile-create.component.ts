@@ -27,7 +27,7 @@ export class PartyCreditProfileCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party Credit Profile';
   partyCreditProfile: IPartyCreditProfile = null;
   partyId: number | null = null;
   party: IParty | null = null;

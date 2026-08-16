@@ -25,7 +25,7 @@ export class UserOrganisationUnitCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create User Organisation Unit';
   userOrganisationUnit: IUserOrganisationUnit = null;
   organisationunitidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];

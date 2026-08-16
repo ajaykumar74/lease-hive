@@ -25,7 +25,7 @@ export class AssetMakeCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Make';
   assetMake: IAssetMake = null;
   assetcategoryidOptions: ISelectItem[] = [];
 countrycodeOptions: ISelectItem[] = [];

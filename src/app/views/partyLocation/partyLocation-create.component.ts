@@ -27,7 +27,7 @@ export class PartyLocationCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party Location';
   partyLocation: IPartyLocation = null;
   partyId: number | null = null;
   party: IParty | null = null;

@@ -25,7 +25,7 @@ export class ITAssetCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create IT Asset';
   iTAsset: IITAsset = null;
   assetidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];

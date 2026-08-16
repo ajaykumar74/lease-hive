@@ -27,7 +27,7 @@ export class SupplierProfileCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Supplier Profile';
   supplierProfile: ISupplierProfile = null;
   partyId: number | null = null;
   party: IParty | null = null;

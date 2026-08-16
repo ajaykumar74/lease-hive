@@ -25,7 +25,7 @@ export class UserPartyAccessCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create User Party Access';
   userPartyAccess: IUserPartyAccess = null;
   partyidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];

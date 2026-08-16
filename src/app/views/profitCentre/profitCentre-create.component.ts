@@ -27,7 +27,7 @@ export class ProfitCentreCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Profit Centre';
   profitCentre: IProfitCentre = null;
   organisationUnitId: number | null = null;
   organisationUnit: IOrganisationUnit | null = null;

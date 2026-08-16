@@ -25,7 +25,7 @@ export class AssetAssignmentHistoryCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Assignment History';
   assetAssignmentHistory: IAssetAssignmentHistory = null;
   eventtypeidOptions: ISelectItem[] = [];
 fromassetuseridOptions: ISelectItem[] = [];

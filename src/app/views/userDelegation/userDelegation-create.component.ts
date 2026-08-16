@@ -25,7 +25,7 @@ export class UserDelegationCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create User Delegation';
   userDelegation: IUserDelegation = null;
   delegatoruseridOptions: ISelectItem[] = [];
 delegateuseridOptions: ISelectItem[] = [];

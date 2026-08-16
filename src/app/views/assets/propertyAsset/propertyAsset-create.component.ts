@@ -25,7 +25,7 @@ export class PropertyAssetCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Property Asset';
   propertyAsset: IPropertyAsset = null;
   assetidOptions: ISelectItem[] = [];
 propertytypeOptions: ISelectItem[] = [];

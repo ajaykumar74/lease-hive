@@ -27,7 +27,7 @@ export class PartyGSTRegistrationCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party GST Registration';
   partyGSTRegistration: IPartyGSTRegistration = null;
   partyId: number | null = null;
   party: IParty | null = null;

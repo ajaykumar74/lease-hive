@@ -26,7 +26,7 @@ export class ContactCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = { CanCreate: true } as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Contact';
   contact: IContact = null;
   designationOptions: ISelectItem[] = [];
   departmentOptions: ISelectItem[] = [];

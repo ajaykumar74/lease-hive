@@ -27,7 +27,7 @@ export class CustomerProfileCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Customer Profile';
   customerProfile: ICustomerProfile = null;
   partyId: number | null = null;
   party: IParty | null = null;

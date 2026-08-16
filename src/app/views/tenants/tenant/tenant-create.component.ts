@@ -25,7 +25,7 @@ export class TenantCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Tenant';
   tenant: ITenant = null;
   defaultcurrencyOptions: ISelectItem[] = [];
 defaulttimezoneOptions: ISelectItem[] = [];

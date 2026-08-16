@@ -25,7 +25,7 @@ export class AssetTypeCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Type';
   assetType: IAssetType = null;
   assetcategoryidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];

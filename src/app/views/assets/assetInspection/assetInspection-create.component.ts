@@ -27,7 +27,7 @@ export class AssetInspectionCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Inspection';
   assetInspection: IAssetInspection = null;
   assetId: number | null = null;
   asset: IAsset | null = null;

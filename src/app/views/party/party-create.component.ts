@@ -25,7 +25,7 @@ export class PartyCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party';
   party: IParty = null;
   partykindOptions: ISelectItem[] = [];
 countryofregistrationOptions: ISelectItem[] = [];

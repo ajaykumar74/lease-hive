@@ -25,7 +25,7 @@ export class SupportTicketCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Support Ticket';
   supportTicket: ISupportTicket = null;
 
   editForm: any;

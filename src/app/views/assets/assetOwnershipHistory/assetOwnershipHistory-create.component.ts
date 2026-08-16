@@ -27,7 +27,7 @@ export class AssetOwnershipHistoryCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Ownership History';
   assetOwnershipHistory: IAssetOwnershipHistory = null;
   assetId: number | null = null;
   asset: IAsset | null = null;

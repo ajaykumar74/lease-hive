@@ -27,7 +27,7 @@ export class PartyRoleCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party Role';
   partyRole: IPartyRole = null;
   partyId: number | null = null;
   party: IParty | null = null;

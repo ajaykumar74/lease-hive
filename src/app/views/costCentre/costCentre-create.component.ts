@@ -27,7 +27,7 @@ export class CostCentreCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Cost Centre';
   costCentre: ICostCentre = null;
   organisationUnitId: number | null = null;
   organisationUnit: IOrganisationUnit | null = null;

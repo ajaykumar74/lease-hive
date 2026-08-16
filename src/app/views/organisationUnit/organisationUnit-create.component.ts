@@ -25,7 +25,7 @@ export class OrganisationUnitCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Organisation Unit';
   organisationUnit: IOrganisationUnit = null;
   parentorganisationunitidOptions: ISelectItem[] = [];
 unittypeOptions: ISelectItem[] = [];

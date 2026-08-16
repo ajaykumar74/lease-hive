@@ -25,7 +25,7 @@ export class AuditLogCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Audit Log';
   auditLog: IAuditLog = null;
   
   editForm: any; 

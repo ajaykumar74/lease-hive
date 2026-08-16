@@ -26,7 +26,7 @@ export class BrandPartnerCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Brand Partner';
   brandPartner: IBrandPartner = null;
   countryOptions: ISelectItem[] = [];
   currencysymbolOptions: ISelectItem[] = [];

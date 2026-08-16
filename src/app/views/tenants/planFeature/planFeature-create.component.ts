@@ -25,7 +25,7 @@ export class PlanFeatureCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Plan Feature';
   planFeature: IPlanFeature = null;
   
   editForm: any; 

@@ -30,7 +30,7 @@ export class DocumentCreateComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Document';
   document: IDocument = null;
   discounttypeOptions: ISelectItem[] = [];
   brandPartners: IPicklistItem[];

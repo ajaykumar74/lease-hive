@@ -25,7 +25,7 @@ export class RoleCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Role';
   role: IRole = null;
   roletypeOptions: ISelectItem[] = [];
 scopetypeOptions: ISelectItem[] = [];

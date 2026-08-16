@@ -25,7 +25,7 @@ export class ApprovalAuthorityCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Approval Authority';
   approvalAuthority: IApprovalAuthority = null;
   authoritytypeOptions: ISelectItem[] = [];
 roleidOptions: ISelectItem[] = [];

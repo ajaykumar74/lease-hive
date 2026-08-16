@@ -25,7 +25,7 @@ export class CustomerDepartmentCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Customer Department';
   customerDepartment: ICustomerDepartment = null;
   partyidOptions: ISelectItem[] = [];
 customerprofileidOptions: ISelectItem[] = [];

@@ -25,7 +25,7 @@ export class PermissionCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   apppermission = {} as IAppPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Permission';
   permission: IPermission = null;
   modulecodeOptions: ISelectItem[] = [];
 resourcetypeOptions: ISelectItem[] = [];

@@ -25,7 +25,7 @@ export class AssetModelCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Model';
   assetModel: IAssetModel = null;
   assetmakeidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];

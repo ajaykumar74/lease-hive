@@ -27,7 +27,7 @@ export class DepartmentCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Department';
   department: IDepartment = null;
   organisationUnitId: number | null = null;
   organisationUnit: IOrganisationUnit | null = null;

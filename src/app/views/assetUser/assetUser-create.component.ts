@@ -25,7 +25,7 @@ export class AssetUserCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset User';
   assetUser: IAssetUser = null;
   customerprofileidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];

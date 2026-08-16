@@ -27,7 +27,7 @@ export class PartyBankAccountCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Party Bank Account';
   partyBankAccount: IPartyBankAccount = null;
   partyId: number | null = null;
   party: IParty | null = null;

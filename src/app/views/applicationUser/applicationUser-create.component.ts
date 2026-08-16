@@ -25,7 +25,7 @@ export class ApplicationUserCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Application User';
   applicationUser: IApplicationUser = null;
   identityproviderOptions: ISelectItem[] = [];
 usertypeOptions: ISelectItem[] = [];

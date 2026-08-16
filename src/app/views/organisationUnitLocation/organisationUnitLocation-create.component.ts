@@ -27,7 +27,7 @@ export class OrganisationUnitLocationCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Organisation Unit Location';
   organisationUnitLocation: IOrganisationUnitLocation = null;
   organisationUnitId: number | null = null;
   organisationUnit: IOrganisationUnit | null = null;

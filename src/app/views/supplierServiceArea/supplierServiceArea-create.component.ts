@@ -25,7 +25,7 @@ export class SupplierServiceAreaCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Supplier Service Area';
   supplierServiceArea: ISupplierServiceArea = null;
   partyidOptions: ISelectItem[] = [];
 supplierprofileidOptions: ISelectItem[] = [];

@@ -25,7 +25,7 @@ export class AssetAttributeOptionCreateComponent implements OnInit {
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Loading...';
+  Caption: string = 'Create Asset Attribute Option';
   assetAttributeOption: IAssetAttributeOption = null;
   assetattributedefinitionidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
