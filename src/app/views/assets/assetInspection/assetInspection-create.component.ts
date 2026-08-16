@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -27,6 +27,7 @@ export class AssetInspectionCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   assetInspection: IAssetInspection = null;
+  assetId: number | null = null;
   assetidOptions: ISelectItem[] = [];
 locationidOptions: ISelectItem[] = [];
 partyidOptions: ISelectItem[] = [];
@@ -42,6 +43,7 @@ inspectionstatusidOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private assetInspectionService: AssetInspectionService,
@@ -73,6 +75,13 @@ Remarks: new FormControl('', [Validators.maxLength(100), ]),
 CompletedOn: new FormControl(new Date(), []),
 
     });
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+    if (this.assetId) {
+      this.assetidOptions = [{ Text: `Asset #${this.assetId}`, Value: this.assetId.toString() }];
+      this.editForm.patchValue({ AssetId: this.assetId.toString() });
+      this.editForm.controls.AssetId.disable();
+    }
     this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
 this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
 this.locationidOptions.push({Text: 'Location1', Value: 'Location1' });
@@ -140,6 +149,10 @@ CompletedOn:  obj.CompletedOn || new Date(),
   }
 
   onCancel(): void {
+    if (this.assetId) {
+      this.router.navigate(['/dashboard/assetInspections/asset', this.assetId]);
+      return;
+    }
     this.assetInspection = { ...this.objMaster };
     var obj  = this.assetInspection;
    this.editForm.patchValue(
@@ -172,10 +185,11 @@ CompletedOn:  obj.CompletedOn || new Date(),
   
   
 	const formValues  = this.editForm.value ;
+	const selectedAssetId = this.assetId ?? Number(formValues.AssetId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId: formValues.AssetId || 0,
+     AssetId: selectedAssetId || 0,
 InspectionTypeId: formValues.InspectionTypeId || null,
 InspectionNo: formValues.InspectionNo || null,
 InspectionDateTime: formValues.InspectionDateTime || null,

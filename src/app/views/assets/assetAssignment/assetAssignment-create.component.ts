@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetAssignment } from './assetAssignment';
 import { AssetAssignmentService } from './assetAssignment.service';
+import { AssetService } from '@/views/assets/asset/asset.service';
+import { IAsset } from '@/views/assets/asset/asset';
 
 @Component({
   selector: 'app-assetAssignment-create',
@@ -27,6 +29,8 @@ export class AssetAssignmentCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   assetAssignment: IAssetAssignment = null;
+  assetId: number | null = null;
+  asset: IAsset | null = null;
   assetidOptions: ISelectItem[] = [];
 partyidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
@@ -44,9 +48,11 @@ recordstatusOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private assetAssignmentService: AssetAssignmentService,
+	private assetService: AssetService,
 	private loggedInUserService : LoggedInUserService
 	
   ) {
@@ -78,8 +84,15 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
-this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+    if (this.assetId) {
+      this.editForm.patchValue({ AssetId: this.assetId });
+      this.loadAsset(this.assetId);
+    }
+    else {
+      this.loadAssetOptions();
+    }
 this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
 this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
 this.partylocationidOptions.push({Text: 'PartyLoca1', Value: 'PartyLoca1' });
@@ -98,7 +111,31 @@ this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
 this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.Caption = 'Create Asset Assignment';
+  }
 
+  private loadAsset(assetId: number): void {
+    this.assetService.getById(assetId).subscribe({
+      next: response => {
+        this.asset = response.data;
+        this.Caption = `Create Assignment - ${this.asset.AssetNo}`;
+      },
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  private loadAssetOptions(): void {
+    this.assetService.GetAll(false).subscribe({
+      next: (response: any) => {
+        const assets: IAsset[] = response.data || response || [];
+        this.assetidOptions = assets.map(asset => ({
+          Id: asset.Id,
+          Value: asset.Id.toString(),
+          Text: `${asset.AssetNo}${asset.PrimarySerialNo ? ' - ' + asset.PrimarySerialNo : ''}`
+        }));
+      },
+      error: err => this.messageService.showError(err)
+    });
   }
  
  loadUI(): void {
@@ -156,6 +193,10 @@ RecordStatus: obj.RecordStatus || '',
   }
 
   onCancel(): void {
+    if (this.assetId) {
+      this.router.navigate(['/dashboard/assetAssignments/asset', this.assetId]);
+      return;
+    }
     this.assetAssignment = { ...this.objMaster };
     var obj  = this.assetAssignment;
    this.editForm.patchValue(
@@ -191,10 +232,11 @@ RecordStatus: obj.RecordStatus || '',
   
   
 	const formValues  = this.editForm.value ;
+	const selectedAssetId = this.assetId ?? Number(formValues.AssetId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId: formValues.AssetId || 0,
+     AssetId: selectedAssetId || 0,
 PartyId: formValues.PartyId || 0,
 PartyLocationId: formValues.PartyLocationId || 0,
 CustomerDepartmentId: formValues.CustomerDepartmentId || 0,
@@ -216,7 +258,12 @@ RecordStatus: formValues.RecordStatus || null,
     this.assetAssignmentService.create(createdObj).subscribe({
       next: data => {	   
          // this.messageService.showSuccess(AssetAssignment +  'Details Updated sucessfully.');
-		 this._location.back();     
+		 if (this.assetId) {
+		   this.router.navigate(['/dashboard/assetAssignments/asset', this.assetId]);
+		 }
+		 else {
+		   this._location.back();
+		 }
       },
       error: err => { 
 	   this.messageService.showError(err);

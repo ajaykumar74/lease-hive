@@ -23,6 +23,7 @@ import { AssetAssignmentService } from './assetAssignment.service';
 export class AssetAssignmentEditComponent implements OnInit {
 
   selectedId: number;
+  assetId: number | null = null;
   isLoading: boolean = false;
   assetAssignment: IAssetAssignment = null;
   permission = {} as IPermission;
@@ -100,6 +101,11 @@ this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
 this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));
+     this.assetId = routeAssetId > 0 ? routeAssetId : null;
+     if (this.assetId) {
+       this.editForm.controls.AssetId.disable();
+     }
   }
 
   ngAfterViewInit(): void {
@@ -114,6 +120,11 @@ this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
     this.assetAssignmentService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.assetAssignment = data.data;
+		if (this.assetId && this.assetAssignment.AssetId !== this.assetId) {
+		  this.messageService.showError('This assignment does not belong to the selected asset.');
+		  this.router.navigate(['/dashboard/assetAssignments/asset', this.assetId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.assetAssignment };
         this.populateUI(this.assetAssignment);
@@ -151,7 +162,10 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAssignment/create', { id: -1 }]);
+      const route = this.assetId
+        ? ['/dashboard/assetAssignments/asset', this.assetId, 'create']
+        : ['/dashboard/assetAssignments/create'];
+      this.router.navigate(route);
     }
     else if (key == "Save") {
       this.Save();
@@ -205,7 +219,7 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId:  formValues.AssetId || null,
+AssetId:  this.assetId ?? formValues.AssetId ?? this.objMaster.AssetId,
 PartyId:  formValues.PartyId || null,
 PartyLocationId:  formValues.PartyLocationId || null,
 CustomerDepartmentId:  formValues.CustomerDepartmentId || null,

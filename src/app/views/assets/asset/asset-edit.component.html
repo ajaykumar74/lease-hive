@@ -5,6 +5,7 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+					<p-splitbutton size="small" label="Options" [model]="menuItems"></p-splitbutton> 
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
 

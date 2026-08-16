@@ -23,6 +23,7 @@ import { AssetIdentifierService } from './assetIdentifier.service';
 export class AssetIdentifierEditComponent implements OnInit {
 
   selectedId: number;
+  assetId: number | null = null;
   isLoading: boolean = false;
   assetIdentifier: IAssetIdentifier = null;
   permission = {} as IPermission;
@@ -75,6 +76,9 @@ this.issuingstatecodeOptions.push({Text: '', Value: '' });
 this.recordstatusOptions.push({Text: '', Value: '' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));
+     this.assetId = routeAssetId > 0 ? routeAssetId : null;
+     if (this.assetId) this.editForm.controls.AssetId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -89,6 +93,11 @@ this.recordstatusOptions.push({Text: '', Value: '' });
     this.assetIdentifierService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.assetIdentifier = data.data;
+		if (this.assetId && this.assetIdentifier.AssetId !== this.assetId) {
+		  this.messageService.showError('This record does not belong to the selected asset.');
+		  this.router.navigate(['/dashboard/assetIdentifiers/asset', this.assetId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.assetIdentifier };
         this.populateUI(this.assetIdentifier);
@@ -170,7 +179,7 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId:  formValues.AssetId || null,
+     AssetId:  this.assetId ?? formValues.AssetId ?? this.objMaster.AssetId,
 IdentifierTypeCode:  formValues.IdentifierTypeCode || null,
 IdentifierValue:  formValues.IdentifierValue || null,
 IssuingCountryCode:  formValues.IssuingCountryCode || null,

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -27,6 +27,7 @@ export class AssetAttributeValueCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   assetAttributeValue: IAssetAttributeValue = null;
+  assetId: number | null = null;
   assetidOptions: ISelectItem[] = [];
 assetattributedefinitionidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -39,6 +40,7 @@ recordstatusOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private assetAttributeValueService: AssetAttributeValueService,
@@ -66,6 +68,13 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+    if (this.assetId) {
+      this.assetidOptions = [{ Text: `Asset #${this.assetId}`, Value: this.assetId.toString() }];
+      this.editForm.patchValue({ AssetId: this.assetId.toString() });
+      this.editForm.controls.AssetId.disable();
+    }
     this.assetidOptions.push({Text: '', Value: '' });
 this.assetattributedefinitionidOptions.push({Text: '', Value: '' });
 this.recordstatusOptions.push({Text: '', Value: '' });
@@ -120,6 +129,10 @@ RecordStatus: obj.RecordStatus || '',
   }
 
   onCancel(): void {
+    if (this.assetId) {
+      this.router.navigate(['/dashboard/assetAttributeValues/asset', this.assetId]);
+      return;
+    }
     this.assetAttributeValue = { ...this.objMaster };
     var obj  = this.assetAttributeValue;
    this.editForm.patchValue(
@@ -148,10 +161,11 @@ RecordStatus: obj.RecordStatus || '',
   
   
 	const formValues  = this.editForm.value ;
+	const selectedAssetId = this.assetId ?? Number(formValues.AssetId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId: formValues.AssetId || 0,
+     AssetId: selectedAssetId || 0,
 AssetAttributeDefinitionId: formValues.AssetAttributeDefinitionId || 0,
 StringValue: formValues.StringValue || null,
 NumberValue: formValues.NumberValue || null,

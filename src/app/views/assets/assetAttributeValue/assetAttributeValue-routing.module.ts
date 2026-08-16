@@ -39,6 +39,28 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      {
+        path: 'asset/:assetId/create',
+        canActivate: [AuthGuard],
+        component: AssetAttributeValueCreateComponent,
+        data: { title: 'Create' }
+      },
+      {
+        path: 'asset/:assetId/edit/:id',
+        canActivate: [AuthGuard],
+        component: AssetAttributeValueEditComponent
+      },
+      {
+        path: 'asset/:assetId/view/:id',
+        canActivate: [AuthGuard],
+        component: AssetAttributeValueViewComponent
+      },
+      {
+        path: 'asset/:assetId',
+        canActivate: [AuthGuard],
+        component: AssetAttributeValueListComponent,
+        data: { title: 'List' }
+      },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

@@ -20,6 +20,7 @@ standalone: false,
 })
 export class AssetIdentifierViewComponent implements OnInit {
     selectedId: number;
+    assetId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     assetIdentifier: IAssetIdentifier = {} as IAssetIdentifier;
@@ -42,7 +43,9 @@ export class AssetIdentifierViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.selectedId = this.activatedRouter.snapshot.params['id'];
+        const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));
+        this.assetId = routeAssetId > 0 ? routeAssetId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,6 +60,11 @@ export class AssetIdentifierViewComponent implements OnInit {
         this.assetIdentifierService.getById(this.selectedId).subscribe({
             next: data => {
                 this.assetIdentifier = data.data;
+                if (this.assetId && this.assetIdentifier.AssetId !== this.assetId) {
+                    this.messageService.showError('This record does not belong to the selected asset.');
+                    this.router.navigate(['/dashboard/assetIdentifiers/asset', this.assetId]);
+                    return;
+                }
                 this.permission = data.permission; 
                 this.populateUI(this.assetIdentifier);
             },

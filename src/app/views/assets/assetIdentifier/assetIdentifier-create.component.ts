@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -27,6 +27,7 @@ export class AssetIdentifierCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   assetIdentifier: IAssetIdentifier = null;
+  assetId: number | null = null;
   identifiertypecodeOptions: ISelectItem[] = [];
 issuingcountrycodeOptions: ISelectItem[] = [];
 issuingstatecodeOptions: ISelectItem[] = [];
@@ -40,6 +41,7 @@ recordstatusOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private assetIdentifierService: AssetIdentifierService,
@@ -69,6 +71,12 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+    if (this.assetId) {
+      this.editForm.patchValue({ AssetId: this.assetId.toString() });
+      this.editForm.controls.AssetId.disable();
+    }
     this.identifiertypecodeOptions.push({Text: '', Value: '' });
 this.issuingcountrycodeOptions.push({Text: '', Value: '' });
 this.issuingstatecodeOptions.push({Text: '', Value: '' });
@@ -126,6 +134,10 @@ RecordStatus: obj.RecordStatus || '',
   }
 
   onCancel(): void {
+    if (this.assetId) {
+      this.router.navigate(['/dashboard/assetIdentifiers/asset', this.assetId]);
+      return;
+    }
     this.assetIdentifier = { ...this.objMaster };
     var obj  = this.assetIdentifier;
    this.editForm.patchValue(
@@ -156,10 +168,11 @@ RecordStatus: obj.RecordStatus || '',
   
   
 	const formValues  = this.editForm.value ;
+	const selectedAssetId = this.assetId ?? Number(formValues.AssetId);
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId: formValues.AssetId || 0,
+     AssetId: selectedAssetId || 0,
 IdentifierTypeCode: formValues.IdentifierTypeCode || null,
 IdentifierValue: formValues.IdentifierValue || null,
 IssuingCountryCode: formValues.IssuingCountryCode || null,

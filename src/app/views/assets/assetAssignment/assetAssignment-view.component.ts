@@ -20,6 +20,7 @@ standalone: false,
 })
 export class AssetAssignmentViewComponent implements OnInit {
     selectedId: number;
+    assetId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     assetAssignment: IAssetAssignment = {} as IAssetAssignment;
@@ -42,7 +43,9 @@ export class AssetAssignmentViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.selectedId = this.activatedRouter.snapshot.params['id'];
+        const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));
+        this.assetId = routeAssetId > 0 ? routeAssetId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,6 +60,11 @@ export class AssetAssignmentViewComponent implements OnInit {
         this.assetAssignmentService.getById(this.selectedId).subscribe({
             next: data => {
                 this.assetAssignment = data.data;
+                if (this.assetId && this.assetAssignment.AssetId !== this.assetId) {
+                    this.messageService.showError('This assignment does not belong to the selected asset.');
+                    this.router.navigate(['/dashboard/assetAssignments/asset', this.assetId]);
+                    return;
+                }
                 this.permission = data.permission; 
                 this.populateUI(this.assetAssignment);
             },
@@ -70,9 +78,12 @@ export class AssetAssignmentViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/assetAssignment/create']);
-        }        
+        if (key == "Create") {
+            const route = this.assetId
+                ? ['/dashboard/assetAssignments/asset', this.assetId, 'create']
+                : ['/dashboard/assetAssignments/create'];
+            this.router.navigate(route);
+        }
         else if (key == "Refresh") {
             this.loadUI();
         }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class AssetAssignmentListComponent implements OnInit {
 
   constructor(
     private assetAssignmentService: AssetAssignmentService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,21 @@ export class AssetAssignmentListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  assetId: number | null = null;
+  Caption = 'Asset Assignment List';
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.assetAssignmentService.CacheData.IsLoaded) {
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+    this.Caption = this.assetId
+      ? `Asset Assignment List - Asset #${this.assetId}`
+      : 'Asset Assignment List';
+
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.assetAssignmentService.CacheData.CurrentPage;
       this.objSearch = this.assetAssignmentService.CacheData.objSearch;
       this.permission = this.assetAssignmentService.CacheData.permission;
@@ -46,7 +55,7 @@ export class AssetAssignmentListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetAssignmentService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +98,13 @@ export class AssetAssignmentListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.assetAssignmentService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.assetAssignmentService.setCache(
+            res.data,
+            this.permission,
+            this.objSearch,
+            pgEvent.page,
+            this.contextKey
+          );
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -112,10 +127,16 @@ export class AssetAssignmentListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'AssetId', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'AssignmentType', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
+
+    if (this.assetId) {
+      Items.push({ DBName: 'AssetId', Value: this.assetId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+    else {
+      Items.push({ DBName: 'AssetId', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains });
+    }
 
 
     var auditCriteria = null;
@@ -136,24 +157,35 @@ export class AssetAssignmentListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetAssignments/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/assetAssignments/view/' + obj.Id]);
-    } 
+    const route = this.assetId
+      ? ['dashboard/assetAssignments/asset', this.assetId, this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id]
+      : ['dashboard/assetAssignments', this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id];
+
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetAssignments/create']);
+      const route = this.assetId
+        ? ['dashboard/assetAssignments/asset', this.assetId, 'create']
+        : ['dashboard/assetAssignments/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string {
+    return this.assetId ? `asset:${this.assetId}` : 'all';
+  }
+
+  private isCurrentContextCached(): boolean {
+    return !!this.assetAssignmentService.CacheData.IsLoaded
+      && this.assetAssignmentService.CacheContextKey === this.contextKey;
   }
 }
 

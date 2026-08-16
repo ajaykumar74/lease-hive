@@ -21,6 +21,7 @@ import { AssetAssignmentCreateComponent } from './assetAssignment-create.compone
 import { AssetAssignmentEditComponent } from './assetAssignment-edit.component';
 import { AssetAssignmentViewComponent } from './assetAssignment-view.component';
 import { AssetAssignmentRoutingModule } from './assetAssignment-routing.module';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 
 
@@ -43,6 +44,7 @@ import { AssetAssignmentRoutingModule } from './assetAssignment-routing.module';
 		MySharedModule, 
 		FluidModule,
 		AssetAssignmentRoutingModule,
+		SplitButtonModule
 	],
 	declarations: [
 		AssetAssignmentCreateComponent,

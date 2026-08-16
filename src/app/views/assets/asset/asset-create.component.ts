@@ -85,6 +85,8 @@ ConditionGradeCode: new FormControl('', [Validators.maxLength(20), ]),
 IsLeaseable: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
+  AcquisitionCost: new FormControl(0, []),
+    ResidualValueAmount: new FormControl(0, []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });

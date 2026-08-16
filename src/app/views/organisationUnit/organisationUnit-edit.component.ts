@@ -77,12 +77,12 @@ export class OrganisationUnitEditComponent implements OnInit {
 
 
     });
-this.unittypeOptions = this.loggedInUserService.getPicklistOptions('UnitType');
+    this.unittypeOptions = this.loggedInUserService.getPicklistOptions('UnitType');
     this.costcentrecodeOptions.push({ Text: 'U001', Value: 'U001' });
     this.costcentrecodeOptions.push({ Text: 'U002', Value: 'U002' });
     this.profitcentrecodeOptions.push({ Text: 'U001', Value: 'U001' });
     this.profitcentrecodeOptions.push({ Text: 'U002', Value: 'U002' });
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
+    this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
 

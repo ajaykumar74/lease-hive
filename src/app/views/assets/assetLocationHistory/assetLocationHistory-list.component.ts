@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class AssetLocationHistoryListComponent implements OnInit {
 
   constructor(
     private assetLocationHistoryService: AssetLocationHistoryService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,13 +32,16 @@ export class AssetLocationHistoryListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  assetId: number | null = null;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.assetLocationHistoryService.CacheData.IsLoaded) {
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
+     if (this.isCurrentContextCached()) {
       this.currentPage = this.assetLocationHistoryService.CacheData.CurrentPage;
       this.objSearch = this.assetLocationHistoryService.CacheData.objSearch;
       this.permission = this.assetLocationHistoryService.CacheData.permission;
@@ -46,7 +50,7 @@ export class AssetLocationHistoryListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetLocationHistoryService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.isCurrentContextCached());
     }, 500);
   }
 
@@ -89,7 +93,7 @@ export class AssetLocationHistoryListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.assetLocationHistoryService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.assetLocationHistoryService.setCache(res.data, this.permission, this.objSearch, pgEvent.page, this.contextKey);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -117,6 +121,10 @@ export class AssetLocationHistoryListComponent implements OnInit {
      
     ];
 
+    if (this.assetId) {
+      Items.push({ DBName: 'AssetId', Value: this.assetId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
     
@@ -136,24 +144,35 @@ export class AssetLocationHistoryListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetLocationHistorys/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/assetLocationHistorys/view/' + obj.Id]);
-    } 
+    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
+    const route = this.assetId
+      ? ['dashboard/assetLocationHistorys/asset', this.assetId, page, obj.Id]
+      : ['dashboard/assetLocationHistorys', page, obj.Id];
+    this.router.navigate(route);
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetLocationHistorys/create']);
+      const route = this.assetId
+        ? ['dashboard/assetLocationHistorys/asset', this.assetId, 'create']
+        : ['dashboard/assetLocationHistorys/create'];
+      this.router.navigate(route);
     } 
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  private get contextKey(): string {
+    return this.assetId ? `asset:${this.assetId}` : 'all';
+  }
+
+  private isCurrentContextCached(): boolean {
+    return !!this.assetLocationHistoryService.CacheData.IsLoaded
+      && this.assetLocationHistoryService.CacheContextKey === this.contextKey;
   }
 }
 

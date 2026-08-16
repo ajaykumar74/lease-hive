@@ -501,7 +501,7 @@ export class AppMenu {
                                 {
                                     label: 'Asset Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
-                                    routerLink: ['dashboard/assets/list'],
+                                    routerLink: ['/dashboard/assets/list'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {

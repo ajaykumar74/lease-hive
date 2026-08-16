@@ -19,5 +19,7 @@ ReferenceId :string;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 RecordStatus :string;
+AcquisitionCost :number;
+ResidualValueAmount: number;
 
 }

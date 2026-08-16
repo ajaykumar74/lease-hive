@@ -23,6 +23,7 @@ import { AssetInspectionService } from './assetInspection.service';
 export class AssetInspectionEditComponent implements OnInit {
 
   selectedId: number;
+  assetId: number | null = null;
   isLoading: boolean = false;
   assetInspection: IAssetInspection = null;
   permission = {} as IPermission;
@@ -87,6 +88,9 @@ this.inspectionstatusidOptions.push({Text: 'InspectionStatus1', Value: 'Inspecti
 this.inspectionstatusidOptions.push({Text: 'InspectionStatus2', Value: 'InspectionStatus2' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));
+     this.assetId = routeAssetId > 0 ? routeAssetId : null;
+     if (this.assetId) this.editForm.controls.AssetId.disable();
   }
 
   ngAfterViewInit(): void {
@@ -101,6 +105,11 @@ this.inspectionstatusidOptions.push({Text: 'InspectionStatus2', Value: 'Inspecti
     this.assetInspectionService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.assetInspection = data.data;
+		if (this.assetId && this.assetInspection.AssetId !== this.assetId) {
+		  this.messageService.showError('This record does not belong to the selected asset.');
+		  this.router.navigate(['/dashboard/assetInspections/asset', this.assetId]);
+		  return;
+		}
 		this.permission = data.permission;
         this.objMaster = { ...this.assetInspection };
         this.populateUI(this.assetInspection);
@@ -186,7 +195,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetId:  formValues.AssetId || null,
+     AssetId:  this.assetId ?? formValues.AssetId ?? this.objMaster.AssetId,
 InspectionTypeId:  formValues.InspectionTypeId || null,
 InspectionNo:  formValues.InspectionNo || null,
 InspectionDateTime:  formValues.InspectionDateTime || null,
