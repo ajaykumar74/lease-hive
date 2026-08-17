@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit AssessmentId" [value]="creditFinancialSnapshot.CreditAssessmentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Financial PeriodEnd" [value]="creditFinancialSnapshot.FinancialPeriodEnd">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="CurrencyId" [value]="creditFinancialSnapshot.CurrencyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Revenue Amount" [value]="creditFinancialSnapshot.RevenueAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EBITDAAmount" [value]="creditFinancialSnapshot.EBITDAAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Net Profit Amount" [value]="creditFinancialSnapshot.NetProfitAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Net Worth Amount" [value]="creditFinancialSnapshot.NetWorthAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Total Debt Amount" [value]="creditFinancialSnapshot.TotalDebtAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Current Ratio" [value]="creditFinancialSnapshot.CurrentRatio">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Debt EquityRatio" [value]="creditFinancialSnapshot.DebtEquityRatio">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="DSCR" [value]="creditFinancialSnapshot.DSCR">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source DocumentId" [value]="creditFinancialSnapshot.SourceDocumentId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

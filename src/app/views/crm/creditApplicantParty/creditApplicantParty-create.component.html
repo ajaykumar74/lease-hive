@@ -1,0 +1,88 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Credit ApplicationId" class="mb-1">CreditApplicationId</label>
+        <p-dropdown
+            inputId="CreditApplicationId" 
+            [options]="creditapplicationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditApplicationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditApplicationId')"
+											label="Credit ApplicationId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Party Id" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Credit Party RoleId" class="mb-1">CreditPartyRoleId</label>
+        <p-dropdown
+            inputId="CreditPartyRoleId" 
+            [options]="creditpartyroleidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditPartyRoleId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditPartyRoleId')"
+											label="Credit Party RoleId">
+										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsPrimary" binary="true" formControlName="IsPrimary">
+											</p-checkbox>
+											<label for="IsPrimary">IsPrimary</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="GuaranteeAmount">Guarantee Amount 
+							</label> 
+							<p-inputNumber id="GuaranteeAmount"  pSize="small"	formControlName="GuaranteeAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('GuaranteeAmount')"
+											label="Guarantee Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="CurrencyCode" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="CurrencyCode">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

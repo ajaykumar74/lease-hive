@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'CreditFinancialSnapshot List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Credit AssessmentId <p-sortIcon field="CreditAssessmentId" /> </th> 
+<th style="width:200px">Financial PeriodEnd <p-sortIcon field="FinancialPeriodEnd" /> </th> 
+<th style="width:200px">Revenue Amount <p-sortIcon field="RevenueAmount" /> </th> 
+<th style="width:200px">EBITDAAmount <p-sortIcon field="EBITDAAmount" /> </th> 
+<th style="width:200px">Net Profit Amount <p-sortIcon field="NetProfitAmount" /> </th> 
+<th style="width:200px">Net Worth Amount <p-sortIcon field="NetWorthAmount" /> </th> 
+<th style="width:200px">Total Debt Amount <p-sortIcon field="TotalDebtAmount" /> </th> 
+<th style="width:200px">Current Ratio <p-sortIcon field="CurrentRatio" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.CreditAssessmentId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.FinancialPeriodEnd | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RevenueAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.EBITDAAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.NetProfitAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.NetWorthAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TotalDebtAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CurrentRatio}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit ApplicationId" [value]="creditAssessment.CreditApplicationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessment Version" [value]="creditAssessment.AssessmentVersion">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assessment TypeCode" [value]="creditAssessment.AssessmentTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessed By UserId" [value]="creditAssessment.AssessedByUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assessment DateTime" [value]="creditAssessment.AssessmentDateTime">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Risk Rating Code" [value]="creditAssessment.RiskRatingCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Score" [value]="creditAssessment.Score">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Probability Of DefaultPct" [value]="creditAssessment.ProbabilityOfDefaultPct">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Recommended Limit Amount" [value]="creditAssessment.RecommendedLimitAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CurrencyCode" [value]="creditAssessment.CurrencyCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,124 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Credit AssessmentId" class="mb-1">CreditAssessmentId</label>
+        <p-dropdown
+            inputId="CreditAssessmentId" 
+            [options]="creditassessmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditAssessmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditAssessmentId')"
+											label="Credit AssessmentId">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="FinancialPeriodEnd">Financial PeriodEnd 
+							</label> 
+							<p-inputNumber id="FinancialPeriodEnd"  pSize="small"	formControlName="FinancialPeriodEnd"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('FinancialPeriodEnd')"
+											label="Financial PeriodEnd">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CurrencyId" class="mb-1">CurrencyId</label>
+        <p-dropdown
+            inputId="CurrencyId" 
+            [options]="currencyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyId')"
+											label="CurrencyId">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="RevenueAmount">Revenue Amount 
+							</label> 
+							<p-inputNumber id="RevenueAmount"  pSize="small"	formControlName="RevenueAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('RevenueAmount')"
+											label="Revenue Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="EBITDAAmount">EBITDAAmount 
+							</label> 
+							<p-inputNumber id="EBITDAAmount"  pSize="small"	formControlName="EBITDAAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('EBITDAAmount')"
+											label="EBITDAAmount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="NetProfitAmount">Net Profit Amount 
+							</label> 
+							<p-inputNumber id="NetProfitAmount"  pSize="small"	formControlName="NetProfitAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('NetProfitAmount')"
+											label="Net Profit Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="NetWorthAmount">Net Worth Amount 
+							</label> 
+							<p-inputNumber id="NetWorthAmount"  pSize="small"	formControlName="NetWorthAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('NetWorthAmount')"
+											label="Net Worth Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="TotalDebtAmount">Total Debt Amount 
+							</label> 
+							<p-inputNumber id="TotalDebtAmount"  pSize="small"	formControlName="TotalDebtAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TotalDebtAmount')"
+											label="Total Debt Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="CurrentRatio">Current Ratio 
+							</label> 
+							<p-inputNumber id="CurrentRatio"  pSize="small"	formControlName="CurrentRatio"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('CurrentRatio')"
+											label="Current Ratio">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="DebtEquityRatio">Debt EquityRatio 
+							</label> 
+							<input pInputText id="DebtEquityRatio" type="text" pSize="small"	formControlName="DebtEquityRatio"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DebtEquityRatio')"
+											label="Debt EquityRatio">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="DSCR">DSCR 
+							</label> 
+							<input pInputText id="DSCR" type="text" pSize="small"	formControlName="DSCR"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DSCR')"
+											label="DSCR">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="SourceDocumentId">Source DocumentId 
+							</label> 
+							<input pInputText id="SourceDocumentId" type="text" pSize="small"	formControlName="SourceDocumentId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SourceDocumentId')"
+											label="Source DocumentId">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

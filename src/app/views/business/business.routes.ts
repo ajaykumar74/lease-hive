@@ -28,8 +28,11 @@ const pages: BusinessPage[] = [
     { path: 'origination/quotes/snapshot', title: 'Quote Snapshots', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/charges', title: 'Quote Charges', area: 'Origination', icon: 'pi pi-send' },
       { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
-    { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
+     { path: 'origination/quotes/acceptances', title: 'Quote Acceptances', area: 'Origination', icon: 'pi pi-send' },
+      { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
+          { path: '/origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/review', title: 'Credit Review', area: 'Origination', icon: 'pi pi-search' },
+     { path: 'origination/credit/snapshot', title: 'Credit Snapshot', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/approvals', title: 'Credit Approvals', area: 'Origination', icon: 'pi pi-check-circle' },
     { path: 'origination/credit/limits', title: 'Credit Limits', area: 'Origination', icon: 'pi pi-wallet' },
     { path: 'origination/approvals', title: 'Approvals', area: 'Origination', icon: 'pi pi-verified' },
@@ -119,13 +122,37 @@ export const BUSINESS_ROUTES: Routes = [
                 data: { title: 'Quote Charges', breadcrumb: 'Quote Charges' },
                 loadChildren: () => import('@/views/crm/quoteCharge/quoteCharge.module').then(m => m.QuoteChargeModule)
             },
- {
+            {
             path: 'origination/quotes/discount',
                 data: { title: 'Quote Discounts', breadcrumb: 'Quote Discounts' },
                 loadChildren: () => import('@/views/crm/quoteDiscount/quoteDiscount.module').then(m => m.QuoteDiscountModule)
             },
+            {
+            path: 'origination/quotes/acceptances',
+                data: { title: 'Quote Acceptances', breadcrumb: 'Quote Acceptances' },
+                loadChildren: () => import('@/views/crm/quoteAcceptance/quoteAcceptance.module').then(m => m.QuoteAcceptanceModule)
+            },
+            {
+                 path: 'origination/credit/applications',
+                data: { title: 'Credit Applications', breadcrumb: 'Credit Applications' },
+                loadChildren: () => import('@/views/crm/creditApplication/creditApplication.module').then(m => m.CreditApplicationModule)
+            },
+            {
+                 path: 'origination/credit/ApplicantPartys',
+                data: { title: 'Credit Applicant Partys', breadcrumb: 'Credit Applicant Partys' },
+                loadChildren: () => import('@/views/crm/creditApplicantParty/creditApplicantParty.module').then(m => m.CreditApplicantPartyModule)
+            },
 
-
+            {
+                 path: 'origination/credit/review',
+                data: { title: 'Credit Assessment', breadcrumb: 'Credit Assessment' },
+                loadChildren: () => import('@/views/crm/creditAssessment/creditAssessment.module').then(m => m.CreditAssessmentModule)
+            },
+              {
+                 path: 'origination/credit/snapshot',
+                data: { title: 'Credit Snapshot', breadcrumb: 'Credit Snapshot' },
+                loadChildren: () => import('@/views/crm/creditFinancialSnapshot/creditFinancialSnapshot.module').then(m => m.CreditFinancialSnapshotModule)
+            },
             ...pages.map(page => ({
                 path: page.path,
                 component: BusinessFeatureComponent,
