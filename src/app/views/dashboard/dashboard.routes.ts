@@ -404,13 +404,21 @@ const routes: Routes = [
         path: 'assetMeasureReadings',
         data: { breadcrumb: 'Asset Measure Readings' },
         loadChildren: () => import('@/views/assets/assetMeasureReading/assetMeasureReading.module').then(c => c.AssetMeasureReadingModule),
-      } 
-,
+      } ,
        {
         path: 'assetInspections',
         data: { breadcrumb: 'Asset Inspections' },
         loadChildren: () => import('@/views/assets/assetInspection/assetInspection.module').then(c => c.AssetInspectionModule),
       } 
+     ,
+       {
+        path: 'leadSources',
+        data: { breadcrumb: 'Lead Sources' },
+        loadChildren: () => import('@/views/crm/leadSource/leadSource.module').then(c => c.LeadSourceModule),
+      }  
+
+
+
     ]
   }
 ];

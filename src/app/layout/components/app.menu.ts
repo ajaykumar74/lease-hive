@@ -484,16 +484,183 @@ export class AppMenu {
                         },
                     ],
                 },
+
+
+ 
+
                 {
                     label: 'Business',
                     icon: 'pi pi-th-large',
                     items: [
+                          {
+            label: 'CRM & Origination',
+            icon: 'pi pi-fw pi-users',
+            items: [
+                {
+                    label: 'Dashboard',
+                    icon: 'pi pi-fw pi-chart-bar',
+                    routerLink: ['/business/crm/dashboard']
+                },
+
+                {
+                    label: 'Leads',
+                    icon: 'pi pi-fw pi-user-plus',
+                    items: [
                         {
-                            label: 'CRM & Origination',
-                            icon: 'pi pi-fw pi-users',
-                            items: [
-                            ],
+                            label: 'All Leads',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/business/crm/leads']
                         },
+                        {
+                            label: 'New Lead',
+                            icon: 'pi pi-fw pi-plus',
+                            routerLink: ['/business/crm/leads/new']
+                        },
+                        {
+                            label: 'My Leads',
+                            icon: 'pi pi-fw pi-user',
+                            routerLink: ['/business/crm/leads/my']
+                        },
+                        {
+                            label: 'Lead Activities',
+                            icon: 'pi pi-fw pi-calendar',
+                            routerLink: ['/business/crm/activities']
+                        }
+                    ]
+                },
+
+                {
+                    label: 'Opportunities',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'Pipeline',
+                            icon: 'pi pi-fw pi-chart-line',
+                            routerLink: ['/business/crm/opportunities/pipeline']
+                        },
+                        {
+                            label: 'All Opportunities',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/business/crm/opportunities']
+                        },
+                        {
+                            label: 'New Opportunity',
+                            icon: 'pi pi-fw pi-plus',
+                            routerLink: ['/business/crm/opportunities/new']
+                        }
+                    ]
+                },
+
+                {
+                    label: 'Lease Requirements',
+                    icon: 'pi pi-fw pi-file-edit',
+                    items: [
+                        {
+                            label: 'All Requirements',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/business/origination/requirements']
+                        },
+                        {
+                            label: 'New Requirement',
+                            icon: 'pi pi-fw pi-plus',
+                            routerLink: ['/business/origination/requirements/new']
+                        }
+                    ]
+                },
+
+                {
+                    label: 'Quotes',
+                    icon: 'pi pi-fw pi-file',
+                    items: [
+                        {
+                            label: 'All Quotes',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/business/origination/quotes']
+                        },
+                        {
+                            label: 'Quotes for Approval',
+                            icon: 'pi pi-fw pi-check-square',
+                            routerLink: ['/business/origination/quotes/approvals']
+                        },
+                        {
+                            label: 'Issued Quotes',
+                            icon: 'pi pi-fw pi-send',
+                            routerLink: ['/business/origination/quotes/issued']
+                        }
+                    ]
+                },
+
+                {
+                    label: 'Credit',
+                    icon: 'pi pi-fw pi-credit-card',
+                    items: [
+                        {
+                            label: 'Credit Applications',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/business/origination/credit/applications']
+                        },
+                        {
+                            label: 'Credit Review',
+                            icon: 'pi pi-fw pi-search',
+                            routerLink: ['/business/origination/credit/review']
+                        },
+                        {
+                            label: 'Credit Approvals',
+                            icon: 'pi pi-fw pi-check-circle',
+                            routerLink: ['/business/origination/credit/approvals']
+                        },
+                        {
+                            label: 'Credit Limits',
+                            icon: 'pi pi-fw pi-wallet',
+                            routerLink: ['/business/origination/credit/limits']
+                        }
+                    ]
+                },
+
+                {
+                    label: 'Approvals',
+                    icon: 'pi pi-fw pi-verified',
+                    routerLink: ['/business/origination/approvals']
+                },
+
+                {
+                    label: 'Contract Handoffs',
+                    icon: 'pi pi-fw pi-arrow-right-arrow-left',
+                    routerLink: ['/business/origination/handoffs']
+                },
+
+                {
+                    separator: true
+                },
+
+                {
+                    label: 'Configuration',
+                    icon: 'pi pi-fw pi-cog',
+                    items: [
+                        {
+                            label: 'Lead Sources',
+                            routerLink: ['/business/crm/config/lead-sources']
+                        },  
+                        {
+                            label: 'Lead Statuses',
+                            routerLink: ['/business/crm/config/lead-statuses']
+                        },
+                        {
+                            label: 'Opportunity Stages',
+                            routerLink: ['/business/crm/config/opportunity-stages']
+                        },
+                        {
+                            label: 'Quote Statuses',
+                            routerLink: ['/business/origination/config/quote-statuses']
+                        },
+                        {
+                            label: 'Credit Statuses',
+                            routerLink: ['/business/origination/config/credit-statuses']
+                        }
+                    ]
+                }
+            ]
+        },
                         {
                             label: 'Assets',
                             icon: 'pi pi-fw pi-box',

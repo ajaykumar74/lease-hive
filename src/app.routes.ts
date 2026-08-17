@@ -32,7 +32,12 @@ export const appRoutes: Routes = [
         path: 'dashboard/admin',
         loadChildren: () => import('./app/views/dashboard/dashboard.module').then(c => c.DashboardModule),
         data: { breadcrumb: 'Dashboard' },
-    }, 
+    },
+    {
+        path: 'business',
+        loadChildren: () => import('./app/views/business/business.routes').then(m => m.BUSINESS_ROUTES),
+        data: { breadcrumb: 'Business' },
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 
