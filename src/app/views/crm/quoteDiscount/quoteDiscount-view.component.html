@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="QuoteId" [value]="quoteDiscount.QuoteId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Quote AssetId" [value]="quoteDiscount.QuoteAssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Discount Type Code" [value]="quoteDiscount.DiscountTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Discount Value" [value]="quoteDiscount.DiscountValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Discount Amount" [value]="quoteDiscount.DiscountAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reason Code" [value]="quoteDiscount.ReasonCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approval RequestId" [value]="quoteDiscount.ApprovalRequestId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved By" [value]="quoteDiscount.ApprovedBy">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

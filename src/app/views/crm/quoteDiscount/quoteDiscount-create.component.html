@@ -1,0 +1,113 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="QuoteId" class="mb-1">QuoteId</label>
+        <p-dropdown
+            inputId="QuoteId" 
+            [options]="quoteidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteId')"
+											label="QuoteId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Quote AssetId" class="mb-1">QuoteAssetId</label>
+        <p-dropdown
+            inputId="QuoteAssetId" 
+            [options]="quoteassetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteAssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteAssetId')"
+											label="Quote AssetId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Discount Type Code" class="mb-1">DiscountTypeCode</label>
+        <p-dropdown
+            inputId="DiscountTypeCode" 
+            [options]="discounttypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DiscountTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DiscountTypeCode')"
+											label="Discount Type Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="DiscountValue">Discount Value 
+							</label> 
+							<p-inputNumber id="DiscountValue"  pSize="small"	formControlName="DiscountValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('DiscountValue')"
+											label="Discount Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="DiscountAmount">Discount Amount 
+							</label> 
+							<p-inputNumber id="DiscountAmount"  pSize="small"	formControlName="DiscountAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('DiscountAmount')"
+											label="Discount Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ReasonCode">Reason Code 
+							</label> 
+							<input pInputText id="ReasonCode" type="text" pSize="small"	formControlName="ReasonCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReasonCode')"
+											label="Reason Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ApprovalRequestId">Approval RequestId 
+							</label> 
+							<p-inputNumber id="ApprovalRequestId"  pSize="small"	formControlName="ApprovalRequestId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ApprovalRequestId')"
+											label="Approval RequestId">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Approved By" class="mb-1">ApprovedBy</label>
+        <p-dropdown
+            inputId="ApprovedBy" 
+            [options]="approvedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovedBy')"
+											label="Approved By">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">			
+							<label for="ApprovedOn">Approved On 
+							</label> 
+							<p-calendar id="ApprovedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ApprovedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ApprovedOn')"
+											label="Approved On">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

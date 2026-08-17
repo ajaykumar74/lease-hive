@@ -1,0 +1,49 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Opportunity List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Owner Organisation UnitId <p-sortIcon field="OwnerOrganisationUnitId" /> </th> 
+<th style="width:200px">Owner UserId <p-sortIcon field="OwnerUserId" /> </th> 
+<th style="width:200px">Opportunity Name <p-sortIcon field="OpportunityName" /> </th> 
+<th style="width:200px">Estimated Amount <p-sortIcon field="EstimatedAmount" /> </th> 
+<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
+<th style="width:200px">Probability Pct <p-sortIcon field="ProbabilityPct" /> </th> 
+<th style="width:200px">Expected Close Date <p-sortIcon field="ExpectedCloseDate" /> </th> 
+<th style="width:200px">Lost Reason Code <p-sortIcon field="LostReasonCode" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.OwnerOrganisationUnitId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.OwnerUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.OpportunityName}}</td>
+ <td style="width:200px">{{obj.CurrencyCode}}</td>
+ <td style="width:200px">{{obj.ProbabilityPct | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ExpectedCloseDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.LostReasonCode}}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

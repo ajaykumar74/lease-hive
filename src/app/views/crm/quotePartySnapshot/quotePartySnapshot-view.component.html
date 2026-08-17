@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="QuoteId" [value]="quotePartySnapshot.QuoteId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="quotePartySnapshot.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="LegalName" [value]="quotePartySnapshot.LegalName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax RegistrationNo" [value]="quotePartySnapshot.TaxRegistrationNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Address" [value]="quotePartySnapshot.BillingAddress">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Contact Name" [value]="quotePartySnapshot.ContactName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contact Email" [value]="quotePartySnapshot.ContactEmail">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Contact Phone" [value]="quotePartySnapshot.ContactPhone">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Snapshot On" [value]="quotePartySnapshot.SnapshotOn">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="quotePartySnapshot.CurrencyCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

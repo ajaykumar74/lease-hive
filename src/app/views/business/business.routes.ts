@@ -16,6 +16,7 @@ const pages: BusinessPage[] = [
     { path: 'crm/leads/new', title: 'New Lead', area: 'CRM', icon: 'pi pi-plus' },
     { path: 'crm/leads/my', title: 'My Leads', area: 'CRM', icon: 'pi pi-user' },
     { path: 'crm/activities', title: 'Lead Activities', area: 'CRM', icon: 'pi pi-calendar' },
+    { path: 'crm/leaseRequirementAssets', title: 'Lease Requirement Asset', area: 'CRM', icon: 'pi pi-calendar' },
     { path: 'crm/opportunities/pipeline', title: 'Opportunity Pipeline', area: 'CRM', icon: 'pi pi-chart-line' },
     { path: 'crm/opportunities', title: 'All Opportunities', area: 'CRM', icon: 'pi pi-list' },
     { path: 'crm/opportunities/new', title: 'New Opportunity', area: 'CRM', icon: 'pi pi-plus' },
@@ -24,6 +25,9 @@ const pages: BusinessPage[] = [
     { path: 'origination/quotes', title: 'All Quotes', area: 'Origination', icon: 'pi pi-file' },
     { path: 'origination/quotes/approvals', title: 'Quotes for Approval', area: 'Origination', icon: 'pi pi-check-square' },
     { path: 'origination/quotes/issued', title: 'Issued Quotes', area: 'Origination', icon: 'pi pi-send' },
+    { path: 'origination/quotes/snapshot', title: 'Quote Snapshots', area: 'Origination', icon: 'pi pi-send' },
+    { path: 'origination/quotes/charges', title: 'Quote Charges', area: 'Origination', icon: 'pi pi-send' },
+      { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/review', title: 'Credit Review', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/approvals', title: 'Credit Approvals', area: 'Origination', icon: 'pi pi-check-circle' },
@@ -73,6 +77,54 @@ export const BUSINESS_ROUTES: Routes = [
                 data: { title: 'Credit Statuses', breadcrumb: 'Credit Statuses' },
                 loadChildren: () => import('@/views/crm/creditApplicationStatus/creditApplicationStatus.module').then(m => m.CreditApplicationStatusModule)
             },
+            {
+                path: 'crm/leads',
+                data: { title: 'Leads', breadcrumb: 'Leads' },
+                loadChildren: () => import('@/views/crm/lead/lead.module').then(m => m.LeadModule)
+            },
+            {
+                path: 'crm/activities',
+                data: { title: 'Activities', breadcrumb: 'Activities' },
+                loadChildren: () => import('@/views/crm/leadActivity/leadActivity.module').then(m => m.LeadActivityModule)
+            },
+            {
+                path: 'crm/opportunities',
+                data: { title: 'Opportunities', breadcrumb: 'Opportunities' },
+                loadChildren: () => import('@/views/crm/opportunity/opportunity.module').then(m => m.OpportunityModule)
+            },
+            {
+                 path: 'origination/requirements',
+                data: { title: 'Lease Requirement', breadcrumb: 'Lease Requirement' },
+                loadChildren: () => import('@/views/crm/leaseRequirement/leaseRequirement.module').then(m => m.LeaseRequirementModule)
+    
+            },             
+             {
+                 path: 'crm/leaseRequirementAssets',
+                data: { title: 'Lease Requirement Assets', breadcrumb: 'Lease Requirement Assets' },
+                loadChildren: () => import('@/views/crm/leaseRequirementAsset/leaseRequirementAsset.module').then(m => m.LeaseRequirementAssetModule)
+    
+            },  
+            {
+            path: 'origination/quotes',
+                data: { title: 'Quotes', breadcrumb: 'Quotes' },
+                loadChildren: () => import('@/views/crm/quote/quote.module').then(m => m.QuoteModule)
+            },
+              {
+            path: 'origination/quotes/snapshot',
+                data: { title: 'Quote Snapshots', breadcrumb: 'Quote Snapshots' },
+                loadChildren: () => import('@/views/crm/quotePartySnapshot/quotePartySnapshot.module').then(m => m.QuotePartySnapshotModule)
+            },
+            {
+            path: 'origination/quotes/charges',
+                data: { title: 'Quote Charges', breadcrumb: 'Quote Charges' },
+                loadChildren: () => import('@/views/crm/quoteCharge/quoteCharge.module').then(m => m.QuoteChargeModule)
+            },
+ {
+            path: 'origination/quotes/discount',
+                data: { title: 'Quote Discounts', breadcrumb: 'Quote Discounts' },
+                loadChildren: () => import('@/views/crm/quoteDiscount/quoteDiscount.module').then(m => m.QuoteDiscountModule)
+            },
+
 
             ...pages.map(page => ({
                 path: page.path,

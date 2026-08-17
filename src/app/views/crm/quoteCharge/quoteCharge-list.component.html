@@ -1,0 +1,46 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'QuoteCharge List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">QuoteId <p-sortIcon field="QuoteId" /> </th> 
+<th style="width:200px">Charge Type <p-sortIcon field="ChargeType" /> </th> 
+<th style="width:200px">Charge Description <p-sortIcon field="ChargeDescription" /> </th> 
+<th style="width:200px">Calculation TypeCode <p-sortIcon field="CalculationTypeCode" /> </th> 
+<th style="width:200px">Rate Or Amount <p-sortIcon field="RateOrAmount" /> </th> 
+<th style="width:200px">IsRecurring <p-sortIcon field="IsRecurring" /> </th> 
+<th style="width:200px">TaxCode <p-sortIcon field="TaxCode" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.QuoteId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ChargeType}}</td>
+ <td style="width:200px">{{obj.ChargeDescription}}</td>
+ <td style="width:200px">{{obj.CalculationTypeCode}}</td>
+ <td style="width:200px">{{obj.RateOrAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.IsRecurring | yesNo }}</td>
+ <td style="width:200px">{{obj.TaxCode}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

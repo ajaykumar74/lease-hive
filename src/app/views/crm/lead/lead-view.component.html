@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Originating Organisation" [value]="lead.OriginatingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Owner Organisation Unit" [value]="lead.OwnerOrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Owner User" [value]="lead.OwnerUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lead Source" [value]="lead.LeadSourceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lead Status" [value]="lead.LeadStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Prospect Name" [value]="lead.ProspectName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contact Name" [value]="lead.ContactName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Email" [value]="lead.Email">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Phone" [value]="lead.Phone">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Country Code" [value]="lead.CountryCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Interested Asset CategoryId" [value]="lead.InterestedAssetCategoryId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Estimated Value" [value]="lead.EstimatedValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="lead.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Expected Close Date" [value]="lead.ExpectedCloseDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Disqualification Reason" [value]="lead.DisqualificationReason">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="lead.RecordStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="lead.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="lead.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

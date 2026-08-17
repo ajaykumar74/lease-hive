@@ -1,0 +1,249 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';  
+ 
+ 
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { ILead } from './lead';
+import { LeadService } from './lead.service';
+
+
+@Component({
+  selector: 'app-lead-edit',
+  standalone: false,
+  templateUrl: './lead-edit.component.html',
+  providers: [ MessageService]
+})
+export class LeadEditComponent implements OnInit {
+
+  selectedId: number;
+  isLoading: boolean = false;
+  lead: ILead = null;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  originatingorganisationidOptions: ISelectItem[] = [];
+ownerorganisationunitidOptions: ISelectItem[] = [];
+owneruseridOptions: ISelectItem[] = [];
+leadsourceidOptions: ISelectItem[] = [];
+leadstatusidOptions: ISelectItem[] = [];
+interestedassetcategoryidOptions: ISelectItem[] = [];
+currencycodeOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+   editForm: any; 
+  objMaster : ILead = {} as ILead;
+
+
+  constructor( 
+    private activatedRouter: ActivatedRoute,  
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location,
+	private leadService: LeadService, 
+	private loggedInUserService : LoggedInUserService
+	) {
+  }
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+ 
+
+  ngOnInit(): void {
+   this.objMaster = { ...this.lead };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, [Validators.required]),
+OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+OwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeadSourceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeadStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ProspectName: new FormControl('', [Validators.required, Validators.maxLength(150), ]),
+ContactName: new FormControl('', [Validators.maxLength(100), ]), 
+Email: new FormControl('', [Validators.maxLength(100), ]), 
+Phone: new FormControl('', [Validators.maxLength(20), ]), 
+CountryCode: new FormControl('', [Validators.maxLength(20), ]), 
+InterestedAssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
+ExpectedCloseDate: new FormControl(new Date(), []),
+DisqualificationReason: new FormControl('', [Validators.maxLength(100), ]), 
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+EffectiveTo: new FormControl(new Date(), []),
+Description: new FormControl('', [Validators.maxLength(100), ]), 
+
+    });
+
+   this.originatingorganisationidOptions.push({Text: 'Org1', Value: 'Org1' });
+this.originatingorganisationidOptions.push({Text: 'Org2', Value: 'Org2' });
+this.ownerorganisationunitidOptions.push({Text: 'OrgUnit1', Value: 'OrgUnit1' });
+this.ownerorganisationunitidOptions.push({Text: 'OrgUnit2', Value: 'OrgUnit2' });
+this.owneruseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
+this.owneruseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
+this.leadsourceidOptions.push({Text: 'Source1', Value: 'Source1' });
+this.leadsourceidOptions.push({Text: 'Source2', Value: 'Source2' });
+this.leadstatusidOptions.push({Text: 'Status1', Value: 'Status1' });
+this.leadstatusidOptions.push({Text: 'Status2', Value: 'Status2' });
+this.interestedassetcategoryidOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
+this.interestedassetcategoryidOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
+this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
+this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+
+     this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadUI();
+    }, 500); 
+  }
+
+
+  loadUI(): void {
+    this.isLoading = true; 
+    this.leadService.getById(this.selectedId).subscribe({
+      next: data => {	        
+        this.lead = data.data;
+		this.permission = data.permission;
+        this.objMaster = { ...this.lead };
+        this.populateUI(this.lead);
+      },
+      error: err => { this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  } 
+
+  populateUI(obj: ILead): void {  
+    this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
+OwnerOrganisationUnitId: obj.OwnerOrganisationUnitId || 0,
+OwnerUserId: obj.OwnerUserId || 0,
+LeadSourceId: obj.LeadSourceId || 0,
+LeadStatusId: obj.LeadStatusId || 0,
+ProspectName: obj.ProspectName || '',
+ContactName: obj.ContactName || '',
+Email: obj.Email || '',
+Phone: obj.Phone || '',
+CountryCode: obj.CountryCode || '',
+InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
+CurrencyCode: obj.CurrencyCode || '',
+ExpectedCloseDate:  obj.ExpectedCloseDate || new Date(),
+DisqualificationReason: obj.DisqualificationReason || '',
+RecordStatus: obj.RecordStatus || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+Description: obj.Description || '',
+ 
+      }
+    );
+   
+	 this.Caption = "Lead Details #" + obj.Id;
+  } 
+
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/business/crm/leads/create', { id: -1 }]);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+
+  }
+
+
+
+  onCancel(): void {
+    this.lead = { ...this.objMaster };
+	var obj  = this.lead;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
+OwnerOrganisationUnitId: obj.OwnerOrganisationUnitId || 0,
+OwnerUserId: obj.OwnerUserId || 0,
+LeadSourceId: obj.LeadSourceId || 0,
+LeadStatusId: obj.LeadStatusId || 0,
+ProspectName: obj.ProspectName || '',
+ContactName: obj.ContactName || '',
+Email: obj.Email || '',
+Phone: obj.Phone || '',
+CountryCode: obj.CountryCode || '',
+InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
+CurrencyCode: obj.CurrencyCode || '',
+ExpectedCloseDate:  obj.ExpectedCloseDate || new Date(),
+DisqualificationReason: obj.DisqualificationReason || '',
+RecordStatus: obj.RecordStatus || '',
+EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveTo:  obj.EffectiveTo || new Date(),
+Description: obj.Description || '',
+ 
+      }
+    );
+   
+    this.editForm.reset();
+  }
+
+
+
+  Save(): void {
+  
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }
+	
+     const formValues = this.editForm.value; 
+	 var updatedObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     OriginatingOrganisationId:  formValues.OriginatingOrganisationId || null,
+OwnerOrganisationUnitId:  formValues.OwnerOrganisationUnitId || null,
+OwnerUserId:  formValues.OwnerUserId || null,
+LeadSourceId:  formValues.LeadSourceId || null,
+LeadStatusId:  formValues.LeadStatusId || null,
+ProspectName:  formValues.ProspectName || null,
+ContactName:  formValues.ContactName || null,
+Email:  formValues.Email || null,
+Phone:  formValues.Phone || null,
+CountryCode:  formValues.CountryCode || null,
+InterestedAssetCategoryId:  formValues.InterestedAssetCategoryId || null,
+EstimatedValue:  formValues.EstimatedValue || null,
+CurrencyCode:  formValues.CurrencyCode || null,
+ExpectedCloseDate:  formValues.ExpectedCloseDate || null,
+DisqualificationReason:  formValues.DisqualificationReason || null,
+RecordStatus:  formValues.RecordStatus || null,
+EffectiveFrom:  formValues.EffectiveFrom || null,
+EffectiveTo:  formValues.EffectiveTo || null,
+Description:  formValues.Description || null,
+
+    } as ILead ;
+	
+	this.spinner.show();  	   
+    this.leadService.update(this.lead.Id, updatedObj).subscribe({
+      next: data => {
+        //this.messageService.showSuccess(Lead +  'Details Updated sucessfully.');
+		//this.editForm.reset();
+		this._location.back();
+      },
+      error: err => { 
+       this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide();}
+    });
+  }
+}

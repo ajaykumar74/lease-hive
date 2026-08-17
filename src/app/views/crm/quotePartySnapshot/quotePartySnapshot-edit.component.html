@@ -1,0 +1,118 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="QuoteId" class="mb-1">QuoteId</label>
+        <p-dropdown
+            inputId="QuoteId" 
+            [options]="quoteidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteId')"
+											label="QuoteId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="PartyId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="LegalName">LegalName 
+							</label> 
+							<input pInputText id="LegalName" type="text" pSize="small"	formControlName="LegalName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LegalName')"
+											label="LegalName">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="TaxRegistrationNo">Tax RegistrationNo 
+							</label> 
+							<input pInputText id="TaxRegistrationNo" type="text" pSize="small"	formControlName="TaxRegistrationNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TaxRegistrationNo')"
+											label="Tax RegistrationNo">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="BillingAddress">Billing Address 
+							</label> 
+							<input pInputText id="BillingAddress" type="text" pSize="small"	formControlName="BillingAddress"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('BillingAddress')"
+											label="Billing Address">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ContactName">Contact Name 
+							</label> 
+							<input pInputText id="ContactName" type="text" pSize="small"	formControlName="ContactName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContactName')"
+											label="Contact Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ContactEmail">Contact Email 
+							</label> 
+							<input pInputText id="ContactEmail" type="text" pSize="small"	formControlName="ContactEmail"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContactEmail')"
+											label="Contact Email">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ContactPhone">Contact Phone 
+							</label> 
+							<input pInputText id="ContactPhone" type="text" pSize="small"	formControlName="ContactPhone"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContactPhone')"
+											label="Contact Phone">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="SnapshotOn">Snapshot On 
+							</label> 
+							<p-calendar id="SnapshotOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SnapshotOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SnapshotOn')"
+											label="Snapshot On">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
