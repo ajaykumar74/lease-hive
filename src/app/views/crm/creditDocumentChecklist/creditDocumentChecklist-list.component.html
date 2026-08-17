@@ -1,0 +1,46 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'CreditDocumentChecklist List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Credit ApplicationId <p-sortIcon field="CreditApplicationId" /> </th> 
+<th style="width:200px">DocumentType <p-sortIcon field="DocumentType" /> </th> 
+<th style="width:200px">IsRequired <p-sortIcon field="IsRequired" /> </th> 
+<th style="width:200px">DocumentId <p-sortIcon field="DocumentId" /> </th> 
+<th style="width:200px">Checklist Status <p-sortIcon field="ChecklistStatus" /> </th> 
+<th style="width:200px">VerifiedBy <p-sortIcon field="VerifiedBy" /> </th> 
+<th style="width:200px">VerifiedOn <p-sortIcon field="VerifiedOn" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.CreditApplicationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DocumentType}}</td>
+ <td style="width:200px">{{obj.IsRequired | yesNo }}</td>
+ <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ChecklistStatus}}</td>
+ <td style="width:200px">{{obj.VerifiedBy | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.VerifiedOn | date:'dd-MMM-yyyy' }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

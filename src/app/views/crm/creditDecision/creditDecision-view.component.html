@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="CreditApplicationId" [value]="creditDecision.CreditApplicationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Credit AssessmentId" [value]="creditDecision.CreditAssessmentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Decision Code" [value]="creditDecision.DecisionCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Decision DateTime" [value]="creditDecision.DecisionDateTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved Limit Amount" [value]="creditDecision.ApprovedLimitAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="creditDecision.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved Term Months" [value]="creditDecision.ApprovedTermMonths">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RiskRating Code" [value]="creditDecision.RiskRatingCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Decision ReasonCode" [value]="creditDecision.DecisionReasonCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Decision Summary" [value]="creditDecision.DecisionSummary">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Valid Until" [value]="creditDecision.ValidUntil">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approval RequestId" [value]="creditDecision.ApprovalRequestId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

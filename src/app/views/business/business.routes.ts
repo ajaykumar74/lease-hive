@@ -32,7 +32,11 @@ const pages: BusinessPage[] = [
       { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
           { path: '/origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/review', title: 'Credit Review', area: 'Origination', icon: 'pi pi-search' },
+      { path: 'origination/credit/CreditBureauResult', title: 'Credit  BureauResult ', area: 'Origination', icon: 'pi pi-search' },
+       { path: 'origination/credit/exposure', title: 'Credit Exposure', area: 'Origination', icon: 'pi pi-search' },
      { path: 'origination/credit/snapshot', title: 'Credit Snapshot', area: 'Origination', icon: 'pi pi-search' },
+      { path: 'origination/credit/document', title: 'Credit Documents', area: 'Origination', icon: 'pi pi-search' },
+            { path: 'origination/credit/decision', title: 'Credit Decision', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/approvals', title: 'Credit Approvals', area: 'Origination', icon: 'pi pi-check-circle' },
     { path: 'origination/credit/limits', title: 'Credit Limits', area: 'Origination', icon: 'pi pi-wallet' },
     { path: 'origination/approvals', title: 'Approvals', area: 'Origination', icon: 'pi pi-verified' },
@@ -153,6 +157,26 @@ export const BUSINESS_ROUTES: Routes = [
                 data: { title: 'Credit Snapshot', breadcrumb: 'Credit Snapshot' },
                 loadChildren: () => import('@/views/crm/creditFinancialSnapshot/creditFinancialSnapshot.module').then(m => m.CreditFinancialSnapshotModule)
             },
+ {
+                 path: 'origination/credit/CreditBureauResult',
+                data: { title: 'Credit BureauResult', breadcrumb: 'Credit BureauResult' },
+                loadChildren: () => import('@/views/crm/creditBureauResult/creditBureauResult.module').then(m => m.CreditBureauResultModule)
+            },
+             {
+                 path: 'origination/credit/exposure',
+                data: { title: 'Credit Snapshot', breadcrumb: 'Credit Snapshot' },
+                loadChildren: () => import('@/views/crm/creditExposure/creditExposure.module').then(m => m.CreditExposureModule)
+            },
+ {
+                 path: 'origination/credit/document',
+                data: { title: 'Credit Snapshot', breadcrumb: 'Credit Snapshot' },
+                loadChildren: () => import('@/views/crm/creditDocumentChecklist/creditDocumentChecklist.module').then(m => m.CreditDocumentChecklistModule)
+            },
+         {
+                 path: 'origination/credit/decision',
+                data: { title: 'Credit Decision', breadcrumb: 'Credit Decision' },
+                loadChildren: () => import('@/views/crm/creditDecision/creditDecision.module').then(m => m.CreditDecisionModule)
+            },   
             ...pages.map(page => ({
                 path: page.path,
                 component: BusinessFeatureComponent,

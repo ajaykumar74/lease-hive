@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit AssessmentId" [value]="creditExposure.CreditAssessmentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="creditExposure.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="OrganisationId" [value]="creditExposure.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Exposure Type" [value]="creditExposure.ExposureType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="creditExposure.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Principal Outstanding" [value]="creditExposure.PrincipalOutstanding">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Undrawn Commitment" [value]="creditExposure.UndrawnCommitment">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Proposed Exposure" [value]="creditExposure.ProposedExposure">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Total Exposure" [value]="creditExposure.TotalExposure">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="AsOfDate" [value]="creditExposure.AsOfDate">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

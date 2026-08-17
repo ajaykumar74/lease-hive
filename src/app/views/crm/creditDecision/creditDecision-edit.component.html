@@ -1,0 +1,169 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CreditApplicationId" class="mb-1">CreditApplicationId</label>
+        <p-dropdown
+            inputId="CreditApplicationId" 
+            [options]="creditapplicationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditApplicationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditApplicationId')"
+											label="CreditApplicationId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Credit AssessmentId" class="mb-1">CreditAssessmentId</label>
+        <p-dropdown
+            inputId="CreditAssessmentId" 
+            [options]="creditassessmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditAssessmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditAssessmentId')"
+											label="Credit AssessmentId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Decision Code" class="mb-1">DecisionCode</label>
+        <p-dropdown
+            inputId="DecisionCode" 
+            [options]="decisioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DecisionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DecisionCode')"
+											label="Decision Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="DecisionDateTime">Decision DateTime 
+							</label> 
+							<p-calendar id="DecisionDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="DecisionDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('DecisionDateTime')"
+											label="Decision DateTime">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ApprovedLimitAmount">Approved Limit Amount 
+							</label> 
+							<p-inputNumber id="ApprovedLimitAmount"  pSize="small"	formControlName="ApprovedLimitAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ApprovedLimitAmount')"
+											label="Approved Limit Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ApprovedTermMonths">Approved Term Months 
+							</label> 
+							<p-inputNumber id="ApprovedTermMonths"  pSize="small"	formControlName="ApprovedTermMonths"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ApprovedTermMonths')"
+											label="Approved Term Months">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="RiskRating Code" class="mb-1">RiskRatingCode</label>
+        <p-dropdown
+            inputId="RiskRatingCode" 
+            [options]="riskratingcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RiskRatingCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RiskRatingCode')"
+											label="RiskRating Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Decision ReasonCode" class="mb-1">DecisionReasonCode</label>
+        <p-dropdown
+            inputId="DecisionReasonCode" 
+            [options]="decisionreasoncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DecisionReasonCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DecisionReasonCode')"
+											label="Decision ReasonCode">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Decision Summary</label>
+                    <textarea size="small" pTextarea placeholder="Type Decision Summary" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="DecisionSummary"
+										[ngClass]="{'is-invalid': (editForm.get('DecisionSummary').touched || editForm.get('DecisionSummary').dirty) && !editForm.get('DecisionSummary').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('DecisionSummary')"
+											label="Decision Summary">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ValidUntil">Valid Until 
+							</label> 
+							<p-calendar id="ValidUntil"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ValidUntil"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ValidUntil')"
+											label="Valid Until">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Approval RequestId" class="mb-1">ApprovalRequestId</label>
+        <p-dropdown
+            inputId="ApprovalRequestId" 
+            [options]="approvalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovalRequestId')"
+											label="Approval RequestId">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="DecidedBy" class="mb-1">DecidedBy</label>
+        <p-dropdown
+            inputId="DecidedBy" 
+            [options]="decidedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DecidedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DecidedBy')"
+											label="DecidedBy">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

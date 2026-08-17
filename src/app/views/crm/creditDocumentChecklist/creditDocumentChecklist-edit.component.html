@@ -1,0 +1,100 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Credit ApplicationId" class="mb-1">CreditApplicationId</label>
+        <p-dropdown
+            inputId="CreditApplicationId" 
+            [options]="creditapplicationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditApplicationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditApplicationId')"
+											label="Credit ApplicationId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="DocumentType" class="mb-1">DocumentType</label>
+        <p-dropdown
+            inputId="DocumentType" 
+            [options]="documenttypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentType')"
+											label="DocumentType">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsRequired" binary="true" formControlName="IsRequired">
+											</p-checkbox>
+											<label for="IsRequired">IsRequired</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full">							<label for="DocumentId">DocumentId 
+							</label> 
+							<p-inputNumber id="DocumentId"  pSize="small"	formControlName="DocumentId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('DocumentId')"
+											label="DocumentId">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Checklist Status" class="mb-1">ChecklistStatus</label>
+        <p-dropdown
+            inputId="ChecklistStatus" 
+            [options]="checkliststatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ChecklistStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ChecklistStatus')"
+											label="Checklist Status">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="VerifiedBy" class="mb-1">VerifiedBy</label>
+        <p-dropdown
+            inputId="VerifiedBy" 
+            [options]="verifiedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="VerifiedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('VerifiedBy')"
+											label="VerifiedBy">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">			
+							<label for="VerifiedOn">VerifiedOn 
+							</label> 
+							<p-calendar id="VerifiedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="VerifiedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('VerifiedOn')"
+											label="VerifiedOn">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

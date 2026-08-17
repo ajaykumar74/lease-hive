@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit ApplicationId" [value]="creditBureauResult.CreditApplicationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="creditBureauResult.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Provider Code" [value]="creditBureauResult.ProviderCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Request Reference" [value]="creditBureauResult.RequestReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RequestedOn" [value]="creditBureauResult.RequestedOn">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="ReceivedOn" [value]="creditBureauResult.ReceivedOn">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Score" [value]="creditBureauResult.Score">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Risk Band" [value]="creditBureauResult.RiskBand">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Adverse Flag" [value]="creditBureauResult.AdverseFlag">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Raw DocumentId" [value]="creditBureauResult.RawDocumentId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
