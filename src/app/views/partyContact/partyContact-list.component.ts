@@ -145,8 +145,8 @@ export class PartyContactListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyContacts/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyContacts', page, obj.Id];
+      ? ['/business/parties/contacts/party', this.partyId, page, obj.Id]
+      : ['/business/parties/contacts', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class PartyContactListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyContacts/party', this.partyId, 'create']
-        : ['dashboard/partyContacts/create'];
+        ? ['/business/parties/contacts/party', this.partyId, 'create']
+        : ['/business/parties/contacts/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

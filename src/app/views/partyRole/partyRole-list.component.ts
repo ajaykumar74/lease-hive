@@ -143,8 +143,8 @@ export class PartyRoleListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyRoles/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyRoles', page, obj.Id];
+      ? ['/business/parties/roles/party', this.partyId, page, obj.Id]
+      : ['/business/parties/roles', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -152,8 +152,8 @@ export class PartyRoleListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyRoles/party', this.partyId, 'create']
-        : ['dashboard/partyRoles/create'];
+        ? ['/business/parties/roles/party', this.partyId, 'create']
+        : ['/business/parties/roles/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

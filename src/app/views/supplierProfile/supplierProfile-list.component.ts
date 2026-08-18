@@ -145,8 +145,8 @@ export class SupplierProfileListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/supplierProfiles/party', this.partyId, page, obj.Id]
-      : ['dashboard/supplierProfiles', page, obj.Id];
+      ? ['/business/parties/supplier-profiles/party', this.partyId, page, obj.Id]
+      : ['/business/parties/supplier-profiles', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class SupplierProfileListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/supplierProfiles/party', this.partyId, 'create']
-        : ['dashboard/supplierProfiles/create'];
+        ? ['/business/parties/supplier-profiles/party', this.partyId, 'create']
+        : ['/business/parties/supplier-profiles/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

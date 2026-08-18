@@ -136,17 +136,17 @@ export class PartyRelationshipListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/partyRelationships/edit/' + obj.Id]);
+        this.router.navigate(['/business/parties/relationships/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/partyRelationships/view/' + obj.Id]);
+        this.router.navigate(['/business/parties/relationships/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/partyRelationships/create']);
+      this.router.navigate(['/business/parties/relationships/create']);
     } 
     else if (key == "Refresh") {
       this.search();

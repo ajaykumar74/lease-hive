@@ -145,8 +145,8 @@ export class CustomerProfileListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/customerProfiles/party', this.partyId, page, obj.Id]
-      : ['dashboard/customerProfiles', page, obj.Id];
+      ? ['/business/parties/customer-profiles/party', this.partyId, page, obj.Id]
+      : ['/business/parties/customer-profiles', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class CustomerProfileListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/customerProfiles/party', this.partyId, 'create']
-        : ['dashboard/customerProfiles/create'];
+        ? ['/business/parties/customer-profiles/party', this.partyId, 'create']
+        : ['/business/parties/customer-profiles/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {
