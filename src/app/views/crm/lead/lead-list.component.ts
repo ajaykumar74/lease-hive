@@ -12,7 +12,8 @@ import { PageEvent } from '@/shared/IBase';
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './lead-list.component.html'
+  templateUrl: './lead-list.component.html',
+  styleUrl: './lead-list.component.css'
 })
 export class LeadListComponent implements OnInit {
 
@@ -22,7 +23,7 @@ export class LeadListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: ILead[];
+  lstMain: ILead[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0;
@@ -69,8 +70,14 @@ export class LeadListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number }): void {
+    const pageEvent = {
+      first: event.first ?? 0,
+      rows: event.rows ?? this.pgEvent.rows
+    } as PageEvent;
+    this.pgEvent = pageEvent;
+    this.currentPage = Math.floor(pageEvent.first / pageEvent.rows) + 1;
+    this.searchData(pageEvent, true);
   }
 
   searchData(pgEvent: PageEvent, isReload: boolean): void {
@@ -143,6 +150,29 @@ export class LeadListComponent implements OnInit {
     }
 
   };
+
+  /** The destination can use either the query-string id or history.state.lead. */
+  onLeadAction(action: 'edit' | 'opportunity' | 'requirement' | 'quote', lead: ILead): void {
+    const routes = {
+      edit: ['/business/crm/leads/edit', lead.Id],
+      opportunity: ['/business/crm/opportunities'],
+      requirement: ['/business/origination/requirements'],
+      quote: ['/business/origination/quotes']
+    };
+    this.router.navigate(routes[action], { queryParams: { leadId: lead.Id }, state: { lead } });
+  }
+
+  getInitials(lead: ILead): string {
+    const value = lead.ProspectName || lead.ContactName || 'Lead';
+    return value.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('qualified')) return 'status-active';
+    if (value.includes('inactive') || value.includes('disqualified') || value.includes('closed')) return 'status-closed';
+    return 'status-pending';
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

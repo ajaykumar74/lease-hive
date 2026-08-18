@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { LeadListComponent } from './lead-list.component';
 import { LeadCreateComponent } from './lead-create.component';
@@ -42,6 +43,7 @@ import { LeadRoutingModule } from './lead-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		LeadRoutingModule,
 	],
 	declarations: [

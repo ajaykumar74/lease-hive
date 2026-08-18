@@ -2,7 +2,7 @@
 	<div class="col-12">
 		<div class="card"> 
             <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Opportunity List'"
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="listCaption"
 					[PageType]="'List'">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>

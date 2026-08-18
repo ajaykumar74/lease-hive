@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -8,6 +8,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { OpportunityService } from './opportunity.service';
 import { IOpportunity } from './opportunity';
 import { PageEvent } from '@/shared/IBase';
+import { ILead } from '../lead/lead';
 
 @Component({
   selector: 'app-customer-list',
@@ -18,7 +19,8 @@ export class OpportunityListComponent implements OnInit {
 
   constructor(
     private opportunityService: OpportunityService,
-    private router: Router, 
+    private router: Router,
+    private route: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,12 +34,29 @@ export class OpportunityListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  leadId: number | null = null;
+  selectedLead: ILead | null = null;
+
+  get listCaption(): string {
+    if (this.selectedLead?.ProspectName) {
+      return `${this.selectedLead.ProspectName}'s Opportunities`;
+    }
+    return this.leadId ? 'Lead Opportunities' : 'Opportunity List';
+  }
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.opportunityService.CacheData.IsLoaded) {
+    const queryLeadId = Number(this.route.snapshot.queryParamMap.get('leadId'));
+    this.leadId = Number.isInteger(queryLeadId) && queryLeadId > 0 ? queryLeadId : null;
+
+    const navigationLead = history.state?.lead as ILead | undefined;
+    if (navigationLead && navigationLead.Id === this.leadId) {
+      this.selectedLead = navigationLead;
+    }
+
+     if (!this.leadId && this.opportunityService.CacheData.IsLoaded) {
       this.currentPage = this.opportunityService.CacheData.CurrentPage;
       this.objSearch = this.opportunityService.CacheData.objSearch;
       this.permission = this.opportunityService.CacheData.permission;
@@ -46,7 +65,7 @@ export class OpportunityListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.opportunityService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !!this.leadId || !this.opportunityService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -89,7 +108,9 @@ export class OpportunityListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.opportunityService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          if (!this.leadId) {
+            this.opportunityService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          }
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -114,6 +135,10 @@ export class OpportunityListComponent implements OnInit {
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
      
     ];
+
+    if (this.leadId) {
+      Items.push({ DBName: 'LeadId', Value: this.leadId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;
