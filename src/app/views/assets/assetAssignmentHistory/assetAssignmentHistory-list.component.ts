@@ -136,17 +136,17 @@ export class AssetAssignmentHistoryListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetAssignmentHistorys/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/assignments/history/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetAssignmentHistorys/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/assignments/history/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetAssignmentHistorys/create']);
+      this.router.navigate(['/business/assets/assignments/history/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -136,17 +136,17 @@ export class AssetStatusHistoryListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetStatusHistorys/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/status-history/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetStatusHistorys/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/status-history/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetStatusHistorys/create']);
+      this.router.navigate(['/business/assets/status-history/create']);
     } 
     else if (key == "Refresh") {
       this.search();

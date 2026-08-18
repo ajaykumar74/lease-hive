@@ -145,8 +145,8 @@ export class AssetAttributeValueListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.assetId
-      ? ['dashboard/assetAttributeValues/asset', this.assetId, page, obj.Id]
-      : ['dashboard/assetAttributeValues', page, obj.Id];
+      ? ['/business/assets/classification/attribute-values/asset', this.assetId, page, obj.Id]
+      : ['/business/assets/classification/attribute-values', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class AssetAttributeValueListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.assetId
-        ? ['dashboard/assetAttributeValues/asset', this.assetId, 'create']
-        : ['dashboard/assetAttributeValues/create'];
+        ? ['/business/assets/classification/attribute-values/asset', this.assetId, 'create']
+        : ['/business/assets/classification/attribute-values/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

@@ -137,17 +137,17 @@ export class AssetMeasureReadingListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetMeasureReadings/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/measures/readings/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetMeasureReadings/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/measures/readings/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetMeasureReadings/create']);
+      this.router.navigate(['/business/assets/measures/readings/create']);
     } 
     else if (key == "Refresh") {
       this.search();

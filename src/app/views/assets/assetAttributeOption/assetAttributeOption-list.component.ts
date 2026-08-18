@@ -134,17 +134,17 @@ export class AssetAttributeOptionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetAttributeOptions/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/attribute-options/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetAttributeOptions/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/attribute-options/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetAttributeOptions/create']);
+      this.router.navigate(['/business/assets/classification/attribute-options/create']);
     } 
     else if (key == "Refresh") {
       this.search();

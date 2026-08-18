@@ -137,17 +137,17 @@ export class AssetConditionGradeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetConditionGrades/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/condition-grades/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetConditionGrades/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/condition-grades/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetConditionGrades/create']);
+      this.router.navigate(['/business/assets/condition-grades/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -158,8 +158,8 @@ export class AssetAssignmentListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     const route = this.assetId
-      ? ['dashboard/assetAssignments/asset', this.assetId, this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id]
-      : ['dashboard/assetAssignments', this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id];
+      ? ['/business/assets/assignments/asset', this.assetId, this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id]
+      : ['/business/assets/assignments', this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id];
 
     this.router.navigate(route);
   
@@ -168,8 +168,8 @@ export class AssetAssignmentListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.assetId
-        ? ['dashboard/assetAssignments/asset', this.assetId, 'create']
-        : ['dashboard/assetAssignments/create'];
+        ? ['/business/assets/assignments/asset', this.assetId, 'create']
+        : ['/business/assets/assignments/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

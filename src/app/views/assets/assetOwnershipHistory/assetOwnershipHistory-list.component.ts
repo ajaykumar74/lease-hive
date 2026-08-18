@@ -145,8 +145,8 @@ export class AssetOwnershipHistoryListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.assetId
-      ? ['dashboard/assetOwnershipHistorys/asset', this.assetId, page, obj.Id]
-      : ['dashboard/assetOwnershipHistorys', page, obj.Id];
+      ? ['/business/assets/ownership-history/asset', this.assetId, page, obj.Id]
+      : ['/business/assets/ownership-history', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class AssetOwnershipHistoryListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.assetId
-        ? ['dashboard/assetOwnershipHistorys/asset', this.assetId, 'create']
-        : ['dashboard/assetOwnershipHistorys/create'];
+        ? ['/business/assets/ownership-history/asset', this.assetId, 'create']
+        : ['/business/assets/ownership-history/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

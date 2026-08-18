@@ -146,8 +146,8 @@ export class AssetIdentifierListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.assetId
-      ? ['dashboard/assetIdentifiers/asset', this.assetId, page, obj.Id]
-      : ['dashboard/assetIdentifiers', page, obj.Id];
+      ? ['/business/assets/classification/identifiers/asset', this.assetId, page, obj.Id]
+      : ['/business/assets/classification/identifiers', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -155,8 +155,8 @@ export class AssetIdentifierListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.assetId
-        ? ['dashboard/assetIdentifiers/asset', this.assetId, 'create']
-        : ['dashboard/assetIdentifiers/create'];
+        ? ['/business/assets/classification/identifiers/asset', this.assetId, 'create']
+        : ['/business/assets/classification/identifiers/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

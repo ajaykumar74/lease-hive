@@ -135,17 +135,17 @@ export class AssetAttributeDefinitionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetAttributeDefinitions/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/attribute-definitions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetAttributeDefinitions/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/attribute-definitions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetAttributeDefinitions/create']);
+      this.router.navigate(['/business/assets/classification/attribute-definitions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

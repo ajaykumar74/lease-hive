@@ -137,17 +137,17 @@ export class AssetStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetStatuss/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetStatuss/create']);
+      this.router.navigate(['/business/assets/classification/statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

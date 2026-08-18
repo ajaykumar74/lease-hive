@@ -137,17 +137,17 @@ export class PropertyAssetListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/propertyAssets/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/specialised/property/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/propertyAssets/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/specialised/property/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/propertyAssets/create']);
+      this.router.navigate(['/business/assets/specialised/property/create']);
     } 
     else if (key == "Refresh") {
       this.search();

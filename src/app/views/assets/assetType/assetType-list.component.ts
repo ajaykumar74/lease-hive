@@ -135,17 +135,17 @@ export class AssetTypeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetTypes/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/types/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetTypes/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/classification/types/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetTypes/create']);
+      this.router.navigate(['/business/assets/classification/types/create']);
     } 
     else if (key == "Refresh") {
       this.search();

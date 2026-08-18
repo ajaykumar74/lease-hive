@@ -137,17 +137,17 @@ export class AssetMeasureDefinitionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetMeasureDefinitions/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/measures/definitions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetMeasureDefinitions/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/measures/definitions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetMeasureDefinitions/create']);
+      this.router.navigate(['/business/assets/measures/definitions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -136,17 +136,17 @@ export class VehicleAssetListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/vehicleAssets/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/specialised/vehicles/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/vehicleAssets/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/specialised/vehicles/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/vehicleAssets/create']);
+      this.router.navigate(['/business/assets/specialised/vehicles/create']);
     } 
     else if (key == "Refresh") {
       this.search();
