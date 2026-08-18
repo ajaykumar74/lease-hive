@@ -113,7 +113,6 @@ export class PicklistItemListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
 

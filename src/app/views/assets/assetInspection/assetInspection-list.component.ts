@@ -115,7 +115,6 @@ export class AssetInspectionListComponent implements OnInit {
     var Items = [];
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
       { DBName: 'AssetId', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'InspectionNo', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
      

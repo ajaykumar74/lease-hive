@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
+import { DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { LeadService } from './lead.service';
@@ -18,30 +18,30 @@ export class LeadListComponent implements OnInit {
 
   constructor(
     private leadService: LeadService,
-    private router: Router, 
+    private router: Router,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: ILead[]; 
+  lstMain: ILead[];
   sortBy: string = 'Id';
   IsDescending: boolean;
-  totalNoOfRecords = 0; 
+  totalNoOfRecords = 0;
   currentPage: number = 1;
   isAdvanceView: boolean = true;
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { Name: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.leadService.CacheData.IsLoaded) {
+    if (this.leadService.CacheData.IsLoaded) {
       this.currentPage = this.leadService.CacheData.CurrentPage;
       this.objSearch = this.leadService.CacheData.objSearch;
       this.permission = this.leadService.CacheData.permission;
-    }  
+    }
   }
 
   ngAfterViewInit(): void {
@@ -73,7 +73,7 @@ export class LeadListComponent implements OnInit {
     this.searchData(arg.page, true);
   }
 
-	searchData(pgEvent: PageEvent, isReload: boolean): void { 
+  searchData(pgEvent: PageEvent, isReload: boolean): void {
 
     if (isReload || this.leadService.CacheData.CurrentPage != pgEvent.page) {
 
@@ -81,13 +81,13 @@ export class LeadListComponent implements OnInit {
         Skip: pgEvent.first,
         Take: pgEvent.rows,
         SortBy: this.sortBy,
-        IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
+        IsDescending: this.IsDescending,
+        Conditions: this.getSearchParams()
       }
       this.isLoading = true;
       this.leadService.search(searchParam).subscribe({
         next: res => {
-          this.permission = res.permission; 
+          this.permission = res.permission;
           this.SetListData(res.data.Records, res.data.TotalRecords);
           this.leadService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
         },
@@ -100,26 +100,25 @@ export class LeadListComponent implements OnInit {
     }
   }
 
-   
+
 
   SetListData(data: any, totalrecords: number): void {
     this.lstMain = data;
-    this.totalNoOfRecords = totalrecords; 
+    this.totalNoOfRecords = totalrecords;
   }
 
   getSearchParams() {
     var Items = [];
     Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
+      { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
+      { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
       { DBName: 'ProspectName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-     
-     
+
     ];
 
 
     var auditCriteria = null;
-    
+
 
     if (this.objSearch.AuditType == 'Created') {
       auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
@@ -137,23 +136,23 @@ export class LeadListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/crm/leads/edit/' + obj.Id]);
+      this.router.navigate(['/business/crm/leads/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['/business/crm/leads/view/' + obj.Id]);
-    } 
-  
+      this.router.navigate(['/business/crm/leads/view/' + obj.Id]);
+    }
+
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/crm/leads/create']);
-    } 
+    }
     else if (key == "Refresh") {
       this.search();
     }
     else if (key == "Cancel") {
-    }    
+    }
   }
 }
 

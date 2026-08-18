@@ -111,8 +111,6 @@ export class PlanFeatureListComponent implements OnInit {
     var Items = [];
     Items = [
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
-      { DBName: 'PlanName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'PlanCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 
 
