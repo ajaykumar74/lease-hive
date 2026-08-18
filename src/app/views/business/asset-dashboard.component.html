@@ -1,0 +1,54 @@
+<div class="asset-dashboard">
+    <div class="dashboard-heading">
+        <div><h1>Asset Dashboard</h1><p>Monitor leaseable inventory, deployment, portfolio value and operational readiness.</p></div>
+        <div class="dashboard-actions">
+            <p-select [options]="scopeOptions" [(ngModel)]="selectedScope" optionLabel="label" optionValue="value" (onChange)="onScopeChange()" ariaLabel="Asset scope" />
+            <p-button label="Create Asset" icon="pi pi-plus" routerLink="/business/assets/create" />
+        </div>
+    </div>
+
+    @if (hasLoadError && !isLoading) {
+        <div class="load-warning"><i class="pi pi-info-circle"></i><span>Some asset data could not be loaded. Available portfolio information is shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadDashboard()" /></div>
+    }
+
+    <div class="kpi-grid">
+        @if (isLoading) {
+            @for (item of [1,2,3,4]; track item) { <div class="card kpi-card"><p-skeleton width="45%" height="1rem" /><p-skeleton width="35%" height="2rem" styleClass="mt-3" /></div> }
+        } @else {
+            <div class="card kpi-card"><span class="kpi-label">Active portfolio</span><strong>{{ scopedAssets.length | number }}</strong><small>{{ leaseableCount }} leaseable assets</small><i class="pi pi-box kpi-icon blue"></i></div>
+            <div class="card kpi-card"><span class="kpi-label">Currently deployed</span><strong>{{ assignedCount | number }}</strong><small>{{ utilizationRate | number:'1.0-1' }}% leaseable utilization</small><i class="pi pi-users kpi-icon green"></i></div>
+            <div class="card kpi-card"><span class="kpi-label">Available to lease</span><strong>{{ availableToLease | number }}</strong><small>Ready for new lease demand</small><i class="pi pi-check-circle kpi-icon cyan"></i></div>
+            <div class="card kpi-card"><span class="kpi-label">Portfolio acquisition value</span><strong>{{ acquisitionValue | currency:currencyCode:'symbol':'1.0-0' }}</strong><small>{{ residualValue | currency:currencyCode:'symbol':'1.0-0' }} residual ({{ residualExposurePct | number:'1.0-1' }}%)</small><i class="pi pi-wallet kpi-icon orange"></i></div>
+        }
+    </div>
+
+    <div class="dashboard-grid">
+        <section class="card portfolio-panel">
+            <div class="panel-heading"><div><h2>Portfolio by category</h2><span>Asset mix supporting current and future lease demand</span></div><p-button label="Categories" [text]="true" size="small" routerLink="/business/assets/classification/categories" /></div>
+            @if (isLoading) { <p-skeleton width="100%" height="19rem" /> }
+            @else if (scopedAssets.length) { <p-chart type="doughnut" [data]="categoryData" [options]="categoryOptions" height="300px" ariaLabel="Asset portfolio by category" /> }
+            @else { <div class="empty-state"><i class="pi pi-chart-pie"></i><span>No assets in this portfolio scope.</span></div> }
+        </section>
+        <section class="card readiness-panel">
+            <div class="panel-heading"><div><h2>Leasing readiness</h2><span>Availability and deployment coverage</span></div></div>
+            <div class="readiness-metric"><div><span>Utilization</span><strong>{{ utilizationRate | number:'1.0-1' }}%</strong></div><div class="metric-track"><span [style.width.%]="utilizationRate > 100 ? 100 : utilizationRate"></span></div></div>
+            <div class="readiness-list"><div><span><i class="pi pi-check-circle"></i> Available to lease</span><strong>{{ availableToLease }}</strong></div><div><span><i class="pi pi-users"></i> Assigned</span><strong>{{ assignedCount }}</strong></div><div><span><i class="pi pi-shield"></i> Inspections requiring attention</span><strong>{{ inspectionsNeedingAttention.length }}</strong></div><div><span><i class="pi pi-calendar-clock"></i> Assignments ending in 30 days</span><strong>{{ expiringAssignments.length }}</strong></div></div>
+            <p-button label="View assignments" icon="pi pi-arrow-right" iconPos="right" [outlined]="true" styleClass="w-full" routerLink="/business/assets/assignments" />
+        </section>
+    </div>
+
+    <div class="dashboard-bottom-grid">
+        <section class="card">
+            <div class="panel-heading"><div><h2>Recent assets</h2><span>Latest additions to the leasing portfolio</span></div><p-button label="Asset worklist" [text]="true" size="small" routerLink="/business/assets" /></div>
+            <p-table [value]="recentAssets" [loading]="isLoading" responsiveLayout="scroll">
+                <ng-template #header><tr><th>Asset</th><th>Category</th><th>Status</th><th class="text-right">Acquisition cost</th></tr></ng-template>
+                <ng-template #body let-asset><tr class="clickable-row" (click)="openAsset(asset)"><td><strong>{{ asset.AssetNo || 'Asset ' + asset.Id }}</strong><small>{{ asset.PrimarySerialNo || 'No serial number' }}</small></td><td>{{ categoryName(asset) }}</td><td><p-tag [value]="statusName(asset)" [severity]="statusSeverity(statusName(asset))" /></td><td class="text-right">{{ asset.AcquisitionCost || 0 | currency:(asset.AcquisitionCurrencyCode || currencyCode):'symbol':'1.0-0' }}</td></tr></ng-template>
+                <ng-template #emptymessage><tr><td colspan="4" class="table-empty">No assets found.</td></tr></ng-template>
+            </p-table>
+        </section>
+        <div class="attention-stack">
+            <section class="card attention-card"><div class="panel-heading"><div><h2>Assignment expiries</h2><span>Ending within 30 days</span></div></div>@for (item of expiringAssignments; track item.Id) { <div class="attention-item"><i class="pi pi-calendar-clock"></i><div><strong>{{ assetLabel(item.AssetId) }}</strong><small>{{ item.AssignmentType || 'Lease assignment' }}</small></div><time>{{ item.AssignedTo || item.EffectiveTo | date:'dd MMM yyyy' }}</time></div> } @empty { <div class="compact-empty">No assignments expiring soon.</div> }</section>
+            <section class="card attention-card"><div class="panel-heading"><div><h2>Inspection attention</h2><span>Incomplete or low-scoring inspections</span></div><p-button label="View" [text]="true" size="small" routerLink="/business/assets/inspections" /></div>@for (item of inspectionsNeedingAttention; track item.Id) { <div class="attention-item"><i class="pi pi-clipboard"></i><div><strong>{{ assetLabel(item.AssetId) }}</strong><small>{{ item.InspectionNo || 'Inspection' }}</small></div><p-tag [value]="item.CompletedOn ? ((item.OverallScore || 0) + '%') : 'Incomplete'" [severity]="item.CompletedOn ? 'warn' : 'danger'" /></div> } @empty { <div class="compact-empty">No inspections require attention.</div> }</section>
+        </div>
+    </div>
+</div>

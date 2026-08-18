@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { BusinessFeatureComponent } from './business-feature.component';
+import { AssetDashboardComponent } from './asset-dashboard.component';
 
 interface AssetPlaceholderPage {
     path: string;
@@ -9,7 +10,6 @@ interface AssetPlaceholderPage {
 }
 
 const placeholderPages: AssetPlaceholderPage[] = [
-    { path: 'assets/dashboard', title: 'Asset Dashboard', icon: 'pi pi-chart-bar', description: 'Asset performance, actions and cost summaries are ready for dashboard implementation.' },
     { path: 'assets/assignments/transfer', title: 'Transfer Custody', icon: 'pi pi-arrow-right-arrow-left', description: 'Transfer asset custody between users and organisation units.' },
     { path: 'assets/locations', title: 'Current Asset Locations', icon: 'pi pi-map-marker', description: 'Review the current location of assets.' },
     { path: 'assets/movements/create', title: 'Move Asset', icon: 'pi pi-directions', description: 'Record an asset movement.' },
@@ -26,6 +26,11 @@ const placeholderPages: AssetPlaceholderPage[] = [
 ];
 
 export const ASSET_ROUTES: Routes = [
+    {
+        path: 'assets/dashboard',
+        component: AssetDashboardComponent,
+        data: { title: 'Asset Dashboard', breadcrumb: 'Asset Dashboard' }
+    },
     ...placeholderPages.map(page => ({
         path: page.path,
         component: BusinessFeatureComponent,
