@@ -21,8 +21,8 @@ export class AssetListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IAsset[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IAsset[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -46,7 +46,8 @@ export class AssetListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetService.CacheData.IsLoaded);
+      // Refresh on entry so pagination never relies on stale total-count metadata.
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +70,10 @@ export class AssetListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -144,6 +147,26 @@ export class AssetListComponent implements OnInit {
     } 
   
   };
+
+  onViewClick(asset: IAsset): void {
+    this.router.navigate(['/business/assets/view', asset.Id], { state: { asset } });
+  }
+
+  onEditClick(asset: IAsset): void {
+    this.router.navigate(['/business/assets/edit', asset.Id], { state: { asset } });
+  }
+
+  getAssetInitials(asset: IAsset): string {
+    const value = asset.AssetNo || asset.AssetId || 'Asset';
+    return value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 2).toUpperCase();
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('available') || value.includes('in service')) return 'status-active';
+    if (value.includes('inactive') || value.includes('disposed') || value.includes('retired')) return 'status-closed';
+    return 'status-pending';
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

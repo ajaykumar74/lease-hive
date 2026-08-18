@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { AssetListComponent } from './asset-list.component';
 import { AssetCreateComponent } from './asset-create.component';
@@ -44,6 +45,7 @@ import { AssetRoutingModule } from './asset-routing.module';
 		MySharedModule, 
 		FluidModule,
 		SplitButtonModule,
+		PaginatorModule,
 		AssetRoutingModule,
 	],
 	declarations: [

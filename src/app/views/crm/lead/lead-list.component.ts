@@ -12,8 +12,7 @@ import { PageEvent } from '@/shared/IBase';
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './lead-list.component.html',
-  styleUrl: './lead-list.component.css'
+  templateUrl: './lead-list.component.html'
 })
 export class LeadListComponent implements OnInit {
 
