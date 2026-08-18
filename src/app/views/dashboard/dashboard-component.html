@@ -1,65 +1,8 @@
-<div class="grid grid-cols-12 gap-8">
-    <div class="col-span-12 md:col-span-12 xl:col-span-12" [hidden]="customerType =='Individual'">
-        <div class="card h-full">
-            <label class="mt-2 ml-4">Month : </label> <p-select class="w-1/4  mt-2" name="selectedMonth"
-                [(ngModel)]="dirverScoreSelectedMonth" [options]="monthOptions" optionLabel="label" optionValue="value"
-                (onChange)="onGaugeMonthChange('driver')" placeholder="Select a month">
-            </p-select>
-            <div class="flex justify-between items-start mt-4">
-
-                <div class="flex flex-col ml-8">
-                    <div class="w-[300px] h-[300px] relative">
-
-
-                        <p-chart type="doughnut" [data]="gaugeData1" [options]="gaugeOptions1"
-                            class="w-[300px] h-[300px]"></p-chart>
-                    </div>
-
-                    <div class="flex gap-2 mt-1">
-                        <p-tag severity="secondary" [rounded]="true">Your Fleet: {{yourFleetScore}}</p-tag>
-                        <p-tag severity="info" [rounded]="true">Industry Benchmark: {{benchmarkFleetScore}}</p-tag>
-                    </div>
-                    <p-tag severity="secondary" [rounded]="">Fleet Score
-                        <!-- <p-select class="w-1/2 ml-4"
-                            name="selectedMonth" [(ngModel)]="fleetScoreSelectedMonth" [options]="monthOptions"
-                            (onChange)="onGaugeMonthChange('fleet')" optionLabel="label" optionValue="value"
-                            placeholder="Select a month">
-                        </p-select> -->
-                    </p-tag>
-                </div>
-                <div class="flex flex-col">
-
-                    <div class="w-[300px] h-[300px] relative">
-
-                        <p-chart type="doughnut" [data]="gaugeData1" [options]="gaugeOptions1"
-                            class="w-[300px] h-[300px]"></p-chart>
-                    </div>
-                    <div class="flex gap-2 mt-1">
-                        <p-tag severity="secondary" [rounded]="true">Your Fleet: {{yourDirverScore}}</p-tag>
-                        <p-tag severity="info" [rounded]="true">Industry Benchmark: {{benchmarkDirverScore}}</p-tag>
-                    </div>
-                    <p-tag severity="secondary" [rounded]="">Dirver Score</p-tag>
-                </div>
-            </div>
-            <div *ngIf="!isBenchmarkAvailable">
-                <small class="p-war block">
-                    *You need to update the benchmarking source data to view the benchmarking score <p-button
-                        class="blue-link-button1 text-sm" label="Add" [link]="true"
-                        routerLink="/dashboard/service-history/view" />
-                </small>
-            </div>
-        </div>
-    </div>
-    <div class="col-span-12 md:col-span-12 xl:col-span-12" [hidden]="customerType =='Individual'">
-        <div class="card h-full">
-            <span class="font-semibold text-lg">Expenses</span>
-            <div>
-                <p-chart type="bar" height="400px" [data]="data" [options]="options" />
-            </div>
-            <div *ngIf="!isBenchmarkAvailable">
-                <small>* Based on recent vehicle service history</small>
-            </div>
-        </div>
-    </div>
-    
+<div class="home-dashboard">
+  <header class="welcome-row"><div><span class="eyebrow">{{ organisationName || 'Leasing workspace' }}</span><h1>Welcome back, {{ displayName }}</h1><p>Here is what needs your attention across origination, assets and lease operations.</p></div><div class="header-actions"><p-button label="New Lead" icon="pi pi-plus" routerLink="/business/crm/leads/create" /><p-button label="View CRM" icon="pi pi-arrow-right" iconPos="right" [outlined]="true" routerLink="/business/crm/dashboard" /></div></header>
+  <div *ngIf="hasLoadError && !isLoading" class="load-warning"><i class="pi pi-info-circle"></i><span>Some workspace data could not be loaded. Available sections are shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadDashboard()" /></div><p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{height:'3px'}" />
+  <section class="kpi-grid"><button class="card kpi-card" (click)="open('/business/crm/leads')"><span>Active leads</span><strong>{{ activeLeads.length | number }}</strong><small>{{ openOpportunities.length }} open opportunities</small><i class="pi pi-users blue"></i></button><button class="card kpi-card" (click)="open('/business/crm/opportunities')"><span>Pipeline value</span><strong>{{ pipelineValue | currency:currencyCode:'symbol':'1.0-0' }}</strong><small>Across active opportunities</small><i class="pi pi-chart-line green"></i></button><button class="card kpi-card" (click)="open('/business/assets/dashboard')"><span>Leaseable assets</span><strong>{{ leaseableAssets.length | number }}</strong><small>{{ availableAssets }} available · {{ utilizationRate | number:'1.0-0' }}% utilized</small><i class="pi pi-box cyan"></i></button><button class="card kpi-card" (click)="open('/business/origination/credit/applications')"><span>Needs attention</span><strong>{{ attentionCount | number }}</strong><small>Credit, inspections and expiries</small><i class="pi pi-bell orange"></i></button></section>
+  <section class="card"><div class="panel-heading"><div><h2>Quick actions</h2><span>Common tasks across the leasing lifecycle</span></div></div><div class="quick-grid"><button *ngFor="let item of quickActions" (click)="open(item.route)" class="quick-action"><i [class]="item.icon"></i><span><strong>{{ item.label }}</strong><small>{{ item.description }}</small></span><i class="pi pi-chevron-right arrow"></i></button></div></section>
+  <div class="main-grid"><section class="card"><div class="panel-heading"><div><h2>Leasing lifecycle</h2><span>Current workload from enquiry to deployment</span></div><p-button label="Origination" [text]="true" size="small" routerLink="/business/origination/requirements" /></div><div class="lifecycle"><button (click)="open('/business/crm/leads')"><i class="pi pi-user-plus"></i><strong>{{ activeLeads.length }}</strong><span>Leads</span></button><i class="pi pi-arrow-right flow"></i><button (click)="open('/business/crm/opportunities')"><i class="pi pi-chart-line"></i><strong>{{ openOpportunities.length }}</strong><span>Opportunities</span></button><i class="pi pi-arrow-right flow"></i><button (click)="open('/business/origination/quotes')"><i class="pi pi-file"></i><strong>{{ pendingQuotes.length }}</strong><span>Open quotes</span></button><i class="pi pi-arrow-right flow"></i><button (click)="open('/business/origination/credit/applications')"><i class="pi pi-verified"></i><strong>{{ pendingCredit.length }}</strong><span>Credit review</span></button><i class="pi pi-arrow-right flow"></i><button (click)="open('/business/assets/assignments')"><i class="pi pi-box"></i><strong>{{ assignedAssetCount }}</strong><span>Deployed</span></button></div></section><section class="card"><div class="panel-heading"><div><h2>Asset portfolio</h2><span>{{ portfolioValue | currency:currencyCode:'symbol':'1.0-0' }} acquisition value</span></div><p-button label="Assets" [text]="true" size="small" routerLink="/business/assets/dashboard" /></div><p-chart *ngIf="activeAssets.length; else noAssets" type="doughnut" [data]="portfolioData" [options]="portfolioOptions" height="250px" /><ng-template #noAssets><div class="empty-state">No portfolio assets found.</div></ng-template></section></div>
+  <div class="bottom-grid"><section class="card"><div class="panel-heading"><div><h2>Recent leads</h2><span>Latest leasing enquiries</span></div><p-button label="All leads" [text]="true" size="small" routerLink="/business/crm/leads" /></div><p-table [value]="recentLeads"><ng-template #header><tr><th>Prospect</th><th>Contact</th><th class="text-right">Value</th></tr></ng-template><ng-template #body let-item><tr class="clickable" (click)="openLead(item)"><td><strong>{{ item.ProspectName || 'Unnamed prospect' }}</strong><small>{{ item.CreatedDateTime | date:'dd MMM yyyy' }}</small></td><td>{{ item.ContactName || item.Email || 'Not provided' }}</td><td class="text-right">{{ item.EstimatedValue || 0 | currency:(item.CurrencyCode || currencyCode):'symbol':'1.0-0' }}</td></tr></ng-template><ng-template #emptymessage><tr><td colspan="3" class="table-empty">No active leads.</td></tr></ng-template></p-table></section><section class="card"><div class="panel-heading"><div><h2>Recent assets</h2><span>Latest portfolio additions</span></div><p-button label="All assets" [text]="true" size="small" routerLink="/business/assets" /></div><p-table [value]="recentAssets"><ng-template #header><tr><th>Asset</th><th>Status</th><th class="text-right">Value</th></tr></ng-template><ng-template #body let-item><tr class="clickable" (click)="openAsset(item)"><td><strong>{{ item.AssetNo || 'Asset ' + item.Id }}</strong><small>{{ item.PrimarySerialNo || 'No serial number' }}</small></td><td><p-tag [value]="item.AssetStatusName || (item.IsLeaseable ? 'Leaseable' : 'Managed')" [severity]="statusSeverity(item.AssetStatusName || (item.IsLeaseable ? 'Available' : 'Managed'))" /></td><td class="text-right">{{ item.AcquisitionCost || 0 | currency:(item.AcquisitionCurrencyCode || currencyCode):'symbol':'1.0-0' }}</td></tr></ng-template><ng-template #emptymessage><tr><td colspan="3" class="table-empty">No active assets.</td></tr></ng-template></p-table></section></div>
 </div>
