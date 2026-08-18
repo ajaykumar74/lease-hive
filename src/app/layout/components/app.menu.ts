@@ -10,23 +10,15 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
     imports: [CommonModule, AppMenuitem, RouterModule],
     template: `<ul class="layout-menu">
         <ng-container *ngFor="let item of model; let i = index">
-            <li
-                app-menuitem
-                *ngIf="!item.separator"
-                [item]="item"
-                [index]="i"
-                [root]="true"
-            ></li>
+            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
             <li *ngIf="item.separator" class="menu-separator"></li>
         </ng-container>
-    </ul> `,
+    </ul> `
 })
 export class AppMenu {
     model: any[] = [];
 
-    constructor(
-        private loggedInUserService: LoggedInUserService
-    ) { }
+    constructor(private loggedInUserService: LoggedInUserService) {}
     ngOnInit() {
         if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
@@ -38,25 +30,25 @@ export class AppMenu {
                             label: 'My Dashboard',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/mydashboard'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'My Fleet',
                             icon: 'pi pi-fw pi-car',
                             routerLink: ['/dashboard/myfleet'],
-                            tooltip: 'View and add vehicles for subscription here',
+                            tooltip: 'View and add vehicles for subscription here'
                         },
                         {
                             label: 'Fleet Schedule',
                             icon: 'pi pi-fw pi-calendar-clock',
                             routerLink: ['/dashboard/vehicle-schedule'],
-                            tooltip: 'View fleet schedule here',
+                            tooltip: 'View fleet schedule here'
                         },
                         {
                             label: 'Fleet Scores',
                             icon: 'pi pi-fw pi-chart-line',
                             routerLink: ['/dashboard/myfleet/scores'],
-                            tooltip: 'See how each vehicle is scored here + Benchmark Functionality will be deployed during BETA',
+                            tooltip: 'See how each vehicle is scored here + Benchmark Functionality will be deployed during BETA'
                         },
                         {
                             label: 'Vehicle Insurance',
@@ -68,7 +60,7 @@ export class AppMenu {
                             label: 'Service Calendar',
                             icon: 'pi pi-fw pi-calendar-times',
                             routerLink: ['/dashboard/serviceSchedules/calendar'],
-                            tooltip: 'Check when your vehicles are due a next service/ MOT on the calendar based on vehicle registration date and last service history',
+                            tooltip: 'Check when your vehicles are due a next service/ MOT on the calendar based on vehicle registration date and last service history'
                         },
                         {
                             label: 'Service Booking',
@@ -79,21 +71,21 @@ export class AppMenu {
                                     label: 'Book a Service',
                                     icon: 'pi pi-fw pi-calendar-times',
                                     routerLink: ['/dashboard/serviceBookings/booknow'],
-                                    tooltip: 'Book service for your vehicles',
+                                    tooltip: 'Book service for your vehicles'
                                 },
                                 {
                                     label: 'Active Bookings',
                                     icon: 'pi pi-fw pi-calendar-times',
                                     routerLink: ['/dashboard/serviceBookings'],
-                                    tooltip: 'Confirm/ amend current service/ MOT/ Tyre bookings or make a new online booking here with over 6,600 service/ tyre centres',
+                                    tooltip: 'Confirm/ amend current service/ MOT/ Tyre bookings or make a new online booking here with over 6,600 service/ tyre centres'
                                 },
                                 {
                                     label: 'Bookings History',
                                     icon: 'pi pi-fw pi-calendar-times',
                                     routerLink: ['/dashboard/serviceBookings/history'],
-                                    tooltip: 'Confirm/ amend current service/ MOT/ Tyre bookings or make a new online booking here with over 6,600 service/ tyre centres',
-                                },
-                            ],
+                                    tooltip: 'Confirm/ amend current service/ MOT/ Tyre bookings or make a new online booking here with over 6,600 service/ tyre centres'
+                                }
+                            ]
                         },
                         {
                             label: 'Statements',
@@ -103,9 +95,9 @@ export class AppMenu {
                                     label: 'Vehicle Statement',
                                     icon: 'pi pi-fw pi-file',
                                     routerLink: ['/dashboard/Statements'],
-                                    tooltip: 'View and export all spend/ statements here',
-                                },
-                            ],
+                                    tooltip: 'View and export all spend/ statements here'
+                                }
+                            ]
                         },
                         {
                             label: 'Accounts',
@@ -116,17 +108,17 @@ export class AppMenu {
                                     label: 'FleetHive Invoices',
                                     icon: 'pi pi-fw pi-server',
                                     routerLink: ['/dashboard/invoices/list'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 },
                                 {
                                     label: 'Payments',
                                     icon: 'pi pi-fw pi-wallet',
                                     routerLink: ['/dashboard/PaymentCheckout/list'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 }
-                            ],
-                        },
-                    ],
+                            ]
+                        }
+                    ]
                 },
                 {
                     label: 'Profile',
@@ -141,47 +133,45 @@ export class AppMenu {
                                     label: 'Users',
                                     icon: 'pi pi-fw pi-users',
                                     routerLink: ['/dashboard/portalUsers'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 },
 
                                 {
                                     label: 'Historic Invoices',
                                     icon: 'pi pi-fw pi-server',
                                     routerLink: ['/dashboard/serviceInvoices'],
-                                    tooltip: 'Access all previous service invoices here',
+                                    tooltip: 'Access all previous service invoices here'
                                 },
                                 {
                                     label: 'Items',
                                     icon: 'pi pi-fw pi-clipboard',
                                     routerLink: ['/dashboard/items'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 },
                                 {
                                     label: 'Account Head',
                                     icon: 'pi pi-fw pi-user',
                                     routerLink: ['/dashboard/accountHeads'],
-                                    tooltip: '',
-                                },
-                            ],
+                                    tooltip: ''
+                                }
+                            ]
                         },
                         {
                             label: 'Susbscription',
                             icon: 'pi pi-fw pi-pen-to-square',
                             routerLink: ['/dashboard/subscriptions'],
-                            tooltip: 'View and amend subscription/ cancel subscription here',
+                            tooltip: 'View and amend subscription/ cancel subscription here'
                         },
                         {
                             label: 'Referrals',
                             icon: 'pi pi-fw pi-id-card',
                             routerLink: ['/dashboard/referrals'],
-                            tooltip: 'Happy with the solution? Create an easy and simple referral here to earn monthly credits on your subscription for every successful referral',
+                            tooltip: 'Happy with the solution? Create an easy and simple referral here to earn monthly credits on your subscription for every successful referral'
                         }
-                    ],
-                },
-
+                    ]
+                }
             ];
-        }
-        else if (this.loggedInUserService.loggedInUser.AccountType == 'Tenant') {
+        } else if (this.loggedInUserService.loggedInUser.AccountType == 'Tenant') {
             this.model = [
                 {
                     label: 'Dashboards',
@@ -191,34 +181,33 @@ export class AppMenu {
                             label: 'My Task',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Approvals',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'tenants',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/tenants/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Subscription Plans',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/subscriptionPlans/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Customers',
                             icon: 'pi pi-fw pi-address-book',
                             routerLink: ['/dashboard/customers/list/'],
-                            tooltip: '',
+                            tooltip: ''
                         }
-                    ],
-
+                    ]
                 },
                 {
                     label: 'Foundation',
@@ -231,32 +220,33 @@ export class AppMenu {
                                 {
                                     label: 'Organisation Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
-                                    routerLink: ['/business/organisations/dashboard'],
+                                    routerLink: ['/business/organisations/dashboard']
                                 },
                                 {
                                     label: 'Companies & legal entities',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/business/organisations'],
-                                    tooltip: 'see you organisation/ legal entities here',
+                                    tooltip: 'see you organisation/ legal entities here'
                                 },
                                 {
                                     label: 'Regions and branches',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/business/organisations/units'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Locations',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/business/organisations/locations'],
-                                    tooltip: 'see your locations here',
+                                    tooltip: 'see your locations here'
                                 },
                                 {
                                     label: 'Departments',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/business/organisations/departments'],
                                     tooltip: ''
-                                }, {
+                                },
+                                {
                                     label: 'Cost / profit centres',
                                     icon: 'pi pi-fw pi-address-book',
                                     items: [
@@ -264,22 +254,23 @@ export class AppMenu {
                                             label: 'Cost Centres',
                                             icon: 'pi pi-fw pi-address-book',
                                             routerLink: ['/business/organisations/cost-centres'],
-                                            tooltip: '',
+                                            tooltip: ''
                                         },
                                         {
                                             label: 'Profit Centres',
                                             icon: 'pi pi-fw pi-address-book',
                                             routerLink: ['/business/organisations/profit-centres'],
-                                            tooltip: '',
+                                            tooltip: ''
                                         }
                                     ]
-                                }, {
+                                },
+                                {
                                     label: 'Business calendars',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/business/organisations/calendars'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 }
-                            ],
+                            ]
                         },
                         {
                             label: 'Party Management',
@@ -288,32 +279,32 @@ export class AppMenu {
                                 {
                                     label: 'Party Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
-                                    routerLink: ['/business/parties/dashboard'],
+                                    routerLink: ['/business/parties/dashboard']
                                 },
                                 {
                                     label: 'All parties',
                                     icon: 'pi pi-fw pi-sign-in',
-                                    routerLink: ['/business/parties'],
+                                    routerLink: ['/business/parties']
                                 },
                                 {
                                     label: 'Customer profiles',
                                     icon: 'pi pi-fw pi-times-circle',
-                                    routerLink: ['/business/parties/customer-profiles'],
+                                    routerLink: ['/business/parties/customer-profiles']
                                 },
                                 {
                                     label: 'Supplier profiles',
                                     icon: 'pi pi-fw pi-lock',
-                                    routerLink: ['/business/parties/supplier-profiles'],
+                                    routerLink: ['/business/parties/supplier-profiles']
                                 },
                                 {
                                     label: 'Party roles',
                                     icon: 'pi pi-fw pi-user-plus',
-                                    routerLink: ['/business/parties/roles'],
+                                    routerLink: ['/business/parties/roles']
                                 },
                                 {
                                     label: 'Party relationships',
                                     icon: 'pi pi-fw pi-question',
-                                    routerLink: ['/business/parties/relationships'],
+                                    routerLink: ['/business/parties/relationships']
                                 },
                                 {
                                     label: 'Contacts and documents',
@@ -322,7 +313,7 @@ export class AppMenu {
                                         {
                                             label: 'Party contacts',
                                             icon: 'pi pi-fw pi-question',
-                                            routerLink: ['/business/parties/contacts'],
+                                            routerLink: ['/business/parties/contacts']
                                         }
                                     ]
                                 },
@@ -334,44 +325,44 @@ export class AppMenu {
                                             label: 'GST registrations',
                                             icon: 'pi pi-fw pi-receipt',
                                             routerLink: ['/business/parties/gst-registrations'],
-                                            tooltip: 'View party GST registrations',
+                                            tooltip: 'View party GST registrations'
                                         },
                                         {
                                             label: 'Party Locations',
                                             icon: 'pi pi-fw pi-map-marker',
                                             routerLink: ['/business/parties/locations'],
-                                            tooltip: 'View party locations',
+                                            tooltip: 'View party locations'
                                         },
                                         {
                                             label: 'Tax profiles',
                                             icon: 'pi pi-fw pi-percentage',
                                             routerLink: ['/business/parties/tax-profiles'],
-                                            tooltip: 'View party tax registrations',
+                                            tooltip: 'View party tax registrations'
                                         },
                                         {
                                             label: 'Bank accounts',
                                             icon: 'pi pi-fw pi-building-columns',
                                             routerLink: ['/business/parties/bank-accounts'],
-                                            tooltip: 'View party bank accounts',
+                                            tooltip: 'View party bank accounts'
                                         },
                                         {
                                             label: 'Credit profiles',
                                             icon: 'pi pi-fw pi-chart-line',
-                                            routerLink: ['/business/parties/credit-profiles'],
+                                            routerLink: ['/business/parties/credit-profiles']
                                         },
                                         {
                                             label: 'KYC documents',
                                             icon: 'pi pi-fw pi-id-card',
-                                            routerLink: ['/business/parties/documents'],
+                                            routerLink: ['/business/parties/documents']
                                         },
                                         {
                                             label: 'Verification status',
                                             icon: 'pi pi-fw pi-verified',
-                                            routerLink: ['/business/parties/verification-status'],
+                                            routerLink: ['/business/parties/verification-status']
                                         }
-                                    ],
+                                    ]
                                 }
-                            ],
+                            ]
                         },
                         {
                             label: 'People & Access',
@@ -381,13 +372,13 @@ export class AppMenu {
                                     label: 'Application users',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/applicationUsers/list'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Asset users',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/assetUsers/list'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Roles and permissions',
@@ -417,27 +408,28 @@ export class AppMenu {
                                             label: 'User Party Access',
                                             icon: 'pi pi-fw pi-home',
                                             routerLink: ['/dashboard/userPartyAccesss/list']
-                                        },
-
+                                        }
                                     ]
                                 },
                                 {
                                     label: 'Organisation scope',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/customers/list/'],
-                                    tooltip: '',
-                                }, {
+                                    tooltip: ''
+                                },
+                                {
                                     label: 'Approval authority',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/approvalAuthoritys/list'],
-                                    tooltip: '',
-                                }, {
+                                    tooltip: ''
+                                },
+                                {
                                     label: 'Delegation',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/userDelegations/list/'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 }
-                            ],
+                            ]
                         },
                         {
                             label: 'Audit & Reporting',
@@ -447,37 +439,39 @@ export class AppMenu {
                                     label: 'Audit log',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/auditLogs/list/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Login history',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/admin/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Master-data changes',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/admin/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Approval history',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/customers/list/'],
-                                    tooltip: '',
-                                }, {
+                                    tooltip: ''
+                                },
+                                {
                                     label: 'Export centre',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/customers/list/'],
-                                    tooltip: '',
-                                }, {
+                                    tooltip: ''
+                                },
+                                {
                                     label: 'Operational reports',
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/dashboard/customers/list/'],
-                                    tooltip: '',
+                                    tooltip: ''
                                 }
-                            ],
+                            ]
                         },
                         {
                             label: 'Configurations and masters',
@@ -487,189 +481,186 @@ export class AppMenu {
                                     label: 'Number sequences',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/numberSequences/'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 }
-                            ],
-                        },
-                    ],
+                            ]
+                        }
+                    ]
                 },
-
-
- 
 
                 {
                     label: 'Business',
                     icon: 'pi pi-th-large',
                     items: [
-                          {
-            label: 'CRM & Origination',
-            icon: 'pi pi-fw pi-users',
-            items: [
-                {
-                    label: 'Dashboard',
-                    icon: 'pi pi-fw pi-chart-bar',
-                    routerLink: ['/business/crm/dashboard']
-                },
+                        {
+                            label: 'CRM & Origination',
+                            icon: 'pi pi-fw pi-users',
+                            items: [
+                                {
+                                    label: 'Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/business/crm/dashboard']
+                                },
 
-                {
-                    label: 'Leads',
-                    icon: 'pi pi-fw pi-user-plus',
-                    items: [
-                        {
-                            label: 'All Leads',
-                            icon: 'pi pi-fw pi-list',
-                            routerLink: ['/business/crm/leads']
-                        },
-                        {
-                            label: 'New Lead',
-                            icon: 'pi pi-fw pi-plus',
-                            routerLink: ['/business/crm/leads/new']
-                        },
-                        {
-                            label: 'My Leads',
-                            icon: 'pi pi-fw pi-user',
-                            routerLink: ['/business/crm/leads/my']
-                        },
-                        {
-                            label: 'Lead Activities',
-                            icon: 'pi pi-fw pi-calendar',
-                            routerLink: ['/business/crm/activities']
-                        }
-                    ]
-                },
+                                {
+                                    label: 'Leads',
+                                    icon: 'pi pi-fw pi-user-plus',
+                                    items: [
+                                        {
+                                            label: 'All Leads',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/crm/leads']
+                                        },
+                                        {
+                                            label: 'New Lead',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/crm/leads/new']
+                                        },
+                                        {
+                                            label: 'My Leads',
+                                            icon: 'pi pi-fw pi-user',
+                                            routerLink: ['/business/crm/leads/my']
+                                        },
+                                        {
+                                            label: 'Lead Activities',
+                                            icon: 'pi pi-fw pi-calendar',
+                                            routerLink: ['/business/crm/activities']
+                                        }
+                                    ]
+                                },
 
-                {
-                    label: 'Opportunities',
-                    icon: 'pi pi-fw pi-briefcase',
-                    items: [
-                        {
-                            label: 'Pipeline',
-                            icon: 'pi pi-fw pi-chart-line',
-                            routerLink: ['/business/crm/opportunities/pipeline']
-                        },
-                        {
-                            label: 'All Opportunities',
-                            icon: 'pi pi-fw pi-list',
-                            routerLink: ['/business/crm/opportunities']
-                        },
-                        {
-                            label: 'New Opportunity',
-                            icon: 'pi pi-fw pi-plus',
-                            routerLink: ['/business/crm/opportunities/new']
-                        }
-                    ]
-                },
+                                {
+                                    label: 'Opportunities',
+                                    icon: 'pi pi-fw pi-briefcase',
+                                    items: [
+                                        {
+                                            label: 'Pipeline',
+                                            icon: 'pi pi-fw pi-chart-line',
+                                            routerLink: ['/business/crm/dashboard']
+                                        },
+                                        {
+                                            label: 'All Opportunities',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/crm/opportunities']
+                                        },
+                                        {
+                                            label: 'New Opportunity',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/crm/opportunities/create']
+                                        }
+                                    ]
+                                },
 
-                {
-                    label: 'Lease Requirements',
-                    icon: 'pi pi-fw pi-file-edit',
-                    items: [
-                        {
-                            label: 'All Requirements',
-                            icon: 'pi pi-fw pi-list',
-                            routerLink: ['/business/origination/requirements']
-                        },
-                        {
-                            label: 'New Requirement',
-                            icon: 'pi pi-fw pi-plus',
-                            routerLink: ['/business/origination/requirements/new']
-                        }
-                    ]
-                },
+                                {
+                                    label: 'Lease Requirements',
+                                    icon: 'pi pi-fw pi-file-edit',
+                                    items: [
+                                        {
+                                            label: 'All Requirements',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/origination/requirements']
+                                        },
+                                        {
+                                            label: 'New Requirement',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/origination/requirements/create']
+                                        }
+                                    ]
+                                },
 
-                {
-                    label: 'Quotes',
-                    icon: 'pi pi-fw pi-file',
-                    items: [
-                        {
-                            label: 'All Quotes',
-                            icon: 'pi pi-fw pi-list',
-                            routerLink: ['/business/origination/quotes']
-                        },
-                        {
-                            label: 'Quotes for Approval',
-                            icon: 'pi pi-fw pi-check-square',
-                            routerLink: ['/business/origination/quotes/approvals']
-                        },
-                        {
-                            label: 'Issued Quotes',
-                            icon: 'pi pi-fw pi-send',
-                            routerLink: ['/business/origination/quotes/issued']
-                        }
-                    ]
-                },
+                                {
+                                    label: 'Quotes',
+                                    icon: 'pi pi-fw pi-file',
+                                    items: [
+                                        {
+                                            label: 'All Quotes',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/origination/quotes']
+                                        },
+                                        {
+                                            label: 'Quotes for Approval',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/business/origination/credit/approvals']
+                                        },
+                                        {
+                                            label: 'Issued Quotes',
+                                            icon: 'pi pi-fw pi-send',
+                                            routerLink: ['/business/origination/quotes']
+                                        }
+                                    ]
+                                },
 
-                {
-                    label: 'Credit',
-                    icon: 'pi pi-fw pi-credit-card',
-                    items: [
-                        {
-                            label: 'Credit Applications',
-                            icon: 'pi pi-fw pi-list',
-                            routerLink: ['/business/origination/credit/applications']
-                        },
-                        {
-                            label: 'Credit Review',
-                            icon: 'pi pi-fw pi-search',
-                            routerLink: ['/business/origination/credit/review']
-                        },
-                        {
-                            label: 'Credit Approvals',
-                            icon: 'pi pi-fw pi-check-circle',
-                            routerLink: ['/business/origination/credit/approvals']
-                        },
-                        {
-                            label: 'Credit Limits',
-                            icon: 'pi pi-fw pi-wallet',
-                            routerLink: ['/business/origination/credit/limits']
-                        }
-                    ]
-                },
+                                {
+                                    label: 'Credit',
+                                    icon: 'pi pi-fw pi-credit-card',
+                                    items: [
+                                        {
+                                            label: 'Credit Applications',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/origination/credit/applications']
+                                        },
+                                        {
+                                            label: 'Credit Review',
+                                            icon: 'pi pi-fw pi-search',
+                                            routerLink: ['/business/origination/credit/review']
+                                        },
+                                        {
+                                            label: 'Credit Approvals',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/business/origination/credit/approvals']
+                                        },
+                                        {
+                                            label: 'Credit Limits',
+                                            icon: 'pi pi-fw pi-wallet',
+                                            routerLink: ['/business/origination/credit/limits']
+                                        }
+                                    ]
+                                },
 
-                {
-                    label: 'Approvals',
-                    icon: 'pi pi-fw pi-verified',
-                    routerLink: ['/business/origination/approvals']
-                },
+                                {
+                                    label: 'Approvals',
+                                    icon: 'pi pi-fw pi-verified',
+                                    routerLink: ['/business/origination/approvals']
+                                },
 
-                {
-                    label: 'Contract Handoffs',
-                    icon: 'pi pi-fw pi-arrow-right-arrow-left',
-                    routerLink: ['/business/origination/handoffs']
-                },
+                                {
+                                    label: 'Contract Handoffs',
+                                    icon: 'pi pi-fw pi-arrow-right-arrow-left',
+                                    routerLink: ['/business/origination/handoffs']
+                                },
 
-                {
-                    separator: true
-                },
+                                {
+                                    separator: true
+                                },
 
-                {
-                    label: 'Configuration',
-                    icon: 'pi pi-fw pi-cog',
-                    items: [
-                        {
-                            label: 'Lead Sources',
-                            routerLink: ['/business/crm/config/lead-sources']
-                        },  
-                        {
-                            label: 'Lead Statuses',
-                            routerLink: ['/business/crm/config/lead-statuses']
+                                {
+                                    label: 'Configuration',
+                                    icon: 'pi pi-fw pi-cog',
+                                    items: [
+                                        {
+                                            label: 'Lead Sources',
+                                            routerLink: ['/business/crm/config/lead-sources']
+                                        },
+                                        {
+                                            label: 'Lead Statuses',
+                                            routerLink: ['/business/crm/config/lead-statuses']
+                                        },
+                                        {
+                                            label: 'Opportunity Stages',
+                                            routerLink: ['/business/crm/config/opportunity-stages']
+                                        },
+                                        {
+                                            label: 'Quote Statuses',
+                                            routerLink: ['/business/origination/config/quote-statuses']
+                                        },
+                                        {
+                                            label: 'Credit Statuses',
+                                            routerLink: ['/business/origination/config/credit-statuses']
+                                        }
+                                    ]
+                                }
+                            ]
                         },
-                        {
-                            label: 'Opportunity Stages',
-                            routerLink: ['/business/crm/config/opportunity-stages']
-                        },
-                        {
-                            label: 'Quote Statuses',
-                            routerLink: ['/business/origination/config/quote-statuses']
-                        },
-                        {
-                            label: 'Credit Statuses',
-                            routerLink: ['/business/origination/config/credit-statuses']
-                        }
-                    ]
-                }
-            ]
-        },
                         {
                             label: 'Assets',
                             icon: 'pi pi-fw pi-box',
@@ -678,7 +669,7 @@ export class AppMenu {
                                     label: 'Asset Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/business/assets/dashboard'],
-                                    tooltip: 'See your fleet/ actions and costs here',
+                                    tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
                                     label: 'Asset Worklist',
@@ -710,11 +701,10 @@ export class AppMenu {
                                             label: 'Models & Variants',
                                             routerLink: ['/business/assets/classification/models']
                                         },
-                                          {
+                                        {
                                             label: 'Asset identifiers',
                                             routerLink: ['/business/assets/classification/identifiers']
                                         },
-
 
                                         {
                                             label: 'Attribute Definitions',
@@ -723,36 +713,34 @@ export class AppMenu {
                                                     label: 'Asset Attribute Definitions',
                                                     routerLink: ['/business/assets/classification/attribute-definitions']
                                                 },
-                                                 {
+                                                {
                                                     label: 'Asset Attribute Options',
                                                     routerLink: ['/business/assets/classification/attribute-options']
                                                 },
-                                             {
+                                                {
                                                     label: 'Asset Attribute Values',
                                                     routerLink: ['/business/assets/classification/attribute-values']
                                                 },
-                                                 {
+                                                {
                                                     label: 'Asset Statuses',
                                                     routerLink: ['/business/assets/classification/statuses']
-                                                }, 
-                                               {
+                                                },
+                                                {
                                                     label: 'Asset Status History',
                                                     routerLink: ['/business/assets/status-history']
-                                                },  
-                                              {
+                                                },
+                                                {
                                                     label: 'Asset Condition Grades',
                                                     routerLink: ['/business/assets/condition-grades']
-                                                },     
-                                                  {
+                                                },
+                                                {
                                                     label: 'Asset Ownership History',
                                                     routerLink: ['/business/assets/ownership-history']
-                                                },    
-                                                  {
+                                                },
+                                                {
                                                     label: 'Asset Location History',
                                                     routerLink: ['/business/assets/location-history']
-                                                } 
-                                                
-                                                
+                                                }
                                             ]
                                         },
 
@@ -893,32 +881,28 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-history',
                                     routerLink: ['/business/assets/lifecycle']
                                 }
-                            ],
+                            ]
                         },
                         {
                             label: 'Procurement',
                             icon: 'pi pi-fw pi-shopping-cart',
-                            items: [
-                            ],
+                            items: []
                         },
                         {
                             label: 'Contracts',
                             icon: 'pi pi-fw pi-file',
-                            items: [
-                            ],
+                            items: []
                         },
                         {
                             label: 'Billing and Finance',
                             icon: 'pi pi-fw pi-wallet',
-                            items: [
-                            ],
+                            items: []
                         },
                         {
                             label: 'Operations',
                             icon: 'pi pi-fw pi-cog',
-                            items: [
-                            ],
-                        },
+                            items: []
+                        }
                     ]
                 },
                 {
@@ -929,31 +913,30 @@ export class AppMenu {
                             label: 'Configurations',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Integrations',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Audit and Logs',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Reports',
                             icon: 'pi pi-fw pi-address-book',
                             routerLink: ['/dashboard/customers/list/'],
-                            tooltip: '',
+                            tooltip: ''
                         }
-                    ],
-                },
+                    ]
+                }
             ];
-        }
-        else {
+        } else {
             this.model = [
                 {
                     label: 'Dashboards',
@@ -963,38 +946,35 @@ export class AppMenu {
                             label: 'My Task',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Approvals',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'tenants',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/tenants/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Subscription Plans',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/subscriptionPlans/'],
-                            tooltip: 'See your fleet/ actions and costs here',
+                            tooltip: 'See your fleet/ actions and costs here'
                         },
                         {
                             label: 'Customers',
                             icon: 'pi pi-fw pi-address-book',
                             routerLink: ['/dashboard/customers/list/'],
-                            tooltip: '',
+                            tooltip: ''
                         }
-                    ],
-
+                    ]
                 }
-
             ];
         }
-
     }
 }
