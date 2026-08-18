@@ -1,45 +1,73 @@
-<div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'Party List'" [PageType]="'List'">
-			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<p-inputGroup>
-					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
-						[(ngModel)]="objSearch.Name" />
-					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-				</p-inputGroup>
-			</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
-				responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="PartyId" style="width:200px">Id <p-sortIcon field="PartyId" /> </th>
-						<th style="width:200px">Code <p-sortIcon field="PartyCode" /> </th>
-						<th style="width:200px">Kind <p-sortIcon field="PartyKind" /> </th>
-						<th style="width:200px">Trade Name <p-sortIcon field="TradeName" /> </th>
-						<th style="width:200px">Registration Number <p-sortIcon field="RegistrationNumber" /> </th>
-						<th style="width:200px">Industry Code <p-sortIcon field="IndustryCode" /> </th>
-						<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.PartyId}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.PartyCode}}</td>
-						<td style="width:200px">{{obj.PartyKind}}</td>
-						<td style="width:200px">{{obj.TradeName}}</td>
-						<td style="width:200px">{{obj.RegistrationNumber}}</td>
-						<td style="width:200px">{{obj.IndustryCode}}</td>
-						<td style="width:200px">{{obj.RecordStatus}}</td>
+<div class="grid list-page">
+  <div class="col-12">
+    <div class="card list-card">
+      <app-message [AlertType]="'message'"></app-message>
+      <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+        [Caption]="'Party List'" [PageType]="'List'"></app-toolbar-buttons>
+      <app-spinner></app-spinner>
 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
+      <div class="list-heading list-heading-compact">
+        <div><p>Manage customers, suppliers and other business parties from one place.</p></div>
+        <div class="record-count-inline" aria-label="Total parties">
+          <i class="pi pi-users"></i><strong>{{ totalNoOfRecords }}</strong><span>parties</span>
+        </div>
+      </div>
+
+      <div class="list-search">
+        <i class="pi pi-search"></i>
+        <input type="search" pInputText placeholder="Search by party code..." [(ngModel)]="objSearch.Code"
+          (keyup.enter)="search()" aria-label="Search parties" />
+        <button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
+        <button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button>
+      </div>
+
+      <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll"
+        styleClass="list-table" [tableStyle]="{ 'min-width': '1120px' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="TradeName">Party <p-sortIcon field="TradeName" /></th>
+            <th pSortableColumn="PartyKind">Type <p-sortIcon field="PartyKind" /></th>
+            <th>Registration</th>
+            <th>Business details</th>
+            <th>Related party</th>
+            <th>Onboarding</th>
+            <th>Status</th>
+            <th class="list-actions-column">Quick actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-obj>
+          <tr>
+            <td>
+              <div class="list-primary-cell">
+                <span class="list-avatar">{{ getPartyInitials(obj) }}</span>
+                <div>
+                  <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.TradeName || obj.LegalName || 'Unnamed party' }}</button>
+                  <span class="list-secondary">{{ obj.PartyCode || ('#' + obj.Id) }}<ng-container *ngIf="obj.TradeName && obj.LegalName"> · {{ obj.LegalName }}</ng-container></span>
+                </div>
+              </div>
+            </td>
+            <td><span class="list-chip"><i class="pi pi-building"></i>{{ obj.PartyKind || 'Not specified' }}</span></td>
+            <td class="list-cell"><strong>{{ obj.RegistrationNumber || 'Not recorded' }}</strong><span class="list-secondary">PAN: {{ obj.PAN || '—' }}</span></td>
+            <td class="list-cell"><strong>{{ obj.IndustryCode || 'Industry not set' }}</strong><span class="list-secondary">{{ obj.CountryOfRegistration || 'Country not set' }} · {{ obj.PreferredCurrencyCode || 'Currency not set' }}</span></td>
+            <td><span class="list-chip"><i class="pi" [ngClass]="obj.IsRelatedParty ? 'pi-check-circle' : 'pi-minus-circle'"></i>{{ obj.IsRelatedParty ? 'Related' : 'Not related' }}</span></td>
+            <td><span class="list-status" [ngClass]="getStatusClass(obj.OnboardingStatus)"><i class="list-status-dot"></i>{{ obj.OnboardingStatus || 'Pending' }}</span></td>
+            <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+            <td>
+              <div class="list-actions">
+                <button type="button" class="list-action view" title="View party" aria-label="View party" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
+                <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit party" aria-label="Edit party" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr><td colspan="8"><div class="list-empty"><i class="pi pi-users"></i><strong>No parties found</strong><span>Try changing your search or create a new party.</span></div></td></tr>
+        </ng-template>
+      </p-table>
+
+      <p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows"
+        [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)" />
+    </div>
+  </div>
 </div>

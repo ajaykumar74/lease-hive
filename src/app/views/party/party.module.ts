@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { PaginatorModule } from 'primeng/paginator';
 import { PartyListComponent } from './party-list.component';
 import { PartyCreateComponent } from './party-create.component';
 import { PartyEditComponent } from './party-edit.component';
@@ -43,6 +44,7 @@ import { PartyRoutingModule } from './party-routing.module';
 		MySharedModule, 
 		FluidModule,
 		SplitButtonModule,
+		PaginatorModule,
 		PartyRoutingModule,
 	],
 	declarations: [

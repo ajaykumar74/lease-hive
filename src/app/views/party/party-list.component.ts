@@ -21,8 +21,8 @@ export class PartyListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IParty[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IParty[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -46,7 +46,7 @@ export class PartyListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.partyService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +69,10 @@ export class PartyListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -142,6 +144,26 @@ export class PartyListComponent implements OnInit {
     } 
   
   };
+
+  onViewClick(party: IParty): void {
+    this.router.navigate(['/business/parties/view', party.Id], { state: { party } });
+  }
+
+  onEditClick(party: IParty): void {
+    this.router.navigate(['/business/parties/edit', party.Id], { state: { party } });
+  }
+
+  getPartyInitials(party: IParty): string {
+    const value = party.TradeName || party.LegalName || party.PartyCode || 'Party';
+    return value.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('approved') || value.includes('complete')) return 'status-active';
+    if (value.includes('inactive') || value.includes('blocked') || value.includes('rejected')) return 'status-closed';
+    return 'status-pending';
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
