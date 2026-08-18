@@ -1,48 +1,41 @@
-<div class="grid">
+<div class="grid list-page">
 	<div class="col-12">
-		<div class="card">
+		<div class="card list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 				[Caption]="'AssetCategory List'" [PageType]="'List'">
 			</app-toolbar-buttons>
 			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<p-inputGroup>
-					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
-						[(ngModel)]="objSearch.Name" />
-					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-				</p-inputGroup>
+			<div class="list-heading list-heading-compact"><p>Manage asset classification records.</p><div class="record-count-inline"><i class="pi pi-tags"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
+			<div class="list-search">
+				<i class="pi pi-search"></i>
+				<input type="search" pInputText placeholder="Search records..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+				<button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
+				<button type="button" pButton label="Clear" icon="pi pi-times" [text]="true" (click)="clearSearch()"></button>
 			</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
+			<p-table [value]="lstMain" [loading]="isLoading" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table"
 				responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
-						<th style="width:200px">CategoryCode <p-sortIcon field="CategoryCode" /> </th> 
-						<th style="width:200px">CategoryName <p-sortIcon field="CategoryName" /> </th>
-						<th style="width:200px">SupportsRegistration <p-sortIcon field="SupportsRegistration" /> </th>
-						<th style="width:200px">SupportsMeasure <p-sortIcon field="SupportsMeasure" /> </th>
-						<th style="width:200px">RecordStatus <p-sortIcon field="RecordStatus" /> </th>
+						<th>Category</th>
+						<th>Capabilities</th>
+						<th>Extension type</th>
+						<th>Parent category</th>
+						<th>Record status</th>
+						<th class="list-actions-column">Quick actions</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.Id}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.CategoryCode}}</td>
-<td style="width:200px">{{obj.CategoryCode}}</td>
-
-<td style="width:200px">{{obj.CategoryName}}</td>
-
-<td style="width:200px">{{obj.SupportsRegistration}}</td>
-
-<td style="width:200px">{{obj.SupportsMeasure}}</td>
-
-<td style="width:200px">{{obj.RecordStatus}}</td>
-
-
+						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-tags"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.CategoryName || 'Unnamed category' }}</button><span class="list-secondary">{{ obj.AssetCategoryId || ('#' + obj.Id) }}</span></div></div></td>
+						<td><span class="list-chip"><i class="pi pi-check-circle"></i>{{ obj.SupportsRegistration ? 'Registration' : 'No registration' }}</span> <span class="list-chip"><i class="pi pi-chart-line"></i>{{ obj.SupportsMeasure ? 'Measured' : 'Not measured' }}</span></td>
+						<td>{{ obj.ExtensionTypeCode || '—' }}</td>
+						<td>{{ obj.ParentCategoryId || 'Root category' }}</td>
+						<td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+						<td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View category" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit category" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
 					</tr>
 				</ng-template>
+				<ng-template pTemplate="emptymessage"><tr><td colspan="99"><div class="list-empty"><i class="pi pi-inbox"></i><strong>No records found</strong><span>Try changing your search or create a new record.</span></div></td></tr></ng-template>
 			</p-table>
 			<p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows"
 				[totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true"

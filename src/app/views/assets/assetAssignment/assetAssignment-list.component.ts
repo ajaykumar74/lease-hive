@@ -156,6 +156,20 @@ export class AssetAssignmentListComponent implements OnInit {
 
   }
 
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('available') || value.includes('approved')) return 'status-active';
+    if (value.includes('inactive') || value.includes('closed') || value.includes('retired')) return 'status-closed';
+    return 'status-pending';
+  }
+
+  onViewClick(obj: any): void {
+    const route = this.assetId
+      ? ['/business/assets/assignments/asset', this.assetId, 'view', obj.Id]
+      : ['/business/assets/assignments/view', obj.Id];
+    this.router.navigate(route);
+  }
+
   onDetailsClick(obj: any): void {
     const route = this.assetId
       ? ['/business/assets/assignments/asset', this.assetId, this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view', obj.Id]

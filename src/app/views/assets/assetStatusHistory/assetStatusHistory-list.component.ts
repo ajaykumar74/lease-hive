@@ -134,6 +134,17 @@ export class AssetStatusHistoryListComponent implements OnInit {
 
   }
 
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('available') || value.includes('approved')) return 'status-active';
+    if (value.includes('inactive') || value.includes('closed') || value.includes('retired')) return 'status-closed';
+    return 'status-pending';
+  }
+
+  onViewClick(obj: any): void {
+    this.router.navigate(['/business/assets/status-history/view', obj.Id]);
+  }
+
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
         this.router.navigate(['/business/assets/status-history/edit/' + obj.Id]);

@@ -142,6 +142,13 @@ export class AssetInspectionListComponent implements OnInit {
 
   }
 
+  onViewClick(obj: any): void {
+    const route = this.assetId
+      ? ['/business/assets/inspections/asset', this.assetId, 'view', obj.Id]
+      : ['/business/assets/inspections/view', obj.Id];
+    this.router.navigate(route);
+  }
+
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.assetId

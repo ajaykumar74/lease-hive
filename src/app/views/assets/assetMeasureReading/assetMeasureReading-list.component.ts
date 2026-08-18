@@ -135,6 +135,10 @@ export class AssetMeasureReadingListComponent implements OnInit {
 
   }
 
+  onViewClick(obj: any): void {
+    this.router.navigate(['/business/assets/measures/readings/view', obj.Id]);
+  }
+
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
         this.router.navigate(['/business/assets/measures/readings/edit/' + obj.Id]);

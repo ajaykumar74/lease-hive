@@ -134,6 +134,10 @@ export class AssetAssignmentHistoryListComponent implements OnInit {
 
   }
 
+  onViewClick(obj: any): void {
+    this.router.navigate(['/business/assets/assignments/history/view', obj.Id]);
+  }
+
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
         this.router.navigate(['/business/assets/assignments/history/edit/' + obj.Id]);

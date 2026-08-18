@@ -1,42 +1,46 @@
-<div class="grid"> 
+<div class="grid list-page">
 	<div class="col-12">
-		<div class="card"> 
+		<div class="card list-card"> 
             <app-message [AlertType]="'message'"></app-message> 
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetConditionGrade List'"
 					[PageType]="'List'">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
-                </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<div class="list-heading list-heading-compact"><p>Configure asset condition and quality grades.</p><div class="record-count-inline"><i class="pi pi-star"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
+				<div class="list-search">
+					<i class="pi pi-search"></i>
+					<input type="search" pInputText placeholder="Search records..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+					<button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
+					<button type="button" pButton label="Clear" icon="pi pi-times" [text]="true" (click)="clearSearch()"></button>
+				</div>
+			<p-table [value]="lstMain" [loading]="isLoading" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						<th>Record</th> 
 						 <th style="width:200px">Grade Code <p-sortIcon field="GradeCode" /> </th> 
 <th style="width:200px">Grade Name <p-sortIcon field="GradeName" /> </th> 
 <th style="width:200px">Score From <p-sortIcon field="ScoreFrom" /> </th> 
 <th style="width:200px">Score To <p-sortIcon field="ScoreTo" /> </th> 
 <th style="width:200px">Is Leaseable <p-sortIcon field="IsLeaseable" /> </th> 
 <th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+<th class="list-actions-column">Quick actions</th>
 
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-star"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.GradeName || "Unnamed grade"}}</button><span class="list-secondary">{{obj.ConditionGradeId || ("#" + obj.Id)}}</span></div></div></td>
                          <td style="width:200px">{{obj.GradeCode}}</td>
  <td style="width:200px">{{obj.GradeName}}</td>
  <td style="width:200px">{{obj.ScoreFrom | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ScoreTo | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.IsLeaseable | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+<td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+ <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
  
 					</tr>
 				</ng-template>
+				<ng-template pTemplate="emptymessage"><tr><td colspan="99"><div class="list-empty"><i class="pi pi-inbox"></i><strong>No records found</strong><span>Try changing your search or create a new record.</span></div></td></tr></ng-template>
 			</p-table>
 		</div>
 	</div> 

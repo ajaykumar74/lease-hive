@@ -1,42 +1,46 @@
-<div class="grid"> 
+<div class="grid list-page">
 	<div class="col-12">
-		<div class="card"> 
+		<div class="card list-card"> 
             <app-message [AlertType]="'message'"></app-message> 
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetMake List'"
 					[PageType]="'List'">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
-                </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<div class="list-heading list-heading-compact"><p>Manage asset classification records.</p><div class="record-count-inline"><i class="pi pi-tags"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
+				<div class="list-search">
+					<i class="pi pi-search"></i>
+					<input type="search" pInputText placeholder="Search records..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+					<button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
+					<button type="button" pButton label="Clear" icon="pi pi-times" [text]="true" (click)="clearSearch()"></button>
+				</div>
+			<p-table [value]="lstMain" [loading]="isLoading" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						<th>Record</th> 
 						 <th style="width:200px">Manufacturer Party Id <p-sortIcon field="ManufacturerPartyId" /> </th> 
 <th style="width:200px">Make Code <p-sortIcon field="MakeCode" /> </th> 
 <th style="width:200px">Make Name <p-sortIcon field="MakeName" /> </th> 
 <th style="width:200px">Asset CategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
 <th style="width:200px">Country Code <p-sortIcon field="CountryCode" /> </th> 
 <th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+<th class="list-actions-column">Quick actions</th>
 
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-building"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.MakeName || "Unnamed make"}}</button><span class="list-secondary">{{obj.AssetMakeId || ("#" + obj.Id)}}</span></div></div></td>
                          <td style="width:200px">{{obj.ManufacturerPartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.MakeCode}}</td>
  <td style="width:200px">{{obj.MakeName}}</td>
  <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.CountryCode}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+<td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+ <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
  
 					</tr>
 				</ng-template>
+				<ng-template pTemplate="emptymessage"><tr><td colspan="99"><div class="list-empty"><i class="pi pi-inbox"></i><strong>No records found</strong><span>Try changing your search or create a new record.</span></div></td></tr></ng-template>
 			</p-table>
 			<p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows"
 				[totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true"

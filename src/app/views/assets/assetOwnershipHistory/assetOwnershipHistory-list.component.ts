@@ -142,6 +142,20 @@ export class AssetOwnershipHistoryListComponent implements OnInit {
 
   }
 
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('available') || value.includes('approved')) return 'status-active';
+    if (value.includes('inactive') || value.includes('closed') || value.includes('retired')) return 'status-closed';
+    return 'status-pending';
+  }
+
+  onViewClick(obj: any): void {
+    const route = this.assetId
+      ? ['/business/assets/ownership-history/asset', this.assetId, 'view', obj.Id]
+      : ['/business/assets/ownership-history/view', obj.Id];
+    this.router.navigate(route);
+  }
+
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.assetId
