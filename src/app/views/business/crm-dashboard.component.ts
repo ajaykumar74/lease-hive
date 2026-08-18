@@ -113,6 +113,13 @@ export class CrmDashboardComponent implements OnInit {
         return this.leads.filter(item => !!item.QualifiedOn || !!item.QualifiedPartyId).length;
     }
 
+    get recentLeads(): any[] {
+        return [...this.leads]
+            .filter(item => this.isInSelectedPeriod(item.CreatedDateTime || item.EffectiveFrom))
+            .sort((a, b) => this.timeOf(this.asDate(b.CreatedDateTime)) - this.timeOf(this.asDate(a.CreatedDateTime)))
+            .slice(0, 5);
+    }
+
     get leadConversionRate(): number {
         return this.activeLeadCount ? (this.openOpportunities.length / this.activeLeadCount) * 100 : 0;
     }
@@ -123,7 +130,7 @@ export class CrmDashboardComponent implements OnInit {
         const searchParam = this.createSearchParam();
 
         forkJoin({
-            leads: this.leadService.search(searchParam).pipe(catchError(() => this.failedFeed())),
+            leads: this.leadService.GetAll(false).pipe(catchError(() => this.failedFeed())),
             opportunities: this.opportunityService.search(searchParam).pipe(catchError(() => this.failedFeed())),
             activities: this.activityService.search(searchParam).pipe(catchError(() => this.failedFeed())),
             stages: this.stageService.GetAll(false).pipe(catchError(() => this.failedFeed()))
@@ -144,6 +151,10 @@ export class CrmDashboardComponent implements OnInit {
 
     openOpportunity(item: DashboardOpportunity): void {
         this.router.navigate(['/business/crm/opportunities/view', item.id]);
+    }
+
+    openLead(item: any): void {
+        this.router.navigate(['/business/crm/leads/view', item.Id]);
     }
 
     getActivityIcon(type: string): string {
@@ -182,6 +193,11 @@ export class CrmDashboardComponent implements OnInit {
         if (this.selectedPeriod === 'year') return new Date(today.getFullYear(), 0, 1);
         if (this.selectedPeriod === 'quarter') return new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3, 1);
         return new Date(today.getFullYear(), today.getMonth(), 1);
+    }
+
+    private isInSelectedPeriod(value: any): boolean {
+        const date = this.asDate(value);
+        return !!date && date >= this.periodStart();
     }
 
     private failedFeed() {

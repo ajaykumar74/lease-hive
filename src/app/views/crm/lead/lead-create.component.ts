@@ -34,7 +34,6 @@ export class LeadCreateComponent implements OnInit {
   leadstatusidOptions: ISelectItem[] = [];
   interestedassetcategoryidOptions: ISelectItem[] = [];
   currencycodeOptions: ISelectItem[] = [];
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any;
   objMaster: ILead = {} as ILead;
@@ -75,29 +74,24 @@ export class LeadCreateComponent implements OnInit {
       CurrencyCode: new FormControl('', [Validators.maxLength(20),]),
       ExpectedCloseDate: new FormControl(new Date(), []),
       DisqualificationReason: new FormControl('', [Validators.maxLength(100),]),
-      RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-      EffectiveTo: new FormControl(new Date(), []),
       Description: new FormControl('', [Validators.maxLength(100),]),
+      EstimatedValue: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
-    this.originatingorganisationidOptions.push({ Text: 'Org1', Value: 'Org1' });
-    this.originatingorganisationidOptions.push({ Text: 'Org2', Value: 'Org2' });
-    this.ownerorganisationunitidOptions.push({ Text: 'OrgUnit1', Value: 'OrgUnit1' });
-    this.ownerorganisationunitidOptions.push({ Text: 'OrgUnit2', Value: 'OrgUnit2' });
-    this.owneruseridOptions.push({ Text: 'AppUser1', Value: 'AppUser1' });
-    this.owneruseridOptions.push({ Text: 'AppUser2', Value: 'AppUser2' });
-    this.leadsourceidOptions.push({ Text: 'Source1', Value: 'Source1' });
-    this.leadsourceidOptions.push({ Text: 'Source2', Value: 'Source2' });
-    this.leadstatusidOptions.push({ Text: 'Status1', Value: 'Status1' });
-    this.leadstatusidOptions.push({ Text: 'Status2', Value: 'Status2' });
-    this.interestedassetcategoryidOptions.push({ Text: 'AssetCat1', Value: 'AssetCat1' });
-    this.interestedassetcategoryidOptions.push({ Text: 'AssetCat2', Value: 'AssetCat2' });
+    this.loadLookups();
     this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
     this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-    this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-    this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
     this.Caption = 'Create Lead';
+  }
+
+  private loadLookups(): void {
+    this.loggedInUserService.getOrganisationOptions().subscribe(options => this.originatingorganisationidOptions = options);
+    this.loggedInUserService.getLookupOptions('organisation-units').subscribe(options => this.ownerorganisationunitidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions().subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-sources').subscribe(options => this.leadsourceidOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-statuses').subscribe(options => this.leadstatusidOptions = options);
+    this.loggedInUserService.getLookupOptions('asset-categories').subscribe(options => this.interestedassetcategoryidOptions = options);
   }
 
   loadUI(): void {
@@ -132,9 +126,7 @@ export class LeadCreateComponent implements OnInit {
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
         DisqualificationReason: obj.DisqualificationReason || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
 
       }
@@ -174,12 +166,11 @@ export class LeadCreateComponent implements OnInit {
         Phone: obj.Phone || '',
         CountryCode: obj.CountryCode || '',
         InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
+        EstimatedValue: obj.EstimatedValue || 0,
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
         DisqualificationReason: obj.DisqualificationReason || '',
-        RecordStatus: obj.RecordStatus || '',
         EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
 
       }
@@ -214,9 +205,9 @@ export class LeadCreateComponent implements OnInit {
       CurrencyCode: formValues.CurrencyCode || null,
       ExpectedCloseDate: formValues.ExpectedCloseDate || null,
       DisqualificationReason: formValues.DisqualificationReason || null,
-      RecordStatus: formValues.RecordStatus || null,
+      RecordStatus: 'Active',
       EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveTo: null,
       Description: formValues.Description || null,
 
     } as ILead;

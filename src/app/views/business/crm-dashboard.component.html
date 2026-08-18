@@ -91,6 +91,18 @@
         </section>
     </div>
 
+    <section class="card attention-panel">
+        <div class="panel-heading">
+            <div><h2>Recent leads</h2><span>Latest leads created during the selected period</span></div>
+            <p-button label="View all" [text]="true" size="small" routerLink="/business/crm/leads" />
+        </div>
+        <p-table [value]="recentLeads" [loading]="isLoading" responsiveLayout="scroll" styleClass="p-datatable-sm">
+            <ng-template pTemplate="header"><tr><th>Prospect</th><th>Contact</th><th>Status</th><th>Expected close</th><th class="text-right">Estimated value</th></tr></ng-template>
+            <ng-template pTemplate="body" let-item><tr class="clickable-row" (click)="openLead(item)"><td><strong>{{ item.ProspectName }}</strong><small>{{ item.Email || item.Phone || 'No contact details' }}</small></td><td>{{ item.ContactName || 'Not assigned' }}</td><td><p-tag [value]="item.RecordStatus || 'Active'" [severity]="item.RecordStatus === 'Active' ? 'success' : 'secondary'" /></td><td>{{ item.ExpectedCloseDate ? (item.ExpectedCloseDate | date:'dd MMM y') : 'Not set' }}</td><td class="text-right whitespace-nowrap">{{ item.EstimatedValue | currency:(item.CurrencyCode || 'GBP'):'symbol':'1.0-0' }}</td></tr></ng-template>
+            <ng-template pTemplate="emptymessage"><tr><td colspan="5"><div class="table-empty">No leads were created during this period.</div></td></tr></ng-template>
+        </p-table>
+    </section>
+
     <div class="dashboard-bottom-grid">
         <section class="card attention-panel">
             <div class="panel-heading">

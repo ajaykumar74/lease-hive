@@ -81,24 +81,22 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 
-   this.originatingorganisationidOptions.push({Text: 'Org1', Value: 'Org1' });
-this.originatingorganisationidOptions.push({Text: 'Org2', Value: 'Org2' });
-this.ownerorganisationunitidOptions.push({Text: 'OrgUnit1', Value: 'OrgUnit1' });
-this.ownerorganisationunitidOptions.push({Text: 'OrgUnit2', Value: 'OrgUnit2' });
-this.owneruseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.owneruseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
-this.leadsourceidOptions.push({Text: 'Source1', Value: 'Source1' });
-this.leadsourceidOptions.push({Text: 'Source2', Value: 'Source2' });
-this.leadstatusidOptions.push({Text: 'Status1', Value: 'Status1' });
-this.leadstatusidOptions.push({Text: 'Status2', Value: 'Status2' });
-this.interestedassetcategoryidOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
-this.interestedassetcategoryidOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
+this.loadLookups();
 this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
 this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  private loadLookups(selected?: ILead): void {
+    this.loggedInUserService.getOrganisationOptions(selected?.OriginatingOrganisationId).subscribe(options => this.originatingorganisationidOptions = options);
+    this.loggedInUserService.getLookupOptions('organisation-units', selected?.OwnerOrganisationUnitId).subscribe(options => this.ownerorganisationunitidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions(selected?.OwnerUserId).subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-sources', selected?.LeadSourceId).subscribe(options => this.leadsourceidOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-statuses', selected?.LeadStatusId).subscribe(options => this.leadstatusidOptions = options);
+    this.loggedInUserService.getLookupOptions('asset-categories', selected?.InterestedAssetCategoryId).subscribe(options => this.interestedassetcategoryidOptions = options);
   }
 
   ngAfterViewInit(): void {
@@ -123,6 +121,7 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   } 
 
   populateUI(obj: ILead): void {  
+    this.loadLookups(obj);
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
