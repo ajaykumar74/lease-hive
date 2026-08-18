@@ -53,54 +53,9 @@ const routes: Routes = [
         loadChildren: () => import('@/views/tenants/tenant/tenant.module').then(c => c.TenantModule),
       },
       {
-        path: 'organisations',
-        data: { breadcrumb: 'organisations' },
-        loadChildren: () => import('@/views/organisation/organisation.module').then(c => c.OrganisationModule),
-      },
-      {
-        path: 'organisationUnits',
-        data: { breadcrumb: 'Organisation Units' },
-        loadChildren: () => import('@/views/organisationUnit/organisationUnit.module').then(c => c.OrganisationUnitModule),
-      },
-      {
-        path: 'organisationUnitLocations',
-        data: { breadcrumb: 'organisationUnitLocations' },
-        loadChildren: () => import('@/views/organisationUnitLocation/organisationUnitLocation.module').then(c => c.OrganisationUnitLocationModule),
-      },
-      {
-        path: 'businessCalendars',
-        data: { breadcrumb: 'Business Calendars' },
-        loadChildren: () => import('@/views/businessCalendar/businessCalendar.module').then(c => c.BusinessCalendarModule),
-      },
-      {
-        path: 'businessCalendarHolidays',
-        data: { breadcrumb: 'Business Calendar Holidays' },
-        loadChildren: () => import('@/views/businessCalendarHoliday/businessCalendarHoliday.module').then(c => c.BusinessCalendarHolidayModule),
-      },
-      {
-        path: 'locations',
-        data: { breadcrumb: 'Locations' },
-        loadChildren: () => import('@/views/location/location.module').then(c => c.LocationModule),
-      },
-      {
         path: 'subscriptionPlans',
         data: { breadcrumb: 'Subscription Plans' },
         loadChildren: () => import('@/views/tenants/subscriptionPlan/subscriptionPlan.module').then(c => c.SubscriptionPlanModule),
-      },
-      {
-        path: 'departments',
-        data: { breadcrumb: 'Departments' },
-        loadChildren: () => import('@/views/department/department.module').then(c => c.DepartmentModule),
-      },
-      {
-        path: 'costCenters',
-        data: { breadcrumb: 'Cost Centers' },
-        loadChildren: () => import('@/views/costCentre/costCentre.module').then(c => c.CostCentreModule),
-      },
-      {
-        path: 'profitCenters',
-        data: { breadcrumb: 'Profit Centers' },
-        loadChildren: () => import('@/views/profitCentre/profitCentre.module').then(c => c.ProfitCentreModule),
       },
       {
         path: 'assetUsers',

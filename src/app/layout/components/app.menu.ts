@@ -229,27 +229,32 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'Organisation Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/business/organisations/dashboard'],
+                                },
+                                {
                                     label: 'Companies & legal entities',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/organisations/list'],
+                                    routerLink: ['/business/organisations'],
                                     tooltip: 'see you organisation/ legal entities here',
                                 },
                                 {
                                     label: 'Regions and branches',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/organisationUnits/list'],
+                                    routerLink: ['/business/organisations/units'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Locations',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/locations/list'],
+                                    routerLink: ['/business/organisations/locations'],
                                     tooltip: 'see your locations here',
                                 },
                                 {
                                     label: 'Departments',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/departments/list'],
+                                    routerLink: ['/business/organisations/departments'],
                                     tooltip: ''
                                 }, {
                                     label: 'Cost / profit centres',
@@ -258,20 +263,20 @@ export class AppMenu {
                                         {
                                             label: 'Cost Centres',
                                             icon: 'pi pi-fw pi-address-book',
-                                            routerLink: ['/dashboard/costCenters/list'],
+                                            routerLink: ['/business/organisations/cost-centres'],
                                             tooltip: '',
                                         },
                                         {
                                             label: 'Profit Centres',
                                             icon: 'pi pi-fw pi-address-book',
-                                            routerLink: ['/dashboard/profitCenters/list'],
+                                            routerLink: ['/business/organisations/profit-centres'],
                                             tooltip: '',
                                         }
                                     ]
                                 }, {
                                     label: 'Business calendars',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/businessCalendars/list/'],
+                                    routerLink: ['/business/organisations/calendars'],
                                     tooltip: '',
                                 }
                             ],
