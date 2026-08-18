@@ -1,47 +1,15 @@
-<div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'OrganisationUnit List'" [PageType]="'List'">
-			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<p-inputGroup>
-					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
-						[(ngModel)]="objSearch.Name" />
-					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-				</p-inputGroup>
-			</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
-				responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
-						<th style="width:200px">Organisation Id <p-sortIcon field="OrganisationId" /> </th>
-						<th style="width:200px">Unit Code <p-sortIcon field="UnitCode" /> </th>
-						<th style="width:200px">Unit Name <p-sortIcon field="UnitName" /> </th>
-						<th style="width:200px">UnitType <p-sortIcon field="UnitType" /> </th>
-						<th style="width:200px">Status <p-sortIcon field="Status" /> </th>
-						<th style="width:200px">Hierarchy Path <p-sortIcon field="HierarchyPath" /> </th>
-
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.Id}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
-						<td style="width:200px">{{obj.UnitCode}}</td>
-						<td style="width:200px">{{obj.UnitName}}</td>
-						<td style="width:200px">{{obj.UnitType}}</td>
-						<td style="width:200px">{{obj.Status}}</td>
-						<td style="width:200px">{{obj.HierarchyPath}}</td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
-</div>
+<div class="grid list-page"><div class="col-12"><div class="card list-card">
+  <app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Organisation Unit List'" [PageType]="'List'"></app-toolbar-buttons><app-spinner></app-spinner>
+  <div class="list-heading list-heading-compact"><div><p>Manage branches, regions and the operational structure of your organisations.</p></div><div class="record-count-inline" aria-label="Total organisation units"><i class="pi pi-sitemap"></i><strong>{{ totalNoOfRecords }}</strong><span>units</span></div></div>
+  <div class="list-search"><i class="pi pi-search"></i><input type="search" pInputText placeholder="Search by unit name..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search organisation units"/><button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button><button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button></div>
+  <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll" styleClass="list-table" [tableStyle]="{ 'min-width': '1080px' }">
+    <ng-template pTemplate="header"><tr><th pSortableColumn="UnitName">Organisation unit <p-sortIcon field="UnitName"/></th><th>Type</th><th>Organisation</th><th>Financial centres</th><th>Capabilities</th><th>Hierarchy</th><th>Status</th><th class="list-actions-column">Quick actions</th></tr></ng-template>
+    <ng-template pTemplate="body" let-obj><tr>
+      <td><div class="list-primary-cell"><span class="list-avatar">{{ getInitials(obj) }}</span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.UnitName || 'Unnamed unit' }}</button><span class="list-secondary">{{ obj.UnitCode || ('#' + obj.Id) }}</span></div></div></td>
+      <td><span class="list-chip"><i class="pi pi-sitemap"></i>{{ obj.UnitType || 'Not specified' }}</span></td><td class="list-cell"><strong>Organisation {{ obj.OrganisationId || '—' }}</strong><span class="list-secondary">Parent unit {{ obj.ParentOrganisationUnitId || '—' }}</span></td>
+      <td class="list-cell"><strong>Cost: {{ obj.CostCentreCode || '—' }}</strong><span class="list-secondary">Profit: {{ obj.ProfitCentreCode || '—' }}</span></td><td><span class="list-chip"><i class="pi pi-file-edit"></i>{{ obj.IsContractingUnit ? 'Contracting' : 'Non-contracting' }}</span><span class="list-secondary">{{ obj.IsBillingUnit ? 'Billing enabled' : 'Billing disabled' }}</span></td>
+      <td>{{ obj.HierarchyPath || 'Root level' }}</td><td><span class="list-status" [ngClass]="getStatusClass(obj.Status)"><i class="list-status-dot"></i>{{ obj.Status || 'Pending' }}</span></td>
+      <td><div class="list-actions"><button type="button" class="list-action view" title="View unit" aria-label="View unit" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit unit" aria-label="Edit unit" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
+    </tr></ng-template><ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-sitemap"></i><strong>No organisation units found</strong><span>Try changing your search or create a new unit.</span></div></td></tr></ng-template>
+  </p-table><p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10,20,50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"/>
+</div></div></div>

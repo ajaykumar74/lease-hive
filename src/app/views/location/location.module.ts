@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { LocationListComponent } from './location-list.component';
 import { LocationCreateComponent } from './location-create.component';
@@ -42,6 +43,7 @@ import { LocationRoutingModule } from './location-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		LocationRoutingModule,
 	],
 	declarations: [

@@ -6,6 +6,7 @@ import { CrmDashboardComponent } from './crm-dashboard.component';
 import { ASSET_ROUTES } from './assets.routes';
 import { PARTY_ROUTES } from './parties.routes';
 import { ORGANISATION_ROUTES } from './organisations.routes';
+import { PROCUREMENT_ROUTES } from './procurements.routes';
 
 interface BusinessPage {
     path: string;
@@ -233,6 +234,7 @@ export const BUSINESS_ROUTES: Routes = [
             ...ASSET_ROUTES,
             ...PARTY_ROUTES,
             ...ORGANISATION_ROUTES,
+            ...PROCUREMENT_ROUTES,
 
             ...pages.map((page) => ({
                 path: page.path,

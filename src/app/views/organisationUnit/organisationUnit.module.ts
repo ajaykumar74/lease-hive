@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import {SplitButtonModule} from 'primeng/splitbutton';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { OrganisationUnitListComponent } from './organisationUnit-list.component';
 import { OrganisationUnitCreateComponent } from './organisationUnit-create.component';
@@ -44,7 +45,8 @@ import { OrganisationUnitRoutingModule } from './organisationUnit-routing.module
 		MySharedModule, 
 		FluidModule,
 		OrganisationUnitRoutingModule,
-		SplitButtonModule
+		SplitButtonModule,
+		PaginatorModule
 	],
 	declarations: [
 		OrganisationUnitCreateComponent,

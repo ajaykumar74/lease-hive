@@ -21,8 +21,8 @@ export class BusinessCalendarListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IBusinessCalendar[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IBusinessCalendar[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -46,7 +46,7 @@ export class BusinessCalendarListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.businessCalendarService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +69,10 @@ export class BusinessCalendarListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -136,17 +138,22 @@ export class BusinessCalendarListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/businessCalendars/edit/' + obj.Id]);
+        this.router.navigate(['/business/organisations/calendars/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/businessCalendars/view/' + obj.Id]);
+        this.router.navigate(['/business/organisations/calendars/view', obj.Id]);
     } 
   
   };
 
+  onViewClick(item: IBusinessCalendar): void { this.router.navigate(['/business/organisations/calendars/view', item.Id], { state: { businessCalendar: item } }); }
+  onEditClick(item: IBusinessCalendar): void { this.router.navigate(['/business/organisations/calendars/edit', item.Id], { state: { businessCalendar: item } }); }
+  getInitials(item: IBusinessCalendar): string { return (item.CalendarName || item.CalendarCode || 'Calendar').split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase(); }
+  getStatusClass(status: string): string { const value = (status || '').toLowerCase(); return value.includes('active') ? 'status-active' : value.includes('inactive') || value.includes('closed') ? 'status-closed' : 'status-pending'; }
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/businessCalendars/create']);
+      this.router.navigate(['/business/organisations/calendars/create']);
     } 
     else if (key == "Refresh") {
       this.search();

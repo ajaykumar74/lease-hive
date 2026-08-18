@@ -1,52 +1,5 @@
-<div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'BusinessCalendar List'" [PageType]="'List'">
-			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<p-inputGroup>
-					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
-						[(ngModel)]="objSearch.Name" />
-					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-				</p-inputGroup>
-			</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3"
-				responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="BusinessCalendarId" style="width:200px">Id <p-sortIcon field="BusinessCalendarId" /> </th>
-					 
-						<th style="width:200px">Calendar Code <p-sortIcon field="CalendarCode" /> </th>
-						<th style="width:200px">Calendar Name <p-sortIcon field="CalendarName" /> </th>
-						<th style="width:200px">State Province Code <p-sortIcon field="StateProvinceCode" /> </th>
-						<th style="width:200px">Weekend Pattern <p-sortIcon field="WeekendPattern" /> </th>
-						<th style="width:200px">Day Start Time <p-sortIcon field="DayStartTime" /> </th>
-						<th style="width:200px">Day End Time <p-sortIcon field="DayEndTime" /> </th>
-						<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
-						<th style="width:200px">Effective From <p-sortIcon field="EffectiveFrom" /> </th>
-
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.Id}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.CalendarCode}}</td>
-						<td style="width:200px">{{obj.CalendarName}}</td>
-						<td style="width:200px">{{obj.StateProvinceCode}}</td>
-						<td style="width:200px">{{obj.WeekendPattern}}</td>
-						<td style="width:200px">{{obj.DayStartTime | date:'dd-MMM-yyyy' }}</td>
-						<td style="width:200px">{{obj.DayEndTime | date:'dd-MMM-yyyy' }}</td>
-						<td style="width:200px">{{obj.RecordStatus}}</td>
-						<td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
-</div>
+<div class="grid list-page"><div class="col-12"><div class="card list-card"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Business Calendar List'" [PageType]="'List'"></app-toolbar-buttons><app-spinner></app-spinner>
+<div class="list-heading list-heading-compact"><div><p>Manage working hours, weekends and regional business schedules.</p></div><div class="record-count-inline"><i class="pi pi-calendar"></i><strong>{{ totalNoOfRecords }}</strong><span>calendars</span></div></div>
+<div class="list-search"><i class="pi pi-search"></i><input type="search" pInputText placeholder="Search by calendar name..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()"/><button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button><button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button></div>
+<p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll" styleClass="list-table" [tableStyle]="{'min-width':'1040px'}"><ng-template pTemplate="header"><tr><th pSortableColumn="CalendarName">Calendar <p-sortIcon field="CalendarName"/></th><th>Region</th><th>Weekend pattern</th><th>Working hours</th><th>Time zone</th><th>Effective period</th><th>Status</th><th class="list-actions-column">Quick actions</th></tr></ng-template><ng-template pTemplate="body" let-obj><tr>
+<td><div class="list-primary-cell"><span class="list-avatar">{{ getInitials(obj) }}</span><div><button class="list-primary-link" type="button" (click)="onDetailsClick(obj)">{{ obj.CalendarName || 'Unnamed calendar' }}</button><span class="list-secondary">{{ obj.CalendarCode || ('#'+obj.Id) }}</span></div></div></td><td class="list-cell"><strong>{{ obj.CountryCode || 'Country not set' }}</strong><span class="list-secondary">{{ obj.StateProvinceCode || 'All regions' }}</span></td><td><span class="list-chip"><i class="pi pi-calendar-times"></i>{{ obj.WeekendPattern || 'Not configured' }}</span></td><td class="list-cell"><strong>{{ obj.DayStartTime ? (obj.DayStartTime|date:'shortTime') : '—' }} – {{ obj.DayEndTime ? (obj.DayEndTime|date:'shortTime') : '—' }}</strong><span class="list-secondary">Standard business day</span></td><td>{{ obj.TimeZoneId || 'Not set' }}</td><td class="list-cell"><strong>{{ obj.EffectiveFrom ? (obj.EffectiveFrom|date:'dd MMM yyyy') : 'Not set' }}</strong><span class="list-secondary">to {{ obj.EffectiveTo ? (obj.EffectiveTo|date:'dd MMM yyyy') : 'open ended' }}</span></td><td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td><td><div class="list-actions"><button class="list-action view" type="button" title="View calendar" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" class="list-action edit" type="button" title="Edit calendar" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button></div></td></tr></ng-template><ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-calendar"></i><strong>No business calendars found</strong><span>Try changing your search or create a new calendar.</span></div></td></tr></ng-template></p-table><p-paginator *ngIf="totalNoOfRecords>0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10,20,50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"/></div></div></div>

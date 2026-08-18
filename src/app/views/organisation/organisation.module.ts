@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { OrganisationListComponent } from './organisation-list.component';
 import { OrganisationCreateComponent } from './organisation-create.component';
@@ -42,6 +43,7 @@ import { OrganisationRoutingModule } from './organisation-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		OrganisationRoutingModule,
 	],
 	declarations: [

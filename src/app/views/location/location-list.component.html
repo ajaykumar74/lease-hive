@@ -1,48 +1,15 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Location List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons> 
-				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
-                </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="LocationId" style="width:200px">Id <p-sortIcon field="LocationId" /> </th> 
-				 
-<th style="width:200px">Location Code <p-sortIcon field="LocationCode" /> </th> 
-<th style="width:200px">Location Name <p-sortIcon field="LocationName" /> </th> 
-<th style="width:200px">Location Type <p-sortIcon field="LocationType" /> </th> 
-<th style="width:200px">Address Line1 <p-sortIcon field="AddressLine1" /> </th> 
-<th style="width:200px">City <p-sortIcon field="City" /> </th> 
-<th style="width:200px">State Province Code <p-sortIcon field="StateProvinceCode" /> </th> 
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
-
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.LocationId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.LocationCode}}</td>
- <td style="width:200px">{{obj.LocationName}}</td>
- <td style="width:200px">{{obj.LocationType}}</td>
- <td style="width:200px">{{obj.AddressLine1}}</td>
- <td style="width:200px">{{obj.City}}</td>
- <td style="width:200px">{{obj.StateProvinceCode}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
- 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div> 
-</div>
-  
+<div class="grid list-page"><div class="col-12"><div class="card list-card">
+  <app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Location List'" [PageType]="'List'"></app-toolbar-buttons><app-spinner></app-spinner>
+  <div class="list-heading list-heading-compact"><div><p>Manage offices, sites, warehouses and operational addresses.</p></div><div class="record-count-inline" aria-label="Total locations"><i class="pi pi-map-marker"></i><strong>{{ totalNoOfRecords }}</strong><span>locations</span></div></div>
+  <div class="list-search"><i class="pi pi-search"></i><input type="search" pInputText placeholder="Search by location name..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search locations"/><button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button><button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button></div>
+  <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll" styleClass="list-table" [tableStyle]="{ 'min-width': '1080px' }">
+    <ng-template pTemplate="header"><tr><th pSortableColumn="LocationName">Location <p-sortIcon field="LocationName"/></th><th>Type</th><th>Address</th><th>Region</th><th>Contact</th><th>Geo location</th><th>Status</th><th class="list-actions-column">Quick actions</th></tr></ng-template>
+    <ng-template pTemplate="body" let-obj><tr>
+      <td><div class="list-primary-cell"><span class="list-avatar">{{ getInitials(obj) }}</span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.LocationName || 'Unnamed location' }}</button><span class="list-secondary">{{ obj.LocationCode || ('#' + obj.Id) }}</span></div></div></td>
+      <td><span class="list-chip"><i class="pi pi-map-marker"></i>{{ obj.LocationType || 'Not specified' }}</span></td><td class="list-cell"><strong>{{ obj.AddressLine1 || 'Address not recorded' }}</strong><span class="list-secondary">{{ obj.AddressLine2 || obj.Landmark || '' }}</span></td>
+      <td class="list-cell"><strong>{{ obj.City || 'City not set' }}</strong><span class="list-secondary">{{ obj.StateProvinceCode || '—' }} · {{ obj.PostalCode || '—' }} · {{ obj.CountryCode || '—' }}</span></td><td class="list-cell"><strong>{{ obj.ContactPhone || 'Phone not set' }}</strong><span class="list-secondary">{{ obj.Email || 'Email not set' }}</span></td>
+      <td>{{ obj.GeoLocation || 'Not mapped' }}</td><td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+      <td><div class="list-actions"><button type="button" class="list-action view" title="View location" aria-label="View location" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit location" aria-label="Edit location" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
+    </tr></ng-template><ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-map-marker"></i><strong>No locations found</strong><span>Try changing your search or create a new location.</span></div></td></tr></ng-template>
+  </p-table><p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10,20,50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"/>
+</div></div></div>

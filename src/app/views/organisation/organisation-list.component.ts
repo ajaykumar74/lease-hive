@@ -21,8 +21,8 @@ export class OrganisationListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IOrganisation[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IOrganisation[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -46,7 +46,7 @@ export class OrganisationListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.organisationService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +69,10 @@ export class OrganisationListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -134,17 +136,37 @@ export class OrganisationListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/organisations/edit/' + obj.Id]);
+        this.router.navigate(['/business/organisations/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/organisations/view/' + obj.Id]);
+        this.router.navigate(['/business/organisations/view', obj.Id]);
     } 
   
   };
 
+  onViewClick(organisation: IOrganisation): void {
+    this.router.navigate(['/business/organisations/view', organisation.Id], { state: { organisation } });
+  }
+
+  onEditClick(organisation: IOrganisation): void {
+    this.router.navigate(['/business/organisations/edit', organisation.Id], { state: { organisation } });
+  }
+
+  getOrganisationInitials(organisation: IOrganisation): string {
+    const value = organisation.TradeName || organisation.LegalName || organisation.OrganisationCode || 'Organisation';
+    return value.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('approved')) return 'status-active';
+    if (value.includes('inactive') || value.includes('closed') || value.includes('blocked')) return 'status-closed';
+    return 'status-pending';
+  }
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/organisations/create']);
+      this.router.navigate(['/business/organisations/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -18,7 +18,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 export class AppMenu {
     model: any[] = [];
 
-    constructor(private loggedInUserService: LoggedInUserService) {}
+    constructor(private loggedInUserService: LoggedInUserService) { }
     ngOnInit() {
         if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
@@ -886,7 +886,332 @@ export class AppMenu {
                         {
                             label: 'Procurement',
                             icon: 'pi pi-fw pi-shopping-cart',
-                            items: []
+                            items: [
+
+                                // =========================================================
+                                // PROCUREMENT OVERVIEW
+                                // =========================================================
+                                {
+                                    label: 'Procurement Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/business/procurement/dashboard']
+                                },
+                                {
+                                    label: 'My Worklist',
+                                    icon: 'pi pi-fw pi-inbox',
+                                    routerLink: ['/business/procurement/worklist']
+                                },
+
+                                // =========================================================
+                                // SUPPLIERS
+                                // =========================================================
+                                {
+                                    label: 'Suppliers',
+                                    icon: 'pi pi-fw pi-building',
+                                    items: [
+                                        {
+                                            label: 'Supplier List',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/suppliers']
+                                        },
+                                        {
+                                            label: 'Supplier Qualification',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/business/procurement/suppliers/qualification']
+                                        },
+                                        {
+                                            label: 'Supplier Service Areas',
+                                            icon: 'pi pi-fw pi-map',
+                                            routerLink: ['/business/procurement/suppliers/service-areas']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // PURCHASE REQUISITIONS
+                                // =========================================================
+                                {
+                                    label: 'Purchase Requisitions',
+                                    icon: 'pi pi-fw pi-file-edit',
+                                    items: [
+                                        {
+                                            label: 'All Requisitions',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/requisitions']
+                                        },
+                                        {
+                                            label: 'Create Requisition',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/procurement/requisitions/new']
+                                        },
+                                        {
+                                            label: 'Pending Approval',
+                                            icon: 'pi pi-fw pi-clock',
+                                            routerLink: ['/business/procurement/requisitions/pending-approval']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // SOURCING / RFQ
+                                // =========================================================
+                                {
+                                    label: 'Sourcing & RFQ',
+                                    icon: 'pi pi-fw pi-send',
+                                    items: [
+                                        {
+                                            label: 'RFQs',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/rfqs']
+                                        },
+                                        {
+                                            label: 'Create RFQ',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/procurement/rfqs/new']
+                                        },
+                                        {
+                                            label: 'Supplier Quotations',
+                                            icon: 'pi pi-fw pi-comments',
+                                            routerLink: ['/business/procurement/supplier-quotations']
+                                        },
+                                        {
+                                            label: 'Quotation Comparison',
+                                            icon: 'pi pi-fw pi-table',
+                                            routerLink: ['/business/procurement/quotation-comparison']
+                                        },
+                                        {
+                                            label: 'Supplier Awards',
+                                            icon: 'pi pi-fw pi-trophy',
+                                            routerLink: ['/business/procurement/awards']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // PURCHASE ORDERS
+                                // =========================================================
+                                {
+                                    label: 'Purchase Orders',
+                                    icon: 'pi pi-fw pi-shopping-bag',
+                                    items: [
+                                        {
+                                            label: 'All Purchase Orders',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/purchase-orders']
+                                        },
+                                        {
+                                            label: 'Create Purchase Order',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/procurement/purchase-orders/new']
+                                        },
+                                        {
+                                            label: 'Pending Approval',
+                                            icon: 'pi pi-fw pi-clock',
+                                            routerLink: ['/business/procurement/purchase-orders/pending-approval']
+                                        },
+                                        {
+                                            label: 'Supplier Acknowledgements',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/business/procurement/purchase-orders/acknowledgements']
+                                        },
+                                        {
+                                            label: 'PO Amendments',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/business/procurement/purchase-orders/amendments']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // RECEIPTS & INSPECTION
+                                // =========================================================
+                                {
+                                    label: 'Receipts & Inspection',
+                                    icon: 'pi pi-fw pi-box',
+                                    items: [
+                                        {
+                                            label: 'Goods Receipts',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/goods-receipts']
+                                        },
+                                        {
+                                            label: 'Receive Goods',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/procurement/goods-receipts/new']
+                                        },
+                                        {
+                                            label: 'Service Receipts',
+                                            icon: 'pi pi-fw pi-wrench',
+                                            routerLink: ['/business/procurement/service-receipts']
+                                        },
+                                        {
+                                            label: 'Pending Inspection',
+                                            icon: 'pi pi-fw pi-search',
+                                            routerLink: ['/business/procurement/inspections']
+                                        },
+                                        {
+                                            label: 'Rejected / Returned',
+                                            icon: 'pi pi-fw pi-times-circle',
+                                            routerLink: ['/business/procurement/receipts/rejected']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // ASSET ACQUISITION
+                                // =========================================================
+                                {
+                                    label: 'Asset Acquisition',
+                                    icon: 'pi pi-fw pi-desktop',
+                                    items: [
+                                        {
+                                            label: 'Pending Asset Creation',
+                                            icon: 'pi pi-fw pi-hourglass',
+                                            routerLink: ['/business/procurement/asset-acquisition/pending']
+                                        },
+                                        {
+                                            label: 'Acquisition Handoffs',
+                                            icon: 'pi pi-fw pi-arrow-right-arrow-left',
+                                            routerLink: ['/business/procurement/asset-acquisition/handoffs']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // SUPPLIER INVOICES & MATCHING
+                                // =========================================================
+                                {
+                                    label: 'Supplier Invoices',
+                                    icon: 'pi pi-fw pi-receipt',
+                                    items: [
+                                        {
+                                            label: 'All Supplier Invoices',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/supplier-invoices']
+                                        },
+                                        {
+                                            label: 'Capture Invoice',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/procurement/supplier-invoices/new']
+                                        },
+                                        {
+                                            label: 'Invoice Matching',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/business/procurement/invoice-matching']
+                                        },
+                                        {
+                                            label: 'Match Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-triangle',
+                                            routerLink: ['/business/procurement/invoice-matching/exceptions']
+                                        },
+                                        {
+                                            label: 'Ready for AP',
+                                            icon: 'pi pi-fw pi-forward',
+                                            routerLink: ['/business/procurement/supplier-invoices/ap-handoff']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // APPROVALS
+                                // =========================================================
+                                {
+                                    label: 'Approvals',
+                                    icon: 'pi pi-fw pi-verified',
+                                    items: [
+                                        {
+                                            label: 'My Pending Approvals',
+                                            icon: 'pi pi-fw pi-clock',
+                                            routerLink: ['/business/procurement/approvals/pending']
+                                        },
+                                        {
+                                            label: 'Approval History',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/business/procurement/approvals/history']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // REPORTS
+                                // =========================================================
+                                {
+                                    label: 'Reports',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    items: [
+                                        {
+                                            label: 'Procurement Spend',
+                                            icon: 'pi pi-fw pi-chart-bar',
+                                            routerLink: ['/business/procurement/reports/spend']
+                                        },
+                                        {
+                                            label: 'Supplier Performance',
+                                            icon: 'pi pi-fw pi-chart-line',
+                                            routerLink: ['/business/procurement/reports/supplier-performance']
+                                        },
+                                        {
+                                            label: 'Open Requisitions',
+                                            icon: 'pi pi-fw pi-file',
+                                            routerLink: ['/business/procurement/reports/open-requisitions']
+                                        },
+                                        {
+                                            label: 'Open Purchase Orders',
+                                            icon: 'pi pi-fw pi-shopping-cart',
+                                            routerLink: ['/business/procurement/reports/open-pos']
+                                        },
+                                        {
+                                            label: 'Receipt Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-circle',
+                                            routerLink: ['/business/procurement/reports/receipt-exceptions']
+                                        },
+                                        {
+                                            label: 'Invoice Match Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-triangle',
+                                            routerLink: ['/business/procurement/reports/match-exceptions']
+                                        }
+                                    ]
+                                },
+
+                                // =========================================================
+                                // CONFIGURATION
+                                // =========================================================
+                                {
+                                    label: 'Configuration',
+                                    icon: 'pi pi-fw pi-cog',
+                                    items: [
+                                        {
+                                            label: 'Requisition Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/config/requisition-statuses']
+                                        },
+                                        {
+                                            label: 'RFQ Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/config/rfq-statuses']
+                                        },
+                                        {
+                                            label: 'PO Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/config/po-statuses']
+                                        },
+                                        {
+                                            label: 'Receipt Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/config/receipt-statuses']
+                                        },
+                                        {
+                                            label: 'Invoice Match Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/procurement/config/invoice-match-statuses']
+                                        },
+                                        {
+                                            label: 'Procurement Policies',
+                                            icon: 'pi pi-fw pi-sliders-h',
+                                            routerLink: ['/business/procurement/config/policies']
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             label: 'Contracts',

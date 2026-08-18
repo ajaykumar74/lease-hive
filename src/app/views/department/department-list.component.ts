@@ -22,8 +22,8 @@ export class DepartmentListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IDepartment[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IDepartment[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -50,7 +50,7 @@ export class DepartmentListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.isCurrentContextCached());
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -73,8 +73,10 @@ export class DepartmentListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -145,17 +147,22 @@ export class DepartmentListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.organisationUnitId
-      ? ['dashboard/departments/organisation-unit', this.organisationUnitId, page, obj.Id]
-      : ['dashboard/departments', page, obj.Id];
+      ? ['/business/organisations/departments/organisation-unit', this.organisationUnitId, page, obj.Id]
+      : ['/business/organisations/departments', page, obj.Id];
     this.router.navigate(route);
   
   };
 
+  onViewClick(item: IDepartment): void { const route = this.organisationUnitId ? ['/business/organisations/departments/organisation-unit', this.organisationUnitId, 'view', item.Id] : ['/business/organisations/departments/view', item.Id]; this.router.navigate(route, { state: { department: item } }); }
+  onEditClick(item: IDepartment): void { const route = this.organisationUnitId ? ['/business/organisations/departments/organisation-unit', this.organisationUnitId, 'edit', item.Id] : ['/business/organisations/departments/edit', item.Id]; this.router.navigate(route, { state: { department: item } }); }
+  getInitials(item: IDepartment): string { return (item.DepartmentName || item.DepartmentCode || 'Department').split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase(); }
+  getStatusClass(status: string): string { const value = (status || '').toLowerCase(); return value.includes('active') ? 'status-active' : value.includes('inactive') || value.includes('closed') ? 'status-closed' : 'status-pending'; }
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.organisationUnitId
-        ? ['dashboard/departments/organisation-unit', this.organisationUnitId, 'create']
-        : ['dashboard/departments/create'];
+        ? ['/business/organisations/departments/organisation-unit', this.organisationUnitId, 'create']
+        : ['/business/organisations/departments/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

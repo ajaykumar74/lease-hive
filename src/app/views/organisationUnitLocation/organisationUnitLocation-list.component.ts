@@ -145,8 +145,8 @@ export class OrganisationUnitLocationListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.organisationUnitId
-      ? ['dashboard/organisationUnitLocations/organisation-unit', this.organisationUnitId, page, obj.Id]
-      : ['dashboard/organisationUnitLocations', page, obj.Id];
+      ? ['/business/organisations/unit-locations/organisation-unit', this.organisationUnitId, page, obj.Id]
+      : ['/business/organisations/unit-locations', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class OrganisationUnitLocationListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.organisationUnitId
-        ? ['dashboard/organisationUnitLocations/organisation-unit', this.organisationUnitId, 'create']
-        : ['dashboard/organisationUnitLocations/create'];
+        ? ['/business/organisations/unit-locations/organisation-unit', this.organisationUnitId, 'create']
+        : ['/business/organisations/unit-locations/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

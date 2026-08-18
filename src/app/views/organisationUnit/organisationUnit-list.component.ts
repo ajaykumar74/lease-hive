@@ -21,8 +21,8 @@ export class OrganisationUnitListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IOrganisationUnit[]; 
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
+  lstMain: IOrganisationUnit[] = [];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -46,7 +46,7 @@ export class OrganisationUnitListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.organisationUnitService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +69,10 @@ export class OrganisationUnitListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -136,17 +138,22 @@ export class OrganisationUnitListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/organisationUnits/edit/' + obj.Id]);
+        this.router.navigate(['/business/organisations/units/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/organisationUnits/view/' + obj.Id]);
+        this.router.navigate(['/business/organisations/units/view', obj.Id]);
     } 
   
   };
 
+  onViewClick(item: IOrganisationUnit): void { this.router.navigate(['/business/organisations/units/view', item.Id], { state: { organisationUnit: item } }); }
+  onEditClick(item: IOrganisationUnit): void { this.router.navigate(['/business/organisations/units/edit', item.Id], { state: { organisationUnit: item } }); }
+  getInitials(item: IOrganisationUnit): string { return (item.UnitName || item.UnitCode || 'Unit').split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase(); }
+  getStatusClass(status: string): string { const value = (status || '').toLowerCase(); return value.includes('active') ? 'status-active' : value.includes('inactive') || value.includes('closed') ? 'status-closed' : 'status-pending'; }
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/organisationUnits/create']);
+      this.router.navigate(['/business/organisations/units/create']);
     } 
     else if (key == "Refresh") {
       this.search();

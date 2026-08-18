@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { ProfitCentreListComponent } from './profitCentre-list.component';
 import { ProfitCentreCreateComponent } from './profitCentre-create.component';
@@ -42,6 +43,7 @@ import { ProfitCentreRoutingModule } from './profitCentre-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		ProfitCentreRoutingModule,
 	],
 	declarations: [

@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { BusinessCalendarListComponent } from './businessCalendar-list.component';
 import { BusinessCalendarCreateComponent } from './businessCalendar-create.component';
@@ -42,6 +43,7 @@ import { BusinessCalendarRoutingModule } from './businessCalendar-routing.module
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		BusinessCalendarRoutingModule,
 	],
 	declarations: [
