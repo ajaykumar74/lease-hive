@@ -103,61 +103,6 @@ const routes: Routes = [
         loadChildren: () => import('@/views/profitCentre/profitCentre.module').then(c => c.ProfitCentreModule),
       },
       {
-        path: 'partys',
-        data: { breadcrumb: 'Parties' },
-        loadChildren: () => import('@/views/party/party.module').then(c => c.PartyModule),
-      },
-      {
-        path: 'partyRoles',
-        data: { breadcrumb: 'Party Roles' },
-        loadChildren: () => import('@/views/partyRole/partyRole.module').then(c => c.PartyRoleModule),
-      },
-      {
-        path: 'partyRelationships',
-        data: { breadcrumb: 'Party Relationships' },
-        loadChildren: () => import('@/views/partyRelationship/partyRelationship.module').then(c => c.PartyRelationshipModule),
-      },
-      {
-        path: 'partyGSTRegistrations',
-        data: { breadcrumb: 'Party GST Registrations' },
-        loadChildren: () => import('@/views/partyGSTRegistration/partyGSTRegistration.module').then(c => c.PartyGSTRegistrationModule),
-      },
-      {
-        path: 'partyLocations',
-        data: { breadcrumb: 'Party Locations' },
-        loadChildren: () => import('@/views/partyLocation/partyLocation.module').then(c => c.PartyLocationModule),
-      },
-      {
-        path: 'partyContacts',
-        data: { breadcrumb: 'Party Contacts' },
-        loadChildren: () => import('@/views/partyContact/partyContact.module').then(c => c.PartyContactModule),
-      },
-      {
-        path: 'partyBankAccounts',
-        data: { breadcrumb: 'Party Bank Accounts' },
-        loadChildren: () => import('@/views/partyBankAccount/partyBankAccount.module').then(c => c.PartyBankAccountModule),
-      },
-      {
-        path: 'partyDocuments',
-        data: { breadcrumb: 'Party Documents' },
-        loadChildren: () => import('@/views/partyDocument/partyDocument.module').then(c => c.PartyDocumentModule),
-      },
-      {
-        path: 'partyCreditProfiles',
-        data: { breadcrumb: 'Party Credit Profiles' },
-        loadChildren: () => import('@/views/partyCreditProfile/partyCreditProfile.module').then(c => c.PartyCreditProfileModule),
-      },
-      {
-        path: 'customerProfiles',
-        data: { breadcrumb: 'Customer Profiles' },
-        loadChildren: () => import('@/views/customerProfile/customerProfile.module').then(c => c.CustomerProfileModule),
-      },
-      {
-        path: 'customerDepartments',
-        data: { breadcrumb: 'Customer Departments' },
-        loadChildren: () => import('@/views/customerDepartment/customerDepartment.module').then(c => c.CustomerDepartmentModule),
-      },
-      {
         path: 'assetUsers',
         data: { breadcrumb: 'Asset Users' },
         loadChildren: () => import('@/views/assets/assetUser/assetUser.module').then(c => c.AssetUserModule),
@@ -216,16 +161,6 @@ const routes: Routes = [
         path: 'auditLogs',
         data: { breadcrumb: 'Audit Logs' },
         loadChildren: () => import('@/views/auditLog/auditLog.module').then(c => c.AuditLogModule),
-      },
-      {
-        path: 'supplierProfiles',
-        data: { breadcrumb: 'Supplier Profiles' },
-        loadChildren: () => import('@/views/supplierProfile/supplierProfile.module').then(c => c.SupplierProfileModule),
-      },
-      {
-        path: 'supplierServiceAreas',
-        data: { breadcrumb: 'Supplier Service Areas' },
-        loadChildren: () => import('@/views/supplierServiceArea/supplierServiceArea.module').then(c => c.SupplierServiceAreaModule),
       },
       {
         path: 'planFeatures',

@@ -281,29 +281,34 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'Party Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/business/parties/dashboard'],
+                                },
+                                {
                                     label: 'All parties',
                                     icon: 'pi pi-fw pi-sign-in',
-                                    routerLink: ['/dashboard/partys/list'],
+                                    routerLink: ['/business/parties'],
                                 },
                                 {
                                     label: 'Customer profiles',
                                     icon: 'pi pi-fw pi-times-circle',
-                                    routerLink: ['/dashboard/customerProfiles/list'],
+                                    routerLink: ['/business/parties/customer-profiles'],
                                 },
                                 {
                                     label: 'Supplier profiles',
                                     icon: 'pi pi-fw pi-lock',
-                                    routerLink: ['/dashboard/supplierProfiles/list'],
+                                    routerLink: ['/business/parties/supplier-profiles'],
                                 },
                                 {
                                     label: 'Party roles',
                                     icon: 'pi pi-fw pi-user-plus',
-                                    routerLink: ['/dashboard/partyRoles/list'],
+                                    routerLink: ['/business/parties/roles'],
                                 },
                                 {
                                     label: 'Party relationships',
                                     icon: 'pi pi-fw pi-question',
-                                    routerLink: ['dashboard/partyRelationships/list'],
+                                    routerLink: ['/business/parties/relationships'],
                                 },
                                 {
                                     label: 'Contacts and documents',
@@ -312,7 +317,7 @@ export class AppMenu {
                                         {
                                             label: 'Party contacts',
                                             icon: 'pi pi-fw pi-question',
-                                            routerLink: ['/dashboard/partyContacts/list'],
+                                            routerLink: ['/business/parties/contacts'],
                                         }
                                     ]
                                 }
@@ -325,41 +330,41 @@ export class AppMenu {
                                 {
                                     label: 'GST registrations',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/partyGSTRegistrations/list'],
+                                    routerLink: ['/business/parties/gst-registrations'],
                                     tooltip: 'see your gst registrations here',
                                 },
                                 {
                                     label: 'Party Locations',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/partyLocations/list'],
+                                    routerLink: ['/business/parties/locations'],
                                     tooltip: 'see your party locations here',
                                 },
                                 {
                                     label: 'Tax profiles',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/partyTaxProfiles/list'],
+                                    routerLink: ['/business/parties/gst-registrations'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Bank accounts',
                                     icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/dashboard/partyBankAccounts/list'],
+                                    routerLink: ['/business/parties/bank-accounts'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Credit profiles',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/partyCreditProfiles/list/'],
+                                    routerLink: ['/business/parties/credit-profiles'],
                                     tooltip: '',
                                 }, {
                                     label: 'KYC documents',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/partyDocuments/list/'],
+                                    routerLink: ['/business/parties/documents'],
                                     tooltip: '',
                                 }, {
                                     label: 'Verification status',
                                     icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
+                                    routerLink: ['/business/parties/dashboard'],
                                     tooltip: '',
                                 }
                             ],
