@@ -1,0 +1,46 @@
+:host { display: block; }
+.crm-dashboard { display: grid; gap: 1.5rem; }
+.dashboard-heading, .panel-heading, .dashboard-actions, .load-warning { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dashboard-heading { align-items: flex-start; }
+.dashboard-actions { justify-content: flex-end; flex-wrap: wrap; }
+.load-warning { justify-content: flex-start; padding: .75rem 1rem; border-radius: var(--p-content-border-radius); background: var(--p-yellow-50); color: var(--p-yellow-800); border: 1px solid var(--p-yellow-200); }
+.load-warning .p-button { margin-left: auto; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.kpi-card { position: relative; min-height: 8.25rem; margin: 0; }
+.kpi-label, .kpi-context, .panel-heading span, .activity-item small { color: var(--p-text-muted-color); }
+.kpi-label, .kpi-context { display: block; }
+.kpi-value { display: block; margin: .65rem 0 .4rem; font-size: 1.75rem; line-height: 1; font-weight: 600; }
+.kpi-context { font-size: .8125rem; }
+.kpi-icon { position: absolute; top: 1.25rem; right: 1.25rem; width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: .6rem; }
+.kpi-icon.blue { color: var(--p-blue-500); background: var(--p-blue-50); }
+.kpi-icon.green { color: var(--p-primary-color); background: color-mix(in srgb, var(--p-primary-color) 12%, transparent); }
+.kpi-icon.orange { color: var(--p-orange-500); background: var(--p-orange-50); }
+.overdue { color: var(--p-red-500) !important; }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(18rem, .8fr); gap: 1rem; }
+.dashboard-bottom-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(19rem, .75fr); gap: 1rem; }
+.card { margin: 0; min-width: 0; }
+.panel-heading { margin-bottom: 1.25rem; }
+.panel-heading h2 { margin: 0 0 .3rem; font-size: 1.05rem; font-weight: 600; }
+.panel-heading span { font-size: .8rem; }
+.funnel-list { display: grid; gap: 1.05rem; margin-top: 1.25rem; }
+.funnel-row { display: grid; grid-template-columns: 7rem minmax(0, 1fr) 2rem; align-items: center; gap: .75rem; font-size: .8125rem; }
+.funnel-row strong { text-align: right; }
+.funnel-track { height: .6rem; overflow: hidden; border-radius: 999px; background: var(--p-content-hover-background); }
+.funnel-track span { display: block; height: 100%; border-radius: inherit; background: var(--p-primary-color); }
+.conversion-row { display: flex; justify-content: space-between; margin-top: 1.5rem; padding: .85rem 1rem; border-radius: var(--p-content-border-radius); color: var(--p-primary-color); background: color-mix(in srgb, var(--p-primary-color) 10%, transparent); }
+.attention-panel small, .activity-item small { display: block; margin-top: .25rem; font-size: .75rem; }
+.clickable-row { cursor: pointer; }
+.clickable-row:hover { background: var(--p-content-hover-background); }
+.text-right { text-align: right; }
+.whitespace-nowrap { white-space: nowrap; }
+.activity-list { display: grid; gap: .9rem; }
+.activity-item { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) auto; align-items: start; gap: .75rem; }
+.activity-item strong { display: block; font-size: .85rem; font-weight: 600; }
+.activity-item time { color: var(--p-text-muted-color); font-size: .75rem; white-space: nowrap; }
+.activity-icon { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; color: var(--p-primary-color); background: color-mix(in srgb, var(--p-primary-color) 10%, transparent); }
+.empty-state { min-height: 18rem; display: grid; place-items: center; align-content: center; gap: .75rem; color: var(--p-text-muted-color); }
+.empty-state i { font-size: 1.75rem; }
+.empty-state.compact { min-height: 12rem; }
+.table-empty { padding: 2rem; text-align: center; color: var(--p-text-muted-color); }
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dashboard-grid, .dashboard-bottom-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .dashboard-heading { flex-direction: column; } .dashboard-actions { width: 100%; justify-content: flex-start; } .kpi-grid { grid-template-columns: 1fr; } .funnel-row { grid-template-columns: 6rem minmax(0, 1fr) 1.75rem; } .activity-item { grid-template-columns: 2.25rem minmax(0, 1fr); } .activity-item time { grid-column: 2; } }

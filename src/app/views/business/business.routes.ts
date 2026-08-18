@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { BusinessFeatureComponent } from './business-feature.component';
+import { CrmDashboardComponent } from './crm-dashboard.component';
 
 interface BusinessPage {
     path: string;
@@ -30,7 +31,7 @@ const pages: BusinessPage[] = [
     { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/acceptances', title: 'Quote Acceptances', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
-    { path: '/origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
+    { path: 'origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/review', title: 'Credit Review', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/CreditBureauResult', title: 'Credit  BureauResult ', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/exposure', title: 'Credit Exposure', area: 'Origination', icon: 'pi pi-search' },
@@ -59,6 +60,11 @@ export const BUSINESS_ROUTES: Routes = [
                 path: '',
                 redirectTo: 'crm/dashboard',
                 pathMatch: 'full'
+            },
+            {
+                path: 'crm/dashboard',
+                component: CrmDashboardComponent,
+                data: { title: 'CRM Dashboard', breadcrumb: 'CRM Dashboard' }
             },
             {
                 path: 'crm/config/lead-sources',

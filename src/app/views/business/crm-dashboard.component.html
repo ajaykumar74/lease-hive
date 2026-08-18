@@ -1,0 +1,129 @@
+<div class="crm-dashboard">
+    <div class="dashboard-heading">
+        <div>
+            <h1 class="m-0 text-2xl font-semibold">CRM Dashboard</h1>
+            <p class="mt-2 mb-0 text-color-secondary">Track leads through origination and focus the team on what needs attention.</p>
+        </div>
+        <div class="dashboard-actions">
+            <p-select
+                [options]="periodOptions"
+                [(ngModel)]="selectedPeriod"
+                optionLabel="label"
+                optionValue="value"
+                ariaLabel="Dashboard period"
+                (onChange)="onPeriodChange()"
+            />
+            <p-button label="New Lead" icon="pi pi-plus" routerLink="/business/crm/leads/create" />
+        </div>
+    </div>
+
+    @if (hasLoadError && !isLoading) {
+        <div class="load-warning" role="status">
+            <i class="pi pi-info-circle" aria-hidden="true"></i>
+            <span>Some CRM data could not be loaded. Available dashboard sections are shown below.</span>
+            <p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadDashboard()" />
+        </div>
+    }
+
+    <div class="kpi-grid">
+        @if (isLoading) {
+            @for (item of [1, 2, 3, 4]; track item) {
+                <div class="card kpi-card"><p-skeleton width="45%" height="1rem" /><p-skeleton width="35%" height="2rem" styleClass="mt-3" /><p-skeleton width="55%" height="0.75rem" styleClass="mt-3" /></div>
+            }
+        } @else {
+            <div class="card kpi-card">
+                <span class="kpi-label">Active leads</span>
+                <strong class="kpi-value">{{ activeLeadCount | number }}</strong>
+                <span class="kpi-context">{{ qualifiedLeadCount | number }} qualified</span>
+                <span class="kpi-icon blue"><i class="pi pi-users" aria-hidden="true"></i></span>
+            </div>
+            <div class="card kpi-card">
+                <span class="kpi-label">Open opportunities</span>
+                <strong class="kpi-value">{{ openOpportunities.length | number }}</strong>
+                <span class="kpi-context">{{ pipelineTotal | currency:'GBP':'symbol':'1.0-0' }} estimated</span>
+                <span class="kpi-icon green"><i class="pi pi-chart-line" aria-hidden="true"></i></span>
+            </div>
+            <div class="card kpi-card">
+                <span class="kpi-label">Weighted pipeline</span>
+                <strong class="kpi-value">{{ weightedPipeline | currency:'GBP':'symbol':'1.0-0' }}</strong>
+                <span class="kpi-context">Probability-adjusted value</span>
+                <span class="kpi-icon green"><i class="pi pi-pound" aria-hidden="true"></i></span>
+            </div>
+            <div class="card kpi-card">
+                <span class="kpi-label">Activities due</span>
+                <strong class="kpi-value">{{ dueActivities.length | number }}</strong>
+                <span class="kpi-context" [class.overdue]="overdueActivityCount > 0">{{ overdueActivityCount | number }} overdue</span>
+                <span class="kpi-icon orange"><i class="pi pi-clock" aria-hidden="true"></i></span>
+            </div>
+        }
+    </div>
+
+    <div class="dashboard-grid">
+        <section class="card pipeline-panel">
+            <div class="panel-heading">
+                <div><h2>Opportunity pipeline</h2><span>Estimated and probability-weighted value by stage</span></div>
+                <p-button label="View pipeline" [text]="true" size="small" routerLink="/business/crm/opportunities/pipeline" />
+            </div>
+            @if (isLoading) {
+                <p-skeleton width="100%" height="19rem" />
+            } @else if (openOpportunities.length) {
+                <p-chart type="bar" [data]="pipelineData" [options]="pipelineOptions" height="300px" ariaLabel="Opportunity pipeline by stage" />
+            } @else {
+                <div class="empty-state"><i class="pi pi-chart-bar" aria-hidden="true"></i><span>No open opportunities to chart.</span></div>
+            }
+        </section>
+
+        <section class="card funnel-panel">
+            <div class="panel-heading">
+                <div><h2>Lead funnel</h2><span>Current CRM progression</span></div>
+                <p-button label="All leads" [text]="true" size="small" routerLink="/business/crm/leads" />
+            </div>
+            @if (isLoading) {
+                <p-skeleton width="100%" height="15rem" />
+            } @else {
+                <div class="funnel-list">
+                    <div class="funnel-row"><span>Active leads</span><div class="funnel-track"><span style="width:100%"></span></div><strong>{{ activeLeadCount }}</strong></div>
+                    <div class="funnel-row"><span>Qualified</span><div class="funnel-track"><span [style.width.%]="activeLeadCount ? qualifiedLeadCount / activeLeadCount * 100 : 0"></span></div><strong>{{ qualifiedLeadCount }}</strong></div>
+                    <div class="funnel-row"><span>Opportunities</span><div class="funnel-track"><span [style.width.%]="activeLeadCount ? openOpportunities.length / activeLeadCount * 100 : 0"></span></div><strong>{{ openOpportunities.length }}</strong></div>
+                </div>
+                <div class="conversion-row"><span>Lead → opportunity</span><strong>{{ leadConversionRate | number:'1.0-1' }}%</strong></div>
+            }
+        </section>
+    </div>
+
+    <div class="dashboard-bottom-grid">
+        <section class="card attention-panel">
+            <div class="panel-heading">
+                <div><h2>Opportunities needing attention</h2><span>Close date or probability requires action</span></div>
+                <p-button label="View all" [text]="true" size="small" routerLink="/business/crm/opportunities" />
+            </div>
+            <p-table [value]="opportunitiesNeedingAttention" [loading]="isLoading" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header"><tr><th>Opportunity</th><th>Stage</th><th>Next step</th><th>Close</th><th class="text-right">Value</th></tr></ng-template>
+                <ng-template pTemplate="body" let-item><tr class="clickable-row" (click)="openOpportunity(item)"><td><strong>{{ item.name }}</strong><small>{{ item.customer }}</small></td><td><p-tag [value]="item.stage" [severity]="getStageSeverity(item.stage)" /></td><td>{{ item.nextStep }}</td><td>{{ item.closeDate ? (item.closeDate | date:'dd MMM y') : 'Not set' }}</td><td class="text-right whitespace-nowrap">{{ item.amount | currency:'GBP':'symbol':'1.0-0' }}</td></tr></ng-template>
+                <ng-template pTemplate="emptymessage"><tr><td colspan="5"><div class="table-empty">No opportunities currently need attention.</div></td></tr></ng-template>
+            </p-table>
+        </section>
+
+        <section class="card activities-panel">
+            <div class="panel-heading">
+                <div><h2>Upcoming activities</h2><span>Due in the next seven days</span></div>
+                <p-button label="Calendar" [text]="true" size="small" routerLink="/business/crm/activities" />
+            </div>
+            @if (isLoading) {
+                <div class="activity-list">@for (item of [1,2,3,4]; track item) { <p-skeleton width="100%" height="3rem" /> }</div>
+            } @else if (dueActivities.length) {
+                <div class="activity-list">
+                    @for (activity of dueActivities.slice(0, 5); track activity.id) {
+                        <div class="activity-item">
+                            <span class="activity-icon"><i [class]="getActivityIcon(activity.type)" aria-hidden="true"></i></span>
+                            <div><strong>{{ activity.subject }}</strong><small>{{ activity.relatedTo }}</small></div>
+                            <time [class.overdue]="activity.overdue">{{ activity.dueDate | date:'dd MMM, HH:mm' }}</time>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="empty-state compact"><i class="pi pi-calendar" aria-hidden="true"></i><span>No activities due this week.</span></div>
+            }
+        </section>
+    </div>
+</div>
