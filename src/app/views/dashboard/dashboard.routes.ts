@@ -160,7 +160,7 @@ const routes: Routes = [
       {
         path: 'assetUsers',
         data: { breadcrumb: 'Asset Users' },
-        loadChildren: () => import('@/views/assetUser/assetUser.module').then(c => c.AssetUserModule),
+        loadChildren: () => import('@/views/assets/assetUser/assetUser.module').then(c => c.AssetUserModule),
       },
       {
         path: 'applicationUsers',
@@ -281,136 +281,7 @@ const routes: Routes = [
         data: { breadcrumb: 'document' },
         loadChildren: () => import('@/views/document/document.module').then(c => c.documentModule),
       },
-
-
-      {
-        path: 'assetCategorys',
-        data: { breadcrumb: 'Asset Categories' },
-        loadChildren: () => import('@/views/assets/assetCategory/assetCategory.module').then(c => c.AssetCategoryModule),
-      },
-
-      {
-        path: 'assetTypes',
-        data: { breadcrumb: 'Asset Types' },
-        loadChildren: () => import('@/views/assets/assetType/assetType.module').then(c => c.AssetTypeModule),
-      },
-      {
-        path: 'assetMakes',
-        data: { breadcrumb: 'Asset Makes' },
-        loadChildren: () => import('@/views/assets/assetMake/assetMake.module').then(c => c.AssetMakeModule),
-      },
-      {
-        path: 'assetModels',
-        data: { breadcrumb: 'Asset Models' },
-        loadChildren: () => import('@/views/assets/assetModel/assetModel.module').then(c => c.AssetModelModule),
-      },
-       {
-        path: 'assetAttributeDefinitions',
-        data: { breadcrumb: 'Asset Attribute Definitions' },
-        loadChildren: () => import('@/views/assets/assetAttributeDefinition/assetAttributeDefinition.module').then(c => c.AssetAttributeDefinitionModule),
-      },
-  {
-        path: 'assetAttributeOptions',
-        data: { breadcrumb: 'Asset Attribute Options' },
-        loadChildren: () => import('@/views/assets/assetAttributeOption/assetAttributeOption.module').then(c => c.AssetAttributeOptionModule),
-      },
-      {
-        path: 'assets',
-        data: { breadcrumb: 'Assets' },
-        loadChildren: () => import('@/views/assets/asset/asset.module').then(c => c.AssetModule),
-      },
-       {
-        path: 'assetIdentifiers',
-        data: { breadcrumb: 'Asset Identifiers' },
-        loadChildren: () => import('@/views/assets/assetIdentifier/assetIdentifier.module').then(c => c.AssetIdentifierModule),
-      },
-       {
-        path: 'assetAttributeValues',
-        data: { breadcrumb: 'Asset Attribute Values' },
-        loadChildren: () => import('@/views/assets/assetAttributeValue/assetAttributeValue.module').then(c => c.AssetAttributeValueModule),
-      }
-,
-       {
-        path: 'vehicleAssets',
-        data: { breadcrumb: 'Vehicle Assets' },
-        loadChildren: () => import('@/views/assets/vehicleAsset/vehicleAsset.module').then(c => c.VehicleAssetModule),
-      }
-      ,
-       {
-        path: 'iTAssets',
-        data: { breadcrumb: 'IT Assets' },
-        loadChildren: () => import('@/views/assets/iTAsset/iTAsset.module').then(c => c.ITAssetModule),
-      }
-      ,
-       {
-        path: 'equipmentAssets',
-        data: { breadcrumb: 'Equipment Assets' },
-        loadChildren: () => import('@/views/assets/equipmentAsset/equipmentAsset.module').then(c => c.EquipmentAssetModule),
-      }
-
-       ,
-       {
-        path: 'propertyAssets',
-        data: { breadcrumb: 'Property Assets' },
-        loadChildren: () => import('@/views/assets/propertyAsset/propertyAsset.module').then(c => c.PropertyAssetModule),
-      }
- ,
-       {
-        path: 'assetStatuss',
-        data: { breadcrumb: 'Asset Statuses' },
-        loadChildren: () => import('@/views/assets/assetStatus/assetStatus.module').then(c => c.AssetStatusModule),
-      }
-       ,
-       {
-        path: 'assetStatusHistorys',
-        data: { breadcrumb: 'Asset Status History' },
-        loadChildren: () => import('@/views/assets/assetStatusHistory/assetStatusHistory.module').then(c => c.AssetStatusHistoryModule),
-      }
-        ,
-       {
-        path: 'assetConditionGrades',
-        data: { breadcrumb: 'Asset Condition Grades' },
-        loadChildren: () => import('@/views/assets/assetConditionGrade/assetConditionGrade.module').then(c => c.AssetConditionGradeModule),
-      }
-        ,
-       {
-        path: 'assetOwnershipHistorys',
-        data: { breadcrumb: 'Asset Ownership History' },
-        loadChildren: () => import('@/views/assets/assetOwnershipHistory/assetOwnershipHistory.module').then(c => c.AssetOwnershipHistoryModule),
-      }   ,
-       {
-        path: 'assetLocationHistorys',
-        data: { breadcrumb: 'Asset Location History' },
-        loadChildren: () => import('@/views/assets/assetLocationHistory/assetLocationHistory.module').then(c => c.AssetLocationHistoryModule),
-      }
-       ,
-       {
-        path: 'assetAssignments',
-        data: { breadcrumb: 'Asset Assignments' },
-        loadChildren: () => import('@/views/assets/assetAssignment/assetAssignment.module').then(c => c.AssetAssignmentModule),
-      },
-       {
-        path: 'assetAssignmentHistorys',
-        data: { breadcrumb: 'Asset Assignment History' },
-        loadChildren: () => import('@/views/assets/assetAssignmentHistory/assetAssignmentHistory.module').then(c => c.AssetAssignmentHistoryModule),
-      }
-,
-       {
-        path: 'assetMeasureDefinitions',
-        data: { breadcrumb: 'Asset Measure Definitions' },
-        loadChildren: () => import('@/views/assets/assetMeasureDefinition/assetMeasureDefinition.module').then(c => c.AssetMeasureDefinitionModule),
-      },
-       {
-        path: 'assetMeasureReadings',
-        data: { breadcrumb: 'Asset Measure Readings' },
-        loadChildren: () => import('@/views/assets/assetMeasureReading/assetMeasureReading.module').then(c => c.AssetMeasureReadingModule),
-      } ,
-       {
-        path: 'assetInspections',
-        data: { breadcrumb: 'Asset Inspections' },
-        loadChildren: () => import('@/views/assets/assetInspection/assetInspection.module').then(c => c.AssetInspectionModule),
-      } 
-     ,
+      
        {
         path: 'leadSources',
         data: { breadcrumb: 'Lead Sources' },

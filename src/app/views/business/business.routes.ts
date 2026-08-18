@@ -3,6 +3,7 @@ import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { BusinessFeatureComponent } from './business-feature.component';
 import { CrmDashboardComponent } from './crm-dashboard.component';
+import { ASSET_ROUTES } from './assets.routes';
 
 interface BusinessPage {
     path: string;
@@ -204,6 +205,7 @@ export const BUSINESS_ROUTES: Routes = [
                 data: { title: 'Handoffs', breadcrumb: 'Handoffs' },
                 loadChildren: () => import('@/views/crm/originationHandoff/originationHandoff.module').then(m => m.OriginationHandoffModule)
             },
+            ...ASSET_ROUTES,
             
             ...pages.map(page => ({
                 path: page.path,

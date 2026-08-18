@@ -668,18 +668,18 @@ export class AppMenu {
                                 {
                                     label: 'Asset Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
-                                    routerLink: ['/dashboard/assets/list'],
+                                    routerLink: ['/business/assets/dashboard'],
                                     tooltip: 'See your fleet/ actions and costs here',
                                 },
                                 {
                                     label: 'Asset Worklist',
                                     icon: 'pi pi-fw pi-list',
-                                    routerLink: ['/assets']
+                                    routerLink: ['/business/assets']
                                 },
                                 {
                                     label: 'Create Asset',
                                     icon: 'pi pi-fw pi-plus-circle',
-                                    routerLink: ['/assets/create']
+                                    routerLink: ['/business/assets/create']
                                 },
                                 {
                                     label: 'Classification',
@@ -687,23 +687,23 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Asset Categories',
-                                            routerLink: ['/dashboard/assetCategorys/list']
+                                            routerLink: ['/business/assets/classification/categories']
                                         },
                                         {
                                             label: 'Asset Types',
-                                            routerLink: ['/dashboard/assetTypes']
+                                            routerLink: ['/business/assets/classification/types']
                                         },
                                         {
                                             label: 'Asset Makes',
-                                            routerLink: ['/dashboard/assetMakes']
+                                            routerLink: ['/business/assets/classification/makes']
                                         },
                                         {
                                             label: 'Models & Variants',
-                                            routerLink: ['/dashboard/assetModels']
+                                            routerLink: ['/business/assets/classification/models']
                                         },
                                           {
                                             label: 'Asset identifiers',
-                                            routerLink: ['/dashboard/assetIdentifiers']
+                                            routerLink: ['/business/assets/classification/identifiers']
                                         },
 
 
@@ -712,35 +712,35 @@ export class AppMenu {
                                             items: [
                                                 {
                                                     label: 'Asset Attribute Definitions',
-                                                    routerLink: ['/dashboard/assetAttributeDefinitions']
+                                                    routerLink: ['/business/assets/classification/attribute-definitions']
                                                 },
                                                  {
                                                     label: 'Asset Attribute Options',
-                                                    routerLink: ['/dashboard/assetAttributeOptions']
+                                                    routerLink: ['/business/assets/classification/attribute-options']
                                                 },
                                              {
                                                     label: 'Asset Attribute Values',
-                                                    routerLink: ['/dashboard/assetAttributeValues']
+                                                    routerLink: ['/business/assets/classification/attribute-values']
                                                 },
                                                  {
                                                     label: 'Asset Statuses',
-                                                    routerLink: ['/dashboard/assetStatuss']
+                                                    routerLink: ['/business/assets/classification/statuses']
                                                 }, 
                                                {
                                                     label: 'Asset Status History',
-                                                    routerLink: ['/dashboard/assetStatusHistorys']
+                                                    routerLink: ['/business/assets/status-history']
                                                 },  
                                               {
                                                     label: 'Asset Condition Grades',
-                                                    routerLink: ['/dashboard/assetConditionGrades']
+                                                    routerLink: ['/business/assets/condition-grades']
                                                 },     
                                                   {
                                                     label: 'Asset Ownership History',
-                                                    routerLink: ['/dashboard/assetOwnershipHistorys']
+                                                    routerLink: ['/business/assets/ownership-history']
                                                 },    
                                                   {
                                                     label: 'Asset Location History',
-                                                    routerLink: ['/dashboard/assetLocationHistorys']
+                                                    routerLink: ['/business/assets/location-history']
                                                 } 
                                                 
                                                 
@@ -749,7 +749,7 @@ export class AppMenu {
 
                                         {
                                             label: 'Attribute Options',
-                                            routerLink: ['/assets/attribute-options']
+                                            routerLink: ['/business/assets/classification/attribute-options']
                                         }
                                     ]
                                 },
@@ -759,19 +759,19 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Current Assignments',
-                                            routerLink: ['/assets/assetAssignments']
+                                            routerLink: ['/business/assets/assignments']
                                         },
                                         {
                                             label: 'Assign Asset',
-                                            routerLink: ['/assets/assignments/create']
+                                            routerLink: ['/business/assets/assignments/create']
                                         },
                                         {
                                             label: 'Transfer Custody',
-                                            routerLink: ['/assets/assignments/transfer']
+                                            routerLink: ['/business/assets/assignments/transfer']
                                         },
                                         {
                                             label: 'Assignment History',
-                                            routerLink: ['/assets/assetAssignmentHistorys']
+                                            routerLink: ['/business/assets/assignments/history']
                                         }
                                     ]
                                 },
@@ -781,19 +781,19 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Current Locations',
-                                            routerLink: ['/assets/locations']
+                                            routerLink: ['/business/assets/locations']
                                         },
                                         {
                                             label: 'Move Asset',
-                                            routerLink: ['/assets/movements/create']
+                                            routerLink: ['/business/assets/movements/create']
                                         },
                                         {
                                             label: 'Branch Transfers',
-                                            routerLink: ['/assets/movements/transfers']
+                                            routerLink: ['/business/assets/movements/transfers']
                                         },
                                         {
                                             label: 'Movement History',
-                                            routerLink: ['/assets/movements/history']
+                                            routerLink: ['/business/assets/location-history']
                                         }
                                     ]
                                 },
@@ -803,15 +803,15 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Measure Definitions',
-                                            routerLink: ['/dashboard/assetMeasureDefinitions']
+                                            routerLink: ['/business/assets/measures/definitions']
                                         },
                                         {
                                             label: 'Record Reading',
-                                            routerLink: ['/dashboard/assetMeasureReadings/list']
+                                            routerLink: ['/business/assets/measures/readings/create']
                                         },
                                         {
                                             label: 'Reading History',
-                                            routerLink: ['/dashboard/assetMeasureReadings/history']
+                                            routerLink: ['/business/assets/measures/readings']
                                         }
                                     ]
                                 },
@@ -821,15 +821,15 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Inspection Worklist',
-                                            routerLink: ['/dashboard/assetInspections']
+                                            routerLink: ['/business/assets/inspections']
                                         },
                                         {
                                             label: 'Create Inspection',
-                                            routerLink: ['/assets/inspections/create']
+                                            routerLink: ['/business/assets/inspections/create']
                                         },
                                         {
                                             label: 'Condition Grades',
-                                            routerLink: ['/assets/condition-grades']
+                                            routerLink: ['/business/assets/condition-grades']
                                         }
                                     ]
                                 },
@@ -839,31 +839,31 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Compliance Dashboard',
-                                            routerLink: ['/assets/compliance']
+                                            routerLink: ['/business/assets/compliance']
                                         },
                                         {
                                             label: 'Compliance Types',
-                                            routerLink: ['/assets/compliance/types']
+                                            routerLink: ['/business/assets/compliance/types']
                                         },
                                         {
                                             label: 'Certificates & Permits',
-                                            routerLink: ['/assets/compliance/records']
+                                            routerLink: ['/business/assets/compliance/records']
                                         },
                                         {
                                             label: 'Expiry Worklist',
-                                            routerLink: ['/assets/compliance/expiring']
+                                            routerLink: ['/business/assets/compliance/expiring']
                                         }
                                     ]
                                 },
                                 {
                                     label: 'Documents',
                                     icon: 'pi pi-fw pi-folder',
-                                    routerLink: ['/assets/documents']
+                                    routerLink: ['/business/assets/documents']
                                 },
                                 {
                                     label: 'Valuations',
                                     icon: 'pi pi-fw pi-chart-line',
-                                    routerLink: ['/assets/valuations']
+                                    routerLink: ['/business/assets/valuations']
                                 },
                                 {
                                     label: 'Warranty & Insurance',
@@ -871,18 +871,18 @@ export class AppMenu {
                                     items: [
                                         {
                                             label: 'Warranties',
-                                            routerLink: ['/assets/warranties']
+                                            routerLink: ['/business/assets/warranties']
                                         },
                                         {
                                             label: 'Insurance',
-                                            routerLink: ['/assets/insurance']
+                                            routerLink: ['/business/assets/insurance']
                                         }
                                     ]
                                 },
                                 {
                                     label: 'Lifecycle History',
                                     icon: 'pi pi-fw pi-history',
-                                    routerLink: ['/assets/lifecycle']
+                                    routerLink: ['/business/assets/lifecycle']
                                 }
                             ],
                         },
