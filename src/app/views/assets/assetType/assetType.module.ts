@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { AssetTypeListComponent } from './assetType-list.component';
 import { AssetTypeCreateComponent } from './assetType-create.component';
@@ -42,6 +43,7 @@ import { AssetTypeRoutingModule } from './assetType-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		AssetTypeRoutingModule,
 	],
 	declarations: [

@@ -21,7 +21,7 @@ export class AssetModelListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
   lstMain: IAssetModel[]; 
   sortBy: string = 'Id';
   IsDescending: boolean;
@@ -46,7 +46,7 @@ export class AssetModelListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetModelService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, true);
     }, 500);
   }
 
@@ -69,8 +69,10 @@ export class AssetModelListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 10, page: event.page ?? 0, pageCount: event.pageCount ?? 0 };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
