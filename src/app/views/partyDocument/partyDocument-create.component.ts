@@ -150,7 +150,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyDocuments/create']);
+      this.router.navigate(['/business/parties/documents/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -165,7 +165,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onCancel(): void {
     if (this.partyId) {
-      this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+      this.router.navigate(['/business/parties/documents/party', this.partyId]);
       return;
     }
     this.partyDocument = { ...this.objMaster };
@@ -227,7 +227,7 @@ EffectiveTo: formValues.EffectiveTo || null,
       next: data => {	   
          // this.messageService.showSuccess(PartyDocument +  'Details Updated sucessfully.');
 		 if (this.partyId) {
-		   this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+		   this.router.navigate(['/business/parties/documents/party', this.partyId]);
 		 }
 		 else {
 		   this._location.back();

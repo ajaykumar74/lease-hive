@@ -62,7 +62,7 @@ export class PartyBankAccountViewComponent implements OnInit {
                 this.partyBankAccount = data.data;
                 if (this.partyId && this.partyBankAccount.PartyId !== this.partyId) {
                     this.messageService.showError('This record does not belong to the selected party.');
-                    this.router.navigate(['/dashboard/partyBankAccounts/party', this.partyId]);
+                    this.router.navigate(['/business/parties/bank-accounts/party', this.partyId]);
                     return;
                 }
                 this.permission = data.permission; 
@@ -79,7 +79,7 @@ export class PartyBankAccountViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/partyBankAccount/create']);
+            this.router.navigate(['/business/parties/bank-accounts/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -156,7 +156,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyBankAccounts/create']);
+      this.router.navigate(['/business/parties/bank-accounts/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -171,7 +171,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onCancel(): void {
     if (this.partyId) {
-      this.router.navigate(['/dashboard/partyBankAccounts/party', this.partyId]);
+      this.router.navigate(['/business/parties/bank-accounts/party', this.partyId]);
       return;
     }
     this.partyBankAccount = { ...this.objMaster };

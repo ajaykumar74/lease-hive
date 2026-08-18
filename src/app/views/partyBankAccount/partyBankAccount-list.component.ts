@@ -144,8 +144,8 @@ export class PartyBankAccountListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyBankAccounts/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyBankAccounts', page, obj.Id];
+      ? ['/business/parties/bank-accounts/party', this.partyId, page, obj.Id]
+      : ['/business/parties/bank-accounts', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -153,8 +153,8 @@ export class PartyBankAccountListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyBankAccounts/party', this.partyId, 'create']
-        : ['dashboard/partyBankAccounts/create'];
+        ? ['/business/parties/bank-accounts/party', this.partyId, 'create']
+        : ['/business/parties/bank-accounts/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

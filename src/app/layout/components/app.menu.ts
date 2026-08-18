@@ -325,52 +325,51 @@ export class AppMenu {
                                             routerLink: ['/business/parties/contacts'],
                                         }
                                     ]
-                                }
-                            ],
-                        },
-                        {
-                            label: 'Tax & Banking',
-                            icon: 'pi pi-fw pi-user',
-                            items: [
-                                {
-                                    label: 'GST registrations',
-                                    icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/business/parties/gst-registrations'],
-                                    tooltip: 'see your gst registrations here',
                                 },
                                 {
-                                    label: 'Party Locations',
-                                    icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/business/parties/locations'],
-                                    tooltip: 'see your party locations here',
-                                },
-                                {
-                                    label: 'Tax profiles',
-                                    icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/business/parties/gst-registrations'],
-                                    tooltip: 'See your fleet/ actions and costs here',
-                                },
-                                {
-                                    label: 'Bank accounts',
-                                    icon: 'pi pi-fw pi-home',
-                                    routerLink: ['/business/parties/bank-accounts'],
-                                    tooltip: 'See your fleet/ actions and costs here',
-                                },
-                                {
-                                    label: 'Credit profiles',
-                                    icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/business/parties/credit-profiles'],
-                                    tooltip: '',
-                                }, {
-                                    label: 'KYC documents',
-                                    icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/business/parties/documents'],
-                                    tooltip: '',
-                                }, {
-                                    label: 'Verification status',
-                                    icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/business/parties/dashboard'],
-                                    tooltip: '',
+                                    label: 'Tax & Banking',
+                                    icon: 'pi pi-fw pi-wallet',
+                                    items: [
+                                        {
+                                            label: 'GST registrations',
+                                            icon: 'pi pi-fw pi-receipt',
+                                            routerLink: ['/business/parties/gst-registrations'],
+                                            tooltip: 'View party GST registrations',
+                                        },
+                                        {
+                                            label: 'Party Locations',
+                                            icon: 'pi pi-fw pi-map-marker',
+                                            routerLink: ['/business/parties/locations'],
+                                            tooltip: 'View party locations',
+                                        },
+                                        {
+                                            label: 'Tax profiles',
+                                            icon: 'pi pi-fw pi-percentage',
+                                            routerLink: ['/business/parties/tax-profiles'],
+                                            tooltip: 'View party tax registrations',
+                                        },
+                                        {
+                                            label: 'Bank accounts',
+                                            icon: 'pi pi-fw pi-building-columns',
+                                            routerLink: ['/business/parties/bank-accounts'],
+                                            tooltip: 'View party bank accounts',
+                                        },
+                                        {
+                                            label: 'Credit profiles',
+                                            icon: 'pi pi-fw pi-chart-line',
+                                            routerLink: ['/business/parties/credit-profiles'],
+                                        },
+                                        {
+                                            label: 'KYC documents',
+                                            icon: 'pi pi-fw pi-id-card',
+                                            routerLink: ['/business/parties/documents'],
+                                        },
+                                        {
+                                            label: 'Verification status',
+                                            icon: 'pi pi-fw pi-verified',
+                                            routerLink: ['/business/parties/verification-status'],
+                                        }
+                                    ],
                                 }
                             ],
                         },

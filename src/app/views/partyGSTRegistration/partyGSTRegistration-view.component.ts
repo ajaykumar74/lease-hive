@@ -62,7 +62,7 @@ export class PartyGSTRegistrationViewComponent implements OnInit {
                 this.partyGSTRegistration = data.data;
                 if (this.partyId && this.partyGSTRegistration.PartyId !== this.partyId) {
                     this.messageService.showError('This record does not belong to the selected party.');
-                    this.router.navigate(['/dashboard/partyGSTRegistrations/party', this.partyId]);
+                    this.router.navigate(['/business/parties/gst-registrations/party', this.partyId]);
                     return;
                 }
                 this.permission = data.permission; 
@@ -79,7 +79,7 @@ export class PartyGSTRegistrationViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/partyGSTRegistration/create']);
+            this.router.navigate(['/business/parties/gst-registrations/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

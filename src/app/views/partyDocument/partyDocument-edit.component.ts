@@ -100,7 +100,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         this.partyDocument = data.data;
 		if (this.partyId && this.partyDocument.PartyId !== this.partyId) {
 		  this.messageService.showError('This document does not belong to the selected party.');
-		  this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+		  this.router.navigate(['/business/parties/documents/party', this.partyId]);
 		  return;
 		}
 		this.permission = data.permission;
@@ -143,7 +143,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyDocument/create', { id: -1 }]);
+      this.router.navigate(['/business/parties/documents/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

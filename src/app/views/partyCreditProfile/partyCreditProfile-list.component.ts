@@ -145,8 +145,8 @@ export class PartyCreditProfileListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyCreditProfiles/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyCreditProfiles', page, obj.Id];
+      ? ['/business/parties/credit-profiles/party', this.partyId, page, obj.Id]
+      : ['/business/parties/credit-profiles', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class PartyCreditProfileListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyCreditProfiles/party', this.partyId, 'create']
-        : ['dashboard/partyCreditProfiles/create'];
+        ? ['/business/parties/credit-profiles/party', this.partyId, 'create']
+        : ['/business/parties/credit-profiles/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

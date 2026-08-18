@@ -145,8 +145,8 @@ export class PartyDocumentListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyDocuments/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyDocuments', page, obj.Id];
+      ? ['/business/parties/documents/party', this.partyId, page, obj.Id]
+      : ['/business/parties/documents', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class PartyDocumentListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyDocuments/party', this.partyId, 'create']
-        : ['dashboard/partyDocuments/create'];
+        ? ['/business/parties/documents/party', this.partyId, 'create']
+        : ['/business/parties/documents/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

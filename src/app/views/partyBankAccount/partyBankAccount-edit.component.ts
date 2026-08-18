@@ -103,7 +103,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         this.partyBankAccount = data.data;
 		if (this.partyId && this.partyBankAccount.PartyId !== this.partyId) {
 		  this.messageService.showError('This record does not belong to the selected party.');
-		  this.router.navigate(['/dashboard/partyBankAccounts/party', this.partyId]);
+		  this.router.navigate(['/business/parties/bank-accounts/party', this.partyId]);
 		  return;
 		}
 		this.permission = data.permission;
@@ -154,7 +154,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyBankAccount/create', { id: -1 }]);
+      this.router.navigate(['/business/parties/bank-accounts/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

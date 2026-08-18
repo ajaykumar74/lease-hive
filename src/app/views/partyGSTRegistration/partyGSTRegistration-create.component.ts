@@ -151,7 +151,7 @@ IsDefault:  obj.IsDefault || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyGSTRegistrations/create']);
+      this.router.navigate(['/business/parties/gst-registrations/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -166,7 +166,7 @@ IsDefault:  obj.IsDefault || false,
 
   onCancel(): void {
     if (this.partyId) {
-      this.router.navigate(['/dashboard/partyGSTRegistrations/party', this.partyId]);
+      this.router.navigate(['/business/parties/gst-registrations/party', this.partyId]);
       return;
     }
     this.partyGSTRegistration = { ...this.objMaster };

@@ -62,7 +62,7 @@ export class PartyDocumentViewComponent implements OnInit {
                 this.partyDocument = data.data;
                 if (this.partyId && this.partyDocument.PartyId !== this.partyId) {
                     this.messageService.showError('This document does not belong to the selected party.');
-                    this.router.navigate(['/dashboard/partyDocuments/party', this.partyId]);
+                    this.router.navigate(['/business/parties/documents/party', this.partyId]);
                     return;
                 }
                 this.permission = data.permission; 
@@ -79,7 +79,7 @@ export class PartyDocumentViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/partyDocument/create']);
+            this.router.navigate(['/business/parties/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -144,8 +144,8 @@ export class PartyLocationListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyLocations/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyLocations', page, obj.Id];
+      ? ['/business/parties/locations/party', this.partyId, page, obj.Id]
+      : ['/business/parties/locations', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -153,8 +153,8 @@ export class PartyLocationListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyLocations/party', this.partyId, 'create']
-        : ['dashboard/partyLocations/create'];
+        ? ['/business/parties/locations/party', this.partyId, 'create']
+        : ['/business/parties/locations/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

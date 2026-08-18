@@ -62,7 +62,7 @@ export class PartyLocationViewComponent implements OnInit {
                 this.partyLocation = data.data;
                 if (this.partyId && this.partyLocation.PartyId !== this.partyId) {
                     this.messageService.showError('This record does not belong to the selected party.');
-                    this.router.navigate(['/dashboard/partyLocations/party', this.partyId]);
+                    this.router.navigate(['/business/parties/locations/party', this.partyId]);
                     return;
                 }
                 this.permission = data.permission; 
@@ -79,7 +79,7 @@ export class PartyLocationViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/partyLocation/create']);
+            this.router.navigate(['/business/parties/locations/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

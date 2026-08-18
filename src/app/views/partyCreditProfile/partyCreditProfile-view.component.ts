@@ -62,7 +62,7 @@ export class PartyCreditProfileViewComponent implements OnInit {
                 this.partyCreditProfile = data.data;
                 if (this.partyId && this.partyCreditProfile.PartyId !== this.partyId) {
                     this.messageService.showError('This record does not belong to the selected party.');
-                    this.router.navigate(['/dashboard/partyCreditProfiles/party', this.partyId]);
+                    this.router.navigate(['/business/parties/credit-profiles/party', this.partyId]);
                     return;
                 }
                 this.permission = data.permission; 
@@ -79,7 +79,7 @@ export class PartyCreditProfileViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/partyCreditProfile/create']);
+            this.router.navigate(['/business/parties/credit-profiles/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

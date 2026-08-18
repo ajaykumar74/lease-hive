@@ -145,8 +145,8 @@ export class PartyGSTRegistrationListComponent implements OnInit {
   onDetailsClick(obj: any): void {
     const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
     const route = this.partyId
-      ? ['dashboard/partyGSTRegistrations/party', this.partyId, page, obj.Id]
-      : ['dashboard/partyGSTRegistrations', page, obj.Id];
+      ? ['/business/parties/gst-registrations/party', this.partyId, page, obj.Id]
+      : ['/business/parties/gst-registrations', page, obj.Id];
     this.router.navigate(route);
   
   };
@@ -154,8 +154,8 @@ export class PartyGSTRegistrationListComponent implements OnInit {
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       const route = this.partyId
-        ? ['dashboard/partyGSTRegistrations/party', this.partyId, 'create']
-        : ['dashboard/partyGSTRegistrations/create'];
+        ? ['/business/parties/gst-registrations/party', this.partyId, 'create']
+        : ['/business/parties/gst-registrations/create'];
       this.router.navigate(route);
     } 
     else if (key == "Refresh") {

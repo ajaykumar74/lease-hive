@@ -101,7 +101,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         this.partyGSTRegistration = data.data;
 		if (this.partyId && this.partyGSTRegistration.PartyId !== this.partyId) {
 		  this.messageService.showError('This record does not belong to the selected party.');
-		  this.router.navigate(['/dashboard/partyGSTRegistrations/party', this.partyId]);
+		  this.router.navigate(['/business/parties/gst-registrations/party', this.partyId]);
 		  return;
 		}
 		this.permission = data.permission;
@@ -149,7 +149,7 @@ IsDefault:  obj.IsDefault || false,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/partyGSTRegistration/create', { id: -1 }]);
+      this.router.navigate(['/business/parties/gst-registrations/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
