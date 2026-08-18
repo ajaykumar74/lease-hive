@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="creditLimit.PartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="OrganisationId" [value]="creditLimit.OrganisationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="CreditDecisionId" [value]="creditLimit.CreditDecisionId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CurrencyCode" [value]="creditLimit.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="LimitAmount" [value]="creditLimit.LimitAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="EffectiveFrom" [value]="creditLimit.EffectiveFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="EffectiveTo" [value]="creditLimit.EffectiveTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="LimitStatus" [value]="creditLimit.LimitStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Remarks" [value]="creditLimit.Remarks">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RecordStatus" [value]="creditLimit.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

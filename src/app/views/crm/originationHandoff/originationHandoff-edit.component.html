@@ -1,0 +1,118 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="OpportunityId" class="mb-1">OpportunityId</label>
+        <p-dropdown
+            inputId="OpportunityId" 
+            [options]="opportunityidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="OpportunityId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('OpportunityId')"
+											label="OpportunityId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="QuoteId" class="mb-1">QuoteId</label>
+        <p-dropdown
+            inputId="QuoteId" 
+            [options]="quoteidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteId')"
+											label="QuoteId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Credit DecisionId" class="mb-1">CreditDecisionId</label>
+        <p-dropdown
+            inputId="CreditDecisionId" 
+            [options]="creditdecisionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CreditDecisionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CreditDecisionId')"
+											label="Credit DecisionId">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="PartyId">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Handoff StatusId" class="mb-1">HandoffStatusId</label>
+        <p-dropdown
+            inputId="HandoffStatusId" 
+            [options]="handoffstatusidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="HandoffStatusId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('HandoffStatusId')"
+											label="Handoff StatusId">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="HandoffDateTime">Handoff DateTime 
+							</label> 
+							<p-calendar id="HandoffDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="HandoffDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('HandoffDateTime')"
+											label="Handoff DateTime">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Target Module Code" class="mb-1">TargetModuleCode</label>
+        <p-dropdown
+            inputId="TargetModuleCode" 
+            [options]="targetmodulecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TargetModuleCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TargetModuleCode')"
+											label="Target Module Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="TargetReferenceId">Target ReferenceId 
+							</label> 
+							<p-inputNumber id="TargetReferenceId"  pSize="small"	formControlName="TargetReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TargetReferenceId')"
+											label="Target ReferenceId">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

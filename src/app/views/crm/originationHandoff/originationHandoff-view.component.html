@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="OpportunityId" [value]="originationHandoff.OpportunityId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="QuoteId" [value]="originationHandoff.QuoteId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit DecisionId" [value]="originationHandoff.CreditDecisionId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="PartyId" [value]="originationHandoff.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Handoff StatusId" [value]="originationHandoff.HandoffStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Handoff DateTime" [value]="originationHandoff.HandoffDateTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Target Module Code" [value]="originationHandoff.TargetModuleCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Target ReferenceId" [value]="originationHandoff.TargetReferenceId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
