@@ -1214,14 +1214,851 @@ export class AppMenu {
                             ]
                         },
                         {
-                            label: 'Contracts',
-                            icon: 'pi pi-fw pi-file',
-                            items: []
+                            label: 'Lease Contracts',
+                            icon: 'pi pi-file-edit',
+                            items: [
+                                {
+                                    label: 'Contract Workspace',
+                                    icon: 'pi pi-briefcase',
+                                    items: [
+                                        {
+                                            label: 'Contract Dashboard',
+                                            icon: 'pi pi-chart-bar',
+                                            routerLink: ['/contracts/dashboard']
+                                        },
+                                        {
+                                            label: 'All Contracts',
+                                            icon: 'pi pi-list',
+                                            routerLink: ['/contracts']
+                                        },
+                                        {
+                                            label: 'Create Contract',
+                                            icon: 'pi pi-plus-circle',
+                                            routerLink: ['/contracts/create']
+                                        },
+                                        {
+                                            label: 'Draft Contracts',
+                                            icon: 'pi pi-pencil',
+                                            routerLink: ['/contracts/drafts']
+                                        },
+                                        {
+                                            label: 'Pending Approval',
+                                            icon: 'pi pi-clock',
+                                            routerLink: ['/contracts/pending-approval']
+                                        },
+                                        {
+                                            label: 'Pending Execution',
+                                            icon: 'pi pi-file-signature',
+                                            routerLink: ['/contracts/pending-execution']
+                                        },
+                                        {
+                                            label: 'Pending Activation',
+                                            icon: 'pi pi-play-circle',
+                                            routerLink: ['/contracts/pending-activation']
+                                        },
+                                        {
+                                            label: 'Active Contracts',
+                                            icon: 'pi pi-check-circle',
+                                            routerLink: ['/contracts/active']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Contract Setup',
+                                    icon: 'pi pi-sliders-h',
+                                    items: [
+                                        {
+                                            label: 'Contract Parties',
+                                            icon: 'pi pi-users',
+                                            routerLink: ['/contracts/parties']
+                                        },
+                                        {
+                                            label: 'Commercial Terms',
+                                            icon: 'pi pi-percentage',
+                                            routerLink: ['/contracts/terms']
+                                        },
+                                        {
+                                            label: 'Contract Assets',
+                                            icon: 'pi pi-box',
+                                            routerLink: ['/contracts/assets']
+                                        },
+                                        {
+                                            label: 'Charges & Fees',
+                                            icon: 'pi pi-wallet',
+                                            routerLink: ['/contracts/charges']
+                                        },
+                                        {
+                                            label: 'Security Deposits',
+                                            icon: 'pi pi-shield',
+                                            routerLink: ['/contracts/deposits']
+                                        },
+                                        {
+                                            label: 'Payment Schedules',
+                                            icon: 'pi pi-calendar',
+                                            routerLink: ['/contracts/payment-schedules']
+                                        },
+                                        {
+                                            label: 'Conditions',
+                                            icon: 'pi pi-check-square',
+                                            routerLink: ['/contracts/conditions']
+                                        },
+                                        {
+                                            label: 'Contract Obligations',
+                                            icon: 'pi pi-clipboard',
+                                            routerLink: ['/contracts/obligations']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Asset Allocation',
+                                    icon: 'pi pi-box',
+                                    items: [
+                                        {
+                                            label: 'Pending Allocation',
+                                            icon: 'pi pi-clock',
+                                            routerLink: ['/contracts/assets/pending-allocation']
+                                        },
+                                        {
+                                            label: 'Allocated Assets',
+                                            icon: 'pi pi-link',
+                                            routerLink: ['/contracts/assets/allocated']
+                                        },
+                                        {
+                                            label: 'Asset Replacement',
+                                            icon: 'pi pi-sync',
+                                            routerLink: ['/contracts/assets/replacement']
+                                        },
+                                        {
+                                            label: 'Allocation History',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/assets/history']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Conditions & Readiness',
+                                    icon: 'pi pi-verified',
+                                    items: [
+                                        {
+                                            label: 'Conditions Checklist',
+                                            icon: 'pi pi-list-check',
+                                            routerLink: ['/contracts/conditions/checklist']
+                                        },
+                                        {
+                                            label: 'Pending Conditions',
+                                            icon: 'pi pi-exclamation-circle',
+                                            routerLink: ['/contracts/conditions/pending']
+                                        },
+                                        {
+                                            label: 'Condition Evidence',
+                                            icon: 'pi pi-paperclip',
+                                            routerLink: ['/contracts/conditions/evidence']
+                                        },
+                                        {
+                                            label: 'Waiver Requests',
+                                            icon: 'pi pi-exclamation-triangle',
+                                            routerLink: ['/contracts/conditions/waivers']
+                                        },
+                                        {
+                                            label: 'Activation Readiness',
+                                            icon: 'pi pi-check-circle',
+                                            routerLink: ['/contracts/activation-readiness']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Documents & Execution',
+                                    icon: 'pi pi-file',
+                                    items: [
+                                        {
+                                            label: 'Document Packs',
+                                            icon: 'pi pi-folder',
+                                            routerLink: ['/contracts/document-packs']
+                                        },
+                                        {
+                                            label: 'Contract Documents',
+                                            icon: 'pi pi-file-pdf',
+                                            routerLink: ['/contracts/documents']
+                                        },
+                                        {
+                                            label: 'Generate Agreement',
+                                            icon: 'pi pi-file-export',
+                                            routerLink: ['/contracts/documents/generate']
+                                        },
+                                        {
+                                            label: 'Send for Signature',
+                                            icon: 'pi pi-send',
+                                            routerLink: ['/contracts/execution/send']
+                                        },
+                                        {
+                                            label: 'Execution Tracker',
+                                            icon: 'pi pi-file-signature',
+                                            routerLink: ['/contracts/execution']
+                                        },
+                                        {
+                                            label: 'Executed Contracts',
+                                            icon: 'pi pi-check-square',
+                                            routerLink: ['/contracts/executed']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Approvals',
+                                    icon: 'pi pi-check-circle',
+                                    items: [
+                                        {
+                                            label: 'My Approval Queue',
+                                            icon: 'pi pi-inbox',
+                                            routerLink: ['/contracts/approvals/my-queue']
+                                        },
+                                        {
+                                            label: 'Contract Approvals',
+                                            icon: 'pi pi-file-check',
+                                            routerLink: ['/contracts/approvals/contracts']
+                                        },
+                                        {
+                                            label: 'Amendment Approvals',
+                                            icon: 'pi pi-pencil',
+                                            routerLink: ['/contracts/approvals/amendments']
+                                        },
+                                        {
+                                            label: 'Termination Approvals',
+                                            icon: 'pi pi-times-circle',
+                                            routerLink: ['/contracts/approvals/terminations']
+                                        },
+                                        {
+                                            label: 'Waiver Approvals',
+                                            icon: 'pi pi-exclamation-triangle',
+                                            routerLink: ['/contracts/approvals/waivers']
+                                        },
+                                        {
+                                            label: 'Approval History',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/approvals/history']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Activation',
+                                    icon: 'pi pi-play',
+                                    items: [
+                                        {
+                                            label: 'Ready for Activation',
+                                            icon: 'pi pi-check-circle',
+                                            routerLink: ['/contracts/activation/ready']
+                                        },
+                                        {
+                                            label: 'Activation Exceptions',
+                                            icon: 'pi pi-exclamation-circle',
+                                            routerLink: ['/contracts/activation/exceptions']
+                                        },
+                                        {
+                                            label: 'Activation History',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/activation/history']
+                                        },
+                                        {
+                                            label: 'Handoff Status',
+                                            icon: 'pi pi-directions-alt',
+                                            routerLink: ['/contracts/handoffs']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'In-Life Management',
+                                    icon: 'pi pi-cog',
+                                    items: [
+                                        {
+                                            label: 'Active Contract Workbench',
+                                            icon: 'pi pi-briefcase',
+                                            routerLink: ['/contracts/in-life']
+                                        },
+                                        {
+                                            label: 'Amendments',
+                                            icon: 'pi pi-pencil',
+                                            items: [
+                                                {
+                                                    label: 'Create Amendment',
+                                                    icon: 'pi pi-plus',
+                                                    routerLink: ['/contracts/amendments/create']
+                                                },
+                                                {
+                                                    label: 'Amendment Worklist',
+                                                    icon: 'pi pi-list',
+                                                    routerLink: ['/contracts/amendments']
+                                                },
+                                                {
+                                                    label: 'Amendment History',
+                                                    icon: 'pi pi-history',
+                                                    routerLink: ['/contracts/amendments/history']
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            label: 'Asset Changes',
+                                            icon: 'pi pi-sync',
+                                            items: [
+                                                {
+                                                    label: 'Asset Replacement',
+                                                    icon: 'pi pi-refresh',
+                                                    routerLink: ['/contracts/assets/replacement']
+                                                },
+                                                {
+                                                    label: 'Asset Release',
+                                                    icon: 'pi pi-sign-out',
+                                                    routerLink: ['/contracts/assets/release']
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            label: 'Suspensions',
+                                            icon: 'pi pi-pause-circle',
+                                            routerLink: ['/contracts/suspensions']
+                                        },
+                                        {
+                                            label: 'Contract Obligations',
+                                            icon: 'pi pi-clipboard',
+                                            routerLink: ['/contracts/obligations/worklist']
+                                        },
+                                        {
+                                            label: 'Notices',
+                                            icon: 'pi pi-envelope',
+                                            routerLink: ['/contracts/notices']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Renewal & Maturity',
+                                    icon: 'pi pi-replay',
+                                    items: [
+                                        {
+                                            label: 'Upcoming Maturities',
+                                            icon: 'pi pi-calendar-times',
+                                            routerLink: ['/contracts/maturity/upcoming']
+                                        },
+                                        {
+                                            label: 'Renewal Options',
+                                            icon: 'pi pi-refresh',
+                                            routerLink: ['/contracts/renewals']
+                                        },
+                                        {
+                                            label: 'Extension Requests',
+                                            icon: 'pi pi-calendar-plus',
+                                            routerLink: ['/contracts/extensions']
+                                        },
+                                        {
+                                            label: 'Purchase Options',
+                                            icon: 'pi pi-shopping-cart',
+                                            routerLink: ['/contracts/purchase-options']
+                                        },
+                                        {
+                                            label: 'Asset Return Due',
+                                            icon: 'pi pi-undo',
+                                            routerLink: ['/contracts/asset-return/due']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Termination & Closure',
+                                    icon: 'pi pi-times-circle',
+                                    items: [
+                                        {
+                                            label: 'Termination Requests',
+                                            icon: 'pi pi-file-edit',
+                                            routerLink: ['/contracts/terminations']
+                                        },
+                                        {
+                                            label: 'Early Terminations',
+                                            icon: 'pi pi-fast-forward',
+                                            routerLink: ['/contracts/terminations/early']
+                                        },
+                                        {
+                                            label: 'Termination Charges',
+                                            icon: 'pi pi-money-bill',
+                                            routerLink: ['/contracts/terminations/charges']
+                                        },
+                                        {
+                                            label: 'Asset Return Instructions',
+                                            icon: 'pi pi-reply',
+                                            routerLink: ['/contracts/asset-return']
+                                        },
+                                        {
+                                            label: 'Contracts Pending Closure',
+                                            icon: 'pi pi-lock-open',
+                                            routerLink: ['/contracts/closure/pending']
+                                        },
+                                        {
+                                            label: 'Closed Contracts',
+                                            icon: 'pi pi-lock',
+                                            routerLink: ['/contracts/closed']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Monitoring & Audit',
+                                    icon: 'pi pi-search',
+                                    items: [
+                                        {
+                                            label: 'Contract Events',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/events']
+                                        },
+                                        {
+                                            label: 'Handoff Monitor',
+                                            icon: 'pi pi-share-alt',
+                                            routerLink: ['/contracts/handoffs/monitor']
+                                        },
+                                        {
+                                            label: 'Failed Handoffs',
+                                            icon: 'pi pi-exclamation-triangle',
+                                            routerLink: ['/contracts/handoffs/failed']
+                                        },
+                                        {
+                                            label: 'External References',
+                                            icon: 'pi pi-external-link',
+                                            routerLink: ['/contracts/external-references']
+                                        },
+                                        {
+                                            label: 'Contract Audit Trail',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/audit']
+                                        }
+                                    ]
+                                },
+
+                                {
+                                    label: 'Contract Configuration',
+                                    icon: 'pi pi-cog',
+                                    items: [
+                                        {
+                                            label: 'Contract Statuses',
+                                            icon: 'pi pi-list',
+                                            routerLink: ['/contracts/config/statuses']
+                                        },
+                                        {
+                                            label: 'Contract Numbering',
+                                            icon: 'pi pi-sort-numeric-up',
+                                            routerLink: ['/contracts/config/numbering']
+                                        },
+                                        {
+                                            label: 'Contract Templates',
+                                            icon: 'pi pi-file',
+                                            routerLink: ['/contracts/config/templates']
+                                        },
+                                        {
+                                            label: 'Condition Types',
+                                            icon: 'pi pi-check-square',
+                                            routerLink: ['/contracts/config/condition-types']
+                                        },
+                                        {
+                                            label: 'Charge Types',
+                                            icon: 'pi pi-wallet',
+                                            routerLink: ['/contracts/config/charge-types']
+                                        },
+                                        {
+                                            label: 'Lease Types',
+                                            icon: 'pi pi-tags',
+                                            routerLink: ['/contracts/config/lease-types']
+                                        },
+                                        {
+                                            label: 'Payment Frequencies',
+                                            icon: 'pi pi-calendar',
+                                            routerLink: ['/contracts/config/payment-frequency']
+                                        },
+                                        {
+                                            label: 'Termination Reasons',
+                                            icon: 'pi pi-times',
+                                            routerLink: ['/contracts/config/termination-reasons']
+                                        },
+                                        {
+                                            label: 'Approval Rules',
+                                            icon: 'pi pi-sitemap',
+                                            routerLink: ['/contracts/config/approval-rules']
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
-                            label: 'Billing and Finance',
+                            label: 'Billing & Finance',
                             icon: 'pi pi-fw pi-wallet',
-                            items: []
+                            items: [
+                                {
+                                    label: 'Dashboard',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/billing-finance/dashboard']
+                                },
+                                {
+                                    label: 'Billing',
+                                    icon: 'pi pi-fw pi-calendar',
+                                    items: [
+                                        {
+                                            label: 'Billing Workbench',
+                                            icon: 'pi pi-fw pi-desktop',
+                                            routerLink: ['/billing-finance/billing/workbench']
+                                        },
+                                        {
+                                            label: 'Billing Runs',
+                                            icon: 'pi pi-fw pi-play-circle',
+                                            routerLink: ['/billing-finance/billing/runs']
+                                        },
+                                        {
+                                            label: 'Billing Candidates',
+                                            icon: 'pi pi-fw pi-list-check',
+                                            routerLink: ['/billing-finance/billing/candidates']
+                                        },
+                                        {
+                                            label: 'Billing Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-triangle',
+                                            routerLink: ['/billing-finance/billing/exceptions']
+                                        },
+                                        {
+                                            label: 'Billing History',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/billing-finance/billing/history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Invoices',
+                                    icon: 'pi pi-fw pi-file',
+                                    items: [
+                                        {
+                                            label: 'Customer Invoices',
+                                            icon: 'pi pi-fw pi-file',
+                                            routerLink: ['/billing-finance/invoices']
+                                        },
+                                        {
+                                            label: 'Draft Invoices',
+                                            icon: 'pi pi-fw pi-pencil',
+                                            routerLink: ['/billing-finance/invoices/drafts']
+                                        },
+                                        {
+                                            label: 'Pending Approval',
+                                            icon: 'pi pi-fw pi-clock',
+                                            routerLink: ['/billing-finance/invoices/pending-approval']
+                                        },
+                                        {
+                                            label: 'Issued Invoices',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/billing-finance/invoices/issued']
+                                        },
+                                        {
+                                            label: 'Credit Notes',
+                                            icon: 'pi pi-fw pi-minus-circle',
+                                            routerLink: ['/billing-finance/credit-notes']
+                                        },
+                                        {
+                                            label: 'Debit Notes',
+                                            icon: 'pi pi-fw pi-plus-circle',
+                                            routerLink: ['/billing-finance/debit-notes']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Receivables',
+                                    icon: 'pi pi-fw pi-money-bill',
+                                    items: [
+                                        {
+                                            label: 'Accounts Receivable',
+                                            icon: 'pi pi-fw pi-wallet',
+                                            routerLink: ['/billing-finance/receivables']
+                                        },
+                                        {
+                                            label: 'Open Items',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/receivables/open']
+                                        },
+                                        {
+                                            label: 'Overdue Receivables',
+                                            icon: 'pi pi-fw pi-exclamation-circle',
+                                            routerLink: ['/billing-finance/receivables/overdue']
+                                        },
+                                        {
+                                            label: 'Ageing Analysis',
+                                            icon: 'pi pi-fw pi-chart-bar',
+                                            routerLink: ['/billing-finance/receivables/ageing']
+                                        },
+                                        {
+                                            label: 'Disputed / On Hold',
+                                            icon: 'pi pi-fw pi-pause-circle',
+                                            routerLink: ['/billing-finance/receivables/disputed']
+                                        },
+                                        {
+                                            label: 'Customer Statements',
+                                            icon: 'pi pi-fw pi-file-export',
+                                            routerLink: ['/billing-finance/customer-statements']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Payments & Receipts',
+                                    icon: 'pi pi-fw pi-credit-card',
+                                    items: [
+                                        {
+                                            label: 'Payment Receipts',
+                                            icon: 'pi pi-fw pi-money-bill',
+                                            routerLink: ['/billing-finance/payments/receipts']
+                                        },
+                                        {
+                                            label: 'Unapplied Receipts',
+                                            icon: 'pi pi-fw pi-question-circle',
+                                            routerLink: ['/billing-finance/payments/unapplied']
+                                        },
+                                        {
+                                            label: 'Payment Allocation',
+                                            icon: 'pi pi-fw pi-share-alt',
+                                            routerLink: ['/billing-finance/payments/allocation']
+                                        },
+                                        {
+                                            label: 'Allocation History',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/billing-finance/payments/allocation-history']
+                                        },
+                                        {
+                                            label: 'Reversed Receipts',
+                                            icon: 'pi pi-fw pi-undo',
+                                            routerLink: ['/billing-finance/payments/reversed']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Deposits',
+                                    icon: 'pi pi-fw pi-inbox',
+                                    items: [
+                                        {
+                                            label: 'Customer Deposits',
+                                            icon: 'pi pi-fw pi-wallet',
+                                            routerLink: ['/billing-finance/deposits']
+                                        },
+                                        {
+                                            label: 'Deposit Transactions',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/deposits/transactions']
+                                        },
+                                        {
+                                            label: 'Deposit Utilization',
+                                            icon: 'pi pi-fw pi-arrow-right',
+                                            routerLink: ['/billing-finance/deposits/utilization']
+                                        },
+                                        {
+                                            label: 'Deposit Refunds',
+                                            icon: 'pi pi-fw pi-replay',
+                                            routerLink: ['/billing-finance/deposits/refunds']
+                                        },
+                                        {
+                                            label: 'Deposit Forfeitures',
+                                            icon: 'pi pi-fw pi-times-circle',
+                                            routerLink: ['/billing-finance/deposits/forfeitures']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Accounting',
+                                    icon: 'pi pi-fw pi-calculator',
+                                    items: [
+                                        {
+                                            label: 'Accounting Events',
+                                            icon: 'pi pi-fw pi-bolt',
+                                            routerLink: ['/billing-finance/accounting/events']
+                                        },
+                                        {
+                                            label: 'Journal Entries',
+                                            icon: 'pi pi-fw pi-book',
+                                            routerLink: ['/billing-finance/accounting/journals']
+                                        },
+                                        {
+                                            label: 'Posting Workbench',
+                                            icon: 'pi pi-fw pi-send',
+                                            routerLink: ['/billing-finance/accounting/posting']
+                                        },
+                                        {
+                                            label: 'Posting Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-triangle',
+                                            routerLink: ['/billing-finance/accounting/posting-exceptions']
+                                        },
+                                        {
+                                            label: 'Posting History',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/billing-finance/accounting/posting-history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Bank & Reconciliation',
+                                    icon: 'pi pi-fw pi-building-columns',
+                                    items: [
+                                        {
+                                            label: 'Bank Statements',
+                                            icon: 'pi pi-fw pi-file',
+                                            routerLink: ['/billing-finance/bank/statements']
+                                        },
+                                        {
+                                            label: 'Bank Transactions',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/bank/transactions']
+                                        },
+                                        {
+                                            label: 'Reconciliation Workbench',
+                                            icon: 'pi pi-fw pi-sync',
+                                            routerLink: ['/billing-finance/reconciliation']
+                                        },
+                                        {
+                                            label: 'Unmatched Transactions',
+                                            icon: 'pi pi-fw pi-exclamation-circle',
+                                            routerLink: ['/billing-finance/reconciliation/unmatched']
+                                        },
+                                        {
+                                            label: 'Reconciliation History',
+                                            icon: 'pi pi-fw pi-history',
+                                            routerLink: ['/billing-finance/reconciliation/history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Finance Control',
+                                    icon: 'pi pi-fw pi-shield',
+                                    items: [
+                                        {
+                                            label: 'Finance Approvals',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/billing-finance/control/approvals']
+                                        },
+                                        {
+                                            label: 'Finance Exceptions',
+                                            icon: 'pi pi-fw pi-exclamation-triangle',
+                                            routerLink: ['/billing-finance/control/exceptions']
+                                        },
+                                        {
+                                            label: 'Documents',
+                                            icon: 'pi pi-fw pi-folder',
+                                            routerLink: ['/billing-finance/control/documents']
+                                        },
+                                        {
+                                            label: 'Finance Handoffs',
+                                            icon: 'pi pi-fw pi-directions-alt',
+                                            routerLink: ['/billing-finance/control/handoffs']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Reports',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    items: [
+                                        {
+                                            label: 'Billing Summary',
+                                            icon: 'pi pi-fw pi-chart-bar',
+                                            routerLink: ['/billing-finance/reports/billing-summary']
+                                        },
+                                        {
+                                            label: 'Invoice Register',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/reports/invoice-register']
+                                        },
+                                        {
+                                            label: 'Receivables Ageing',
+                                            icon: 'pi pi-fw pi-chart-bar',
+                                            routerLink: ['/billing-finance/reports/receivables-ageing']
+                                        },
+                                        {
+                                            label: 'Collection Summary',
+                                            icon: 'pi pi-fw pi-chart-line',
+                                            routerLink: ['/billing-finance/reports/collection-summary']
+                                        },
+                                        {
+                                            label: 'Deposit Register',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/reports/deposit-register']
+                                        },
+                                        {
+                                            label: 'Tax Summary',
+                                            icon: 'pi pi-fw pi-percentage',
+                                            routerLink: ['/billing-finance/reports/tax-summary']
+                                        },
+                                        {
+                                            label: 'Journal Register',
+                                            icon: 'pi pi-fw pi-book',
+                                            routerLink: ['/billing-finance/reports/journal-register']
+                                        },
+                                        {
+                                            label: 'Reconciliation Report',
+                                            icon: 'pi pi-fw pi-sync',
+                                            routerLink: ['/billing-finance/reports/reconciliation']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Configuration',
+                                    icon: 'pi pi-fw pi-cog',
+                                    items: [
+                                        {
+                                            label: 'Billing Setup',
+                                            icon: 'pi pi-fw pi-cog',
+                                            routerLink: ['/billing-finance/configuration/billing']
+                                        },
+                                        {
+                                            label: 'Billing Calendars',
+                                            icon: 'pi pi-fw pi-calendar',
+                                            routerLink: ['/billing-finance/configuration/calendars']
+                                        },
+                                        {
+                                            label: 'Billing Run Statuses',
+                                            icon: 'pi pi-fw pi-tags',
+                                            routerLink: ['/billing-finance/configuration/billing-run-statuses']
+                                        },
+                                        {
+                                            label: 'Invoice Statuses',
+                                            icon: 'pi pi-fw pi-tags',
+                                            routerLink: ['/billing-finance/configuration/invoice-statuses']
+                                        },
+                                        {
+                                            label: 'Receipt Statuses',
+                                            icon: 'pi pi-fw pi-tags',
+                                            routerLink: ['/billing-finance/configuration/receipt-statuses']
+                                        },
+                                        {
+                                            label: 'Payment Terms',
+                                            icon: 'pi pi-fw pi-calendar-clock',
+                                            routerLink: ['/billing-finance/configuration/payment-terms']
+                                        },
+                                        {
+                                            label: 'Finance Account Mapping',
+                                            icon: 'pi pi-fw pi-sitemap',
+                                            routerLink: ['/billing-finance/configuration/account-mapping']
+                                        },
+                                        {
+                                            label: 'Tax Mapping',
+                                            icon: 'pi pi-fw pi-percentage',
+                                            routerLink: ['/billing-finance/configuration/tax-mapping']
+                                        },
+                                        {
+                                            label: 'Numbering Rules',
+                                            icon: 'pi pi-fw pi-sort-numeric-up',
+                                            routerLink: ['/billing-finance/configuration/numbering']
+                                        },
+                                        {
+                                            label: 'Approval Rules',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/billing-finance/configuration/approval-rules']
+                                        },
+                                        {
+                                            label: 'Integration Setup',
+                                            icon: 'pi pi-fw pi-link',
+                                            routerLink: ['/billing-finance/configuration/integrations']
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             label: 'Operations',
