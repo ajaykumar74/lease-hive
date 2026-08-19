@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IOpportunity extends IBase {
 	Id :number;
-OpportunityId :number;
+OpportunityId :string;
 TenantId :number;
 LeadId :number;
 PartyId :number;

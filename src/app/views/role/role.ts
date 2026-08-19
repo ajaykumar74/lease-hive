@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IRole extends IBase {
 	Id :number;
-RoleId :number;
+RoleId :string;
 RoleCode :string;
 RoleName :string;
 RoleType :string;

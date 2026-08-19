@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface ILeaseRequirementAsset extends IBase {
 	Id :number;
-LeaseRequirementAssetId :number;
+LeaseRequirementAssetId :string;
 TenantId :number;
 LeaseRequirementId :number;
 LineNo :number;

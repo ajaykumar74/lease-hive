@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IUserDelegation extends IBase {
 	Id :number;
-UserDelegationId :number;
+UserDelegationId :string;
 DelegatorUserId :number;
 DelegateUserId :number;
 DelegationType :string;

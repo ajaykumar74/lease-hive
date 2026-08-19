@@ -58,7 +58,7 @@ approvedbyidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-UserDelegationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UserDelegationId: new FormControl({ value: '', disabled: true }),
 DelegatorUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DelegateUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DelegationType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -179,7 +179,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     UserDelegationId: formValues.UserDelegationId || 0,
 DelegatorUserId: formValues.DelegatorUserId || 0,
 DelegateUserId: formValues.DelegateUserId || 0,
 DelegationType: formValues.DelegationType || null,

@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IQuote extends IBase {
 	Id :number;
-QuoteId :number;
+QuoteId :string;
 TenantId :number;
 QuoteGroupNo :number;
 VersionNo :string;
