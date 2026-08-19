@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface ICustomerProfile extends IBase {
 	Id :number;
+CustomerProfileId :string;
 TenantId :number;
 PartyId :number;
 CustomerCode :string;

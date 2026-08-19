@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IDepartment extends IBase {
 	Id :number;
+DepartmentId :string;
 TenantId :number;
 OrganisationUnitId :number;
 ParentDepartmentId :number;

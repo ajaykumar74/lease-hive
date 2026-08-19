@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IPartyDocument extends IBase {
 	Id :number;
+PartyDocumentId :string;
 TenantId :number;
 PartyId :number;
 PartyIDocumentd :string;

@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IApplicationUser extends IBase {
 	Id :number;
+ApplicationUserId :string;
 UserName :string;
 DisplayName :string;
 Email :string;

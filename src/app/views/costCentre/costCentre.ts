@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface ICostCentre extends IBase {
 	Id :number;
+CostCentreId :string;
 TenantId :number;
 OrganisationId :number;
 CostCentreCode :string;

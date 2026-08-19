@@ -42,7 +42,7 @@
                 <span class="list-avatar">{{ getOrganisationInitials(obj) }}</span>
                 <div>
                   <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.TradeName || obj.LegalName || 'Unnamed organisation' }}</button>
-                  <span class="list-secondary">{{ obj.OrganisationCode || ('#' + obj.Id) }}<ng-container *ngIf="obj.TradeName && obj.LegalName"> · {{ obj.LegalName }}</ng-container></span>
+                  <span class="list-secondary">{{ obj.OrganisationId || obj.OrganisationCode || ('#' + obj.Id) }}<ng-container *ngIf="obj.TradeName && obj.LegalName"> · {{ obj.LegalName }}</ng-container></span>
                 </div>
               </div>
             </td>

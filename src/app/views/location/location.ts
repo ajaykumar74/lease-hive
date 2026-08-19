@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface ILocation extends IBase {
 	Id :number;
+LocationId :string;
 TenantId :number;
 LocationCode :string;
 LocationName :string;

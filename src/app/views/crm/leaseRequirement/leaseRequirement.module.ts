@@ -21,6 +21,8 @@ import { LeaseRequirementCreateComponent } from './leaseRequirement-create.compo
 import { LeaseRequirementEditComponent } from './leaseRequirement-edit.component';
 import { LeaseRequirementViewComponent } from './leaseRequirement-view.component';
 import { LeaseRequirementRoutingModule } from './leaseRequirement-routing.module';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -43,6 +45,8 @@ import { LeaseRequirementRoutingModule } from './leaseRequirement-routing.module
 		MySharedModule, 
 		FluidModule,
 		LeaseRequirementRoutingModule,
+		InputGroupAddonModule,
+		PaginatorModule,
 	],
 	declarations: [
 		LeaseRequirementCreateComponent,

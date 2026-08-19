@@ -173,7 +173,7 @@ this.taxsystemOptions = this.loggedInUserService.getPicklistOptions('TaxSystem')
     const formValues = this.editForm.value;
     var createdObj = {
       Id: this.objMaster.Id,
-      TenantId: this.loggedInUserService.loggedInUser.Tenant.TenantId,
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
       OrganisationCode: formValues.OrganisationCode || null,
       LegalName: formValues.LegalName || null,

@@ -39,6 +39,10 @@ export class LeaseRequirementListComponent implements OnInit {
   ngOnInit(): void {
      if (this.leaseRequirementService.CacheData.IsLoaded) {
       this.currentPage = this.leaseRequirementService.CacheData.CurrentPage;
+      this.pgEvent = {
+        ...this.pgEvent,
+        first: (this.currentPage - 1) * this.pgEvent.rows
+      } as PageEvent;
       this.objSearch = this.leaseRequirementService.CacheData.objSearch;
       this.permission = this.leaseRequirementService.CacheData.permission;
     }  
@@ -61,21 +65,31 @@ export class LeaseRequirementListComponent implements OnInit {
 
 
   search(): void {
+    this.pgEvent = { ...this.pgEvent, first: 0 } as PageEvent;
+    this.currentPage = 1;
     this.searchData(this.pgEvent, true);
   }
 
   clearSearch(): void {
     this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.pgEvent = { ...this.pgEvent, first: 0 } as PageEvent;
+    this.currentPage = 1;
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number }): void {
+    const pageEvent = {
+      first: event.first ?? 0,
+      rows: event.rows ?? this.pgEvent.rows
+    } as PageEvent;
+    this.pgEvent = pageEvent;
+    this.currentPage = Math.floor(pageEvent.first / pageEvent.rows) + 1;
+    this.searchData(pageEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
 
-    if (isReload || this.leaseRequirementService.CacheData.CurrentPage != pgEvent.page) {
+    if (isReload || this.leaseRequirementService.CacheData.CurrentPage != this.currentPage) {
 
       var searchParam = {
         Skip: pgEvent.first,
@@ -89,7 +103,7 @@ export class LeaseRequirementListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.leaseRequirementService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.leaseRequirementService.setCache(res.data, this.permission, this.objSearch, this.currentPage);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }

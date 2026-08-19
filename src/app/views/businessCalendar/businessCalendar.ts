@@ -2,6 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IBusinessCalendar extends IBase {
 	Id :number;
+BusinessCalendarId :string;
 TenantId :number;
 CalendarCode :string;
 CalendarName :string;

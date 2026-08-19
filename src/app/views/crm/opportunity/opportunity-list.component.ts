@@ -88,8 +88,14 @@ export class OpportunityListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number }): void {
+    const pageEvent = {
+      first: event.first ?? 0,
+      rows: event.rows ?? this.pgEvent.rows
+    } as PageEvent;
+    this.pgEvent = pageEvent;
+    this.currentPage = Math.floor(pageEvent.first / pageEvent.rows) + 1;
+    this.searchData(pageEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -133,6 +139,7 @@ export class OpportunityListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
+       { DBName: 'OpportunityName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 
@@ -167,6 +174,30 @@ export class OpportunityListComponent implements OnInit {
     } 
   
   };
+
+  onViewClick(opportunity: IOpportunity): void {
+    this.router.navigate(['/business/crm/opportunities/view', opportunity.Id]);
+  }
+
+  onEditClick(opportunity: IOpportunity): void {
+    this.router.navigate(['/business/crm/opportunities/edit', opportunity.Id]);
+  }
+
+  getInitials(opportunity: IOpportunity): string {
+    const value = opportunity.OpportunityName || opportunity.OpportunityId || 'Opportunity';
+    return value.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  }
+
+  getWeightedValue(opportunity: IOpportunity): number {
+    return (Number(opportunity.EstimatedAmount) || 0) * (Number(opportunity.ProbabilityPct) || 0) / 100;
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('active') || value.includes('open') || value.includes('qualified')) return 'status-active';
+    if (value.includes('inactive') || value.includes('lost') || value.includes('closed')) return 'status-closed';
+    return 'status-pending';
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
