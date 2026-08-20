@@ -30,8 +30,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
-						<th pSortableColumn="PartyId" style="width:200px">Party Id <p-sortIcon field="PartyId" /> </th>
-						<th pSortableColumn="PartyLocationId" style="width:200px">Party LocationId <p-sortIcon field="PartyLocationId" /> </th>
+						<th pSortableColumn="PartyName" style="width:200px">Party <p-sortIcon field="PartyName" /> </th>
+						<th pSortableColumn="PartyLocationName" style="width:200px">Party Location <p-sortIcon field="PartyLocationName" /> </th>
 						<th pSortableColumn="RequirementDate" style="width:200px">Req. Date <p-sortIcon field="RequirementDate" /> </th>
 						<th pSortableColumn="PreferredStartDate" style="width:200px">Pref. StartDate <p-sortIcon field="PreferredStartDate" /> </th>
 						<th pSortableColumn="RequestedTermMonths" style="width:200px">Term Months <p-sortIcon field="RequestedTermMonths" /> </th>
@@ -46,8 +46,8 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn><p-button label="{{obj.LeaseRequirementId}}" [link]="true"
 								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
-						<td style="width:200px">{{obj.PartyLocationId | number:'1.0':'en-US' }}</td>
+						<td style="width:200px">{{obj.PartyName || '—'}}</td>
+						<td style="width:200px">{{obj.PartyLocationName || '—'}}</td>
 						<td style="width:200px">{{obj.RequirementDate | date:'dd-MMM-yyyy' }}</td>
 						<td style="width:200px">{{obj.PreferredStartDate | date:'dd-MMM-yyyy' }}</td>
 						<td style="width:200px">{{obj.RequestedTermMonths | number:'1.0':'en-US' }}</td>

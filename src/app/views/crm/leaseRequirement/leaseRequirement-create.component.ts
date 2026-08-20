@@ -67,7 +67,10 @@ export class LeaseRequirementCreateComponent implements OnInit {
         this.Caption = 'Create LeaseRequirement';
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.loggedInUserService.getLookupOptions('party-locations').subscribe((options) => (this.partylocationidOptions = options));
+        this.editForm.get('PartyId').valueChanges.subscribe((partyId: number) => {
+            this.editForm.get('PartyLocationId').setValue(null, { emitEvent: false });
+            this.loadPartyLocations(partyId);
+        });
         this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
         this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
         this.requirementstatuscodeOptions.push({ Text: 'Draft', Value: 'Draft' });
@@ -114,6 +117,16 @@ export class LeaseRequirementCreateComponent implements OnInit {
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
+    }
+
+    private loadPartyLocations(partyId: number): void {
+        if (!partyId) {
+            this.partylocationidOptions = [];
+            return;
+        }
+        this.loggedInUserService
+            .getLookupOptions('party-locations', undefined, { partyId })
+            .subscribe((options) => (this.partylocationidOptions = options));
     }
 
     onOptionItemClicked(key: string): void {

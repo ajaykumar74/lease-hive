@@ -8,10 +8,10 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ILead } from './lead';
 import { LeadService } from './lead.service';
+import { LeadFormService } from './lead-form.service';
 
 
 @Component({
@@ -46,7 +46,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private leadService: LeadService, 
-	private loggedInUserService : LoggedInUserService
+	private leadFormService: LeadFormService
 	) {
   }
   
@@ -81,7 +81,6 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 
-this.loadLookups();
 this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
 this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
@@ -91,12 +90,14 @@ this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
   }
 
   private loadLookups(selected?: ILead): void {
-    this.loggedInUserService.getOrganisationOptions(selected?.OriginatingOrganisationId).subscribe(options => this.originatingorganisationidOptions = options);
-    this.loggedInUserService.getLookupOptions('organisation-units', selected?.OwnerOrganisationUnitId).subscribe(options => this.ownerorganisationunitidOptions = options);
-    this.loggedInUserService.getApplicationUserOptions(selected?.OwnerUserId).subscribe(options => this.owneruseridOptions = options);
-    this.loggedInUserService.getLookupOptions('lead-sources', selected?.LeadSourceId).subscribe(options => this.leadsourceidOptions = options);
-    this.loggedInUserService.getLookupOptions('lead-statuses', selected?.LeadStatusId).subscribe(options => this.leadstatusidOptions = options);
-    this.loggedInUserService.getLookupOptions('asset-categories', selected?.InterestedAssetCategoryId).subscribe(options => this.interestedassetcategoryidOptions = options);
+    this.leadFormService.loadLookups(selected).subscribe(lookups => {
+      this.originatingorganisationidOptions = lookups.originatingOrganisations;
+      this.ownerorganisationunitidOptions = lookups.ownerOrganisationUnits;
+      this.owneruseridOptions = lookups.ownerUsers;
+      this.leadsourceidOptions = lookups.leadSources;
+      this.leadstatusidOptions = lookups.leadStatuses;
+      this.interestedassetcategoryidOptions = lookups.interestedAssetCategories;
+    });
   }
 
   ngAfterViewInit(): void {

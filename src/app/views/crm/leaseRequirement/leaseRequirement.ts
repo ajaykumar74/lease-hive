@@ -5,8 +5,11 @@ export interface ILeaseRequirement extends IBase {
 LeaseRequirementId :string;
 TenantId :number;
 OpportunityId :number;
+OpportunityName :string;
 PartyId :number;
+PartyName :string;
 PartyLocationId :number;
+PartyLocationName :string;
 RequirementDate :Date;
 PreferredStartDate :Date;
 RequestedTermMonths :number;

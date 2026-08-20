@@ -67,7 +67,12 @@ export class LeaseRequirementEditComponent implements OnInit {
         });
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.loggedInUserService.getLookupOptions('party-locations').subscribe((options) => (this.partylocationidOptions = options));
+        this.editForm.get('PartyId').valueChanges.subscribe((partyId: number) => {
+            if (partyId !== this.objMaster?.PartyId) {
+                this.editForm.get('PartyLocationId').setValue(null, { emitEvent: false });
+                this.loadPartyLocations(partyId);
+            }
+        });
         this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
         this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
         this.requirementstatuscodeOptions.push({ Text: 'Draft', Value: 'Draft' });
@@ -108,6 +113,8 @@ export class LeaseRequirementEditComponent implements OnInit {
 
     populateUI(obj: ILeaseRequirement): void {
         this.loggedInUserService.getLookupOptions('opportunities', obj.OpportunityId).subscribe((options) => (this.opportunityidOptions = options));
+        this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe((options) => (this.partyidOptions = options));
+        this.loadPartyLocations(obj.PartyId, obj.PartyLocationId);
         this.editForm.patchValue({
             Id: obj.Id || 0,
             OpportunityId: obj.OpportunityId || 0,
@@ -126,6 +133,16 @@ export class LeaseRequirementEditComponent implements OnInit {
         });
 
         this.Caption = 'LeaseRequirement Details #' + obj.Id;
+    }
+
+    private loadPartyLocations(partyId: number, selectedId?: number): void {
+        if (!partyId) {
+            this.partylocationidOptions = [];
+            return;
+        }
+        this.loggedInUserService
+            .getLookupOptions('party-locations', selectedId, { partyId })
+            .subscribe((options) => (this.partylocationidOptions = options));
     }
 
     onOptionItemClicked(key: string): void {
