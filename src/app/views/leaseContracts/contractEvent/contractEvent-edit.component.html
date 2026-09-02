@@ -1,0 +1,107 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Event Type Code" class="mb-1">EventTypeCode</label>
+        <p-dropdown
+            inputId="EventTypeCode" 
+            [options]="eventtypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="EventTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('EventTypeCode')"
+											label="Event Type Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EventDateTime">Event Date Time 
+							</label> 
+							<p-calendar id="EventDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EventDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EventDateTime')"
+											label="Event Date Time">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ReferenceType">Reference Type 
+							</label> 
+							<input pInputText id="ReferenceType" type="text" pSize="small"	formControlName="ReferenceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Event Summary</label>
+                    <textarea size="small" pTextarea placeholder="Type Event Summary" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="EventSummary"
+										[ngClass]="{'is-invalid': (editForm.get('EventSummary').touched || editForm.get('EventSummary').dirty) && !editForm.get('EventSummary').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('EventSummary')"
+											label="Event Summary">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Event Payload Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Event Payload Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="EventPayloadJson"
+										[ngClass]="{'is-invalid': (editForm.get('EventPayloadJson').touched || editForm.get('EventPayloadJson').dirty) && !editForm.get('EventPayloadJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('EventPayloadJson')"
+											label="Event Payload Json">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Performed By" class="mb-1">PerformedBy</label>
+        <p-dropdown
+            inputId="PerformedBy" 
+            [options]="performedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PerformedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PerformedBy')"
+											label="Performed By">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

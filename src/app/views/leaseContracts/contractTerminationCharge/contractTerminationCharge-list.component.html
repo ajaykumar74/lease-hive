@@ -1,0 +1,46 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ContractTerminationCharge List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Contract Termination Charge Id <p-sortIcon field="ContractTerminationChargeId" /> </th> 
+<th style="width:200px">Contract Termination Id <p-sortIcon field="ContractTerminationId" /> </th> 
+<th style="width:200px">Charge Type Code <p-sortIcon field="ChargeTypeCode" /> </th> 
+<th style="width:200px">Description <p-sortIcon field="Description" /> </th> 
+<th style="width:200px">Amount <p-sortIcon field="Amount" /> </th> 
+<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
+<th style="width:200px">Tax Amount <p-sortIcon field="TaxAmount" /> </th> 
+<th style="width:200px">Finance Reference Id <p-sortIcon field="FinanceReferenceId" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ContractTerminationChargeId}}</td>
+ <td style="width:200px">{{obj.ContractTerminationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ChargeTypeCode}}</td>
+ <td style="width:200px">{{obj.Description}}</td>
+ <td style="width:200px">{{obj.CurrencyCode}}</td>
+ <td style="width:200px">{{obj.FinanceReferenceId | number:'1.0':'en-US' }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

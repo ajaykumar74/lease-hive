@@ -1,0 +1,104 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Suspension Reason Code" class="mb-1">SuspensionReasonCode</label>
+        <p-dropdown
+            inputId="SuspensionReasonCode" 
+            [options]="suspensionreasoncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SuspensionReasonCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SuspensionReasonCode')"
+											label="Suspension Reason Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="SuspendedFrom">Suspended From 
+							</label> 
+							<p-calendar id="SuspendedFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SuspendedFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SuspendedFrom')"
+											label="Suspended From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="SuspendedTo">Suspended To 
+							</label> 
+							<p-calendar id="SuspendedTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SuspendedTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SuspendedTo')"
+											label="Suspended To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Approval Request Id" class="mb-1">ApprovalRequestId</label>
+        <p-dropdown
+            inputId="ApprovalRequestId" 
+            [options]="approvalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovalRequestId')"
+											label="Approval Request Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Notes</label>
+                    <textarea size="small" pTextarea placeholder="Type Notes" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Notes"
+										[ngClass]="{'is-invalid': (editForm.get('Notes').touched || editForm.get('Notes').dirty) && !editForm.get('Notes').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Notes')"
+											label="Notes">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

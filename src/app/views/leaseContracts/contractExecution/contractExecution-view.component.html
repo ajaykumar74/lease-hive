@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="contractExecution.ReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="contractExecution.ReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Execution Method Code" [value]="contractExecution.ExecutionMethodCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Execution Status Code" [value]="contractExecution.ExecutionStatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Sent On" [value]="contractExecution.SentOn">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Executed On" [value]="contractExecution.ExecutedOn">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="External Envelope Id" [value]="contractExecution.ExternalEnvelopeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Executed Document Id" [value]="contractExecution.ExecutedDocumentId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

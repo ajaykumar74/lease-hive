@@ -1,0 +1,100 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Contract Approval Request Id" class="mb-1">ContractApprovalRequestId</label>
+        <p-dropdown
+            inputId="ContractApprovalRequestId" 
+            [options]="contractapprovalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContractApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContractApprovalRequestId')"
+											label="Contract Approval Request Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="StepNo">Step No 
+							</label> 
+							<p-inputNumber id="StepNo"  pSize="small"	formControlName="StepNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('StepNo')"
+											label="Step No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Approver User Id" class="mb-1">ApproverUserId</label>
+        <p-dropdown
+            inputId="ApproverUserId" 
+            [options]="approveruseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApproverUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApproverUserId')"
+											label="Approver User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Action Code" class="mb-1">ActionCode</label>
+        <p-dropdown
+            inputId="ActionCode" 
+            [options]="actioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ActionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ActionCode')"
+											label="Action Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ActionDateTime">Action Date Time 
+							</label> 
+							<p-calendar id="ActionDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ActionDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ActionDateTime')"
+											label="Action Date Time">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Comments</label>
+                    <textarea size="small" pTextarea placeholder="Type Comments" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Comments"
+										[ngClass]="{'is-invalid': (editForm.get('Comments').touched || editForm.get('Comments').dirty) && !editForm.get('Comments').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Comments')"
+											label="Comments">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Delegated From User Id" class="mb-1">DelegatedFromUserId</label>
+        <p-dropdown
+            inputId="DelegatedFromUserId" 
+            [options]="delegatedfromuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DelegatedFromUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DelegatedFromUserId')"
+											label="Delegated From User Id">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

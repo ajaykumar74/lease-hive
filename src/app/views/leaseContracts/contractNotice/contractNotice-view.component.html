@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="contractNotice.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Notice Type Code" [value]="contractNotice.NoticeTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Notice Date" [value]="contractNotice.NoticeDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective Date" [value]="contractNotice.EffectiveDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Recipient Party Id" [value]="contractNotice.RecipientPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Method Code" [value]="contractNotice.DeliveryMethodCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="contractNotice.DocumentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Status Code" [value]="contractNotice.DeliveryStatusCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

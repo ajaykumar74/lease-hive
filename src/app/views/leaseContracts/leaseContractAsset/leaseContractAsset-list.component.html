@@ -1,0 +1,59 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'LeaseContractAsset List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Lease Contract Asset Id <p-sortIcon field="LeaseContractAssetId" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Asset Category Id <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Asset Type Id <p-sortIcon field="AssetTypeId" /> </th> 
+<th style="width:200px">Source Quote Line Id <p-sortIcon field="SourceQuoteLineId" /> </th> 
+<th style="width:200px">Source Purchase Order Line Id <p-sortIcon field="SourcePurchaseOrderLineId" /> </th> 
+<th style="width:200px">Quantity <p-sortIcon field="Quantity" /> </th> 
+<th style="width:200px">UOM Id <p-sortIcon field="UOMId" /> </th> 
+<th style="width:200px">Allocation Status Code <p-sortIcon field="AllocationStatusCode" /> </th> 
+<th style="width:200px">Effective From <p-sortIcon field="EffectiveFrom" /> </th> 
+<th style="width:200px">Effective To <p-sortIcon field="EffectiveTo" /> </th> 
+<th style="width:200px">Asset Value Snapshot <p-sortIcon field="AssetValueSnapshot" /> </th> 
+<th style="width:200px">Serial Snapshot <p-sortIcon field="SerialSnapshot" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.LeaseContractAssetId}}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetTypeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SourceQuoteLineId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SourcePurchaseOrderLineId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Quantity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.UOMId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AllocationStatusCode}}</td>
+ <td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.SerialSnapshot}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,50 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'LeasePaymentScheduleLine List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Lease Payment Schedule Line Id <p-sortIcon field="LeasePaymentScheduleLineId" /> </th> 
+<th style="width:200px">Lease Payment Schedule Id <p-sortIcon field="LeasePaymentScheduleId" /> </th> 
+<th style="width:200px">Installment No <p-sortIcon field="InstallmentNo" /> </th> 
+<th style="width:200px">Due Date <p-sortIcon field="DueDate" /> </th> 
+<th style="width:200px">Opening Principal <p-sortIcon field="OpeningPrincipal" /> </th> 
+<th style="width:200px">Principal Amount <p-sortIcon field="PrincipalAmount" /> </th> 
+<th style="width:200px">Finance Amount <p-sortIcon field="FinanceAmount" /> </th> 
+<th style="width:200px">Rental Amount <p-sortIcon field="RentalAmount" /> </th> 
+<th style="width:200px">Tax Amount <p-sortIcon field="TaxAmount" /> </th> 
+<th style="width:200px">Charge Amount <p-sortIcon field="ChargeAmount" /> </th> 
+<th style="width:200px">Total Due Amount <p-sortIcon field="TotalDueAmount" /> </th> 
+<th style="width:200px">Closing Principal <p-sortIcon field="ClosingPrincipal" /> </th> 
+<th style="width:200px">Billing Status Code <p-sortIcon field="BillingStatusCode" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.LeasePaymentScheduleLineId}}</td>
+ <td style="width:200px">{{obj.LeasePaymentScheduleId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.InstallmentNo | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DueDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.BillingStatusCode}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

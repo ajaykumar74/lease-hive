@@ -1,0 +1,50 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ContractHandoff List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Contract Handoff Id <p-sortIcon field="ContractHandoffId" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Reference Type <p-sortIcon field="ReferenceType" /> </th> 
+<th style="width:200px">Reference Id <p-sortIcon field="ReferenceId" /> </th> 
+<th style="width:200px">Target Module Code <p-sortIcon field="TargetModuleCode" /> </th> 
+<th style="width:200px">Handoff Status Code <p-sortIcon field="HandoffStatusCode" /> </th> 
+<th style="width:200px">Handoff Date Time <p-sortIcon field="HandoffDateTime" /> </th> 
+<th style="width:200px">Target Reference Id <p-sortIcon field="TargetReferenceId" /> </th> 
+<th style="width:200px">Validation Json <p-sortIcon field="ValidationJson" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ContractHandoffId}}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReferenceType}}</td>
+ <td style="width:200px">{{obj.ReferenceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TargetModuleCode}}</td>
+ <td style="width:200px">{{obj.HandoffStatusCode}}</td>
+ <td style="width:200px">{{obj.HandoffDateTime | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.TargetReferenceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ValidationJson}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

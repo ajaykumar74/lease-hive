@@ -1,0 +1,122 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="TerminationNo">Termination No 
+							</label> 
+							<input pInputText id="TerminationNo" type="text" pSize="small"	formControlName="TerminationNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TerminationNo')"
+											label="Termination No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Termination Type Code" class="mb-1">TerminationTypeCode</label>
+        <p-dropdown
+            inputId="TerminationTypeCode" 
+            [options]="terminationtypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TerminationTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TerminationTypeCode')"
+											label="Termination Type Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="RequestedDate">Requested Date 
+							</label> 
+							<p-calendar id="RequestedDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RequestedDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RequestedDate')"
+											label="Requested Date">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ProposedTerminationDate">Proposed Termination Date 
+							</label> 
+							<p-calendar id="ProposedTerminationDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ProposedTerminationDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ProposedTerminationDate')"
+											label="Proposed Termination Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="ActualTerminationDate">Actual Termination Date 
+							</label> 
+							<p-calendar id="ActualTerminationDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ActualTerminationDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ActualTerminationDate')"
+											label="Actual Termination Date">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ReasonCode">Reason Code 
+							</label> 
+							<input pInputText id="ReasonCode" type="text" pSize="small"	formControlName="ReasonCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReasonCode')"
+											label="Reason Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="Reason">Reason 
+							</label> 
+							<input pInputText id="Reason" type="text" pSize="small"	formControlName="Reason"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Reason')"
+											label="Reason">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Termination Status Code" class="mb-1">TerminationStatusCode</label>
+        <p-dropdown
+            inputId="TerminationStatusCode" 
+            [options]="terminationstatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TerminationStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TerminationStatusCode')"
+											label="Termination Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Approval Request Id" class="mb-1">ApprovalRequestId</label>
+        <p-dropdown
+            inputId="ApprovalRequestId" 
+            [options]="approvalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovalRequestId')"
+											label="Approval Request Id">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

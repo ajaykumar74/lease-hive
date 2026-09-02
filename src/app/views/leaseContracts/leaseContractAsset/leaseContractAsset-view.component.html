@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="leaseContractAsset.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="leaseContractAsset.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Category Id" [value]="leaseContractAsset.AssetCategoryId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Type Id" [value]="leaseContractAsset.AssetTypeId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Source Quote Line Id" [value]="leaseContractAsset.SourceQuoteLineId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source Purchase Order Line Id" [value]="leaseContractAsset.SourcePurchaseOrderLineId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quantity" [value]="leaseContractAsset.Quantity">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="UOM Id" [value]="leaseContractAsset.UOMId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Allocation Status Code" [value]="leaseContractAsset.AllocationStatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="leaseContractAsset.EffectiveFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="leaseContractAsset.EffectiveTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Value Snapshot" [value]="leaseContractAsset.AssetValueSnapshot">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

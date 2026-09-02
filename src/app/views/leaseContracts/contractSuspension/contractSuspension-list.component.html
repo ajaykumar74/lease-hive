@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ContractSuspension List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Contract Suspension Id <p-sortIcon field="ContractSuspensionId" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Suspension Reason Code <p-sortIcon field="SuspensionReasonCode" /> </th> 
+<th style="width:200px">Suspended From <p-sortIcon field="SuspendedFrom" /> </th> 
+<th style="width:200px">Suspended To <p-sortIcon field="SuspendedTo" /> </th> 
+<th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th> 
+<th style="width:200px">Approval Request Id <p-sortIcon field="ApprovalRequestId" /> </th> 
+<th style="width:200px">Notes <p-sortIcon field="Notes" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ContractSuspensionId}}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SuspensionReasonCode}}</td>
+ <td style="width:200px">{{obj.SuspendedFrom | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.SuspendedTo | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px">{{obj.ApprovalRequestId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Notes}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,100 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Contract Amendment Id" class="mb-1">ContractAmendmentId</label>
+        <p-dropdown
+            inputId="ContractAmendmentId" 
+            [options]="contractamendmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContractAmendmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContractAmendmentId')"
+											label="Contract Amendment Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Change Section Code" class="mb-1">ChangeSectionCode</label>
+        <p-dropdown
+            inputId="ChangeSectionCode" 
+            [options]="changesectioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ChangeSectionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ChangeSectionCode')"
+											label="Change Section Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ReferenceType">Reference Type 
+							</label> 
+							<input pInputText id="ReferenceType" type="text" pSize="small"	formControlName="ReferenceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="FieldName">Field Name 
+							</label> 
+							<input pInputText id="FieldName" type="text" pSize="small"	formControlName="FieldName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FieldName')"
+											label="Field Name">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Old Value</label>
+                    <textarea size="small" pTextarea placeholder="Type Old Value" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="OldValue"
+										[ngClass]="{'is-invalid': (editForm.get('OldValue').touched || editForm.get('OldValue').dirty) && !editForm.get('OldValue').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('OldValue')"
+											label="Old Value">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">New Value</label>
+                    <textarea size="small" pTextarea placeholder="Type New Value" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="NewValue"
+										[ngClass]="{'is-invalid': (editForm.get('NewValue').touched || editForm.get('NewValue').dirty) && !editForm.get('NewValue').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('NewValue')"
+											label="New Value">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Change Summary</label>
+                    <textarea size="small" pTextarea placeholder="Type Change Summary" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ChangeSummary"
+										[ngClass]="{'is-invalid': (editForm.get('ChangeSummary').touched || editForm.get('ChangeSummary').dirty) && !editForm.get('ChangeSummary').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ChangeSummary')"
+											label="Change Summary">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

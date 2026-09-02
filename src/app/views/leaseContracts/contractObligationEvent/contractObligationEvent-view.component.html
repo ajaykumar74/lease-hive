@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contract Obligation Id" [value]="contractObligationEvent.ContractObligationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Event Type Code" [value]="contractObligationEvent.EventTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Event Date Time" [value]="contractObligationEvent.EventDateTime">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="contractObligationEvent.DocumentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="contractObligationEvent.ReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="contractObligationEvent.ReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Notes" [value]="contractObligationEvent.Notes">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Performed By" [value]="contractObligationEvent.PerformedBy">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

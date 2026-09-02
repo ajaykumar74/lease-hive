@@ -1,0 +1,119 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reference Type" class="mb-1">ReferenceType</label>
+        <p-dropdown
+            inputId="ReferenceType" 
+            [options]="referencetypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReferenceType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Execution Method Code" class="mb-1">ExecutionMethodCode</label>
+        <p-dropdown
+            inputId="ExecutionMethodCode" 
+            [options]="executionmethodcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ExecutionMethodCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ExecutionMethodCode')"
+											label="Execution Method Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Execution Status Code" class="mb-1">ExecutionStatusCode</label>
+        <p-dropdown
+            inputId="ExecutionStatusCode" 
+            [options]="executionstatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ExecutionStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ExecutionStatusCode')"
+											label="Execution Status Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="SentOn">Sent On 
+							</label> 
+							<p-calendar id="SentOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SentOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SentOn')"
+											label="Sent On">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="ExecutedOn">Executed On 
+							</label> 
+							<p-calendar id="ExecutedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ExecutedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ExecutedOn')"
+											label="Executed On">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ExternalEnvelopeId">External Envelope Id 
+							</label> 
+							<input pInputText id="ExternalEnvelopeId" type="text" pSize="small"	formControlName="ExternalEnvelopeId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ExternalEnvelopeId')"
+											label="External Envelope Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Executed Document Id" class="mb-1">ExecutedDocumentId</label>
+        <p-dropdown
+            inputId="ExecutedDocumentId" 
+            [options]="executeddocumentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ExecutedDocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ExecutedDocumentId')"
+											label="Executed Document Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Completion Certificate Document Id" class="mb-1">CompletionCertificateDocumentId</label>
+        <p-dropdown
+            inputId="CompletionCertificateDocumentId" 
+            [options]="completioncertificatedocumentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CompletionCertificateDocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CompletionCertificateDocumentId')"
+											label="Completion Certificate Document Id">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

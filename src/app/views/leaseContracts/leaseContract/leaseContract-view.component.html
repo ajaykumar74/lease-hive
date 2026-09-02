@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contract No" [value]="leaseContract.ContractNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Version No" [value]="leaseContract.VersionNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lessor Organisation Id" [value]="leaseContract.LessorOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Servicing Organisation Unit Id" [value]="leaseContract.ServicingOrganisationUnitId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="leaseContract.CustomerPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Status Id" [value]="leaseContract.LeaseContractStatusId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Source Reference Type" [value]="leaseContract.SourceReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source Reference Id" [value]="leaseContract.SourceReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quote Id" [value]="leaseContract.QuoteId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Credit Approval Reference Id" [value]="leaseContract.CreditApprovalReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contract Date" [value]="leaseContract.ContractDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Commencement Date" [value]="leaseContract.CommencementDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maturity Date" [value]="leaseContract.MaturityDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="leaseContract.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contract Title" [value]="leaseContract.ContractTitle">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="External Reference" [value]="leaseContract.ExternalReference">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

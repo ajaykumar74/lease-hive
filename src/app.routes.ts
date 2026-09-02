@@ -38,6 +38,11 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./app/views/business/business.routes').then(m => m.BUSINESS_ROUTES),
         data: { breadcrumb: 'Business' },
     },
+    {
+        path: 'contracts',
+        loadChildren: () => import('./app/views/business/leaseContracts.routes').then(m => m.LEASE_CONTRACT_ROUTES),
+        data: { breadcrumb: 'Lease Contracts' },
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 

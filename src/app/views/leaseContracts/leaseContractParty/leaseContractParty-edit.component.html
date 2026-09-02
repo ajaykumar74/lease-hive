@@ -1,0 +1,130 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Party Id" class="mb-1">PartyId</label>
+        <p-dropdown
+            inputId="PartyId" 
+            [options]="partyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
+											label="Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Party Role Code" class="mb-1">PartyRoleCode</label>
+        <p-dropdown
+            inputId="PartyRoleCode" 
+            [options]="partyrolecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PartyRoleCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PartyRoleCode')"
+											label="Party Role Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsPrimary" binary="true" formControlName="IsPrimary">
+											</p-checkbox>
+											<label for="IsPrimary">Is Primary</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="LegalNameSnapshot">Legal Name Snapshot 
+							</label> 
+							<input pInputText id="LegalNameSnapshot" type="text" pSize="small"	formControlName="LegalNameSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('LegalNameSnapshot')"
+											label="Legal Name Snapshot">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="RegistrationNoSnapshot">Registration No Snapshot 
+							</label> 
+							<input pInputText id="RegistrationNoSnapshot" type="text" pSize="small"	formControlName="RegistrationNoSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('RegistrationNoSnapshot')"
+											label="Registration No Snapshot">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="TaxIdSnapshot">Tax Id Snapshot 
+							</label> 
+							<input pInputText id="TaxIdSnapshot" type="text" pSize="small"	formControlName="TaxIdSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TaxIdSnapshot')"
+											label="Tax Id Snapshot">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Address Snapshot Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Address Snapshot Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="AddressSnapshotJson"
+										[ngClass]="{'is-invalid': (editForm.get('AddressSnapshotJson').touched || editForm.get('AddressSnapshotJson').dirty) && !editForm.get('AddressSnapshotJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('AddressSnapshotJson')"
+											label="Address Snapshot Json">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Contact Snapshot Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Contact Snapshot Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ContactSnapshotJson"
+										[ngClass]="{'is-invalid': (editForm.get('ContactSnapshotJson').touched || editForm.get('ContactSnapshotJson').dirty) && !editForm.get('ContactSnapshotJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ContactSnapshotJson')"
+											label="Contact Snapshot Json">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

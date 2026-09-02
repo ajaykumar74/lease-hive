@@ -1,0 +1,128 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Payment Schedule Id" class="mb-1">LeasePaymentScheduleId</label>
+        <p-dropdown
+            inputId="LeasePaymentScheduleId" 
+            [options]="leasepaymentscheduleidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeasePaymentScheduleId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeasePaymentScheduleId')"
+											label="Lease Payment Schedule Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="InstallmentNo">Installment No 
+							</label> 
+							<p-inputNumber id="InstallmentNo"  pSize="small"	formControlName="InstallmentNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('InstallmentNo')"
+											label="Installment No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="DueDate">Due Date 
+							</label> 
+							<p-calendar id="DueDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="DueDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('DueDate')"
+											label="Due Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="OpeningPrincipal">Opening Principal 
+							</label> 
+							<p-inputNumber id="OpeningPrincipal"  pSize="small"	formControlName="OpeningPrincipal"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('OpeningPrincipal')"
+											label="Opening Principal">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="PrincipalAmount">Principal Amount 
+							</label> 
+							<p-inputNumber id="PrincipalAmount"  pSize="small"	formControlName="PrincipalAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('PrincipalAmount')"
+											label="Principal Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="FinanceAmount">Finance Amount 
+							</label> 
+							<p-inputNumber id="FinanceAmount"  pSize="small"	formControlName="FinanceAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('FinanceAmount')"
+											label="Finance Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="RentalAmount">Rental Amount 
+							</label> 
+							<p-inputNumber id="RentalAmount"  pSize="small"	formControlName="RentalAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('RentalAmount')"
+											label="Rental Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="TaxAmount">Tax Amount 
+							</label> 
+							<p-inputNumber id="TaxAmount"  pSize="small"	formControlName="TaxAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TaxAmount')"
+											label="Tax Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ChargeAmount">Charge Amount 
+							</label> 
+							<p-inputNumber id="ChargeAmount"  pSize="small"	formControlName="ChargeAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ChargeAmount')"
+											label="Charge Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="TotalDueAmount">Total Due Amount 
+							</label> 
+							<p-inputNumber id="TotalDueAmount"  pSize="small"	formControlName="TotalDueAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TotalDueAmount')"
+											label="Total Due Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ClosingPrincipal">Closing Principal 
+							</label> 
+							<p-inputNumber id="ClosingPrincipal"  pSize="small"	formControlName="ClosingPrincipal"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ClosingPrincipal')"
+											label="Closing Principal">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Billing Status Code" class="mb-1">BillingStatusCode</label>
+        <p-dropdown
+            inputId="BillingStatusCode" 
+            [options]="billingstatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="BillingStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('BillingStatusCode')"
+											label="Billing Status Code">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

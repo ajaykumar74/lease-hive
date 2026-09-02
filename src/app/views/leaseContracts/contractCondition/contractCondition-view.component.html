@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="contractCondition.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Condition Type Code" [value]="contractCondition.ConditionTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Condition Description" [value]="contractCondition.ConditionDescription">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Required For Event Code" [value]="contractCondition.RequiredForEventCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Due Date" [value]="contractCondition.DueDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Mandatory Flag" [value]="contractCondition.MandatoryFlag">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Waiver Allowed Flag" [value]="contractCondition.WaiverAllowedFlag">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="contractCondition.StatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Satisfied On" [value]="contractCondition.SatisfiedOn">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Satisfied By" [value]="contractCondition.SatisfiedBy">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

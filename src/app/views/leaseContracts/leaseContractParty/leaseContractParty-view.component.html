@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="leaseContractParty.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Party Id" [value]="leaseContractParty.PartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Party Role Code" [value]="leaseContractParty.PartyRoleCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Primary" [value]="leaseContractParty.IsPrimary">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Legal Name Snapshot" [value]="leaseContractParty.LegalNameSnapshot">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Registration No Snapshot" [value]="leaseContractParty.RegistrationNoSnapshot">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax Id Snapshot" [value]="leaseContractParty.TaxIdSnapshot">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Address Snapshot Json" [value]="leaseContractParty.AddressSnapshotJson">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Contact Snapshot Json" [value]="leaseContractParty.ContactSnapshotJson">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="leaseContractParty.EffectiveFrom">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

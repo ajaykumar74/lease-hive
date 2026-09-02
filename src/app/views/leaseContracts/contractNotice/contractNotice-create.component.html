@@ -1,0 +1,125 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Notice Type Code" class="mb-1">NoticeTypeCode</label>
+        <p-dropdown
+            inputId="NoticeTypeCode" 
+            [options]="noticetypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="NoticeTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('NoticeTypeCode')"
+											label="Notice Type Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="NoticeDate">Notice Date 
+							</label> 
+							<p-calendar id="NoticeDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="NoticeDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('NoticeDate')"
+											label="Notice Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveDate">Effective Date 
+							</label> 
+							<p-calendar id="EffectiveDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveDate')"
+											label="Effective Date">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Recipient Party Id" class="mb-1">RecipientPartyId</label>
+        <p-dropdown
+            inputId="RecipientPartyId" 
+            [options]="recipientpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecipientPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecipientPartyId')"
+											label="Recipient Party Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Delivery Method Code" class="mb-1">DeliveryMethodCode</label>
+        <p-dropdown
+            inputId="DeliveryMethodCode" 
+            [options]="deliverymethodcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DeliveryMethodCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DeliveryMethodCode')"
+											label="Delivery Method Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Delivery Status Code" class="mb-1">DeliveryStatusCode</label>
+        <p-dropdown
+            inputId="DeliveryStatusCode" 
+            [options]="deliverystatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DeliveryStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DeliveryStatusCode')"
+											label="Delivery Status Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">			
+							<label for="SentOn">Sent On 
+							</label> 
+							<p-calendar id="SentOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SentOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SentOn')"
+											label="Sent On">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

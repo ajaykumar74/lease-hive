@@ -1,0 +1,110 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Contract Condition Id" class="mb-1">ContractConditionId</label>
+        <p-dropdown
+            inputId="ContractConditionId" 
+            [options]="contractconditionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContractConditionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContractConditionId')"
+											label="Contract Condition Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Evidence Type Code" class="mb-1">EvidenceTypeCode</label>
+        <p-dropdown
+            inputId="EvidenceTypeCode" 
+            [options]="evidencetypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="EvidenceTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('EvidenceTypeCode')"
+											label="Evidence Type Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="ReferenceType">Reference Type 
+							</label> 
+							<input pInputText id="ReferenceType" type="text" pSize="small"	formControlName="ReferenceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Evidence Notes</label>
+                    <textarea size="small" pTextarea placeholder="Type Evidence Notes" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="EvidenceNotes"
+										[ngClass]="{'is-invalid': (editForm.get('EvidenceNotes').touched || editForm.get('EvidenceNotes').dirty) && !editForm.get('EvidenceNotes').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('EvidenceNotes')"
+											label="Evidence Notes">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="CapturedOn">Captured On 
+							</label> 
+							<p-calendar id="CapturedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="CapturedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('CapturedOn')"
+											label="Captured On">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Captured By" class="mb-1">CapturedBy</label>
+        <p-dropdown
+            inputId="CapturedBy" 
+            [options]="capturedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CapturedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CapturedBy')"
+											label="Captured By">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

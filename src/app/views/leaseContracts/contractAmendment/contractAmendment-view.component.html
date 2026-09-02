@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="contractAmendment.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Amendment No" [value]="contractAmendment.AmendmentNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="From Version No" [value]="contractAmendment.FromVersionNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="To Version No" [value]="contractAmendment.ToVersionNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Amendment Type Code" [value]="contractAmendment.AmendmentTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Requested Date" [value]="contractAmendment.RequestedDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective Date" [value]="contractAmendment.EffectiveDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reason" [value]="contractAmendment.Reason">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Amendment Status Code" [value]="contractAmendment.AmendmentStatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approval Request Id" [value]="contractAmendment.ApprovalRequestId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

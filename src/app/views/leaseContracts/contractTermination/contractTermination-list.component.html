@@ -1,0 +1,54 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ContractTermination List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Contract Termination Id <p-sortIcon field="ContractTerminationId" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Termination No <p-sortIcon field="TerminationNo" /> </th> 
+<th style="width:200px">Termination Type Code <p-sortIcon field="TerminationTypeCode" /> </th> 
+<th style="width:200px">Requested Date <p-sortIcon field="RequestedDate" /> </th> 
+<th style="width:200px">Proposed Termination Date <p-sortIcon field="ProposedTerminationDate" /> </th> 
+<th style="width:200px">Actual Termination Date <p-sortIcon field="ActualTerminationDate" /> </th> 
+<th style="width:200px">Reason Code <p-sortIcon field="ReasonCode" /> </th> 
+<th style="width:200px">Reason <p-sortIcon field="Reason" /> </th> 
+<th style="width:200px">Termination Status Code <p-sortIcon field="TerminationStatusCode" /> </th> 
+<th style="width:200px">Approval Request Id <p-sortIcon field="ApprovalRequestId" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ContractTerminationId}}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TerminationNo}}</td>
+ <td style="width:200px">{{obj.TerminationTypeCode}}</td>
+ <td style="width:200px">{{obj.RequestedDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ProposedTerminationDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ActualTerminationDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ReasonCode}}</td>
+ <td style="width:200px">{{obj.Reason}}</td>
+ <td style="width:200px">{{obj.TerminationStatusCode}}</td>
+ <td style="width:200px">{{obj.ApprovalRequestId | number:'1.0':'en-US' }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

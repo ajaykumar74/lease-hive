@@ -1,0 +1,127 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Condition Type Code" class="mb-1">ConditionTypeCode</label>
+        <p-dropdown
+            inputId="ConditionTypeCode" 
+            [options]="conditiontypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ConditionTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ConditionTypeCode')"
+											label="Condition Type Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ConditionDescription">Condition Description 
+							</label> 
+							<input pInputText id="ConditionDescription" type="text" pSize="small"	formControlName="ConditionDescription"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ConditionDescription')"
+											label="Condition Description">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Required For Event Code" class="mb-1">RequiredForEventCode</label>
+        <p-dropdown
+            inputId="RequiredForEventCode" 
+            [options]="requiredforeventcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RequiredForEventCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RequiredForEventCode')"
+											label="Required For Event Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="DueDate">Due Date 
+							</label> 
+							<p-calendar id="DueDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="DueDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('DueDate')"
+											label="Due Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MandatoryFlag" binary="true" formControlName="MandatoryFlag">
+											</p-checkbox>
+											<label for="MandatoryFlag">Mandatory Flag</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="WaiverAllowedFlag" binary="true" formControlName="WaiverAllowedFlag">
+											</p-checkbox>
+											<label for="WaiverAllowedFlag">Waiver Allowed Flag</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="SatisfiedOn">Satisfied On 
+							</label> 
+							<p-calendar id="SatisfiedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SatisfiedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SatisfiedOn')"
+											label="Satisfied On">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Satisfied By" class="mb-1">SatisfiedBy</label>
+        <p-dropdown
+            inputId="SatisfiedBy" 
+            [options]="satisfiedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SatisfiedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SatisfiedBy')"
+											label="Satisfied By">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

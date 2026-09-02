@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Payment Schedule Id" [value]="leasePaymentScheduleLine.LeasePaymentScheduleId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Installment No" [value]="leasePaymentScheduleLine.InstallmentNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Due Date" [value]="leasePaymentScheduleLine.DueDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Opening Principal" [value]="leasePaymentScheduleLine.OpeningPrincipal">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Principal Amount" [value]="leasePaymentScheduleLine.PrincipalAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Finance Amount" [value]="leasePaymentScheduleLine.FinanceAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Rental Amount" [value]="leasePaymentScheduleLine.RentalAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="leasePaymentScheduleLine.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Charge Amount" [value]="leasePaymentScheduleLine.ChargeAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Total Due Amount" [value]="leasePaymentScheduleLine.TotalDueAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Closing Principal" [value]="leasePaymentScheduleLine.ClosingPrincipal">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Status Code" [value]="leasePaymentScheduleLine.BillingStatusCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

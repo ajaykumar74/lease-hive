@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="leaseContractTerm.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Term Version No" [value]="leaseContractTerm.TermVersionNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Type Code" [value]="leaseContractTerm.LeaseTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Term Months" [value]="leaseContractTerm.TermMonths">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Frequency Code" [value]="leaseContractTerm.PaymentFrequencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Payment Timing Code" [value]="leaseContractTerm.PaymentTimingCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Base Rental Amount" [value]="leaseContractTerm.BaseRentalAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Rental Rate" [value]="leaseContractTerm.RentalRate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Residual Value Amount" [value]="leaseContractTerm.ResidualValueAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Residual Value Percent" [value]="leaseContractTerm.ResidualValuePercent">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Upfront Payment Amount" [value]="leaseContractTerm.UpfrontPaymentAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Balloon Amount" [value]="leaseContractTerm.BalloonAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Grace Days" [value]="leaseContractTerm.GraceDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Inclusive" [value]="leaseContractTerm.TaxInclusive">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

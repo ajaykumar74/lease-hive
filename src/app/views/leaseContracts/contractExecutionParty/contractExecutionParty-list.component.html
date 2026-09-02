@@ -1,0 +1,52 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ContractExecutionParty List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Contract Execution Party Id <p-sortIcon field="ContractExecutionPartyId" /> </th> 
+<th style="width:200px">Contract Execution Id <p-sortIcon field="ContractExecutionId" /> </th> 
+<th style="width:200px">Lease Contract Party Id <p-sortIcon field="LeaseContractPartyId" /> </th> 
+<th style="width:200px">Signer Party Id <p-sortIcon field="SignerPartyId" /> </th> 
+<th style="width:200px">Signer Name Snapshot <p-sortIcon field="SignerNameSnapshot" /> </th> 
+<th style="width:200px">Signer Email Snapshot <p-sortIcon field="SignerEmailSnapshot" /> </th> 
+<th style="width:200px">Signing Order <p-sortIcon field="SigningOrder" /> </th> 
+<th style="width:200px">Signature Status Code <p-sortIcon field="SignatureStatusCode" /> </th> 
+<th style="width:200px">Signed On <p-sortIcon field="SignedOn" /> </th> 
+<th style="width:200px">External Signer Id <p-sortIcon field="ExternalSignerId" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ContractExecutionPartyId}}</td>
+ <td style="width:200px">{{obj.ContractExecutionId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SignerPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SignerNameSnapshot}}</td>
+ <td style="width:200px">{{obj.SignerEmailSnapshot}}</td>
+ <td style="width:200px">{{obj.SigningOrder | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SignatureStatusCode}}</td>
+ <td style="width:200px">{{obj.SignedOn | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ExternalSignerId}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

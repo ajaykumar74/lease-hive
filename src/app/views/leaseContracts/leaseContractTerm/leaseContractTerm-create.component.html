@@ -1,0 +1,158 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="TermVersionNo">Term Version No 
+							</label> 
+							<p-inputNumber id="TermVersionNo"  pSize="small"	formControlName="TermVersionNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TermVersionNo')"
+											label="Term Version No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Type Code" class="mb-1">LeaseTypeCode</label>
+        <p-dropdown
+            inputId="LeaseTypeCode" 
+            [options]="leasetypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseTypeCode')"
+											label="Lease Type Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="TermMonths">Term Months 
+							</label> 
+							<p-inputNumber id="TermMonths"  pSize="small"	formControlName="TermMonths"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TermMonths')"
+											label="Term Months">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Payment Frequency Code" class="mb-1">PaymentFrequencyCode</label>
+        <p-dropdown
+            inputId="PaymentFrequencyCode" 
+            [options]="paymentfrequencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PaymentFrequencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PaymentFrequencyCode')"
+											label="Payment Frequency Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Payment Timing Code" class="mb-1">PaymentTimingCode</label>
+        <p-dropdown
+            inputId="PaymentTimingCode" 
+            [options]="paymenttimingcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PaymentTimingCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PaymentTimingCode')"
+											label="Payment Timing Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="BaseRentalAmount">Base Rental Amount 
+							</label> 
+							<p-inputNumber id="BaseRentalAmount"  pSize="small"	formControlName="BaseRentalAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('BaseRentalAmount')"
+											label="Base Rental Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="RentalRate">Rental Rate 
+							</label> 
+							<p-inputNumber id="RentalRate"  pSize="small"	formControlName="RentalRate"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('RentalRate')"
+											label="Rental Rate">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ResidualValueAmount">Residual Value Amount 
+							</label> 
+							<p-inputNumber id="ResidualValueAmount"  pSize="small"	formControlName="ResidualValueAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ResidualValueAmount')"
+											label="Residual Value Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="ResidualValuePercent">Residual Value Percent 
+							</label> 
+							<p-inputNumber id="ResidualValuePercent"  pSize="small"	formControlName="ResidualValuePercent"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ResidualValuePercent')"
+											label="Residual Value Percent">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="UpfrontPaymentAmount">Upfront Payment Amount 
+							</label> 
+							<p-inputNumber id="UpfrontPaymentAmount"  pSize="small"	formControlName="UpfrontPaymentAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('UpfrontPaymentAmount')"
+											label="Upfront Payment Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="BalloonAmount">Balloon Amount 
+							</label> 
+							<p-inputNumber id="BalloonAmount"  pSize="small"	formControlName="BalloonAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('BalloonAmount')"
+											label="Balloon Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="GraceDays">Grace Days 
+							</label> 
+							<p-inputNumber id="GraceDays"  pSize="small"	formControlName="GraceDays"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('GraceDays')"
+											label="Grace Days">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="TaxInclusive" binary="true" formControlName="TaxInclusive">
+											</p-checkbox>
+											<label for="TaxInclusive">Tax Inclusive</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Terms Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Terms Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="TermsJson"
+										[ngClass]="{'is-invalid': (editForm.get('TermsJson').touched || editForm.get('TermsJson').dirty) && !editForm.get('TermsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('TermsJson')"
+											label="Terms Json">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

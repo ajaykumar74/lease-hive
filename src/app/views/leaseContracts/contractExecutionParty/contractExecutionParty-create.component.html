@@ -1,0 +1,113 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Contract Execution Id" class="mb-1">ContractExecutionId</label>
+        <p-dropdown
+            inputId="ContractExecutionId" 
+            [options]="contractexecutionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContractExecutionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContractExecutionId')"
+											label="Contract Execution Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Lease Contract Party Id" class="mb-1">LeaseContractPartyId</label>
+        <p-dropdown
+            inputId="LeaseContractPartyId" 
+            [options]="leasecontractpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractPartyId')"
+											label="Lease Contract Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Signer Party Id" class="mb-1">SignerPartyId</label>
+        <p-dropdown
+            inputId="SignerPartyId" 
+            [options]="signerpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SignerPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SignerPartyId')"
+											label="Signer Party Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="SignerNameSnapshot">Signer Name Snapshot 
+							</label> 
+							<input pInputText id="SignerNameSnapshot" type="text" pSize="small"	formControlName="SignerNameSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SignerNameSnapshot')"
+											label="Signer Name Snapshot">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="SignerEmailSnapshot">Signer Email Snapshot 
+							</label> 
+							<input pInputText id="SignerEmailSnapshot" type="text" pSize="small"	formControlName="SignerEmailSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SignerEmailSnapshot')"
+											label="Signer Email Snapshot">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="SigningOrder">Signing Order 
+							</label> 
+							<p-inputNumber id="SigningOrder"  pSize="small"	formControlName="SigningOrder"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('SigningOrder')"
+											label="Signing Order">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Signature Status Code" class="mb-1">SignatureStatusCode</label>
+        <p-dropdown
+            inputId="SignatureStatusCode" 
+            [options]="signaturestatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SignatureStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SignatureStatusCode')"
+											label="Signature Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="SignedOn">Signed On 
+							</label> 
+							<p-calendar id="SignedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="SignedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('SignedOn')"
+											label="Signed On">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">					
+							<label for="ExternalSignerId">External Signer Id 
+							</label> 
+							<input pInputText id="ExternalSignerId" type="text" pSize="small"	formControlName="ExternalSignerId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ExternalSignerId')"
+											label="External Signer Id">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

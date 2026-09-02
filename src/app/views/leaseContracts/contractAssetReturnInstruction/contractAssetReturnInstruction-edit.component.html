@@ -1,0 +1,118 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Lease Contract Asset Id" class="mb-1">LeaseContractAssetId</label>
+        <p-dropdown
+            inputId="LeaseContractAssetId" 
+            [options]="leasecontractassetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractAssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractAssetId')"
+											label="Lease Contract Asset Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Contract Termination Id" class="mb-1">ContractTerminationId</label>
+        <p-dropdown
+            inputId="ContractTerminationId" 
+            [options]="contractterminationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContractTerminationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContractTerminationId')"
+											label="Contract Termination Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Instruction Code" class="mb-1">InstructionCode</label>
+        <p-dropdown
+            inputId="InstructionCode" 
+            [options]="instructioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="InstructionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('InstructionCode')"
+											label="Instruction Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="RequiredByDate">Required By Date 
+							</label> 
+							<p-calendar id="RequiredByDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RequiredByDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RequiredByDate')"
+											label="Required By Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Return Location Id" class="mb-1">ReturnLocationId</label>
+        <p-dropdown
+            inputId="ReturnLocationId" 
+            [options]="returnlocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReturnLocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReturnLocationId')"
+											label="Return Location Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="OperationsReferenceId">Operations Reference Id 
+							</label> 
+							<p-inputNumber id="OperationsReferenceId"  pSize="small"	formControlName="OperationsReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('OperationsReferenceId')"
+											label="Operations Reference Id">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
