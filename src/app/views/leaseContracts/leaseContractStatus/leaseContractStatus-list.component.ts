@@ -137,17 +137,17 @@ export class LeaseContractStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/config/statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractStatuss/view/' + obj.Id]);
+        this.router.navigate(['/contracts/config/statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractStatuss/create']);
+      this.router.navigate(['/contracts/config/statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

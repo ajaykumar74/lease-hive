@@ -70,8 +70,8 @@ export class ContractExternalReferenceViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractExternalReference/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/external-references/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

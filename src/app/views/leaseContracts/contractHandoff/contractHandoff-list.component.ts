@@ -137,17 +137,17 @@ export class ContractHandoffListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractHandoffs/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/handoffs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractHandoffs/view/' + obj.Id]);
+        this.router.navigate(['/contracts/handoffs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractHandoffs/create']);
+      this.router.navigate(['/contracts/handoffs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

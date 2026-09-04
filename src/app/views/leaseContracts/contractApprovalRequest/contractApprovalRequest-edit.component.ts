@@ -124,7 +124,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractApprovalRequest/create', { id: -1 }]);
+      this.router.navigate(['/contracts/approvals/contracts/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

@@ -135,7 +135,7 @@ SatisfiedBy: obj.SatisfiedBy || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractCondition/create', { id: -1 }]);
+      this.router.navigate(['/contracts/conditions/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

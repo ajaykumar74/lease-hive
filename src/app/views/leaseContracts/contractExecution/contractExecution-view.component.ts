@@ -70,8 +70,8 @@ export class ContractExecutionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractExecution/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/execution/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

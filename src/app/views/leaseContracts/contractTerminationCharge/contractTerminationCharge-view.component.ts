@@ -70,8 +70,8 @@ export class ContractTerminationChargeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractTerminationCharge/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/terminations/charges/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

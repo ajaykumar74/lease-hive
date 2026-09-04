@@ -70,8 +70,8 @@ export class LeaseAssetAllocationEventViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leaseAssetAllocationEvent/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/assets/history/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

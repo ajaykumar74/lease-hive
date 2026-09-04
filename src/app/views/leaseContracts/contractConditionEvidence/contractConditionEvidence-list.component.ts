@@ -137,17 +137,17 @@ export class ContractConditionEvidenceListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractConditionEvidences/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/conditions/evidence/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractConditionEvidences/view/' + obj.Id]);
+        this.router.navigate(['/contracts/conditions/evidence/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractConditionEvidences/create']);
+      this.router.navigate(['/contracts/conditions/evidence/create']);
     } 
     else if (key == "Refresh") {
       this.search();

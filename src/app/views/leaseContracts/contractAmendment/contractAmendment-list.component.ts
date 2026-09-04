@@ -137,17 +137,17 @@ export class ContractAmendmentListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractAmendments/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/amendments/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractAmendments/view/' + obj.Id]);
+        this.router.navigate(['/contracts/amendments/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractAmendments/create']);
+      this.router.navigate(['/contracts/amendments/create']);
     } 
     else if (key == "Refresh") {
       this.search();

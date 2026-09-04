@@ -137,17 +137,17 @@ export class LeaseAssetAllocationEventListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseAssetAllocationEvents/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/assets/history/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseAssetAllocationEvents/view/' + obj.Id]);
+        this.router.navigate(['/contracts/assets/history/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseAssetAllocationEvents/create']);
+      this.router.navigate(['/contracts/assets/history/create']);
     } 
     else if (key == "Refresh") {
       this.search();

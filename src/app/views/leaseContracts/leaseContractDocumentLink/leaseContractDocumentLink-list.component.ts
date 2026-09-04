@@ -137,17 +137,17 @@ export class LeaseContractDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/contracts/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractDocumentLinks/create']);
+      this.router.navigate(['/contracts/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

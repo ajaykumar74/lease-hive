@@ -70,8 +70,8 @@ export class ContractConditionEvidenceViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractConditionEvidence/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/conditions/evidence/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class ContractExternalReferenceListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractExternalReferences/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/external-references/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractExternalReferences/view/' + obj.Id]);
+        this.router.navigate(['/contracts/external-references/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractExternalReferences/create']);
+      this.router.navigate(['/contracts/external-references/create']);
     } 
     else if (key == "Refresh") {
       this.search();

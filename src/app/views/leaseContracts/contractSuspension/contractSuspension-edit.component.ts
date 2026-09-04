@@ -123,7 +123,7 @@ Notes: obj.Notes || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractSuspension/create', { id: -1 }]);
+      this.router.navigate(['/contracts/suspensions/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

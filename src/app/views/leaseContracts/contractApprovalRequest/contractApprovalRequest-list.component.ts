@@ -137,17 +137,17 @@ export class ContractApprovalRequestListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractApprovalRequests/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/approvals/contracts/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractApprovalRequests/view/' + obj.Id]);
+        this.router.navigate(['/contracts/approvals/contracts/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractApprovalRequests/create']);
+      this.router.navigate(['/contracts/approvals/contracts/create']);
     } 
     else if (key == "Refresh") {
       this.search();

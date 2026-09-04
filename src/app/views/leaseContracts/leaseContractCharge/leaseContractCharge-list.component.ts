@@ -137,17 +137,17 @@ export class LeaseContractChargeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractCharges/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/charges/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractCharges/view/' + obj.Id]);
+        this.router.navigate(['/contracts/charges/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractCharges/create']);
+      this.router.navigate(['/contracts/charges/create']);
     } 
     else if (key == "Refresh") {
       this.search();

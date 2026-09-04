@@ -137,17 +137,17 @@ export class LeasePaymentScheduleLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leasePaymentScheduleLines/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/payment-schedules/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leasePaymentScheduleLines/view/' + obj.Id]);
+        this.router.navigate(['/contracts/payment-schedules/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leasePaymentScheduleLines/create']);
+      this.router.navigate(['/contracts/payment-schedules/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

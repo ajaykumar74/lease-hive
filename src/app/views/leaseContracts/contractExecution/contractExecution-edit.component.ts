@@ -132,7 +132,7 @@ CompletionCertificateDocumentId: obj.CompletionCertificateDocumentId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractExecution/create', { id: -1 }]);
+      this.router.navigate(['/contracts/execution/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

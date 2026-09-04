@@ -123,7 +123,7 @@ CapturedBy: obj.CapturedBy || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractConditionEvidence/create', { id: -1 }]);
+      this.router.navigate(['/contracts/conditions/evidence/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

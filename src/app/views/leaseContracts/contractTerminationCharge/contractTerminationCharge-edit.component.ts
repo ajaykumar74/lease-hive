@@ -115,7 +115,7 @@ FinanceReferenceId: obj.FinanceReferenceId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractTerminationCharge/create', { id: -1 }]);
+      this.router.navigate(['/contracts/terminations/charges/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

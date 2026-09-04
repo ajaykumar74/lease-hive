@@ -127,7 +127,7 @@ TermsJson: obj.TermsJson || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/leaseContractTerm/create', { id: -1 }]);
+      this.router.navigate(['/contracts/terms/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

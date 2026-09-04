@@ -121,7 +121,7 @@ DelegatedFromUserId: obj.DelegatedFromUserId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractApprovalAction/create', { id: -1 }]);
+      this.router.navigate(['/contracts/approvals/actions/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

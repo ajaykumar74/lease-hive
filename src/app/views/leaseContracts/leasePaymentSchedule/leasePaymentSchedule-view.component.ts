@@ -70,8 +70,8 @@ export class LeasePaymentScheduleViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leasePaymentSchedule/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/payment-schedules/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -135,7 +135,7 @@ TargetModuleCode: obj.TargetModuleCode || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractObligation/create', { id: -1 }]);
+      this.router.navigate(['/contracts/obligations/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

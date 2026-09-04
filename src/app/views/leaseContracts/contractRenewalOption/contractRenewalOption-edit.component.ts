@@ -126,7 +126,7 @@ StatusCode: obj.StatusCode || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractRenewalOption/create', { id: -1 }]);
+      this.router.navigate(['/contracts/renewals/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

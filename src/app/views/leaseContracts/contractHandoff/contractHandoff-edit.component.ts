@@ -127,7 +127,7 @@ ValidationJson: obj.ValidationJson || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractHandoff/create', { id: -1 }]);
+      this.router.navigate(['/contracts/handoffs/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

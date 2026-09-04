@@ -137,17 +137,17 @@ export class ContractExecutionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractExecutions/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/execution/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractExecutions/view/' + obj.Id]);
+        this.router.navigate(['/contracts/execution/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractExecutions/create']);
+      this.router.navigate(['/contracts/execution/create']);
     } 
     else if (key == "Refresh") {
       this.search();

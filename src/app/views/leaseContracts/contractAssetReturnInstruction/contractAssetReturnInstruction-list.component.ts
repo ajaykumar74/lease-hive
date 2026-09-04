@@ -137,17 +137,17 @@ export class ContractAssetReturnInstructionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractAssetReturnInstructions/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/asset-return/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractAssetReturnInstructions/view/' + obj.Id]);
+        this.router.navigate(['/contracts/asset-return/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractAssetReturnInstructions/create']);
+      this.router.navigate(['/contracts/asset-return/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -70,8 +70,8 @@ export class ContractApprovalRequestViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractApprovalRequest/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/approvals/contracts/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

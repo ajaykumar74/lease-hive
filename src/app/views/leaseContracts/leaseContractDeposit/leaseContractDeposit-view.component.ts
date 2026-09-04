@@ -70,8 +70,8 @@ export class LeaseContractDepositViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leaseContractDeposit/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/deposits/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

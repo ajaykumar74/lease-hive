@@ -137,17 +137,17 @@ export class ContractObligationListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractObligations/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/obligations/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractObligations/view/' + obj.Id]);
+        this.router.navigate(['/contracts/obligations/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractObligations/create']);
+      this.router.navigate(['/contracts/obligations/create']);
     } 
     else if (key == "Refresh") {
       this.search();

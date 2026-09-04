@@ -137,17 +137,17 @@ export class ContractTerminationListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractTerminations/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/terminations/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractTerminations/view/' + obj.Id]);
+        this.router.navigate(['/contracts/terminations/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractTerminations/create']);
+      this.router.navigate(['/contracts/terminations/create']);
     } 
     else if (key == "Refresh") {
       this.search();

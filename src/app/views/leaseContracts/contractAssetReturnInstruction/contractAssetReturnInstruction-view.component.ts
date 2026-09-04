@@ -70,8 +70,8 @@ export class ContractAssetReturnInstructionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractAssetReturnInstruction/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/asset-return/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

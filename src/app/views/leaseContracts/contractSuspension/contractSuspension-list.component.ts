@@ -137,17 +137,17 @@ export class ContractSuspensionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractSuspensions/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/suspensions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractSuspensions/view/' + obj.Id]);
+        this.router.navigate(['/contracts/suspensions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractSuspensions/create']);
+      this.router.navigate(['/contracts/suspensions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

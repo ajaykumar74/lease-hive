@@ -137,17 +137,17 @@ export class LeaseContractPartyListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractPartys/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/dashboard/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractPartys/view/' + obj.Id]);
+        this.router.navigate(['/contracts/dashboard/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractPartys/create']);
+      this.router.navigate(['/contracts/dashboard/create']);
     } 
     else if (key == "Refresh") {
       this.search();

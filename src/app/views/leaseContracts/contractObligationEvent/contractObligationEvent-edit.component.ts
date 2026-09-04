@@ -124,7 +124,7 @@ PerformedBy: obj.PerformedBy || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractObligationEvent/create', { id: -1 }]);
+      this.router.navigate(['/contracts/obligations/events/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

@@ -70,8 +70,8 @@ export class LeaseContractStatusViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leaseContractStatus/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/config/statuses/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -70,8 +70,8 @@ export class ContractRenewalOptionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractRenewalOption/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/renewals/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

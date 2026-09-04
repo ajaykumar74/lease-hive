@@ -70,8 +70,8 @@ export class ContractAmendmentChangeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/contractAmendmentChange/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/amendments/changes/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

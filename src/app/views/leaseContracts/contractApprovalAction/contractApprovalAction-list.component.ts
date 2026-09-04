@@ -111,10 +111,7 @@ export class ContractApprovalActionListComponent implements OnInit {
     var Items = [];
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
-     
+      
     ];
 
 
@@ -137,17 +134,17 @@ export class ContractApprovalActionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/contractApprovalActions/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/approvals/actions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/contractApprovalActions/view/' + obj.Id]);
+        this.router.navigate(['/contracts/approvals/actions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/contractApprovalActions/create']);
+      this.router.navigate(['/contracts/approvals/actions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

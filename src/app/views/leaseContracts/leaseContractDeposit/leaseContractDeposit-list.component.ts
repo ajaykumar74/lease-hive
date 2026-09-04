@@ -137,17 +137,17 @@ export class LeaseContractDepositListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractDeposits/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/deposits/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractDeposits/view/' + obj.Id]);
+        this.router.navigate(['/contracts/deposits/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractDeposits/create']);
+      this.router.navigate(['/contracts/deposits/create']);
     } 
     else if (key == "Refresh") {
       this.search();

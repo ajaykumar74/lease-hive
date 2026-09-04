@@ -137,17 +137,17 @@ export class LeaseContractTermListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseContractTerms/edit/' + obj.Id]);
+        this.router.navigate(['/contracts/terms/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseContractTerms/view/' + obj.Id]);
+        this.router.navigate(['/contracts/terms/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseContractTerms/create']);
+      this.router.navigate(['/contracts/terms/create']);
     } 
     else if (key == "Refresh") {
       this.search();

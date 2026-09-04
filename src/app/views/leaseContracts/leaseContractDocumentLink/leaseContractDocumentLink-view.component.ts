@@ -70,8 +70,8 @@ export class LeaseContractDocumentLinkViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leaseContractDocumentLink/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

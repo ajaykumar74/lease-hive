@@ -70,8 +70,8 @@ export class LeaseContractPartyViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/leaseContractParty/create']);
+        if (key == "Create") {
+            this.router.navigate(['/contracts/dashboard/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -124,7 +124,7 @@ ExternalSignerId: obj.ExternalSignerId || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/contractExecutionParty/create', { id: -1 }]);
+      this.router.navigate(['/contracts/execution/parties/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
