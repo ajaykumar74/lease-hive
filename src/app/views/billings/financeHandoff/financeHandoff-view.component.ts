@@ -70,7 +70,7 @@ export class FinanceHandoffViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
+        if (key == "Create") {
             this.router.navigate(['/billing-finance/control/handoffs/create']);
         }        
         else if (key == "Refresh") {

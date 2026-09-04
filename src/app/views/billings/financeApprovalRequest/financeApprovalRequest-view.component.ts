@@ -70,7 +70,7 @@ export class FinanceApprovalRequestViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
+        if (key == "Create") {
             this.router.navigate(['/billing-finance/control/approvals/create']);
         }        
         else if (key == "Refresh") {

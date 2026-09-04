@@ -70,7 +70,7 @@ export class DebitNoteLineViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
+        if (key == "Create") {
             this.router.navigate(['/billing-finance/debit-notes/lines/create']);
         }        
         else if (key == "Refresh") {

@@ -70,7 +70,7 @@ export class InvoiceStatusViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
+        if (key == "Create") {
             this.router.navigate(['/billing-finance/configuration/invoice-statuses/create']);
         }        
         else if (key == "Refresh") {

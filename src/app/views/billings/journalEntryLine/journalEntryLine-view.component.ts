@@ -70,7 +70,7 @@ export class JournalEntryLineViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
+        if (key == "Create") {
             this.router.navigate(['/billing-finance/accounting/journals/lines/create']);
         }        
         else if (key == "Refresh") {
