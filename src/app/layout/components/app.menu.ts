@@ -2168,51 +2168,70 @@ export class AppMenu {
                             label: 'End-of-Lease & Disposal',
                             icon: 'pi pi-fw pi-sign-out',
                             items: [
-                                {
-                                    label: 'Dashboard',
-                                    routerLink: ['/end-of-lease/dashboard']
-                                },
+                                { label: 'Dashboard', icon: 'pi pi-chart-bar', routerLink: ['/eol-disposal/dashboard'] },
                                 {
                                     label: 'End-of-Lease Cases',
+                                    icon: 'pi pi-briefcase',
                                     items: [
-                                        { label: 'Case Worklist', routerLink: ['/end-of-lease/cases'] },
-                                        { label: 'Upcoming Expiries', routerLink: ['/end-of-lease/upcoming'] },
-                                        { label: 'Notices & Options', routerLink: ['/end-of-lease/notices'] }
+                                        { label: 'Case Worklist', icon: 'pi pi-list', routerLink: ['/eol-disposal/cases'] },
+                                        { label: 'Upcoming Expiries', icon: 'pi pi-calendar-times', routerLink: ['/eol-disposal/upcoming'] },
+                                        { label: 'Notices', icon: 'pi pi-envelope', routerLink: ['/eol-disposal/notices'] },
+                                        { label: 'End-of-Lease Options', icon: 'pi pi-directions', routerLink: ['/eol-disposal/options'] }
                                     ]
                                 },
                                 {
                                     label: 'Returns',
+                                    icon: 'pi pi-reply',
                                     items: [
-                                        { label: 'Return Schedule', routerLink: ['/end-of-lease/returns/schedule'] },
-                                        { label: 'Asset Returns', routerLink: ['/end-of-lease/returns'] },
-                                        { label: 'Return Assessments', routerLink: ['/end-of-lease/assessments'] }
+                                        { label: 'Return Schedule', icon: 'pi pi-calendar', routerLink: ['/eol-disposal/returns/schedule'] },
+                                        { label: 'Asset Returns', icon: 'pi pi-undo', routerLink: ['/eol-disposal/returns'] },
+                                        { label: 'Return Checklists', icon: 'pi pi-list-check', routerLink: ['/eol-disposal/returns/checklists'] },
+                                        { label: 'Supplier Returns', icon: 'pi pi-truck', routerLink: ['/eol-disposal/returns/supplier'] },
+                                        { label: 'Return Assessments', icon: 'pi pi-search', routerLink: ['/eol-disposal/assessments'] },
+                                        { label: 'Assessment Damages', icon: 'pi pi-exclamation-circle', routerLink: ['/eol-disposal/assessments/damages'] },
+                                        { label: 'Excess Usage', icon: 'pi pi-chart-line', routerLink: ['/eol-disposal/assessments/excess-usage'] }
                                     ]
                                 },
                                 {
                                     label: 'Settlements',
+                                    icon: 'pi pi-wallet',
                                     items: [
-                                        { label: 'Settlement Worklist', routerLink: ['/end-of-lease/settlements'] },
-                                        { label: 'Purchase Options', routerLink: ['/end-of-lease/purchase-options'] }
+                                        { label: 'Settlement Worklist', icon: 'pi pi-list', routerLink: ['/eol-disposal/settlements'] },
+                                        { label: 'Settlement Lines', icon: 'pi pi-list-check', routerLink: ['/eol-disposal/settlements/lines'] },
+                                        { label: 'Acknowledgements', icon: 'pi pi-check-circle', routerLink: ['/eol-disposal/settlements/acknowledgements'] },
+                                        { label: 'Purchase Options', icon: 'pi pi-shopping-cart', routerLink: ['/eol-disposal/purchase-options'] }
                                     ]
                                 },
                                 {
                                     label: 'Disposition',
+                                    icon: 'pi pi-share-alt',
                                     items: [
-                                        { label: 'Disposition Decisions', routerLink: ['/disposal/decisions'] },
-                                        { label: 'Disposal Cases', routerLink: ['/disposal/cases'] },
-                                        { label: 'Offers & Auctions', routerLink: ['/disposal/market'] },
-                                        { label: 'Asset Sales', routerLink: ['/disposal/sales'] },
-                                        { label: 'Scrap / Write-Off', routerLink: ['/disposal/write-offs'] }
+                                        { label: 'Disposition Decisions', icon: 'pi pi-directions', routerLink: ['/eol-disposal/disposition/decisions'] },
+                                        { label: 'Disposal Cases', icon: 'pi pi-briefcase', routerLink: ['/eol-disposal/disposition/cases'] },
+                                        { label: 'Valuation References', icon: 'pi pi-chart-line', routerLink: ['/eol-disposal/disposition/valuations'] },
+                                        { label: 'Offers', icon: 'pi pi-tag', routerLink: ['/eol-disposal/disposition/market/offers'] },
+                                        { label: 'Bids', icon: 'pi pi-money-bill', routerLink: ['/eol-disposal/disposition/market/bids'] },
+                                        { label: 'Auctions', icon: 'pi pi-megaphone', routerLink: ['/eol-disposal/disposition/market/auctions'] },
+                                        { label: 'Awards', icon: 'pi pi-trophy', routerLink: ['/eol-disposal/disposition/market/awards'] },
+                                        { label: 'Asset Sales', icon: 'pi pi-shopping-bag', routerLink: ['/eol-disposal/disposition/sales'] },
+                                        { label: 'Asset Scrap', icon: 'pi pi-trash', routerLink: ['/eol-disposal/disposition/scrap'] },
+                                        { label: 'Asset Write-Offs', icon: 'pi pi-times-circle', routerLink: ['/eol-disposal/disposition/write-offs'] },
+                                        { label: 'Refurbishment Handoffs', icon: 'pi pi-sync', routerLink: ['/eol-disposal/disposition/refurbishment-handoffs'] }
                                     ]
                                 },
                                 {
-                                    label: 'Exceptions',
-                                    routerLink: ['/end-of-lease/exceptions']
+                                    label: 'Configuration',
+                                    icon: 'pi pi-cog',
+                                    items: [
+                                        { label: 'End-of-Lease Statuses', icon: 'pi pi-list', routerLink: ['/eol-disposal/configuration/statuses'] },
+                                        { label: 'End-of-Lease Reasons', icon: 'pi pi-question-circle', routerLink: ['/eol-disposal/configuration/reasons'] },
+                                        { label: 'Disposition Methods', icon: 'pi pi-tags', routerLink: ['/eol-disposal/configuration/disposition-methods'] },
+                                        { label: 'Settlement Charge Types', icon: 'pi pi-wallet', routerLink: ['/eol-disposal/configuration/settlement-charge-types'] }
+                                    ]
                                 },
-                                {
-                                    label: 'Documents',
-                                    routerLink: ['/end-of-lease/documents']
-                                }
+                                { label: 'Exceptions', icon: 'pi pi-exclamation-triangle', routerLink: ['/eol-disposal/exceptions'] },
+                                { label: 'Documents', icon: 'pi pi-folder', routerLink: ['/eol-disposal/documents'] },
+                                { label: 'Handoffs', icon: 'pi pi-directions-alt', routerLink: ['/eol-disposal/handoffs'] }
                             ]
                         },
                         {

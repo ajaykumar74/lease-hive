@@ -70,8 +70,8 @@ export class AssetReturnViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/assetReturn/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/returns/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

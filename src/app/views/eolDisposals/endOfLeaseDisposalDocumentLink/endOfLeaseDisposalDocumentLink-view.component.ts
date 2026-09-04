@@ -70,8 +70,8 @@ export class EndOfLeaseDisposalDocumentLinkViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseDisposalDocumentLink/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

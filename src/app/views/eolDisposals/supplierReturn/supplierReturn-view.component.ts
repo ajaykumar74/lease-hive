@@ -70,8 +70,8 @@ export class SupplierReturnViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/supplierReturn/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/returns/supplier/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class AssetSaleListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetSales/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/sales/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetSales/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/sales/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetSales/create']);
+      this.router.navigate(['/eol-disposal/disposition/sales/create']);
     } 
     else if (key == "Refresh") {
       this.search();

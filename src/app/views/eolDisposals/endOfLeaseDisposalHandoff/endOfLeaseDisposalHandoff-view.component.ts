@@ -70,8 +70,8 @@ export class EndOfLeaseDisposalHandoffViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseDisposalHandoff/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/handoffs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

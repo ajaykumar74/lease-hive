@@ -137,17 +137,17 @@ export class AssetReturnListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetReturns/edit/' + obj.Id]);
+        this.router.navigate(['eol-disposal/returns/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetReturns/view/' + obj.Id]);
+        this.router.navigate(['eol-disposal/returns/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetReturns/create']);
+      this.router.navigate(['eol-disposal/returns/create']);
     } 
     else if (key == "Refresh") {
       this.search();

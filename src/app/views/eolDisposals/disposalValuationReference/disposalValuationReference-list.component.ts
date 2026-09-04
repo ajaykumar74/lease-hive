@@ -137,17 +137,17 @@ export class DisposalValuationReferenceListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/disposalValuationReferences/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/valuations/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/disposalValuationReferences/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/valuations/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/disposalValuationReferences/create']);
+      this.router.navigate(['/eol-disposal/disposition/valuations/create']);
     } 
     else if (key == "Refresh") {
       this.search();

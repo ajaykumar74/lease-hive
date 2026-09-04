@@ -137,17 +137,17 @@ export class EndOfLeaseReasonListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/endOfLeaseReasons/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/reasons/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/endOfLeaseReasons/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/reasons/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/endOfLeaseReasons/create']);
+      this.router.navigate(['/eol-disposal/configuration/reasons/create']);
     } 
     else if (key == "Refresh") {
       this.search();

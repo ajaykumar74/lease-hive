@@ -137,17 +137,17 @@ export class ReturnAssessmentListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/returnAssessments/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/assessments/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/returnAssessments/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/assessments/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/returnAssessments/create']);
+      this.router.navigate(['/eol-disposal/assessments/create']);
     } 
     else if (key == "Refresh") {
       this.search();

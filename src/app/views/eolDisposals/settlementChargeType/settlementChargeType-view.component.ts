@@ -70,8 +70,8 @@ export class SettlementChargeTypeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/settlementChargeType/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/configuration/settlement-charge-types/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

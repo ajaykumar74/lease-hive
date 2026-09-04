@@ -137,17 +137,17 @@ export class DispositionMethodListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/dispositionMethods/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/disposition-methods/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/dispositionMethods/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/disposition-methods/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/dispositionMethods/create']);
+      this.router.navigate(['/eol-disposal/configuration/disposition-methods/create']);
     } 
     else if (key == "Refresh") {
       this.search();

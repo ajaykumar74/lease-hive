@@ -137,17 +137,17 @@ export class PurchaseOptionExerciseListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseOptionExercises/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/purchase-options/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseOptionExercises/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/purchase-options/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseOptionExercises/create']);
+      this.router.navigate(['/eol-disposal/purchase-options/create']);
     } 
     else if (key == "Refresh") {
       this.search();

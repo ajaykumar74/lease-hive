@@ -137,7 +137,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierReturn/create', { id: -1 }]);
+      this.router.navigate(['/eol-disposal/returns/supplier/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

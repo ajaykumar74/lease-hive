@@ -137,17 +137,17 @@ export class DisposalBidListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/disposalBids/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/market/bids/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/disposalBids/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/market/bids/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/disposalBids/create']);
+      this.router.navigate(['/eol-disposal/disposition/market/bids/create']);
     } 
     else if (key == "Refresh") {
       this.search();

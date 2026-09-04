@@ -70,8 +70,8 @@ export class DisposalAuctionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/disposalAuction/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/disposition/market/auctions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

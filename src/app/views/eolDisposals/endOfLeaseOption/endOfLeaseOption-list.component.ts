@@ -137,17 +137,17 @@ export class EndOfLeaseOptionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/endOfLeaseOptions/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/options/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/endOfLeaseOptions/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/options/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/endOfLeaseOptions/create']);
+      this.router.navigate(['/eol-disposal/options/create']);
     } 
     else if (key == "Refresh") {
       this.search();

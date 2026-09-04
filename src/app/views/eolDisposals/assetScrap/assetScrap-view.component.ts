@@ -70,8 +70,8 @@ export class AssetScrapViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/assetScrap/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/disposition/scrap/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -141,7 +141,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetWriteOff/create', { id: -1 }]);
+      this.router.navigate(['/eol-disposal/disposition/write-offs/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

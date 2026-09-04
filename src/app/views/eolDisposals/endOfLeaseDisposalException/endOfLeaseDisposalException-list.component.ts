@@ -137,17 +137,17 @@ export class EndOfLeaseDisposalExceptionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/endOfLeaseDisposalExceptions/edit/' + obj.Id]);
+        this.router.navigate(['eol-disposal/exceptions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/endOfLeaseDisposalExceptions/view/' + obj.Id]);
+        this.router.navigate(['eol-disposal/exceptions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/endOfLeaseDisposalExceptions/create']);
+      this.router.navigate(['eol-disposal/exceptions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

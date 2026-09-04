@@ -70,8 +70,8 @@ export class AssetReturnScheduleViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/assetReturnSchedule/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/returns/schedule/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

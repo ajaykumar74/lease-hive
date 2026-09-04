@@ -137,17 +137,17 @@ export class SupplierReturnListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/supplierReturns/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/returns/supplier/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/supplierReturns/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/returns/supplier/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/supplierReturns/create']);
+      this.router.navigate(['/eol-disposal/returns/supplier/create']);
     } 
     else if (key == "Refresh") {
       this.search();

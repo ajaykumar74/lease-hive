@@ -70,8 +70,8 @@ export class RefurbishmentHandoffViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/refurbishmentHandoff/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/disposition/refurbishment-handoffs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

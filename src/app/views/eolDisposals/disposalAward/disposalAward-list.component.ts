@@ -137,17 +137,17 @@ export class DisposalAwardListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/disposalAwards/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/market/awards/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/disposalAwards/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/market/awards/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/disposalAwards/create']);
+      this.router.navigate(['/eol-disposal/disposition/market/awards/create']);
     } 
     else if (key == "Refresh") {
       this.search();

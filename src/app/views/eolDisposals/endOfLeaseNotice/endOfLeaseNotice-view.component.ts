@@ -70,8 +70,8 @@ export class EndOfLeaseNoticeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseNotice/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/notices/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

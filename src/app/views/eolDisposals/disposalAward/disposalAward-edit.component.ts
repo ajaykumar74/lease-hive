@@ -147,7 +147,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/disposalAward/create', { id: -1 }]);
+      this.router.navigate(['/eol-disposal/disposition/market/awards/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

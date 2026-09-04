@@ -70,8 +70,8 @@ export class ReturnAssessmentViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/returnAssessment/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/assessments/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class DisposalCaseListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/disposalCases/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/cases/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/disposalCases/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/cases/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/disposalCases/create']);
+      this.router.navigate(['/eol-disposal/disposition/cases/create']);
     } 
     else if (key == "Refresh") {
       this.search();

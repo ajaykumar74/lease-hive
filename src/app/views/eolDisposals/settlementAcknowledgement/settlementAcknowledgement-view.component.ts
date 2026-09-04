@@ -70,8 +70,8 @@ export class SettlementAcknowledgementViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/settlementAcknowledgement/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/settlements/acknowledgements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

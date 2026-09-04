@@ -70,8 +70,8 @@ export class EndOfLeaseStatusViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseStatus/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/configuration/statuses/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

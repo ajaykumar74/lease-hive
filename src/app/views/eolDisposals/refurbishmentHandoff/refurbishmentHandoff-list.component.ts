@@ -137,17 +137,17 @@ export class RefurbishmentHandoffListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/refurbishmentHandoffs/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/refurbishment-handoffs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/refurbishmentHandoffs/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/refurbishment-handoffs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/refurbishmentHandoffs/create']);
+      this.router.navigate(['/eol-disposal/disposition/refurbishment-handoffs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -137,17 +137,17 @@ export class AssetDispositionDecisionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetDispositionDecisions/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/decisions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetDispositionDecisions/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/decisions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetDispositionDecisions/create']);
+      this.router.navigate(['/eol-disposal/disposition/decisions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

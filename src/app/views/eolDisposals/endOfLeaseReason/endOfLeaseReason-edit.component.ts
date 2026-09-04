@@ -110,7 +110,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/endOfLeaseReason/create', { id: -1 }]);
+      this.router.navigate(['/eol-disposal/configuration/reasons/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

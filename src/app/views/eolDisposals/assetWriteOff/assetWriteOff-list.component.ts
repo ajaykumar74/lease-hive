@@ -137,17 +137,17 @@ export class AssetWriteOffListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetWriteOffs/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/write-offs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetWriteOffs/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/disposition/write-offs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetWriteOffs/create']);
+      this.router.navigate(['/eol-disposal/disposition/write-offs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

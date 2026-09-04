@@ -137,17 +137,17 @@ export class SettlementAcknowledgementListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/settlementAcknowledgements/edit/' + obj.Id]);
+        this.router.navigate(['eol-disposal/settlements/acknowledgements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/settlementAcknowledgements/view/' + obj.Id]);
+        this.router.navigate(['eol-disposal/settlements/acknowledgements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/settlementAcknowledgements/create']);
+      this.router.navigate(['eol-disposal/settlements/acknowledgements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

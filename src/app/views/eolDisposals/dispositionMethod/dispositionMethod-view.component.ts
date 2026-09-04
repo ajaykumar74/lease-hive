@@ -70,8 +70,8 @@ export class DispositionMethodViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/dispositionMethod/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/configuration/disposition-methods/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

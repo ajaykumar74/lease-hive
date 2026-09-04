@@ -137,17 +137,17 @@ export class AssetReturnScheduleListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetReturnSchedules/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/returns/schedule/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetReturnSchedules/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/returns/schedule/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetReturnSchedules/create']);
+      this.router.navigate(['/eol-disposal/returns/schedule/create']);
     } 
     else if (key == "Refresh") {
       this.search();

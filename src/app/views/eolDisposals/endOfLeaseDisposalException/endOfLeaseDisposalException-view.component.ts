@@ -70,8 +70,8 @@ export class EndOfLeaseDisposalExceptionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseDisposalException/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/exceptions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

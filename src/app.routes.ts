@@ -53,6 +53,11 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./app/views/business/maintenanceInsurance.routes').then(m => m.MAINTENANCE_INSURANCE_ROUTES),
         data: { breadcrumb: 'Maintenance & Insurance' },
     },
+    {
+        path: 'eol-disposal',
+        loadChildren: () => import('./app/views/business/eolDisposal.routes').then(m => m.EOL_DISPOSAL_ROUTES),
+        data: { breadcrumb: 'End-of-Lease & Disposal' },
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 

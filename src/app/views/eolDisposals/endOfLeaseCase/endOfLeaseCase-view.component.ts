@@ -70,8 +70,8 @@ export class EndOfLeaseCaseViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseCase/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/cases/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

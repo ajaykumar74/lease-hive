@@ -137,17 +137,17 @@ export class EndOfLeaseSettlementListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/endOfLeaseSettlements/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/settlements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/endOfLeaseSettlements/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/settlements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/endOfLeaseSettlements/create']);
+      this.router.navigate(['/eol-disposal/settlements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

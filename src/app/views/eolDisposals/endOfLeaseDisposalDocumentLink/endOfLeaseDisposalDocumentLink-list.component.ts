@@ -137,17 +137,17 @@ export class EndOfLeaseDisposalDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/endOfLeaseDisposalDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/endOfLeaseDisposalDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/endOfLeaseDisposalDocumentLinks/create']);
+      this.router.navigate(['/eol-disposal/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

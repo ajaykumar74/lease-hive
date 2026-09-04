@@ -137,17 +137,17 @@ export class SettlementChargeTypeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/settlementChargeTypes/edit/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/settlement-charge-types/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/settlementChargeTypes/view/' + obj.Id]);
+        this.router.navigate(['/eol-disposal/configuration/settlement-charge-types/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/settlementChargeTypes/create']);
+      this.router.navigate(['/eol-disposal/configuration/settlement-charge-types/create']);
     } 
     else if (key == "Refresh") {
       this.search();

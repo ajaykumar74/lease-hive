@@ -70,8 +70,8 @@ export class EndOfLeaseSettlementViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseSettlement/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/settlements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

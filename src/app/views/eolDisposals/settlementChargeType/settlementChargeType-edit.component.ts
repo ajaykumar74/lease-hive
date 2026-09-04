@@ -115,7 +115,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/settlementChargeType/create', { id: -1 }]);
+      this.router.navigate(['/eol-disposal/configuration/settlement-charge-types/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

@@ -70,8 +70,8 @@ export class EndOfLeaseReasonViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/endOfLeaseReason/create']);
+        if (key == "Create") {
+            this.router.navigate(['/eol-disposal/configuration/reasons/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();
