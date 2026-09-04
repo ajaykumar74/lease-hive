@@ -1,0 +1,50 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'MaintenanceException List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Exception No <p-sortIcon field="ExceptionNo" /> </th> 
+<th style="width:200px">Exception Type Code <p-sortIcon field="ExceptionTypeCode" /> </th> 
+<th style="width:200px">Reference Type Code <p-sortIcon field="ReferenceTypeCode" /> </th> 
+<th style="width:200px">Reference Id <p-sortIcon field="ReferenceId" /> </th> 
+<th style="width:200px">Severity Code <p-sortIcon field="SeverityCode" /> </th> 
+<th style="width:200px">Assigned To User Id <p-sortIcon field="AssignedToUserId" /> </th> 
+<th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th> 
+<th style="width:200px">Resolved At <p-sortIcon field="ResolvedAt" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ExceptionNo}}</td>
+ <td style="width:200px">{{obj.ExceptionTypeCode}}</td>
+ <td style="width:200px">{{obj.ReferenceTypeCode}}</td>
+ <td style="width:200px">{{obj.ReferenceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SeverityCode}}</td>
+ <td style="width:200px">{{obj.AssignedToUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px">{{obj.ResolvedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

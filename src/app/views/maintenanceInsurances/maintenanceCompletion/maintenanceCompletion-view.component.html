@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Work Order Id" [value]="maintenanceCompletion.MaintenanceWorkOrderId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="maintenanceCompletion.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Completed At" [value]="maintenanceCompletion.CompletedAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Completion Measure Value" [value]="maintenanceCompletion.CompletionMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Condition Grade Id" [value]="maintenanceCompletion.ConditionGradeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Completion Summary" [value]="maintenanceCompletion.CompletionSummary">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Next Due Date" [value]="maintenanceCompletion.NextDueDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Next Due Measure Value" [value]="maintenanceCompletion.NextDueMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Verified By User Id" [value]="maintenanceCompletion.VerifiedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Verified At" [value]="maintenanceCompletion.VerifiedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

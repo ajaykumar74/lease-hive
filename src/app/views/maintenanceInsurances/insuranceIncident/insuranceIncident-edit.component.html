@@ -1,0 +1,180 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+        <p-dropdown
+            inputId="LeaseContractId" 
+            [options]="leasecontractidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseContractId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
+											label="Lease Contract Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Incident Type Code" class="mb-1">IncidentTypeCode</label>
+        <p-dropdown
+            inputId="IncidentTypeCode" 
+            [options]="incidenttypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="IncidentTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('IncidentTypeCode')"
+											label="Incident Type Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="IncidentAt">Incident At 
+							</label> 
+							<p-calendar id="IncidentAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="IncidentAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('IncidentAt')"
+											label="Incident At">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Location Id" class="mb-1">LocationId</label>
+        <p-dropdown
+            inputId="LocationId" 
+            [options]="locationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LocationId')"
+											label="Location Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Customer Party Id" class="mb-1">CustomerPartyId</label>
+        <p-dropdown
+            inputId="CustomerPartyId" 
+            [options]="customerpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CustomerPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerPartyId')"
+											label="Customer Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset User Id" class="mb-1">AssetUserId</label>
+        <p-dropdown
+            inputId="AssetUserId" 
+            [options]="assetuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetUserId')"
+											label="Asset User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="ReportedAt">Reported At 
+							</label> 
+							<p-calendar id="ReportedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ReportedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ReportedAt')"
+											label="Reported At">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reported By User Id" class="mb-1">ReportedByUserId</label>
+        <p-dropdown
+            inputId="ReportedByUserId" 
+            [options]="reportedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReportedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReportedByUserId')"
+											label="Reported By User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Incident Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Incident Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="IncidentDescription"
+										[ngClass]="{'is-invalid': (editForm.get('IncidentDescription').touched || editForm.get('IncidentDescription').dirty) && !editForm.get('IncidentDescription').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('IncidentDescription')"
+											label="Incident Description">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PoliceReferenceNo">Police Reference No 
+							</label> 
+							<input pInputText id="PoliceReferenceNo" type="text" pSize="small"	formControlName="PoliceReferenceNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PoliceReferenceNo')"
+											label="Police Reference No">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="AssetDrivableFlag" binary="true" formControlName="AssetDrivableFlag">
+											</p-checkbox>
+											<label for="AssetDrivableFlag">Asset Drivable Flag</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

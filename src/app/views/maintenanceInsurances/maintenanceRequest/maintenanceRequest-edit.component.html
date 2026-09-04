@@ -1,0 +1,170 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Maintenance Schedule Id" class="mb-1">MaintenanceScheduleId</label>
+        <p-dropdown
+            inputId="MaintenanceScheduleId" 
+            [options]="maintenancescheduleidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceScheduleId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceScheduleId')"
+											label="Maintenance Schedule Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Type Id" class="mb-1">MaintenanceTypeId</label>
+        <p-dropdown
+            inputId="MaintenanceTypeId" 
+            [options]="maintenancetypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceTypeId')"
+											label="Maintenance Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Request Source Code" class="mb-1">RequestSourceCode</label>
+        <p-dropdown
+            inputId="RequestSourceCode" 
+            [options]="requestsourcecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RequestSourceCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RequestSourceCode')"
+											label="Request Source Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="RequestedAt">Requested At 
+							</label> 
+							<p-calendar id="RequestedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RequestedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RequestedAt')"
+											label="Requested At">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Requested By Party Id" class="mb-1">RequestedByPartyId</label>
+        <p-dropdown
+            inputId="RequestedByPartyId" 
+            [options]="requestedbypartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RequestedByPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RequestedByPartyId')"
+											label="Requested By Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Requested By User Id" class="mb-1">RequestedByUserId</label>
+        <p-dropdown
+            inputId="RequestedByUserId" 
+            [options]="requestedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RequestedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RequestedByUserId')"
+											label="Requested By User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Location Id" class="mb-1">LocationId</label>
+        <p-dropdown
+            inputId="LocationId" 
+            [options]="locationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LocationId')"
+											label="Location Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Priority Code" class="mb-1">PriorityCode</label>
+        <p-dropdown
+            inputId="PriorityCode" 
+            [options]="prioritycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PriorityCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PriorityCode')"
+											label="Priority Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Problem Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Problem Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ProblemDescription"
+										[ngClass]="{'is-invalid': (editForm.get('ProblemDescription').touched || editForm.get('ProblemDescription').dirty) && !editForm.get('ProblemDescription').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ProblemDescription')"
+											label="Problem Description">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

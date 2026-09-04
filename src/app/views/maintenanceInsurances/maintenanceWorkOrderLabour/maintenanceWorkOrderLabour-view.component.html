@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Work Order Id" [value]="maintenanceWorkOrderLabour.MaintenanceWorkOrderId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="maintenanceWorkOrderLabour.LineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Labour Code" [value]="maintenanceWorkOrderLabour.LabourCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Technician Party Id" [value]="maintenanceWorkOrderLabour.TechnicianPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Technician User Id" [value]="maintenanceWorkOrderLabour.TechnicianUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Hours" [value]="maintenanceWorkOrderLabour.Hours">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Rate Amount" [value]="maintenanceWorkOrderLabour.RateAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line Amount" [value]="maintenanceWorkOrderLabour.LineAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="maintenanceWorkOrderLabour.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="maintenanceWorkOrderLabour.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

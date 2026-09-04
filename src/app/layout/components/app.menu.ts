@@ -178,11 +178,11 @@ export class AppMenu {
                     icon: 'pi pi-server',
                     items: [
                         {
-                            label: 'My Task',
+                            label: 'Dashboard',
                             icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
+                            routerLink: ['/dashboard/mydashboard/'],
+                            tooltip: 'see your dashboard here'
+                        }/* ,
                         {
                             label: 'Approvals',
                             icon: 'pi pi-fw pi-home',
@@ -206,7 +206,7 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-address-book',
                             routerLink: ['/dashboard/customers/list/'],
                             tooltip: ''
-                        }
+                        } */
                     ]
                 },
                 {
@@ -2115,6 +2115,46 @@ export class AppMenu {
                                 }
                             ]
                         },
+                         {
+    label: 'Maintenance & Insurance',
+    icon: 'pi pi-fw pi-wrench',
+    items: [
+        {
+            label: 'Dashboard',
+            routerLink: ['/maintenance-insurance/dashboard']
+        },
+        {
+            label: 'Maintenance',
+            items: [
+                { label: 'Requests', routerLink: ['/maintenance/requests'] },
+                { label: 'Work Orders', routerLink: ['/maintenance/work-orders'] },
+                { label: 'Schedules', routerLink: ['/maintenance/schedules'] },
+                { label: 'Asset Plans', routerLink: ['/maintenance/asset-plans'] },
+                { label: 'Service Agreements', routerLink: ['/maintenance/service-agreements'] },
+                { label: 'Downtime & History', routerLink: ['/maintenance/history'] }
+            ]
+        },
+        {
+            label: 'Insurance',
+            items: [
+                { label: 'Policies', routerLink: ['/insurance/policies'] },
+                { label: 'Asset Coverage', routerLink: ['/insurance/coverage'] },
+                { label: 'Renewals & Endorsements', routerLink: ['/insurance/renewals'] },
+                { label: 'Incidents', routerLink: ['/insurance/incidents'] },
+                { label: 'Claims', routerLink: ['/insurance/claims'] },
+                { label: 'Settlements & Recoveries', routerLink: ['/insurance/settlements'] }
+            ]
+        },
+        {
+            label: 'Exceptions',
+            routerLink: ['/maintenance-insurance/exceptions']
+        },
+        {
+            label: 'Documents',
+            routerLink: ['/maintenance-insurance/documents']
+        }
+    ]
+},
                         {
                             label: 'Operations',
                             icon: 'pi pi-fw pi-cog',

@@ -1,0 +1,137 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Work Order Id" class="mb-1">MaintenanceWorkOrderId</label>
+        <p-dropdown
+            inputId="MaintenanceWorkOrderId" 
+            [options]="maintenanceworkorderidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceWorkOrderId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceWorkOrderId')"
+											label="Maintenance Work Order Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="CompletedAt">Completed At 
+							</label> 
+							<p-calendar id="CompletedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="CompletedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('CompletedAt')"
+											label="Completed At">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="CompletionMeasureValue">Completion Measure Value 
+							</label> 
+							<p-inputNumber id="CompletionMeasureValue"  pSize="small"	formControlName="CompletionMeasureValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('CompletionMeasureValue')"
+											label="Completion Measure Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Condition Grade Id" class="mb-1">ConditionGradeId</label>
+        <p-dropdown
+            inputId="ConditionGradeId" 
+            [options]="conditiongradeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ConditionGradeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ConditionGradeId')"
+											label="Condition Grade Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Completion Summary</label>
+                    <textarea size="small" pTextarea placeholder="Type Completion Summary" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="CompletionSummary"
+										[ngClass]="{'is-invalid': (editForm.get('CompletionSummary').touched || editForm.get('CompletionSummary').dirty) && !editForm.get('CompletionSummary').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('CompletionSummary')"
+											label="Completion Summary">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="NextDueDate">Next Due Date 
+							</label> 
+							<p-calendar id="NextDueDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="NextDueDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('NextDueDate')"
+											label="Next Due Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="NextDueMeasureValue">Next Due Measure Value 
+							</label> 
+							<p-inputNumber id="NextDueMeasureValue"  pSize="small"	formControlName="NextDueMeasureValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('NextDueMeasureValue')"
+											label="Next Due Measure Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Verified By User Id" class="mb-1">VerifiedByUserId</label>
+        <p-dropdown
+            inputId="VerifiedByUserId" 
+            [options]="verifiedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="VerifiedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('VerifiedByUserId')"
+											label="Verified By User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="VerifiedAt">Verified At 
+							</label> 
+							<p-calendar id="VerifiedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="VerifiedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('VerifiedAt')"
+											label="Verified At">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

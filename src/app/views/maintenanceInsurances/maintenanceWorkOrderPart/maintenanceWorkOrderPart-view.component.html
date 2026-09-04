@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Work Order Id" [value]="maintenanceWorkOrderPart.MaintenanceWorkOrderId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="maintenanceWorkOrderPart.LineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Part Code" [value]="maintenanceWorkOrderPart.PartCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Part Description" [value]="maintenanceWorkOrderPart.PartDescription">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quantity" [value]="maintenanceWorkOrderPart.Quantity">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="UOM Code" [value]="maintenanceWorkOrderPart.UOMCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Unit Cost" [value]="maintenanceWorkOrderPart.UnitCost">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line Amount" [value]="maintenanceWorkOrderPart.LineAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="maintenanceWorkOrderPart.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Procurement Reference Id" [value]="maintenanceWorkOrderPart.ProcurementReferenceId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

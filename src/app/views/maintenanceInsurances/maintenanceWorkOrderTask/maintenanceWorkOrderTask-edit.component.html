@@ -1,0 +1,126 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Work Order Id" class="mb-1">MaintenanceWorkOrderId</label>
+        <p-dropdown
+            inputId="MaintenanceWorkOrderId" 
+            [options]="maintenanceworkorderidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceWorkOrderId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceWorkOrderId')"
+											label="Maintenance Work Order Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="LineNo">Line No 
+							</label> 
+							<p-inputNumber id="LineNo"  pSize="small"	formControlName="LineNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('LineNo')"
+											label="Line No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="TaskCode">Task Code 
+							</label> 
+							<input pInputText id="TaskCode" type="text" pSize="small"	formControlName="TaskCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TaskCode')"
+											label="Task Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Task Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Task Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="TaskDescription"
+										[ngClass]="{'is-invalid': (editForm.get('TaskDescription').touched || editForm.get('TaskDescription').dirty) && !editForm.get('TaskDescription').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('TaskDescription')"
+											label="Task Description">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="MandatoryFlag" binary="true" formControlName="MandatoryFlag">
+											</p-checkbox>
+											<label for="MandatoryFlag">Mandatory Flag</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Task Status Code" class="mb-1">TaskStatusCode</label>
+        <p-dropdown
+            inputId="TaskStatusCode" 
+            [options]="taskstatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TaskStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TaskStatusCode')"
+											label="Task Status Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="CompletedAt">Completed At 
+							</label> 
+							<p-calendar id="CompletedAt"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="CompletedAt"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('CompletedAt')"
+											label="Completed At">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Completed By User Id" class="mb-1">CompletedByUserId</label>
+        <p-dropdown
+            inputId="CompletedByUserId" 
+            [options]="completedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CompletedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CompletedByUserId')"
+											label="Completed By User Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Remarks</label>
+                    <textarea size="small" pTextarea placeholder="Type Remarks" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Remarks"
+										[ngClass]="{'is-invalid': (editForm.get('Remarks').touched || editForm.get('Remarks').dirty) && !editForm.get('Remarks').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Remarks')"
+											label="Remarks">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

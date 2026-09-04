@@ -1,0 +1,135 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Service Agreement Id" class="mb-1">ServiceAgreementId</label>
+        <p-dropdown
+            inputId="ServiceAgreementId" 
+            [options]="serviceagreementidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ServiceAgreementId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ServiceAgreementId')"
+											label="Service Agreement Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Category Id" class="mb-1">AssetCategoryId</label>
+        <p-dropdown
+            inputId="AssetCategoryId" 
+            [options]="assetcategoryidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetCategoryId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
+											label="Asset Category Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Type Id" class="mb-1">AssetTypeId</label>
+        <p-dropdown
+            inputId="AssetTypeId" 
+            [options]="assettypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
+											label="Asset Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Type Id" class="mb-1">MaintenanceTypeId</label>
+        <p-dropdown
+            inputId="MaintenanceTypeId" 
+            [options]="maintenancetypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceTypeId')"
+											label="Maintenance Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Coverage Code" class="mb-1">CoverageCode</label>
+        <p-dropdown
+            inputId="CoverageCode" 
+            [options]="coveragecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CoverageCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CoverageCode')"
+											label="Coverage Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="DeductibleAmount">Deductible Amount 
+							</label> 
+							<p-inputNumber id="DeductibleAmount"  pSize="small"	formControlName="DeductibleAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('DeductibleAmount')"
+											label="Deductible Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

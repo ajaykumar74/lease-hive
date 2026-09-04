@@ -2,6 +2,7 @@ import { Route, Routes } from '@angular/router';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { BusinessFeatureComponent } from './business-feature.component';
+import { BillingFinanceDashboardComponent } from './billing-finance-dashboard.component';
 
 interface BillingFinancePage {
     path: string;
@@ -10,7 +11,6 @@ interface BillingFinancePage {
 }
 
 const placeholderPages: BillingFinancePage[] = [
-    { path: 'dashboard', title: 'Billing & Finance Dashboard', icon: 'pi pi-chart-bar' },
     { path: 'billing/workbench', title: 'Billing Workbench', icon: 'pi pi-desktop' },
     { path: 'billing/history', title: 'Billing History', icon: 'pi pi-history' },
     { path: 'invoices/drafts', title: 'Draft Invoices', icon: 'pi pi-pencil' },
@@ -49,6 +49,11 @@ const placeholderPages: BillingFinancePage[] = [
 ];
 
 const moduleRoutes: Routes = [
+    {
+        path: 'dashboard',
+        component: BillingFinanceDashboardComponent,
+        data: { title: 'Billing & Finance Dashboard', breadcrumb: 'Billing & Finance Dashboard' }
+    },
     route('billing/runs', 'Billing Runs', () => import('@/views/billings/billingRun/billingRun.module').then(m => m.BillingRunModule)),
     route('billing/candidates', 'Billing Candidates', () => import('@/views/billings/billingRunItem/billingRunItem.module').then(m => m.BillingRunItemModule)),
     route('billing/exceptions', 'Billing Exceptions', () => import('@/views/billings/financeException/financeException.module').then(m => m.FinanceExceptionModule)),

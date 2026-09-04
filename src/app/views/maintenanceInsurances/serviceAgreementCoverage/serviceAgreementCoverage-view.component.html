@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Service Agreement Id" [value]="serviceAgreementCoverage.ServiceAgreementId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Category Id" [value]="serviceAgreementCoverage.AssetCategoryId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Type Id" [value]="serviceAgreementCoverage.AssetTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="serviceAgreementCoverage.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Type Id" [value]="serviceAgreementCoverage.MaintenanceTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Coverage Code" [value]="serviceAgreementCoverage.CoverageCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Deductible Amount" [value]="serviceAgreementCoverage.DeductibleAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="serviceAgreementCoverage.CurrencyCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

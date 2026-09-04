@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Work Order Id" [value]="maintenanceWorkOrderTask.MaintenanceWorkOrderId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="maintenanceWorkOrderTask.LineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Task Code" [value]="maintenanceWorkOrderTask.TaskCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Task Description" [value]="maintenanceWorkOrderTask.TaskDescription">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Mandatory Flag" [value]="maintenanceWorkOrderTask.MandatoryFlag">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Task Status Code" [value]="maintenanceWorkOrderTask.TaskStatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Completed At" [value]="maintenanceWorkOrderTask.CompletedAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Completed By User Id" [value]="maintenanceWorkOrderTask.CompletedByUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Remarks" [value]="maintenanceWorkOrderTask.Remarks">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="maintenanceWorkOrderTask.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

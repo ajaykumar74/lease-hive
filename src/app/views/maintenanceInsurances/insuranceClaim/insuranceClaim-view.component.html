@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Claim No" [value]="insuranceClaim.ClaimNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Insurance Incident Id" [value]="insuranceClaim.InsuranceIncidentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurance Policy Id" [value]="insuranceClaim.InsurancePolicyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Insurance Policy Asset Id" [value]="insuranceClaim.InsurancePolicyAssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurer Claim Reference" [value]="insuranceClaim.InsurerClaimReference">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Insurance Claim Status Id" [value]="insuranceClaim.InsuranceClaimStatusId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Claim Lodged Date" [value]="insuranceClaim.ClaimLodgedDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Claimed Amount" [value]="insuranceClaim.ClaimedAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved Amount" [value]="insuranceClaim.ApprovedAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Deductible Amount" [value]="insuranceClaim.DeductibleAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="insuranceClaim.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assigned To User Id" [value]="insuranceClaim.AssignedToUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Rejection Reason" [value]="insuranceClaim.RejectionReason">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Closed Date" [value]="insuranceClaim.ClosedDate">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Plan Code" [value]="maintenancePlan.MaintenancePlanCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Maintenance Plan Name" [value]="maintenancePlan.MaintenancePlanName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Type Id" [value]="maintenancePlan.MaintenanceTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Category Id" [value]="maintenancePlan.AssetCategoryId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Type Id" [value]="maintenancePlan.AssetTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Model Id" [value]="maintenancePlan.AssetModelId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Trigger Type Code" [value]="maintenancePlan.TriggerTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Interval Days" [value]="maintenancePlan.IntervalDays">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Measure Definition Id" [value]="maintenancePlan.MeasureDefinitionId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Interval Measure Value" [value]="maintenancePlan.IntervalMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lead Days" [value]="maintenancePlan.LeadDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lead Measure Value" [value]="maintenancePlan.LeadMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="maintenancePlan.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="maintenancePlan.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

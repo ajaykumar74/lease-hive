@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Policy No" [value]="insurancePolicy.PolicyNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Organisation Id" [value]="insurancePolicy.OrganisationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurer Party Id" [value]="insurancePolicy.InsurerPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Broker Party Id" [value]="insurancePolicy.BrokerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurance Policy Status Id" [value]="insurancePolicy.InsurancePolicyStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Policy Type Code" [value]="insurancePolicy.PolicyTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Coverage Type Id" [value]="insurancePolicy.CoverageTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Policy Start Date" [value]="insurancePolicy.PolicyStartDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Policy End Date" [value]="insurancePolicy.PolicyEndDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="insurancePolicy.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Total Insured Value" [value]="insurancePolicy.TotalInsuredValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Premium Amount" [value]="insurancePolicy.PremiumAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="insurancePolicy.TaxAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Payment Reference Id" [value]="insurancePolicy.PaymentReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Previous Policy Id" [value]="insurancePolicy.PreviousPolicyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Issued Date" [value]="insurancePolicy.IssuedDate">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

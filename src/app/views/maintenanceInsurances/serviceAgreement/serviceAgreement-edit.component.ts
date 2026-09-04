@@ -1,0 +1,227 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';  
+ 
+ 
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IServiceAgreement } from './serviceAgreement';
+import { ServiceAgreementService } from './serviceAgreement.service';
+
+
+@Component({
+  selector: 'app-serviceAgreement-edit',
+  standalone: false,
+  templateUrl: './serviceAgreement-edit.component.html',
+  providers: [ MessageService]
+})
+export class ServiceAgreementEditComponent implements OnInit {
+
+  selectedId: number;
+  isLoading: boolean = false;
+  serviceAgreement: IServiceAgreement = null;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  organisationidOptions: ISelectItem[] = [];
+serviceproviderpartyidOptions: ISelectItem[] = [];
+agreementtypecodeOptions: ISelectItem[] = [];
+currencycodeOptions: ISelectItem[] = [];
+statuscodeOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+   editForm: any; 
+  objMaster : IServiceAgreement = {} as IServiceAgreement;
+
+
+  constructor( 
+    private activatedRouter: ActivatedRoute,  
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location,
+	private serviceAgreementService: ServiceAgreementService, 
+	private loggedInUserService : LoggedInUserService
+	) {
+  }
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+ 
+
+  ngOnInit(): void {
+   this.objMaster = { ...this.serviceAgreement };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, [Validators.required]),
+ServiceAgreementNo: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
+OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ServiceProviderPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AgreementTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+StartDate: new FormControl(new Date(), [Validators.required]),
+EndDate: new FormControl(new Date(), [Validators.required]),
+CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+AgreementValue: new FormControl(0, []),
+ResponseTimeHours: new FormControl(0, []),
+ResolutionTimeHours: new FormControl(0, []),
+StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+
+   this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
+this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
+this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId1', Value: 'ServiceProviderPartyId1' });
+this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId2', Value: 'ServiceProviderPartyId2' });
+this.agreementtypecodeOptions.push({Text: 'AMC', Value: 'AMC' });
+this.agreementtypecodeOptions.push({Text: 'WARRANTY', Value: 'WARRANTY' });
+this.agreementtypecodeOptions.push({Text: 'SERVICE_RATE', Value: 'SERVICE_RATE' });
+this.agreementtypecodeOptions.push({Text: 'SLA', Value: 'SLA' });
+this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
+this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
+this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
+this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
+this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
+this.statuscodeOptions.push({Text: 'SUSPENDED', Value: 'SUSPENDED' });
+this.statuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
+this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
+this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+
+     this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadUI();
+    }, 500); 
+  }
+
+
+  loadUI(): void {
+    this.isLoading = true; 
+    this.serviceAgreementService.getById(this.selectedId).subscribe({
+      next: data => {	        
+        this.serviceAgreement = data.data;
+		this.permission = data.permission;
+        this.objMaster = { ...this.serviceAgreement };
+        this.populateUI(this.serviceAgreement);
+      },
+      error: err => { this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  } 
+
+  populateUI(obj: IServiceAgreement): void {  
+    this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  ServiceAgreementNo: obj.ServiceAgreementNo || '',
+OrganisationId: obj.OrganisationId || 0,
+ServiceProviderPartyId: obj.ServiceProviderPartyId || 0,
+AgreementTypeCode: obj.AgreementTypeCode || '',
+StartDate:  obj.StartDate || new Date(),
+EndDate:  obj.EndDate || new Date(),
+CurrencyCode: obj.CurrencyCode || '',
+AgreementValue: obj.AgreementValue || 0,
+ResponseTimeHours: obj.ResponseTimeHours || 0,
+ResolutionTimeHours: obj.ResolutionTimeHours || 0,
+StatusCode: obj.StatusCode || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+	 this.Caption = "ServiceAgreement Details #" + obj.Id;
+  } 
+
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/serviceAgreement/create', { id: -1 }]);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+
+  }
+
+
+
+  onCancel(): void {
+    this.serviceAgreement = { ...this.objMaster };
+	var obj  = this.serviceAgreement;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  ServiceAgreementNo: obj.ServiceAgreementNo || '',
+OrganisationId: obj.OrganisationId || 0,
+ServiceProviderPartyId: obj.ServiceProviderPartyId || 0,
+AgreementTypeCode: obj.AgreementTypeCode || '',
+StartDate:  obj.StartDate || new Date(),
+EndDate:  obj.EndDate || new Date(),
+CurrencyCode: obj.CurrencyCode || '',
+AgreementValue: obj.AgreementValue || 0,
+ResponseTimeHours: obj.ResponseTimeHours || 0,
+ResolutionTimeHours: obj.ResolutionTimeHours || 0,
+StatusCode: obj.StatusCode || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+    this.editForm.reset();
+  }
+
+
+
+  Save(): void {
+  
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }
+	
+     const formValues = this.editForm.value; 
+	 var updatedObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     ServiceAgreementNo:  formValues.ServiceAgreementNo || null,
+OrganisationId:  formValues.OrganisationId || null,
+ServiceProviderPartyId:  formValues.ServiceProviderPartyId || null,
+AgreementTypeCode:  formValues.AgreementTypeCode || null,
+StartDate:  formValues.StartDate || null,
+EndDate:  formValues.EndDate || null,
+CurrencyCode:  formValues.CurrencyCode || null,
+AgreementValue:  formValues.AgreementValue || null,
+ResponseTimeHours:  formValues.ResponseTimeHours || null,
+ResolutionTimeHours:  formValues.ResolutionTimeHours || null,
+StatusCode:  formValues.StatusCode || null,
+RecordStatus:  formValues.RecordStatus || null,
+
+    } as IServiceAgreement ;
+	
+	this.spinner.show();  	   
+    this.serviceAgreementService.update(this.serviceAgreement.Id, updatedObj).subscribe({
+      next: data => {
+        //this.messageService.showSuccess(ServiceAgreement +  'Details Updated sucessfully.');
+		//this.editForm.reset();
+		this._location.back();
+      },
+      error: err => { 
+       this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide();}
+    });
+  }
+}

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetMaintenancePlan.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Maintenance Plan Id" [value]="assetMaintenancePlan.MaintenancePlanId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Start Date" [value]="assetMaintenancePlan.StartDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="End Date" [value]="assetMaintenancePlan.EndDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Baseline Date" [value]="assetMaintenancePlan.BaselineDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Baseline Measure Value" [value]="assetMaintenancePlan.BaselineMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Override Interval Days" [value]="assetMaintenancePlan.OverrideIntervalDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Override Measure Value" [value]="assetMaintenancePlan.OverrideMeasureValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="assetMaintenancePlan.StatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="assetMaintenancePlan.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

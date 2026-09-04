@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurance Claim Id" [value]="insuranceClaimAssessment.InsuranceClaimId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessment No" [value]="insuranceClaimAssessment.AssessmentNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assessor Party Id" [value]="insuranceClaimAssessment.AssessorPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessment Date" [value]="insuranceClaimAssessment.AssessmentDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Estimated Repair Amount" [value]="insuranceClaimAssessment.EstimatedRepairAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessed Loss Amount" [value]="insuranceClaimAssessment.AssessedLossAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Repairability Code" [value]="insuranceClaimAssessment.RepairabilityCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Salvage Value" [value]="insuranceClaimAssessment.SalvageValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="insuranceClaimAssessment.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessment Summary" [value]="insuranceClaimAssessment.AssessmentSummary">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

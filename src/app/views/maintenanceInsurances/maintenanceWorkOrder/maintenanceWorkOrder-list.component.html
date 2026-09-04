@@ -1,0 +1,74 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'MaintenanceWorkOrder List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Work Order No <p-sortIcon field="WorkOrderNo" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Maintenance Request Id <p-sortIcon field="MaintenanceRequestId" /> </th> 
+<th style="width:200px">Maintenance Schedule Id <p-sortIcon field="MaintenanceScheduleId" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Lease Contract Asset Id <p-sortIcon field="LeaseContractAssetId" /> </th> 
+<th style="width:200px">Maintenance Type Id <p-sortIcon field="MaintenanceTypeId" /> </th> 
+<th style="width:200px">Service Provider Party Id <p-sortIcon field="ServiceProviderPartyId" /> </th> 
+<th style="width:200px">Service Location Id <p-sortIcon field="ServiceLocationId" /> </th> 
+<th style="width:200px">Responsible Organisation Unit Id <p-sortIcon field="ResponsibleOrganisationUnitId" /> </th> 
+<th style="width:200px">Priority Code <p-sortIcon field="PriorityCode" /> </th> 
+<th style="width:200px">Work Order Status Code <p-sortIcon field="WorkOrderStatusCode" /> </th> 
+<th style="width:200px">Planned Start At <p-sortIcon field="PlannedStartAt" /> </th> 
+<th style="width:200px">Actual Start At <p-sortIcon field="ActualStartAt" /> </th> 
+<th style="width:200px">Actual End At <p-sortIcon field="ActualEndAt" /> </th> 
+<th style="width:200px">Estimate Amount <p-sortIcon field="EstimateAmount" /> </th> 
+<th style="width:200px">Actual Amount <p-sortIcon field="ActualAmount" /> </th> 
+<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
+<th style="width:200px">Customer Chargeable <p-sortIcon field="CustomerChargeable" /> </th> 
+<th style="width:200px">Insurance Claim Id <p-sortIcon field="InsuranceClaimId" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.WorkOrderNo}}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MaintenanceRequestId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MaintenanceScheduleId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractAssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MaintenanceTypeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ServiceProviderPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ServiceLocationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ResponsibleOrganisationUnitId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.PriorityCode}}</td>
+ <td style="width:200px">{{obj.WorkOrderStatusCode}}</td>
+ <td style="width:200px">{{obj.PlannedStartAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ActualStartAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ActualEndAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.EstimateAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ActualAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CurrencyCode}}</td>
+ <td style="width:200px">{{obj.CustomerChargeable | yesNo }}</td>
+ <td style="width:200px">{{obj.InsuranceClaimId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

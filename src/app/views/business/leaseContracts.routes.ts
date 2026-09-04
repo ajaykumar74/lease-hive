@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { BusinessFeatureComponent } from './business-feature.component';
+import { LeaseContractDashboardComponent } from './lease-contract-dashboard.component';
 
 interface LeaseContractPage {
     path: string;
@@ -10,7 +11,6 @@ interface LeaseContractPage {
 }
 
 const placeholderPages: LeaseContractPage[] = [
-    { path: 'dashboard', title: 'Contract Dashboard', icon: 'pi pi-chart-bar' },
     { path: '', title: 'All Contracts', icon: 'pi pi-list' },
     { path: 'create', title: 'Create Contract', icon: 'pi pi-plus-circle' },
     { path: 'drafts', title: 'Draft Contracts', icon: 'pi pi-pencil' },
@@ -86,6 +86,11 @@ const placeholderPages: LeaseContractPage[] = [
 ];
 
 const moduleRoutes: Routes = [
+    {
+        path: 'dashboard',
+        component: LeaseContractDashboardComponent,
+        data: { title: 'Contract Dashboard', breadcrumb: 'Contract Dashboard' }
+    },
     {
         path: 'parties',
         data: { title: 'Contract Parties', breadcrumb: 'Contract Parties' },

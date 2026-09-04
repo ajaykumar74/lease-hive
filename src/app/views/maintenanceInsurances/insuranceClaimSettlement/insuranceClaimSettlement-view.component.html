@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Insurance Claim Id" [value]="insuranceClaimSettlement.InsuranceClaimId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Settlement No" [value]="insuranceClaimSettlement.SettlementNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Settlement Type Code" [value]="insuranceClaimSettlement.SettlementTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Settlement Date" [value]="insuranceClaimSettlement.SettlementDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Gross Settlement Amount" [value]="insuranceClaimSettlement.GrossSettlementAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Deductible Amount" [value]="insuranceClaimSettlement.DeductibleAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Net Settlement Amount" [value]="insuranceClaimSettlement.NetSettlementAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="insuranceClaimSettlement.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payee Party Id" [value]="insuranceClaimSettlement.PayeePartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Finance Reference Id" [value]="insuranceClaimSettlement.FinanceReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="insuranceClaimSettlement.StatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="insuranceClaimSettlement.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

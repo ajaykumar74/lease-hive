@@ -1,0 +1,236 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common'; 
+
+
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IInsuranceIncident } from './insuranceIncident';
+import { InsuranceIncidentService } from './insuranceIncident.service';
+
+@Component({
+  selector: 'app-insuranceIncident-create',
+  standalone: false,
+  templateUrl: './insuranceIncident-create.component.html' ,
+   providers: [ MessageService]
+})
+export class InsuranceIncidentCreateComponent implements OnInit {
+
+   
+  selectedId: number; 
+  isLoading : boolean = false;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  insuranceIncident: IInsuranceIncident = null;
+  assetidOptions: ISelectItem[] = [];
+leasecontractidOptions: ISelectItem[] = [];
+incidenttypecodeOptions: ISelectItem[] = [];
+locationidOptions: ISelectItem[] = [];
+customerpartyidOptions: ISelectItem[] = [];
+assetuseridOptions: ISelectItem[] = [];
+reportedbyuseridOptions: ISelectItem[] = [];
+statuscodeOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+  editForm: any; 
+  objMaster : IInsuranceIncident = {} as IInsuranceIncident;
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+  constructor(
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location, 
+	private insuranceIncidentService: InsuranceIncidentService,
+	private loggedInUserService : LoggedInUserService
+	
+  ) {
+  }
+ 
+
+ 
+
+  
+  ngOnInit(): void {
+   this.objMaster = { ...this.insuranceIncident };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, []),
+AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+LeaseContractId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+IncidentTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+IncidentAt: new FormControl(new Date(), [Validators.required]),
+LocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+CustomerPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+ReportedAt: new FormControl(new Date(), [Validators.required]),
+ReportedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+IncidentDescription: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
+PoliceReferenceNo: new FormControl('', [Validators.maxLength(50), ]), 
+AssetDrivableFlag: new FormControl(false, []),
+StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+    this.Caption = 'Create InsuranceIncident';
+    this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
+this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
+this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
+this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+this.incidenttypecodeOptions.push({Text: 'ACCIDENT', Value: 'ACCIDENT' });
+this.incidenttypecodeOptions.push({Text: 'THEFT', Value: 'THEFT' });
+this.incidenttypecodeOptions.push({Text: 'FIRE', Value: 'FIRE' });
+this.incidenttypecodeOptions.push({Text: 'FLOOD', Value: 'FLOOD' });
+this.incidenttypecodeOptions.push({Text: 'DAMAGE', Value: 'DAMAGE' });
+this.incidenttypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.locationidOptions.push({Text: 'LocationId1', Value: 'LocationId1' });
+this.locationidOptions.push({Text: 'LocationId2', Value: 'LocationId2' });
+this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
+this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
+this.assetuseridOptions.push({Text: 'AssetUserId1', Value: 'AssetUserId1' });
+this.assetuseridOptions.push({Text: 'AssetUserId2', Value: 'AssetUserId2' });
+this.reportedbyuseridOptions.push({Text: 'ReportedByUserId1', Value: 'ReportedByUserId1' });
+this.reportedbyuseridOptions.push({Text: 'ReportedByUserId2', Value: 'ReportedByUserId2' });
+this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
+this.statuscodeOptions.push({Text: 'UNDER_REVIEW', Value: 'UNDER_REVIEW' });
+this.statuscodeOptions.push({Text: 'CLAIMED', Value: 'CLAIMED' });
+this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
+this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+
+  }
+ 
+ loadUI(): void {
+    this.isLoading = true;    
+    this.insuranceIncidentService.getById(this.selectedId).subscribe({
+      next: data => {
+        this.insuranceIncident = data;
+        this.objMaster = { ...this.insuranceIncident };
+        this.populateUI(data);
+      },
+      error: err => {  this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  }  
+
+
+  populateUI(obj: IInsuranceIncident): void {
+     this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  AssetId: obj.AssetId || 0,
+LeaseContractId: obj.LeaseContractId || 0,
+IncidentTypeCode: obj.IncidentTypeCode || '',
+IncidentAt:  obj.IncidentAt || new Date(),
+LocationId: obj.LocationId || 0,
+CustomerPartyId: obj.CustomerPartyId || 0,
+AssetUserId: obj.AssetUserId || 0,
+ReportedAt:  obj.ReportedAt || new Date(),
+ReportedByUserId: obj.ReportedByUserId || 0,
+IncidentDescription: obj.IncidentDescription || '',
+PoliceReferenceNo: obj.PoliceReferenceNo || '',
+AssetDrivableFlag:  obj.AssetDrivableFlag || false,
+StatusCode: obj.StatusCode || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+  }
+
+ 
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/insuranceIncidents/create']);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
+  }
+
+  onCancel(): void {
+    this.insuranceIncident = { ...this.objMaster };
+    var obj  = this.insuranceIncident;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  AssetId: obj.AssetId || 0,
+LeaseContractId: obj.LeaseContractId || 0,
+IncidentTypeCode: obj.IncidentTypeCode || '',
+IncidentAt:  obj.IncidentAt || new Date(),
+LocationId: obj.LocationId || 0,
+CustomerPartyId: obj.CustomerPartyId || 0,
+AssetUserId: obj.AssetUserId || 0,
+ReportedAt:  obj.ReportedAt || new Date(),
+ReportedByUserId: obj.ReportedByUserId || 0,
+IncidentDescription: obj.IncidentDescription || '',
+PoliceReferenceNo: obj.PoliceReferenceNo || '',
+AssetDrivableFlag:  obj.AssetDrivableFlag || false,
+StatusCode: obj.StatusCode || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+    this.editForm.reset(); 
+  } 
+
+  Save(): void {    
+   
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }	
+  
+  
+	const formValues  = this.editForm.value ;
+	var createdObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     AssetId: formValues.AssetId || 0,
+LeaseContractId: formValues.LeaseContractId || 0,
+IncidentTypeCode: formValues.IncidentTypeCode || null,
+IncidentAt: formValues.IncidentAt || null,
+LocationId: formValues.LocationId || 0,
+CustomerPartyId: formValues.CustomerPartyId || 0,
+AssetUserId: formValues.AssetUserId || 0,
+ReportedAt: formValues.ReportedAt || null,
+ReportedByUserId: formValues.ReportedByUserId || 0,
+IncidentDescription: formValues.IncidentDescription || null,
+PoliceReferenceNo: formValues.PoliceReferenceNo || null,
+AssetDrivableFlag: formValues.AssetDrivableFlag || false,
+StatusCode: formValues.StatusCode || null,
+RecordStatus: formValues.RecordStatus || null,
+
+    } as IInsuranceIncident ; 
+	
+	  this.spinner.show(); 
+    this.insuranceIncidentService.create(createdObj).subscribe({
+      next: data => {	   
+         // this.messageService.showSuccess(InsuranceIncident +  'Details Updated sucessfully.');
+		 this._location.back();     
+      },
+      error: err => { 
+	   this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide(); }
+    });
+  } 
+
+}
+
+
+

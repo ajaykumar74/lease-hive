@@ -1,0 +1,52 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'MaintenanceCompletion List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Maintenance Work Order Id <p-sortIcon field="MaintenanceWorkOrderId" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Completed At <p-sortIcon field="CompletedAt" /> </th> 
+<th style="width:200px">Completion Measure Value <p-sortIcon field="CompletionMeasureValue" /> </th> 
+<th style="width:200px">Condition Grade Id <p-sortIcon field="ConditionGradeId" /> </th> 
+<th style="width:200px">Next Due Date <p-sortIcon field="NextDueDate" /> </th> 
+<th style="width:200px">Next Due Measure Value <p-sortIcon field="NextDueMeasureValue" /> </th> 
+<th style="width:200px">Verified By User Id <p-sortIcon field="VerifiedByUserId" /> </th> 
+<th style="width:200px">Verified At <p-sortIcon field="VerifiedAt" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.MaintenanceWorkOrderId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CompletedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.CompletionMeasureValue | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ConditionGradeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.NextDueDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.NextDueMeasureValue | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.VerifiedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.VerifiedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

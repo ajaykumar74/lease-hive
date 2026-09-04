@@ -1,0 +1,214 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';  
+ 
+ 
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IMaintenanceInsuranceHandoff } from './maintenanceInsuranceHandoff';
+import { MaintenanceInsuranceHandoffService } from './maintenanceInsuranceHandoff.service';
+
+
+@Component({
+  selector: 'app-maintenanceInsuranceHandoff-edit',
+  standalone: false,
+  templateUrl: './maintenanceInsuranceHandoff-edit.component.html',
+  providers: [ MessageService]
+})
+export class MaintenanceInsuranceHandoffEditComponent implements OnInit {
+
+  selectedId: number;
+  isLoading: boolean = false;
+  maintenanceInsuranceHandoff: IMaintenanceInsuranceHandoff = null;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  handofftypecodeOptions: ISelectItem[] = [];
+referencetypecodeOptions: ISelectItem[] = [];
+statuscodeOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+   editForm: any; 
+  objMaster : IMaintenanceInsuranceHandoff = {} as IMaintenanceInsuranceHandoff;
+
+
+  constructor( 
+    private activatedRouter: ActivatedRoute,  
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location,
+	private maintenanceInsuranceHandoffService: MaintenanceInsuranceHandoffService, 
+	private loggedInUserService : LoggedInUserService
+	) {
+  }
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+ 
+
+  ngOnInit(): void {
+   this.objMaster = { ...this.maintenanceInsuranceHandoff };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, [Validators.required]),
+HandoffTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+ReferenceTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+TargetSystem: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
+StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+AttemptCount: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+LastAttemptAt: new FormControl(new Date(), []),
+ExternalReference: new FormControl('', [Validators.maxLength(100), ]), 
+Reason: new FormControl('', [Validators.maxLength(100), ]), 
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+
+   this.handofftypecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
+this.handofftypecodeOptions.push({Text: 'PROCUREMENT', Value: 'PROCUREMENT' });
+this.handofftypecodeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
+this.handofftypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
+this.handofftypecodeOptions.push({Text: 'INSURER', Value: 'INSURER' });
+this.referencetypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
+this.referencetypecodeOptions.push({Text: 'CLAIM', Value: 'CLAIM' });
+this.referencetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
+this.referencetypecodeOptions.push({Text: 'POLICY', Value: 'POLICY' });
+this.statuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
+this.statuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
+this.statuscodeOptions.push({Text: 'ACKNOWLEDGED', Value: 'ACKNOWLEDGED' });
+this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.statuscodeOptions.push({Text: 'RETRY', Value: 'RETRY' });
+this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+
+     this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadUI();
+    }, 500); 
+  }
+
+
+  loadUI(): void {
+    this.isLoading = true; 
+    this.maintenanceInsuranceHandoffService.getById(this.selectedId).subscribe({
+      next: data => {	        
+        this.maintenanceInsuranceHandoff = data.data;
+		this.permission = data.permission;
+        this.objMaster = { ...this.maintenanceInsuranceHandoff };
+        this.populateUI(this.maintenanceInsuranceHandoff);
+      },
+      error: err => { this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  } 
+
+  populateUI(obj: IMaintenanceInsuranceHandoff): void {  
+    this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  HandoffTypeCode: obj.HandoffTypeCode || '',
+ReferenceTypeCode: obj.ReferenceTypeCode || '',
+ReferenceId: obj.ReferenceId || 0,
+TargetSystem: obj.TargetSystem || '',
+StatusCode: obj.StatusCode || '',
+AttemptCount: obj.AttemptCount || 0,
+LastAttemptAt:  obj.LastAttemptAt || new Date(),
+ExternalReference: obj.ExternalReference || '',
+Reason: obj.Reason || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+	 this.Caption = "MaintenanceInsuranceHandoff Details #" + obj.Id;
+  } 
+
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/maintenanceInsuranceHandoff/create', { id: -1 }]);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+
+  }
+
+
+
+  onCancel(): void {
+    this.maintenanceInsuranceHandoff = { ...this.objMaster };
+	var obj  = this.maintenanceInsuranceHandoff;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  HandoffTypeCode: obj.HandoffTypeCode || '',
+ReferenceTypeCode: obj.ReferenceTypeCode || '',
+ReferenceId: obj.ReferenceId || 0,
+TargetSystem: obj.TargetSystem || '',
+StatusCode: obj.StatusCode || '',
+AttemptCount: obj.AttemptCount || 0,
+LastAttemptAt:  obj.LastAttemptAt || new Date(),
+ExternalReference: obj.ExternalReference || '',
+Reason: obj.Reason || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+   
+    this.editForm.reset();
+  }
+
+
+
+  Save(): void {
+  
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }
+	
+     const formValues = this.editForm.value; 
+	 var updatedObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     HandoffTypeCode:  formValues.HandoffTypeCode || null,
+ReferenceTypeCode:  formValues.ReferenceTypeCode || null,
+ReferenceId:  formValues.ReferenceId || null,
+TargetSystem:  formValues.TargetSystem || null,
+StatusCode:  formValues.StatusCode || null,
+AttemptCount:  formValues.AttemptCount || null,
+LastAttemptAt:  formValues.LastAttemptAt || null,
+ExternalReference:  formValues.ExternalReference || null,
+Reason:  formValues.Reason || null,
+RecordStatus:  formValues.RecordStatus || null,
+
+    } as IMaintenanceInsuranceHandoff ;
+	
+	this.spinner.show();  	   
+    this.maintenanceInsuranceHandoffService.update(this.maintenanceInsuranceHandoff.Id, updatedObj).subscribe({
+      next: data => {
+        //this.messageService.showSuccess(MaintenanceInsuranceHandoff +  'Details Updated sucessfully.');
+		//this.editForm.reset();
+		this._location.back();
+      },
+      error: err => { 
+       this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide();}
+    });
+  }
+}

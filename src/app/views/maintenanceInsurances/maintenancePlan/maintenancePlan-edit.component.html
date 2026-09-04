@@ -1,0 +1,177 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="MaintenancePlanCode">Maintenance Plan Code 
+							</label> 
+							<input pInputText id="MaintenancePlanCode" type="text" pSize="small"	formControlName="MaintenancePlanCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MaintenancePlanCode')"
+											label="Maintenance Plan Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="MaintenancePlanName">Maintenance Plan Name 
+							</label> 
+							<input pInputText id="MaintenancePlanName" type="text" pSize="small"	formControlName="MaintenancePlanName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('MaintenancePlanName')"
+											label="Maintenance Plan Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Type Id" class="mb-1">MaintenanceTypeId</label>
+        <p-dropdown
+            inputId="MaintenanceTypeId" 
+            [options]="maintenancetypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MaintenanceTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceTypeId')"
+											label="Maintenance Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Category Id" class="mb-1">AssetCategoryId</label>
+        <p-dropdown
+            inputId="AssetCategoryId" 
+            [options]="assetcategoryidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetCategoryId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
+											label="Asset Category Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Type Id" class="mb-1">AssetTypeId</label>
+        <p-dropdown
+            inputId="AssetTypeId" 
+            [options]="assettypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
+											label="Asset Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Model Id" class="mb-1">AssetModelId</label>
+        <p-dropdown
+            inputId="AssetModelId" 
+            [options]="assetmodelidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetModelId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetModelId')"
+											label="Asset Model Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Trigger Type Code" class="mb-1">TriggerTypeCode</label>
+        <p-dropdown
+            inputId="TriggerTypeCode" 
+            [options]="triggertypecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TriggerTypeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TriggerTypeCode')"
+											label="Trigger Type Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="IntervalDays">Interval Days 
+							</label> 
+							<p-inputNumber id="IntervalDays"  pSize="small"	formControlName="IntervalDays"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('IntervalDays')"
+											label="Interval Days">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Measure Definition Id" class="mb-1">MeasureDefinitionId</label>
+        <p-dropdown
+            inputId="MeasureDefinitionId" 
+            [options]="measuredefinitionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MeasureDefinitionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MeasureDefinitionId')"
+											label="Measure Definition Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="IntervalMeasureValue">Interval Measure Value 
+							</label> 
+							<p-inputNumber id="IntervalMeasureValue"  pSize="small"	formControlName="IntervalMeasureValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('IntervalMeasureValue')"
+											label="Interval Measure Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="LeadDays">Lead Days 
+							</label> 
+							<p-inputNumber id="LeadDays"  pSize="small"	formControlName="LeadDays"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('LeadDays')"
+											label="Lead Days">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="LeadMeasureValue">Lead Measure Value 
+							</label> 
+							<p-inputNumber id="LeadMeasureValue"  pSize="small"	formControlName="LeadMeasureValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('LeadMeasureValue')"
+											label="Lead Measure Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
