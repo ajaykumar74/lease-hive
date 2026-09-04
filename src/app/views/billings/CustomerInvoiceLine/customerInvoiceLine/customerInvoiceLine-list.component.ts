@@ -137,17 +137,17 @@ export class CustomerInvoiceLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/customerInvoiceLines/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/invoices/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/customerInvoiceLines/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/invoices/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/customerInvoiceLines/create']);
+      this.router.navigate(['/billing-finance/invoices/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

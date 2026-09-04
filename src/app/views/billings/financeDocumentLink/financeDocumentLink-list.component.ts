@@ -137,17 +137,17 @@ export class FinanceDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/financeDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/control/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/financeDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/control/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/financeDocumentLinks/create']);
+      this.router.navigate(['/billing-finance/control/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

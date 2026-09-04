@@ -137,17 +137,17 @@ export class DebitNoteLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/debitNoteLines/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/debit-notes/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/debitNoteLines/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/debit-notes/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/debitNoteLines/create']);
+      this.router.navigate(['/billing-finance/debit-notes/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

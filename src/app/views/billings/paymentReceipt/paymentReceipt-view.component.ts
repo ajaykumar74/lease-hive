@@ -71,7 +71,7 @@ export class PaymentReceiptViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/paymentReceipt/create']);
+            this.router.navigate(['/billing-finance/payments/receipts/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

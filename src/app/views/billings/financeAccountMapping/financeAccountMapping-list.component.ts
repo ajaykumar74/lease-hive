@@ -137,17 +137,17 @@ export class FinanceAccountMappingListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/financeAccountMappings/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/configuration/account-mapping/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/financeAccountMappings/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/configuration/account-mapping/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/financeAccountMappings/create']);
+      this.router.navigate(['/billing-finance/configuration/account-mapping/create']);
     } 
     else if (key == "Refresh") {
       this.search();

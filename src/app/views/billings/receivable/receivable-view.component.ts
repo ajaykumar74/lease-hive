@@ -71,7 +71,7 @@ export class ReceivableViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/receivable/create']);
+            this.router.navigate(['/billing-finance/receivables/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

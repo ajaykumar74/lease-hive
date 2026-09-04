@@ -70,8 +70,8 @@ export class BillingRunStatusViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/billingRunStatus/create']);
+        if (key == "Create") {
+            this.router.navigate(['/billing-finance/configuration/billing-run-statuses/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

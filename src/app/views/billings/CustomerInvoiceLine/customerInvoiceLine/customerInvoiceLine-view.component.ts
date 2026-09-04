@@ -70,8 +70,8 @@ export class CustomerInvoiceLineViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/customerInvoiceLine/create']);
+        if (key == "Create") {
+            this.router.navigate(['/billing-finance/invoices/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

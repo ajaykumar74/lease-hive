@@ -71,7 +71,7 @@ export class FinanceExceptionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeException/create']);
+            this.router.navigate(['/billing-finance/control/exceptions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

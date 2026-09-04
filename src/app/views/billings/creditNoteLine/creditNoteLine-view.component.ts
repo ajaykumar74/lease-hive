@@ -70,8 +70,8 @@ export class CreditNoteLineViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/creditNoteLine/create']);
+        if (key == "Create") {
+            this.router.navigate(['/billing-finance/credit-notes/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

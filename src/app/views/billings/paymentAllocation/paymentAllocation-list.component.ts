@@ -137,17 +137,17 @@ export class PaymentAllocationListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/paymentAllocations/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/payments/allocation/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/paymentAllocations/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/payments/allocation/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/paymentAllocations/create']);
+      this.router.navigate(['/billing-finance/payments/allocation/create']);
     } 
     else if (key == "Refresh") {
       this.search();

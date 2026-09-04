@@ -137,17 +137,17 @@ export class CustomerDepositListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/customerDeposits/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/deposits/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/customerDeposits/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/deposits/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/customerDeposits/create']);
+      this.router.navigate(['/billing-finance/deposits/create']);
     } 
     else if (key == "Refresh") {
       this.search();

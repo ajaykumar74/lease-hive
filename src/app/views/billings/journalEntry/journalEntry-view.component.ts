@@ -71,7 +71,7 @@ export class JournalEntryViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/journalEntry/create']);
+            this.router.navigate(['/billing-finance/accounting/journals/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

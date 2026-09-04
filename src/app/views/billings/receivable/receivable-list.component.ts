@@ -137,17 +137,17 @@ export class ReceivableListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/receivables/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/receivables/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/receivables/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/receivables/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/receivables/create']);
+      this.router.navigate(['/billing-finance/receivables/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -70,8 +70,8 @@ export class BankStatementLineViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/bankStatementLine/create']);
+        if (key == "Create") {
+            this.router.navigate(['/billing-finance/bank/transactions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

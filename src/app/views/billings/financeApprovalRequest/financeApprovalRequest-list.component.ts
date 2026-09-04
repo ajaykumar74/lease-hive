@@ -137,17 +137,17 @@ export class FinanceApprovalRequestListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/financeApprovalRequests/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/control/approvals/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/financeApprovalRequests/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/control/approvals/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/financeApprovalRequests/create']);
+      this.router.navigate(['/billing-finance/control/approvals/create']);
     } 
     else if (key == "Refresh") {
       this.search();

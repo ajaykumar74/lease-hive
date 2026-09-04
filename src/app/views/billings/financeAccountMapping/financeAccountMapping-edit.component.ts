@@ -124,7 +124,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/financeAccountMapping/create', { id: -1 }]);
+      this.router.navigate(['/billing-finance/configuration/account-mapping/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

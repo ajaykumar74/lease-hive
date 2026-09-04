@@ -71,7 +71,7 @@ export class FinanceDocumentLinkViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeDocumentLink/create']);
+            this.router.navigate(['/billing-finance/control/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

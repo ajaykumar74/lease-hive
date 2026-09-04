@@ -71,7 +71,7 @@ export class FinanceReconciliationViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeReconciliation/create']);
+            this.router.navigate(['/billing-finance/reconciliation/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class CustomerInvoiceTaxListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/customerInvoiceTaxs/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/invoices/taxes/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/customerInvoiceTaxs/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/invoices/taxes/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/customerInvoiceTaxs/create']);
+      this.router.navigate(['/billing-finance/invoices/taxes/create']);
     } 
     else if (key == "Refresh") {
       this.search();

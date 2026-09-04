@@ -71,7 +71,7 @@ export class DepositTransactionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/depositTransaction/create']);
+            this.router.navigate(['/billing-finance/deposits/transactions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

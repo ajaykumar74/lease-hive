@@ -137,17 +137,17 @@ export class CustomerStatementSnapshotListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/customerStatementSnapshots/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/customer-statements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/customerStatementSnapshots/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/customer-statements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/customerStatementSnapshots/create']);
+      this.router.navigate(['/billing-finance/customer-statements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

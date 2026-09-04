@@ -71,7 +71,7 @@ export class PaymentAllocationViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/paymentAllocation/create']);
+            this.router.navigate(['/billing-finance/payments/allocation/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

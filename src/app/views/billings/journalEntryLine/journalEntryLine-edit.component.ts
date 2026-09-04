@@ -153,7 +153,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/journalEntryLine/create', { id: -1 }]);
+      this.router.navigate(['/billing-finance/accounting/journals/lines/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

@@ -71,7 +71,7 @@ export class FinanceAccountMappingViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeAccountMapping/create']);
+            this.router.navigate(['/billing-finance/configuration/account-mapping/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

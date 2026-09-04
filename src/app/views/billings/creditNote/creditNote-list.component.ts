@@ -137,17 +137,17 @@ export class CreditNoteListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/creditNotes/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/credit-notes/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/creditNotes/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/credit-notes/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/creditNotes/create']);
+      this.router.navigate(['/billing-finance/credit-notes/create']);
     } 
     else if (key == "Refresh") {
       this.search();

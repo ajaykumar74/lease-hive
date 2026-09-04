@@ -70,8 +70,8 @@ export class AccountingEventViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/accountingEvent/create']);
+        if (key == "Create") {
+            this.router.navigate(['/billing-finance/accounting/events/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class BankStatementLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/bankStatementLines/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/bank/transactions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/bankStatementLines/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/bank/transactions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/bankStatementLines/create']);
+      this.router.navigate(['/billing-finance/bank/transactions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

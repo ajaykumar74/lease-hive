@@ -145,7 +145,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/accountingEvent/create', { id: -1 }]);
+      this.router.navigate(['/billing-finance/accounting/events/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

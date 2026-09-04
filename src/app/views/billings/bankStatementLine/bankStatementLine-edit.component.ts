@@ -131,7 +131,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/bankStatementLine/create', { id: -1 }]);
+      this.router.navigate(['/billing-finance/bank/transactions/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

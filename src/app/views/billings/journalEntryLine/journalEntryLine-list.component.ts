@@ -137,17 +137,17 @@ export class JournalEntryLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/journalEntryLines/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/accounting/journals/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/journalEntryLines/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/accounting/journals/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/journalEntryLines/create']);
+      this.router.navigate(['/billing-finance/accounting/journals/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

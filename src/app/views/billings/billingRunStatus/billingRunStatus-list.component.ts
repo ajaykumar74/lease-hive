@@ -137,17 +137,17 @@ export class BillingRunStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/billingRunStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/configuration/billing-run-statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/billingRunStatuss/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/configuration/billing-run-statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/billingRunStatuss/create']);
+      this.router.navigate(['/billing-finance/configuration/billing-run-statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

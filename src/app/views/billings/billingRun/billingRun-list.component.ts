@@ -137,17 +137,17 @@ export class BillingRunListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/billingRuns/edit/' + obj.Id]);
+        this.router.navigate(['/billing-finance/billing/runs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/billingRuns/view/' + obj.Id]);
+        this.router.navigate(['/billing-finance/billing/runs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/billingRuns/create']);
+      this.router.navigate(['/billing-finance/billing/runs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

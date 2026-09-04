@@ -71,7 +71,7 @@ export class CustomerStatementSnapshotViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/customerStatementSnapshot/create']);
+            this.router.navigate(['/billing-finance/customer-statements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

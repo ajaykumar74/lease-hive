@@ -71,7 +71,7 @@ export class FinanceHandoffViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeHandoff/create']);
+            this.router.navigate(['/billing-finance/control/handoffs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

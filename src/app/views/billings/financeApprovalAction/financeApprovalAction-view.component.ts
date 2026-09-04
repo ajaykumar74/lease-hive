@@ -71,7 +71,7 @@ export class FinanceApprovalActionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/financeApprovalAction/create']);
+            this.router.navigate(['/billing-finance/control/approval-actions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

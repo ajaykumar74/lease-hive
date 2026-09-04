@@ -149,7 +149,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/creditNote/create', { id: -1 }]);
+      this.router.navigate(['/billing-finance/credit-notes/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
