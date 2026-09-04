@@ -2165,6 +2165,57 @@ export class AppMenu {
                             ]
                         },
                         {
+                            label: 'End-of-Lease & Disposal',
+                            icon: 'pi pi-fw pi-sign-out',
+                            items: [
+                                {
+                                    label: 'Dashboard',
+                                    routerLink: ['/end-of-lease/dashboard']
+                                },
+                                {
+                                    label: 'End-of-Lease Cases',
+                                    items: [
+                                        { label: 'Case Worklist', routerLink: ['/end-of-lease/cases'] },
+                                        { label: 'Upcoming Expiries', routerLink: ['/end-of-lease/upcoming'] },
+                                        { label: 'Notices & Options', routerLink: ['/end-of-lease/notices'] }
+                                    ]
+                                },
+                                {
+                                    label: 'Returns',
+                                    items: [
+                                        { label: 'Return Schedule', routerLink: ['/end-of-lease/returns/schedule'] },
+                                        { label: 'Asset Returns', routerLink: ['/end-of-lease/returns'] },
+                                        { label: 'Return Assessments', routerLink: ['/end-of-lease/assessments'] }
+                                    ]
+                                },
+                                {
+                                    label: 'Settlements',
+                                    items: [
+                                        { label: 'Settlement Worklist', routerLink: ['/end-of-lease/settlements'] },
+                                        { label: 'Purchase Options', routerLink: ['/end-of-lease/purchase-options'] }
+                                    ]
+                                },
+                                {
+                                    label: 'Disposition',
+                                    items: [
+                                        { label: 'Disposition Decisions', routerLink: ['/disposal/decisions'] },
+                                        { label: 'Disposal Cases', routerLink: ['/disposal/cases'] },
+                                        { label: 'Offers & Auctions', routerLink: ['/disposal/market'] },
+                                        { label: 'Asset Sales', routerLink: ['/disposal/sales'] },
+                                        { label: 'Scrap / Write-Off', routerLink: ['/disposal/write-offs'] }
+                                    ]
+                                },
+                                {
+                                    label: 'Exceptions',
+                                    routerLink: ['/end-of-lease/exceptions']
+                                },
+                                {
+                                    label: 'Documents',
+                                    routerLink: ['/end-of-lease/documents']
+                                }
+                            ]
+                        },
+                        {
                             label: 'Operations',
                             icon: 'pi pi-fw pi-cog',
                             items: []
