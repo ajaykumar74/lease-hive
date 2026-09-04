@@ -12,7 +12,7 @@
 						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
                     </p-inputGroup>
                 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
@@ -30,7 +30,8 @@
 <th style="width:200px">Effective To <p-sortIcon field="EffectiveTo" /> </th> 
 <th style="width:200px">Asset Value Snapshot <p-sortIcon field="AssetValueSnapshot" /> </th> 
 <th style="width:200px">Serial Snapshot <p-sortIcon field="SerialSnapshot" /> </th> 
-
+
+
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>

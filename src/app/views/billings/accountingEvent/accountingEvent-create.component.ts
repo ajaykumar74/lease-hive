@@ -1,0 +1,221 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common'; 
+
+
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IAccountingEvent } from './accountingEvent';
+import { AccountingEventService } from './accountingEvent.service';
+
+@Component({
+  selector: 'app-accountingEvent-create',
+  standalone: false,
+  templateUrl: './accountingEvent-create.component.html' ,
+   providers: [ MessageService]
+})
+export class AccountingEventCreateComponent implements OnInit {
+
+   
+  selectedId: number; 
+  isLoading : boolean = false;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  accountingEvent: IAccountingEvent = null;
+  organisationidOptions: ISelectItem[] = [];
+eventtypeOptions: ISelectItem[] = [];
+currencycodeOptions: ISelectItem[] = [];
+postingstatusOptions: ISelectItem[] = [];
+journalentryidOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+  editForm: any; 
+  objMaster : IAccountingEvent = {} as IAccountingEvent;
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+  constructor(
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location, 
+	private accountingEventService: AccountingEventService,
+	private loggedInUserService : LoggedInUserService
+	
+  ) {
+  }
+ 
+
+ 
+
+  
+  ngOnInit(): void {
+   this.objMaster = { ...this.accountingEvent };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, []),
+OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+EventType: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
+SourceType: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
+SourceId: new FormControl(0, [Validators.required, ]),
+EventDate: new FormControl(new Date(), [Validators.required]),
+CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+EventAmount: new FormControl(0, [Validators.required]),
+PostingStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+AccountingRuleCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+JournalEntryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+ErrorMessage: new FormControl('', [Validators.maxLength(1000), ]), 
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+    this.Caption = 'Create AccountingEvent';
+    this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
+this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
+this.eventtypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
+this.eventtypeOptions.push({Text: 'RECEIPT', Value: 'RECEIPT' });
+this.eventtypeOptions.push({Text: 'ALLOCATION', Value: 'ALLOCATION' });
+this.eventtypeOptions.push({Text: 'CREDIT_NOTE', Value: 'CREDIT_NOTE' });
+this.eventtypeOptions.push({Text: 'DEPOSIT', Value: 'DEPOSIT' });
+this.eventtypeOptions.push({Text: 'REFUND', Value: 'REFUND' });
+this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
+this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
+this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.postingstatusOptions.push({Text: 'PENDING', Value: 'PENDING' });
+this.postingstatusOptions.push({Text: 'GENERATED', Value: 'GENERATED' });
+this.postingstatusOptions.push({Text: 'POSTED', Value: 'POSTED' });
+this.postingstatusOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.postingstatusOptions.push({Text: 'REVERSED', Value: 'REVERSED' });
+this.journalentryidOptions.push({Text: 'JournalEntryId1', Value: 'JournalEntryId1' });
+this.journalentryidOptions.push({Text: 'JournalEntryId2', Value: 'JournalEntryId2' });
+this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+
+  }
+ 
+ loadUI(): void {
+    this.isLoading = true;    
+    this.accountingEventService.getById(this.selectedId).subscribe({
+      next: data => {
+        this.accountingEvent = data;
+        this.objMaster = { ...this.accountingEvent };
+        this.populateUI(data);
+      },
+      error: err => {  this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  }  
+
+
+  populateUI(obj: IAccountingEvent): void {
+     this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  OrganisationId: obj.OrganisationId || 0,
+EventType: obj.EventType || '',
+SourceType: obj.SourceType || '',
+SourceId: obj.SourceId || 0,
+EventDate:  obj.EventDate || new Date(),
+CurrencyCode: obj.CurrencyCode || '',
+EventAmount: obj.EventAmount || 0,
+PostingStatus: obj.PostingStatus || '',
+AccountingRuleCode: obj.AccountingRuleCode || '',
+JournalEntryId: obj.JournalEntryId || 0,
+ErrorMessage: obj.ErrorMessage || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+  }
+
+ 
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/accountingEvents/create']);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
+  }
+
+  onCancel(): void {
+    this.accountingEvent = { ...this.objMaster };
+    var obj  = this.accountingEvent;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  OrganisationId: obj.OrganisationId || 0,
+EventType: obj.EventType || '',
+SourceType: obj.SourceType || '',
+SourceId: obj.SourceId || 0,
+EventDate:  obj.EventDate || new Date(),
+CurrencyCode: obj.CurrencyCode || '',
+EventAmount: obj.EventAmount || 0,
+PostingStatus: obj.PostingStatus || '',
+AccountingRuleCode: obj.AccountingRuleCode || '',
+JournalEntryId: obj.JournalEntryId || 0,
+ErrorMessage: obj.ErrorMessage || '',
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+    this.editForm.reset(); 
+  } 
+
+  Save(): void {    
+   
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }	
+  
+  
+	const formValues  = this.editForm.value ;
+	var createdObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     OrganisationId: formValues.OrganisationId || 0,
+EventType: formValues.EventType || null,
+SourceType: formValues.SourceType || null,
+SourceId: formValues.SourceId || null,
+EventDate: formValues.EventDate || null,
+CurrencyCode: formValues.CurrencyCode || null,
+EventAmount: formValues.EventAmount || 0,
+PostingStatus: formValues.PostingStatus || null,
+AccountingRuleCode: formValues.AccountingRuleCode || null,
+JournalEntryId: formValues.JournalEntryId || 0,
+ErrorMessage: formValues.ErrorMessage || null,
+RecordStatus: formValues.RecordStatus || null,
+
+    } as IAccountingEvent ; 
+	
+	  this.spinner.show(); 
+    this.accountingEventService.create(createdObj).subscribe({
+      next: data => {	   
+         // this.messageService.showSuccess(AccountingEvent +  'Details Updated sucessfully.');
+		 this._location.back();     
+      },
+      error: err => { 
+	   this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide(); }
+    });
+  } 
+
+}
+
+
+

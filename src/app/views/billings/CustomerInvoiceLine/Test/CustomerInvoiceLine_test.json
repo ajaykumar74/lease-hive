@@ -1,0 +1,22 @@
+{
+  "Id": 0,
+  "TenantId": 0,
+  "CustomerInvoiceId": 0,
+  "LineNo": 0,
+  "LeaseContractId": null,
+  "LeasePaymentScheduleLineId": null,
+  "LeaseContractChargeId": null,
+  "LeaseContractAssetId": null,
+  "ChargeTypeCode": "xxxxxxxxxxxxxxxxxxxx",
+  "Description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "ServicePeriodFrom": null,
+  "ServicePeriodTo": null,
+  "Quantity": null,
+  "UOMId": null,
+  "UnitPrice": null,
+  "DiscountAmount": null,
+  "TaxableAmount": null,
+  "TaxAmount": null,
+  "LineGrossAmount": null,
+  "RecordStatus": "xxxxxxxxxxxxxxxxxxxx"
+}

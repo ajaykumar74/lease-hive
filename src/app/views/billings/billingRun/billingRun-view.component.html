@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="billingRun.BillingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Date" [value]="billingRun.BillingDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Period From" [value]="billingRun.PeriodFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Period To" [value]="billingRun.PeriodTo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Run Status Id" [value]="billingRun.BillingRunStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Run Type" [value]="billingRun.RunType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Candidate Count" [value]="billingRun.CandidateCount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Invoice Count" [value]="billingRun.InvoiceCount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Total Amount" [value]="billingRun.TotalAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="billingRun.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="billingRun.ApprovedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved At Utc" [value]="billingRun.ApprovedAtUtc">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

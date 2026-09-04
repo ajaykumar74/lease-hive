@@ -1,0 +1,120 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Handoff Type" class="mb-1">HandoffType</label>
+        <p-dropdown
+            inputId="HandoffType" 
+            [options]="handofftypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="HandoffType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('HandoffType')"
+											label="Handoff Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="ReferenceType">Reference Type 
+							</label> 
+							<input pInputText id="ReferenceType" type="text" pSize="small"	formControlName="ReferenceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="TargetSystem">Target System 
+							</label> 
+							<input pInputText id="TargetSystem" type="text" pSize="small"	formControlName="TargetSystem"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TargetSystem')"
+											label="Target System">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="AttemptCount">Attempt Count 
+							</label> 
+							<p-inputNumber id="AttemptCount"  pSize="small"	formControlName="AttemptCount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('AttemptCount')"
+											label="Attempt Count">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="LastAttemptAtUtc">Last Attempt At Utc 
+							</label> 
+							<p-calendar id="LastAttemptAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="LastAttemptAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('LastAttemptAtUtc')"
+											label="Last Attempt At Utc">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ExternalReference">External Reference 
+							</label> 
+							<input pInputText id="ExternalReference" type="text" pSize="small"	formControlName="ExternalReference"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ExternalReference')"
+											label="External Reference">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Error Message</label>
+                    <textarea size="small" pTextarea placeholder="Type Error Message" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ErrorMessage"
+										[ngClass]="{'is-invalid': (editForm.get('ErrorMessage').touched || editForm.get('ErrorMessage').dirty) && !editForm.get('ErrorMessage').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ErrorMessage')"
+											label="Error Message">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

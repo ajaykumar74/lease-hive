@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Bank Statement Id" [value]="bankStatementLine.BankStatementId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Transaction Date" [value]="bankStatementLine.TransactionDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Value Date" [value]="bankStatementLine.ValueDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Bank Reference" [value]="bankStatementLine.BankReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Narration" [value]="bankStatementLine.Narration">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Debit Amount" [value]="bankStatementLine.DebitAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit Amount" [value]="bankStatementLine.CreditAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Matched Payment Receipt Id" [value]="bankStatementLine.MatchedPaymentReceiptId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Match Status" [value]="bankStatementLine.MatchStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Match Confidence" [value]="bankStatementLine.MatchConfidence">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

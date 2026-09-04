@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="customerDeposit.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Deposit Id" [value]="customerDeposit.LeaseContractDepositId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="customerDeposit.CustomerPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="customerDeposit.BillingOrganisationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Deposit Type Code" [value]="customerDeposit.DepositTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="customerDeposit.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Required Amount" [value]="customerDeposit.RequiredAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Received Amount" [value]="customerDeposit.ReceivedAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Utilized Amount" [value]="customerDeposit.UtilizedAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Refunded Amount" [value]="customerDeposit.RefundedAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Forfeited Amount" [value]="customerDeposit.ForfeitedAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Available Balance" [value]="customerDeposit.AvailableBalance">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Deposit Status" [value]="customerDeposit.DepositStatus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="customerDeposit.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

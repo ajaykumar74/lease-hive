@@ -1,0 +1,52 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'BankStatementLine List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Bank Statement Id <p-sortIcon field="BankStatementId" /> </th> 
+<th style="width:200px">Transaction Date <p-sortIcon field="TransactionDate" /> </th> 
+<th style="width:200px">Value Date <p-sortIcon field="ValueDate" /> </th> 
+<th style="width:200px">Bank Reference <p-sortIcon field="BankReference" /> </th> 
+<th style="width:200px">Debit Amount <p-sortIcon field="DebitAmount" /> </th> 
+<th style="width:200px">Credit Amount <p-sortIcon field="CreditAmount" /> </th> 
+<th style="width:200px">Matched Payment Receipt Id <p-sortIcon field="MatchedPaymentReceiptId" /> </th> 
+<th style="width:200px">Match Status <p-sortIcon field="MatchStatus" /> </th> 
+<th style="width:200px">Match Confidence <p-sortIcon field="MatchConfidence" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.BankStatementId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TransactionDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ValueDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.BankReference}}</td>
+ <td style="width:200px">{{obj.DebitAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CreditAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MatchedPaymentReceiptId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MatchStatus}}</td>
+ <td style="width:200px">{{obj.MatchConfidence | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

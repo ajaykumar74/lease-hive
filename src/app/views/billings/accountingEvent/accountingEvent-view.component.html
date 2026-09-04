@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation Id" [value]="accountingEvent.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Event Type" [value]="accountingEvent.EventType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Source Type" [value]="accountingEvent.SourceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source Id" [value]="accountingEvent.SourceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Event Date" [value]="accountingEvent.EventDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="accountingEvent.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Event Amount" [value]="accountingEvent.EventAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Posting Status" [value]="accountingEvent.PostingStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Accounting Rule Code" [value]="accountingEvent.AccountingRuleCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Journal Entry Id" [value]="accountingEvent.JournalEntryId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Error Message" [value]="accountingEvent.ErrorMessage">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="accountingEvent.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

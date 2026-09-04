@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'FinanceAccountMapping List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Organisation Id <p-sortIcon field="OrganisationId" /> </th> 
+<th style="width:200px">Event Type <p-sortIcon field="EventType" /> </th> 
+<th style="width:200px">Charge Type Code <p-sortIcon field="ChargeTypeCode" /> </th> 
+<th style="width:200px">Tax Type Id <p-sortIcon field="TaxTypeId" /> </th> 
+<th style="width:200px">Debit Account Code <p-sortIcon field="DebitAccountCode" /> </th> 
+<th style="width:200px">Credit Account Code <p-sortIcon field="CreditAccountCode" /> </th> 
+<th style="width:200px">Priority <p-sortIcon field="Priority" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.EventType}}</td>
+ <td style="width:200px">{{obj.ChargeTypeCode}}</td>
+ <td style="width:200px">{{obj.TaxTypeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DebitAccountCode}}</td>
+ <td style="width:200px">{{obj.CreditAccountCode}}</td>
+ <td style="width:200px">{{obj.Priority | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,64 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'CustomerInvoiceLine List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Customer Invoice Id <p-sortIcon field="CustomerInvoiceId" /> </th> 
+<th style="width:200px">Line No <p-sortIcon field="LineNo" /> </th> 
+<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
+<th style="width:200px">Lease Payment Schedule Line Id <p-sortIcon field="LeasePaymentScheduleLineId" /> </th> 
+<th style="width:200px">Lease Contract Charge Id <p-sortIcon field="LeaseContractChargeId" /> </th> 
+<th style="width:200px">Lease Contract Asset Id <p-sortIcon field="LeaseContractAssetId" /> </th> 
+<th style="width:200px">Charge Type Code <p-sortIcon field="ChargeTypeCode" /> </th> 
+<th style="width:200px">Service Period From <p-sortIcon field="ServicePeriodFrom" /> </th> 
+<th style="width:200px">Service Period To <p-sortIcon field="ServicePeriodTo" /> </th> 
+<th style="width:200px">Quantity <p-sortIcon field="Quantity" /> </th> 
+<th style="width:200px">UOM Id <p-sortIcon field="UOMId" /> </th> 
+<th style="width:200px">Unit Price <p-sortIcon field="UnitPrice" /> </th> 
+<th style="width:200px">Discount Amount <p-sortIcon field="DiscountAmount" /> </th> 
+<th style="width:200px">Taxable Amount <p-sortIcon field="TaxableAmount" /> </th> 
+<th style="width:200px">Tax Amount <p-sortIcon field="TaxAmount" /> </th> 
+<th style="width:200px">Line Gross Amount <p-sortIcon field="LineGrossAmount" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.CustomerInvoiceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LineNo | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeasePaymentScheduleLineId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractChargeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LeaseContractAssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ChargeTypeCode}}</td>
+ <td style="width:200px">{{obj.ServicePeriodFrom | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ServicePeriodTo | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.UOMId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.UnitPrice | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TaxableAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TaxAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LineGrossAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

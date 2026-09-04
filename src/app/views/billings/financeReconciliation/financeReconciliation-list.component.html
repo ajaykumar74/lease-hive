@@ -1,0 +1,54 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'FinanceReconciliation List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Reconciliation Type <p-sortIcon field="ReconciliationType" /> </th> 
+<th style="width:200px">Source Type <p-sortIcon field="SourceType" /> </th> 
+<th style="width:200px">Source Id <p-sortIcon field="SourceId" /> </th> 
+<th style="width:200px">Target Type <p-sortIcon field="TargetType" /> </th> 
+<th style="width:200px">Target Id <p-sortIcon field="TargetId" /> </th> 
+<th style="width:200px">Matched Amount <p-sortIcon field="MatchedAmount" /> </th> 
+<th style="width:200px">Reconciliation Date <p-sortIcon field="ReconciliationDate" /> </th> 
+<th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th> 
+<th style="width:200px">Matched By User Id <p-sortIcon field="MatchedByUserId" /> </th> 
+<th style="width:200px">Match Method <p-sortIcon field="MatchMethod" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ReconciliationType}}</td>
+ <td style="width:200px">{{obj.SourceType}}</td>
+ <td style="width:200px">{{obj.SourceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TargetType}}</td>
+ <td style="width:200px">{{obj.TargetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MatchedAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReconciliationDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px">{{obj.MatchedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.MatchMethod}}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="customerStatementSnapshot.BillingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="customerStatementSnapshot.CustomerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Statement Date" [value]="customerStatementSnapshot.StatementDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="customerStatementSnapshot.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Opening Balance" [value]="customerStatementSnapshot.OpeningBalance">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Debit Amount" [value]="customerStatementSnapshot.DebitAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit Amount" [value]="customerStatementSnapshot.CreditAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Closing Balance" [value]="customerStatementSnapshot.ClosingBalance">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Current Amount" [value]="customerStatementSnapshot.CurrentAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Days1 To30" [value]="customerStatementSnapshot.Days1To30">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Days31 To60" [value]="customerStatementSnapshot.Days31To60">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Days61 To90" [value]="customerStatementSnapshot.Days61To90">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Days90 Plus" [value]="customerStatementSnapshot.Days90Plus">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="customerStatementSnapshot.DocumentId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

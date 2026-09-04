@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Handoff Type" [value]="financeHandoff.HandoffType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="financeHandoff.ReferenceType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="financeHandoff.ReferenceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Target System" [value]="financeHandoff.TargetSystem">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="financeHandoff.StatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Attempt Count" [value]="financeHandoff.AttemptCount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Last Attempt At Utc" [value]="financeHandoff.LastAttemptAtUtc">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="External Reference" [value]="financeHandoff.ExternalReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Error Message" [value]="financeHandoff.ErrorMessage">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="financeHandoff.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

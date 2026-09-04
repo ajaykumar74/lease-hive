@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation Id" [value]="financeAccountMapping.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Event Type" [value]="financeAccountMapping.EventType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Charge Type Code" [value]="financeAccountMapping.ChargeTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Type Id" [value]="financeAccountMapping.TaxTypeId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Debit Account Code" [value]="financeAccountMapping.DebitAccountCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Credit Account Code" [value]="financeAccountMapping.CreditAccountCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="financeAccountMapping.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="financeAccountMapping.EffectiveTo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Priority" [value]="financeAccountMapping.Priority">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="financeAccountMapping.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

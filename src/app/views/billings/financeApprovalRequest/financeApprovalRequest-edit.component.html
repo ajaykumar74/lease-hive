@@ -1,0 +1,126 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reference Type" class="mb-1">ReferenceType</label>
+        <p-dropdown
+            inputId="ReferenceType" 
+            [options]="referencetypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReferenceType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Workflow Instance Id" class="mb-1">WorkflowInstanceId</label>
+        <p-dropdown
+            inputId="WorkflowInstanceId" 
+            [options]="workflowinstanceidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="WorkflowInstanceId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('WorkflowInstanceId')"
+											label="Workflow Instance Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Requested By User Id" class="mb-1">RequestedByUserId</label>
+        <p-dropdown
+            inputId="RequestedByUserId" 
+            [options]="requestedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RequestedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RequestedByUserId')"
+											label="Requested By User Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="RequestedAtUtc">Requested At Utc 
+							</label> 
+							<p-calendar id="RequestedAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RequestedAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RequestedAtUtc')"
+											label="Requested At Utc">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Approval Status" class="mb-1">ApprovalStatus</label>
+        <p-dropdown
+            inputId="ApprovalStatus" 
+            [options]="approvalstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovalStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovalStatus')"
+											label="Approval Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="Amount">Amount 
+							</label> 
+							<p-inputNumber id="Amount"  pSize="small"	formControlName="Amount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('Amount')"
+											label="Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

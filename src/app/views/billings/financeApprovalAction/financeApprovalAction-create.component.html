@@ -1,0 +1,102 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Finance Approval Request Id" class="mb-1">FinanceApprovalRequestId</label>
+        <p-dropdown
+            inputId="FinanceApprovalRequestId" 
+            [options]="financeapprovalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="FinanceApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('FinanceApprovalRequestId')"
+											label="Finance Approval Request Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Action By User Id" class="mb-1">ActionByUserId</label>
+        <p-dropdown
+            inputId="ActionByUserId" 
+            [options]="actionbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ActionByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ActionByUserId')"
+											label="Action By User Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Action Code" class="mb-1">ActionCode</label>
+        <p-dropdown
+            inputId="ActionCode" 
+            [options]="actioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ActionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ActionCode')"
+											label="Action Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="ActionAtUtc">Action At Utc 
+							</label> 
+							<p-calendar id="ActionAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ActionAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ActionAtUtc')"
+											label="Action At Utc">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Comments</label>
+                    <textarea size="small" pTextarea placeholder="Type Comments" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Comments"
+										[ngClass]="{'is-invalid': (editForm.get('Comments').touched || editForm.get('Comments').dirty) && !editForm.get('Comments').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Comments')"
+											label="Comments">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Authority Snapshot</label>
+                    <textarea size="small" pTextarea placeholder="Type Authority Snapshot" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="AuthoritySnapshot"
+										[ngClass]="{'is-invalid': (editForm.get('AuthoritySnapshot').touched || editForm.get('AuthoritySnapshot').dirty) && !editForm.get('AuthoritySnapshot').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('AuthoritySnapshot')"
+											label="Authority Snapshot">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

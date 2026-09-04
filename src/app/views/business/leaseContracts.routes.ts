@@ -85,27 +85,182 @@ const placeholderPages: LeaseContractPage[] = [
     { path: 'config/approval-rules', title: 'Approval Rules', icon: 'pi pi-sitemap' }
 ];
 
+const moduleRoutes: Routes = [
+    {
+        path: 'parties',
+        data: { title: 'Contract Parties', breadcrumb: 'Contract Parties' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractParty/leaseContractParty.module').then(m => m.LeaseContractPartyModule)
+    },
+    {
+        path: 'terms',
+        data: { title: 'Commercial Terms', breadcrumb: 'Commercial Terms' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractTerm/leaseContractTerm.module').then(m => m.LeaseContractTermModule)
+    },
+    {
+        path: 'assets',
+        data: { title: 'Contract Assets', breadcrumb: 'Contract Assets' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractAsset/leaseContractAsset.module').then(m => m.LeaseContractAssetModule)
+    },
+    {
+        path: 'charges',
+        data: { title: 'Charges & Fees', breadcrumb: 'Charges & Fees' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractCharge/leaseContractCharge.module').then(m => m.LeaseContractChargeModule)
+    },
+    {
+        path: 'deposits',
+        data: { title: 'Security Deposits', breadcrumb: 'Security Deposits' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractDeposit/leaseContractDeposit.module').then(m => m.LeaseContractDepositModule)
+    },
+    {
+        path: 'payment-schedules/lines',
+        data: { title: 'Payment Schedule Lines', breadcrumb: 'Payment Schedule Lines' },
+        loadChildren: () => import('@/views/leaseContracts/leasePaymentScheduleLine/leasePaymentScheduleLine.module').then(m => m.LeasePaymentScheduleLineModule)
+    },
+    {
+        path: 'payment-schedules',
+        data: { title: 'Payment Schedules', breadcrumb: 'Payment Schedules' },
+        loadChildren: () => import('@/views/leaseContracts/leasePaymentSchedule/leasePaymentSchedule.module').then(m => m.LeasePaymentScheduleModule)
+    },
+    {
+        path: 'conditions/evidence',
+        data: { title: 'Condition Evidence', breadcrumb: 'Condition Evidence' },
+        loadChildren: () => import('@/views/leaseContracts/contractConditionEvidence/contractConditionEvidence.module').then(m => m.ContractConditionEvidenceModule)
+    },
+    {
+        path: 'conditions',
+        data: { title: 'Contract Conditions', breadcrumb: 'Contract Conditions' },
+        loadChildren: () => import('@/views/leaseContracts/contractCondition/contractCondition.module').then(m => m.ContractConditionModule)
+    },
+    {
+        path: 'assets/history',
+        data: { title: 'Asset Allocation Events', breadcrumb: 'Asset Allocation Events' },
+        loadChildren: () => import('@/views/leaseContracts/leaseAssetAllocationEvent/leaseAssetAllocationEvent.module').then(m => m.LeaseAssetAllocationEventModule)
+    },
+    {
+        path: 'documents',
+        data: { title: 'Contract Documents', breadcrumb: 'Contract Documents' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractDocumentLink/leaseContractDocumentLink.module').then(m => m.LeaseContractDocumentLinkModule)
+    },
+    {
+        path: 'execution/parties',
+        data: { title: 'Execution Parties', breadcrumb: 'Execution Parties' },
+        loadChildren: () => import('@/views/leaseContracts/contractExecutionParty/contractExecutionParty.module').then(m => m.ContractExecutionPartyModule)
+    },
+    {
+        path: 'execution',
+        data: { title: 'Contract Execution', breadcrumb: 'Contract Execution' },
+        loadChildren: () => import('@/views/leaseContracts/contractExecution/contractExecution.module').then(m => m.ContractExecutionModule)
+    },
+    {
+        path: 'approvals/actions',
+        data: { title: 'Approval Actions', breadcrumb: 'Approval Actions' },
+        loadChildren: () => import('@/views/leaseContracts/contractApprovalAction/contractApprovalAction.module').then(m => m.ContractApprovalActionModule)
+    },
+    {
+        path: 'approvals/contracts',
+        data: { title: 'Contract Approvals', breadcrumb: 'Contract Approvals' },
+        loadChildren: () => import('@/views/leaseContracts/contractApprovalRequest/contractApprovalRequest.module').then(m => m.ContractApprovalRequestModule)
+    },
+    {
+        path: 'handoffs',
+        data: { title: 'Contract Handoffs', breadcrumb: 'Contract Handoffs' },
+        loadChildren: () => import('@/views/leaseContracts/contractHandoff/contractHandoff.module').then(m => m.ContractHandoffModule)
+    },
+    {
+        path: 'amendments/changes',
+        data: { title: 'Amendment Changes', breadcrumb: 'Amendment Changes' },
+        loadChildren: () => import('@/views/leaseContracts/contractAmendmentChange/contractAmendmentChange.module').then(m => m.ContractAmendmentChangeModule)
+    },
+    {
+        path: 'amendments',
+        data: { title: 'Contract Amendments', breadcrumb: 'Contract Amendments' },
+        loadChildren: () => import('@/views/leaseContracts/contractAmendment/contractAmendment.module').then(m => m.ContractAmendmentModule)
+    },
+    {
+        path: 'suspensions',
+        data: { title: 'Contract Suspensions', breadcrumb: 'Contract Suspensions' },
+        loadChildren: () => import('@/views/leaseContracts/contractSuspension/contractSuspension.module').then(m => m.ContractSuspensionModule)
+    },
+    {
+        path: 'obligations/events',
+        data: { title: 'Obligation Events', breadcrumb: 'Obligation Events' },
+        loadChildren: () => import('@/views/leaseContracts/contractObligationEvent/contractObligationEvent.module').then(m => m.ContractObligationEventModule)
+    },
+    {
+        path: 'obligations',
+        data: { title: 'Contract Obligations', breadcrumb: 'Contract Obligations' },
+        loadChildren: () => import('@/views/leaseContracts/contractObligation/contractObligation.module').then(m => m.ContractObligationModule)
+    },
+    {
+        path: 'notices',
+        data: { title: 'Contract Notices', breadcrumb: 'Contract Notices' },
+        loadChildren: () => import('@/views/leaseContracts/contractNotice/contractNotice.module').then(m => m.ContractNoticeModule)
+    },
+    {
+        path: 'renewals',
+        data: { title: 'Renewal Options', breadcrumb: 'Renewal Options' },
+        loadChildren: () => import('@/views/leaseContracts/contractRenewalOption/contractRenewalOption.module').then(m => m.ContractRenewalOptionModule)
+    },
+    {
+        path: 'asset-return',
+        data: { title: 'Asset Return Instructions', breadcrumb: 'Asset Return Instructions' },
+        loadChildren: () => import('@/views/leaseContracts/contractAssetReturnInstruction/contractAssetReturnInstruction.module').then(m => m.ContractAssetReturnInstructionModule)
+    },
+    {
+        path: 'terminations/charges',
+        data: { title: 'Termination Charges', breadcrumb: 'Termination Charges' },
+        loadChildren: () => import('@/views/leaseContracts/contractTerminationCharge/contractTerminationCharge.module').then(m => m.ContractTerminationChargeModule)
+    },
+    {
+        path: 'terminations',
+        data: { title: 'Contract Terminations', breadcrumb: 'Contract Terminations' },
+        loadChildren: () => import('@/views/leaseContracts/contractTermination/contractTermination.module').then(m => m.ContractTerminationModule)
+    },
+    {
+        path: 'events',
+        data: { title: 'Contract Events', breadcrumb: 'Contract Events' },
+        loadChildren: () => import('@/views/leaseContracts/contractEvent/contractEvent.module').then(m => m.ContractEventModule)
+    },
+    {
+        path: 'external-references',
+        data: { title: 'External References', breadcrumb: 'External References' },
+        loadChildren: () => import('@/views/leaseContracts/contractExternalReference/contractExternalReference.module').then(m => m.ContractExternalReferenceModule)
+    },
+    {
+        path: 'config/statuses',
+        data: { title: 'Contract Statuses', breadcrumb: 'Contract Statuses' },
+        loadChildren: () => import('@/views/leaseContracts/leaseContractStatus/leaseContractStatus.module').then(m => m.LeaseContractStatusModule)
+    }
+];
+
+const modulePaths = new Set(moduleRoutes.map(route => route.path));
+
+const featureRoutes: Routes = [
+    ...moduleRoutes,
+    ...placeholderPages.filter(page => page.path !== '' && page.path !== 'create' && !modulePaths.has(page.path)).map(page => ({
+        path: page.path,
+        component: BusinessFeatureComponent,
+        data: {
+            title: page.title,
+            area: 'Lease Contracts',
+            icon: page.icon,
+            breadcrumb: page.title
+        }
+    }))
+].sort((left, right) => (right.path?.split('/').length ?? 0) - (left.path?.split('/').length ?? 0));
+
 export const LEASE_CONTRACT_ROUTES: Routes = [
     {
         path: '',
         component: AppLayout,
         canActivate: [AuthGuard],
         children: [
+            ...featureRoutes,
             {
-                path: 'config/statuses',
-                data: { title: 'Contract Statuses', breadcrumb: 'Contract Statuses' },
-                loadChildren: () => import('@/views/leaseContracts/leaseContractStatus/leaseContractStatus.module').then(m => m.LeaseContractStatusModule)
-            },
-            ...placeholderPages.map(page => ({
-                path: page.path,
-                component: BusinessFeatureComponent,
-                data: {
-                    title: page.title,
-                    area: 'Lease Contracts',
-                    icon: page.icon,
-                    breadcrumb: page.title
-                }
-            }))
+                path: '',
+                data: { title: 'Lease Contracts', breadcrumb: 'Lease Contracts' },
+                loadChildren: () => import('@/views/leaseContracts/leaseContract/leaseContract.module').then(m => m.LeaseContractModule)
+            }
         ]
     }
 ];

@@ -1299,6 +1299,11 @@ export class AppMenu {
                                             routerLink: ['/contracts/payment-schedules']
                                         },
                                         {
+                                            label: 'Payment Schedule Lines',
+                                            icon: 'pi pi-list',
+                                            routerLink: ['/contracts/payment-schedules/lines']
+                                        },
+                                        {
                                             label: 'Conditions',
                                             icon: 'pi pi-check-square',
                                             routerLink: ['/contracts/conditions']
@@ -1400,6 +1405,11 @@ export class AppMenu {
                                             routerLink: ['/contracts/execution']
                                         },
                                         {
+                                            label: 'Execution Parties',
+                                            icon: 'pi pi-users',
+                                            routerLink: ['/contracts/execution/parties']
+                                        },
+                                        {
                                             label: 'Executed Contracts',
                                             icon: 'pi pi-check-square',
                                             routerLink: ['/contracts/executed']
@@ -1420,6 +1430,11 @@ export class AppMenu {
                                             label: 'Contract Approvals',
                                             icon: 'pi pi-file-check',
                                             routerLink: ['/contracts/approvals/contracts']
+                                        },
+                                        {
+                                            label: 'Approval Actions',
+                                            icon: 'pi pi-check',
+                                            routerLink: ['/contracts/approvals/actions']
                                         },
                                         {
                                             label: 'Amendment Approvals',
@@ -1498,6 +1513,11 @@ export class AppMenu {
                                                     label: 'Amendment History',
                                                     icon: 'pi pi-history',
                                                     routerLink: ['/contracts/amendments/history']
+                                                },
+                                                {
+                                                    label: 'Amendment Changes',
+                                                    icon: 'pi pi-pencil',
+                                                    routerLink: ['/contracts/amendments/changes']
                                                 }
                                             ]
                                         },
@@ -1526,6 +1546,11 @@ export class AppMenu {
                                             label: 'Contract Obligations',
                                             icon: 'pi pi-clipboard',
                                             routerLink: ['/contracts/obligations/worklist']
+                                        },
+                                        {
+                                            label: 'Obligation Events',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/obligations/events']
                                         },
                                         {
                                             label: 'Notices',
@@ -1739,6 +1764,16 @@ export class AppMenu {
                                             routerLink: ['/billing-finance/invoices']
                                         },
                                         {
+                                            label: 'Invoice Lines',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/invoices/lines']
+                                        },
+                                        {
+                                            label: 'Invoice Taxes',
+                                            icon: 'pi pi-fw pi-percentage',
+                                            routerLink: ['/billing-finance/invoices/taxes']
+                                        },
+                                        {
                                             label: 'Draft Invoices',
                                             icon: 'pi pi-fw pi-pencil',
                                             routerLink: ['/billing-finance/invoices/drafts']
@@ -1759,9 +1794,19 @@ export class AppMenu {
                                             routerLink: ['/billing-finance/credit-notes']
                                         },
                                         {
+                                            label: 'Credit Note Lines',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/credit-notes/lines']
+                                        },
+                                        {
                                             label: 'Debit Notes',
                                             icon: 'pi pi-fw pi-plus-circle',
                                             routerLink: ['/billing-finance/debit-notes']
+                                        },
+                                        {
+                                            label: 'Debit Note Lines',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/debit-notes/lines']
                                         }
                                     ]
                                 },
@@ -1878,6 +1923,11 @@ export class AppMenu {
                                             routerLink: ['/billing-finance/accounting/journals']
                                         },
                                         {
+                                            label: 'Journal Entry Lines',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/billing-finance/accounting/journals/lines']
+                                        },
+                                        {
                                             label: 'Posting Workbench',
                                             icon: 'pi pi-fw pi-send',
                                             routerLink: ['/billing-finance/accounting/posting']
@@ -1933,6 +1983,11 @@ export class AppMenu {
                                             label: 'Finance Approvals',
                                             icon: 'pi pi-fw pi-check-square',
                                             routerLink: ['/billing-finance/control/approvals']
+                                        },
+                                        {
+                                            label: 'Approval Actions',
+                                            icon: 'pi pi-fw pi-check',
+                                            routerLink: ['/billing-finance/control/approval-actions']
                                         },
                                         {
                                             label: 'Finance Exceptions',

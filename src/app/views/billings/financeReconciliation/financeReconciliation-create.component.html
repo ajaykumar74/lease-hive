@@ -1,0 +1,138 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reconciliation Type" class="mb-1">ReconciliationType</label>
+        <p-dropdown
+            inputId="ReconciliationType" 
+            [options]="reconciliationtypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReconciliationType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReconciliationType')"
+											label="Reconciliation Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="SourceType">Source Type 
+							</label> 
+							<input pInputText id="SourceType" type="text" pSize="small"	formControlName="SourceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SourceType')"
+											label="Source Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="SourceId">Source Id 
+							</label> 
+							<p-inputNumber id="SourceId"  pSize="small"	formControlName="SourceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('SourceId')"
+											label="Source Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Target Type" class="mb-1">TargetType</label>
+        <p-dropdown
+            inputId="TargetType" 
+            [options]="targettypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TargetType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TargetType')"
+											label="Target Type">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TargetId">Target Id 
+							</label> 
+							<p-inputNumber id="TargetId"  pSize="small"	formControlName="TargetId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TargetId')"
+											label="Target Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="MatchedAmount">Matched Amount 
+							</label> 
+							<p-inputNumber id="MatchedAmount"  pSize="small"	formControlName="MatchedAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MatchedAmount')"
+											label="Matched Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ReconciliationDate">Reconciliation Date 
+							</label> 
+							<p-calendar id="ReconciliationDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ReconciliationDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ReconciliationDate')"
+											label="Reconciliation Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
+        <p-dropdown
+            inputId="StatusCode" 
+            [options]="statuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
+											label="Status Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Matched By User Id" class="mb-1">MatchedByUserId</label>
+        <p-dropdown
+            inputId="MatchedByUserId" 
+            [options]="matchedbyuseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MatchedByUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MatchedByUserId')"
+											label="Matched By User Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Match Method" class="mb-1">MatchMethod</label>
+        <p-dropdown
+            inputId="MatchMethod" 
+            [options]="matchmethodOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MatchMethod"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MatchMethod')"
+											label="Match Method">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

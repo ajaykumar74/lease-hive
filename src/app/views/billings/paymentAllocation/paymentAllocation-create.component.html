@@ -1,0 +1,119 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Payment Receipt Id" class="mb-1">PaymentReceiptId</label>
+        <p-dropdown
+            inputId="PaymentReceiptId" 
+            [options]="paymentreceiptidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PaymentReceiptId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PaymentReceiptId')"
+											label="Payment Receipt Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Receivable Id" class="mb-1">ReceivableId</label>
+        <p-dropdown
+            inputId="ReceivableId" 
+            [options]="receivableidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReceivableId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReceivableId')"
+											label="Receivable Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="AllocationDate">Allocation Date 
+							</label> 
+							<p-calendar id="AllocationDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="AllocationDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('AllocationDate')"
+											label="Allocation Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="AllocatedAmount">Allocated Amount 
+							</label> 
+							<p-inputNumber id="AllocatedAmount"  pSize="small"	formControlName="AllocatedAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('AllocatedAmount')"
+											label="Allocated Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ExchangeRate">Exchange Rate 
+							</label> 
+							<p-inputNumber id="ExchangeRate"  pSize="small"	formControlName="ExchangeRate"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ExchangeRate')"
+											label="Exchange Rate">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Allocation Type" class="mb-1">AllocationType</label>
+        <p-dropdown
+            inputId="AllocationType" 
+            [options]="allocationtypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AllocationType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AllocationType')"
+											label="Allocation Type">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reversal Of Allocation Id" class="mb-1">ReversalOfAllocationId</label>
+        <p-dropdown
+            inputId="ReversalOfAllocationId" 
+            [options]="reversalofallocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReversalOfAllocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReversalOfAllocationId')"
+											label="Reversal Of Allocation Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">			
+							<label for="ReversedAtUtc">Reversed At Utc 
+							</label> 
+							<p-calendar id="ReversedAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ReversedAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ReversedAtUtc')"
+											label="Reversed At Utc">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

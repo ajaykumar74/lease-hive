@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit Note Id" [value]="creditNoteLine.CreditNoteId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Invoice Line Id" [value]="creditNoteLine.CustomerInvoiceLineId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Description" [value]="creditNoteLine.Description">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Quantity" [value]="creditNoteLine.Quantity">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Net Amount" [value]="creditNoteLine.NetAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="creditNoteLine.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Gross Amount" [value]="creditNoteLine.GrossAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="creditNoteLine.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,53 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Invoice Status Id" [value]="customerInvoice.InvoiceStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="customerInvoice.BillingOrganisationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="customerInvoice.CustomerPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="customerInvoice.LeaseContractId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Invoice Date" [value]="customerInvoice.InvoiceDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Due Date" [value]="customerInvoice.DueDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="customerInvoice.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Exchange Rate" [value]="customerInvoice.ExchangeRate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Subtotal Amount" [value]="customerInvoice.SubtotalAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="customerInvoice.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Gross Amount" [value]="customerInvoice.GrossAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Outstanding Amount" [value]="customerInvoice.OutstandingAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Term Days" [value]="customerInvoice.PaymentTermDays">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Address Snapshot" [value]="customerInvoice.BillingAddressSnapshot">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Tax Registration Snapshot" [value]="customerInvoice.CustomerTaxRegistrationSnapshot">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Organisation Tax Registration Snapshot" [value]="customerInvoice.OrganisationTaxRegistrationSnapshot">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Place Of Supply Code" [value]="customerInvoice.PlaceOfSupplyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Issued At Utc" [value]="customerInvoice.IssuedAtUtc">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="External E Invoice Ref" [value]="customerInvoice.ExternalEInvoiceRef">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="customerInvoice.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

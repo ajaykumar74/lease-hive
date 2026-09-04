@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reconciliation Type" [value]="financeReconciliation.ReconciliationType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source Type" [value]="financeReconciliation.SourceType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Source Id" [value]="financeReconciliation.SourceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Target Type" [value]="financeReconciliation.TargetType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Target Id" [value]="financeReconciliation.TargetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Matched Amount" [value]="financeReconciliation.MatchedAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reconciliation Date" [value]="financeReconciliation.ReconciliationDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="financeReconciliation.StatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Matched By User Id" [value]="financeReconciliation.MatchedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Match Method" [value]="financeReconciliation.MatchMethod">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

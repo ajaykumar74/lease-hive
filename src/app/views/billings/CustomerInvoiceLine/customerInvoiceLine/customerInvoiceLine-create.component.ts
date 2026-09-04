@@ -1,0 +1,239 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common'; 
+
+
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { ICustomerInvoiceLine } from './customerInvoiceLine';
+import { CustomerInvoiceLineService } from './customerInvoiceLine.service';
+
+@Component({
+  selector: 'app-customerInvoiceLine-create',
+  standalone: false,
+  templateUrl: './customerInvoiceLine-create.component.html' ,
+   providers: [ MessageService]
+})
+export class CustomerInvoiceLineCreateComponent implements OnInit {
+
+   
+  selectedId: number; 
+  isLoading : boolean = false;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  customerInvoiceLine: ICustomerInvoiceLine = null;
+  customerinvoiceidOptions: ISelectItem[] = [];
+leasecontractidOptions: ISelectItem[] = [];
+leasepaymentschedulelineidOptions: ISelectItem[] = [];
+leasecontractchargeidOptions: ISelectItem[] = [];
+leasecontractassetidOptions: ISelectItem[] = [];
+chargetypecodeOptions: ISelectItem[] = [];
+uomidOptions: ISelectItem[] = [];
+recordstatusOptions: ISelectItem[] = [];
+
+  editForm: any; 
+  objMaster : ICustomerInvoiceLine = {} as ICustomerInvoiceLine;
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+  constructor(
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location, 
+	private customerInvoiceLineService: CustomerInvoiceLineService,
+	private loggedInUserService : LoggedInUserService
+	
+  ) {
+  }
+ 
+
+ 
+
+  
+  ngOnInit(): void {
+   this.objMaster = { ...this.customerInvoiceLine };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, []),
+CustomerInvoiceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+LeaseContractId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeasePaymentScheduleLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeaseContractChargeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeaseContractAssetId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+ChargeTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
+ServicePeriodFrom: new FormControl(new Date(), []),
+ServicePeriodTo: new FormControl(new Date(), []),
+UOMId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+UnitPrice: new FormControl(0, [Validators.required]),
+TaxableAmount: new FormControl(0, [Validators.required]),
+TaxAmount: new FormControl(0, [Validators.required]),
+LineGrossAmount: new FormControl(0, [Validators.required]),
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+
+    });
+    this.Caption = 'Create CustomerInvoiceLine';
+    this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId1', Value: 'CustomerInvoiceId1' });
+this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId2', Value: 'CustomerInvoiceId2' });
+this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
+this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId1', Value: 'LeasePaymentScheduleLineId1' });
+this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId2', Value: 'LeasePaymentScheduleLineId2' });
+this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId1', Value: 'LeaseContractChargeId1' });
+this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId2', Value: 'LeaseContractChargeId2' });
+this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
+this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
+this.chargetypecodeOptions.push({Text: 'RENTAL', Value: 'RENTAL' });
+this.chargetypecodeOptions.push({Text: 'FEE', Value: 'FEE' });
+this.chargetypecodeOptions.push({Text: 'SERVICE', Value: 'SERVICE' });
+this.chargetypecodeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
+this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
+this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
+this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+
+  }
+ 
+ loadUI(): void {
+    this.isLoading = true;    
+    this.customerInvoiceLineService.getById(this.selectedId).subscribe({
+      next: data => {
+        this.customerInvoiceLine = data;
+        this.objMaster = { ...this.customerInvoiceLine };
+        this.populateUI(data);
+      },
+      error: err => {  this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  }  
+
+
+  populateUI(obj: ICustomerInvoiceLine): void {
+     this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  CustomerInvoiceId: obj.CustomerInvoiceId || 0,
+LineNo: obj.LineNo || 0,
+LeaseContractId: obj.LeaseContractId || 0,
+LeasePaymentScheduleLineId: obj.LeasePaymentScheduleLineId || 0,
+LeaseContractChargeId: obj.LeaseContractChargeId || 0,
+LeaseContractAssetId: obj.LeaseContractAssetId || 0,
+ChargeTypeCode: obj.ChargeTypeCode || '',
+Description: obj.Description || '',
+ServicePeriodFrom:  obj.ServicePeriodFrom || new Date(),
+ServicePeriodTo:  obj.ServicePeriodTo || new Date(),
+UOMId: obj.UOMId || 0,
+UnitPrice: obj.UnitPrice || 0,
+TaxableAmount: obj.TaxableAmount || 0,
+TaxAmount: obj.TaxAmount || 0,
+LineGrossAmount: obj.LineGrossAmount || 0,
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+  }
+
+ 
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/customerInvoiceLines/create']);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
+  }
+
+  onCancel(): void {
+    this.customerInvoiceLine = { ...this.objMaster };
+    var obj  = this.customerInvoiceLine;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  CustomerInvoiceId: obj.CustomerInvoiceId || 0,
+LineNo: obj.LineNo || 0,
+LeaseContractId: obj.LeaseContractId || 0,
+LeasePaymentScheduleLineId: obj.LeasePaymentScheduleLineId || 0,
+LeaseContractChargeId: obj.LeaseContractChargeId || 0,
+LeaseContractAssetId: obj.LeaseContractAssetId || 0,
+ChargeTypeCode: obj.ChargeTypeCode || '',
+Description: obj.Description || '',
+ServicePeriodFrom:  obj.ServicePeriodFrom || new Date(),
+ServicePeriodTo:  obj.ServicePeriodTo || new Date(),
+UOMId: obj.UOMId || 0,
+UnitPrice: obj.UnitPrice || 0,
+TaxableAmount: obj.TaxableAmount || 0,
+TaxAmount: obj.TaxAmount || 0,
+LineGrossAmount: obj.LineGrossAmount || 0,
+RecordStatus: obj.RecordStatus || '',
+ 
+      }
+    );
+    this.editForm.reset(); 
+  } 
+
+  Save(): void {    
+   
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }	
+  
+  
+	const formValues  = this.editForm.value ;
+	var createdObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+     CustomerInvoiceId: formValues.CustomerInvoiceId || 0,
+LineNo: formValues.LineNo || null,
+LeaseContractId: formValues.LeaseContractId || 0,
+LeasePaymentScheduleLineId: formValues.LeasePaymentScheduleLineId || 0,
+LeaseContractChargeId: formValues.LeaseContractChargeId || 0,
+LeaseContractAssetId: formValues.LeaseContractAssetId || 0,
+ChargeTypeCode: formValues.ChargeTypeCode || null,
+Description: formValues.Description || null,
+ServicePeriodFrom: formValues.ServicePeriodFrom || null,
+ServicePeriodTo: formValues.ServicePeriodTo || null,
+Quantity: formValues.Quantity || null,
+UOMId: formValues.UOMId || 0,
+UnitPrice: formValues.UnitPrice || 0,
+DiscountAmount: formValues.DiscountAmount || null,
+TaxableAmount: formValues.TaxableAmount || 0,
+TaxAmount: formValues.TaxAmount || 0,
+LineGrossAmount: formValues.LineGrossAmount || 0,
+RecordStatus: formValues.RecordStatus || null,
+
+    } as ICustomerInvoiceLine ; 
+	
+	  this.spinner.show(); 
+    this.customerInvoiceLineService.create(createdObj).subscribe({
+      next: data => {	   
+         // this.messageService.showSuccess(CustomerInvoiceLine +  'Details Updated sucessfully.');
+		 this._location.back();     
+      },
+      error: err => { 
+	   this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide(); }
+    });
+  } 
+
+}
+
+
+

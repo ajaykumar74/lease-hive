@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Deposit Id" [value]="depositTransaction.CustomerDepositId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Transaction Type" [value]="depositTransaction.TransactionType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Transaction Date" [value]="depositTransaction.TransactionDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Amount" [value]="depositTransaction.Amount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Receipt Id" [value]="depositTransaction.PaymentReceiptId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Receivable Id" [value]="depositTransaction.ReceivableId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="depositTransaction.ReferenceType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="depositTransaction.ReferenceId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approval Request Id" [value]="depositTransaction.ApprovalRequestId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="depositTransaction.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

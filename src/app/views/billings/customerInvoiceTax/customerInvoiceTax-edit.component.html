@@ -1,0 +1,127 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Customer Invoice Id" class="mb-1">CustomerInvoiceId</label>
+        <p-dropdown
+            inputId="CustomerInvoiceId" 
+            [options]="customerinvoiceidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CustomerInvoiceId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerInvoiceId')"
+											label="Customer Invoice Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Customer Invoice Line Id" class="mb-1">CustomerInvoiceLineId</label>
+        <p-dropdown
+            inputId="CustomerInvoiceLineId" 
+            [options]="customerinvoicelineidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CustomerInvoiceLineId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerInvoiceLineId')"
+											label="Customer Invoice Line Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Tax Type Id" class="mb-1">TaxTypeId</label>
+        <p-dropdown
+            inputId="TaxTypeId" 
+            [options]="taxtypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TaxTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TaxTypeId')"
+											label="Tax Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Tax Jurisdiction Id" class="mb-1">TaxJurisdictionId</label>
+        <p-dropdown
+            inputId="TaxJurisdictionId" 
+            [options]="taxjurisdictionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TaxJurisdictionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TaxJurisdictionId')"
+											label="Tax Jurisdiction Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="TaxCode">Tax Code 
+							</label> 
+							<input pInputText id="TaxCode" type="text" pSize="small"	formControlName="TaxCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TaxCode')"
+											label="Tax Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="TaxRate">Tax Rate 
+							</label> 
+							<p-inputNumber id="TaxRate"  pSize="small"	formControlName="TaxRate"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TaxRate')"
+											label="Tax Rate">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TaxableAmount">Taxable Amount 
+							</label> 
+							<p-inputNumber id="TaxableAmount"  pSize="small"	formControlName="TaxableAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TaxableAmount')"
+											label="Taxable Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="TaxAmount">Tax Amount 
+							</label> 
+							<p-inputNumber id="TaxAmount"  pSize="small"	formControlName="TaxAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TaxAmount')"
+											label="Tax Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="TaxRegistrationSnapshot">Tax Registration Snapshot 
+							</label> 
+							<input pInputText id="TaxRegistrationSnapshot" type="text" pSize="small"	formControlName="TaxRegistrationSnapshot"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TaxRegistrationSnapshot')"
+											label="Tax Registration Snapshot">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

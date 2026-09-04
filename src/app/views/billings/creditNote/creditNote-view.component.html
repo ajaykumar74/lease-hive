@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="creditNote.BillingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="creditNote.CustomerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Invoice Id" [value]="creditNote.CustomerInvoiceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="creditNote.LeaseContractId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Credit Note Date" [value]="creditNote.CreditNoteDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reason Code" [value]="creditNote.ReasonCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="creditNote.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Net Amount" [value]="creditNote.NetAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="creditNote.TaxAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Gross Amount" [value]="creditNote.GrossAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="creditNote.StatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="External E Invoice Ref" [value]="creditNote.ExternalEInvoiceRef">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
