@@ -137,17 +137,17 @@ export class InsurancePolicyStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insurancePolicyStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/configuration/policy-statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insurancePolicyStatuss/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/configuration/policy-statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insurancePolicyStatuss/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/configuration/policy-statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

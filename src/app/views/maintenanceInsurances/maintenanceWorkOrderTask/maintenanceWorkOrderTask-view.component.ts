@@ -70,8 +70,8 @@ export class MaintenanceWorkOrderTaskViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/maintenanceWorkOrderTask/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/maintenance/work-orders/tasks/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

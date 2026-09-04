@@ -137,17 +137,17 @@ export class InsurancePolicyListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insurancePolicys/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insurancePolicys/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insurancePolicys/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/policies/create']);
     } 
     else if (key == "Refresh") {
       this.search();

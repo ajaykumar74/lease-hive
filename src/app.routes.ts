@@ -48,6 +48,11 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./app/views/business/billingFinance.routes').then(m => m.BILLING_FINANCE_ROUTES),
         data: { breadcrumb: 'Billing & Finance' },
     },
+    {
+        path: 'maintenance-insurance',
+        loadChildren: () => import('./app/views/business/maintenanceInsurance.routes').then(m => m.MAINTENANCE_INSURANCE_ROUTES),
+        data: { breadcrumb: 'Maintenance & Insurance' },
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 

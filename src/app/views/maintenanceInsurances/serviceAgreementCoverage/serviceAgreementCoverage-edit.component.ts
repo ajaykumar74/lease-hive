@@ -140,7 +140,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/serviceAgreementCoverage/create', { id: -1 }]);
+      this.router.navigate(['/maintenance-insurance/maintenance/service-agreements/coverage/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

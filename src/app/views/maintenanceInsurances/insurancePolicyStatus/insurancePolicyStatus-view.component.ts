@@ -70,8 +70,8 @@ export class InsurancePolicyStatusViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insurancePolicyStatus/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/configuration/policy-statuses/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

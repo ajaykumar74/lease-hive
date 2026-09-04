@@ -134,7 +134,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/insurancePolicyEndorsement/create', { id: -1 }]);
+      this.router.navigate(['/maintenance-insurance/insurance/policies/endorsements/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

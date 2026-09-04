@@ -137,17 +137,17 @@ export class MaintenanceInsuranceExceptionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceInsuranceExceptions/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/exceptions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceInsuranceExceptions/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/exceptions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceInsuranceExceptions/create']);
+      this.router.navigate(['/maintenance-insurance/exceptions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -137,17 +137,17 @@ export class MaintenanceCompletionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceCompletions/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/work-orders/completions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceCompletions/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/work-orders/completions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceCompletions/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/work-orders/completions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -137,17 +137,17 @@ export class AssetDowntimeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetDowntimes/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/history/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetDowntimes/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/history/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetDowntimes/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/history/create']);
     } 
     else if (key == "Refresh") {
       this.search();

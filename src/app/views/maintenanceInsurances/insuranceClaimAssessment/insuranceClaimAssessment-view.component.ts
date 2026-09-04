@@ -70,8 +70,8 @@ export class InsuranceClaimAssessmentViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insuranceClaimAssessment/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/claims/assessments/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

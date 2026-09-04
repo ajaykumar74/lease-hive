@@ -137,17 +137,17 @@ export class MaintenanceRequestListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceRequests/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/requests/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceRequests/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/requests/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceRequests/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/requests/create']);
     } 
     else if (key == "Refresh") {
       this.search();

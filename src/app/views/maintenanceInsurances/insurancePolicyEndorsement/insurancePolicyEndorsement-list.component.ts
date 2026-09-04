@@ -137,17 +137,17 @@ export class InsurancePolicyEndorsementListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insurancePolicyEndorsements/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/endorsements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insurancePolicyEndorsements/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/endorsements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insurancePolicyEndorsements/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/policies/endorsements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

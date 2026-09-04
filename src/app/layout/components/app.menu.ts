@@ -2115,46 +2115,55 @@ export class AppMenu {
                                 }
                             ]
                         },
-                         {
-    label: 'Maintenance & Insurance',
-    icon: 'pi pi-fw pi-wrench',
-    items: [
-        {
-            label: 'Dashboard',
-            routerLink: ['/maintenance-insurance/dashboard']
-        },
-        {
-            label: 'Maintenance',
-            items: [
-                { label: 'Requests', routerLink: ['/maintenance/requests'] },
-                { label: 'Work Orders', routerLink: ['/maintenance/work-orders'] },
-                { label: 'Schedules', routerLink: ['/maintenance/schedules'] },
-                { label: 'Asset Plans', routerLink: ['/maintenance/asset-plans'] },
-                { label: 'Service Agreements', routerLink: ['/maintenance/service-agreements'] },
-                { label: 'Downtime & History', routerLink: ['/maintenance/history'] }
-            ]
-        },
-        {
-            label: 'Insurance',
-            items: [
-                { label: 'Policies', routerLink: ['/insurance/policies'] },
-                { label: 'Asset Coverage', routerLink: ['/insurance/coverage'] },
-                { label: 'Renewals & Endorsements', routerLink: ['/insurance/renewals'] },
-                { label: 'Incidents', routerLink: ['/insurance/incidents'] },
-                { label: 'Claims', routerLink: ['/insurance/claims'] },
-                { label: 'Settlements & Recoveries', routerLink: ['/insurance/settlements'] }
-            ]
-        },
-        {
-            label: 'Exceptions',
-            routerLink: ['/maintenance-insurance/exceptions']
-        },
-        {
-            label: 'Documents',
-            routerLink: ['/maintenance-insurance/documents']
-        }
-    ]
-},
+                        {
+                            label: 'Maintenance & Insurance',
+                            icon: 'pi pi-fw pi-wrench',
+                            items: [
+                                { label: 'Dashboard', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/maintenance-insurance/dashboard'] },
+                                {
+                                    label: 'Maintenance',
+                                    icon: 'pi pi-fw pi-wrench',
+                                    items: [
+                                        { label: 'Requests', icon: 'pi pi-inbox', routerLink: ['/maintenance-insurance/maintenance/requests'] },
+                                        { label: 'Work Orders', icon: 'pi pi-clipboard', routerLink: ['/maintenance-insurance/maintenance/work-orders'] },
+                                        { label: 'Work Order Tasks', icon: 'pi pi-list-check', routerLink: ['/maintenance-insurance/maintenance/work-orders/tasks'] },
+                                        { label: 'Work Order Parts', icon: 'pi pi-box', routerLink: ['/maintenance-insurance/maintenance/work-orders/parts'] },
+                                        { label: 'Work Order Labour', icon: 'pi pi-users', routerLink: ['/maintenance-insurance/maintenance/work-orders/labour'] },
+                                        { label: 'Work Order Services', icon: 'pi pi-cog', routerLink: ['/maintenance-insurance/maintenance/work-orders/services'] },
+                                        { label: 'Maintenance Completions', icon: 'pi pi-check-circle', routerLink: ['/maintenance-insurance/maintenance/work-orders/completions'] },
+                                        { label: 'Schedules', icon: 'pi pi-calendar', routerLink: ['/maintenance-insurance/maintenance/schedules'] },
+                                        { label: 'Maintenance Plans', icon: 'pi pi-map', routerLink: ['/maintenance-insurance/maintenance/plans'] },
+                                        { label: 'Asset Plans', icon: 'pi pi-box', routerLink: ['/maintenance-insurance/maintenance/asset-plans'] },
+                                        { label: 'Service Agreements', icon: 'pi pi-file', routerLink: ['/maintenance-insurance/maintenance/service-agreements'] },
+                                        { label: 'Agreement Coverage', icon: 'pi pi-shield', routerLink: ['/maintenance-insurance/maintenance/service-agreements/coverage'] },
+                                        { label: 'Downtime & History', icon: 'pi pi-history', routerLink: ['/maintenance-insurance/maintenance/history'] },
+                                        { label: 'Maintenance Exceptions', icon: 'pi pi-exclamation-triangle', routerLink: ['/maintenance-insurance/maintenance/exceptions'] },
+                                        { label: 'Maintenance Types', icon: 'pi pi-tags', routerLink: ['/maintenance-insurance/maintenance/configuration/types'] }
+                                    ]
+                                },
+                                {
+                                    label: 'Insurance',
+                                    icon: 'pi pi-fw pi-shield',
+                                    items: [
+                                        { label: 'Policies', icon: 'pi pi-file', routerLink: ['/maintenance-insurance/insurance/policies'] },
+                                        { label: 'Asset Coverage', icon: 'pi pi-box', routerLink: ['/maintenance-insurance/insurance/policies/assets'] },
+                                        { label: 'Policy Endorsements', icon: 'pi pi-pencil', routerLink: ['/maintenance-insurance/insurance/policies/endorsements'] },
+                                        { label: 'Renewals', icon: 'pi pi-refresh', routerLink: ['/maintenance-insurance/insurance/renewals'] },
+                                        { label: 'Incidents', icon: 'pi pi-exclamation-circle', routerLink: ['/maintenance-insurance/insurance/incidents'] },
+                                        { label: 'Claims', icon: 'pi pi-briefcase', routerLink: ['/maintenance-insurance/insurance/claims'] },
+                                        { label: 'Claim Assessments', icon: 'pi pi-search', routerLink: ['/maintenance-insurance/insurance/claims/assessments'] },
+                                        { label: 'Settlements', icon: 'pi pi-check-square', routerLink: ['/maintenance-insurance/insurance/settlements'] },
+                                        { label: 'Recoveries', icon: 'pi pi-replay', routerLink: ['/maintenance-insurance/insurance/recoveries'] },
+                                        { label: 'Coverage Types', icon: 'pi pi-tags', routerLink: ['/maintenance-insurance/insurance/configuration/coverage-types'] },
+                                        { label: 'Policy Statuses', icon: 'pi pi-list', routerLink: ['/maintenance-insurance/insurance/configuration/policy-statuses'] },
+                                        { label: 'Claim Statuses', icon: 'pi pi-list', routerLink: ['/maintenance-insurance/insurance/configuration/claim-statuses'] }
+                                    ]
+                                },
+                                { label: 'Exceptions', icon: 'pi pi-exclamation-triangle', routerLink: ['/maintenance-insurance/exceptions'] },
+                                { label: 'Documents', icon: 'pi pi-folder', routerLink: ['/maintenance-insurance/documents'] },
+                                { label: 'Handoffs', icon: 'pi pi-directions-alt', routerLink: ['/maintenance-insurance/handoffs'] }
+                            ]
+                        },
                         {
                             label: 'Operations',
                             icon: 'pi pi-fw pi-cog',

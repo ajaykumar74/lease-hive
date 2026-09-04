@@ -137,17 +137,17 @@ export class InsuranceCoverageTypeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insuranceCoverageTypes/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/configuration/coverage-types/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insuranceCoverageTypes/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/configuration/coverage-types/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insuranceCoverageTypes/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/configuration/coverage-types/create']);
     } 
     else if (key == "Refresh") {
       this.search();

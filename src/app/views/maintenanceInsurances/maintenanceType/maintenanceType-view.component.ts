@@ -70,8 +70,8 @@ export class MaintenanceTypeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/maintenanceType/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/maintenance/configuration/types/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

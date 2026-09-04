@@ -137,17 +137,17 @@ export class MaintenanceInsuranceDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceInsuranceDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceInsuranceDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceInsuranceDocumentLinks/create']);
+      this.router.navigate(['/maintenance-insurance/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

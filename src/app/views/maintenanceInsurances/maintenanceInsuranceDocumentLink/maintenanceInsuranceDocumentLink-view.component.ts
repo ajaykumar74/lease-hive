@@ -70,8 +70,8 @@ export class MaintenanceInsuranceDocumentLinkViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/maintenanceInsuranceDocumentLink/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

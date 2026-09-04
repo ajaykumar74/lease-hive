@@ -70,8 +70,8 @@ export class InsurancePolicyAssetViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insurancePolicyAsset/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/policies/assets/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

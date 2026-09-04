@@ -137,17 +137,17 @@ export class InsuranceClaimAssessmentListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insuranceClaimAssessments/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/claims/assessments/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insuranceClaimAssessments/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/claims/assessments/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insuranceClaimAssessments/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/claims/assessments/create']);
     } 
     else if (key == "Refresh") {
       this.search();

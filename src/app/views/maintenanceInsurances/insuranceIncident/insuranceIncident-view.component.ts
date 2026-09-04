@@ -70,8 +70,8 @@ export class InsuranceIncidentViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insuranceIncident/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/incidents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class MaintenanceScheduleListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceSchedules/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/schedules/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceSchedules/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/schedules/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceSchedules/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/schedules/create']);
     } 
     else if (key == "Refresh") {
       this.search();

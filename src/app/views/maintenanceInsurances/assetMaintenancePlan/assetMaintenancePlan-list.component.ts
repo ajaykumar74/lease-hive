@@ -137,17 +137,17 @@ export class AssetMaintenancePlanListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetMaintenancePlans/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/asset-plans/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetMaintenancePlans/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/asset-plans/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetMaintenancePlans/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/asset-plans/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -70,8 +70,8 @@ export class ServiceAgreementViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/serviceAgreement/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/maintenance/service-agreements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

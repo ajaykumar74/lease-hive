@@ -137,17 +137,17 @@ export class MaintenanceWorkOrderLabourListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceWorkOrderLabours/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/work-orders/labour/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceWorkOrderLabours/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/work-orders/labour/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceWorkOrderLabours/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/work-orders/labour/create']);
     } 
     else if (key == "Refresh") {
       this.search();

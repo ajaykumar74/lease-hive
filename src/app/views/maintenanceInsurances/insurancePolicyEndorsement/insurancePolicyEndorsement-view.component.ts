@@ -70,8 +70,8 @@ export class InsurancePolicyEndorsementViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insurancePolicyEndorsement/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/policies/endorsements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

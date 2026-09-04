@@ -70,8 +70,8 @@ export class MaintenanceScheduleViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/maintenanceSchedule/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/maintenance/schedules/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

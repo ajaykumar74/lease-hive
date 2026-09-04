@@ -137,17 +137,17 @@ export class ServiceAgreementListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/serviceAgreements/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/service-agreements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/serviceAgreements/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/maintenance/service-agreements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/serviceAgreements/create']);
+      this.router.navigate(['/maintenance-insurance/maintenance/service-agreements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

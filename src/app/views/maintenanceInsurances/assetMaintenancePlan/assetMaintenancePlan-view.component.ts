@@ -70,8 +70,8 @@ export class AssetMaintenancePlanViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/assetMaintenancePlan/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/maintenance/asset-plans/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -70,8 +70,8 @@ export class InsuranceRenewalViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insuranceRenewal/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/renewals/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

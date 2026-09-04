@@ -129,7 +129,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/maintenanceWorkOrderTask/create', { id: -1 }]);
+      this.router.navigate(['/maintenance-insurance/maintenance/work-orders/tasks/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

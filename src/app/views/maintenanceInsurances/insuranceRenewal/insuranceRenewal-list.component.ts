@@ -137,17 +137,17 @@ export class InsuranceRenewalListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insuranceRenewals/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/renewals/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insuranceRenewals/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/renewals/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insuranceRenewals/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/renewals/create']);
     } 
     else if (key == "Refresh") {
       this.search();

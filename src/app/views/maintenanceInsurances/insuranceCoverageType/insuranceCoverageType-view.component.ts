@@ -70,8 +70,8 @@ export class InsuranceCoverageTypeViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insuranceCoverageType/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/configuration/coverage-types/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

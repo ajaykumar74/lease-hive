@@ -117,7 +117,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/insurancePolicyStatus/create', { id: -1 }]);
+      this.router.navigate(['/maintenance-insurance/insurance/configuration/policy-statuses/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

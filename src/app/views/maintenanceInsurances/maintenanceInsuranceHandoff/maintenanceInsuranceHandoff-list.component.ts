@@ -137,17 +137,17 @@ export class MaintenanceInsuranceHandoffListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/maintenanceInsuranceHandoffs/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/handoffs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/maintenanceInsuranceHandoffs/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/handoffs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/maintenanceInsuranceHandoffs/create']);
+      this.router.navigate(['/maintenance-insurance/handoffs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

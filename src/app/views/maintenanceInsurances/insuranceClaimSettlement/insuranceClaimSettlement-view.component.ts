@@ -70,8 +70,8 @@ export class InsuranceClaimSettlementViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/insuranceClaimSettlement/create']);
+        if (key == "Create") {
+            this.router.navigate(['/maintenance-insurance/insurance/settlements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

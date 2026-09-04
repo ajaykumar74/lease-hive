@@ -137,17 +137,17 @@ export class InsurancePolicyAssetListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/insurancePolicyAssets/edit/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/assets/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/insurancePolicyAssets/view/' + obj.Id]);
+        this.router.navigate(['/maintenance-insurance/insurance/policies/assets/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/insurancePolicyAssets/create']);
+      this.router.navigate(['/maintenance-insurance/insurance/policies/assets/create']);
     } 
     else if (key == "Refresh") {
       this.search();
