@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="assetDispositionDecision.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetDispositionDecision.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Disposition Method Id" [value]="assetDispositionDecision.DispositionMethodId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Decision Date" [value]="assetDispositionDecision.DecisionDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Valuation Id" [value]="assetDispositionDecision.ReferenceValuationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Target Amount" [value]="assetDispositionDecision.TargetAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="assetDispositionDecision.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reason" [value]="assetDispositionDecision.Reason">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="assetDispositionDecision.StatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="assetDispositionDecision.ApprovedByUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved At" [value]="assetDispositionDecision.ApprovedAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="assetDispositionDecision.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

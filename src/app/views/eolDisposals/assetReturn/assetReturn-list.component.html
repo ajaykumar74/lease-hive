@@ -1,0 +1,54 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetReturn List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Return No <p-sortIcon field="ReturnNo" /> </th> 
+<th style="width:200px">End Of Lease Case Id <p-sortIcon field="EndOfLeaseCaseId" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Asset Return Schedule Id <p-sortIcon field="AssetReturnScheduleId" /> </th> 
+<th style="width:200px">Returned At <p-sortIcon field="ReturnedAt" /> </th> 
+<th style="width:200px">Return Location Id <p-sortIcon field="ReturnLocationId" /> </th> 
+<th style="width:200px">Received By User Id <p-sortIcon field="ReceivedByUserId" /> </th> 
+<th style="width:200px">Final Measure Reading Id <p-sortIcon field="FinalMeasureReadingId" /> </th> 
+<th style="width:200px">Return Inspection Id <p-sortIcon field="ReturnInspectionId" /> </th> 
+<th style="width:200px">Return Status Code <p-sortIcon field="ReturnStatusCode" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.ReturnNo}}</td>
+ <td style="width:200px">{{obj.EndOfLeaseCaseId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetReturnScheduleId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReturnedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ReturnLocationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReceivedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.FinalMeasureReadingId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReturnInspectionId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReturnStatusCode}}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="assetReturnSchedule.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetReturnSchedule.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Scheduled Return At" [value]="assetReturnSchedule.ScheduledReturnAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Return Location Id" [value]="assetReturnSchedule.ReturnLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Responsible Organisation Unit Id" [value]="assetReturnSchedule.ResponsibleOrganisationUnitId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="assetReturnSchedule.StatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Contact Party Id" [value]="assetReturnSchedule.CustomerContactPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Remarks" [value]="assetReturnSchedule.Remarks">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="returnAssessment.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Return Id" [value]="returnAssessment.AssetReturnId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assessment No" [value]="returnAssessment.AssessmentNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessed At" [value]="returnAssessment.AssessedAt">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Assessed By User Id" [value]="returnAssessment.AssessedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Contract Allowance Value" [value]="returnAssessment.ContractAllowanceValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Actual Usage Value" [value]="returnAssessment.ActualUsageValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Excess Usage Value" [value]="returnAssessment.ExcessUsageValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Return Inspection Id" [value]="returnAssessment.ReturnInspectionId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assessment Status Code" [value]="returnAssessment.AssessmentStatusCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

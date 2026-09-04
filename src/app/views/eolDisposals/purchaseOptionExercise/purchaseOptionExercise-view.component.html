@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="purchaseOptionExercise.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Asset Id" [value]="purchaseOptionExercise.LeaseContractAssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="purchaseOptionExercise.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="purchaseOptionExercise.CustomerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Exercise Date" [value]="purchaseOptionExercise.ExerciseDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Option Price Amount" [value]="purchaseOptionExercise.OptionPriceAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="purchaseOptionExercise.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="purchaseOptionExercise.StatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="purchaseOptionExercise.ApprovedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Completed At" [value]="purchaseOptionExercise.CompletedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

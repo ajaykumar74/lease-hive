@@ -1,0 +1,130 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Return Assessment Id" class="mb-1">ReturnAssessmentId</label>
+        <p-dropdown
+            inputId="ReturnAssessmentId" 
+            [options]="returnassessmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReturnAssessmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReturnAssessmentId')"
+											label="Return Assessment Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Measure Definition Id" class="mb-1">MeasureDefinitionId</label>
+        <p-dropdown
+            inputId="MeasureDefinitionId" 
+            [options]="measuredefinitionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="MeasureDefinitionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('MeasureDefinitionId')"
+											label="Measure Definition Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="BaselineValue">Baseline Value 
+							</label> 
+							<p-inputNumber id="BaselineValue"  pSize="small"	formControlName="BaselineValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('BaselineValue')"
+											label="Baseline Value">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="FinalValue">Final Value 
+							</label> 
+							<p-inputNumber id="FinalValue"  pSize="small"	formControlName="FinalValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('FinalValue')"
+											label="Final Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="AllowedUsageValue">Allowed Usage Value 
+							</label> 
+							<p-inputNumber id="AllowedUsageValue"  pSize="small"	formControlName="AllowedUsageValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('AllowedUsageValue')"
+											label="Allowed Usage Value">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="ActualUsageValue">Actual Usage Value 
+							</label> 
+							<p-inputNumber id="ActualUsageValue"  pSize="small"	formControlName="ActualUsageValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ActualUsageValue')"
+											label="Actual Usage Value">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ExcessUsageValue">Excess Usage Value 
+							</label> 
+							<p-inputNumber id="ExcessUsageValue"  pSize="small"	formControlName="ExcessUsageValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ExcessUsageValue')"
+											label="Excess Usage Value">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="RatePerUnit">Rate Per Unit 
+							</label> 
+							<p-inputNumber id="RatePerUnit"  pSize="small"	formControlName="RatePerUnit"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('RatePerUnit')"
+											label="Rate Per Unit">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="CalculatedAmount">Calculated Amount 
+							</label> 
+							<p-inputNumber id="CalculatedAmount"  pSize="small"	formControlName="CalculatedAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('CalculatedAmount')"
+											label="Calculated Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

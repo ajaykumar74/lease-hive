@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Lease Contract Id" [value]="endOfLeaseCase.LeaseContractId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Lease Contract Asset Id" [value]="endOfLeaseCase.LeaseContractAssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="endOfLeaseCase.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="endOfLeaseCase.CustomerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation Id" [value]="endOfLeaseCase.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="End Of Lease Reason Id" [value]="endOfLeaseCase.EndOfLeaseReasonId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Status Id" [value]="endOfLeaseCase.EndOfLeaseStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Contract End Date" [value]="endOfLeaseCase.ContractEndDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Target Return Date" [value]="endOfLeaseCase.TargetReturnDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Assigned To User Id" [value]="endOfLeaseCase.AssignedToUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Opened At" [value]="endOfLeaseCase.OpenedAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Closed At" [value]="endOfLeaseCase.ClosedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

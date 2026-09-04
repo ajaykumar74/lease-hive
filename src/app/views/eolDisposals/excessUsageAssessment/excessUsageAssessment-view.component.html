@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Return Assessment Id" [value]="excessUsageAssessment.ReturnAssessmentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Measure Definition Id" [value]="excessUsageAssessment.MeasureDefinitionId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Baseline Value" [value]="excessUsageAssessment.BaselineValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Final Value" [value]="excessUsageAssessment.FinalValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Allowed Usage Value" [value]="excessUsageAssessment.AllowedUsageValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Actual Usage Value" [value]="excessUsageAssessment.ActualUsageValue">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Excess Usage Value" [value]="excessUsageAssessment.ExcessUsageValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Rate Per Unit" [value]="excessUsageAssessment.RatePerUnit">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Calculated Amount" [value]="excessUsageAssessment.CalculatedAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="excessUsageAssessment.CurrencyCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

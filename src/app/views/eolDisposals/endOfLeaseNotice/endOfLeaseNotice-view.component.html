@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="endOfLeaseNotice.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Notice Type Code" [value]="endOfLeaseNotice.NoticeTypeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Notice Date" [value]="endOfLeaseNotice.NoticeDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Channel Code" [value]="endOfLeaseNotice.DeliveryChannelCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Delivered At" [value]="endOfLeaseNotice.DeliveredAt">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Response Due Date" [value]="endOfLeaseNotice.ResponseDueDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Response Code" [value]="endOfLeaseNotice.CustomerResponseCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Response At" [value]="endOfLeaseNotice.ResponseAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

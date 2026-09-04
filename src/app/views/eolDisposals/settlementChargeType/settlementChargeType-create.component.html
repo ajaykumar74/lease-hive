@@ -1,0 +1,88 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ChargeTypeCode">Charge Type Code 
+							</label> 
+							<input pInputText id="ChargeTypeCode" type="text" pSize="small"	formControlName="ChargeTypeCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ChargeTypeCode')"
+											label="Charge Type Code">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ChargeTypeName">Charge Type Name 
+							</label> 
+							<input pInputText id="ChargeTypeName" type="text" pSize="small"	formControlName="ChargeTypeName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ChargeTypeName')"
+											label="Charge Type Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Direction Code" class="mb-1">DirectionCode</label>
+        <p-dropdown
+            inputId="DirectionCode" 
+            [options]="directioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DirectionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DirectionCode')"
+											label="Direction Code">
+										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="TaxableFlag" binary="true" formControlName="TaxableFlag">
+											</p-checkbox>
+											<label for="TaxableFlag">Taxable Flag</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

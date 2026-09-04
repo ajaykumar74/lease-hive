@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Disposal Case Id" [value]="disposalOffer.DisposalCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Offer No" [value]="disposalOffer.OfferNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Buyer Party Id" [value]="disposalOffer.BuyerPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Offer Date" [value]="disposalOffer.OfferDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Offer Amount" [value]="disposalOffer.OfferAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="disposalOffer.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Valid Until" [value]="disposalOffer.ValidUntil">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="disposalOffer.StatusCode">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

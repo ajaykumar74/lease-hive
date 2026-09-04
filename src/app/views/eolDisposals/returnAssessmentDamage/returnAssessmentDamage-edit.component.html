@@ -1,0 +1,133 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Return Assessment Id" class="mb-1">ReturnAssessmentId</label>
+        <p-dropdown
+            inputId="ReturnAssessmentId" 
+            [options]="returnassessmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReturnAssessmentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReturnAssessmentId')"
+											label="Return Assessment Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="LineNo">Line No 
+							</label> 
+							<p-inputNumber id="LineNo"  pSize="small"	formControlName="LineNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('LineNo')"
+											label="Line No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Inspection Item Reference Id" class="mb-1">InspectionItemReferenceId</label>
+        <p-dropdown
+            inputId="InspectionItemReferenceId" 
+            [options]="inspectionitemreferenceidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="InspectionItemReferenceId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('InspectionItemReferenceId')"
+											label="Inspection Item Reference Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="DamageCode">Damage Code 
+							</label> 
+							<input pInputText id="DamageCode" type="text" pSize="small"	formControlName="DamageCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('DamageCode')"
+											label="Damage Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Damage Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Damage Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="DamageDescription"
+										[ngClass]="{'is-invalid': (editForm.get('DamageDescription').touched || editForm.get('DamageDescription').dirty) && !editForm.get('DamageDescription').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('DamageDescription')"
+											label="Damage Description">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="ChargeableFlag" binary="true" formControlName="ChargeableFlag">
+											</p-checkbox>
+											<label for="ChargeableFlag">Chargeable Flag</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="EstimatedRepairAmount">Estimated Repair Amount 
+							</label> 
+							<p-inputNumber id="EstimatedRepairAmount"  pSize="small"	formControlName="EstimatedRepairAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('EstimatedRepairAmount')"
+											label="Estimated Repair Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="ApprovedChargeAmount">Approved Charge Amount 
+							</label> 
+							<p-inputNumber id="ApprovedChargeAmount"  pSize="small"	formControlName="ApprovedChargeAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ApprovedChargeAmount')"
+											label="Approved Charge Amount">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Waiver Reason</label>
+                    <textarea size="small" pTextarea placeholder="Type Waiver Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="WaiverReason"
+										[ngClass]="{'is-invalid': (editForm.get('WaiverReason').touched || editForm.get('WaiverReason').dirty) && !editForm.get('WaiverReason').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('WaiverReason')"
+											label="Waiver Reason">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Disposal Case Id" [value]="assetWriteOff.DisposalCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetWriteOff.AssetId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Write Off Date" [value]="assetWriteOff.WriteOffDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Write Off Reason Code" [value]="assetWriteOff.WriteOffReasonCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Book Value" [value]="assetWriteOff.ReferenceBookValue">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Recovery Amount" [value]="assetWriteOff.RecoveryAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="assetWriteOff.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Insurance Claim Id" [value]="assetWriteOff.InsuranceClaimId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="assetWriteOff.ApprovedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved At" [value]="assetWriteOff.ApprovedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

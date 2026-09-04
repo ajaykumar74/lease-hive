@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="endOfLeaseSettlement.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="endOfLeaseSettlement.CustomerPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Settlement Date" [value]="endOfLeaseSettlement.SettlementDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="endOfLeaseSettlement.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Gross Charge Amount" [value]="endOfLeaseSettlement.GrossChargeAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Gross Credit Amount" [value]="endOfLeaseSettlement.GrossCreditAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Net Settlement Amount" [value]="endOfLeaseSettlement.NetSettlementAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Status Code" [value]="endOfLeaseSettlement.StatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="endOfLeaseSettlement.ApprovedByUserId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved At" [value]="endOfLeaseSettlement.ApprovedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

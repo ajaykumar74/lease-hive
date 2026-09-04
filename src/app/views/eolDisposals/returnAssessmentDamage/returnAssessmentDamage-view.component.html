@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Return Assessment Id" [value]="returnAssessmentDamage.ReturnAssessmentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="returnAssessmentDamage.LineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Inspection Item Reference Id" [value]="returnAssessmentDamage.InspectionItemReferenceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Damage Code" [value]="returnAssessmentDamage.DamageCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Damage Description" [value]="returnAssessmentDamage.DamageDescription">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Chargeable Flag" [value]="returnAssessmentDamage.ChargeableFlag">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Estimated Repair Amount" [value]="returnAssessmentDamage.EstimatedRepairAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved Charge Amount" [value]="returnAssessmentDamage.ApprovedChargeAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="returnAssessmentDamage.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Waiver Reason" [value]="returnAssessmentDamage.WaiverReason">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

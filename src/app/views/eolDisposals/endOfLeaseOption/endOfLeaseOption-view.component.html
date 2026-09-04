@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="End Of Lease Case Id" [value]="endOfLeaseOption.EndOfLeaseCaseId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Option Code" [value]="endOfLeaseOption.OptionCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Offered Date" [value]="endOfLeaseOption.OfferedDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Option Expiry Date" [value]="endOfLeaseOption.OptionExpiryDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Amount" [value]="endOfLeaseOption.ReferenceAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="endOfLeaseOption.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Selected Flag" [value]="endOfLeaseOption.SelectedFlag">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Selected At" [value]="endOfLeaseOption.SelectedAt">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

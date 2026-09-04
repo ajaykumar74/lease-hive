@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ReturnItemChecklist List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Asset Return Id <p-sortIcon field="AssetReturnId" /> </th> 
+<th style="width:200px">Line No <p-sortIcon field="LineNo" /> </th> 
+<th style="width:200px">Item Code <p-sortIcon field="ItemCode" /> </th> 
+<th style="width:200px">Expected Quantity <p-sortIcon field="ExpectedQuantity" /> </th> 
+<th style="width:200px">Returned Quantity <p-sortIcon field="ReturnedQuantity" /> </th> 
+<th style="width:200px">Condition Code <p-sortIcon field="ConditionCode" /> </th> 
+<th style="width:200px">Chargeable Flag <p-sortIcon field="ChargeableFlag" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.AssetReturnId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LineNo | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ItemCode}}</td>
+ <td style="width:200px">{{obj.ExpectedQuantity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReturnedQuantity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ConditionCode}}</td>
+ <td style="width:200px">{{obj.ChargeableFlag | yesNo }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

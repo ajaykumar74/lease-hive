@@ -1,0 +1,54 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'DisposalCase List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Disposal Case No <p-sortIcon field="DisposalCaseNo" /> </th> 
+<th style="width:200px">Asset Disposition Decision Id <p-sortIcon field="AssetDispositionDecisionId" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Organisation Id <p-sortIcon field="OrganisationId" /> </th> 
+<th style="width:200px">Disposition Method Id <p-sortIcon field="DispositionMethodId" /> </th> 
+<th style="width:200px">Opened At <p-sortIcon field="OpenedAt" /> </th> 
+<th style="width:200px">Target Completion Date <p-sortIcon field="TargetCompletionDate" /> </th> 
+<th style="width:200px">Assigned To User Id <p-sortIcon field="AssignedToUserId" /> </th> 
+<th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th> 
+<th style="width:200px">Closed At <p-sortIcon field="ClosedAt" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.DisposalCaseNo}}</td>
+ <td style="width:200px">{{obj.AssetDispositionDecisionId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DispositionMethodId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.OpenedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.TargetCompletionDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.AssignedToUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px">{{obj.ClosedAt | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  
