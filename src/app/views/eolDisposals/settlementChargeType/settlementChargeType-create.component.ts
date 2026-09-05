@@ -145,6 +145,7 @@ RecordStatus: obj.RecordStatus || '',
   
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ChargeTypeCode: formValues.ChargeTypeCode || null,

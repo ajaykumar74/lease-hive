@@ -238,6 +238,7 @@ Description: obj.Description || '',
 	const formValues  = this.editForm.value ;
 	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
 	var createdObj = { 
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      PartyId: selectedPartyId || 0,

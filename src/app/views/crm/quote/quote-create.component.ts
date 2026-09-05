@@ -188,6 +188,7 @@ export class QuoteCreateComponent implements OnInit {
 
         const formValues = this.editForm.value;
         var createdObj = {
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
             QuoteGroupNo: formValues.QuoteGroupNo || null,

@@ -223,6 +223,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 	const formValues  = this.editForm.value ;
 	const selectedAssetId = this.assetId ?? Number(formValues.AssetId);
 	var createdObj = { 
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      AssetId: selectedAssetId || 0,

@@ -191,7 +191,7 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
       PartyId: this.partyId || 0,
-       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id || 0,
+       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       RoleType: formValues.RoleType || null,
       RoleCode: formValues.RoleCode || null,
       OrganisationId: formValues.OrganisationId || null,

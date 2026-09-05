@@ -174,7 +174,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-        TenantId: this.loggedInUserService.loggedInUser.Tenant.TenantId,
+        TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      LocationCode: formValues.LocationCode || null,
 LocationName: formValues.LocationName || null,
 LocationType: formValues.LocationType || null,

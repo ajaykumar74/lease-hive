@@ -180,7 +180,7 @@ BeforeJson: formValues.BeforeJson || null,
 AfterJson: formValues.AfterJson || null,
 Outcome: formValues.Outcome || null,
 FailureReason: formValues.FailureReason || null,
-TenantId: formValues.TenantId || 0,
+TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
 
     } as IAuditLog ; 
 	

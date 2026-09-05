@@ -140,7 +140,7 @@ TenantId: obj.TenantId || 0,
 ItemName: formValues.ItemName || null,
 Description: formValues.Description || null,
 IsSystem: formValues.IsSystem || null,
-TenantId: formValues.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
+TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
 
     } as IPicklistItem ; 
 	

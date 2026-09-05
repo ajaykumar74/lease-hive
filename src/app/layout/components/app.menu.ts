@@ -1223,24 +1223,24 @@ export class AppMenu {
                             icon: 'pi pi-file-edit',
                             items: [
                                 {
-                                    label: 'Contract Workspace',
+                                    label: 'Dashboard',
+                                    icon: 'pi pi-chart-bar',
+                                    routerLink: ['/contracts/dashboard']
+                                },
+                                {
+                                    label: 'All Contracts',
+                                    icon: 'pi pi-list',
+                                    routerLink: ['/contracts']
+                                },
+                                {
+                                    label: 'Create Contract',
+                                    icon: 'pi pi-plus-circle',
+                                    routerLink: ['/contracts/create']
+                                },
+                                {
+                                    label: 'By Status',
                                     icon: 'pi pi-briefcase',
                                     items: [
-                                        {
-                                            label: 'Contract Dashboard',
-                                            icon: 'pi pi-chart-bar',
-                                            routerLink: ['/contracts/dashboard']
-                                        },
-                                        {
-                                            label: 'All Contracts',
-                                            icon: 'pi pi-list',
-                                            routerLink: ['/contracts']
-                                        },
-                                        {
-                                            label: 'Create Contract',
-                                            icon: 'pi pi-plus-circle',
-                                            routerLink: ['/contracts/create']
-                                        },
                                         {
                                             label: 'Draft Contracts',
                                             icon: 'pi pi-pencil',
@@ -1268,13 +1268,53 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Contract Setup',
+                                    label: 'Approvals',
+                                    icon: 'pi pi-check-circle',
+                                    items: [
+                                        {
+                                            label: 'My Approvals',
+                                            icon: 'pi pi-inbox',
+                                            routerLink: ['/contracts/approvals/my-queue']
+                                        },
+                                        {
+                                            label: 'Contract Approvals',
+                                            icon: 'pi pi-file-check',
+                                            routerLink: ['/contracts/approvals/contracts']
+                                        },
+                                        {
+                                            label: 'Approval Actions',
+                                            icon: 'pi pi-check',
+                                            routerLink: ['/contracts/approvals/actions']
+                                        },
+                                        {
+                                            label: 'Amendment Approvals',
+                                            icon: 'pi pi-pencil',
+                                            routerLink: ['/contracts/approvals/amendments']
+                                        },
+                                        {
+                                            label: 'Termination Approvals',
+                                            icon: 'pi pi-times-circle',
+                                            routerLink: ['/contracts/approvals/terminations']
+                                        },
+                                        {
+                                            label: 'Waiver Approvals',
+                                            icon: 'pi pi-exclamation-triangle',
+                                            routerLink: ['/contracts/approvals/waivers']
+                                        },
+                                        {
+                                            label: 'Approval History',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/approvals/history']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Contract Details',
                                     icon: 'pi pi-sliders-h',
                                     items: [
                                         {
-                                            label: 'Contract Parties',
+                                            label: 'Parties',
                                             icon: 'pi pi-users',
                                             routerLink: ['/contracts/parties']
                                         },
@@ -1282,11 +1322,6 @@ export class AppMenu {
                                             label: 'Commercial Terms',
                                             icon: 'pi pi-percentage',
                                             routerLink: ['/contracts/terms']
-                                        },
-                                        {
-                                            label: 'Contract Assets',
-                                            icon: 'pi pi-box',
-                                            routerLink: ['/contracts/assets']
                                         },
                                         {
                                             label: 'Charges & Fees',
@@ -1304,7 +1339,7 @@ export class AppMenu {
                                             routerLink: ['/contracts/payment-schedules']
                                         },
                                         {
-                                            label: 'Payment Schedule Lines',
+                                            label: 'Scheduled Payments',
                                             icon: 'pi pi-list',
                                             routerLink: ['/contracts/payment-schedules/lines']
                                         },
@@ -1320,11 +1355,15 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Asset Allocation',
+                                    label: 'Assets',
                                     icon: 'pi pi-box',
                                     items: [
+                                        {
+                                            label: 'All Contract Assets',
+                                            icon: 'pi pi-box',
+                                            routerLink: ['/contracts/assets']
+                                        },
                                         {
                                             label: 'Pending Allocation',
                                             icon: 'pi pi-clock',
@@ -1344,44 +1383,16 @@ export class AppMenu {
                                             label: 'Allocation History',
                                             icon: 'pi pi-history',
                                             routerLink: ['/contracts/assets/history']
+                                        },
+                                        {
+                                            label: 'Asset Release',
+                                            icon: 'pi pi-sign-out',
+                                            routerLink: ['/contracts/assets/release']
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Conditions & Readiness',
-                                    icon: 'pi pi-verified',
-                                    items: [
-                                        {
-                                            label: 'Conditions Checklist',
-                                            icon: 'pi pi-list-check',
-                                            routerLink: ['/contracts/conditions/checklist']
-                                        },
-                                        {
-                                            label: 'Pending Conditions',
-                                            icon: 'pi pi-exclamation-circle',
-                                            routerLink: ['/contracts/conditions/pending']
-                                        },
-                                        {
-                                            label: 'Condition Evidence',
-                                            icon: 'pi pi-paperclip',
-                                            routerLink: ['/contracts/conditions/evidence']
-                                        },
-                                        {
-                                            label: 'Waiver Requests',
-                                            icon: 'pi pi-exclamation-triangle',
-                                            routerLink: ['/contracts/conditions/waivers']
-                                        },
-                                        {
-                                            label: 'Activation Readiness',
-                                            icon: 'pi pi-check-circle',
-                                            routerLink: ['/contracts/activation-readiness']
-                                        }
-                                    ]
-                                },
-
-                                {
-                                    label: 'Documents & Execution',
+                                    label: 'Documents & Signing',
                                     icon: 'pi pi-file',
                                     items: [
                                         {
@@ -1421,53 +1432,35 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Approvals',
-                                    icon: 'pi pi-check-circle',
+                                    label: 'Activation & Checklist',
+                                    icon: 'pi pi-verified',
                                     items: [
                                         {
-                                            label: 'My Approval Queue',
-                                            icon: 'pi pi-inbox',
-                                            routerLink: ['/contracts/approvals/my-queue']
+                                            label: 'Conditions Checklist',
+                                            icon: 'pi pi-list-check',
+                                            routerLink: ['/contracts/conditions/checklist']
                                         },
                                         {
-                                            label: 'Contract Approvals',
-                                            icon: 'pi pi-file-check',
-                                            routerLink: ['/contracts/approvals/contracts']
+                                            label: 'Pending Conditions',
+                                            icon: 'pi pi-exclamation-circle',
+                                            routerLink: ['/contracts/conditions/pending']
                                         },
                                         {
-                                            label: 'Approval Actions',
-                                            icon: 'pi pi-check',
-                                            routerLink: ['/contracts/approvals/actions']
+                                            label: 'Condition Evidence',
+                                            icon: 'pi pi-paperclip',
+                                            routerLink: ['/contracts/conditions/evidence']
                                         },
                                         {
-                                            label: 'Amendment Approvals',
-                                            icon: 'pi pi-pencil',
-                                            routerLink: ['/contracts/approvals/amendments']
-                                        },
-                                        {
-                                            label: 'Termination Approvals',
-                                            icon: 'pi pi-times-circle',
-                                            routerLink: ['/contracts/approvals/terminations']
-                                        },
-                                        {
-                                            label: 'Waiver Approvals',
+                                            label: 'Waiver Requests',
                                             icon: 'pi pi-exclamation-triangle',
-                                            routerLink: ['/contracts/approvals/waivers']
+                                            routerLink: ['/contracts/conditions/waivers']
                                         },
                                         {
-                                            label: 'Approval History',
-                                            icon: 'pi pi-history',
-                                            routerLink: ['/contracts/approvals/history']
-                                        }
-                                    ]
-                                },
-
-                                {
-                                    label: 'Activation',
-                                    icon: 'pi pi-play',
-                                    items: [
+                                            label: 'Activation Readiness',
+                                            icon: 'pi pi-check-circle',
+                                            routerLink: ['/contracts/activation-readiness']
+                                        },
                                         {
                                             label: 'Ready for Activation',
                                             icon: 'pi pi-check-circle',
@@ -1490,57 +1483,34 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'In-Life Management',
+                                    label: 'Manage Contracts',
                                     icon: 'pi pi-cog',
                                     items: [
                                         {
-                                            label: 'Active Contract Workbench',
+                                            label: 'Active Contract Overview',
                                             icon: 'pi pi-briefcase',
                                             routerLink: ['/contracts/in-life']
                                         },
                                         {
-                                            label: 'Amendments',
-                                            icon: 'pi pi-pencil',
-                                            items: [
-                                                {
-                                                    label: 'Create Amendment',
-                                                    icon: 'pi pi-plus',
-                                                    routerLink: ['/contracts/amendments/create']
-                                                },
-                                                {
-                                                    label: 'Amendment Worklist',
-                                                    icon: 'pi pi-list',
-                                                    routerLink: ['/contracts/amendments']
-                                                },
-                                                {
-                                                    label: 'Amendment History',
-                                                    icon: 'pi pi-history',
-                                                    routerLink: ['/contracts/amendments/history']
-                                                },
-                                                {
-                                                    label: 'Amendment Changes',
-                                                    icon: 'pi pi-pencil',
-                                                    routerLink: ['/contracts/amendments/changes']
-                                                }
-                                            ]
+                                            label: 'Create Amendment',
+                                            icon: 'pi pi-plus',
+                                            routerLink: ['/contracts/amendments/create']
                                         },
                                         {
-                                            label: 'Asset Changes',
-                                            icon: 'pi pi-sync',
-                                            items: [
-                                                {
-                                                    label: 'Asset Replacement',
-                                                    icon: 'pi pi-refresh',
-                                                    routerLink: ['/contracts/assets/replacement']
-                                                },
-                                                {
-                                                    label: 'Asset Release',
-                                                    icon: 'pi pi-sign-out',
-                                                    routerLink: ['/contracts/assets/release']
-                                                }
-                                            ]
+                                            label: 'All Amendments',
+                                            icon: 'pi pi-list',
+                                            routerLink: ['/contracts/amendments']
+                                        },
+                                        {
+                                            label: 'Amendment History',
+                                            icon: 'pi pi-history',
+                                            routerLink: ['/contracts/amendments/history']
+                                        },
+                                        {
+                                            label: 'Amendment Changes',
+                                            icon: 'pi pi-pencil',
+                                            routerLink: ['/contracts/amendments/changes']
                                         },
                                         {
                                             label: 'Suspensions',
@@ -1564,13 +1534,12 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Renewal & Maturity',
+                                    label: 'Renewals & Expiry',
                                     icon: 'pi pi-replay',
                                     items: [
                                         {
-                                            label: 'Upcoming Maturities',
+                                            label: 'Expiring Contracts',
                                             icon: 'pi pi-calendar-times',
                                             routerLink: ['/contracts/maturity/upcoming']
                                         },
@@ -1590,15 +1559,14 @@ export class AppMenu {
                                             routerLink: ['/contracts/purchase-options']
                                         },
                                         {
-                                            label: 'Asset Return Due',
+                                            label: 'Returns Due',
                                             icon: 'pi pi-undo',
                                             routerLink: ['/contracts/asset-return/due']
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Termination & Closure',
+                                    label: 'End a Contract',
                                     icon: 'pi pi-times-circle',
                                     items: [
                                         {
@@ -1622,7 +1590,7 @@ export class AppMenu {
                                             routerLink: ['/contracts/asset-return']
                                         },
                                         {
-                                            label: 'Contracts Pending Closure',
+                                            label: 'Pending Closure',
                                             icon: 'pi pi-lock-open',
                                             routerLink: ['/contracts/closure/pending']
                                         },
@@ -1633,9 +1601,8 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Monitoring & Audit',
+                                    label: 'Activity & Audit',
                                     icon: 'pi pi-search',
                                     items: [
                                         {
@@ -1665,9 +1632,8 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Contract Configuration',
+                                    label: 'Settings',
                                     icon: 'pi pi-cog',
                                     items: [
                                         {

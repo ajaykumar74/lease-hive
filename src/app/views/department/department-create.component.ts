@@ -201,6 +201,7 @@ Description: obj.Description || '',
 	const formValues  = this.editForm.value ;
 	const selectedOrganisationUnitId = this.organisationUnitId ?? Number(formValues.OrganisationUnitId);
 	var createdObj = { 
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      OrganisationUnitId: selectedOrganisationUnitId || null,

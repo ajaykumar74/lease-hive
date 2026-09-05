@@ -162,6 +162,7 @@ Remarks: obj.Remarks || '',
   
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      EventTypeId: formValues.EventTypeId || null,
