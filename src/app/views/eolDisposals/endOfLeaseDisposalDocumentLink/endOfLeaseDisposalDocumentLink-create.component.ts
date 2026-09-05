@@ -32,7 +32,6 @@ export class EndOfLeaseDisposalDocumentLinkCreateComponent implements OnInit {
 documentidOptions: ISelectItem[] = [];
 documentrolecodeOptions: ISelectItem[] = [];
 linkedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseDisposalDocumentLink = {} as IEndOfLeaseDisposalDocumentLink;
@@ -65,7 +64,6 @@ DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648)
 DocumentRoleCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 LinkedAt: new FormControl(new Date(), [Validators.required]),
 LinkedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseDisposalDocumentLink';
@@ -76,7 +74,6 @@ this.documentrolecodeOptions = this.loggedInUserService.getPicklistOptions('EndO
 this.loggedInUserService.bindEntityLookup(this.editForm, 'LinkedByUserId', 'application-users',
       options => this.linkedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -104,7 +101,6 @@ DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
 LinkedAt:  obj.LinkedAt || new Date(),
 LinkedByUserId: obj.LinkedByUserId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -138,7 +134,6 @@ DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
 LinkedAt:  obj.LinkedAt || new Date(),
 LinkedByUserId: obj.LinkedByUserId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -164,7 +159,7 @@ DocumentId: formValues.DocumentId || 0,
 DocumentRoleCode: formValues.DocumentRoleCode || null,
 LinkedAt: formValues.LinkedAt || null,
 LinkedByUserId: formValues.LinkedByUserId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseDisposalDocumentLink ; 
 	

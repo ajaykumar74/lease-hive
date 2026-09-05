@@ -142,12 +142,12 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditApplicationId: formValues.CreditApplicationId || null,
+            CreditApplicationId: formValues.CreditApplicationId || 0,
             DocumentType: formValues.DocumentType || null,
-            IsRequired: formValues.IsRequired || null,
-            DocumentId: formValues.DocumentId || null,
+            IsRequired: formValues.IsRequired || false,
+            DocumentId: formValues.DocumentId || 0,
             ChecklistStatus: formValues.ChecklistStatus || null,
-            VerifiedBy: formValues.VerifiedBy || null,
+            VerifiedBy: formValues.VerifiedBy || 0,
             VerifiedOn: formValues.VerifiedOn || null
         } as ICreditDocumentChecklist;
 

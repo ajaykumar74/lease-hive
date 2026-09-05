@@ -160,13 +160,13 @@ IsPrimary:  obj.IsPrimary || false,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 ReferenceTypeCode:  formValues.ReferenceTypeCode || null,
 ReferenceValue:  formValues.ReferenceValue || null,
 ProviderCode:  formValues.ProviderCode || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
-IsPrimary:  formValues.IsPrimary || null,
+IsPrimary:  formValues.IsPrimary || false,
 
     } as IContractExternalReference ;
 	

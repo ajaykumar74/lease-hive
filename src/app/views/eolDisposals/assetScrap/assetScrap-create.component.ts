@@ -33,7 +33,6 @@ assetidOptions: ISelectItem[] = [];
 recyclerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetScrap = {} as IAssetScrap;
@@ -69,7 +68,6 @@ CurrencyCode: new FormControl('', [Validators.maxLength(20), ]),
 CertificateReference: new FormControl('', [Validators.maxLength(50), ]), 
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetScrap';
@@ -84,7 +82,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RecyclerPartyId', 'par
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetScrapStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ CurrencyCode: obj.CurrencyCode || '',
 CertificateReference: obj.CertificateReference || '',
 StatusCode: obj.StatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,7 +148,6 @@ CurrencyCode: obj.CurrencyCode || '',
 CertificateReference: obj.CertificateReference || '',
 StatusCode: obj.StatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,7 +176,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 CertificateReference: formValues.CertificateReference || null,
 StatusCode: formValues.StatusCode || null,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetScrap ; 
 	

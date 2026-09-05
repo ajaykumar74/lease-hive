@@ -27,7 +27,6 @@ export class LeaseContractStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   leaseContractStatus: ILeaseContractStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ILeaseContractStatus = {} as ILeaseContractStatus;
@@ -61,11 +60,9 @@ IsTerminal: new FormControl(false, [Validators.required]),
 SortOrder: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create LeaseContractStatus';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -94,7 +91,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -129,7 +125,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -155,7 +150,7 @@ IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
     } as ILeaseContractStatus ; 
 	

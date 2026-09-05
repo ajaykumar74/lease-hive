@@ -37,7 +37,6 @@ requestedbyuseridOptions: ISelectItem[] = [];
 locationidOptions: ISelectItem[] = [];
 prioritycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceRequest = {} as IMaintenanceRequest;
@@ -75,7 +74,6 @@ LocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147
 PriorityCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ProblemDescription: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceRequest';
@@ -100,7 +98,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LocationId', 'location
       this.entityLookupDestroyRef);
 this.prioritycodeOptions = this.loggedInUserService.getPicklistOptions('PriorityCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceRequestStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -133,7 +130,6 @@ LocationId: obj.LocationId || 0,
 PriorityCode: obj.PriorityCode || '',
 ProblemDescription: obj.ProblemDescription || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -172,7 +168,6 @@ LocationId: obj.LocationId || 0,
 PriorityCode: obj.PriorityCode || '',
 ProblemDescription: obj.ProblemDescription || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -203,7 +198,7 @@ LocationId: formValues.LocationId || 0,
 PriorityCode: formValues.PriorityCode || null,
 ProblemDescription: formValues.ProblemDescription || null,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceRequest ; 
 	

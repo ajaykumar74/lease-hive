@@ -35,7 +35,6 @@ coveragetypeidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 beneficiarypartyidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsurancePolicyAsset = {} as IInsurancePolicyAsset;
@@ -73,7 +72,6 @@ DeductibleAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 BeneficiaryPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsurancePolicyAsset';
@@ -94,7 +92,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BeneficiaryPartyId', '
       options => this.beneficiarypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyAssetStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -127,7 +124,6 @@ DeductibleAmount: obj.DeductibleAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 BeneficiaryPartyId: obj.BeneficiaryPartyId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -166,7 +162,6 @@ DeductibleAmount: obj.DeductibleAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 BeneficiaryPartyId: obj.BeneficiaryPartyId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -197,7 +192,7 @@ DeductibleAmount: formValues.DeductibleAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 BeneficiaryPartyId: formValues.BeneficiaryPartyId || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsurancePolicyAsset ; 
 	

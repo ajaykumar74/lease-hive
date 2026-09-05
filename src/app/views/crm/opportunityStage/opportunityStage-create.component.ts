@@ -27,7 +27,6 @@ export class OpportunityStageCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   opportunityStage: IOpportunityStage = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IOpportunityStage = {} as IOpportunityStage;
@@ -60,12 +59,10 @@ DefaultProbabilityPct: new FormControl(0, [Validators.min(0), Validators.max(255
 IsWon: new FormControl(false, []),
 IsLost: new FormControl(false, []),
 SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -93,7 +90,6 @@ DefaultProbabilityPct: obj.DefaultProbabilityPct || 0,
 IsWon:  obj.IsWon || false,
 IsLost:  obj.IsLost || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -129,7 +125,6 @@ DefaultProbabilityPct: obj.DefaultProbabilityPct || 0,
 IsWon:  obj.IsWon || false,
 IsLost:  obj.IsLost || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -153,11 +148,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
       RowVersionStr : this.objMaster.RowVersionStr,
      StageCode: formValues.StageCode || null,
 StageName: formValues.StageName || null,
-DefaultProbabilityPct: formValues.DefaultProbabilityPct || null,
+DefaultProbabilityPct: formValues.DefaultProbabilityPct || 0,
 IsWon: formValues.IsWon || false,
 IsLost: formValues.IsLost || false,
-SortOrder: formValues.SortOrder || null,
-RecordStatus: formValues.RecordStatus || null,
+SortOrder: formValues.SortOrder || 0,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

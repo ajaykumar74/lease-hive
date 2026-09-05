@@ -31,7 +31,6 @@ export class OpportunityCreateComponent implements OnInit {
     owneruseridOptions: ISelectItem[] = [];
     opportunitystageidOptions: ISelectItem[] = [];
     currencycodeOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: IOpportunity = {} as IOpportunity;
@@ -65,7 +64,6 @@ export class OpportunityCreateComponent implements OnInit {
             ExpectedCloseDate: new FormControl(new Date(), []),
             LostReasonCode: new FormControl('', [Validators.maxLength(100)]),
             ClosedOn: new FormControl(new Date(), []),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
@@ -78,7 +76,6 @@ export class OpportunityCreateComponent implements OnInit {
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.owneruseridOptions = options));
         this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -114,7 +111,6 @@ export class OpportunityCreateComponent implements OnInit {
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
             LostReasonCode: obj.LostReasonCode || '',
             ClosedOn: obj.ClosedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
@@ -151,7 +147,6 @@ export class OpportunityCreateComponent implements OnInit {
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
             LostReasonCode: obj.LostReasonCode || '',
             ClosedOn: obj.ClosedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
@@ -179,11 +174,11 @@ export class OpportunityCreateComponent implements OnInit {
             OpportunityName: formValues.OpportunityName || null,
             EstimatedAmount: Number(formValues.EstimatedAmount) || 0,
             CurrencyCode: formValues.CurrencyCode || null,
-            ProbabilityPct: formValues.ProbabilityPct || null,
+            ProbabilityPct: formValues.ProbabilityPct || 0,
             ExpectedCloseDate: formValues.ExpectedCloseDate || null,
             LostReasonCode: formValues.LostReasonCode || null,
             ClosedOn: formValues.ClosedOn || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null,
             Description: formValues.Description || null

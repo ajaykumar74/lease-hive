@@ -175,7 +175,7 @@ ApprovalRequestId: obj.ApprovalRequestId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 TerminationNo:  formValues.TerminationNo || null,
 TerminationTypeCode:  formValues.TerminationTypeCode || null,
 RequestedDate:  formValues.RequestedDate || null,
@@ -184,7 +184,7 @@ ActualTerminationDate:  formValues.ActualTerminationDate || null,
 ReasonCode:  formValues.ReasonCode || null,
 Reason:  formValues.Reason || null,
 TerminationStatusCode:  formValues.TerminationStatusCode || null,
-ApprovalRequestId:  formValues.ApprovalRequestId || null,
+ApprovalRequestId:  formValues.ApprovalRequestId || 0,
 
     } as IContractTermination ;
 	

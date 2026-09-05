@@ -27,7 +27,6 @@ export class InsuranceCoverageTypeCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   insuranceCoverageType: IInsuranceCoverageType = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceCoverageType = {} as IInsuranceCoverageType;
@@ -59,11 +58,9 @@ CoverageTypeName: new FormControl('', [Validators.required, Validators.maxLength
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceCoverageType';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -90,7 +87,6 @@ CoverageTypeName: obj.CoverageTypeName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -123,7 +119,6 @@ CoverageTypeName: obj.CoverageTypeName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -148,7 +143,7 @@ CoverageTypeName: formValues.CoverageTypeName || null,
 Description: formValues.Description || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceCoverageType ; 
 	

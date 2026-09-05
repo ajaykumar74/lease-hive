@@ -246,7 +246,7 @@ export class PartyEditComponent implements OnInit {
       WebsiteUrl: formValues.WebsiteUrl || null,
       PreferredCurrencyCode: formValues.PreferredCurrencyCode || null,
       TaxResidencyCountryCode: formValues.TaxResidencyCountryCode || null,
-      IsRelatedParty: formValues.IsRelatedParty || null,
+      IsRelatedParty: formValues.IsRelatedParty || false,
       RiskClassification: formValues.RiskClassification || null,
       OnboardingStatus: formValues.OnboardingStatus || null,
       RecordStatus: formValues.RecordStatus || null,

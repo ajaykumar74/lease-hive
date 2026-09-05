@@ -147,15 +147,15 @@ export class CreditConditionEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditDecisionId: formValues.CreditDecisionId || null,
+            CreditDecisionId: formValues.CreditDecisionId || 0,
             ConditionType: formValues.ConditionType || null,
             ConditionText: formValues.ConditionText || null,
-            IsPrecedent: formValues.IsPrecedent || null,
+            IsPrecedent: formValues.IsPrecedent || false,
             DueDate: formValues.DueDate || null,
             ConditionStatus: formValues.ConditionStatus || null,
             SatisfiedOn: formValues.SatisfiedOn || null,
             EvidenceDocumentId: formValues.EvidenceDocumentId || null,
-            VerifiedBy: formValues.VerifiedBy || null
+            VerifiedBy: formValues.VerifiedBy || 0
         } as ICreditCondition;
 
         this.spinner.show();

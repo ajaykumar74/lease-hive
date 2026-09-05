@@ -28,7 +28,6 @@ export class InsuranceClaimStatusCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   insuranceClaimStatus: IInsuranceClaimStatus = null;
   statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceClaimStatus = {} as IInsuranceClaimStatus;
@@ -60,12 +59,10 @@ StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), 
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceClaimStatus';
     this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceClaimStatusStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -92,7 +89,6 @@ StatusName: obj.StatusName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -125,7 +121,6 @@ StatusName: obj.StatusName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,7 +145,7 @@ StatusName: formValues.StatusName || null,
 Description: formValues.Description || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceClaimStatus ; 
 	

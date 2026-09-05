@@ -32,7 +32,6 @@ export class EndOfLeaseNoticeCreateComponent implements OnInit {
 noticetypecodeOptions: ISelectItem[] = [];
 deliverychannelcodeOptions: ISelectItem[] = [];
 customerresponsecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseNotice = {} as IEndOfLeaseNotice;
@@ -67,7 +66,6 @@ DeliveredAt: new FormControl(new Date(), []),
 ResponseDueDate: new FormControl(new Date(), []),
 CustomerResponseCode: new FormControl('', [Validators.maxLength(20), ]), 
 ResponseAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseNotice';
@@ -77,7 +75,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.noticetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseNoticeNoticeTypeCode');
 this.deliverychannelcodeOptions = this.loggedInUserService.getPicklistOptions('DeliveryChannelCode');
 this.customerresponsecodeOptions = this.loggedInUserService.getPicklistOptions('CustomerResponseCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -107,7 +104,6 @@ DeliveredAt:  obj.DeliveredAt || new Date(),
 ResponseDueDate:  obj.ResponseDueDate || new Date(),
 CustomerResponseCode: obj.CustomerResponseCode || '',
 ResponseAt:  obj.ResponseAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -143,7 +139,6 @@ DeliveredAt:  obj.DeliveredAt || new Date(),
 ResponseDueDate:  obj.ResponseDueDate || new Date(),
 CustomerResponseCode: obj.CustomerResponseCode || '',
 ResponseAt:  obj.ResponseAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -171,7 +166,7 @@ DeliveredAt: formValues.DeliveredAt || null,
 ResponseDueDate: formValues.ResponseDueDate || null,
 CustomerResponseCode: formValues.CustomerResponseCode || null,
 ResponseAt: formValues.ResponseAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseNotice ; 
 	

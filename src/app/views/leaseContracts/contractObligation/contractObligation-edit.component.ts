@@ -172,7 +172,7 @@ TargetModuleCode: obj.TargetModuleCode || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 ObligationTypeCode:  formValues.ObligationTypeCode || null,
 ResponsiblePartyCode:  formValues.ResponsiblePartyCode || null,
 Description:  formValues.Description || null,

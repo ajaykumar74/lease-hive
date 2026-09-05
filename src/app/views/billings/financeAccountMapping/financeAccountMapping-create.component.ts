@@ -30,7 +30,6 @@ export class FinanceAccountMappingCreateComponent implements OnInit {
   financeAccountMapping: IFinanceAccountMapping = null;
   organisationidOptions: ISelectItem[] = [];
 taxtypeidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceAccountMapping = {} as IFinanceAccountMapping;
@@ -66,7 +65,6 @@ CreditAccountCode: new FormControl('', [Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Priority: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceAccountMapping';
@@ -75,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       this.entityLookupDestroyRef);
 this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -106,7 +103,6 @@ CreditAccountCode: obj.CreditAccountCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Priority: obj.Priority || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -143,7 +139,6 @@ CreditAccountCode: obj.CreditAccountCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
 Priority: obj.Priority || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -171,8 +166,8 @@ DebitAccountCode: formValues.DebitAccountCode || null,
 CreditAccountCode: formValues.CreditAccountCode || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-Priority: formValues.Priority || null,
-RecordStatus: formValues.RecordStatus || null,
+Priority: formValues.Priority || 0,
+RecordStatus: 'Active',
 
     } as IFinanceAccountMapping ; 
 	

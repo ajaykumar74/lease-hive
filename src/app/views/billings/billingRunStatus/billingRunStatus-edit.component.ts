@@ -150,7 +150,7 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      StatusCode:  formValues.StatusCode || null,
 StatusName:  formValues.StatusName || null,
-IsFinal:  formValues.IsFinal || null,
+IsFinal:  formValues.IsFinal || false,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IBillingRunStatus ;

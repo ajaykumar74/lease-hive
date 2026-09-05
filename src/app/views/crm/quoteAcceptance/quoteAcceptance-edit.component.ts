@@ -145,13 +145,13 @@ export class QuoteAcceptanceEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            QuoteId: formValues.QuoteId || null,
+            QuoteId: formValues.QuoteId || 0,
             DecisionCode: formValues.DecisionCode || null,
             DecisionDateTime: formValues.DecisionDateTime || null,
             AcceptedByName: formValues.AcceptedByName || null,
-            AcceptedByPartyContactId: formValues.AcceptedByPartyContactId || null,
+            AcceptedByPartyContactId: formValues.AcceptedByPartyContactId || 0,
             AcceptanceMethodCode: formValues.AcceptanceMethodCode || null,
-            DocumentId: formValues.DocumentId || null,
+            DocumentId: formValues.DocumentId || 0,
             Remarks: formValues.Remarks || null
         } as IQuoteAcceptance;
 

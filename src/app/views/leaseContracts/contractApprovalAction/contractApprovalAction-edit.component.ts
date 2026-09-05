@@ -168,13 +168,13 @@ DelegatedFromUserId: obj.DelegatedFromUserId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     ContractApprovalRequestId:  formValues.ContractApprovalRequestId || null,
-StepNo:  formValues.StepNo || null,
-ApproverUserId:  formValues.ApproverUserId || null,
+     ContractApprovalRequestId:  formValues.ContractApprovalRequestId || 0,
+StepNo:  formValues.StepNo || 0,
+ApproverUserId:  formValues.ApproverUserId || 0,
 ActionCode:  formValues.ActionCode || null,
 ActionDateTime:  formValues.ActionDateTime || null,
 Comments:  formValues.Comments || null,
-DelegatedFromUserId:  formValues.DelegatedFromUserId || null,
+DelegatedFromUserId:  formValues.DelegatedFromUserId || 0,
 
     } as IContractApprovalAction ;
 	

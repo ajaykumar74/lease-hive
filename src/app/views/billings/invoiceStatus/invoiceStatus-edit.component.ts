@@ -150,7 +150,7 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      StatusCode:  formValues.StatusCode || null,
 StatusName:  formValues.StatusName || null,
-IsIssuedState:  formValues.IsIssuedState || null,
+IsIssuedState:  formValues.IsIssuedState || false,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IInvoiceStatus ;

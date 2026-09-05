@@ -174,7 +174,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       ResourceName: formValues.ResourceName || null,
       ActionName: formValues.ActionName || null,
       Description: formValues.Description || null,
-      IsSensitive: formValues.IsSensitive || null,
+      IsSensitive: formValues.IsSensitive || false,
       RecordStatus: formValues.RecordStatus || null,
       EffectiveFrom: formValues.EffectiveFrom || null,
       EffectiveTo: formValues.EffectiveTo || null,

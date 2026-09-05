@@ -33,7 +33,6 @@ transactiontypeOptions: ISelectItem[] = [];
 paymentreceiptidOptions: ISelectItem[] = [];
 receivableidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDepositTransaction = {} as IDepositTransaction;
@@ -69,7 +68,6 @@ ReceivableId: new FormControl(0, [Validators.min(-2147483648), Validators.max(21
 ReferenceType: new FormControl('', [Validators.maxLength(30), ]), 
 ReferenceId: new FormControl(0, []),
 ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DepositTransaction';
@@ -86,7 +84,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivableId', 'receiv
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
       options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -117,7 +114,6 @@ ReceivableId: obj.ReceivableId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -154,7 +150,6 @@ ReceivableId: obj.ReceivableId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,9 +176,9 @@ Amount: formValues.Amount || 0,
 PaymentReceiptId: formValues.PaymentReceiptId || 0,
 ReceivableId: formValues.ReceivableId || 0,
 ReferenceType: formValues.ReferenceType || null,
-ReferenceId: formValues.ReferenceId || null,
+ReferenceId: formValues.ReferenceId || 0,
 ApprovalRequestId: formValues.ApprovalRequestId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDepositTransaction ; 
 	

@@ -31,7 +31,6 @@ export class BankStatementLineCreateComponent implements OnInit {
   bankstatementidOptions: ISelectItem[] = [];
 matchedpaymentreceiptidOptions: ISelectItem[] = [];
 matchstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBankStatementLine = {} as IBankStatementLine;
@@ -68,7 +67,6 @@ CreditAmount: new FormControl(0, [Validators.required]),
 MatchedPaymentReceiptId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MatchStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 MatchConfidence: new FormControl(0, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create BankStatementLine';
@@ -79,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedPaymentReceiptI
       options => this.matchedpaymentreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.matchstatusOptions = this.loggedInUserService.getPicklistOptions('MatchStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -111,7 +108,6 @@ CreditAmount: obj.CreditAmount || 0,
 MatchedPaymentReceiptId: obj.MatchedPaymentReceiptId || 0,
 MatchStatus: obj.MatchStatus || '',
 MatchConfidence: obj.MatchConfidence || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -149,7 +145,6 @@ CreditAmount: obj.CreditAmount || 0,
 MatchedPaymentReceiptId: obj.MatchedPaymentReceiptId || 0,
 MatchStatus: obj.MatchStatus || '',
 MatchConfidence: obj.MatchConfidence || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +174,7 @@ CreditAmount: formValues.CreditAmount || 0,
 MatchedPaymentReceiptId: formValues.MatchedPaymentReceiptId || 0,
 MatchStatus: formValues.MatchStatus || null,
 MatchConfidence: formValues.MatchConfidence || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IBankStatementLine ; 
 	

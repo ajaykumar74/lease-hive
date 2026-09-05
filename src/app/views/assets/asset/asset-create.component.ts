@@ -40,7 +40,6 @@ currentpartylocationidOptions: ISelectItem[] = [];
 acquisitioncurrencycodeOptions: ISelectItem[] = [];
 AssetStatusIdOptions: ISelectItem[] = [];
 conditiongradecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAsset = {} as IAsset;
@@ -88,7 +87,6 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
   AcquisitionCost: new FormControl(0, []),
     ResidualValueAmount: new FormControl(0, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
@@ -123,7 +121,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetStatusId', 'asset
       options => this.AssetStatusIdOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.conditiongradecodeOptions.push({Text: 'Condition1', Value: 'Condition1' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -164,7 +161,6 @@ ConditionGradeCode: obj.ConditionGradeCode || '',
 IsLeaseable:  obj.IsLeaseable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -211,7 +207,6 @@ ConditionGradeCode: obj.ConditionGradeCode || '',
 IsLeaseable:  obj.IsLeaseable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -245,14 +240,14 @@ PrimarySerialNo: formValues.PrimarySerialNo || null,
 AcquisitionDate: formValues.AcquisitionDate || null,
 InServiceDate: formValues.InServiceDate || null,
 AcquisitionCurrencyCode: formValues.AcquisitionCurrencyCode || null,
-AcquisitionCost: formValues.AcquisitionCost || null,
-ResidualValueAmount: formValues.ResidualValueAmount || null,
-AssetStatusId: formValues.AssetStatusId || null,
+AcquisitionCost: formValues.AcquisitionCost || 0,
+ResidualValueAmount: formValues.ResidualValueAmount || 0,
+AssetStatusId: formValues.AssetStatusId || 0,
 ConditionGradeCode: formValues.ConditionGradeCode || null,
 IsLeaseable: formValues.IsLeaseable || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAsset ; 
 	

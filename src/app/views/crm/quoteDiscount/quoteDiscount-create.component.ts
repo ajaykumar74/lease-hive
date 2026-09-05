@@ -141,7 +141,7 @@ export class QuoteDiscountCreateComponent implements OnInit {
             QuoteId: formValues.QuoteId || 0,
             QuoteAssetId: formValues.QuoteAssetId || 0,
             DiscountTypeCode: formValues.DiscountTypeCode || null,
-            DiscountValue: formValues.DiscountValue || null,
+            DiscountValue: formValues.DiscountValue || 0,
             DiscountAmount: formValues.DiscountAmount || 0,
             ReasonCode: formValues.ReasonCode || null,
             ApprovalRequestId: formValues.ApprovalRequestId || 0,

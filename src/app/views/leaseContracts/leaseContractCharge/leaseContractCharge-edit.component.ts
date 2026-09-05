@@ -171,16 +171,16 @@ IsCapitalised:  obj.IsCapitalised || false,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 ChargeTypeCode:  formValues.ChargeTypeCode || null,
 ChargeDescription:  formValues.ChargeDescription || null,
-ChargeAmount:  formValues.ChargeAmount || null,
+ChargeAmount:  formValues.ChargeAmount || 0,
 CurrencyCode:  formValues.CurrencyCode || null,
-TaxType:  formValues.TaxType || null,
-TaxAmount:  formValues.TaxAmount || null,
+TaxType:  formValues.TaxType || 0,
+TaxAmount:  formValues.TaxAmount || 0,
 FrequencyCode:  formValues.FrequencyCode || null,
 DueEventCode:  formValues.DueEventCode || null,
-IsCapitalised:  formValues.IsCapitalised || null,
+IsCapitalised:  formValues.IsCapitalised || false,
 
     } as ILeaseContractCharge ;
 	

@@ -172,15 +172,15 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     OrganisationId:  formValues.OrganisationId || null,
+     OrganisationId:  formValues.OrganisationId || 0,
 EventType:  formValues.EventType || null,
 ChargeTypeCode:  formValues.ChargeTypeCode || null,
-TaxTypeId:  formValues.TaxTypeId || null,
+TaxTypeId:  formValues.TaxTypeId || 0,
 DebitAccountCode:  formValues.DebitAccountCode || null,
 CreditAccountCode:  formValues.CreditAccountCode || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
-Priority:  formValues.Priority || null,
+Priority:  formValues.Priority || 0,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IFinanceAccountMapping ;

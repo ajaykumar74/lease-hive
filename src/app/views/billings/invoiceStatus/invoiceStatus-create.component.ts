@@ -28,7 +28,6 @@ export class InvoiceStatusCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   invoiceStatus: IInvoiceStatus = null;
   statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInvoiceStatus = {} as IInvoiceStatus;
@@ -58,12 +57,10 @@ recordstatusOptions: ISelectItem[] = [];
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
 IsIssuedState: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InvoiceStatus';
     this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceStatusStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -88,7 +85,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 IsIssuedState:  obj.IsIssuedState || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -119,7 +115,6 @@ RecordStatus: obj.RecordStatus || '',
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 IsIssuedState:  obj.IsIssuedState || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -142,7 +137,7 @@ RecordStatus: obj.RecordStatus || '',
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 IsIssuedState: formValues.IsIssuedState || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInvoiceStatus ; 
 	

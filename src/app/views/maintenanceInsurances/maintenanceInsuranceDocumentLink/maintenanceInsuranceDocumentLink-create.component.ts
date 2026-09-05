@@ -30,7 +30,6 @@ export class MaintenanceInsuranceDocumentLinkCreateComponent implements OnInit {
   referencetypecodeOptions: ISelectItem[] = [];
 documentidOptions: ISelectItem[] = [];
 documentrolecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceInsuranceDocumentLink = {} as IMaintenanceInsuranceDocumentLink;
@@ -62,7 +61,6 @@ ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648
 DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DocumentRoleCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IsPrimary: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceInsuranceDocumentLink';
@@ -70,7 +68,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 this.documentrolecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceDocumentLinkDocumentRoleCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -97,7 +94,6 @@ ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
 IsPrimary:  obj.IsPrimary || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -130,7 +126,6 @@ ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
 IsPrimary:  obj.IsPrimary || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -155,7 +150,7 @@ ReferenceId: formValues.ReferenceId || 0,
 DocumentId: formValues.DocumentId || 0,
 DocumentRoleCode: formValues.DocumentRoleCode || null,
 IsPrimary: formValues.IsPrimary || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceInsuranceDocumentLink ; 
 	

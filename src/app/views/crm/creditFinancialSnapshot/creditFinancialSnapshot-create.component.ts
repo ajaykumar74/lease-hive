@@ -144,7 +144,7 @@ export class CreditFinancialSnapshotCreateComponent implements OnInit {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
             CreditAssessmentId: formValues.CreditAssessmentId || 0,
-            FinancialPeriodEnd: formValues.FinancialPeriodEnd || null,
+            FinancialPeriodEnd: formValues.FinancialPeriodEnd || 0,
             CurrencyId: formValues.CurrencyId || null,
             RevenueAmount: formValues.RevenueAmount || 0,
             EBITDAAmount: formValues.EBITDAAmount || 0,

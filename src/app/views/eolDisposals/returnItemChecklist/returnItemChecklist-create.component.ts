@@ -30,7 +30,6 @@ export class ReturnItemChecklistCreateComponent implements OnInit {
   returnItemChecklist: IReturnItemChecklist = null;
   assetreturnidOptions: ISelectItem[] = [];
 conditioncodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReturnItemChecklist = {} as IReturnItemChecklist;
@@ -65,7 +64,6 @@ ExpectedQuantity: new FormControl(0, [Validators.required, Validators.min(-21474
 ReturnedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 ConditionCode: new FormControl('', [Validators.maxLength(20), ]), 
 ChargeableFlag: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ReturnItemChecklist';
@@ -73,7 +71,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       options => this.assetreturnidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('ConditionCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ ExpectedQuantity: obj.ExpectedQuantity || 0,
 ReturnedQuantity: obj.ReturnedQuantity || 0,
 ConditionCode: obj.ConditionCode || '',
 ChargeableFlag:  obj.ChargeableFlag || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -139,7 +135,6 @@ ExpectedQuantity: obj.ExpectedQuantity || 0,
 ReturnedQuantity: obj.ReturnedQuantity || 0,
 ConditionCode: obj.ConditionCode || '',
 ChargeableFlag:  obj.ChargeableFlag || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -160,14 +155,14 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      AssetReturnId: formValues.AssetReturnId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 ItemCode: formValues.ItemCode || null,
 ItemDescription: formValues.ItemDescription || null,
 ExpectedQuantity: formValues.ExpectedQuantity || 0,
 ReturnedQuantity: formValues.ReturnedQuantity || 0,
 ConditionCode: formValues.ConditionCode || null,
 ChargeableFlag: formValues.ChargeableFlag || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IReturnItemChecklist ; 
 	

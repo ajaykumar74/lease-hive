@@ -147,14 +147,14 @@ export class QuoteChargeEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            QuoteId: formValues.QuoteId || null,
-            QuoteAssetId: formValues.QuoteAssetId || null,
+            QuoteId: formValues.QuoteId || 0,
+            QuoteAssetId: formValues.QuoteAssetId || 0,
             ChargeType: formValues.ChargeType || null,
             ChargeDescription: formValues.ChargeDescription || null,
             CalculationTypeCode: formValues.CalculationTypeCode || null,
-            RateOrAmount: formValues.RateOrAmount || null,
-            ChargeAmount: formValues.ChargeAmount || null,
-            IsRecurring: formValues.IsRecurring || null,
+            RateOrAmount: formValues.RateOrAmount || 0,
+            ChargeAmount: formValues.ChargeAmount || 0,
+            IsRecurring: formValues.IsRecurring || false,
             TaxCode: formValues.TaxCode || null
         } as IQuoteCharge;
 

@@ -32,7 +32,6 @@ export class DisposalOfferCreateComponent implements OnInit {
 buyerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalOffer = {} as IDisposalOffer;
@@ -67,7 +66,6 @@ OfferAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ValidUntil: new FormControl(new Date(), []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalOffer';
@@ -79,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyerPartyId', 'partie
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalOfferStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ OfferAmount: obj.OfferAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ValidUntil:  obj.ValidUntil || new Date(),
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -145,7 +141,6 @@ OfferAmount: obj.OfferAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ValidUntil:  obj.ValidUntil || new Date(),
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +168,7 @@ OfferAmount: formValues.OfferAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 ValidUntil: formValues.ValidUntil || null,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalOffer ; 
 	

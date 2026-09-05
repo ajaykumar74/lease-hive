@@ -28,7 +28,6 @@ export class ReceiptStatusCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   receiptStatus: IReceiptStatus = null;
   statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReceiptStatus = {} as IReceiptStatus;
@@ -57,12 +56,10 @@ recordstatusOptions: ISelectItem[] = [];
      Id: new FormControl(0, []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ReceiptStatus';
     this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptStatusStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -86,7 +83,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	   Id: obj.Id || 0,
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -116,7 +112,6 @@ RecordStatus: obj.RecordStatus || '',
 	   Id: obj.Id || 0,
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -138,7 +133,7 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IReceiptStatus ; 
 	

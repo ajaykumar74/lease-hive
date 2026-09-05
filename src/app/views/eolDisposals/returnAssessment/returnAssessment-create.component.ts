@@ -33,7 +33,6 @@ assetreturnidOptions: ISelectItem[] = [];
 assessedbyuseridOptions: ISelectItem[] = [];
 returninspectionidOptions: ISelectItem[] = [];
 assessmentstatuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReturnAssessment = {} as IReturnAssessment;
@@ -70,7 +69,6 @@ ActualUsageValue: new FormControl(0, []),
 ExcessUsageValue: new FormControl(0, []),
 ReturnInspectionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssessmentStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ReturnAssessment';
@@ -87,7 +85,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnInspectionId', '
       options => this.returninspectionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.assessmentstatuscodeOptions = this.loggedInUserService.getPicklistOptions('AssessmentStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -119,7 +116,6 @@ ActualUsageValue: obj.ActualUsageValue || 0,
 ExcessUsageValue: obj.ExcessUsageValue || 0,
 ReturnInspectionId: obj.ReturnInspectionId || 0,
 AssessmentStatusCode: obj.AssessmentStatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -157,7 +153,6 @@ ActualUsageValue: obj.ActualUsageValue || 0,
 ExcessUsageValue: obj.ExcessUsageValue || 0,
 ReturnInspectionId: obj.ReturnInspectionId || 0,
 AssessmentStatusCode: obj.AssessmentStatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -187,7 +182,7 @@ ActualUsageValue: formValues.ActualUsageValue || 0,
 ExcessUsageValue: formValues.ExcessUsageValue || 0,
 ReturnInspectionId: formValues.ReturnInspectionId || 0,
 AssessmentStatusCode: formValues.AssessmentStatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IReturnAssessment ; 
 	

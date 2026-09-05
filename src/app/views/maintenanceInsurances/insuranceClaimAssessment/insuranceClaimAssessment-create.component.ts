@@ -32,7 +32,6 @@ export class InsuranceClaimAssessmentCreateComponent implements OnInit {
 assessorpartyidOptions: ISelectItem[] = [];
 repairabilitycodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceClaimAssessment = {} as IInsuranceClaimAssessment;
@@ -69,7 +68,6 @@ RepairabilityCode: new FormControl('', [Validators.maxLength(20), ]),
 SalvageValue: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AssessmentSummary: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceClaimAssessment';
@@ -81,7 +79,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssessorPartyId', 'par
       this.entityLookupDestroyRef);
 this.repairabilitycodeOptions = this.loggedInUserService.getPicklistOptions('RepairabilityCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -113,7 +110,6 @@ RepairabilityCode: obj.RepairabilityCode || '',
 SalvageValue: obj.SalvageValue || 0,
 CurrencyCode: obj.CurrencyCode || '',
 AssessmentSummary: obj.AssessmentSummary || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -151,7 +147,6 @@ RepairabilityCode: obj.RepairabilityCode || '',
 SalvageValue: obj.SalvageValue || 0,
 CurrencyCode: obj.CurrencyCode || '',
 AssessmentSummary: obj.AssessmentSummary || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,7 +176,7 @@ RepairabilityCode: formValues.RepairabilityCode || null,
 SalvageValue: formValues.SalvageValue || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 AssessmentSummary: formValues.AssessmentSummary || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceClaimAssessment ; 
 	

@@ -192,7 +192,7 @@ UOMId: formValues.UOMId || 0,
 AllocationStatusCode: formValues.AllocationStatusCode || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-AssetValueSnapshot: formValues.AssetValueSnapshot || null,
+AssetValueSnapshot: formValues.AssetValueSnapshot || 0,
 SerialSnapshot: formValues.SerialSnapshot || null,
 
     } as ILeaseContractAsset ; 

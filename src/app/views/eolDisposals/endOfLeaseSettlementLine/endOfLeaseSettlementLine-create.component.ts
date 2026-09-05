@@ -32,7 +32,6 @@ export class EndOfLeaseSettlementLineCreateComponent implements OnInit {
 settlementchargetypeidOptions: ISelectItem[] = [];
 sourcetypecodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseSettlementLine = {} as IEndOfLeaseSettlementLine;
@@ -70,7 +69,6 @@ RateAmount: new FormControl(0, []),
 LineAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 WaivedAmount: new FormControl(0, []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseSettlementLine';
@@ -82,7 +80,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SettlementChargeTypeId
       this.entityLookupDestroyRef);
 this.sourcetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseSettlementLineSourceTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ RateAmount: obj.RateAmount || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 WaivedAmount: obj.WaivedAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -154,7 +150,6 @@ RateAmount: obj.RateAmount || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 WaivedAmount: obj.WaivedAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -175,7 +170,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      EndOfLeaseSettlementId: formValues.EndOfLeaseSettlementId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 SettlementChargeTypeId: formValues.SettlementChargeTypeId || 0,
 SourceTypeCode: formValues.SourceTypeCode || null,
 SourceId: formValues.SourceId || 0,
@@ -185,7 +180,7 @@ RateAmount: formValues.RateAmount || 0,
 LineAmount: formValues.LineAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 WaivedAmount: formValues.WaivedAmount || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseSettlementLine ; 
 	

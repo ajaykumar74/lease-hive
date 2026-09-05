@@ -150,11 +150,11 @@ export class ApprovalRequestEditComponent implements OnInit {
             RowVersionStr: this.objMaster.RowVersionStr,
             FeatureCode: formValues.FeatureCode || null,
             ReferenceType: formValues.ReferenceType || null,
-            ReferenceId: formValues.ReferenceId || null,
-            WorkflowDefinitionId: formValues.WorkflowDefinitionId || null,
-            RequestedBy: formValues.RequestedBy || null,
+            ReferenceId: formValues.ReferenceId || 0,
+            WorkflowDefinitionId: formValues.WorkflowDefinitionId || 0,
+            RequestedBy: formValues.RequestedBy || 0,
             RequestedOn: formValues.RequestedOn || null,
-            RequestedAmount: formValues.RequestedAmount || null,
+            RequestedAmount: formValues.RequestedAmount || 0,
             CurrencyId: formValues.CurrencyId || null,
             ApprovalStatus: formValues.ApprovalStatus || null
         } as IApprovalRequest;

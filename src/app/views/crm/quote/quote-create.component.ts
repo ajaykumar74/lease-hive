@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { QuoteService } from './quote.service';
     providers: [MessageService]
 })
 export class QuoteCreateComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     permission = {} as IPermission;
@@ -31,7 +32,6 @@ export class QuoteCreateComponent implements OnInit {
     quotestatusidOptions: ISelectItem[] = [];
     currencycodeOptions: ISelectItem[] = [];
     billingfrequencyOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: IQuote = {} as IQuote;
@@ -73,7 +73,6 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: new FormControl(new Date(), []),
             SupersedesQuoteId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             Remarks: new FormControl('', [Validators.maxLength(100)]),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
@@ -82,10 +81,16 @@ export class QuoteCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('lease-requirements').subscribe((options) => (this.leaserequirementidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('quote-statuses').subscribe((options) => (this.quotestatusidOptions = options));
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'QuoteStatusId',
+            'quote-statuses',
+            (options) => (this.quotestatusidOptions = options),
+            (error) => setTimeout(() => this.messageService?.showError(error)),
+            this.entityLookupDestroyRef
+        );
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.billingfrequencyOptions = this.loggedInUserService.getPicklistOptions('BillingFrequency');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -129,7 +134,6 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: obj.AcceptedOn || new Date(),
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -173,7 +177,6 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: obj.AcceptedOn || new Date(),
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -191,7 +194,7 @@ export class QuoteCreateComponent implements OnInit {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            QuoteGroupNo: formValues.QuoteGroupNo || null,
+            QuoteGroupNo: formValues.QuoteGroupNo || 0,
             VersionNo: formValues.VersionNo || null,
             OpportunityId: formValues.OpportunityId || 0,
             LeaseRequirementId: formValues.LeaseRequirementId || 0,
@@ -201,7 +204,7 @@ export class QuoteCreateComponent implements OnInit {
             QuoteDate: formValues.QuoteDate || null,
             ValidUntil: formValues.ValidUntil || null,
             CurrencyCode: formValues.CurrencyCode || null,
-            RequestedTermMonths: formValues.RequestedTermMonths || null,
+            RequestedTermMonths: formValues.RequestedTermMonths || 0,
             BillingFrequency: formValues.BillingFrequency || null,
             SubtotalAmount: formValues.SubtotalAmount || 0,
             TaxAmount: formValues.TaxAmount || 0,
@@ -212,7 +215,7 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: formValues.AcceptedOn || null,
             SupersedesQuoteId: formValues.SupersedesQuoteId || 0,
             Remarks: formValues.Remarks || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null
         } as IQuote;

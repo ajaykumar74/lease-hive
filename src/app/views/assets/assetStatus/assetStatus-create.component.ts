@@ -27,7 +27,6 @@ export class AssetStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Create Asset Status';
   assetStatus: IAssetStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetStatus = {} as IAssetStatus;
@@ -61,10 +60,8 @@ IsTerminal: new FormControl(false, [Validators.required]),
 SortOrder: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -93,7 +90,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -128,7 +124,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,10 +147,10 @@ RecordStatus: obj.RecordStatus || '',
 StatusName: formValues.StatusName || null,
 IsLeaseable: formValues.IsLeaseable || false,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
+SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetStatus ; 
 	

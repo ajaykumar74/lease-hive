@@ -35,7 +35,6 @@ billingorganisationidOptions: ISelectItem[] = [];
 deposittypecodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 depositstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerDeposit = {} as ICustomerDeposit;
@@ -75,7 +74,6 @@ RefundedAmount: new FormControl(0, [Validators.required]),
 ForfeitedAmount: new FormControl(0, [Validators.required]),
 AvailableBalance: new FormControl(0, [Validators.required]),
 DepositStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CustomerDeposit';
@@ -94,7 +92,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingOrganisationId'
 this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.depositstatusOptions = this.loggedInUserService.getPicklistOptions('DepositStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -129,7 +126,6 @@ RefundedAmount: obj.RefundedAmount || 0,
 ForfeitedAmount: obj.ForfeitedAmount || 0,
 AvailableBalance: obj.AvailableBalance || 0,
 DepositStatus: obj.DepositStatus || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -170,7 +166,6 @@ RefundedAmount: obj.RefundedAmount || 0,
 ForfeitedAmount: obj.ForfeitedAmount || 0,
 AvailableBalance: obj.AvailableBalance || 0,
 DepositStatus: obj.DepositStatus || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -203,7 +198,7 @@ RefundedAmount: formValues.RefundedAmount || 0,
 ForfeitedAmount: formValues.ForfeitedAmount || 0,
 AvailableBalance: formValues.AvailableBalance || 0,
 DepositStatus: formValues.DepositStatus || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICustomerDeposit ; 
 	

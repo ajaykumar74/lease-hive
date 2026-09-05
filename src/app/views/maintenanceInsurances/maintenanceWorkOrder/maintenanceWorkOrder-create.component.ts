@@ -40,7 +40,6 @@ responsibleorganisationunitidOptions: ISelectItem[] = [];
 workorderstatuscodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 insuranceclaimidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceWorkOrder = {} as IMaintenanceWorkOrder;
@@ -86,7 +85,6 @@ ActualAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 CustomerChargeable: new FormControl(false, [Validators.required]),
 InsuranceClaimId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceWorkOrder';
@@ -122,7 +120,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
       options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -163,7 +160,6 @@ ActualAmount: obj.ActualAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 CustomerChargeable:  obj.CustomerChargeable || false,
 InsuranceClaimId: obj.InsuranceClaimId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -210,7 +206,6 @@ ActualAmount: obj.ActualAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 CustomerChargeable:  obj.CustomerChargeable || false,
 InsuranceClaimId: obj.InsuranceClaimId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -249,7 +244,7 @@ ActualAmount: formValues.ActualAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 CustomerChargeable: formValues.CustomerChargeable || false,
 InsuranceClaimId: formValues.InsuranceClaimId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceWorkOrder ; 
 	

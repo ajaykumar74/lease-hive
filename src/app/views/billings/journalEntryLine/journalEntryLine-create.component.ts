@@ -36,7 +36,6 @@ organisationunitidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IJournalEntryLine = {} as IJournalEntryLine;
@@ -77,7 +76,6 @@ LeaseContractId: new FormControl(0, [Validators.min(-2147483648), Validators.max
 AssetId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 TaxCode: new FormControl('', [Validators.maxLength(20), ]), 
 Narration: new FormControl('', [Validators.maxLength(300), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create JournalEntryLine';
@@ -103,7 +101,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -139,7 +136,6 @@ LeaseContractId: obj.LeaseContractId || 0,
 AssetId: obj.AssetId || 0,
 TaxCode: obj.TaxCode || '',
 Narration: obj.Narration || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,7 +177,6 @@ LeaseContractId: obj.LeaseContractId || 0,
 AssetId: obj.AssetId || 0,
 TaxCode: obj.TaxCode || '',
 Narration: obj.Narration || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -202,7 +197,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      JournalEntryId: formValues.JournalEntryId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 GLAccountCode: formValues.GLAccountCode || null,
 DebitAmount: formValues.DebitAmount || 0,
 CreditAmount: formValues.CreditAmount || 0,
@@ -215,7 +210,7 @@ LeaseContractId: formValues.LeaseContractId || 0,
 AssetId: formValues.AssetId || 0,
 TaxCode: formValues.TaxCode || null,
 Narration: formValues.Narration || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IJournalEntryLine ; 
 	

@@ -149,8 +149,8 @@ export class QuotePartySnapshotEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            QuoteId: formValues.QuoteId || null,
-            PartyId: formValues.PartyId || null,
+            QuoteId: formValues.QuoteId || 0,
+            PartyId: formValues.PartyId || 0,
             LegalName: formValues.LegalName || null,
             TaxRegistrationNo: formValues.TaxRegistrationNo || null,
             BillingAddress: formValues.BillingAddress || null,

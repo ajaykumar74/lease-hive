@@ -35,7 +35,6 @@ leasecontractchargeidOptions: ISelectItem[] = [];
 leasecontractassetidOptions: ISelectItem[] = [];
 chargetypecodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerInvoiceLine = {} as ICustomerInvoiceLine;
@@ -77,7 +76,6 @@ UnitPrice: new FormControl(0, [Validators.required]),
 TaxableAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
 LineGrossAmount: new FormControl(0, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CustomerInvoiceLine';
@@ -99,7 +97,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractAssetId',
 this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('CustomerInvoiceLineChargeTypeCode');
 this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
 this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -136,7 +133,6 @@ UnitPrice: obj.UnitPrice || 0,
 TaxableAmount: obj.TaxableAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineGrossAmount: obj.LineGrossAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +175,6 @@ UnitPrice: obj.UnitPrice || 0,
 TaxableAmount: obj.TaxableAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineGrossAmount: obj.LineGrossAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -200,7 +195,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      CustomerInvoiceId: formValues.CustomerInvoiceId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 LeaseContractId: formValues.LeaseContractId || 0,
 LeasePaymentScheduleLineId: formValues.LeasePaymentScheduleLineId || 0,
 LeaseContractChargeId: formValues.LeaseContractChargeId || 0,
@@ -209,14 +204,14 @@ ChargeTypeCode: formValues.ChargeTypeCode || null,
 Description: formValues.Description || null,
 ServicePeriodFrom: formValues.ServicePeriodFrom || null,
 ServicePeriodTo: formValues.ServicePeriodTo || null,
-Quantity: formValues.Quantity || null,
+Quantity: formValues.Quantity || 0,
 UOMId: formValues.UOMId || 0,
 UnitPrice: formValues.UnitPrice || 0,
-DiscountAmount: formValues.DiscountAmount || null,
+DiscountAmount: formValues.DiscountAmount || 0,
 TaxableAmount: formValues.TaxableAmount || 0,
 TaxAmount: formValues.TaxAmount || 0,
 LineGrossAmount: formValues.LineGrossAmount || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICustomerInvoiceLine ; 
 	

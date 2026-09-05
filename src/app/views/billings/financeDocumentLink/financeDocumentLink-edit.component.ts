@@ -160,10 +160,10 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
-DocumentId:  formValues.DocumentId || null,
+ReferenceId:  formValues.ReferenceId || 0,
+DocumentId:  formValues.DocumentId || 0,
 DocumentRole:  formValues.DocumentRole || null,
-IsPrimary:  formValues.IsPrimary || null,
+IsPrimary:  formValues.IsPrimary || false,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IFinanceDocumentLink ;

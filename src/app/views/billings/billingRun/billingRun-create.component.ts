@@ -33,7 +33,6 @@ billingrunstatusidOptions: ISelectItem[] = [];
 runtypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBillingRun = {} as IBillingRun;
@@ -72,7 +71,6 @@ TotalAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 ApprovedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedAtUtc: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create BillingRun';
@@ -87,7 +85,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -121,7 +118,6 @@ TotalAmount: obj.TotalAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -161,7 +157,6 @@ TotalAmount: obj.TotalAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -193,7 +188,7 @@ TotalAmount: formValues.TotalAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 ApprovedAtUtc: formValues.ApprovedAtUtc || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IBillingRun ; 
 	

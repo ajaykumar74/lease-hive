@@ -29,7 +29,6 @@ export class AssetTypeCreateComponent implements OnInit {
   Caption: string = 'Create Asset Type';
   assetType: IAssetType = null;
   assetcategoryidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetType = {} as IAssetType;
@@ -65,13 +64,11 @@ RequiresSerialNo: new FormControl(false, []),
 RequiresRegistrationNo: new FormControl(false, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
       options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {}, 'reference');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -102,7 +99,6 @@ RequiresSerialNo:  obj.RequiresSerialNo || false,
 RequiresRegistrationNo:  obj.RequiresRegistrationNo || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -139,7 +135,6 @@ RequiresSerialNo:  obj.RequiresSerialNo || false,
 RequiresRegistrationNo:  obj.RequiresRegistrationNo || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -162,13 +157,13 @@ RecordStatus: obj.RecordStatus || '',
      AssetCategoryId: formValues.AssetCategoryId || null,
 AssetTypeCode: formValues.AssetTypeCode || null,
 AssetTypeName: formValues.AssetTypeName || null,
-DefaultUsefulLifeMonths: formValues.DefaultUsefulLifeMonths || null,
+DefaultUsefulLifeMonths: formValues.DefaultUsefulLifeMonths || 0,
 DefaultResidualPercent: formValues.DefaultResidualPercent || 0,
 RequiresSerialNo: formValues.RequiresSerialNo || false,
 RequiresRegistrationNo: formValues.RequiresRegistrationNo || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetType ; 
 	

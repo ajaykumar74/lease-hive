@@ -34,7 +34,6 @@ organisationidOptions: ISelectItem[] = [];
 dispositionmethodidOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalCase = {} as IDisposalCase;
@@ -70,7 +69,6 @@ TargetCompletionDate: new FormControl(new Date(), []),
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ClosedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalCase';
@@ -90,7 +88,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'ap
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalCaseStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -121,7 +118,6 @@ TargetCompletionDate:  obj.TargetCompletionDate || new Date(),
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
 ClosedAt:  obj.ClosedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -158,7 +154,6 @@ TargetCompletionDate:  obj.TargetCompletionDate || new Date(),
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
 ClosedAt:  obj.ClosedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -187,7 +182,7 @@ TargetCompletionDate: formValues.TargetCompletionDate || null,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 StatusCode: formValues.StatusCode || null,
 ClosedAt: formValues.ClosedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalCase ; 
 	

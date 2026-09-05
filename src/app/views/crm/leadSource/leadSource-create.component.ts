@@ -27,7 +27,6 @@ export class LeadSourceCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   leadSource: ILeadSource = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ILeadSource = {} as ILeadSource;
@@ -58,12 +57,10 @@ SourceCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 SourceName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 IsDigital: new FormControl(false, []),
 SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -89,7 +86,6 @@ EffectiveTo: new FormControl(new Date(), []),
 SourceName: obj.SourceName || '',
 IsDigital:  obj.IsDigital || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -123,7 +119,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 SourceName: obj.SourceName || '',
 IsDigital:  obj.IsDigital || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -148,8 +143,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      SourceCode: formValues.SourceCode || null,
 SourceName: formValues.SourceName || null,
 IsDigital: formValues.IsDigital || false,
-SortOrder: formValues.SortOrder || null,
-RecordStatus: formValues.RecordStatus || null,
+SortOrder: formValues.SortOrder || 0,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -184,7 +184,7 @@ this.taxsystemOptions = this.loggedInUserService.getPicklistOptions('TaxSystem')
       CountryCode: formValues.CountryCode || null,
       FunctionalCurrency: formValues.FunctionalCurrency || null,
       TimeZoneId: formValues.TimeZoneId || null,
-      FinancialYearStartMonth: formValues.FinancialYearStartMonth || null,
+      FinancialYearStartMonth: formValues.FinancialYearStartMonth || 0,
       TaxSystem: formValues.TaxSystem || null,
       Status: 'Active',
       Description: formValues.Description || null,

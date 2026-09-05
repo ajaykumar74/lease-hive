@@ -30,7 +30,6 @@ export class DebitNoteLineCreateComponent implements OnInit {
   debitNoteLine: IDebitNoteLine = null;
   debitnoteidOptions: ISelectItem[] = [];
 customerinvoicelineidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDebitNoteLine = {} as IDebitNoteLine;
@@ -64,7 +63,6 @@ Quantity: new FormControl(0, [Validators.required]),
 NetAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
 GrossAmount: new FormControl(0, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DebitNoteLine';
@@ -74,7 +72,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceLineId', 'customer-invoice-lines',
       options => this.customerinvoicelineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ Quantity: obj.Quantity || 0,
 NetAmount: obj.NetAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -138,7 +134,6 @@ Quantity: obj.Quantity || 0,
 NetAmount: obj.NetAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -165,7 +160,7 @@ Quantity: formValues.Quantity || 0,
 NetAmount: formValues.NetAmount || 0,
 TaxAmount: formValues.TaxAmount || 0,
 GrossAmount: formValues.GrossAmount || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDebitNoteLine ; 
 	

@@ -35,7 +35,6 @@ leasecontractidOptions: ISelectItem[] = [];
 reasoncodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICreditNote = {} as ICreditNote;
@@ -74,7 +73,6 @@ TaxAmount: new FormControl(0, [Validators.required]),
 GrossAmount: new FormControl(0, [Validators.required]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ExternalEInvoiceRef: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CreditNote';
@@ -93,7 +91,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
 this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('CreditNoteReasonCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('CreditNoteStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -127,7 +124,6 @@ TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
 StatusCode: obj.StatusCode || '',
 ExternalEInvoiceRef: obj.ExternalEInvoiceRef || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,7 +163,6 @@ TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
 StatusCode: obj.StatusCode || '',
 ExternalEInvoiceRef: obj.ExternalEInvoiceRef || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -199,7 +194,7 @@ TaxAmount: formValues.TaxAmount || 0,
 GrossAmount: formValues.GrossAmount || 0,
 StatusCode: formValues.StatusCode || null,
 ExternalEInvoiceRef: formValues.ExternalEInvoiceRef || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICreditNote ; 
 	

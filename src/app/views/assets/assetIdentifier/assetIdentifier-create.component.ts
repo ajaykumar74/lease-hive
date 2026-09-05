@@ -35,7 +35,6 @@ export class AssetIdentifierCreateComponent implements OnInit {
   identifiertypecodeOptions: ISelectItem[] = [];
 issuingcountrycodeOptions: ISelectItem[] = [];
 issuingstatecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetIdentifier = {} as IAssetIdentifier;
@@ -73,7 +72,6 @@ IsPrimary: new FormControl(false, []),
 IsVerified: new FormControl(false, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
@@ -88,7 +86,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.identifiertypecodeOptions.push({Text: '', Value: '' });
 this.issuingcountrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
 this.issuingstatecodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -143,7 +140,6 @@ IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -184,7 +180,6 @@ IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -214,7 +209,7 @@ IsPrimary: formValues.IsPrimary || false,
 IsVerified: formValues.IsVerified || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetIdentifier ; 
 	

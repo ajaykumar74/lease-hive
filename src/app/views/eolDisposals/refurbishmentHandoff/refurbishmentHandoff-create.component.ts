@@ -35,7 +35,6 @@ requestedbyuseridOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 maintenanceworkorderidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IRefurbishmentHandoff = {} as IRefurbishmentHandoff;
@@ -71,7 +70,6 @@ BudgetAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 MaintenanceWorkOrderId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create RefurbishmentHandoff';
@@ -90,7 +88,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId
       options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"AssetId":"AssetId"});
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('RefurbishmentHandoffStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -121,7 +118,6 @@ BudgetAmount: obj.BudgetAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 MaintenanceWorkOrderId: obj.MaintenanceWorkOrderId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -158,7 +154,6 @@ BudgetAmount: obj.BudgetAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 MaintenanceWorkOrderId: obj.MaintenanceWorkOrderId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -187,7 +182,7 @@ BudgetAmount: formValues.BudgetAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 MaintenanceWorkOrderId: formValues.MaintenanceWorkOrderId || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IRefurbishmentHandoff ; 
 	

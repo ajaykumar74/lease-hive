@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditApplicationService } from './creditApplication.service';
     providers: [MessageService]
 })
 export class CreditApplicationCreateComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     permission = {} as IPermission;
@@ -31,7 +32,6 @@ export class CreditApplicationCreateComponent implements OnInit {
     currencycodeOptions: ISelectItem[] = [];
     risksegmentcodeOptions: ISelectItem[] = [];
     assignedanalystuseridOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ICreditApplication = {} as ICreditApplication;
@@ -64,7 +64,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             AssignedAnalystUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             SubmittedOn: new FormControl(new Date(), []),
             DecisionOn: new FormControl(new Date(), []),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
@@ -72,11 +71,17 @@ export class CreditApplicationCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-application-statuses').subscribe((options) => (this.creditapplicationstatusidOptions = options));
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'CreditApplicationStatusId',
+            'credit-application-statuses',
+            (options) => (this.creditapplicationstatusidOptions = options),
+            (error) => setTimeout(() => this.messageService?.showError(error)),
+            this.entityLookupDestroyRef
+        );
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-        this.risksegmentcodeOptions.push({ Text: '', Value: '' });
+        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -111,7 +116,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
             SubmittedOn: obj.SubmittedOn || new Date(),
             DecisionOn: obj.DecisionOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -146,7 +150,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
             SubmittedOn: obj.SubmittedOn || new Date(),
             DecisionOn: obj.DecisionOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -171,12 +174,12 @@ export class CreditApplicationCreateComponent implements OnInit {
             ApplicationDate: formValues.ApplicationDate || null,
             RequestedLimitAmount: formValues.RequestedLimitAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null,
-            RequestedTermMonths: formValues.RequestedTermMonths || null,
+            RequestedTermMonths: formValues.RequestedTermMonths || 0,
             RiskSegmentCode: formValues.RiskSegmentCode || null,
             AssignedAnalystUserId: formValues.AssignedAnalystUserId || 0,
             SubmittedOn: formValues.SubmittedOn || null,
             DecisionOn: formValues.DecisionOn || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null
         } as ICreditApplication;

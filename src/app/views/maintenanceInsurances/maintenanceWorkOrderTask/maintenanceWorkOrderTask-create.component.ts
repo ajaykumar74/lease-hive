@@ -31,7 +31,6 @@ export class MaintenanceWorkOrderTaskCreateComponent implements OnInit {
   maintenanceworkorderidOptions: ISelectItem[] = [];
 taskstatuscodeOptions: ISelectItem[] = [];
 completedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceWorkOrderTask = {} as IMaintenanceWorkOrderTask;
@@ -67,7 +66,6 @@ TaskStatusCode: new FormControl('', [Validators.required, Validators.maxLength(2
 CompletedAt: new FormControl(new Date(), []),
 CompletedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceWorkOrderTask';
@@ -78,7 +76,6 @@ this.taskstatuscodeOptions = this.loggedInUserService.getPicklistOptions('TaskSt
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CompletedByUserId', 'application-users',
       options => this.completedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ TaskStatusCode: obj.TaskStatusCode || '',
 CompletedAt:  obj.CompletedAt || new Date(),
 CompletedByUserId: obj.CompletedByUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -146,7 +142,6 @@ TaskStatusCode: obj.TaskStatusCode || '',
 CompletedAt:  obj.CompletedAt || new Date(),
 CompletedByUserId: obj.CompletedByUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,7 +162,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      MaintenanceWorkOrderId: formValues.MaintenanceWorkOrderId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 TaskCode: formValues.TaskCode || null,
 TaskDescription: formValues.TaskDescription || null,
 MandatoryFlag: formValues.MandatoryFlag || false,
@@ -175,7 +170,7 @@ TaskStatusCode: formValues.TaskStatusCode || null,
 CompletedAt: formValues.CompletedAt || null,
 CompletedByUserId: formValues.CompletedByUserId || 0,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceWorkOrderTask ; 
 	

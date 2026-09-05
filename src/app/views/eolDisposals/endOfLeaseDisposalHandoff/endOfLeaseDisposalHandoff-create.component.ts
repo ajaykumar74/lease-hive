@@ -31,7 +31,6 @@ export class EndOfLeaseDisposalHandoffCreateComponent implements OnInit {
 targetmodulecodeOptions: ISelectItem[] = [];
 handofftypecodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseDisposalHandoff = {} as IEndOfLeaseDisposalHandoff;
@@ -67,7 +66,6 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 TargetReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CompletedAt: new FormControl(new Date(), []),
 FailureReason: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseDisposalHandoff';
@@ -75,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffTargetModuleCode');
 this.handofftypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffHandoffTypeCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -106,7 +103,6 @@ StatusCode: obj.StatusCode || '',
 TargetReferenceId: obj.TargetReferenceId || 0,
 CompletedAt:  obj.CompletedAt || new Date(),
 FailureReason: obj.FailureReason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -143,7 +139,6 @@ StatusCode: obj.StatusCode || '',
 TargetReferenceId: obj.TargetReferenceId || 0,
 CompletedAt:  obj.CompletedAt || new Date(),
 FailureReason: obj.FailureReason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -172,7 +167,7 @@ StatusCode: formValues.StatusCode || null,
 TargetReferenceId: formValues.TargetReferenceId || 0,
 CompletedAt: formValues.CompletedAt || null,
 FailureReason: formValues.FailureReason || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseDisposalHandoff ; 
 	

@@ -172,14 +172,14 @@ CompletionCertificateDocumentId: obj.CompletionCertificateDocumentId || 0,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 ExecutionMethodCode:  formValues.ExecutionMethodCode || null,
 ExecutionStatusCode:  formValues.ExecutionStatusCode || null,
 SentOn:  formValues.SentOn || null,
 ExecutedOn:  formValues.ExecutedOn || null,
 ExternalEnvelopeId:  formValues.ExternalEnvelopeId || null,
-ExecutedDocumentId:  formValues.ExecutedDocumentId || null,
-CompletionCertificateDocumentId:  formValues.CompletionCertificateDocumentId || null,
+ExecutedDocumentId:  formValues.ExecutedDocumentId || 0,
+CompletionCertificateDocumentId:  formValues.CompletionCertificateDocumentId || 0,
 
     } as IContractExecution ;
 	

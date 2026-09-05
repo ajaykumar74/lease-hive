@@ -36,7 +36,6 @@ customerpartyidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 reportedbyuseridOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceIncident = {} as IInsuranceIncident;
@@ -76,7 +75,6 @@ IncidentDescription: new FormControl('', [Validators.required, Validators.maxLen
 PoliceReferenceNo: new FormControl('', [Validators.maxLength(50), ]), 
 AssetDrivableFlag: new FormControl(false, []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceIncident';
@@ -100,7 +98,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReportedByUserId', 'ap
       options => this.reportedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceIncidentStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -135,7 +132,6 @@ IncidentDescription: obj.IncidentDescription || '',
 PoliceReferenceNo: obj.PoliceReferenceNo || '',
 AssetDrivableFlag:  obj.AssetDrivableFlag || false,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -176,7 +172,6 @@ IncidentDescription: obj.IncidentDescription || '',
 PoliceReferenceNo: obj.PoliceReferenceNo || '',
 AssetDrivableFlag:  obj.AssetDrivableFlag || false,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -209,7 +204,7 @@ IncidentDescription: formValues.IncidentDescription || null,
 PoliceReferenceNo: formValues.PoliceReferenceNo || null,
 AssetDrivableFlag: formValues.AssetDrivableFlag || false,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceIncident ; 
 	

@@ -35,7 +35,6 @@ referencevaluationidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetDispositionDecision = {} as IAssetDispositionDecision;
@@ -73,7 +72,6 @@ Reason: new FormControl('', [Validators.maxLength(100), ]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ApprovedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetDispositionDecision';
@@ -93,7 +91,6 @@ this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetDispo
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -126,7 +123,6 @@ Reason: obj.Reason || '',
 StatusCode: obj.StatusCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -165,7 +161,6 @@ Reason: obj.Reason || '',
 StatusCode: obj.StatusCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -196,7 +191,7 @@ Reason: formValues.Reason || null,
 StatusCode: formValues.StatusCode || null,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 ApprovedAt: formValues.ApprovedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetDispositionDecision ; 
 	

@@ -150,7 +150,7 @@ export class CreditBureauResultCreateComponent implements OnInit {
             RequestReference: formValues.RequestReference || null,
             RequestedOn: formValues.RequestedOn || null,
             ReceivedOn: formValues.ReceivedOn || null,
-            Score: formValues.Score || null,
+            Score: formValues.Score || 0,
             RiskBand: formValues.RiskBand || 0,
             AdverseFlag: formValues.AdverseFlag || false,
             RawDocumentId: formValues.RawDocumentId || null,

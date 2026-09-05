@@ -32,7 +32,6 @@ export class CustomerStatementSnapshotCreateComponent implements OnInit {
 customerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 documentidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerStatementSnapshot = {} as ICustomerStatementSnapshot;
@@ -73,7 +72,6 @@ Days31To60: new FormControl(0, [Validators.required]),
 Days61To90: new FormControl(0, [Validators.required]),
 Days90Plus: new FormControl(0, [Validators.required]),
 DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CustomerStatementSnapshot';
@@ -86,7 +84,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'par
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -122,7 +119,6 @@ Days31To60: obj.Days31To60 || 0,
 Days61To90: obj.Days61To90 || 0,
 Days90Plus: obj.Days90Plus || 0,
 DocumentId: obj.DocumentId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -164,7 +160,6 @@ Days31To60: obj.Days31To60 || 0,
 Days61To90: obj.Days61To90 || 0,
 Days90Plus: obj.Days90Plus || 0,
 DocumentId: obj.DocumentId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -198,7 +193,7 @@ Days31To60: formValues.Days31To60 || 0,
 Days61To90: formValues.Days61To90 || 0,
 Days90Plus: formValues.Days90Plus || 0,
 DocumentId: formValues.DocumentId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICustomerStatementSnapshot ; 
 	

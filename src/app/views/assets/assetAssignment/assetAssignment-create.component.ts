@@ -39,7 +39,6 @@ customerdepartmentidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 assignmenttypeOptions: ISelectItem[] = [];
 referencetypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetAssignment = {} as IAssetAssignment;
@@ -82,7 +81,6 @@ ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20
 ReferenceId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
@@ -108,7 +106,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetUserId', 'asset-u
       this.entityLookupDestroyRef);
 this.assignmenttypeOptions = this.loggedInUserService.getPicklistOptions('AssignmentType');
 this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentReferenceType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     this.Caption = 'Create Asset Assignment';
   }
 
@@ -168,7 +165,6 @@ ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -214,7 +210,6 @@ ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -244,12 +239,12 @@ AssignmentType: formValues.AssignmentType || null,
 AssignedFrom: formValues.AssignedFrom || null,
 AssignedTo: formValues.AssignedTo || null,
 IsPrimary: formValues.IsPrimary || false,
-AssignmentStatusId: formValues.AssignmentStatusId || null,
+AssignmentStatusId: formValues.AssignmentStatusId || 0,
 ReferenceType: formValues.ReferenceType || null,
 ReferenceId: formValues.ReferenceId || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetAssignment ; 
 	

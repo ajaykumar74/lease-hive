@@ -35,7 +35,6 @@ customerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOptionExercise = {} as IPurchaseOptionExercise;
@@ -72,7 +71,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ApprovedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CompletedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PurchaseOptionExercise';
@@ -93,7 +91,6 @@ this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOp
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -125,7 +122,6 @@ CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 CompletedAt:  obj.CompletedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -163,7 +159,6 @@ CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 CompletedAt:  obj.CompletedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -193,7 +188,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 StatusCode: formValues.StatusCode || null,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 CompletedAt: formValues.CompletedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IPurchaseOptionExercise ; 
 	

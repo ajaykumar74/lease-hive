@@ -210,14 +210,14 @@ TradeNameAsPerGST:  formValues.TradeNameAsPerGST || null,
 StateCode:  formValues.StateCode || null,
 RegistrationType:  formValues.RegistrationType || null,
 RegistrationDate:  formValues.RegistrationDate || null,
-PrincipalLocationId:  formValues.PrincipalLocationId || null,
+PrincipalLocationId:  formValues.PrincipalLocationId || 0,
 VerificationStatus:  formValues.VerificationStatus || null,
 VerifiedAt:  formValues.VerifiedAt || null,
 CancellationDate:  formValues.CancellationDate || null,
 RecordStatus:  formValues.RecordStatus || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
-IsDefault:  formValues.IsDefault || null,
+IsDefault:  formValues.IsDefault || false,
 
     } as IPartyGSTRegistration ;
 	

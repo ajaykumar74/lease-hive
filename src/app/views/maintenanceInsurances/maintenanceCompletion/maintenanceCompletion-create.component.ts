@@ -32,7 +32,6 @@ export class MaintenanceCompletionCreateComponent implements OnInit {
 assetidOptions: ISelectItem[] = [];
 conditiongradeidOptions: ISelectItem[] = [];
 verifiedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceCompletion = {} as IMaintenanceCompletion;
@@ -69,7 +68,6 @@ NextDueDate: new FormControl(new Date(), []),
 NextDueMeasureValue: new FormControl(0, []),
 VerifiedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 VerifiedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceCompletion';
@@ -85,7 +83,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ConditionGradeId', 'as
 this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedByUserId', 'application-users',
       options => this.verifiedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -117,7 +114,6 @@ NextDueDate:  obj.NextDueDate || new Date(),
 NextDueMeasureValue: obj.NextDueMeasureValue || 0,
 VerifiedByUserId: obj.VerifiedByUserId || 0,
 VerifiedAt:  obj.VerifiedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -155,7 +151,6 @@ NextDueDate:  obj.NextDueDate || new Date(),
 NextDueMeasureValue: obj.NextDueMeasureValue || 0,
 VerifiedByUserId: obj.VerifiedByUserId || 0,
 VerifiedAt:  obj.VerifiedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -185,7 +180,7 @@ NextDueDate: formValues.NextDueDate || null,
 NextDueMeasureValue: formValues.NextDueMeasureValue || 0,
 VerifiedByUserId: formValues.VerifiedByUserId || 0,
 VerifiedAt: formValues.VerifiedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceCompletion ; 
 	

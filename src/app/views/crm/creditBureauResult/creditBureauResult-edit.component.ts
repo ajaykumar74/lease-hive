@@ -154,15 +154,15 @@ export class CreditBureauResultEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditApplicationId: formValues.CreditApplicationId || null,
-            PartyId: formValues.PartyId || null,
+            CreditApplicationId: formValues.CreditApplicationId || 0,
+            PartyId: formValues.PartyId || 0,
             ProviderCode: formValues.ProviderCode || null,
             RequestReference: formValues.RequestReference || null,
             RequestedOn: formValues.RequestedOn || null,
             ReceivedOn: formValues.ReceivedOn || null,
-            Score: formValues.Score || null,
-            RiskBand: formValues.RiskBand || null,
-            AdverseFlag: formValues.AdverseFlag || null,
+            Score: formValues.Score || 0,
+            RiskBand: formValues.RiskBand || 0,
+            AdverseFlag: formValues.AdverseFlag || false,
             RawDocumentId: formValues.RawDocumentId || null,
             ResultStatusCode: formValues.ResultStatusCode || null
         } as ICreditBureauResult;

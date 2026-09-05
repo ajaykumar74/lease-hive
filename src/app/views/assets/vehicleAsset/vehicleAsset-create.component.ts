@@ -29,7 +29,6 @@ export class VehicleAssetCreateComponent implements OnInit {
   vehicleAsset: IVehicleAsset = null;
   fueltypecodeOptions: ISelectItem[] = [];
 emissionnormcodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IVehicleAsset = {} as IVehicleAsset;
@@ -69,12 +68,10 @@ SeatingCapacity: new FormControl(0, [Validators.required, Validators.min(0), Val
 GrossVehicleWeightKg: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.fueltypecodeOptions.push({Text: '', Value: '' });
 this.emissionnormcodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ SeatingCapacity: obj.SeatingCapacity || 0,
 GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,7 +146,6 @@ SeatingCapacity: obj.SeatingCapacity || 0,
 GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,11 +174,11 @@ EngineNo: formValues.EngineNo || null,
 ChassisNo: formValues.ChassisNo || null,
 FuelTypeCode: formValues.FuelTypeCode || null,
 EmissionNormCode: formValues.EmissionNormCode || null,
-SeatingCapacity: formValues.SeatingCapacity || null,
-GrossVehicleWeightKg: formValues.GrossVehicleWeightKg || null,
+SeatingCapacity: formValues.SeatingCapacity || 0,
+GrossVehicleWeightKg: formValues.GrossVehicleWeightKg || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IVehicleAsset ; 
 	

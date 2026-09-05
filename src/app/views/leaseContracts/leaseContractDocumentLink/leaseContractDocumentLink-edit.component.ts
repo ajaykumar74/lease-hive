@@ -158,11 +158,11 @@ IsPrimary:  obj.IsPrimary || false,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
-DocumentId:  formValues.DocumentId || null,
+ReferenceId:  formValues.ReferenceId || 0,
+DocumentId:  formValues.DocumentId || 0,
 DocumentPurposeCode:  formValues.DocumentPurposeCode || null,
-DocumentVersionNo:  formValues.DocumentVersionNo || null,
-IsPrimary:  formValues.IsPrimary || null,
+DocumentVersionNo:  formValues.DocumentVersionNo || 0,
+IsPrimary:  formValues.IsPrimary || false,
 
     } as ILeaseContractDocumentLink ;
 	

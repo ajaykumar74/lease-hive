@@ -153,15 +153,15 @@ export class CreditExposureEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditAssessmentId: formValues.CreditAssessmentId || null,
-            PartyId: formValues.PartyId || null,
-            OrganisationId: formValues.OrganisationId || null,
+            CreditAssessmentId: formValues.CreditAssessmentId || 0,
+            PartyId: formValues.PartyId || 0,
+            OrganisationId: formValues.OrganisationId || 0,
             ExposureType: formValues.ExposureType || null,
             CurrencyCode: formValues.CurrencyCode || null,
-            PrincipalOutstanding: formValues.PrincipalOutstanding || null,
-            UndrawnCommitment: formValues.UndrawnCommitment || null,
-            ProposedExposure: formValues.ProposedExposure || null,
-            TotalExposure: formValues.TotalExposure || null,
+            PrincipalOutstanding: formValues.PrincipalOutstanding || 0,
+            UndrawnCommitment: formValues.UndrawnCommitment || 0,
+            ProposedExposure: formValues.ProposedExposure || 0,
+            TotalExposure: formValues.TotalExposure || 0,
             AsOfDate: formValues.AsOfDate || null
         } as ICreditExposure;
 

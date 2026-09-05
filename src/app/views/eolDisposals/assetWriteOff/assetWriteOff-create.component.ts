@@ -34,7 +34,6 @@ writeoffreasoncodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 insuranceclaimidOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetWriteOff = {} as IAssetWriteOff;
@@ -71,7 +70,6 @@ CurrencyCode: new FormControl('', [Validators.maxLength(20), ]),
 InsuranceClaimId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedAt: new FormControl(new Date(), [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetWriteOff';
@@ -89,7 +87,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'in
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -121,7 +118,6 @@ CurrencyCode: obj.CurrencyCode || '',
 InsuranceClaimId: obj.InsuranceClaimId || 0,
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -159,7 +155,6 @@ CurrencyCode: obj.CurrencyCode || '',
 InsuranceClaimId: obj.InsuranceClaimId || 0,
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -189,7 +184,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 InsuranceClaimId: formValues.InsuranceClaimId || 0,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 ApprovedAt: formValues.ApprovedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetWriteOff ; 
 	

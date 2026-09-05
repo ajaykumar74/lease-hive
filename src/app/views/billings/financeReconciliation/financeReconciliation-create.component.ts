@@ -33,7 +33,6 @@ targettypeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 matchedbyuseridOptions: ISelectItem[] = [];
 matchmethodOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceReconciliation = {} as IFinanceReconciliation;
@@ -70,7 +69,6 @@ ReconciliationDate: new FormControl(new Date(), [Validators.required]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 MatchedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MatchMethod: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceReconciliation';
@@ -81,7 +79,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedByUserId', 'app
       options => this.matchedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.matchmethodOptions = this.loggedInUserService.getPicklistOptions('MatchMethod');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -113,7 +110,6 @@ ReconciliationDate:  obj.ReconciliationDate || new Date(),
 StatusCode: obj.StatusCode || '',
 MatchedByUserId: obj.MatchedByUserId || 0,
 MatchMethod: obj.MatchMethod || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -151,7 +147,6 @@ ReconciliationDate:  obj.ReconciliationDate || new Date(),
 StatusCode: obj.StatusCode || '',
 MatchedByUserId: obj.MatchedByUserId || 0,
 MatchMethod: obj.MatchMethod || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,15 +168,15 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      ReconciliationType: formValues.ReconciliationType || null,
 SourceType: formValues.SourceType || null,
-SourceId: formValues.SourceId || null,
+SourceId: formValues.SourceId || 0,
 TargetType: formValues.TargetType || null,
-TargetId: formValues.TargetId || null,
+TargetId: formValues.TargetId || 0,
 MatchedAmount: formValues.MatchedAmount || 0,
 ReconciliationDate: formValues.ReconciliationDate || null,
 StatusCode: formValues.StatusCode || null,
 MatchedByUserId: formValues.MatchedByUserId || 0,
 MatchMethod: formValues.MatchMethod || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IFinanceReconciliation ; 
 	

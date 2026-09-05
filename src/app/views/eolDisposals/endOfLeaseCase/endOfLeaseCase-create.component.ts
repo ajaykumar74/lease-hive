@@ -36,7 +36,6 @@ organisationidOptions: ISelectItem[] = [];
 endofleasereasonidOptions: ISelectItem[] = [];
 endofleasestatusidOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseCase = {} as IEndOfLeaseCase;
@@ -75,7 +74,6 @@ TargetReturnDate: new FormControl(new Date(), []),
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 OpenedAt: new FormControl(new Date(), [Validators.required]),
 ClosedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseCase';
@@ -103,7 +101,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'EndOfLeaseStatusId', '
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -137,7 +134,6 @@ TargetReturnDate:  obj.TargetReturnDate || new Date(),
 AssignedToUserId: obj.AssignedToUserId || 0,
 OpenedAt:  obj.OpenedAt || new Date(),
 ClosedAt:  obj.ClosedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -177,7 +173,6 @@ TargetReturnDate:  obj.TargetReturnDate || new Date(),
 AssignedToUserId: obj.AssignedToUserId || 0,
 OpenedAt:  obj.OpenedAt || new Date(),
 ClosedAt:  obj.ClosedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -209,7 +204,7 @@ TargetReturnDate: formValues.TargetReturnDate || null,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 OpenedAt: formValues.OpenedAt || null,
 ClosedAt: formValues.ClosedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseCase ; 
 	

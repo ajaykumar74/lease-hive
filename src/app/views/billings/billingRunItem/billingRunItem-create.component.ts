@@ -36,7 +36,6 @@ sourcetypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 validationstatusOptions: ISelectItem[] = [];
 customerinvoiceidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBillingRunItem = {} as IBillingRunItem;
@@ -74,7 +73,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 ValidationStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ExclusionReason: new FormControl('', [Validators.maxLength(100), ]), 
 CustomerInvoiceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create BillingRunItem';
@@ -96,7 +94,6 @@ this.validationstatusOptions = this.loggedInUserService.getPicklistOptions('Vali
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceId', 'customer-invoices',
       options => this.customerinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -129,7 +126,6 @@ CurrencyCode: obj.CurrencyCode || '',
 ValidationStatus: obj.ValidationStatus || '',
 ExclusionReason: obj.ExclusionReason || '',
 CustomerInvoiceId: obj.CustomerInvoiceId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -168,7 +164,6 @@ CurrencyCode: obj.CurrencyCode || '',
 ValidationStatus: obj.ValidationStatus || '',
 ExclusionReason: obj.ExclusionReason || '',
 CustomerInvoiceId: obj.CustomerInvoiceId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -199,7 +194,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 ValidationStatus: formValues.ValidationStatus || null,
 ExclusionReason: formValues.ExclusionReason || null,
 CustomerInvoiceId: formValues.CustomerInvoiceId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IBillingRunItem ; 
 	

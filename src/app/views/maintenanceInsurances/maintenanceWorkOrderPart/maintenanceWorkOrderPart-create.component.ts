@@ -31,7 +31,6 @@ export class MaintenanceWorkOrderPartCreateComponent implements OnInit {
   maintenanceworkorderidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 procurementreferenceidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceWorkOrderPart = {} as IMaintenanceWorkOrderPart;
@@ -68,7 +67,6 @@ UnitCost: new FormControl(0, []),
 LineAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ProcurementReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceWorkOrderPart';
@@ -78,7 +76,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.procurementreferenceidOptions.push({Text: 'ProcurementReferenceId1', Value: 'ProcurementReferenceId1' });
 this.procurementreferenceidOptions.push({Text: 'ProcurementReferenceId2', Value: 'ProcurementReferenceId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -110,7 +107,6 @@ UnitCost: obj.UnitCost || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ProcurementReferenceId: obj.ProcurementReferenceId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -148,7 +144,6 @@ UnitCost: obj.UnitCost || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ProcurementReferenceId: obj.ProcurementReferenceId || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -169,7 +164,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      MaintenanceWorkOrderId: formValues.MaintenanceWorkOrderId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 PartCode: formValues.PartCode || null,
 PartDescription: formValues.PartDescription || null,
 Quantity: formValues.Quantity || 0,
@@ -178,7 +173,7 @@ UnitCost: formValues.UnitCost || 0,
 LineAmount: formValues.LineAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 ProcurementReferenceId: formValues.ProcurementReferenceId || 0,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceWorkOrderPart ; 
 	

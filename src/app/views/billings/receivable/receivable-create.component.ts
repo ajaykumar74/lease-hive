@@ -34,7 +34,6 @@ sourcedocumenttypeOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 receivablestatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReceivable = {} as IReceivable;
@@ -77,7 +76,6 @@ WriteOffAmount: new FormControl(0, [Validators.required]),
 OutstandingAmount: new FormControl(0, [Validators.required]),
 ReceivableStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DisputeHoldFlag: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create Receivable';
@@ -93,7 +91,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
       this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.receivablestatusOptions = this.loggedInUserService.getPicklistOptions('ReceivableStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -131,7 +128,6 @@ WriteOffAmount: obj.WriteOffAmount || 0,
 OutstandingAmount: obj.OutstandingAmount || 0,
 ReceivableStatus: obj.ReceivableStatus || '',
 DisputeHoldFlag:  obj.DisputeHoldFlag || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -175,7 +171,6 @@ WriteOffAmount: obj.WriteOffAmount || 0,
 OutstandingAmount: obj.OutstandingAmount || 0,
 ReceivableStatus: obj.ReceivableStatus || '',
 DisputeHoldFlag:  obj.DisputeHoldFlag || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -198,7 +193,7 @@ RecordStatus: obj.RecordStatus || '',
      BillingOrganisationId: formValues.BillingOrganisationId || 0,
 CustomerPartyId: formValues.CustomerPartyId || 0,
 SourceDocumentType: formValues.SourceDocumentType || null,
-SourceDocumentId: formValues.SourceDocumentId || null,
+SourceDocumentId: formValues.SourceDocumentId || 0,
 LeaseContractId: formValues.LeaseContractId || 0,
 DocumentNo: formValues.DocumentNo || null,
 DocumentDate: formValues.DocumentDate || null,
@@ -211,7 +206,7 @@ WriteOffAmount: formValues.WriteOffAmount || 0,
 OutstandingAmount: formValues.OutstandingAmount || 0,
 ReceivableStatus: formValues.ReceivableStatus || null,
 DisputeHoldFlag: formValues.DisputeHoldFlag || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IReceivable ; 
 	

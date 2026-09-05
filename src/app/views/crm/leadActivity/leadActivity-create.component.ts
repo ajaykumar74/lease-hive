@@ -28,7 +28,6 @@ export class LeadActivityCreateComponent implements OnInit {
     opportunityidOptions: ISelectItem[] = [];
     activitytypeOptions: ISelectItem[] = [];
     outcomecodeOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ILeadActivity = {} as ILeadActivity;
@@ -59,7 +58,6 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: new FormControl('', [Validators.maxLength(20)]),
             Notes: new FormControl('', [Validators.maxLength(100)]),
             CompletedOn: new FormControl(new Date(), []),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
@@ -69,7 +67,6 @@ export class LeadActivityCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
         this.activitytypeOptions = this.loggedInUserService.getPicklistOptions('ActivityType');
         this.outcomecodeOptions = this.loggedInUserService.getPicklistOptions('OutcomeCode');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -102,7 +99,6 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
@@ -136,7 +132,6 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
@@ -165,7 +160,7 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: formValues.OutcomeCode || null,
             Notes: formValues.Notes || null,
             CompletedOn: formValues.CompletedOn || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null,
             Description: formValues.Description || null

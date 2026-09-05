@@ -27,7 +27,6 @@ export class MaintenanceTypeCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   maintenanceType: IMaintenanceType = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceType = {} as IMaintenanceType;
@@ -60,11 +59,9 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 IsPlanned: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceType';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -92,7 +89,6 @@ Description: obj.Description || '',
 IsPlanned:  obj.IsPlanned || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -126,7 +122,6 @@ Description: obj.Description || '',
 IsPlanned:  obj.IsPlanned || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,7 +147,7 @@ Description: formValues.Description || null,
 IsPlanned: formValues.IsPlanned || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceType ; 
 	

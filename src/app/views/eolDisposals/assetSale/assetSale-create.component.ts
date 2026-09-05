@@ -35,7 +35,6 @@ disposalawardidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 financehandoffidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetSale = {} as IAssetSale;
@@ -72,7 +71,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 FinanceHandoffId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 OwnershipTransferDate: new FormControl(new Date(), []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetSale';
@@ -93,7 +91,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'FinanceHandoffId', 'fi
       options => this.financehandoffidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetSaleStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -125,7 +122,6 @@ CurrencyCode: obj.CurrencyCode || '',
 FinanceHandoffId: obj.FinanceHandoffId || 0,
 OwnershipTransferDate:  obj.OwnershipTransferDate || new Date(),
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -163,7 +159,6 @@ CurrencyCode: obj.CurrencyCode || '',
 FinanceHandoffId: obj.FinanceHandoffId || 0,
 OwnershipTransferDate:  obj.OwnershipTransferDate || new Date(),
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -193,7 +188,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 FinanceHandoffId: formValues.FinanceHandoffId || 0,
 OwnershipTransferDate: formValues.OwnershipTransferDate || null,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetSale ; 
 	

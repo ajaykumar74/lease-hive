@@ -30,7 +30,6 @@ export class PropertyAssetCreateComponent implements OnInit {
   propertyAsset: IPropertyAsset = null;
   assetidOptions: ISelectItem[] = [];
 propertytypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPropertyAsset = {} as IPropertyAsset;
@@ -66,14 +65,12 @@ PossessionDate: new FormControl(new Date(), [Validators.required]),
 TitleReference: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.propertytypeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -104,7 +101,6 @@ PossessionDate:  obj.PossessionDate || new Date(),
 TitleReference: obj.TitleReference || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -141,7 +137,6 @@ PossessionDate:  obj.PossessionDate || new Date(),
 TitleReference: obj.TitleReference || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -164,14 +159,14 @@ RecordStatus: obj.RecordStatus || '',
      AssetId: formValues.AssetId || 0,
 PropertyType: formValues.PropertyType || null,
 SurveyNo: formValues.SurveyNo || null,
-BuiltUpArea: formValues.BuiltUpArea || null,
-AreaUOMId: formValues.AreaUOMId || null,
+BuiltUpArea: formValues.BuiltUpArea || 0,
+AreaUOMId: formValues.AreaUOMId || 0,
 FloorNo: formValues.FloorNo || null,
 PossessionDate: formValues.PossessionDate || null,
 TitleReference: formValues.TitleReference || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IPropertyAsset ; 
 	

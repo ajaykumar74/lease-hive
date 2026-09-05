@@ -34,7 +34,6 @@ assettypeidOptions: ISelectItem[] = [];
 assetmodelidOptions: ISelectItem[] = [];
 triggertypecodeOptions: ISelectItem[] = [];
 measuredefinitionidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenancePlan = {} as IMaintenancePlan;
@@ -75,7 +74,6 @@ LeadDays: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 LeadMeasureValue: new FormControl(0, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenancePlan';
@@ -95,7 +93,6 @@ this.triggertypecodeOptions = this.loggedInUserService.getPicklistOptions('Trigg
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MeasureDefinitionId', 'asset-measure-definitions',
       options => this.measuredefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"AssetCategoryId":"AssetCategoryId"});
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -131,7 +128,6 @@ LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +169,6 @@ LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -203,11 +198,11 @@ TriggerTypeCode: formValues.TriggerTypeCode || null,
 IntervalDays: formValues.IntervalDays || 0,
 MeasureDefinitionId: formValues.MeasureDefinitionId || 0,
 IntervalMeasureValue: formValues.IntervalMeasureValue || 0,
-LeadDays: formValues.LeadDays || null,
+LeadDays: formValues.LeadDays || 0,
 LeadMeasureValue: formValues.LeadMeasureValue || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenancePlan ; 
 	

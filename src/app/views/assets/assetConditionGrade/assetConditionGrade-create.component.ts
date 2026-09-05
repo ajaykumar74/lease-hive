@@ -27,7 +27,6 @@ export class AssetConditionGradeCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Create Asset Condition Grade';
   assetConditionGrade: IAssetConditionGrade = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetConditionGrade = {} as IAssetConditionGrade;
@@ -61,10 +60,8 @@ ScoreTo: new FormControl(0, [Validators.required, Validators.min(-32768), Valida
 IsLeaseable: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -93,7 +90,6 @@ ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -128,7 +124,6 @@ ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,12 +145,12 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      GradeCode: formValues.GradeCode || null,
 GradeName: formValues.GradeName || null,
-ScoreFrom: formValues.ScoreFrom || null,
-ScoreTo: formValues.ScoreTo || null,
+ScoreFrom: formValues.ScoreFrom || 0,
+ScoreTo: formValues.ScoreTo || 0,
 IsLeaseable: formValues.IsLeaseable || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetConditionGrade ; 
 	

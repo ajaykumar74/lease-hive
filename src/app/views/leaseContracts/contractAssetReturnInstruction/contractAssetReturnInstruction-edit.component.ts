@@ -177,14 +177,14 @@ OperationsReferenceId: obj.OperationsReferenceId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
-LeaseContractAssetId:  formValues.LeaseContractAssetId || null,
-ContractTerminationId:  formValues.ContractTerminationId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
+LeaseContractAssetId:  formValues.LeaseContractAssetId || 0,
+ContractTerminationId:  formValues.ContractTerminationId || 0,
 InstructionCode:  formValues.InstructionCode || null,
 RequiredByDate:  formValues.RequiredByDate || null,
-ReturnLocationId:  formValues.ReturnLocationId || null,
+ReturnLocationId:  formValues.ReturnLocationId || 0,
 StatusCode:  formValues.StatusCode || null,
-OperationsReferenceId:  formValues.OperationsReferenceId || null,
+OperationsReferenceId:  formValues.OperationsReferenceId || 0,
 
     } as IContractAssetReturnInstruction ;
 	

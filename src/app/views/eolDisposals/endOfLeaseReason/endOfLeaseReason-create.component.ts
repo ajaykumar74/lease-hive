@@ -27,7 +27,6 @@ export class EndOfLeaseReasonCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   endOfLeaseReason: IEndOfLeaseReason = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseReason = {} as IEndOfLeaseReason;
@@ -59,11 +58,9 @@ ReasonName: new FormControl('', [Validators.required, Validators.maxLength(80), 
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseReason';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -90,7 +87,6 @@ ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -123,7 +119,6 @@ ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -148,7 +143,7 @@ ReasonName: formValues.ReasonName || null,
 Description: formValues.Description || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseReason ; 
 	

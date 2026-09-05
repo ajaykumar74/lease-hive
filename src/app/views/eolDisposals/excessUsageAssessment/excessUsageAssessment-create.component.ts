@@ -31,7 +31,6 @@ export class ExcessUsageAssessmentCreateComponent implements OnInit {
   returnassessmentidOptions: ISelectItem[] = [];
 measuredefinitionidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IExcessUsageAssessment = {} as IExcessUsageAssessment;
@@ -68,7 +67,6 @@ ExcessUsageValue: new FormControl(0, [Validators.required]),
 RatePerUnit: new FormControl(0, []),
 CalculatedAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ExcessUsageAssessment';
@@ -79,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MeasureDefinitionId', 
       options => this.measuredefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -111,7 +108,6 @@ ExcessUsageValue: obj.ExcessUsageValue || 0,
 RatePerUnit: obj.RatePerUnit || 0,
 CalculatedAmount: obj.CalculatedAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -149,7 +145,6 @@ ExcessUsageValue: obj.ExcessUsageValue || 0,
 RatePerUnit: obj.RatePerUnit || 0,
 CalculatedAmount: obj.CalculatedAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +174,7 @@ ExcessUsageValue: formValues.ExcessUsageValue || 0,
 RatePerUnit: formValues.RatePerUnit || 0,
 CalculatedAmount: formValues.CalculatedAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IExcessUsageAssessment ; 
 	

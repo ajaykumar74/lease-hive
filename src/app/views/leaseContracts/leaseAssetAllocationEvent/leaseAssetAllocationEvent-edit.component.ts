@@ -174,14 +174,14 @@ PerformedBy: obj.PerformedBy || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractAssetId:  formValues.LeaseContractAssetId || null,
+     LeaseContractAssetId:  formValues.LeaseContractAssetId || 0,
 EventCode:  formValues.EventCode || null,
 EventDateTime:  formValues.EventDateTime || null,
-FromAssetId:  formValues.FromAssetId || null,
-ToAssetId:  formValues.ToAssetId || null,
+FromAssetId:  formValues.FromAssetId || 0,
+ToAssetId:  formValues.ToAssetId || 0,
 ReasonCode:  formValues.ReasonCode || null,
 Comments:  formValues.Comments || null,
-PerformedBy:  formValues.PerformedBy || null,
+PerformedBy:  formValues.PerformedBy || 0,
 
     } as ILeaseAssetAllocationEvent ;
 	

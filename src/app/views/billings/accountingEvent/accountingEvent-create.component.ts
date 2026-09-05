@@ -33,7 +33,6 @@ eventtypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
 journalentryidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAccountingEvent = {} as IAccountingEvent;
@@ -71,7 +70,6 @@ PostingStatus: new FormControl('', [Validators.required, Validators.maxLength(20
 AccountingRuleCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 JournalEntryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ErrorMessage: new FormControl('', [Validators.maxLength(1000), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AccountingEvent';
@@ -84,7 +82,6 @@ this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('Account
 this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
       options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"OrganisationId":"OrganisationId"});
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -117,7 +114,6 @@ PostingStatus: obj.PostingStatus || '',
 AccountingRuleCode: obj.AccountingRuleCode || '',
 JournalEntryId: obj.JournalEntryId || 0,
 ErrorMessage: obj.ErrorMessage || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -156,7 +152,6 @@ PostingStatus: obj.PostingStatus || '',
 AccountingRuleCode: obj.AccountingRuleCode || '',
 JournalEntryId: obj.JournalEntryId || 0,
 ErrorMessage: obj.ErrorMessage || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +174,7 @@ RecordStatus: obj.RecordStatus || '',
      OrganisationId: formValues.OrganisationId || 0,
 EventType: formValues.EventType || null,
 SourceType: formValues.SourceType || null,
-SourceId: formValues.SourceId || null,
+SourceId: formValues.SourceId || 0,
 EventDate: formValues.EventDate || null,
 CurrencyCode: formValues.CurrencyCode || null,
 EventAmount: formValues.EventAmount || 0,
@@ -187,7 +182,7 @@ PostingStatus: formValues.PostingStatus || null,
 AccountingRuleCode: formValues.AccountingRuleCode || null,
 JournalEntryId: formValues.JournalEntryId || 0,
 ErrorMessage: formValues.ErrorMessage || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAccountingEvent ; 
 	

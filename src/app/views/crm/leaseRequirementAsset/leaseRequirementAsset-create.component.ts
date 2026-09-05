@@ -32,7 +32,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
     newusedcodeOptions: ISelectItem[] = [];
     currencycodeOptions: ISelectItem[] = [];
     servicepackagecodeOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ILeaseRequirementAsset = {} as ILeaseRequirementAsset;
@@ -67,7 +66,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             UsageUOMId: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
             ServicePackageCode: new FormControl('', [Validators.maxLength(20)]),
             Remarks: new FormControl('', [Validators.maxLength(100)]),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
@@ -80,7 +78,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
         this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -117,7 +114,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             UsageUOMId: obj.UsageUOMId || 0,
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -154,7 +150,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             UsageUOMId: obj.UsageUOMId || 0,
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -173,20 +168,20 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
             LeaseRequirementId: formValues.LeaseRequirementId || 0,
-            LineNo: formValues.LineNo || null,
+            LineNo: formValues.LineNo || 0,
             AssetCategoryId: formValues.AssetCategoryId || 0,
             AssetTypeId: formValues.AssetTypeId || 0,
             AssetMakeId: formValues.AssetMakeId || 0,
             AssetModelId: formValues.AssetModelId || 0,
-            Quantity: formValues.Quantity || null,
+            Quantity: formValues.Quantity || 0,
             NewUsedCode: formValues.NewUsedCode || null,
             EstimatedUnitCost: Number(formValues.EstimatedUnitCost) || 0,
             CurrencyCode: formValues.CurrencyCode || null,
             ExpectedAnnualUsage: Number(formValues.ExpectedAnnualUsage) || 0,
-            UsageUOMId: formValues.UsageUOMId || null,
+            UsageUOMId: formValues.UsageUOMId || 0,
             ServicePackageCode: formValues.ServicePackageCode || null,
             Remarks: formValues.Remarks || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null
         } as ILeaseRequirementAsset;

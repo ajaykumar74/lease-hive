@@ -36,7 +36,6 @@ buyerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalAward = {} as IDisposalAward;
@@ -73,7 +72,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 AwardedAt: new FormControl(new Date(), [Validators.required]),
 ApprovedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalAward';
@@ -95,7 +93,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'ap
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalAwardStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -127,7 +124,6 @@ CurrencyCode: obj.CurrencyCode || '',
 AwardedAt:  obj.AwardedAt || new Date(),
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -165,7 +161,6 @@ CurrencyCode: obj.CurrencyCode || '',
 AwardedAt:  obj.AwardedAt || new Date(),
 ApprovedByUserId: obj.ApprovedByUserId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -195,7 +190,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 AwardedAt: formValues.AwardedAt || null,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalAward ; 
 	

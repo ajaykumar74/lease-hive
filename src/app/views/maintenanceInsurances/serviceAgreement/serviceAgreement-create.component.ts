@@ -33,7 +33,6 @@ serviceproviderpartyidOptions: ISelectItem[] = [];
 agreementtypecodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IServiceAgreement = {} as IServiceAgreement;
@@ -71,7 +70,6 @@ AgreementValue: new FormControl(0, []),
 ResponseTimeHours: new FormControl(0, []),
 ResolutionTimeHours: new FormControl(0, []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ServiceAgreement';
@@ -84,7 +82,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId
 this.agreementtypecodeOptions = this.loggedInUserService.getPicklistOptions('AgreementTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ServiceAgreementStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -117,7 +114,6 @@ AgreementValue: obj.AgreementValue || 0,
 ResponseTimeHours: obj.ResponseTimeHours || 0,
 ResolutionTimeHours: obj.ResolutionTimeHours || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -156,7 +152,6 @@ AgreementValue: obj.AgreementValue || 0,
 ResponseTimeHours: obj.ResponseTimeHours || 0,
 ResolutionTimeHours: obj.ResolutionTimeHours || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -187,7 +182,7 @@ AgreementValue: formValues.AgreementValue || 0,
 ResponseTimeHours: formValues.ResponseTimeHours || 0,
 ResolutionTimeHours: formValues.ResolutionTimeHours || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IServiceAgreement ; 
 	

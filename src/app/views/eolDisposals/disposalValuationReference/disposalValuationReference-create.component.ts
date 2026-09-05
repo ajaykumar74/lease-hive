@@ -31,7 +31,6 @@ export class DisposalValuationReferenceCreateComponent implements OnInit {
   disposalcaseidOptions: ISelectItem[] = [];
 assetvaluationidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalValuationReference = {} as IDisposalValuationReference;
@@ -66,7 +65,6 @@ ReserveAmount: new FormControl(0, []),
 TargetAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalValuationReference';
@@ -76,7 +74,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.assetvaluationidOptions.push({Text: 'AssetValuationId1', Value: 'AssetValuationId1' });
 this.assetvaluationidOptions.push({Text: 'AssetValuationId2', Value: 'AssetValuationId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -106,7 +103,6 @@ ReserveAmount: obj.ReserveAmount || 0,
 TargetAmount: obj.TargetAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -142,7 +138,6 @@ ReserveAmount: obj.ReserveAmount || 0,
 TargetAmount: obj.TargetAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -170,7 +165,7 @@ ReserveAmount: formValues.ReserveAmount || 0,
 TargetAmount: formValues.TargetAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalValuationReference ; 
 	

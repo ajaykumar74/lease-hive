@@ -169,14 +169,14 @@ PerformedBy: obj.PerformedBy || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     ContractObligationId:  formValues.ContractObligationId || null,
+     ContractObligationId:  formValues.ContractObligationId || 0,
 EventTypeCode:  formValues.EventTypeCode || null,
 EventDateTime:  formValues.EventDateTime || null,
-DocumentId:  formValues.DocumentId || null,
+DocumentId:  formValues.DocumentId || 0,
 ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 Notes:  formValues.Notes || null,
-PerformedBy:  formValues.PerformedBy || null,
+PerformedBy:  formValues.PerformedBy || 0,
 
     } as IContractObligationEvent ;
 	

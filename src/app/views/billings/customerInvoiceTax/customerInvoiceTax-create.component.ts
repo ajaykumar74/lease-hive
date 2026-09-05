@@ -32,7 +32,6 @@ export class CustomerInvoiceTaxCreateComponent implements OnInit {
 customerinvoicelineidOptions: ISelectItem[] = [];
 taxtypeidOptions: ISelectItem[] = [];
 taxjurisdictionidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerInvoiceTax = {} as ICustomerInvoiceTax;
@@ -68,7 +67,6 @@ TaxRate: new FormControl(0, [Validators.required]),
 TaxableAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
 TaxRegistrationSnapshot: new FormControl('', [Validators.maxLength(40), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CustomerInvoiceTax';
@@ -82,7 +80,6 @@ this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
 this.taxjurisdictionidOptions.push({Text: 'TaxJurisdictionId1', Value: 'TaxJurisdictionId1' });
 this.taxjurisdictionidOptions.push({Text: 'TaxJurisdictionId2', Value: 'TaxJurisdictionId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -113,7 +110,6 @@ TaxRate: obj.TaxRate || 0,
 TaxableAmount: obj.TaxableAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 TaxRegistrationSnapshot: obj.TaxRegistrationSnapshot || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,7 +146,6 @@ TaxRate: obj.TaxRate || 0,
 TaxableAmount: obj.TaxableAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 TaxRegistrationSnapshot: obj.TaxRegistrationSnapshot || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +174,7 @@ TaxRate: formValues.TaxRate || 0,
 TaxableAmount: formValues.TaxableAmount || 0,
 TaxAmount: formValues.TaxAmount || 0,
 TaxRegistrationSnapshot: formValues.TaxRegistrationSnapshot || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICustomerInvoiceTax ; 
 	

@@ -29,7 +29,6 @@ export class ITAssetCreateComponent implements OnInit {
   Caption: string = 'Create IT Asset';
   iTAsset: IITAsset = null;
   assetidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IITAsset = {} as IITAsset;
@@ -68,13 +67,11 @@ WarrantyExpiryDate: new FormControl(new Date(), [Validators.required]),
 MDMDeviceId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -108,7 +105,6 @@ WarrantyExpiryDate:  obj.WarrantyExpiryDate || new Date(),
 MDMDeviceId: obj.MDMDeviceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -148,7 +144,6 @@ WarrantyExpiryDate:  obj.WarrantyExpiryDate || new Date(),
 MDMDeviceId: obj.MDMDeviceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -171,8 +166,8 @@ RecordStatus: obj.RecordStatus || '',
      AssetId: formValues.AssetId || 0,
 DeviceSerialNo: formValues.DeviceSerialNo || null,
 Processor: formValues.Processor || null,
-RAMGB: formValues.RAMGB || null,
-StorageGB: formValues.StorageGB || null,
+RAMGB: formValues.RAMGB || 0,
+StorageGB: formValues.StorageGB || 0,
 OperatingSystem: formValues.OperatingSystem || null,
 MACAddress: formValues.MACAddress || null,
 IMEI: formValues.IMEI || null,
@@ -180,7 +175,7 @@ WarrantyExpiryDate: formValues.WarrantyExpiryDate || null,
 MDMDeviceId: formValues.MDMDeviceId || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IITAsset ; 
 	

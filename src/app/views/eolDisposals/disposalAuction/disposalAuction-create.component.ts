@@ -32,7 +32,6 @@ export class DisposalAuctionCreateComponent implements OnInit {
 auctionproviderpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalAuction = {} as IDisposalAuction;
@@ -67,7 +66,6 @@ AuctionEndAt: new FormControl(new Date(), [Validators.required]),
 ReserveAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalAuction';
@@ -79,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AuctionProviderPartyId
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalAuctionStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ AuctionEndAt:  obj.AuctionEndAt || new Date(),
 ReserveAmount: obj.ReserveAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -145,7 +141,6 @@ AuctionEndAt:  obj.AuctionEndAt || new Date(),
 ReserveAmount: obj.ReserveAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +168,7 @@ AuctionEndAt: formValues.AuctionEndAt || null,
 ReserveAmount: formValues.ReserveAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalAuction ; 
 	

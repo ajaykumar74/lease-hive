@@ -27,7 +27,6 @@ export class PurchaseRequisitionStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   purchaseRequisitionStatus: IPurchaseRequisitionStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseRequisitionStatus = {} as IPurchaseRequisitionStatus;
@@ -58,13 +57,11 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 StatusName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 IsTerminal: new FormControl(false, []),
 SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), []),
 EffectiveTo: new FormControl(new Date(), [Validators.required]),
 
     });
     this.Caption = 'Create PurchaseRequisitionStatus';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -90,7 +87,6 @@ EffectiveTo: new FormControl(new Date(), [Validators.required]),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -124,7 +120,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -150,7 +145,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: formValues.StatusName || null,
 IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

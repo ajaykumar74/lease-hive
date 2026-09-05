@@ -142,11 +142,11 @@ export class CreditApplicantPartyEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditApplicationId: formValues.CreditApplicationId || null,
-            PartyId: formValues.PartyId || null,
-            CreditPartyRoleId: formValues.CreditPartyRoleId || null,
-            IsPrimary: formValues.IsPrimary || null,
-            GuaranteeAmount: formValues.GuaranteeAmount || null,
+            CreditApplicationId: formValues.CreditApplicationId || 0,
+            PartyId: formValues.PartyId || 0,
+            CreditPartyRoleId: formValues.CreditPartyRoleId || 0,
+            IsPrimary: formValues.IsPrimary || false,
+            GuaranteeAmount: formValues.GuaranteeAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null
         } as ICreditApplicantParty;
 

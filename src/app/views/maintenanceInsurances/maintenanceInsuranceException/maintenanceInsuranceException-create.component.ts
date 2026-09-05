@@ -34,7 +34,6 @@ referencetypecodeOptions: ISelectItem[] = [];
 severitycodeOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceInsuranceException = {} as IMaintenanceInsuranceException;
@@ -71,7 +70,6 @@ Reason: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ResolvedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceInsuranceException';
@@ -83,7 +81,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'ap
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceExceptionStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ Reason: obj.Reason || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
 ResolvedAt:  obj.ResolvedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -153,7 +149,6 @@ Reason: obj.Reason || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
 ResolvedAt:  obj.ResolvedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -183,7 +178,7 @@ Reason: formValues.Reason || null,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 StatusCode: formValues.StatusCode || null,
 ResolvedAt: formValues.ResolvedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceInsuranceException ; 
 	

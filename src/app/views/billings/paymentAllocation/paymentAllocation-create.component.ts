@@ -32,7 +32,6 @@ export class PaymentAllocationCreateComponent implements OnInit {
 receivableidOptions: ISelectItem[] = [];
 allocationtypeOptions: ISelectItem[] = [];
 reversalofallocationidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPaymentAllocation = {} as IPaymentAllocation;
@@ -67,7 +66,6 @@ ExchangeRate: new FormControl(0, []),
 AllocationType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ReversalOfAllocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ReversedAtUtc: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PaymentAllocation';
@@ -81,7 +79,6 @@ this.allocationtypeOptions = this.loggedInUserService.getPicklistOptions('Alloca
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ReversalOfAllocationId', 'payment-allocations',
       options => this.reversalofallocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"PaymentReceiptId":"PaymentReceiptId"});
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -111,7 +108,6 @@ ExchangeRate: obj.ExchangeRate || 0,
 AllocationType: obj.AllocationType || '',
 ReversalOfAllocationId: obj.ReversalOfAllocationId || 0,
 ReversedAtUtc:  obj.ReversedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -147,7 +143,6 @@ ExchangeRate: obj.ExchangeRate || 0,
 AllocationType: obj.AllocationType || '',
 ReversalOfAllocationId: obj.ReversalOfAllocationId || 0,
 ReversedAtUtc:  obj.ReversedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -175,7 +170,7 @@ ExchangeRate: formValues.ExchangeRate || 0,
 AllocationType: formValues.AllocationType || null,
 ReversalOfAllocationId: formValues.ReversalOfAllocationId || 0,
 ReversedAtUtc: formValues.ReversedAtUtc || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IPaymentAllocation ; 
 	

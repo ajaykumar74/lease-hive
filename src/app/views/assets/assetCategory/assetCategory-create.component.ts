@@ -28,7 +28,6 @@ export class AssetCategoryCreateComponent implements OnInit {
   Caption: string = 'Create Asset Category';
   assetCategory: IAssetCategory = null;
   extensiontypecodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetCategory = {} as IAssetCategory;
@@ -62,11 +61,9 @@ SupportsMeasure: new FormControl(false, [Validators.required]),
 ExtensionTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.maxLength(20), ]), 
 
     });
     this.extensiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ExtensionTypeCode');
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
   }
  
  loadUI(): void {
@@ -94,7 +91,6 @@ SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -129,7 +125,6 @@ SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );

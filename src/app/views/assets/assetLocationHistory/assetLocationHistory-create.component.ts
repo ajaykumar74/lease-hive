@@ -38,7 +38,6 @@ tolocationidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 movementtypeOptions: ISelectItem[] = [];
 referencetypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetLocationHistory = {} as IAssetLocationHistory;
@@ -77,7 +76,6 @@ ReferenceType: new FormControl('', [Validators.maxLength(20), ]),
 ReferenceId: new FormControl('', [Validators.maxLength(20), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
@@ -103,7 +101,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'par
       this.entityLookupDestroyRef);
 this.movementtypeOptions = this.loggedInUserService.getPicklistOptions('MovementType');
 this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetLocationHistoryReferenceType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -159,7 +156,6 @@ ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -201,7 +197,6 @@ ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -232,7 +227,7 @@ ReferenceType: formValues.ReferenceType || null,
 ReferenceId: formValues.ReferenceId || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetLocationHistory ; 
 	

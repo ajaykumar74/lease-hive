@@ -284,7 +284,7 @@ this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('Cust
       AuthorizedSignatoryMobile: formValues.AuthorizedSignatoryMobile || null,
       RegisteredOfficeAddress: formValues.RegisteredOfficeAddress || null,
       NatureOfBusiness: formValues.NatureOfBusiness || null,
-      YearsInBusiness: formValues.YearsInBusiness || null,
+      YearsInBusiness: formValues.YearsInBusiness || 0,
       PermanentAddress: formValues.PermanentAddress || null,
       PermanentCity: formValues.PermanentCity || null,
       PermanentState: formValues.PermanentState || null,

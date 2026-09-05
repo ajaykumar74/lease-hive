@@ -31,7 +31,6 @@ export class ReturnAssessmentDamageCreateComponent implements OnInit {
   returnassessmentidOptions: ISelectItem[] = [];
 inspectionitemreferenceidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReturnAssessmentDamage = {} as IReturnAssessmentDamage;
@@ -68,7 +67,6 @@ EstimatedRepairAmount: new FormControl(0, []),
 ApprovedChargeAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 WaiverReason: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ReturnAssessmentDamage';
@@ -78,7 +76,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId1', Value: 'InspectionItemReferenceId1' });
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId2', Value: 'InspectionItemReferenceId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -110,7 +107,6 @@ EstimatedRepairAmount: obj.EstimatedRepairAmount || 0,
 ApprovedChargeAmount: obj.ApprovedChargeAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 WaiverReason: obj.WaiverReason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -148,7 +144,6 @@ EstimatedRepairAmount: obj.EstimatedRepairAmount || 0,
 ApprovedChargeAmount: obj.ApprovedChargeAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 WaiverReason: obj.WaiverReason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -169,7 +164,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReturnAssessmentId: formValues.ReturnAssessmentId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 InspectionItemReferenceId: formValues.InspectionItemReferenceId || 0,
 DamageCode: formValues.DamageCode || null,
 DamageDescription: formValues.DamageDescription || null,
@@ -178,7 +173,7 @@ EstimatedRepairAmount: formValues.EstimatedRepairAmount || 0,
 ApprovedChargeAmount: formValues.ApprovedChargeAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 WaiverReason: formValues.WaiverReason || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IReturnAssessmentDamage ; 
 	

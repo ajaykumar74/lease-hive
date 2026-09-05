@@ -29,7 +29,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
     partylocationidOptions: ISelectItem[] = [];
     currencycodeOptions: ISelectItem[] = [];
     requirementstatuscodeOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ILeaseRequirement = {} as ILeaseRequirement;
@@ -60,7 +59,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
             RequirementStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             CustomerReference: new FormControl('', [Validators.maxLength(100)]),
             Remarks: new FormControl('', [Validators.maxLength(100)]),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
@@ -73,7 +71,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
         });
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.requirementstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RequirementStatusCode');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -106,7 +103,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -149,7 +145,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || '',
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
@@ -172,12 +167,12 @@ export class LeaseRequirementCreateComponent implements OnInit {
             PartyLocationId: formValues.PartyLocationId || 0,
             RequirementDate: formValues.RequirementDate || null,
             PreferredStartDate: formValues.PreferredStartDate || null,
-            RequestedTermMonths: formValues.RequestedTermMonths || null,
+            RequestedTermMonths: formValues.RequestedTermMonths || 0,
             CurrencyCode: formValues.CurrencyCode || null,
             RequirementStatusCode: formValues.RequirementStatusCode || null,
             CustomerReference: formValues.CustomerReference || null,
             Remarks: formValues.Remarks || null,
-            RecordStatus: formValues.RecordStatus || null,
+            RecordStatus: 'Active',
             EffectiveFrom: formValues.EffectiveFrom || null,
             EffectiveTo: formValues.EffectiveTo || null
         } as ILeaseRequirement;

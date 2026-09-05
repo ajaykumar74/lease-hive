@@ -36,7 +36,6 @@ receivedbyuseridOptions: ISelectItem[] = [];
 finalmeasurereadingidOptions: ISelectItem[] = [];
 returninspectionidOptions: ISelectItem[] = [];
 returnstatuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetReturn = {} as IAssetReturn;
@@ -73,7 +72,6 @@ FinalMeasureReadingId: new FormControl(0, [Validators.min(-2147483648), Validato
 ReturnInspectionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ReturnStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetReturn';
@@ -99,7 +97,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnInspectionId', '
       options => this.returninspectionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"AssetId":"AssetId"});
 this.returnstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ReturnStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -131,7 +128,6 @@ FinalMeasureReadingId: obj.FinalMeasureReadingId || 0,
 ReturnInspectionId: obj.ReturnInspectionId || 0,
 ReturnStatusCode: obj.ReturnStatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -169,7 +165,6 @@ FinalMeasureReadingId: obj.FinalMeasureReadingId || 0,
 ReturnInspectionId: obj.ReturnInspectionId || 0,
 ReturnStatusCode: obj.ReturnStatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -199,7 +194,7 @@ FinalMeasureReadingId: formValues.FinalMeasureReadingId || 0,
 ReturnInspectionId: formValues.ReturnInspectionId || 0,
 ReturnStatusCode: formValues.ReturnStatusCode || null,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetReturn ; 
 	

@@ -28,7 +28,6 @@ export class BillingRunStatusCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   billingRunStatus: IBillingRunStatus = null;
   statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBillingRunStatus = {} as IBillingRunStatus;
@@ -58,12 +57,10 @@ recordstatusOptions: ISelectItem[] = [];
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
 IsFinal: new FormControl(false, [Validators.required]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create BillingRunStatus';
     this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('BillingRunStatusStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -88,7 +85,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 IsFinal:  obj.IsFinal || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -119,7 +115,6 @@ RecordStatus: obj.RecordStatus || '',
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 IsFinal:  obj.IsFinal || false,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -142,7 +137,7 @@ RecordStatus: obj.RecordStatus || '',
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 IsFinal: formValues.IsFinal || false,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IBillingRunStatus ; 
 	

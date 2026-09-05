@@ -31,7 +31,6 @@ export class MaintenanceWorkOrderServiceCreateComponent implements OnInit {
   maintenanceworkorderidOptions: ISelectItem[] = [];
 serviceproviderpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceWorkOrderService = {} as IMaintenanceWorkOrderService;
@@ -67,7 +66,6 @@ Quantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), 
 UnitAmount: new FormControl(0, [Validators.required]),
 LineAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceWorkOrderService';
@@ -78,7 +76,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId
       options => this.serviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ Quantity: obj.Quantity || 0,
 UnitAmount: obj.UnitAmount || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -146,7 +142,6 @@ Quantity: obj.Quantity || 0,
 UnitAmount: obj.UnitAmount || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,7 +162,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      MaintenanceWorkOrderId: formValues.MaintenanceWorkOrderId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 ServiceCode: formValues.ServiceCode || null,
 ServiceDescription: formValues.ServiceDescription || null,
 ServiceProviderPartyId: formValues.ServiceProviderPartyId || 0,
@@ -175,7 +170,7 @@ Quantity: formValues.Quantity || 0,
 UnitAmount: formValues.UnitAmount || 0,
 LineAmount: formValues.LineAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceWorkOrderService ; 
 	

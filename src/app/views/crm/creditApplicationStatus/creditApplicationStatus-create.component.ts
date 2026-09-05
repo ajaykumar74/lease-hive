@@ -27,7 +27,6 @@ export class CreditApplicationStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   creditApplicationStatus: ICreditApplicationStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICreditApplicationStatus = {} as ICreditApplicationStatus;
@@ -58,12 +57,10 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 StatusName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 IsTerminal: new FormControl(false, []),
 SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -89,7 +86,6 @@ EffectiveTo: new FormControl(new Date(), []),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -123,7 +119,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -148,8 +143,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
-RecordStatus: formValues.RecordStatus || null,
+SortOrder: formValues.SortOrder || 0,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

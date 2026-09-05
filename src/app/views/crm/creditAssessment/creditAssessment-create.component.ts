@@ -150,8 +150,8 @@ export class CreditAssessmentCreateComponent implements OnInit {
             AssessedByUserId: formValues.AssessedByUserId || 0,
             AssessmentDateTime: formValues.AssessmentDateTime || null,
             RiskRatingCode: formValues.RiskRatingCode || null,
-            Score: formValues.Score || null,
-            ProbabilityOfDefaultPct: formValues.ProbabilityOfDefaultPct || null,
+            Score: formValues.Score || 0,
+            ProbabilityOfDefaultPct: formValues.ProbabilityOfDefaultPct || 0,
             RecommendedLimitAmount: formValues.RecommendedLimitAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null
         } as ICreditAssessment;

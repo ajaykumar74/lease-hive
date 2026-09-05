@@ -164,7 +164,7 @@ export class CreditDecisionCreateComponent implements OnInit {
             DecisionDateTime: formValues.DecisionDateTime || null,
             ApprovedLimitAmount: formValues.ApprovedLimitAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null,
-            ApprovedTermMonths: formValues.ApprovedTermMonths || null,
+            ApprovedTermMonths: formValues.ApprovedTermMonths || 0,
             RiskRatingCode: formValues.RiskRatingCode || null,
             DecisionReasonCode: formValues.DecisionReasonCode || null,
             DecisionSummary: formValues.DecisionSummary || null,

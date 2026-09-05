@@ -27,7 +27,6 @@ export class DispositionMethodCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   dispositionMethod: IDispositionMethod = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDispositionMethod = {} as IDispositionMethod;
@@ -60,11 +59,9 @@ RequiresBuyerFlag: new FormControl(false, [Validators.required]),
 RequiresApprovalFlag: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DispositionMethod';
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -92,7 +89,6 @@ RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -126,7 +122,6 @@ RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,7 +147,7 @@ RequiresBuyerFlag: formValues.RequiresBuyerFlag || false,
 RequiresApprovalFlag: formValues.RequiresApprovalFlag || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDispositionMethod ; 
 	

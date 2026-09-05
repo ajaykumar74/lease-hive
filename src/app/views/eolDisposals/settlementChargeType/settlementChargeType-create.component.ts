@@ -28,7 +28,6 @@ export class SettlementChargeTypeCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   settlementChargeType: ISettlementChargeType = null;
   directioncodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISettlementChargeType = {} as ISettlementChargeType;
@@ -61,12 +60,10 @@ DirectionCode: new FormControl('', [Validators.required, Validators.maxLength(20
 TaxableFlag: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SettlementChargeType';
     this.directioncodeOptions = this.loggedInUserService.getPicklistOptions('DirectionCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -94,7 +91,6 @@ DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -128,7 +124,6 @@ DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -154,7 +149,7 @@ DirectionCode: formValues.DirectionCode || null,
 TaxableFlag: formValues.TaxableFlag || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ISettlementChargeType ; 
 	

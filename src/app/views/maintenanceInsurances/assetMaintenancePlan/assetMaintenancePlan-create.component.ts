@@ -31,7 +31,6 @@ export class AssetMaintenancePlanCreateComponent implements OnInit {
   assetidOptions: ISelectItem[] = [];
 maintenanceplanidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetMaintenancePlan = {} as IAssetMaintenancePlan;
@@ -67,7 +66,6 @@ BaselineMeasureValue: new FormControl(0, []),
 OverrideIntervalDays: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 OverrideMeasureValue: new FormControl(0, []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetMaintenancePlan';
@@ -78,7 +76,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenancePlanId', 'm
       options => this.maintenanceplanidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetMaintenancePlanStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ BaselineMeasureValue: obj.BaselineMeasureValue || 0,
 OverrideIntervalDays: obj.OverrideIntervalDays || 0,
 OverrideMeasureValue: obj.OverrideMeasureValue || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -146,7 +142,6 @@ BaselineMeasureValue: obj.BaselineMeasureValue || 0,
 OverrideIntervalDays: obj.OverrideIntervalDays || 0,
 OverrideMeasureValue: obj.OverrideMeasureValue || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -175,7 +170,7 @@ BaselineMeasureValue: formValues.BaselineMeasureValue || 0,
 OverrideIntervalDays: formValues.OverrideIntervalDays || 0,
 OverrideMeasureValue: formValues.OverrideMeasureValue || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetMaintenancePlan ; 
 	

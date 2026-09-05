@@ -31,7 +31,6 @@ export class AssetMeasureDefinitionCreateComponent implements OnInit {
   assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
 unitofmeasureidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetMeasureDefinition = {} as IAssetMeasureDefinition;
@@ -67,7 +66,6 @@ IsCumulative: new FormControl(false, []),
 IsRequired: new FormControl(false, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
@@ -78,7 +76,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-t
       this.entityLookupDestroyRef);
 this.unitofmeasureidOptions.push({Text: 'Text1', Value: 'Text1' });
 this.unitofmeasureidOptions.push({Text: 'Text2', Value: 'Text2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -146,7 +142,6 @@ IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -175,7 +170,7 @@ IsCumulative: formValues.IsCumulative || false,
 IsRequired: formValues.IsRequired || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetMeasureDefinition ; 
 	

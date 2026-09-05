@@ -30,7 +30,6 @@ export class AssetMakeCreateComponent implements OnInit {
   assetMake: IAssetMake = null;
   assetcategoryidOptions: ISelectItem[] = [];
 countrycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetMake = {} as IAssetMake;
@@ -63,14 +62,12 @@ AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max
 CountryCode: new FormControl('', [Validators.maxLength(0), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
       options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -98,7 +95,6 @@ AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -132,7 +128,6 @@ AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -158,7 +153,7 @@ AssetCategoryId: formValues.AssetCategoryId || 0,
 CountryCode: formValues.CountryCode || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetMake ; 
 	

@@ -35,7 +35,6 @@ duestatuscodeOptions: ISelectItem[] = [];
 plannedorganisationunitidOptions: ISelectItem[] = [];
 preferredserviceproviderpartyidOptions: ISelectItem[] = [];
 generatedfromcodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceSchedule = {} as IMaintenanceSchedule;
@@ -73,7 +72,6 @@ DueStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20
 PlannedOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 PreferredServiceProviderPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 GeneratedFromCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceSchedule';
@@ -94,7 +92,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PreferredServiceProvid
       options => this.preferredserviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.generatedfromcodeOptions = this.loggedInUserService.getPicklistOptions('GeneratedFromCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -127,7 +124,6 @@ DueStatusCode: obj.DueStatusCode || '',
 PlannedOrganisationUnitId: obj.PlannedOrganisationUnitId || 0,
 PreferredServiceProviderPartyId: obj.PreferredServiceProviderPartyId || 0,
 GeneratedFromCode: obj.GeneratedFromCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -166,7 +162,6 @@ DueStatusCode: obj.DueStatusCode || '',
 PlannedOrganisationUnitId: obj.PlannedOrganisationUnitId || 0,
 PreferredServiceProviderPartyId: obj.PreferredServiceProviderPartyId || 0,
 GeneratedFromCode: obj.GeneratedFromCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -197,7 +192,7 @@ DueStatusCode: formValues.DueStatusCode || null,
 PlannedOrganisationUnitId: formValues.PlannedOrganisationUnitId || 0,
 PreferredServiceProviderPartyId: formValues.PreferredServiceProviderPartyId || 0,
 GeneratedFromCode: formValues.GeneratedFromCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceSchedule ; 
 	

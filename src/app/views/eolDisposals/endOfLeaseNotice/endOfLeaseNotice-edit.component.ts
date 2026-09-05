@@ -172,7 +172,7 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     EndOfLeaseCaseId:  formValues.EndOfLeaseCaseId || null,
+     EndOfLeaseCaseId:  formValues.EndOfLeaseCaseId || 0,
 NoticeTypeCode:  formValues.NoticeTypeCode || null,
 NoticeDate:  formValues.NoticeDate || null,
 DeliveryChannelCode:  formValues.DeliveryChannelCode || null,

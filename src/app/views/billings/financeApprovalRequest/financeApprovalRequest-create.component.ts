@@ -33,7 +33,6 @@ workflowinstanceidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 approvalstatusOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceApprovalRequest = {} as IFinanceApprovalRequest;
@@ -68,7 +67,6 @@ RequestedAtUtc: new FormControl(new Date(), [Validators.required]),
 ApprovalStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Amount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceApprovalRequest';
@@ -80,7 +78,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'a
       this.entityLookupDestroyRef);
 this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestApprovalStatus');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -110,7 +107,6 @@ RequestedAtUtc:  obj.RequestedAtUtc || new Date(),
 ApprovalStatus: obj.ApprovalStatus || '',
 Amount: obj.Amount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -146,7 +142,6 @@ RequestedAtUtc:  obj.RequestedAtUtc || new Date(),
 ApprovalStatus: obj.ApprovalStatus || '',
 Amount: obj.Amount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,14 +162,14 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType: formValues.ReferenceType || null,
-ReferenceId: formValues.ReferenceId || null,
+ReferenceId: formValues.ReferenceId || 0,
 WorkflowInstanceId: formValues.WorkflowInstanceId || 0,
 RequestedByUserId: formValues.RequestedByUserId || 0,
 RequestedAtUtc: formValues.RequestedAtUtc || null,
 ApprovalStatus: formValues.ApprovalStatus || null,
 Amount: formValues.Amount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IFinanceApprovalRequest ; 
 	

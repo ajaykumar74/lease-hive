@@ -30,7 +30,6 @@ export class AssetModelCreateComponent implements OnInit {
   assetModel: IAssetModel = null;
   assetmakeidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetModel = {} as IAssetModel;
@@ -66,7 +65,6 @@ ModelYearFrom: new FormControl(0, [Validators.min(-32768), Validators.max(32767)
 ModelYearTo: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
@@ -75,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -106,7 +103,6 @@ ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -143,7 +139,6 @@ ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -168,11 +163,11 @@ AssetTypeId: formValues.AssetTypeId || 0,
 ModelCode: formValues.ModelCode || null,
 ModelName: formValues.ModelName || null,
 VariantName: formValues.VariantName || null,
-ModelYearFrom: formValues.ModelYearFrom || null,
-ModelYearTo: formValues.ModelYearTo || null,
+ModelYearFrom: formValues.ModelYearFrom || 0,
+ModelYearTo: formValues.ModelYearTo || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetModel ; 
 	

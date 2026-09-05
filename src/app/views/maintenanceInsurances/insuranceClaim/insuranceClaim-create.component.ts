@@ -34,7 +34,6 @@ insurancepolicyassetidOptions: ISelectItem[] = [];
 insuranceclaimstatusidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceClaim = {} as IInsuranceClaim;
@@ -75,7 +74,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 RejectionReason: new FormControl('', [Validators.maxLength(100), ]), 
 ClosedDate: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceClaim';
@@ -95,7 +93,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -131,7 +128,6 @@ CurrencyCode: obj.CurrencyCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 RejectionReason: obj.RejectionReason || '',
 ClosedDate:  obj.ClosedDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +169,6 @@ CurrencyCode: obj.CurrencyCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 RejectionReason: obj.RejectionReason || '',
 ClosedDate:  obj.ClosedDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -207,7 +202,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 RejectionReason: formValues.RejectionReason || null,
 ClosedDate: formValues.ClosedDate || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceClaim ; 
 	

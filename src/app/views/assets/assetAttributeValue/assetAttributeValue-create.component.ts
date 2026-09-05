@@ -34,7 +34,6 @@ export class AssetAttributeValueCreateComponent implements OnInit {
   asset: IAsset | null = null;
   assetidOptions: ISelectItem[] = [];
 assetattributedefinitionidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetAttributeValue = {} as IAssetAttributeValue;
@@ -70,7 +69,6 @@ DateValue: new FormControl(new Date(), []),
 BooleanValue: new FormControl(false, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
@@ -88,7 +86,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetAttributeDefinitionId', 'asset-attribute-definitions',
       options => this.assetattributedefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -141,7 +138,6 @@ DateValue:  obj.DateValue || new Date(),
 BooleanValue:  obj.BooleanValue || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -180,7 +176,6 @@ DateValue:  obj.DateValue || new Date(),
 BooleanValue:  obj.BooleanValue || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -204,12 +199,12 @@ RecordStatus: obj.RecordStatus || '',
      AssetId: selectedAssetId || 0,
 AssetAttributeDefinitionId: formValues.AssetAttributeDefinitionId || 0,
 StringValue: formValues.StringValue || null,
-NumberValue: formValues.NumberValue || null,
+NumberValue: formValues.NumberValue || 0,
 DateValue: formValues.DateValue || null,
 BooleanValue: formValues.BooleanValue || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetAttributeValue ; 
 	

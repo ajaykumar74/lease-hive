@@ -32,7 +32,6 @@ export class DisposalBidCreateComponent implements OnInit {
 bidderpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 bidstatuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDisposalBid = {} as IDisposalBid;
@@ -67,7 +66,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 QualifiedFlag: new FormControl(false, [Validators.required]),
 BidStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DisposalBid';
@@ -79,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BidderPartyId', 'parti
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.bidstatuscodeOptions = this.loggedInUserService.getPicklistOptions('BidStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -109,7 +106,6 @@ CurrencyCode: obj.CurrencyCode || '',
 QualifiedFlag:  obj.QualifiedFlag || false,
 BidStatusCode: obj.BidStatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -145,7 +141,6 @@ CurrencyCode: obj.CurrencyCode || '',
 QualifiedFlag:  obj.QualifiedFlag || false,
 BidStatusCode: obj.BidStatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +168,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 QualifiedFlag: formValues.QualifiedFlag || false,
 BidStatusCode: formValues.BidStatusCode || null,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDisposalBid ; 
 	

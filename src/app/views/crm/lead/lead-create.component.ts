@@ -205,7 +205,7 @@ export class LeadCreateComponent implements OnInit {
       Phone: formValues.Phone || null,
       CountryCode: formValues.CountryCode || null,
       InterestedAssetCategoryId: formValues.InterestedAssetCategoryId || 0,
-      EstimatedValue: formValues.EstimatedValue || null,
+      EstimatedValue: formValues.EstimatedValue || 0,
       CurrencyCode: formValues.CurrencyCode || null,
       ExpectedCloseDate: formValues.ExpectedCloseDate || null,
       DisqualificationReason: formValues.DisqualificationReason || null,

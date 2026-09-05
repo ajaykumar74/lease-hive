@@ -141,9 +141,9 @@ export class SubscriptionPlanCreateComponent implements OnInit {
       RowVersionStr: this.objMaster.RowVersionStr,
       PlanCode: formValues.PlanCode || null,
       PlanName: formValues.PlanName || null,
-      MaxUsers: formValues.MaxUsers || null,
-      MaxAssets: formValues.MaxAssets || null,
-      StorageGB: formValues.StorageGB || null,
+      MaxUsers: formValues.MaxUsers || 0,
+      MaxAssets: formValues.MaxAssets || 0,
+      StorageGB: formValues.StorageGB || 0,
       Description: formValues.Description || null,
 
     } as ISubscriptionPlan;

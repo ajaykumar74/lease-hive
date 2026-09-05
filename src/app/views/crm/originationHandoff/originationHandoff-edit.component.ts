@@ -155,13 +155,13 @@ export class OriginationHandoffEditComponent implements OnInit {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
             OpportunityId: formValues.OpportunityId || null,
-            QuoteId: formValues.QuoteId || null,
-            CreditDecisionId: formValues.CreditDecisionId || null,
-            PartyId: formValues.PartyId || null,
+            QuoteId: formValues.QuoteId || 0,
+            CreditDecisionId: formValues.CreditDecisionId || 0,
+            PartyId: formValues.PartyId || 0,
             HandoffStatusId: formValues.HandoffStatusId || null,
             HandoffDateTime: formValues.HandoffDateTime || null,
             TargetModuleCode: formValues.TargetModuleCode || null,
-            TargetReferenceId: formValues.TargetReferenceId || null
+            TargetReferenceId: formValues.TargetReferenceId || 0
         } as IOriginationHandoff;
 
         this.spinner.show();

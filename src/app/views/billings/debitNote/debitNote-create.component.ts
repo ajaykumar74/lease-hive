@@ -35,7 +35,6 @@ leasecontractidOptions: ISelectItem[] = [];
 reasoncodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IDebitNote = {} as IDebitNote;
@@ -73,7 +72,6 @@ NetAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
 GrossAmount: new FormControl(0, [Validators.required]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create DebitNote';
@@ -92,7 +90,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
 this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteReasonCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -125,7 +122,6 @@ NetAmount: obj.NetAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -164,7 +160,6 @@ NetAmount: obj.NetAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 GrossAmount: obj.GrossAmount || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -195,7 +190,7 @@ NetAmount: formValues.NetAmount || 0,
 TaxAmount: formValues.TaxAmount || 0,
 GrossAmount: formValues.GrossAmount || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IDebitNote ; 
 	

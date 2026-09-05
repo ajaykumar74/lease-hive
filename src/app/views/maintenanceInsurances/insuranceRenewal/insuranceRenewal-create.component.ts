@@ -34,7 +34,6 @@ proposedinsurerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 newinsurancepolicyidOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceRenewal = {} as IInsuranceRenewal;
@@ -70,7 +69,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 NewInsurancePolicyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceRenewal';
@@ -88,7 +86,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'NewInsurancePolicyId',
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -119,7 +116,6 @@ CurrencyCode: obj.CurrencyCode || '',
 NewInsurancePolicyId: obj.NewInsurancePolicyId || 0,
 AssignedToUserId: obj.AssignedToUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -156,7 +152,6 @@ CurrencyCode: obj.CurrencyCode || '',
 NewInsurancePolicyId: obj.NewInsurancePolicyId || 0,
 AssignedToUserId: obj.AssignedToUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -185,7 +180,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 NewInsurancePolicyId: formValues.NewInsurancePolicyId || 0,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceRenewal ; 
 	

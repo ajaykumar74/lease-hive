@@ -29,7 +29,6 @@ export class CreditLimitCreateComponent implements OnInit {
     creditdecisionidOptions: ISelectItem[] = [];
     currencycodeOptions: ISelectItem[] = [];
     limitstatusOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ICreditLimit = {} as ICreditLimit;
@@ -59,7 +58,6 @@ export class CreditLimitCreateComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), []),
             LimitStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             Remarks: new FormControl('', [Validators.maxLength(100)]),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
         this.Caption = 'Create CreditLimit';
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
@@ -67,7 +65,6 @@ export class CreditLimitCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.limitstatusOptions = this.loggedInUserService.getPicklistOptions('LimitStatus');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {
@@ -99,7 +96,6 @@ export class CreditLimitCreateComponent implements OnInit {
             EffectiveTo: obj.EffectiveTo || new Date(),
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || ''
         });
     }
 
@@ -129,7 +125,6 @@ export class CreditLimitCreateComponent implements OnInit {
             EffectiveTo: obj.EffectiveTo || new Date(),
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
-            RecordStatus: obj.RecordStatus || ''
         });
         this.editForm.reset();
     }
@@ -154,7 +149,7 @@ export class CreditLimitCreateComponent implements OnInit {
             EffectiveTo: formValues.EffectiveTo || null,
             LimitStatus: formValues.LimitStatus || null,
             Remarks: formValues.Remarks || null,
-            RecordStatus: formValues.RecordStatus || null
+            RecordStatus: 'Active'
         } as ICreditLimit;
 
         this.spinner.show();

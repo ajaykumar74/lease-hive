@@ -33,7 +33,6 @@ billingorganisationidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ICustomerInvoice = {} as ICustomerInvoice;
@@ -79,7 +78,6 @@ OrganisationTaxRegistrationSnapshot: new FormControl('', [Validators.maxLength(4
 PlaceOfSupplyCode: new FormControl('', [Validators.maxLength(20), ]), 
 IssuedAtUtc: new FormControl(new Date(), []),
 ExternalEInvoiceRef: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create CustomerInvoice';
@@ -96,7 +94,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -137,7 +134,6 @@ OrganisationTaxRegistrationSnapshot: obj.OrganisationTaxRegistrationSnapshot || 
 PlaceOfSupplyCode: obj.PlaceOfSupplyCode || '',
 IssuedAtUtc:  obj.IssuedAtUtc || new Date(),
 ExternalEInvoiceRef: obj.ExternalEInvoiceRef || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -184,7 +180,6 @@ OrganisationTaxRegistrationSnapshot: obj.OrganisationTaxRegistrationSnapshot || 
 PlaceOfSupplyCode: obj.PlaceOfSupplyCode || '',
 IssuedAtUtc:  obj.IssuedAtUtc || new Date(),
 ExternalEInvoiceRef: obj.ExternalEInvoiceRef || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -216,14 +211,14 @@ SubtotalAmount: formValues.SubtotalAmount || 0,
 TaxAmount: formValues.TaxAmount || 0,
 GrossAmount: formValues.GrossAmount || 0,
 OutstandingAmount: formValues.OutstandingAmount || 0,
-PaymentTermDays: formValues.PaymentTermDays || null,
+PaymentTermDays: formValues.PaymentTermDays || 0,
 BillingAddressSnapshot: formValues.BillingAddressSnapshot || null,
 CustomerTaxRegistrationSnapshot: formValues.CustomerTaxRegistrationSnapshot || null,
 OrganisationTaxRegistrationSnapshot: formValues.OrganisationTaxRegistrationSnapshot || null,
 PlaceOfSupplyCode: formValues.PlaceOfSupplyCode || null,
 IssuedAtUtc: formValues.IssuedAtUtc || null,
 ExternalEInvoiceRef: formValues.ExternalEInvoiceRef || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ICustomerInvoice ; 
 	

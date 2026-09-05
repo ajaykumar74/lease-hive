@@ -31,7 +31,6 @@ export class BankStatementCreateComponent implements OnInit {
 currencycodeOptions: ISelectItem[] = [];
 importsourceOptions: ISelectItem[] = [];
 reconciliationstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBankStatement = {} as IBankStatement;
@@ -67,7 +66,6 @@ ClosingBalance: new FormControl(0, []),
 ImportSource: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 ImportBatchRef: new FormControl('', [Validators.maxLength(100), ]), 
 ReconciliationStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create BankStatement';
@@ -76,7 +74,6 @@ this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', 
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.importsourceOptions = this.loggedInUserService.getPicklistOptions('ImportSource');
 this.reconciliationstatusOptions = this.loggedInUserService.getPicklistOptions('ReconciliationStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -107,7 +104,6 @@ ClosingBalance: obj.ClosingBalance || 0,
 ImportSource: obj.ImportSource || '',
 ImportBatchRef: obj.ImportBatchRef || '',
 ReconciliationStatus: obj.ReconciliationStatus || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -144,7 +140,6 @@ ClosingBalance: obj.ClosingBalance || 0,
 ImportSource: obj.ImportSource || '',
 ImportBatchRef: obj.ImportBatchRef || '',
 ReconciliationStatus: obj.ReconciliationStatus || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -173,7 +168,7 @@ ClosingBalance: formValues.ClosingBalance || 0,
 ImportSource: formValues.ImportSource || null,
 ImportBatchRef: formValues.ImportBatchRef || null,
 ReconciliationStatus: formValues.ReconciliationStatus || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IBankStatement ; 
 	

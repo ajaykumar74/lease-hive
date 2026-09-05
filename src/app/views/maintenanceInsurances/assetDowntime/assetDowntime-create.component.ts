@@ -34,7 +34,6 @@ insuranceincidentidOptions: ISelectItem[] = [];
 downtimereasoncodeOptions: ISelectItem[] = [];
 customerimpactcodeOptions: ISelectItem[] = [];
 replacementassetidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetDowntime = {} as IAssetDowntime;
@@ -70,7 +69,6 @@ DowntimeReasonCode: new FormControl('', [Validators.required, Validators.maxLeng
 CustomerImpactCode: new FormControl('', [Validators.maxLength(20), ]), 
 ReplacementAssetId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetDowntime';
@@ -88,7 +86,6 @@ this.customerimpactcodeOptions = this.loggedInUserService.getPicklistOptions('Cu
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ReplacementAssetId', 'assets',
       options => this.replacementassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -119,7 +116,6 @@ DowntimeReasonCode: obj.DowntimeReasonCode || '',
 CustomerImpactCode: obj.CustomerImpactCode || '',
 ReplacementAssetId: obj.ReplacementAssetId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -156,7 +152,6 @@ DowntimeReasonCode: obj.DowntimeReasonCode || '',
 CustomerImpactCode: obj.CustomerImpactCode || '',
 ReplacementAssetId: obj.ReplacementAssetId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -185,7 +180,7 @@ DowntimeReasonCode: formValues.DowntimeReasonCode || null,
 CustomerImpactCode: formValues.CustomerImpactCode || null,
 ReplacementAssetId: formValues.ReplacementAssetId || 0,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetDowntime ; 
 	

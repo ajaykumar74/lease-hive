@@ -35,7 +35,6 @@ assetidOptions: ISelectItem[] = [];
 maintenancetypeidOptions: ISelectItem[] = [];
 coveragecodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IServiceAgreementCoverage = {} as IServiceAgreementCoverage;
@@ -70,7 +69,6 @@ MaintenanceTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 CoverageCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DeductibleAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create ServiceAgreementCoverage';
@@ -91,7 +89,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'm
       this.entityLookupDestroyRef);
 this.coveragecodeOptions = this.loggedInUserService.getPicklistOptions('CoverageCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -121,7 +118,6 @@ MaintenanceTypeId: obj.MaintenanceTypeId || 0,
 CoverageCode: obj.CoverageCode || '',
 DeductibleAmount: obj.DeductibleAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -157,7 +153,6 @@ MaintenanceTypeId: obj.MaintenanceTypeId || 0,
 CoverageCode: obj.CoverageCode || '',
 DeductibleAmount: obj.DeductibleAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -185,7 +180,7 @@ MaintenanceTypeId: formValues.MaintenanceTypeId || 0,
 CoverageCode: formValues.CoverageCode || null,
 DeductibleAmount: formValues.DeductibleAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IServiceAgreementCoverage ; 
 	

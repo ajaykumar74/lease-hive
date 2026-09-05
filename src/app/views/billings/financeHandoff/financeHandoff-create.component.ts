@@ -29,7 +29,6 @@ export class FinanceHandoffCreateComponent implements OnInit {
   financeHandoff: IFinanceHandoff = null;
   handofftypeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceHandoff = {} as IFinanceHandoff;
@@ -65,13 +64,11 @@ AttemptCount: new FormControl(0, [Validators.required, Validators.min(-32768), V
 LastAttemptAtUtc: new FormControl(new Date(), []),
 ExternalReference: new FormControl('', [Validators.maxLength(100), ]), 
 ErrorMessage: new FormControl('', [Validators.maxLength(1000), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceHandoff';
     this.handofftypeOptions = this.loggedInUserService.getPicklistOptions('HandoffType');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceHandoffStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -102,7 +99,6 @@ AttemptCount: obj.AttemptCount || 0,
 LastAttemptAtUtc:  obj.LastAttemptAtUtc || new Date(),
 ExternalReference: obj.ExternalReference || '',
 ErrorMessage: obj.ErrorMessage || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -139,7 +135,6 @@ AttemptCount: obj.AttemptCount || 0,
 LastAttemptAtUtc:  obj.LastAttemptAtUtc || new Date(),
 ExternalReference: obj.ExternalReference || '',
 ErrorMessage: obj.ErrorMessage || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -161,14 +156,14 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      HandoffType: formValues.HandoffType || null,
 ReferenceType: formValues.ReferenceType || null,
-ReferenceId: formValues.ReferenceId || null,
+ReferenceId: formValues.ReferenceId || 0,
 TargetSystem: formValues.TargetSystem || null,
 StatusCode: formValues.StatusCode || null,
-AttemptCount: formValues.AttemptCount || null,
+AttemptCount: formValues.AttemptCount || 0,
 LastAttemptAtUtc: formValues.LastAttemptAtUtc || null,
 ExternalReference: formValues.ExternalReference || null,
 ErrorMessage: formValues.ErrorMessage || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IFinanceHandoff ; 
 	

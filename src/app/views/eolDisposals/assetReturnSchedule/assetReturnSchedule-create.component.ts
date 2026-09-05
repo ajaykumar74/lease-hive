@@ -34,7 +34,6 @@ returnlocationidOptions: ISelectItem[] = [];
 responsibleorganisationunitidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 customercontactpartyidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetReturnSchedule = {} as IAssetReturnSchedule;
@@ -69,7 +68,6 @@ ResponsibleOrganisationUnitId: new FormControl(0, [Validators.required, Validato
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 CustomerContactPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetReturnSchedule';
@@ -89,7 +87,6 @@ this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetRetur
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerContactPartyId', 'parties',
       options => this.customercontactpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -119,7 +116,6 @@ ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
 StatusCode: obj.StatusCode || '',
 CustomerContactPartyId: obj.CustomerContactPartyId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -155,7 +151,6 @@ ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
 StatusCode: obj.StatusCode || '',
 CustomerContactPartyId: obj.CustomerContactPartyId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -183,7 +178,7 @@ ResponsibleOrganisationUnitId: formValues.ResponsibleOrganisationUnitId || 0,
 StatusCode: formValues.StatusCode || null,
 CustomerContactPartyId: formValues.CustomerContactPartyId || 0,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetReturnSchedule ; 
 	

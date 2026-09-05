@@ -150,9 +150,9 @@ FinanceReferenceId: obj.FinanceReferenceId || 0,
      ContractTerminationId: formValues.ContractTerminationId || 0,
 ChargeTypeCode: formValues.ChargeTypeCode || null,
 Description: formValues.Description || null,
-Amount: formValues.Amount || null,
+Amount: formValues.Amount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-TaxAmount: formValues.TaxAmount || null,
+TaxAmount: formValues.TaxAmount || 0,
 FinanceReferenceId: formValues.FinanceReferenceId || 0,
 
     } as IContractTerminationCharge ; 

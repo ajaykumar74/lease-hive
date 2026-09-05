@@ -32,7 +32,6 @@ export class AssetAttributeDefinitionCreateComponent implements OnInit {
 assettypeidOptions: ISelectItem[] = [];
 datatypecodeOptions: ISelectItem[] = [];
 unitmeasuretypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetAttributeDefinition = {} as IAssetAttributeDefinition;
@@ -69,7 +68,6 @@ IsRequired: new FormControl(false, []),
 IsSearchable: new FormControl(false, []),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
@@ -80,7 +78,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-t
       this.entityLookupDestroyRef);
 this.datatypecodeOptions.push({Text: '', Value: '' });
 this.unitmeasuretypeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -112,7 +109,6 @@ IsRequired:  obj.IsRequired || false,
 IsSearchable:  obj.IsSearchable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,7 +146,6 @@ IsRequired:  obj.IsRequired || false,
 IsSearchable:  obj.IsSearchable || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -180,7 +175,7 @@ IsRequired: formValues.IsRequired || false,
 IsSearchable: formValues.IsSearchable || false,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetAttributeDefinition ; 
 	

@@ -34,7 +34,6 @@ customerpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 paymentmethodOptions: ISelectItem[] = [];
 organisationbankaccountidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPaymentReceipt = {} as IPaymentReceipt;
@@ -74,7 +73,6 @@ OrganisationBankAccountId: new FormControl(0, [Validators.min(-2147483648), Vali
 ExternalTransactionRef: new FormControl('', [Validators.maxLength(100), ]), 
 PayerNameSnapshot: new FormControl('', [Validators.maxLength(200), ]), 
 VerifiedAtUtc: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PaymentReceipt';
@@ -91,7 +89,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.paymentmethodOptions = this.loggedInUserService.getPicklistOptions('PaymentMethod');
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', Value: 'OrganisationBankAccountId2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -126,7 +123,6 @@ OrganisationBankAccountId: obj.OrganisationBankAccountId || 0,
 ExternalTransactionRef: obj.ExternalTransactionRef || '',
 PayerNameSnapshot: obj.PayerNameSnapshot || '',
 VerifiedAtUtc:  obj.VerifiedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,7 +163,6 @@ OrganisationBankAccountId: obj.OrganisationBankAccountId || 0,
 ExternalTransactionRef: obj.ExternalTransactionRef || '',
 PayerNameSnapshot: obj.PayerNameSnapshot || '',
 VerifiedAtUtc:  obj.VerifiedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -200,7 +195,7 @@ OrganisationBankAccountId: formValues.OrganisationBankAccountId || 0,
 ExternalTransactionRef: formValues.ExternalTransactionRef || null,
 PayerNameSnapshot: formValues.PayerNameSnapshot || null,
 VerifiedAtUtc: formValues.VerifiedAtUtc || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IPaymentReceipt ; 
 	

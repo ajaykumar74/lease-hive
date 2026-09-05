@@ -166,14 +166,14 @@ PerformedBy: obj.PerformedBy || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 EventTypeCode:  formValues.EventTypeCode || null,
 EventDateTime:  formValues.EventDateTime || null,
 ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 EventSummary:  formValues.EventSummary || null,
 EventPayloadJson:  formValues.EventPayloadJson || null,
-PerformedBy:  formValues.PerformedBy || null,
+PerformedBy:  formValues.PerformedBy || 0,
 
     } as IContractEvent ;
 	

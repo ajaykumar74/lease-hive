@@ -32,7 +32,6 @@ export class InsurancePolicyEndorsementCreateComponent implements OnInit {
 endorsementtypecodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsurancePolicyEndorsement = {} as IInsurancePolicyEndorsement;
@@ -67,7 +66,6 @@ PremiumDeltaAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsurancePolicyEndorsement';
@@ -77,7 +75,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.endorsementtypecodeOptions = this.loggedInUserService.getPicklistOptions('EndorsementTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyEndorsementStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -107,7 +104,6 @@ PremiumDeltaAmount: obj.PremiumDeltaAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 Description: obj.Description || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -143,7 +139,6 @@ PremiumDeltaAmount: obj.PremiumDeltaAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 Description: obj.Description || '',
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -171,7 +166,7 @@ PremiumDeltaAmount: formValues.PremiumDeltaAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 Description: formValues.Description || null,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsurancePolicyEndorsement ; 
 	

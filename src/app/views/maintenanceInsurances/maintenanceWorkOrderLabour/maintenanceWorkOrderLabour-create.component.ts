@@ -32,7 +32,6 @@ export class MaintenanceWorkOrderLabourCreateComponent implements OnInit {
 technicianpartyidOptions: ISelectItem[] = [];
 technicianuseridOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceWorkOrderLabour = {} as IMaintenanceWorkOrderLabour;
@@ -67,7 +66,6 @@ TechnicianUserId: new FormControl(0, [Validators.min(-2147483648), Validators.ma
 Hours: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 LineAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceWorkOrderLabour';
@@ -81,7 +79,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'TechnicianUserId', 'ap
       options => this.technicianuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -111,7 +108,6 @@ TechnicianUserId: obj.TechnicianUserId || 0,
 Hours: obj.Hours || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -147,7 +143,6 @@ TechnicianUserId: obj.TechnicianUserId || 0,
 Hours: obj.Hours || 0,
 LineAmount: obj.LineAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -168,15 +163,15 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      MaintenanceWorkOrderId: formValues.MaintenanceWorkOrderId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 LabourCode: formValues.LabourCode || null,
 TechnicianPartyId: formValues.TechnicianPartyId || 0,
 TechnicianUserId: formValues.TechnicianUserId || 0,
-Hours: formValues.Hours || null,
-RateAmount: formValues.RateAmount || null,
+Hours: formValues.Hours || 0,
+RateAmount: formValues.RateAmount || 0,
 LineAmount: formValues.LineAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceWorkOrderLabour ; 
 	

@@ -176,16 +176,16 @@ SatisfiedBy: obj.SatisfiedBy || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 ConditionTypeCode:  formValues.ConditionTypeCode || null,
 ConditionDescription:  formValues.ConditionDescription || null,
 RequiredForEventCode:  formValues.RequiredForEventCode || null,
 DueDate:  formValues.DueDate || null,
-MandatoryFlag:  formValues.MandatoryFlag || null,
-WaiverAllowedFlag:  formValues.WaiverAllowedFlag || null,
+MandatoryFlag:  formValues.MandatoryFlag || false,
+WaiverAllowedFlag:  formValues.WaiverAllowedFlag || false,
 StatusCode:  formValues.StatusCode || null,
 SatisfiedOn:  formValues.SatisfiedOn || null,
-SatisfiedBy:  formValues.SatisfiedBy || null,
+SatisfiedBy:  formValues.SatisfiedBy || 0,
 
     } as IContractCondition ;
 	

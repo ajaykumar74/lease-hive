@@ -148,14 +148,14 @@ export class QuoteDiscountEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            QuoteId: formValues.QuoteId || null,
-            QuoteAssetId: formValues.QuoteAssetId || null,
+            QuoteId: formValues.QuoteId || 0,
+            QuoteAssetId: formValues.QuoteAssetId || 0,
             DiscountTypeCode: formValues.DiscountTypeCode || null,
-            DiscountValue: formValues.DiscountValue || null,
-            DiscountAmount: formValues.DiscountAmount || null,
+            DiscountValue: formValues.DiscountValue || 0,
+            DiscountAmount: formValues.DiscountAmount || 0,
             ReasonCode: formValues.ReasonCode || null,
-            ApprovalRequestId: formValues.ApprovalRequestId || null,
-            ApprovedBy: formValues.ApprovedBy || null,
+            ApprovalRequestId: formValues.ApprovalRequestId || 0,
+            ApprovedBy: formValues.ApprovedBy || 0,
             ApprovedOn: formValues.ApprovedOn || null
         } as IQuoteDiscount;
 

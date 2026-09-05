@@ -31,7 +31,6 @@ export class AssetStatusHistoryCreateComponent implements OnInit {
   fromstatusidOptions: ISelectItem[] = [];
 tostatusidOptions: ISelectItem[] = [];
 reasoncodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetStatusHistory = {} as IAssetStatusHistory;
@@ -64,7 +63,6 @@ ReasonCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 Remarks: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'FromStatusId', 'asset-statuses',
@@ -75,7 +73,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ToStatusId', 'asset-st
       this.entityLookupDestroyRef);
 this.reasoncodeOptions.push({Text: 'StatusChange1', Value: 'StatusChange1' });
 this.reasoncodeOptions.push({Text: 'StatusChange2', Value: 'StatusChange2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -137,7 +133,6 @@ ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -163,7 +158,7 @@ ReasonCode: formValues.ReasonCode || null,
 Remarks: formValues.Remarks || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetStatusHistory ; 
 	

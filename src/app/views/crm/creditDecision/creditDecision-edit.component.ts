@@ -169,19 +169,19 @@ export class CreditDecisionEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditApplicationId: formValues.CreditApplicationId || null,
-            CreditAssessmentId: formValues.CreditAssessmentId || null,
+            CreditApplicationId: formValues.CreditApplicationId || 0,
+            CreditAssessmentId: formValues.CreditAssessmentId || 0,
             DecisionCode: formValues.DecisionCode || null,
             DecisionDateTime: formValues.DecisionDateTime || null,
-            ApprovedLimitAmount: formValues.ApprovedLimitAmount || null,
+            ApprovedLimitAmount: formValues.ApprovedLimitAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null,
-            ApprovedTermMonths: formValues.ApprovedTermMonths || null,
+            ApprovedTermMonths: formValues.ApprovedTermMonths || 0,
             RiskRatingCode: formValues.RiskRatingCode || null,
             DecisionReasonCode: formValues.DecisionReasonCode || null,
             DecisionSummary: formValues.DecisionSummary || null,
             ValidUntil: formValues.ValidUntil || null,
-            ApprovalRequestId: formValues.ApprovalRequestId || null,
-            DecidedBy: formValues.DecidedBy || null
+            ApprovalRequestId: formValues.ApprovalRequestId || 0,
+            DecidedBy: formValues.DecidedBy || 0
         } as ICreditDecision;
 
         this.spinner.show();

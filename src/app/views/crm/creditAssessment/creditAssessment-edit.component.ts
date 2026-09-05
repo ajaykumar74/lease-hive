@@ -154,15 +154,15 @@ export class CreditAssessmentEditComponent implements OnInit {
         var updatedObj = {
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
-            CreditApplicationId: formValues.CreditApplicationId || null,
+            CreditApplicationId: formValues.CreditApplicationId || 0,
             AssessmentVersion: formValues.AssessmentVersion || null,
             AssessmentTypeCode: formValues.AssessmentTypeCode || null,
-            AssessedByUserId: formValues.AssessedByUserId || null,
+            AssessedByUserId: formValues.AssessedByUserId || 0,
             AssessmentDateTime: formValues.AssessmentDateTime || null,
             RiskRatingCode: formValues.RiskRatingCode || null,
-            Score: formValues.Score || null,
-            ProbabilityOfDefaultPct: formValues.ProbabilityOfDefaultPct || null,
-            RecommendedLimitAmount: formValues.RecommendedLimitAmount || null,
+            Score: formValues.Score || 0,
+            ProbabilityOfDefaultPct: formValues.ProbabilityOfDefaultPct || 0,
+            RecommendedLimitAmount: formValues.RecommendedLimitAmount || 0,
             CurrencyCode: formValues.CurrencyCode || null
         } as ICreditAssessment;
 

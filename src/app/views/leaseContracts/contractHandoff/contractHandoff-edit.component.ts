@@ -167,13 +167,13 @@ ValidationJson: obj.ValidationJson || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 TargetModuleCode:  formValues.TargetModuleCode || null,
 HandoffStatusCode:  formValues.HandoffStatusCode || null,
 HandoffDateTime:  formValues.HandoffDateTime || null,
-TargetReferenceId:  formValues.TargetReferenceId || null,
+TargetReferenceId:  formValues.TargetReferenceId || 0,
 ValidationJson:  formValues.ValidationJson || null,
 
     } as IContractHandoff ;

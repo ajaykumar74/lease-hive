@@ -34,7 +34,6 @@ recoverypartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 financereferenceidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsuranceRecovery = {} as IInsuranceRecovery;
@@ -70,7 +69,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 RecoveryDate: new FormControl(new Date(), []),
 FinanceReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsuranceRecovery';
@@ -85,7 +83,6 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId1', Value: 'FinanceReferenceId1' });
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId2', Value: 'FinanceReferenceId2' });
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceRecoveryStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -116,7 +113,6 @@ CurrencyCode: obj.CurrencyCode || '',
 RecoveryDate:  obj.RecoveryDate || new Date(),
 FinanceReferenceId: obj.FinanceReferenceId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -153,7 +149,6 @@ CurrencyCode: obj.CurrencyCode || '',
 RecoveryDate:  obj.RecoveryDate || new Date(),
 FinanceReferenceId: obj.FinanceReferenceId || 0,
 StatusCode: obj.StatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -182,7 +177,7 @@ CurrencyCode: formValues.CurrencyCode || null,
 RecoveryDate: formValues.RecoveryDate || null,
 FinanceReferenceId: formValues.FinanceReferenceId || 0,
 StatusCode: formValues.StatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsuranceRecovery ; 
 	

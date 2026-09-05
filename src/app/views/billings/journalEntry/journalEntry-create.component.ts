@@ -32,7 +32,6 @@ export class JournalEntryCreateComponent implements OnInit {
 sourcemoduleOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IJournalEntry = {} as IJournalEntry;
@@ -69,7 +68,6 @@ TotalCredit: new FormControl(0, [Validators.required]),
 PostingStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ExternalJournalRef: new FormControl('', [Validators.maxLength(100), ]), 
 PostedAtUtc: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create JournalEntry';
@@ -79,7 +77,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.sourcemoduleOptions = this.loggedInUserService.getPicklistOptions('SourceModule');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('JournalEntryPostingStatus');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -111,7 +108,6 @@ TotalCredit: obj.TotalCredit || 0,
 PostingStatus: obj.PostingStatus || '',
 ExternalJournalRef: obj.ExternalJournalRef || '',
 PostedAtUtc:  obj.PostedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -149,7 +145,6 @@ TotalCredit: obj.TotalCredit || 0,
 PostingStatus: obj.PostingStatus || '',
 ExternalJournalRef: obj.ExternalJournalRef || '',
 PostedAtUtc:  obj.PostedAtUtc || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -179,7 +174,7 @@ TotalCredit: formValues.TotalCredit || 0,
 PostingStatus: formValues.PostingStatus || null,
 ExternalJournalRef: formValues.ExternalJournalRef || null,
 PostedAtUtc: formValues.PostedAtUtc || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IJournalEntry ; 
 	

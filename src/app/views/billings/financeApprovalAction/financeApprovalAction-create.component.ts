@@ -31,7 +31,6 @@ export class FinanceApprovalActionCreateComponent implements OnInit {
   financeapprovalrequestidOptions: ISelectItem[] = [];
 actionbyuseridOptions: ISelectItem[] = [];
 actioncodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceApprovalAction = {} as IFinanceApprovalAction;
@@ -64,7 +63,6 @@ ActionCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 ActionAtUtc: new FormControl(new Date(), [Validators.required]),
 Comments: new FormControl('', [Validators.maxLength(1000), ]), 
 AuthoritySnapshot: new FormControl('', [Validators.maxLength(500), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceApprovalAction';
@@ -75,7 +73,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ActionByUserId', 'appl
       options => this.actionbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalActionActionCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ ActionCode: obj.ActionCode || '',
 ActionAtUtc:  obj.ActionAtUtc || new Date(),
 Comments: obj.Comments || '',
 AuthoritySnapshot: obj.AuthoritySnapshot || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -137,7 +133,6 @@ ActionCode: obj.ActionCode || '',
 ActionAtUtc:  obj.ActionAtUtc || new Date(),
 Comments: obj.Comments || '',
 AuthoritySnapshot: obj.AuthoritySnapshot || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -163,7 +158,7 @@ ActionCode: formValues.ActionCode || null,
 ActionAtUtc: formValues.ActionAtUtc || null,
 Comments: formValues.Comments || null,
 AuthoritySnapshot: formValues.AuthoritySnapshot || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IFinanceApprovalAction ; 
 	

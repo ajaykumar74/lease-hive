@@ -33,7 +33,6 @@ assetidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierReturn = {} as ISupplierReturn;
@@ -69,7 +68,6 @@ CreditExpectedAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SupplierReturn';
@@ -84,7 +82,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'par
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierReturnStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -115,7 +112,6 @@ CreditExpectedAmount: obj.CreditExpectedAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,7 +148,6 @@ CreditExpectedAmount: obj.CreditExpectedAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 StatusCode: obj.StatusCode || '',
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,7 +176,7 @@ CreditExpectedAmount: formValues.CreditExpectedAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 StatusCode: formValues.StatusCode || null,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ISupplierReturn ; 
 	

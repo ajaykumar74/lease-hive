@@ -169,14 +169,14 @@ CapturedBy: obj.CapturedBy || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     ContractConditionId:  formValues.ContractConditionId || null,
+     ContractConditionId:  formValues.ContractConditionId || 0,
 EvidenceTypeCode:  formValues.EvidenceTypeCode || null,
-DocumentId:  formValues.DocumentId || null,
+DocumentId:  formValues.DocumentId || 0,
 ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 EvidenceNotes:  formValues.EvidenceNotes || null,
 CapturedOn:  formValues.CapturedOn || null,
-CapturedBy:  formValues.CapturedBy || null,
+CapturedBy:  formValues.CapturedBy || 0,
 
     } as IContractConditionEvidence ;
 	

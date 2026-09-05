@@ -29,7 +29,6 @@ export class AssetAttributeOptionCreateComponent implements OnInit {
   Caption: string = 'Create Asset Attribute Option';
   assetAttributeOption: IAssetAttributeOption = null;
   assetattributedefinitionidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetAttributeOption = {} as IAssetAttributeOption;
@@ -62,13 +61,11 @@ OptionLabel: new FormControl('', [Validators.required, Validators.maxLength(50),
 SortOrder: new FormControl(0, [Validators.required, ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetAttributeDefinitionId', 'asset-attribute-definitions',
       options => this.assetattributedefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -96,7 +93,6 @@ OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -130,7 +126,6 @@ OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -153,10 +148,10 @@ RecordStatus: obj.RecordStatus || '',
      AssetAttributeDefinitionId: formValues.AssetAttributeDefinitionId || 0,
 OptionCode: formValues.OptionCode || null,
 OptionLabel: formValues.OptionLabel || null,
-SortOrder: formValues.SortOrder || null,
+SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetAttributeOption ; 
 	

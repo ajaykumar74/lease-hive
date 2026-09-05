@@ -210,7 +210,7 @@ this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat
       City: formValues.City || null,
       Country: formValues.Country || null,
       PostalCode: formValues.PostalCode || null,
-      CustomerLimit: formValues.CustomerLimit || null,
+      CustomerLimit: formValues.CustomerLimit || 0,
       CurrencySymbol: formValues.CurrencySymbol || null,
       TimeZone: formValues.TimeZone || null,
       DateFormat: formValues.DateFormat || null,

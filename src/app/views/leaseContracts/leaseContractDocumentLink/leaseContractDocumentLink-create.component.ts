@@ -152,7 +152,7 @@ IsPrimary:  obj.IsPrimary || false,
 ReferenceId: formValues.ReferenceId || 0,
 DocumentId: formValues.DocumentId || 0,
 DocumentPurposeCode: formValues.DocumentPurposeCode || null,
-DocumentVersionNo: formValues.DocumentVersionNo || null,
+DocumentVersionNo: formValues.DocumentVersionNo || 0,
 IsPrimary: formValues.IsPrimary || false,
 
     } as ILeaseContractDocumentLink ; 

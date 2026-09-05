@@ -32,7 +32,6 @@ export class FinanceExceptionCreateComponent implements OnInit {
 severityOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IFinanceException = {} as IFinanceException;
@@ -70,7 +69,6 @@ Description: new FormControl('', [Validators.required, Validators.maxLength(100)
 AssignedToUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ResolvedAtUtc: new FormControl(new Date(), []),
 ResolutionNote: new FormControl('', [Validators.maxLength(1000), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create FinanceException';
@@ -80,7 +78,6 @@ this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceExc
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -113,7 +110,6 @@ Description: obj.Description || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 ResolvedAtUtc:  obj.ResolvedAtUtc || new Date(),
 ResolutionNote: obj.ResolutionNote || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,7 +148,6 @@ Description: obj.Description || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 ResolvedAtUtc:  obj.ResolvedAtUtc || new Date(),
 ResolutionNote: obj.ResolutionNote || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -183,7 +178,7 @@ Description: formValues.Description || null,
 AssignedToUserId: formValues.AssignedToUserId || 0,
 ResolvedAtUtc: formValues.ResolvedAtUtc || null,
 ResolutionNote: formValues.ResolutionNote || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IFinanceException ; 
 	

@@ -166,12 +166,12 @@ Notes: obj.Notes || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId:  formValues.LeaseContractId || null,
+     LeaseContractId:  formValues.LeaseContractId || 0,
 SuspensionReasonCode:  formValues.SuspensionReasonCode || null,
 SuspendedFrom:  formValues.SuspendedFrom || null,
 SuspendedTo:  formValues.SuspendedTo || null,
 StatusCode:  formValues.StatusCode || null,
-ApprovalRequestId:  formValues.ApprovalRequestId || null,
+ApprovalRequestId:  formValues.ApprovalRequestId || 0,
 Notes:  formValues.Notes || null,
 
     } as IContractSuspension ;

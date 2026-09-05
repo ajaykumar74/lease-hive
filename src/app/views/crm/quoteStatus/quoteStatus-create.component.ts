@@ -27,7 +27,6 @@ export class QuoteStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   quoteStatus: IQuoteStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IQuoteStatus = {} as IQuoteStatus;
@@ -59,12 +58,10 @@ StatusName: new FormControl('', [Validators.required, Validators.maxLength(50), 
 IsEditable: new FormControl(false, []),
 IsTerminal: new FormControl(false, []),
 SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -91,7 +88,6 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -126,7 +122,6 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
@@ -152,8 +147,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: formValues.StatusName || null,
 IsEditable: formValues.IsEditable || false,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
-RecordStatus: formValues.RecordStatus || null,
+SortOrder: formValues.SortOrder || 0,
+RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 

@@ -37,7 +37,6 @@ coveragetypeidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 paymentreferenceidOptions: ISelectItem[] = [];
 previouspolicyidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInsurancePolicy = {} as IInsurancePolicy;
@@ -80,7 +79,6 @@ TaxAmount: new FormControl(0, []),
 PaymentReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 PreviousPolicyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IssuedDate: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create InsurancePolicy';
@@ -106,7 +104,6 @@ this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId2', Value: 'Paymen
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PreviousPolicyId', 'insurance-policies',
       options => this.previouspolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"OrganisationId":"OrganisationId"});
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -144,7 +141,6 @@ TaxAmount: obj.TaxAmount || 0,
 PaymentReferenceId: obj.PaymentReferenceId || 0,
 PreviousPolicyId: obj.PreviousPolicyId || 0,
 IssuedDate:  obj.IssuedDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -188,7 +184,6 @@ TaxAmount: obj.TaxAmount || 0,
 PaymentReferenceId: obj.PaymentReferenceId || 0,
 PreviousPolicyId: obj.PreviousPolicyId || 0,
 IssuedDate:  obj.IssuedDate || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -224,7 +219,7 @@ TaxAmount: formValues.TaxAmount || 0,
 PaymentReferenceId: formValues.PaymentReferenceId || 0,
 PreviousPolicyId: formValues.PreviousPolicyId || 0,
 IssuedDate: formValues.IssuedDate || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IInsurancePolicy ; 
 	

@@ -30,7 +30,6 @@ export class MaintenanceInsuranceHandoffCreateComponent implements OnInit {
   handofftypecodeOptions: ISelectItem[] = [];
 referencetypecodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IMaintenanceInsuranceHandoff = {} as IMaintenanceInsuranceHandoff;
@@ -66,14 +65,12 @@ AttemptCount: new FormControl(0, [Validators.required, Validators.min(-32768), V
 LastAttemptAt: new FormControl(new Date(), []),
 ExternalReference: new FormControl('', [Validators.maxLength(100), ]), 
 Reason: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create MaintenanceInsuranceHandoff';
     this.handofftypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffHandoffTypeCode');
 this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffReferenceTypeCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffStatusCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -104,7 +101,6 @@ AttemptCount: obj.AttemptCount || 0,
 LastAttemptAt:  obj.LastAttemptAt || new Date(),
 ExternalReference: obj.ExternalReference || '',
 Reason: obj.Reason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -141,7 +137,6 @@ AttemptCount: obj.AttemptCount || 0,
 LastAttemptAt:  obj.LastAttemptAt || new Date(),
 ExternalReference: obj.ExternalReference || '',
 Reason: obj.Reason || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -166,11 +161,11 @@ ReferenceTypeCode: formValues.ReferenceTypeCode || null,
 ReferenceId: formValues.ReferenceId || 0,
 TargetSystem: formValues.TargetSystem || null,
 StatusCode: formValues.StatusCode || null,
-AttemptCount: formValues.AttemptCount || null,
+AttemptCount: formValues.AttemptCount || 0,
 LastAttemptAt: formValues.LastAttemptAt || null,
 ExternalReference: formValues.ExternalReference || null,
 Reason: formValues.Reason || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IMaintenanceInsuranceHandoff ; 
 	

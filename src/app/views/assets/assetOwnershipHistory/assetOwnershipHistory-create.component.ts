@@ -34,7 +34,6 @@ export class AssetOwnershipHistoryCreateComponent implements OnInit {
   asset: IAsset | null = null;
   assetidOptions: ISelectItem[] = [];
 ownershiptypeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetOwnershipHistory = {} as IAssetOwnershipHistory;
@@ -70,7 +69,6 @@ AcquisitionReference: new FormControl('', [Validators.maxLength(50), ]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
@@ -86,7 +84,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.ownershiptypeOptions = this.loggedInUserService.getPicklistOptions('OwnershipType');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 
@@ -139,7 +136,6 @@ AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -178,7 +174,6 @@ AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -206,7 +201,7 @@ AcquisitionReference: formValues.AcquisitionReference || null,
 Remarks: formValues.Remarks || null,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IAssetOwnershipHistory ; 
 	

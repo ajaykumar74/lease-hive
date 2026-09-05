@@ -31,7 +31,6 @@ export class SettlementAcknowledgementCreateComponent implements OnInit {
   endofleasesettlementidOptions: ISelectItem[] = [];
 responsecodeOptions: ISelectItem[] = [];
 respondedbypartyidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISettlementAcknowledgement = {} as ISettlementAcknowledgement;
@@ -64,7 +63,6 @@ RespondedAt: new FormControl(new Date(), []),
 RespondedByPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 DisputeReason: new FormControl('', [Validators.maxLength(100), ]), 
 ResolvedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SettlementAcknowledgement';
@@ -75,7 +73,6 @@ this.responsecodeOptions = this.loggedInUserService.getPicklistOptions('Response
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RespondedByPartyId', 'parties',
       options => this.respondedbypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -103,7 +100,6 @@ RespondedAt:  obj.RespondedAt || new Date(),
 RespondedByPartyId: obj.RespondedByPartyId || 0,
 DisputeReason: obj.DisputeReason || '',
 ResolvedAt:  obj.ResolvedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -137,7 +133,6 @@ RespondedAt:  obj.RespondedAt || new Date(),
 RespondedByPartyId: obj.RespondedByPartyId || 0,
 DisputeReason: obj.DisputeReason || '',
 ResolvedAt:  obj.ResolvedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -163,7 +158,7 @@ RespondedAt: formValues.RespondedAt || null,
 RespondedByPartyId: formValues.RespondedByPartyId || 0,
 DisputeReason: formValues.DisputeReason || null,
 ResolvedAt: formValues.ResolvedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ISettlementAcknowledgement ; 
 	

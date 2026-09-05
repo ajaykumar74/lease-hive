@@ -31,7 +31,6 @@ export class EndOfLeaseOptionCreateComponent implements OnInit {
   endofleasecaseidOptions: ISelectItem[] = [];
 optioncodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IEndOfLeaseOption = {} as IEndOfLeaseOption;
@@ -66,7 +65,6 @@ ReferenceAmount: new FormControl(0, []),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 SelectedFlag: new FormControl(false, [Validators.required]),
 SelectedAt: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create EndOfLeaseOption';
@@ -75,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       this.entityLookupDestroyRef);
 this.optioncodeOptions = this.loggedInUserService.getPicklistOptions('OptionCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -105,7 +102,6 @@ ReferenceAmount: obj.ReferenceAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 SelectedFlag:  obj.SelectedFlag || false,
 SelectedAt:  obj.SelectedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -141,7 +137,6 @@ ReferenceAmount: obj.ReferenceAmount || 0,
 CurrencyCode: obj.CurrencyCode || '',
 SelectedFlag:  obj.SelectedFlag || false,
 SelectedAt:  obj.SelectedAt || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -169,7 +164,7 @@ ReferenceAmount: formValues.ReferenceAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 SelectedFlag: formValues.SelectedFlag || false,
 SelectedAt: formValues.SelectedAt || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as IEndOfLeaseOption ; 
 	

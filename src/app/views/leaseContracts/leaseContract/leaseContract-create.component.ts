@@ -35,7 +35,6 @@ leasecontractstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
 quoteidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ILeaseContract = {} as ILeaseContract;
@@ -78,7 +77,6 @@ MaturityDate: new FormControl(new Date(), []),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ContractTitle: new FormControl('', [Validators.maxLength(200), ]), 
 ExternalReference: new FormControl('', [Validators.maxLength(80), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create LeaseContract';
@@ -99,7 +97,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes',
       options => this.quoteidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  
@@ -137,7 +134,6 @@ MaturityDate:  obj.MaturityDate || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 ContractTitle: obj.ContractTitle || '',
 ExternalReference: obj.ExternalReference || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -181,7 +177,6 @@ MaturityDate:  obj.MaturityDate || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 ContractTitle: obj.ContractTitle || '',
 ExternalReference: obj.ExternalReference || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -202,7 +197,7 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ContractNo: formValues.ContractNo || null,
-VersionNo: formValues.VersionNo || null,
+VersionNo: formValues.VersionNo || 0,
 LessorOrganisationId: formValues.LessorOrganisationId || 0,
 ServicingOrganisationUnitId: formValues.ServicingOrganisationUnitId || 0,
 CustomerPartyId: formValues.CustomerPartyId || 0,
@@ -217,7 +212,7 @@ MaturityDate: formValues.MaturityDate || null,
 CurrencyCode: formValues.CurrencyCode || null,
 ContractTitle: formValues.ContractTitle || null,
 ExternalReference: formValues.ExternalReference || null,
-RecordStatus: formValues.RecordStatus || null,
+RecordStatus: 'Active',
 
     } as ILeaseContract ; 
 	
