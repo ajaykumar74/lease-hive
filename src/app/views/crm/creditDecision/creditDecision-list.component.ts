@@ -134,17 +134,17 @@ export class CreditDecisionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['origination/credit/decision/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/credit/decision/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['origination/credit/decision/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/credit/decision/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['origination/credit/decision/create']);
+      this.router.navigate(['/business/origination/credit/decision/create']);
     } 
     else if (key == "Refresh") {
       this.search();

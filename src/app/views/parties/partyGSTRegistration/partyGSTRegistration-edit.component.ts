@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PartyGSTRegistrationService } from './partyGSTRegistration.service';
   providers: [ MessageService]
 })
 export class PartyGSTRegistrationEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -76,6 +77,9 @@ EffectiveTo: new FormControl(new Date(), []),
 IsDefault: new FormControl(false), 
 
     });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'PrincipalLocationId', 'party-locations',
+      options => this.principallocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
 this.registrationtypeOptions = this.loggedInUserService.getPicklistOptions('RegistrationType');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
@@ -114,10 +118,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: IPartyGSTRegistration): void {
-    this.loggedInUserService.getLookupOptions('party-locations', obj.PrincipalLocationId).subscribe({
-      next: options => this.principallocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

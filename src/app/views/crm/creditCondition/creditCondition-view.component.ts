@@ -71,7 +71,7 @@ export class CreditConditionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['business/crm/origination/credit/Conditions/create']);
+            this.router.navigate(['/business/origination/credit/Conditions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

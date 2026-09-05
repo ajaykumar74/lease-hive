@@ -25,11 +25,12 @@ const pages: BusinessPage[] = [
     { path: 'crm/opportunities/pipeline', title: 'Opportunity Pipeline', area: 'CRM', icon: 'pi pi-chart-line' },
     { path: 'crm/opportunities', title: 'All Opportunities', area: 'CRM', icon: 'pi pi-list' },
     { path: 'crm/opportunities/new', title: 'New Opportunity', area: 'CRM', icon: 'pi pi-plus' },
-    { path: 'origination/requirements', title: 'Lease Requirements', area: 'Origination', icon: 'pi pi-file-edit' },
-    { path: 'origination/requirements/new', title: 'New Lease Requirement', area: 'Origination', icon: 'pi pi-plus' },
+    { path: 'crm/leaseRequirements', title: 'Lease Requirements', area: 'CRM', icon: 'pi pi-file-edit' },
+    { path: 'crm/leaseRequirements/create', title: 'New Lease Requirement', area: 'CRM', icon: 'pi pi-plus' },
     { path: 'origination/quotes', title: 'All Quotes', area: 'Origination', icon: 'pi pi-file' },
     { path: 'origination/quotes/approvals', title: 'Quotes for Approval', area: 'Origination', icon: 'pi pi-check-square' },
     { path: 'origination/quotes/issued', title: 'Issued Quotes', area: 'Origination', icon: 'pi pi-send' },
+    { path: 'origination/quotes/assets', title: 'Quote Assets', area: 'CRM', icon: 'pi pi-box' },
     { path: 'origination/quotes/snapshot', title: 'Quote Snapshots', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/charges', title: 'Quote Charges', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
@@ -37,6 +38,7 @@ const pages: BusinessPage[] = [
     { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/review', title: 'Credit Review', area: 'Origination', icon: 'pi pi-search' },
+    { path: 'origination/credit/assessment', title: 'Credit Assessment', area: 'CRM', icon: 'pi pi-file-check' },
     { path: 'origination/credit/CreditBureauResult', title: 'Credit  BureauResult ', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/exposure', title: 'Credit Exposure', area: 'Origination', icon: 'pi pi-search' },
     { path: 'origination/credit/snapshot', title: 'Credit Snapshot', area: 'Origination', icon: 'pi pi-search' },
@@ -122,12 +124,17 @@ export const BUSINESS_ROUTES: Routes = [
             },
             {
                 path: 'origination/requirements/new',
-                redirectTo: 'origination/requirements/create',
+                redirectTo: 'crm/leaseRequirements/create',
                 pathMatch: 'full'
             },
             {
                 path: 'origination/requirements',
                 data: { title: 'Lease Requirement', breadcrumb: 'Lease Requirement' },
+                loadChildren: () => import('@/views/crm/leaseRequirement/leaseRequirement.module').then((m) => m.LeaseRequirementModule)
+            },
+            {
+                path: 'crm/leaseRequirements',
+                data: { title: 'Lease Requirements', breadcrumb: 'Lease Requirements' },
                 loadChildren: () => import('@/views/crm/leaseRequirement/leaseRequirement.module').then((m) => m.LeaseRequirementModule)
             },
             {
@@ -142,6 +149,11 @@ export const BUSINESS_ROUTES: Routes = [
             },
             {
                 path: 'origination/quotes/issued',
+                redirectTo: 'origination/quotes',
+                pathMatch: 'full'
+            },
+            {
+                path: 'origination/quotes/assets',
                 redirectTo: 'origination/quotes',
                 pathMatch: 'full'
             },
@@ -183,6 +195,11 @@ export const BUSINESS_ROUTES: Routes = [
 
             {
                 path: 'origination/credit/review',
+                data: { title: 'Credit Assessment', breadcrumb: 'Credit Assessment' },
+                loadChildren: () => import('@/views/crm/creditAssessment/creditAssessment.module').then((m) => m.CreditAssessmentModule)
+            },
+            {
+                path: 'origination/credit/assessment',
                 data: { title: 'Credit Assessment', breadcrumb: 'Credit Assessment' },
                 loadChildren: () => import('@/views/crm/creditAssessment/creditAssessment.module').then((m) => m.CreditAssessmentModule)
             },

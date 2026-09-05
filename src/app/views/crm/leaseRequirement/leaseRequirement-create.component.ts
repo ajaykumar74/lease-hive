@@ -124,7 +124,7 @@ export class LeaseRequirementCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/business/origination/requirements/create']);
+            this.router.navigate(['/business/crm/leaseRequirements/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

@@ -152,11 +152,11 @@ RecordStatus: obj.RecordStatus || '',
 StatusName: formValues.StatusName || null,
 IsEditable: formValues.IsEditable || false,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
+SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
 RecordStatus: formValues.RecordStatus || null,
-
+TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
     } as ILeaseContractStatus ; 
 	
 	  this.spinner.show(); 

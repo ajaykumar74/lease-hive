@@ -115,7 +115,7 @@ export class CreditDecisionCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditDecisions/create']);
+            this.router.navigate(['/business/origination/credit/decision/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

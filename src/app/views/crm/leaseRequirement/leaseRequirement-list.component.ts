@@ -151,17 +151,17 @@ export class LeaseRequirementListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/origination/requirements/edit/' + obj.Id]);
+        this.router.navigate(['/business/crm/leaseRequirements/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['/business/origination/requirements/view/' + obj.Id]);
+        this.router.navigate(['/business/crm/leaseRequirements/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/business/origination/requirements/create']);
+      this.router.navigate(['/business/crm/leaseRequirements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

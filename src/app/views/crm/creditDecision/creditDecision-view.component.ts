@@ -71,7 +71,7 @@ export class CreditDecisionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['origination/credit/decision/create']);
+            this.router.navigate(['/business/origination/credit/decision/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

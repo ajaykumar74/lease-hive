@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
-import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPartyContact } from './partyContact';
@@ -18,62 +18,62 @@ import { IParty } from '@/views/parties/party/party';
 @Component({
   selector: 'app-partyContact-create',
   standalone: false,
-  templateUrl: './partyContact-create.component.html' ,
-   providers: [ MessageService]
+  templateUrl: './partyContact-create.component.html',
+  providers: [MessageService]
 })
 export class PartyContactCreateComponent implements OnInit {
 
-   
-  selectedId: number; 
-  isLoading : boolean = false;
+
+  selectedId: number;
+  isLoading: boolean = false;
   permission = {} as IPermission;
   Caption: string = 'Create Party Contact';
   partyContact: IPartyContact = null;
   partyId: number | null = null;
   party: IParty | null = null;
   partyidOptions: ISelectItem[] = [];
-partylocationidOptions: ISelectItem[] = [];
-contacttypeOptions: ISelectItem[] = [];
+  partylocationidOptions: ISelectItem[] = [];
+  contacttypeOptions: ISelectItem[] = [];
 
-  editForm: any; 
-  objMaster : IPartyContact = {} as IPartyContact;
-  
-    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent;
+  editForm: any;
+  objMaster: IPartyContact = {} as IPartyContact;
+
+  @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+  @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
-	private fb: FormBuilder,
-	private activatedRoute: ActivatedRoute,
-	private router: Router, 	
-	private _location: Location, 
-	private partyContactService: PartyContactService,
-	private partyService: PartyService,
-	private loggedInUserService : LoggedInUserService
-	
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private _location: Location,
+    private partyContactService: PartyContactService,
+    private partyService: PartyService,
+    private loggedInUserService: LoggedInUserService
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
-   this.objMaster = { ...this.partyContact };
+    this.objMaster = { ...this.partyContact };
 
     this.editForm = this.fb.group({
-     Id: new FormControl(0, []),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-ContactType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-Title: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-FirstName: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
-LastName: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
-Designation: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DepartmentName: new FormControl('', [Validators.maxLength(20), ]), 
-Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
-MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
-EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+      Id: new FormControl(0, []),
+      PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      ContactType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      Title: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      FirstName: new FormControl('', [Validators.required, Validators.maxLength(30),]),
+      LastName: new FormControl('', [Validators.required, Validators.maxLength(30),]),
+      Designation: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      DepartmentName: new FormControl('', [Validators.maxLength(20),]),
+      Email: new FormControl('', [Validators.required, Validators.maxLength(100),]),
+      MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5),]),
+      MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10),]),
+      EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
     this.loggedInUserService.getPartyOptions().subscribe({
@@ -87,7 +87,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       this.editForm.controls.PartyId.disable();
       this.loadParty(this.partyId);
     }
-this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactType');
+    this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactType');
     this.loggedInUserService.getLookupOptions('party-locations').subscribe({
       next: options => this.partylocationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -105,42 +105,42 @@ this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactTy
     });
   }
 
- loadUI(): void {
-    this.isLoading = true;    
+  loadUI(): void {
+    this.isLoading = true;
     this.partyContactService.getById(this.selectedId).subscribe({
       next: data => {
         this.partyContact = data;
         this.objMaster = { ...this.partyContact };
         this.populateUI(data);
       },
-      error: err => {  this.messageService.showSuccess(err); },
+      error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
-    }); 
-  }  
+    });
+  }
 
 
   populateUI(obj: IPartyContact): void {
-     this.editForm.patchValue(
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  PartyId: obj.PartyId || 0,
-PartyLocationId: obj.PartyLocationId || 0,
-ContactType: obj.ContactType || '',
-Title: obj.Title || '',
-FirstName: obj.FirstName || '',
-LastName: obj.LastName || '',
-Designation: obj.Designation || '',
-DepartmentName: obj.DepartmentName || '',
-Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
-MobileNumber: obj.MobileNumber || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
- 
+        Id: obj.Id || 0,
+        PartyId: obj.PartyId || 0,
+        PartyLocationId: obj.PartyLocationId || 0,
+        ContactType: obj.ContactType || '',
+        Title: obj.Title || '',
+        FirstName: obj.FirstName || '',
+        LastName: obj.LastName || '',
+        Designation: obj.Designation || '',
+        DepartmentName: obj.DepartmentName || '',
+        Email: obj.Email || '',
+        MobileCountryCode: obj.MobileCountryCode || '',
+        MobileNumber: obj.MobileNumber || '',
+        EffectiveFrom: obj.EffectiveFrom || new Date(),
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/parties/contacts/create']);
@@ -162,71 +162,71 @@ EffectiveFrom:  obj.EffectiveFrom || new Date(),
       return;
     }
     this.partyContact = { ...this.objMaster };
-    var obj  = this.partyContact;
-   this.editForm.patchValue(
+    var obj = this.partyContact;
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  PartyId: obj.PartyId || 0,
-PartyLocationId: obj.PartyLocationId || 0,
-ContactType: obj.ContactType || '',
-Title: obj.Title || '',
-FirstName: obj.FirstName || '',
-LastName: obj.LastName || '',
-Designation: obj.Designation || '',
-DepartmentName: obj.DepartmentName || '',
-Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
-MobileNumber: obj.MobileNumber || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
- 
+        Id: obj.Id || 0,
+        PartyId: obj.PartyId || 0,
+        PartyLocationId: obj.PartyLocationId || 0,
+        ContactType: obj.ContactType || '',
+        Title: obj.Title || '',
+        FirstName: obj.FirstName || '',
+        LastName: obj.LastName || '',
+        Designation: obj.Designation || '',
+        DepartmentName: obj.DepartmentName || '',
+        Email: obj.Email || '',
+        MobileCountryCode: obj.MobileCountryCode || '',
+        MobileNumber: obj.MobileNumber || '',
+        EffectiveFrom: obj.EffectiveFrom || new Date(),
+
       }
     );
-    this.editForm.reset(); 
-  } 
+    this.editForm.reset();
+  }
 
-  Save(): void {    
-   
-        if (!this.editForm.valid) {
-            this.messageService.showError('One or more validation failed. Please clear error to continue...');
-            return;
-        }	
-  
-  
-	const formValues  = this.editForm.value ;
-	const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
-	var createdObj = { 
+  Save(): void {
+
+    if (!this.editForm.valid) {
+      this.messageService.showError('One or more validation failed. Please clear error to continue...');
+      return;
+    }
+
+
+    const formValues = this.editForm.value;
+    const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
+    var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
-      RowVersionStr : this.objMaster.RowVersionStr,
-     PartyId: selectedPartyId || 0,
-PartyLocationId: formValues.PartyLocationId || 0,
-ContactType: formValues.ContactType || null,
-Title: formValues.Title || null,
-FirstName: formValues.FirstName || null,
-LastName: formValues.LastName || null,
-Designation: formValues.Designation || null,
-DepartmentName: formValues.DepartmentName || null,
-Email: formValues.Email || null,
-MobileCountryCode: formValues.MobileCountryCode || null,
-MobileNumber: formValues.MobileNumber || null,
-RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
+      RowVersionStr: this.objMaster.RowVersionStr,
+      PartyId: selectedPartyId || 0,
+      PartyLocationId: formValues.PartyLocationId || 0,
+      ContactType: formValues.ContactType || null,
+      Title: formValues.Title || null,
+      FirstName: formValues.FirstName || null,
+      LastName: formValues.LastName || null,
+      Designation: formValues.Designation || null,
+      DepartmentName: formValues.DepartmentName || null,
+      Email: formValues.Email || null,
+      MobileCountryCode: formValues.MobileCountryCode || null,
+      MobileNumber: formValues.MobileNumber || null,
+      RecordStatus: 'Active',
+      EffectiveFrom: formValues.EffectiveFrom || new Date(),
+      EffectiveTo: formValues.EffectiveTo || new Date(),
+    } as IPartyContact;
 
-    } as IPartyContact ; 
-	
-	  this.spinner.show(); 
+    this.spinner.show();
     this.partyContactService.create(createdObj).subscribe({
-      next: data => {	   
-         // this.messageService.showSuccess(PartyContact +  'Details Updated sucessfully.');
-		 this._location.back();     
+      next: data => {
+        // this.messageService.showSuccess(PartyContact +  'Details Updated sucessfully.');
+        this._location.back();
       },
-      error: err => { 
-	   this.messageService.showError(err);
-       this.spinner.hide(); 
-	  },
+      error: err => {
+        this.messageService.showError(err);
+        this.spinner.hide();
+      },
       complete: () => { this.spinner.hide(); }
     });
-  } 
+  }
 
 }
 

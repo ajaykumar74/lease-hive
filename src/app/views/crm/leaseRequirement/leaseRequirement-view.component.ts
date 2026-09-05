@@ -71,7 +71,7 @@ export class LeaseRequirementViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/business/origination/requirements/create']);
+            this.router.navigate(['/business/crm/leaseRequirements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

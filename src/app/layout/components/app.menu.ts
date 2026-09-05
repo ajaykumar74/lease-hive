@@ -563,12 +563,22 @@ export class AppMenu {
                                         {
                                             label: 'All Requirements',
                                             icon: 'pi pi-fw pi-list',
-                                            routerLink: ['/business/origination/requirements']
+                                            routerLink: ['/business/crm/leaseRequirements']
                                         },
                                         {
                                             label: 'New Requirement',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/origination/requirements/create']
+                                            routerLink: ['/business/crm/leaseRequirements/create']
+                                        },
+                                        {
+                                            label: 'Requirement Assets',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/crm/leaseRequirementAssets']
+                                        },
+                                        {
+                                            label: 'New Requirement Asset',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/crm/leaseRequirementAssets/create']
                                         }
                                     ]
                                 },
@@ -591,8 +601,19 @@ export class AppMenu {
                                             label: 'Issued Quotes',
                                             icon: 'pi pi-fw pi-send',
                                             routerLink: ['/business/origination/quotes']
+                                        },
+                                        {
+                                            label: 'Quote Assets',
+                                            icon: 'pi pi-fw pi-box',
+                                            routerLink: ['/business/origination/quotes/assets']
                                         }
                                     ]
+                                },
+
+                                {
+                                    label: 'Security Deposits',
+                                    icon: 'pi pi-fw pi-shield',
+                                    routerLink: ['/contracts/deposits']
                                 },
 
                                 {
@@ -610,6 +631,11 @@ export class AppMenu {
                                             routerLink: ['/business/origination/credit/review']
                                         },
                                         {
+                                            label: 'Credit Assessment',
+                                            icon: 'pi pi-fw pi-file-check',
+                                            routerLink: ['/business/origination/credit/assessment']
+                                        },
+                                        {
                                             label: 'Credit Approvals',
                                             icon: 'pi pi-fw pi-check-circle',
                                             routerLink: ['/business/origination/credit/approvals']
@@ -618,6 +644,16 @@ export class AppMenu {
                                             label: 'Credit Limits',
                                             icon: 'pi pi-fw pi-wallet',
                                             routerLink: ['/business/origination/credit/limits']
+                                        },
+                                        {
+                                            label: 'Credit Conditions',
+                                            icon: 'pi pi-fw pi-list-check',
+                                            routerLink: ['/business/origination/credit/Conditions']
+                                        },
+                                        {
+                                            label: 'Credit Decisions',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/business/origination/credit/decision']
                                         }
                                     ]
                                 },

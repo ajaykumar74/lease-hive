@@ -137,17 +137,17 @@ export class CreditConditionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['business/crm/origination/credit/Conditions/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/credit/Conditions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['business/crm/origination/credit/Conditions/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/credit/Conditions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['business/crm/origination/credit/Conditions/create']);
+      this.router.navigate(['/business/origination/credit/Conditions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

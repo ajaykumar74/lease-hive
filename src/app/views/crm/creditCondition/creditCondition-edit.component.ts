@@ -110,7 +110,7 @@ export class CreditConditionEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['business/crm/origination/credit/Conditions/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/credit/Conditions/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {
