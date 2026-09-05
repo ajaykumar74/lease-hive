@@ -91,7 +91,7 @@ export class BrandPartnerViewComponent implements OnInit {
             window.location.href = `${environment.vlootApiUrl}/api/xero/connect?usertype=brandpartner`;
         }
         else if (key == "Document") {
-            this.router.navigate(['/dashboard/document/list'], { state: { stateData: obj } });
+            this.router.navigate(['/business/organisations/documents/list'], { state: { stateData: obj } });
         }
     }
 

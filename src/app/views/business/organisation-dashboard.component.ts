@@ -8,12 +8,12 @@ import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { OrganisationService } from '@/views/organisation/organisation.service';
-import { OrganisationUnitService } from '@/views/organisationUnit/organisationUnit.service';
-import { LocationService } from '@/views/location/location.service';
+import { OrganisationService } from '@/views/organisations/organisation/organisation.service';
+import { OrganisationUnitService } from '@/views/organisations/organisationUnit/organisationUnit.service';
+import { LocationService } from '@/views/organisations/location/location.service';
 import { DepartmentService } from '@/views/department/department.service';
-import { CostCentreService } from '@/views/costCentre/costCentre.service';
-import { ProfitCentreService } from '@/views/profitCentre/profitCentre.service';
+import { CostCentreService } from '@/views/organisations/costCentre/costCentre.service';
+import { ProfitCentreService } from '@/views/organisations/profitCentre/profitCentre.service';
 import { ApplicationUserService } from '@/views/applicationUser/applicationUser.service';
 import { AssetService } from '@/views/assets/asset/asset.service';
 

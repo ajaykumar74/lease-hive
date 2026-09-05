@@ -269,6 +269,11 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/business/organisations/calendars'],
                                     tooltip: ''
+                                },
+                                {
+                                    label: 'Documents',
+                                    icon: 'pi pi-fw pi-folder',
+                                    routerLink: ['/business/organisations/documents']
                                 }
                             ]
                         },

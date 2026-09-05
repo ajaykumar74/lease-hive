@@ -10,27 +10,26 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { DepartmentService } from './department.service';
-import { IDepartment } from './department';
+import { OrganisationService } from './organisation.service';
+import { IOrganisation } from './organisation';
 
 @Component({
-    templateUrl: './department-view.component.html', 
+    templateUrl: './organisation-view.component.html', 
 standalone: false,
     providers: [MessageService]
 })
-export class DepartmentViewComponent implements OnInit {
+export class OrganisationViewComponent implements OnInit {
     selectedId: number;
-    organisationUnitId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
-    department: IDepartment = {} as IDepartment;
+    organisation: IOrganisation = {} as IOrganisation;
     Caption: string = 'Loading...';
     
 
     constructor( 
         private router: Router,
         private activatedRouter: ActivatedRoute,
-        private departmentService: DepartmentService, 
+        private organisationService: OrganisationService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
@@ -43,9 +42,7 @@ export class DepartmentViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id'];
-        const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
-        this.organisationUnitId = routeId > 0 ? routeId : null;
+        this.selectedId = this.activatedRouter.snapshot.params['id']; 
     }
 
     ngAfterViewInit(): void {
@@ -57,29 +54,24 @@ export class DepartmentViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.departmentService.getById(this.selectedId).subscribe({
+        this.organisationService.getById(this.selectedId).subscribe({
             next: data => {
-                this.department = data.data;
-                if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
-                    this.messageService.showError('This record does not belong to the selected organisation unit.');
-                    this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
-                    return;
-                }
+                this.organisation = data.data;
                 this.permission = data.permission; 
-                this.populateUI(this.department);
+                this.populateUI(this.organisation);
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IDepartment): void { 
-        this.Caption = "Department Details #" + obj.Id;
+    populateUI(obj: IOrganisation): void { 
+        this.Caption = "Organisation Details #" + obj.Id;
     }
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/department/create']);
+            this.router.navigate(['/business/organisations/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

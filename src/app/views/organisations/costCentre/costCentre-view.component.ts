@@ -10,27 +10,27 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { DepartmentService } from './department.service';
-import { IDepartment } from './department';
+import { CostCentreService } from './costCentre.service';
+import { ICostCentre } from './costCentre';
 
 @Component({
-    templateUrl: './department-view.component.html', 
+    templateUrl: './costCentre-view.component.html', 
 standalone: false,
     providers: [MessageService]
 })
-export class DepartmentViewComponent implements OnInit {
+export class CostCentreViewComponent implements OnInit {
     selectedId: number;
     organisationUnitId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
-    department: IDepartment = {} as IDepartment;
+    costCentre: ICostCentre = {} as ICostCentre;
     Caption: string = 'Loading...';
     
 
     constructor( 
         private router: Router,
         private activatedRouter: ActivatedRoute,
-        private departmentService: DepartmentService, 
+        private costCentreService: CostCentreService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
@@ -57,29 +57,29 @@ export class DepartmentViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.departmentService.getById(this.selectedId).subscribe({
+        this.costCentreService.getById(this.selectedId).subscribe({
             next: data => {
-                this.department = data.data;
-                if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
+                this.costCentre = data.data;
+                if (this.organisationUnitId && this.costCentre.OrganisationUnitId !== this.organisationUnitId) {
                     this.messageService.showError('This record does not belong to the selected organisation unit.');
-                    this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
+                    this.router.navigate(['/business/organisations/cost-centres/organisation-unit', this.organisationUnitId]);
                     return;
                 }
                 this.permission = data.permission; 
-                this.populateUI(this.department);
+                this.populateUI(this.costCentre);
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IDepartment): void { 
-        this.Caption = "Department Details #" + obj.Id;
+    populateUI(obj: ICostCentre): void { 
+        this.Caption = "CostCentre Details #" + obj.Id;
     }
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/department/create']);
+            this.router.navigate(['/business/organisations/cost-centres/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

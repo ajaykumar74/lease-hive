@@ -169,7 +169,7 @@ const routes: Routes = [
       {
         path: 'document',
         data: { breadcrumb: 'document' },
-        loadChildren: () => import('@/views/document/document.module').then(c => c.documentModule),
+        loadChildren: () => import('@/views/organisations/document/document.module').then(c => c.documentModule),
       },
       
        {

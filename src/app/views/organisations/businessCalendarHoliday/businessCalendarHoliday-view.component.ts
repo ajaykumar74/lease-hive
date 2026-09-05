@@ -10,27 +10,26 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { DepartmentService } from './department.service';
-import { IDepartment } from './department';
+import { BusinessCalendarHolidayService } from './businessCalendarHoliday.service';
+import { IBusinessCalendarHoliday } from './businessCalendarHoliday';
 
 @Component({
-    templateUrl: './department-view.component.html', 
+    templateUrl: './businessCalendarHoliday-view.component.html', 
 standalone: false,
     providers: [MessageService]
 })
-export class DepartmentViewComponent implements OnInit {
+export class BusinessCalendarHolidayViewComponent implements OnInit {
     selectedId: number;
-    organisationUnitId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
-    department: IDepartment = {} as IDepartment;
+    businessCalendarHoliday: IBusinessCalendarHoliday = {} as IBusinessCalendarHoliday;
     Caption: string = 'Loading...';
     
 
     constructor( 
         private router: Router,
         private activatedRouter: ActivatedRoute,
-        private departmentService: DepartmentService, 
+        private businessCalendarHolidayService: BusinessCalendarHolidayService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
@@ -43,9 +42,7 @@ export class DepartmentViewComponent implements OnInit {
        
 
     ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id'];
-        const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
-        this.organisationUnitId = routeId > 0 ? routeId : null;
+        this.selectedId = this.activatedRouter.snapshot.params['id']; 
     }
 
     ngAfterViewInit(): void {
@@ -57,29 +54,24 @@ export class DepartmentViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.departmentService.getById(this.selectedId).subscribe({
+        this.businessCalendarHolidayService.getById(this.selectedId).subscribe({
             next: data => {
-                this.department = data.data;
-                if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
-                    this.messageService.showError('This record does not belong to the selected organisation unit.');
-                    this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
-                    return;
-                }
+                this.businessCalendarHoliday = data.data;
                 this.permission = data.permission; 
-                this.populateUI(this.department);
+                this.populateUI(this.businessCalendarHoliday);
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IDepartment): void { 
-        this.Caption = "Department Details #" + obj.Id;
+    populateUI(obj: IBusinessCalendarHoliday): void { 
+        this.Caption = "BusinessCalendarHoliday Details #" + obj.Id;
     }
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/department/create']);
+            this.router.navigate(['/business/organisations/calendars/holidays/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

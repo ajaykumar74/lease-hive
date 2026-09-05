@@ -166,7 +166,7 @@ this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat
       this.onCancel();
     }
     else if (key == "Document") {
-      this.router.navigate(['/dashboard/document/list'], { state: { stateData: obj } });
+      this.router.navigate(['/business/organisations/documents/list'], { state: { stateData: obj } });
     }
 
   }

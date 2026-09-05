@@ -10,27 +10,27 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { DepartmentService } from './department.service';
-import { IDepartment } from './department';
+import { DocumentService } from './document.service';
+import { IDocument } from './document';
+import { IBrandPartner } from '../../brandPartner/brandPartner';
 
 @Component({
-    templateUrl: './department-view.component.html', 
-standalone: false,
+    templateUrl: './document-view.component.html',
+    standalone: false,
     providers: [MessageService]
 })
-export class DepartmentViewComponent implements OnInit {
+export class DocumentViewComponent implements OnInit {
     selectedId: number;
-    organisationUnitId: number | null = null;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
-    department: IDepartment = {} as IDepartment;
+    document: IDocument = {} as IDocument;
     Caption: string = 'Loading...';
-    
 
-    constructor( 
+
+    constructor(
         private router: Router,
         private activatedRouter: ActivatedRoute,
-        private departmentService: DepartmentService, 
+        private projectService: DocumentService,
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
@@ -38,14 +38,13 @@ export class DepartmentViewComponent implements OnInit {
     }
 
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent; 
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+    brandPartner: IBrandPartner;
 
-       
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
+        this.brandPartner = this.loggedInUserService.loggedInUser.BrandPartner;
         this.selectedId = this.activatedRouter.snapshot.params['id'];
-        const routeId = Number(this.activatedRouter.snapshot.paramMap.get('organisationUnitId'));
-        this.organisationUnitId = routeId > 0 ? routeId : null;
     }
 
     ngAfterViewInit(): void {
@@ -57,38 +56,34 @@ export class DepartmentViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.departmentService.getById(this.selectedId).subscribe({
+        this.projectService.getById(this.selectedId).subscribe({
             next: data => {
-                this.department = data.data;
-                if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
-                    this.messageService.showError('This record does not belong to the selected organisation unit.');
-                    this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
-                    return;
-                }
-                this.permission = data.permission; 
-                this.populateUI(this.department);
+                this.document = data.data;
+                this.permission = data.permission;
+                this.populateUI(this.document);
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IDepartment): void { 
-        this.Caption = "Department Details #" + obj.Id;
+    populateUI(obj: IDocument): void {
+        this.Caption = obj.RecordByType + " Document Details #" + obj.Id;
+    }
+
+    onFileError(event: any) {
+        this.messageService.showError(event);
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/department/create']);
-        }        
+        if (key == "Refresh") {
+            this.router.navigate(['/business/organisations/documents/create']);
+        }
         else if (key == "Refresh") {
             this.loadUI();
         }
+
     }
-
-     
-
-    
 
 }
 

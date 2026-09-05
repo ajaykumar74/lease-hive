@@ -10,36 +10,32 @@ import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
-import { IDepartment } from './department';
-import { DepartmentService } from './department.service';
+import { IOrganisationUnitLocation } from './organisationUnitLocation';
+import { OrganisationUnitLocationService } from './organisationUnitLocation.service';
 import { OrganisationUnitService } from '@/views/organisations/organisationUnit/organisationUnit.service';
 import { IOrganisationUnit } from '@/views/organisations/organisationUnit/organisationUnit';
 
 @Component({
-  selector: 'app-department-create',
+  selector: 'app-organisationUnitLocation-create',
   standalone: false,
-  templateUrl: './department-create.component.html' ,
+  templateUrl: './organisationUnitLocation-create.component.html' ,
    providers: [ MessageService]
 })
-export class DepartmentCreateComponent implements OnInit {
+export class OrganisationUnitLocationCreateComponent implements OnInit {
 
    
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
-  Caption: string = 'Create Department';
-  department: IDepartment = null;
+  Caption: string = 'Create Organisation Unit Location';
+  organisationUnitLocation: IOrganisationUnitLocation = null;
   organisationUnitId: number | null = null;
   organisationUnit: IOrganisationUnit | null = null;
   organisationunitidOptions: ISelectItem[] = [];
-parentdepartmentidOptions: ISelectItem[] = [];
-departmentcodeOptions: ISelectItem[] = [];
-departmenttypeOptions: ISelectItem[] = [];
-headuseridOptions: ISelectItem[] = [];
-costcentrecodeOptions: ISelectItem[] = [];
+purposetypeOptions: ISelectItem[] = [];
 
   editForm: any; 
-  objMaster : IDepartment = {} as IDepartment;
+  objMaster : IOrganisationUnitLocation = {} as IOrganisationUnitLocation;
   
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -49,7 +45,7 @@ costcentrecodeOptions: ISelectItem[] = [];
 	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
-	private departmentService: DepartmentService,
+	private organisationUnitLocationService: OrganisationUnitLocationService,
 	private organisationUnitService: OrganisationUnitService,
 	private loggedInUserService : LoggedInUserService
 	
@@ -61,20 +57,15 @@ costcentrecodeOptions: ISelectItem[] = [];
 
   
   ngOnInit(): void {
-   this.objMaster = { ...this.department };
+   this.objMaster = { ...this.organisationUnitLocation };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
 OrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ParentDepartmentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-DepartmentCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DepartmentName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-DepartmentType: new FormControl('', [Validators.maxLength(20), ]), 
-HeadUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-CostCentreCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+PurposeType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+IsPrimary: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
     const routeId = Number(this.activatedRoute.snapshot.paramMap.get('organisationUnitId'));
@@ -84,22 +75,9 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
       this.editForm.controls.OrganisationUnitId.disable();
       this.loadOrganisationUnit(this.organisationUnitId);
     }
-this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
-this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
-this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
-this.departmenttypeOptions = this.loggedInUserService.getPicklistOptions('DepartmentType');
-this.costcentrecodeOptions.push({Text: 'Center1', Value: '1' });
-this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
-    this.loggedInUserService.getLookupOptions('application-users').subscribe({
-      next: options => this.headuseridOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeType');
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.organisationunitidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('departments').subscribe({
-      next: options => this.parentdepartmentidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 
@@ -109,7 +87,7 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
     this.organisationUnitService.getById(organisationUnitId).subscribe({
       next: response => {
         this.organisationUnit = response.data;
-        this.Caption = `Create Department - ${this.organisationUnit.UnitCode}`;
+        this.Caption = `Create Mapped Location - ${this.organisationUnit.UnitCode}`;
       },
       error: err => this.messageService.showError(err)
     });
@@ -117,10 +95,10 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
 
  loadUI(): void {
     this.isLoading = true;    
-    this.departmentService.getById(this.selectedId).subscribe({
+    this.organisationUnitLocationService.getById(this.selectedId).subscribe({
       next: data => {
-        this.department = data;
-        this.objMaster = { ...this.department };
+        this.organisationUnitLocation = data;
+        this.objMaster = { ...this.organisationUnitLocation };
         this.populateUI(data);
       },
       error: err => {  this.messageService.showSuccess(err); },
@@ -129,20 +107,15 @@ this.costcentrecodeOptions.push({Text: 'Center2', Value: '2' });
   }  
 
 
-  populateUI(obj: IDepartment): void {
+  populateUI(obj: IOrganisationUnitLocation): void {
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
-ParentDepartmentId: obj.ParentDepartmentId || 0,
-DepartmentCode: obj.DepartmentCode || '',
-DepartmentName: obj.DepartmentName || '',
-DepartmentType: obj.DepartmentType || '',
-HeadUserId: obj.HeadUserId || 0,
-CostCentreCode: obj.CostCentreCode || '',
+PurposeType: obj.PurposeType || '',
+IsPrimary:  obj.IsPrimary || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-Description: obj.Description || '',
  
       }
     );
@@ -151,7 +124,7 @@ Description: obj.Description || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/departments/create']);
+      this.router.navigate(['/business/organisations/unit-locations/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -166,24 +139,19 @@ Description: obj.Description || '',
 
   onCancel(): void {
     if (this.organisationUnitId) {
-      this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
+      this.router.navigate(['/business/organisations/unit-locations/organisation-unit', this.organisationUnitId]);
       return;
     }
-    this.department = { ...this.objMaster };
-    var obj  = this.department;
+    this.organisationUnitLocation = { ...this.objMaster };
+    var obj  = this.organisationUnitLocation;
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
-ParentDepartmentId: obj.ParentDepartmentId || 0,
-DepartmentCode: obj.DepartmentCode || '',
-DepartmentName: obj.DepartmentName || '',
-DepartmentType: obj.DepartmentType || '',
-HeadUserId: obj.HeadUserId || 0,
-CostCentreCode: obj.CostCentreCode || '',
+PurposeType: obj.PurposeType || '',
+IsPrimary:  obj.IsPrimary || false,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-Description: obj.Description || '',
  
       }
     );
@@ -204,23 +172,18 @@ Description: obj.Description || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      OrganisationUnitId: selectedOrganisationUnitId || null,
-ParentDepartmentId: formValues.ParentDepartmentId || null,
-DepartmentCode: formValues.DepartmentCode || null,
-DepartmentName: formValues.DepartmentName || null,
-DepartmentType: formValues.DepartmentType || null,
-HeadUserId: formValues.HeadUserId || null,
-CostCentreCode: formValues.CostCentreCode || null,
+PurposeType: formValues.PurposeType || null,
+IsPrimary: formValues.IsPrimary || null,
 RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-Description: formValues.Description || null,
 
-    } as IDepartment ; 
+    } as IOrganisationUnitLocation ; 
 	
 	  this.spinner.show(); 
-    this.departmentService.create(createdObj).subscribe({
+    this.organisationUnitLocationService.create(createdObj).subscribe({
       next: data => {	   
-         // this.messageService.showSuccess(Department +  'Details Updated sucessfully.');
+         // this.messageService.showSuccess(OrganisationUnitLocation +  'Details Updated sucessfully.');
 		 this._location.back();     
       },
       error: err => { 

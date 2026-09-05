@@ -1,0 +1,36 @@
+> Building...
+√ Building...
+Initial chunk files | Names                       |  Raw size
+chunk-P42QAHT7.js   | -                           |   1.03 MB | 
+chunk-LBILGD7Y.js   | -                           | 445.21 kB | 
+chunk-GRT6UQYO.js   | -                           | 150.05 kB | 
+styles.css          | styles                      | 104.96 kB | 
+polyfills.js        | polyfills                   |  90.20 kB | 
+main.js             | main                        |  12.41 kB | 
+chunk-5MECREJU.js   | -                           |   9.41 kB | 
+chunk-B7UX2ZC5.js   | -                           |   3.58 kB | 
+
+                    | Initial total               |   1.85 MB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-6LJ5VZAW.js   | -                           |   1.56 MB | 
+chunk-DDOVFURX.js   | -                           | 591.06 kB | 
+chunk-RDUQG2KQ.js   | -                           | 448.93 kB | 
+chunk-PHLDRWDN.js   | -                           | 384.23 kB | 
+chunk-7NZ3FKQF.js   | dashboard-module            | 334.98 kB | 
+chunk-BMYNHJGC.js   | -                           | 293.41 kB | 
+chunk-ZK6I647L.js   | customer-module             | 180.87 kB | 
+chunk-OS5BQXGQ.js   | document-module             | 169.99 kB | 
+chunk-TYCFDXC6.js   | business-routes             | 161.20 kB | 
+chunk-UHWEJOAZ.js   | browser                     | 147.73 kB | 
+chunk-5SCEGQKE.js   | supportTicket-module        | 144.09 kB | 
+chunk-A2K6I7BD.js   | -                           | 127.51 kB | 
+chunk-Q5FSXYQG.js   | brandPartner-module         | 114.11 kB | 
+chunk-KV7QEGTQ.js   | -                           | 110.89 kB | 
+chunk-WSPSNFFJ.js   | maintenanceWorkOrder-module |  92.74 kB | 
+...and 280 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [167.778 seconds]
+
+Output location: D:\Works\leasehive-client\dist\apollo-ng
+

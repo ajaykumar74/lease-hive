@@ -10,34 +10,31 @@ import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
-import { IDepartment } from './department';
-import { DepartmentService } from './department.service';
+import { IProfitCentre } from './profitCentre';
+import { ProfitCentreService } from './profitCentre.service';
 
 
 @Component({
-  selector: 'app-department-edit',
+  selector: 'app-profitCentre-edit',
   standalone: false,
-  templateUrl: './department-edit.component.html',
+  templateUrl: './profitCentre-edit.component.html',
   providers: [ MessageService]
 })
-export class DepartmentEditComponent implements OnInit {
+export class ProfitCentreEditComponent implements OnInit {
 
   selectedId: number;
   organisationUnitId: number | null = null;
   isLoading: boolean = false;
-  department: IDepartment = null;
+  profitCentre: IProfitCentre = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
-  organisationunitidOptions: ISelectItem[] = [];
-parentdepartmentidOptions: ISelectItem[] = [];
-departmentcodeOptions: ISelectItem[] = [];
-departmenttypeOptions: ISelectItem[] = [];
-headuseridOptions: ISelectItem[] = [];
-costcentrecodeOptions: ISelectItem[] = [];
+  parentprofitcentreidOptions: ISelectItem[] = [];
+organisationunitidOptions: ISelectItem[] = [];
+externalledgercodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
-  objMaster : IDepartment = {} as IDepartment;
+  objMaster : IProfitCentre = {} as IProfitCentre;
 
 
   constructor( 
@@ -45,7 +42,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private fb: FormBuilder,
 	private router: Router, 	
 	private _location: Location,
-	private departmentService: DepartmentService, 
+	private profitCentreService: ProfitCentreService, 
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -56,29 +53,23 @@ recordstatusOptions: ISelectItem[] = [];
  
 
   ngOnInit(): void {
-   this.objMaster = { ...this.department };
+   this.objMaster = { ...this.profitCentre };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-OrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ParentDepartmentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-DepartmentCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DepartmentName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-DepartmentType: new FormControl('', [Validators.maxLength(20), ]), 
-HeadUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-CostCentreCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+ProfitCentreCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+ProfitCentreName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
+ParentProfitCentreId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+OrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+ExternalLedgerCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-this.departmentcodeOptions.push({Text: 'Credit', Value: 'Credit' });
-this.departmentcodeOptions.push({Text: 'Finance', Value: 'Finance' });
-this.departmentcodeOptions.push({Text: 'Sales', Value: 'Sales' });
-this.departmenttypeOptions = this.loggedInUserService.getPicklistOptions('DepartmentType');
-this.costcentrecodeOptions.push({Text: 'Center1', Value: 'Center1' });
-this.costcentrecodeOptions.push({Text: 'Center2', Value: 'Center2' });
+this.externalledgercodeOptions.push({Text: 'Ledger1', Value: 'Ledger1' });
+this.externalledgercodeOptions.push({Text: 'Ledger2', Value: 'Ledger2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
@@ -96,46 +87,40 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 
   loadUI(): void {
     this.isLoading = true; 
-    this.departmentService.getById(this.selectedId).subscribe({
+    this.profitCentreService.getById(this.selectedId).subscribe({
       next: data => {	        
-        this.department = data.data;
-		if (this.organisationUnitId && this.department.OrganisationUnitId !== this.organisationUnitId) {
+        this.profitCentre = data.data;
+		if (this.organisationUnitId && this.profitCentre.OrganisationUnitId !== this.organisationUnitId) {
 		  this.messageService.showError('This record does not belong to the selected organisation unit.');
-		  this.router.navigate(['/business/organisations/departments/organisation-unit', this.organisationUnitId]);
+		  this.router.navigate(['/business/organisations/profit-centres/organisation-unit', this.organisationUnitId]);
 		  return;
 		}
 		this.permission = data.permission;
-        this.objMaster = { ...this.department };
-        this.populateUI(this.department);
+        this.objMaster = { ...this.profitCentre };
+        this.populateUI(this.profitCentre);
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
     }); 
   } 
 
-  populateUI(obj: IDepartment): void {
-    this.loggedInUserService.getLookupOptions('application-users', obj.HeadUserId).subscribe({
-      next: options => this.headuseridOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+  populateUI(obj: IProfitCentre): void {
     this.loggedInUserService.getLookupOptions('organisation-units', obj.OrganisationUnitId).subscribe({
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-    this.loggedInUserService.getLookupOptions('departments', obj.ParentDepartmentId).subscribe({
-      next: options => this.parentdepartmentidOptions = options,
+    this.loggedInUserService.getLookupOptions('profit-centres', obj.ParentProfitCentreId).subscribe({
+      next: options => this.parentprofitcentreidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });  
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  OrganisationUnitId: obj.OrganisationUnitId || 0,
-ParentDepartmentId: obj.ParentDepartmentId || 0,
-DepartmentCode: obj.DepartmentCode || '',
-DepartmentName: obj.DepartmentName || '',
-DepartmentType: obj.DepartmentType || '',
-HeadUserId: obj.HeadUserId || 0,
-CostCentreCode: obj.CostCentreCode || '',
+	  ProfitCentreCode: obj.ProfitCentreCode || '',
+ProfitCentreName: obj.ProfitCentreName || '',
+ParentProfitCentreId: obj.ParentProfitCentreId || 0,
+OrganisationUnitId: obj.OrganisationUnitId || 0,
+ExternalLedgerCode: obj.ExternalLedgerCode || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
@@ -144,12 +129,12 @@ Description: obj.Description || '',
       }
     );
    
-	 this.Caption = "Department Details #" + obj.Id;
+	 this.Caption = "ProfitCentre Details #" + obj.Id;
   } 
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/department/create', { id: -1 }]);
+      this.router.navigate(['/business/organisations/profit-centres/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
@@ -163,18 +148,16 @@ Description: obj.Description || '',
 
 
   onCancel(): void {
-    this.department = { ...this.objMaster };
-	var obj  = this.department;
+    this.profitCentre = { ...this.objMaster };
+	var obj  = this.profitCentre;
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  OrganisationUnitId: obj.OrganisationUnitId || 0,
-ParentDepartmentId: obj.ParentDepartmentId || 0,
-DepartmentCode: obj.DepartmentCode || '',
-DepartmentName: obj.DepartmentName || '',
-DepartmentType: obj.DepartmentType || '',
-HeadUserId: obj.HeadUserId || 0,
-CostCentreCode: obj.CostCentreCode || '',
+	  ProfitCentreCode: obj.ProfitCentreCode || '',
+ProfitCentreName: obj.ProfitCentreName || '',
+ParentProfitCentreId: obj.ParentProfitCentreId || 0,
+OrganisationUnitId: obj.OrganisationUnitId || 0,
+ExternalLedgerCode: obj.ExternalLedgerCode || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
@@ -199,24 +182,22 @@ Description: obj.Description || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+     ProfitCentreCode:  formValues.ProfitCentreCode || null,
+ProfitCentreName:  formValues.ProfitCentreName || null,
+ParentProfitCentreId:  formValues.ParentProfitCentreId || null,
      OrganisationUnitId:  this.organisationUnitId ?? formValues.OrganisationUnitId ?? this.objMaster.OrganisationUnitId,
-ParentDepartmentId:  formValues.ParentDepartmentId || null,
-DepartmentCode:  formValues.DepartmentCode || null,
-DepartmentName:  formValues.DepartmentName || null,
-DepartmentType:  formValues.DepartmentType || null,
-HeadUserId:  formValues.HeadUserId || null,
-CostCentreCode:  formValues.CostCentreCode || null,
+ExternalLedgerCode:  formValues.ExternalLedgerCode || null,
 RecordStatus:  formValues.RecordStatus || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
 Description:  formValues.Description || null,
 
-    } as IDepartment ;
+    } as IProfitCentre ;
 	
 	this.spinner.show();  	   
-    this.departmentService.update(this.department.Id, updatedObj).subscribe({
+    this.profitCentreService.update(this.profitCentre.Id, updatedObj).subscribe({
       next: data => {
-        //this.messageService.showSuccess(Department +  'Details Updated sucessfully.');
+        //this.messageService.showSuccess(ProfitCentre +  'Details Updated sucessfully.');
 		//this.editForm.reset();
 		this._location.back();
       },
