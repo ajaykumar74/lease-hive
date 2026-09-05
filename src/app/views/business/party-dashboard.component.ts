@@ -8,12 +8,12 @@ import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { PartyService } from '@/views/party/party.service';
-import { PartyContactService } from '@/views/partyContact/partyContact.service';
-import { PartyLocationService } from '@/views/partyLocation/partyLocation.service';
-import { PartyDocumentService } from '@/views/partyDocument/partyDocument.service';
-import { CustomerProfileService } from '@/views/customerProfile/customerProfile.service';
-import { SupplierProfileService } from '@/views/supplierProfile/supplierProfile.service';
+import { PartyService } from '@/views/parties/party/party.service';
+import { PartyContactService } from '@/views/parties/partyContact/partyContact.service';
+import { PartyLocationService } from '@/views/parties/partyLocation/partyLocation.service';
+import { PartyDocumentService } from '@/views/parties/partyDocument/partyDocument.service';
+import { CustomerProfileService } from '@/views/parties/customerProfile/customerProfile.service';
+import { SupplierProfileService } from '@/views/parties/supplierProfile/supplierProfile.service';
 
 @Component({ selector: 'app-party-dashboard', standalone: true, imports: [CommonModule, RouterLink, ButtonModule, ChartModule, ProgressBarModule, TableModule, TagModule], templateUrl: './party-dashboard.component.html', styleUrl: './party-dashboard.component.css' })
 export class PartyDashboardComponent implements OnInit {
