@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetReturnScheduleService } from './assetReturnSchedule.service';
    providers: [ MessageService]
 })
 export class AssetReturnScheduleCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -72,17 +73,22 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create AssetReturnSchedule';
-    this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId1', Value: 'EndOfLeaseCaseId1' });
-this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.returnlocationidOptions.push({Text: 'ReturnLocationId1', Value: 'ReturnLocationId1' });
-this.returnlocationidOptions.push({Text: 'ReturnLocationId2', Value: 'ReturnLocationId2' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId1', Value: 'ResponsibleOrganisationUnitId1' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId2', Value: 'ResponsibleOrganisationUnitId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'EndOfLeaseCaseId', 'end-of-lease-cases',
+      options => this.endofleasecaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnLocationId', 'locations',
+      options => this.returnlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
+      options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetReturnScheduleStatusCode');
-this.customercontactpartyidOptions.push({Text: 'CustomerContactPartyId1', Value: 'CustomerContactPartyId1' });
-this.customercontactpartyidOptions.push({Text: 'CustomerContactPartyId2', Value: 'CustomerContactPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerContactPartyId', 'parties',
+      options => this.customercontactpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

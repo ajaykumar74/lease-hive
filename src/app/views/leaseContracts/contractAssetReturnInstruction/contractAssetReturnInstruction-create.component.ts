@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ContractAssetReturnInstructionService } from './contractAssetReturnInst
    providers: [ MessageService]
 })
 export class ContractAssetReturnInstructionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -70,15 +71,19 @@ OperationsReferenceId: new FormControl(0, [Validators.min(-2147483648), Validato
 
     });
     this.Caption = 'Create ContractAssetReturnInstruction';
-    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
-this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
-this.contractterminationidOptions.push({Text: 'ContractTerminationId1', Value: 'ContractTerminationId1' });
-this.contractterminationidOptions.push({Text: 'ContractTerminationId2', Value: 'ContractTerminationId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractAssetId', 'lease-contract-assets',
+      options => this.leasecontractassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractTerminationId', 'contract-terminations',
+      options => this.contractterminationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
 this.instructioncodeOptions = this.loggedInUserService.getPicklistOptions('InstructionCode');
-this.returnlocationidOptions.push({Text: 'ReturnLocationId1', Value: 'ReturnLocationId1' });
-this.returnlocationidOptions.push({Text: 'ReturnLocationId2', Value: 'ReturnLocationId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnLocationId', 'locations',
+      options => this.returnlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractAssetReturnInstructionStatusCode');
 
   }

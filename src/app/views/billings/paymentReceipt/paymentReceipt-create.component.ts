@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { PaymentReceiptService } from './paymentReceipt.service';
    providers: [ MessageService]
 })
 export class PaymentReceiptCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -77,12 +78,15 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create PaymentReceipt';
-    this.receiptstatusidOptions.push({Text: 'ReceiptStatusId1', Value: 'ReceiptStatusId1' });
-this.receiptstatusidOptions.push({Text: 'ReceiptStatusId2', Value: 'ReceiptStatusId2' });
-this.receivingorganisationidOptions.push({Text: 'ReceivingOrganisationId1', Value: 'ReceivingOrganisationId1' });
-this.receivingorganisationidOptions.push({Text: 'ReceivingOrganisationId2', Value: 'ReceivingOrganisationId2' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceiptStatusId', 'receipt-statuses',
+      options => this.receiptstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationId', 'organisations',
+      options => this.receivingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
+      options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentmethodOptions = this.loggedInUserService.getPicklistOptions('PaymentMethod');
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });

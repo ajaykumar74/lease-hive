@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { LeaseAssetAllocationEventService } from './leaseAssetAllocationEvent.se
    providers: [ MessageService]
 })
 export class LeaseAssetAllocationEventCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -69,13 +70,16 @@ PerformedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648
 
     });
     this.Caption = 'Create LeaseAssetAllocationEvent';
-    this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
-this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractAssetId', 'lease-contract-assets',
+      options => this.leasecontractassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.eventcodeOptions = this.loggedInUserService.getPicklistOptions('EventCode');
-this.fromassetidOptions.push({Text: 'FromAssetId1', Value: 'FromAssetId1' });
-this.fromassetidOptions.push({Text: 'FromAssetId2', Value: 'FromAssetId2' });
-this.toassetidOptions.push({Text: 'ToAssetId1', Value: 'ToAssetId1' });
-this.toassetidOptions.push({Text: 'ToAssetId2', Value: 'ToAssetId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'FromAssetId', 'assets',
+      options => this.fromassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ToAssetId', 'assets',
+      options => this.toassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.performedbyOptions.push({Text: 'PerformedBy1', Value: 'PerformedBy1' });
 this.performedbyOptions.push({Text: 'PerformedBy2', Value: 'PerformedBy2' });
 

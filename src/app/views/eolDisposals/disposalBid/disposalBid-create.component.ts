@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { DisposalBidService } from './disposalBid.service';
    providers: [ MessageService]
 })
 export class DisposalBidCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -70,10 +71,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create DisposalBid';
-    this.disposalauctionidOptions.push({Text: 'DisposalAuctionId1', Value: 'DisposalAuctionId1' });
-this.disposalauctionidOptions.push({Text: 'DisposalAuctionId2', Value: 'DisposalAuctionId2' });
-this.bidderpartyidOptions.push({Text: 'BidderPartyId1', Value: 'BidderPartyId1' });
-this.bidderpartyidOptions.push({Text: 'BidderPartyId2', Value: 'BidderPartyId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalAuctionId', 'disposal-auctions',
+      options => this.disposalauctionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BidderPartyId', 'parties',
+      options => this.bidderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.bidstatuscodeOptions = this.loggedInUserService.getPicklistOptions('BidStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

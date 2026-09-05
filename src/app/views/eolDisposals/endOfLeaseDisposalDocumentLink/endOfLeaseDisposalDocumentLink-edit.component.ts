@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { EndOfLeaseDisposalDocumentLinkService } from './endOfLeaseDisposalDocum
   providers: [ MessageService]
 })
 export class EndOfLeaseDisposalDocumentLinkEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,8 +72,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 this.documentrolecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalDocumentLinkDocumentRoleCode');
-this.linkedbyuseridOptions.push({Text: 'LinkedByUserId1', Value: 'LinkedByUserId1' });
-this.linkedbyuseridOptions.push({Text: 'LinkedByUserId2', Value: 'LinkedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LinkedByUserId', 'application-users',
+      options => this.linkedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

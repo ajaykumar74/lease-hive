@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { DepositTransactionService } from './depositTransaction.service';
   providers: [ MessageService]
 })
 export class DepositTransactionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,15 +72,19 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.customerdepositidOptions.push({Text: 'CustomerDepositId1', Value: 'CustomerDepositId1' });
-this.customerdepositidOptions.push({Text: 'CustomerDepositId2', Value: 'CustomerDepositId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerDepositId', 'customer-deposits',
+      options => this.customerdepositidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.transactiontypeOptions = this.loggedInUserService.getPicklistOptions('TransactionType');
-this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId1', Value: 'PaymentReceiptId1' });
-this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId2', Value: 'PaymentReceiptId2' });
-this.receivableidOptions.push({Text: 'ReceivableId1', Value: 'ReceivableId1' });
-this.receivableidOptions.push({Text: 'ReceivableId2', Value: 'ReceivableId2' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PaymentReceiptId', 'payment-receipts',
+      options => this.paymentreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivableId', 'receivables',
+      options => this.receivableidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
+      options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

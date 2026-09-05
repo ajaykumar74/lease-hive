@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractAmendmentChangeService } from './contractAmendmentChange.servic
   providers: [ MessageService]
 })
 export class ContractAmendmentChangeEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -65,8 +66,9 @@ ChangeSummary: new FormControl('', [Validators.required, Validators.maxLength(50
 
     });
 
-   this.contractamendmentidOptions.push({Text: 'ContractAmendmentId1', Value: 'ContractAmendmentId1' });
-this.contractamendmentidOptions.push({Text: 'ContractAmendmentId2', Value: 'ContractAmendmentId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractAmendmentId', 'contract-amendments',
+      options => this.contractamendmentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.changesectioncodeOptions = this.loggedInUserService.getPicklistOptions('ChangeSectionCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AssetLocationHistoryService } from './assetLocationHistory.service';
   providers: [ MessageService]
 })
 export class AssetLocationHistoryEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   assetId: number | null = null;
@@ -74,14 +75,18 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
-this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
-this.fromlocationidOptions.push({Text: 'Location1', Value: 'Location1' });
-this.fromlocationidOptions.push({Text: 'Location2', Value: 'Location2' });
-this.tolocationidOptions.push({Text: 'Location1', Value: 'Location1' });
-this.tolocationidOptions.push({Text: 'Location2', Value: 'Location2' });
-this.partylocationidOptions.push({Text: 'PartyLoca1', Value: 'PartyLoca1' });
-this.partylocationidOptions.push({Text: 'PartyLoc2', Value: 'PartyLoc2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'FromLocationId', 'locations',
+      options => this.fromlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ToLocationId', 'locations',
+      options => this.tolocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.movementtypeOptions = this.loggedInUserService.getPicklistOptions('MovementType');
 this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetLocationHistoryReferenceType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

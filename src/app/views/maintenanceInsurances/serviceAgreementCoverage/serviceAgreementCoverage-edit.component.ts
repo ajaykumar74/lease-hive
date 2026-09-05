@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ServiceAgreementCoverageService } from './serviceAgreementCoverage.serv
   providers: [ MessageService]
 })
 export class ServiceAgreementCoverageEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -72,16 +73,21 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.serviceagreementidOptions.push({Text: 'ServiceAgreementId1', Value: 'ServiceAgreementId1' });
-this.serviceagreementidOptions.push({Text: 'ServiceAgreementId2', Value: 'ServiceAgreementId2' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
-this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
-this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId1', Value: 'MaintenanceTypeId1' });
-this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId2', Value: 'MaintenanceTypeId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceAgreementId', 'service-agreements',
+      options => this.serviceagreementidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetCategoryId":"AssetCategoryId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'maintenance-types',
+      options => this.maintenancetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.coveragecodeOptions = this.loggedInUserService.getPicklistOptions('CoverageCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

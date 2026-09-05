@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { MaintenanceCompletionService } from './maintenanceCompletion.service';
   providers: [ MessageService]
 })
 export class MaintenanceCompletionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,14 +72,18 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
-this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.conditiongradeidOptions.push({Text: 'ConditionGradeId1', Value: 'ConditionGradeId1' });
-this.conditiongradeidOptions.push({Text: 'ConditionGradeId2', Value: 'ConditionGradeId2' });
-this.verifiedbyuseridOptions.push({Text: 'VerifiedByUserId1', Value: 'VerifiedByUserId1' });
-this.verifiedbyuseridOptions.push({Text: 'VerifiedByUserId2', Value: 'VerifiedByUserId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
+      options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ConditionGradeId', 'asset-condition-grades',
+      options => this.conditiongradeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedByUserId', 'application-users',
+      options => this.verifiedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { BaseService } from './IBaseService';
-import { BehaviorSubject, Observable, Subject, map, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, auditTime, catchError, distinctUntilChanged, expand, map, reduce, startWith, switchMap, throwError } from 'rxjs';
 
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
@@ -177,6 +179,64 @@ export class LoggedInUserService {
 
   private normalizePicklistCategory(category: string): string {
     return (category || '').trim().toLowerCase();
+  }
+
+  /** Load every page so entity dropdown filtering is not limited to the first 100 rows. */
+  getEntityLookupOptions(lookupType: string, selectedId?: number | string, filters: Record<string, number> = {}, valueMode: 'id' | 'reference' = 'id'): Observable<ISelectItem[]> {
+    const tenant = this.loggedInUser?.Tenant;
+    const tenantId = tenant?.Id ?? tenant?.TenantId;
+    if (!tenantId) return throwError(() => 'Tenant information is not available for the logged-in user.');
+
+    const page = (skip: number) => {
+      const params = new URLSearchParams({ tenantId: String(tenantId), pageSize: '100', skip: String(skip) });
+      if (selectedId) params.set(valueMode === 'reference' ? 'selectedValue' : 'selectedId', String(selectedId));
+      for (const [field, value] of Object.entries(filters)) {
+        if (value > 0) params.set(`filters[${field}]`, String(value));
+      }
+      return this.http.get<any>(`${this.baseService.C_APP_URL}/Lookups/${lookupType}?${params}`, { headers: this.headers }).pipe(
+        map(response => ({ skip, rows: response.data || [] as any[] }))
+      );
+    };
+    return page(0).pipe(
+      expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
+      reduce((items, result) => [...items, ...result.rows], [] as any[]),
+      map(items => [...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
+        Id: item.Id, Value: valueMode === 'reference' ? item.ReferenceValue : item.Id, Text: item.DisplayText
+      })))
+    );
+  }
+
+  /** Reload after edit-form hydration or parent changes; cancel stale requests and clean up on navigation. */
+  bindEntityLookup(
+    form: FormGroup,
+    field: string,
+    lookupType: string,
+    assign: (options: ISelectItem[]) => void,
+    onError: (error: any) => void,
+    destroyRef: DestroyRef,
+    parentFields: Record<string, string> = {},
+    valueMode: 'id' | 'reference' = 'id'
+  ): void {
+    form.valueChanges.pipe(
+      startWith(null),
+      auditTime(0),
+      map(() => ({
+        selectedId: valueMode === 'reference' ? (form.get(field)?.value || undefined) : (Number(form.get(field)?.value) || undefined),
+        filters: Object.fromEntries(Object.entries(parentFields).map(([filter, control]) => [filter, Number(form.get(control)?.value) || 0]))
+      })),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      switchMap(({ selectedId, filters }) => {
+        assign([]);
+        return this.getEntityLookupOptions(lookupType, selectedId, filters, valueMode).pipe(
+          map(options => {
+            assign(options);
+            if (selectedId && !options.some(option => (valueMode === 'reference' ? option.Value : option.Id) === selectedId)) form.get(field)?.setValue(null);
+          }),
+          catchError(error => { onError(error); return EMPTY; })
+        );
+      }),
+      takeUntilDestroyed(destroyRef)
+    ).subscribe();
   }
 
   getLookupOptions(

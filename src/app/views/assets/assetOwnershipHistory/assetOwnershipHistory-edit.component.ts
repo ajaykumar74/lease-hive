@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AssetOwnershipHistoryService } from './assetOwnershipHistory.service';
   providers: [ MessageService]
 })
 export class AssetOwnershipHistoryEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   assetId: number | null = null;
@@ -67,8 +68,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
-this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.ownershiptypeOptions = this.loggedInUserService.getPicklistOptions('OwnershipType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

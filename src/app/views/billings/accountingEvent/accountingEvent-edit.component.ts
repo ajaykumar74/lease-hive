@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AccountingEventService } from './accountingEvent.service';
   providers: [ MessageService]
 })
 export class AccountingEventEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -73,13 +74,15 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
-this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
+      options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.eventtypeOptions = this.loggedInUserService.getPicklistOptions('EventType');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('AccountingEventPostingStatus');
-this.journalentryidOptions.push({Text: 'JournalEntryId1', Value: 'JournalEntryId1' });
-this.journalentryidOptions.push({Text: 'JournalEntryId2', Value: 'JournalEntryId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
+      options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"OrganisationId":"OrganisationId"});
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

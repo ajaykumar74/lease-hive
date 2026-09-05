@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { CustomerInvoiceTaxService } from './customerInvoiceTax.service';
    providers: [ MessageService]
 })
 export class CustomerInvoiceTaxCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -71,10 +72,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create CustomerInvoiceTax';
-    this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId1', Value: 'CustomerInvoiceId1' });
-this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId2', Value: 'CustomerInvoiceId2' });
-this.customerinvoicelineidOptions.push({Text: 'CustomerInvoiceLineId1', Value: 'CustomerInvoiceLineId1' });
-this.customerinvoicelineidOptions.push({Text: 'CustomerInvoiceLineId2', Value: 'CustomerInvoiceLineId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceId', 'customer-invoices',
+      options => this.customerinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceLineId', 'customer-invoice-lines',
+      options => this.customerinvoicelineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"CustomerInvoiceId":"CustomerInvoiceId"});
 this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
 this.taxjurisdictionidOptions.push({Text: 'TaxJurisdictionId1', Value: 'TaxJurisdictionId1' });

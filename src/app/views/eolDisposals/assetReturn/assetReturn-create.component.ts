@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetReturnService } from './assetReturn.service';
    providers: [ MessageService]
 })
 export class AssetReturnCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -76,20 +77,27 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create AssetReturn';
-    this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId1', Value: 'EndOfLeaseCaseId1' });
-this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.assetreturnscheduleidOptions.push({Text: 'AssetReturnScheduleId1', Value: 'AssetReturnScheduleId1' });
-this.assetreturnscheduleidOptions.push({Text: 'AssetReturnScheduleId2', Value: 'AssetReturnScheduleId2' });
-this.returnlocationidOptions.push({Text: 'ReturnLocationId1', Value: 'ReturnLocationId1' });
-this.returnlocationidOptions.push({Text: 'ReturnLocationId2', Value: 'ReturnLocationId2' });
-this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId1', Value: 'ReceivedByUserId1' });
-this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId2', Value: 'ReceivedByUserId2' });
-this.finalmeasurereadingidOptions.push({Text: 'FinalMeasureReadingId1', Value: 'FinalMeasureReadingId1' });
-this.finalmeasurereadingidOptions.push({Text: 'FinalMeasureReadingId2', Value: 'FinalMeasureReadingId2' });
-this.returninspectionidOptions.push({Text: 'ReturnInspectionId1', Value: 'ReturnInspectionId1' });
-this.returninspectionidOptions.push({Text: 'ReturnInspectionId2', Value: 'ReturnInspectionId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'EndOfLeaseCaseId', 'end-of-lease-cases',
+      options => this.endofleasecaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetReturnScheduleId', 'asset-return-schedules',
+      options => this.assetreturnscheduleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId","EndOfLeaseCaseId":"EndOfLeaseCaseId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnLocationId', 'locations',
+      options => this.returnlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivedByUserId', 'application-users',
+      options => this.receivedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'FinalMeasureReadingId', 'asset-measure-readings',
+      options => this.finalmeasurereadingidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnInspectionId', 'asset-inspections',
+      options => this.returninspectionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
 this.returnstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ReturnStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

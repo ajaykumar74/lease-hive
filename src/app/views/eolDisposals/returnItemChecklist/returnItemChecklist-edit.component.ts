@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ReturnItemChecklistService } from './returnItemChecklist.service';
   providers: [ MessageService]
 })
 export class ReturnItemChecklistEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,8 +68,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetreturnidOptions.push({Text: 'AssetReturnId1', Value: 'AssetReturnId1' });
-this.assetreturnidOptions.push({Text: 'AssetReturnId2', Value: 'AssetReturnId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetReturnId', 'asset-returns',
+      options => this.assetreturnidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('ConditionCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

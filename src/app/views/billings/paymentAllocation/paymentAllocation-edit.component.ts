@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PaymentAllocationService } from './paymentAllocation.service';
   providers: [ MessageService]
 })
 export class PaymentAllocationEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,13 +70,16 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId1', Value: 'PaymentReceiptId1' });
-this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId2', Value: 'PaymentReceiptId2' });
-this.receivableidOptions.push({Text: 'ReceivableId1', Value: 'ReceivableId1' });
-this.receivableidOptions.push({Text: 'ReceivableId2', Value: 'ReceivableId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'PaymentReceiptId', 'payment-receipts',
+      options => this.paymentreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivableId', 'receivables',
+      options => this.receivableidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.allocationtypeOptions = this.loggedInUserService.getPicklistOptions('AllocationType');
-this.reversalofallocationidOptions.push({Text: 'ReversalOfAllocationId1', Value: 'ReversalOfAllocationId1' });
-this.reversalofallocationidOptions.push({Text: 'ReversalOfAllocationId2', Value: 'ReversalOfAllocationId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReversalOfAllocationId', 'payment-allocations',
+      options => this.reversalofallocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"PaymentReceiptId":"PaymentReceiptId"});
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

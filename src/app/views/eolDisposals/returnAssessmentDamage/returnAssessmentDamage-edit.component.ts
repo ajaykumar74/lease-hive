@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ReturnAssessmentDamageService } from './returnAssessmentDamage.service'
   providers: [ MessageService]
 })
 export class ReturnAssessmentDamageEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -70,8 +71,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.returnassessmentidOptions.push({Text: 'ReturnAssessmentId1', Value: 'ReturnAssessmentId1' });
-this.returnassessmentidOptions.push({Text: 'ReturnAssessmentId2', Value: 'ReturnAssessmentId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnAssessmentId', 'return-assessments',
+      options => this.returnassessmentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId1', Value: 'InspectionItemReferenceId1' });
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId2', Value: 'InspectionItemReferenceId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');

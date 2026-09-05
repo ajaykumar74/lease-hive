@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { MaintenanceWorkOrderLabourService } from './maintenanceWorkOrderLabour.
    providers: [ MessageService]
 })
 export class MaintenanceWorkOrderLabourCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -70,12 +71,15 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create MaintenanceWorkOrderLabour';
-    this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
-this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
-this.technicianpartyidOptions.push({Text: 'TechnicianPartyId1', Value: 'TechnicianPartyId1' });
-this.technicianpartyidOptions.push({Text: 'TechnicianPartyId2', Value: 'TechnicianPartyId2' });
-this.technicianuseridOptions.push({Text: 'TechnicianUserId1', Value: 'TechnicianUserId1' });
-this.technicianuseridOptions.push({Text: 'TechnicianUserId2', Value: 'TechnicianUserId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
+      options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'TechnicianPartyId', 'parties',
+      options => this.technicianpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'TechnicianUserId', 'application-users',
+      options => this.technicianuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

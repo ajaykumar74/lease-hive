@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractRenewalOptionService } from './contractRenewalOption.service';
   providers: [ MessageService]
 })
 export class ContractRenewalOptionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,8 +68,9 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
 
     });
 
-   this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.optiontypecodeOptions = this.loggedInUserService.getPicklistOptions('OptionTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractRenewalOptionStatusCode');

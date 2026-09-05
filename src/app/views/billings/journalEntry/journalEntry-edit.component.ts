@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { JournalEntryService } from './journalEntry.service';
   providers: [ MessageService]
 })
 export class JournalEntryEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,8 +72,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
-this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
+      options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.sourcemoduleOptions = this.loggedInUserService.getPicklistOptions('SourceModule');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('JournalEntryPostingStatus');

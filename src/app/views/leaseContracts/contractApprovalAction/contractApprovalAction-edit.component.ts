@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractApprovalActionService } from './contractApprovalAction.service'
   providers: [ MessageService]
 })
 export class ContractApprovalActionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -66,13 +67,16 @@ DelegatedFromUserId: new FormControl(0, [Validators.min(-2147483648), Validators
 
     });
 
-   this.contractapprovalrequestidOptions.push({Text: 'ContractApprovalRequestId1', Value: 'ContractApprovalRequestId1' });
-this.contractapprovalrequestidOptions.push({Text: 'ContractApprovalRequestId2', Value: 'ContractApprovalRequestId2' });
-this.approveruseridOptions.push({Text: 'ApproverUserId1', Value: 'ApproverUserId1' });
-this.approveruseridOptions.push({Text: 'ApproverUserId2', Value: 'ApproverUserId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractApprovalRequestId', 'contract-approval-requests',
+      options => this.contractapprovalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApproverUserId', 'application-users',
+      options => this.approveruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('ContractApprovalActionActionCode');
-this.delegatedfromuseridOptions.push({Text: 'DelegatedFromUserId1', Value: 'DelegatedFromUserId1' });
-this.delegatedfromuseridOptions.push({Text: 'DelegatedFromUserId2', Value: 'DelegatedFromUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DelegatedFromUserId', 'application-users',
+      options => this.delegatedfromuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

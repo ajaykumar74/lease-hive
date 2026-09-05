@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { InsuranceClaimAssessmentService } from './insuranceClaimAssessment.serv
   providers: [ MessageService]
 })
 export class InsuranceClaimAssessmentEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,10 +72,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
-this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
-this.assessorpartyidOptions.push({Text: 'AssessorPartyId1', Value: 'AssessorPartyId1' });
-this.assessorpartyidOptions.push({Text: 'AssessorPartyId2', Value: 'AssessorPartyId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
+      options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssessorPartyId', 'parties',
+      options => this.assessorpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.repairabilitycodeOptions = this.loggedInUserService.getPicklistOptions('RepairabilityCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

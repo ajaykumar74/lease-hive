@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { DisposalAwardService } from './disposalAward.service';
   providers: [ MessageService]
 })
 export class DisposalAwardEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -75,18 +76,23 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.disposalcaseidOptions.push({Text: 'DisposalCaseId1', Value: 'DisposalCaseId1' });
-this.disposalcaseidOptions.push({Text: 'DisposalCaseId2', Value: 'DisposalCaseId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalCaseId', 'disposal-cases',
+      options => this.disposalcaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.awardsourcecodeOptions = this.loggedInUserService.getPicklistOptions('AwardSourceCode');
-this.disposalofferidOptions.push({Text: 'DisposalOfferId1', Value: 'DisposalOfferId1' });
-this.disposalofferidOptions.push({Text: 'DisposalOfferId2', Value: 'DisposalOfferId2' });
-this.disposalbididOptions.push({Text: 'DisposalBidId1', Value: 'DisposalBidId1' });
-this.disposalbididOptions.push({Text: 'DisposalBidId2', Value: 'DisposalBidId2' });
-this.buyerpartyidOptions.push({Text: 'BuyerPartyId1', Value: 'BuyerPartyId1' });
-this.buyerpartyidOptions.push({Text: 'BuyerPartyId2', Value: 'BuyerPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalOfferId', 'disposal-offers',
+      options => this.disposalofferidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"DisposalCaseId":"DisposalCaseId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalBidId', 'disposal-bids',
+      options => this.disposalbididOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyerPartyId', 'parties',
+      options => this.buyerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
-this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
+      options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalAwardStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractNoticeService } from './contractNotice.service';
   providers: [ MessageService]
 })
 export class ContractNoticeEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -70,11 +71,13 @@ SentOn: new FormControl(new Date(), []),
 
     });
 
-   this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.noticetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractNoticeNoticeTypeCode');
-this.recipientpartyidOptions.push({Text: 'RecipientPartyId1', Value: 'RecipientPartyId1' });
-this.recipientpartyidOptions.push({Text: 'RecipientPartyId2', Value: 'RecipientPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RecipientPartyId', 'parties',
+      options => this.recipientpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.deliverymethodcodeOptions = this.loggedInUserService.getPicklistOptions('DeliveryMethodCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });

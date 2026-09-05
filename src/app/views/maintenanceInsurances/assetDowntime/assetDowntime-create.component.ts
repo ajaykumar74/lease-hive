@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetDowntimeService } from './assetDowntime.service';
    providers: [ MessageService]
 })
 export class AssetDowntimeCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -73,16 +74,20 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create AssetDowntime';
-    this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
-this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
-this.insuranceincidentidOptions.push({Text: 'InsuranceIncidentId1', Value: 'InsuranceIncidentId1' });
-this.insuranceincidentidOptions.push({Text: 'InsuranceIncidentId2', Value: 'InsuranceIncidentId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
+      options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceIncidentId', 'insurance-incidents',
+      options => this.insuranceincidentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
 this.downtimereasoncodeOptions = this.loggedInUserService.getPicklistOptions('DowntimeReasonCode');
 this.customerimpactcodeOptions = this.loggedInUserService.getPicklistOptions('CustomerImpactCode');
-this.replacementassetidOptions.push({Text: 'ReplacementAssetId1', Value: 'ReplacementAssetId1' });
-this.replacementassetidOptions.push({Text: 'ReplacementAssetId2', Value: 'ReplacementAssetId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReplacementAssetId', 'assets',
+      options => this.replacementassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

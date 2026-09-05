@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetDispositionDecisionService } from './assetDispositionDecision.serv
    providers: [ MessageService]
 })
 export class AssetDispositionDecisionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -76,18 +77,22 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create AssetDispositionDecision';
-    this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId1', Value: 'EndOfLeaseCaseId1' });
-this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.dispositionmethodidOptions.push({Text: 'DispositionMethodId1', Value: 'DispositionMethodId1' });
-this.dispositionmethodidOptions.push({Text: 'DispositionMethodId2', Value: 'DispositionMethodId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'EndOfLeaseCaseId', 'end-of-lease-cases',
+      options => this.endofleasecaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DispositionMethodId', 'disposition-methods',
+      options => this.dispositionmethodidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId1', Value: 'ReferenceValuationId1' });
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId2', Value: 'ReferenceValuationId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetDispositionDecisionStatusCode');
-this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
-this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
+      options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

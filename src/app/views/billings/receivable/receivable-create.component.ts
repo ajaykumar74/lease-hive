@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ReceivableService } from './receivable.service';
    providers: [ MessageService]
 })
 export class ReceivableCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -80,13 +81,16 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create Receivable';
-    this.billingorganisationidOptions.push({Text: 'BillingOrganisationId1', Value: 'BillingOrganisationId1' });
-this.billingorganisationidOptions.push({Text: 'BillingOrganisationId2', Value: 'BillingOrganisationId2' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingOrganisationId', 'organisations',
+      options => this.billingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
+      options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.sourcedocumenttypeOptions = this.loggedInUserService.getPicklistOptions('SourceDocumentType');
-this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.receivablestatusOptions = this.loggedInUserService.getPicklistOptions('ReceivableStatus');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

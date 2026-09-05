@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AssetMeasureDefinitionService } from './assetMeasureDefinition.service'
   providers: [ MessageService]
 })
 export class AssetMeasureDefinitionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,10 +70,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetcategoryidOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
-this.assetcategoryidOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
-this.assettypeidOptions.push({Text: 'AssetType1', Value: 'AssetType1' });
-this.assettypeidOptions.push({Text: 'AssetType2', Value: 'AssetType2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.unitofmeasureidOptions.push({Text: 'Text1', Value: 'Text1' });
 this.unitofmeasureidOptions.push({Text: 'Text2', Value: 'Text2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

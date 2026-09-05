@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { FinanceExceptionService } from './financeException.service';
    providers: [ MessageService]
 })
 export class FinanceExceptionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -76,8 +77,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.exceptiontypeOptions = this.loggedInUserService.getPicklistOptions('ExceptionType');
 this.severityOptions = this.loggedInUserService.getPicklistOptions('Severity');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceExceptionStatusCode');
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
+      options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

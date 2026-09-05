@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { MaintenanceExceptionService } from './maintenanceException.service';
    providers: [ MessageService]
 })
 export class MaintenanceExceptionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -75,8 +76,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionExceptionTypeCode');
 this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionReferenceTypeCode');
 this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('SeverityCode');
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
+      options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

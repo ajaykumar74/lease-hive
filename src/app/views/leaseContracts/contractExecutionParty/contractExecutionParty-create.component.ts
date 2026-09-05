@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ContractExecutionPartyService } from './contractExecutionParty.service'
    providers: [ MessageService]
 })
 export class ContractExecutionPartyCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -69,12 +70,15 @@ ExternalSignerId: new FormControl('', [Validators.maxLength(120), ]),
 
     });
     this.Caption = 'Create ContractExecutionParty';
-    this.contractexecutionidOptions.push({Text: 'ContractExecutionId1', Value: 'ContractExecutionId1' });
-this.contractexecutionidOptions.push({Text: 'ContractExecutionId2', Value: 'ContractExecutionId2' });
-this.leasecontractpartyidOptions.push({Text: 'LeaseContractPartyId1', Value: 'LeaseContractPartyId1' });
-this.leasecontractpartyidOptions.push({Text: 'LeaseContractPartyId2', Value: 'LeaseContractPartyId2' });
-this.signerpartyidOptions.push({Text: 'SignerPartyId1', Value: 'SignerPartyId1' });
-this.signerpartyidOptions.push({Text: 'SignerPartyId2', Value: 'SignerPartyId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractExecutionId', 'contract-executions',
+      options => this.contractexecutionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractPartyId', 'lease-contract-parties',
+      options => this.leasecontractpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SignerPartyId', 'parties',
+      options => this.signerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.signaturestatuscodeOptions = this.loggedInUserService.getPicklistOptions('SignatureStatusCode');
 
   }

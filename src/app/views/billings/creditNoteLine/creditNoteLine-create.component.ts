@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { CreditNoteLineService } from './creditNoteLine.service';
    providers: [ MessageService]
 })
 export class CreditNoteLineCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -67,10 +68,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create CreditNoteLine';
-    this.creditnoteidOptions.push({Text: 'CreditNoteId1', Value: 'CreditNoteId1' });
-this.creditnoteidOptions.push({Text: 'CreditNoteId2', Value: 'CreditNoteId2' });
-this.customerinvoicelineidOptions.push({Text: 'CustomerInvoiceLineId1', Value: 'CustomerInvoiceLineId1' });
-this.customerinvoicelineidOptions.push({Text: 'CustomerInvoiceLineId2', Value: 'CustomerInvoiceLineId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditNoteId', 'credit-notes',
+      options => this.creditnoteidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceLineId', 'customer-invoice-lines',
+      options => this.customerinvoicelineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

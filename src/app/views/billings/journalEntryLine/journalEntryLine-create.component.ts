@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { JournalEntryLineService } from './journalEntryLine.service';
    providers: [ MessageService]
 })
 export class JournalEntryLineCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -80,21 +81,28 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create JournalEntryLine';
-    this.journalentryidOptions.push({Text: 'JournalEntryId1', Value: 'JournalEntryId1' });
-this.journalentryidOptions.push({Text: 'JournalEntryId2', Value: 'JournalEntryId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
+      options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.costcentreidOptions.push({Text: 'CostCentreId1', Value: 'CostCentreId1' });
-this.costcentreidOptions.push({Text: 'CostCentreId2', Value: 'CostCentreId2' });
-this.profitcentreidOptions.push({Text: 'ProfitCentreId1', Value: 'ProfitCentreId1' });
-this.profitcentreidOptions.push({Text: 'ProfitCentreId2', Value: 'ProfitCentreId2' });
-this.organisationunitidOptions.push({Text: 'OrganisationUnitId1', Value: 'OrganisationUnitId1' });
-this.organisationunitidOptions.push({Text: 'OrganisationUnitId2', Value: 'OrganisationUnitId2' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CostCentreId', 'cost-centres',
+      options => this.costcentreidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"OrganisationUnitId":"OrganisationUnitId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ProfitCentreId', 'profit-centres',
+      options => this.profitcentreidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"OrganisationUnitId":"OrganisationUnitId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationUnitId', 'organisation-units',
+      options => this.organisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
+      options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

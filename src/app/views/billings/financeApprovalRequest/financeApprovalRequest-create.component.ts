@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { FinanceApprovalRequestService } from './financeApprovalRequest.service'
    providers: [ MessageService]
 })
 export class FinanceApprovalRequestCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -74,8 +75,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestReferenceType');
 this.workflowinstanceidOptions.push({Text: 'WorkflowInstanceId1', Value: 'WorkflowInstanceId1' });
 this.workflowinstanceidOptions.push({Text: 'WorkflowInstanceId2', Value: 'WorkflowInstanceId2' });
-this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'RequestedByUserId1' });
-this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'application-users',
+      options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestApprovalStatus');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

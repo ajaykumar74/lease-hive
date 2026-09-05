@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AssetAssignmentHistoryService } from './assetAssignmentHistory.service'
   providers: [ MessageService]
 })
 export class AssetAssignmentHistoryEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -71,16 +72,18 @@ Remarks: new FormControl('', [Validators.required, Validators.maxLength(100), ])
 this.eventtypeidOptions.push({Text: 'Changed', Value: 'Changed' });
 this.eventtypeidOptions.push({Text: 'Ended', Value: 'Ended' });
 this.eventtypeidOptions.push({Text: 'Transferred', Value: 'Transferred' });
-this.fromassetuseridOptions.push({Text: 'Assetuser1', Value: 'Assetuser1' });
-this.fromassetuseridOptions.push({Text: 'Assetuser2', Value: 'Assetuser2' });
-this.toassetuseridOptions.push({Text: 'Assetuser1', Value: 'Assetuser1' });
-this.toassetuseridOptions.push({Text: 'Assetuser2', Value: 'Assetuser2' });
-this.frompartylocationidOptions.push({Text: 'PartLocation1', Value: 'PartLocation1' });
-this.frompartylocationidOptions.push({Text: 'PartyLocation2', Value: 'PartyLocation2' });
-this.topartylocationidOptions.push({Text: 'Lease', Value: 'Lease' });
-this.topartylocationidOptions.push({Text: 'Custody', Value: 'Custody' });
-this.topartylocationidOptions.push({Text: 'Demo', Value: 'Demo' });
-this.topartylocationidOptions.push({Text: 'Internal', Value: 'Internal' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'FromAssetUserId', 'asset-users',
+      options => this.fromassetuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ToAssetUserId', 'asset-users',
+      options => this.toassetuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'FromPartyLocationId', 'party-locations',
+      options => this.frompartylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ToPartyLocationId', 'party-locations',
+      options => this.topartylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

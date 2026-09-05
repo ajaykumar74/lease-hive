@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractConditionEvidenceService } from './contractConditionEvidence.se
   providers: [ MessageService]
 })
 export class ContractConditionEvidenceEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,8 +68,9 @@ CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648)
 
     });
 
-   this.contractconditionidOptions.push({Text: 'ContractConditionId1', Value: 'ContractConditionId1' });
-this.contractconditionidOptions.push({Text: 'ContractConditionId2', Value: 'ContractConditionId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractConditionId', 'contract-conditions',
+      options => this.contractconditionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.evidencetypecodeOptions = this.loggedInUserService.getPicklistOptions('EvidenceTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });

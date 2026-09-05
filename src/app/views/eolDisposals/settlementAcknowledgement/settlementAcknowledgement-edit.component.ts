@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SettlementAcknowledgementService } from './settlementAcknowledgement.se
   providers: [ MessageService]
 })
 export class SettlementAcknowledgementEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -66,11 +67,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.endofleasesettlementidOptions.push({Text: 'EndOfLeaseSettlementId1', Value: 'EndOfLeaseSettlementId1' });
-this.endofleasesettlementidOptions.push({Text: 'EndOfLeaseSettlementId2', Value: 'EndOfLeaseSettlementId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'EndOfLeaseSettlementId', 'end-of-lease-settlements',
+      options => this.endofleasesettlementidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.responsecodeOptions = this.loggedInUserService.getPicklistOptions('ResponseCode');
-this.respondedbypartyidOptions.push({Text: 'RespondedByPartyId1', Value: 'RespondedByPartyId1' });
-this.respondedbypartyidOptions.push({Text: 'RespondedByPartyId2', Value: 'RespondedByPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RespondedByPartyId', 'parties',
+      options => this.respondedbypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

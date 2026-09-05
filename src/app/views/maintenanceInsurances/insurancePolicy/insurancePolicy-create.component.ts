@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { InsurancePolicyService } from './insurancePolicy.service';
    providers: [ MessageService]
 })
 export class InsurancePolicyCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -83,22 +84,28 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create InsurancePolicy';
-    this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
-this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
-this.insurerpartyidOptions.push({Text: 'InsurerPartyId1', Value: 'InsurerPartyId1' });
-this.insurerpartyidOptions.push({Text: 'InsurerPartyId2', Value: 'InsurerPartyId2' });
-this.brokerpartyidOptions.push({Text: 'BrokerPartyId1', Value: 'BrokerPartyId1' });
-this.brokerpartyidOptions.push({Text: 'BrokerPartyId2', Value: 'BrokerPartyId2' });
-this.insurancepolicystatusidOptions.push({Text: 'InsurancePolicyStatusId1', Value: 'InsurancePolicyStatusId1' });
-this.insurancepolicystatusidOptions.push({Text: 'InsurancePolicyStatusId2', Value: 'InsurancePolicyStatusId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
+      options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurerPartyId', 'parties',
+      options => this.insurerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BrokerPartyId', 'parties',
+      options => this.brokerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurancePolicyStatusId', 'insurance-policy-statuses',
+      options => this.insurancepolicystatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.policytypecodeOptions = this.loggedInUserService.getPicklistOptions('PolicyTypeCode');
-this.coveragetypeidOptions.push({Text: 'CoverageTypeId1', Value: 'CoverageTypeId1' });
-this.coveragetypeidOptions.push({Text: 'CoverageTypeId2', Value: 'CoverageTypeId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CoverageTypeId', 'insurance-coverage-types',
+      options => this.coveragetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId1', Value: 'PaymentReferenceId1' });
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId2', Value: 'PaymentReferenceId2' });
-this.previouspolicyidOptions.push({Text: 'PreviousPolicyId1', Value: 'PreviousPolicyId1' });
-this.previouspolicyidOptions.push({Text: 'PreviousPolicyId2', Value: 'PreviousPolicyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PreviousPolicyId', 'insurance-policies',
+      options => this.previouspolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"OrganisationId":"OrganisationId"});
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

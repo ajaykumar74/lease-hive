@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractObligationEventService } from './contractObligationEvent.servic
   providers: [ MessageService]
 })
 export class ContractObligationEventEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,8 +68,9 @@ PerformedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 
     });
 
-   this.contractobligationidOptions.push({Text: 'ContractObligationId1', Value: 'ContractObligationId1' });
-this.contractobligationidOptions.push({Text: 'ContractObligationId2', Value: 'ContractObligationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractObligationId', 'contract-obligations',
+      options => this.contractobligationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.eventtypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractObligationEventEventTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });

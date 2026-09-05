@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { MaintenanceWorkOrderTaskService } from './maintenanceWorkOrderTask.serv
    providers: [ MessageService]
 })
 export class MaintenanceWorkOrderTaskCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -70,11 +71,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create MaintenanceWorkOrderTask';
-    this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
-this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
+      options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.taskstatuscodeOptions = this.loggedInUserService.getPicklistOptions('TaskStatusCode');
-this.completedbyuseridOptions.push({Text: 'CompletedByUserId1', Value: 'CompletedByUserId1' });
-this.completedbyuseridOptions.push({Text: 'CompletedByUserId2', Value: 'CompletedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CompletedByUserId', 'application-users',
+      options => this.completedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

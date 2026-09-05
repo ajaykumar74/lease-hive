@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { FinanceApprovalActionService } from './financeApprovalAction.service';
   providers: [ MessageService]
 })
 export class FinanceApprovalActionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -66,10 +67,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.financeapprovalrequestidOptions.push({Text: 'FinanceApprovalRequestId1', Value: 'FinanceApprovalRequestId1' });
-this.financeapprovalrequestidOptions.push({Text: 'FinanceApprovalRequestId2', Value: 'FinanceApprovalRequestId2' });
-this.actionbyuseridOptions.push({Text: 'ActionByUserId1', Value: 'ActionByUserId1' });
-this.actionbyuseridOptions.push({Text: 'ActionByUserId2', Value: 'ActionByUserId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'FinanceApprovalRequestId', 'finance-approval-requests',
+      options => this.financeapprovalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ActionByUserId', 'application-users',
+      options => this.actionbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalActionActionCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

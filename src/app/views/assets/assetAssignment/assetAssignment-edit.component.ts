@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { AssetAssignmentService } from './assetAssignment.service';
   providers: [ MessageService]
 })
 export class AssetAssignmentEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   assetId: number | null = null;
@@ -79,16 +80,21 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
-this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
-this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
-this.partylocationidOptions.push({Text: 'PartyLoca1', Value: 'PartyLoca1' });
-this.partylocationidOptions.push({Text: 'PartyLoc2', Value: 'PartyLoc2' });
-this.customerdepartmentidOptions.push({Text: 'CustDepart1', Value: 'CustDepart1' });
-this.customerdepartmentidOptions.push({Text: 'CustDepart2', Value: 'CustDepart2' });
-this.assetuseridOptions.push({Text: 'Assetuser1', Value: 'Assetuser1' });
-this.assetuseridOptions.push({Text: 'Assetuser2', Value: 'Assetuser2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties',
+      options => this.partyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"PartyId":"PartyId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerDepartmentId', 'customer-departments',
+      options => this.customerdepartmentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"PartyId":"PartyId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetUserId', 'asset-users',
+      options => this.assetuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.assignmenttypeOptions = this.loggedInUserService.getPicklistOptions('AssignmentType');
 this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentReferenceType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { DisposalValuationReferenceService } from './disposalValuationReference.
    providers: [ MessageService]
 })
 export class DisposalValuationReferenceCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -69,8 +70,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create DisposalValuationReference';
-    this.disposalcaseidOptions.push({Text: 'DisposalCaseId1', Value: 'DisposalCaseId1' });
-this.disposalcaseidOptions.push({Text: 'DisposalCaseId2', Value: 'DisposalCaseId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalCaseId', 'disposal-cases',
+      options => this.disposalcaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.assetvaluationidOptions.push({Text: 'AssetValuationId1', Value: 'AssetValuationId1' });
 this.assetvaluationidOptions.push({Text: 'AssetValuationId2', Value: 'AssetValuationId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');

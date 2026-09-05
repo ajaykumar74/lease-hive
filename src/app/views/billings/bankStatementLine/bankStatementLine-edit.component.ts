@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { BankStatementLineService } from './bankStatementLine.service';
   providers: [ MessageService]
 })
 export class BankStatementLineEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -70,10 +71,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.bankstatementidOptions.push({Text: 'BankStatementId1', Value: 'BankStatementId1' });
-this.bankstatementidOptions.push({Text: 'BankStatementId2', Value: 'BankStatementId2' });
-this.matchedpaymentreceiptidOptions.push({Text: 'MatchedPaymentReceiptId1', Value: 'MatchedPaymentReceiptId1' });
-this.matchedpaymentreceiptidOptions.push({Text: 'MatchedPaymentReceiptId2', Value: 'MatchedPaymentReceiptId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'BankStatementId', 'bank-statements',
+      options => this.bankstatementidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedPaymentReceiptId', 'payment-receipts',
+      options => this.matchedpaymentreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.matchstatusOptions = this.loggedInUserService.getPicklistOptions('MatchStatus');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

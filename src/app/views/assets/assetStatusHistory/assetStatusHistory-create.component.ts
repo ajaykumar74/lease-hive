@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetStatusHistoryService } from './assetStatusHistory.service';
    providers: [ MessageService]
 })
 export class AssetStatusHistoryCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -66,10 +67,12 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.fromstatusidOptions.push({Text: 'Status1', Value: 'Status1' });
-this.fromstatusidOptions.push({Text: 'Status', Value: 'Status' });
-this.tostatusidOptions.push({Text: 'Status1', Value: 'Status1' });
-this.tostatusidOptions.push({Text: 'Status', Value: 'Status' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'FromStatusId', 'asset-statuses',
+      options => this.fromstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ToStatusId', 'asset-statuses',
+      options => this.tostatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.reasoncodeOptions.push({Text: 'StatusChange1', Value: 'StatusChange1' });
 this.reasoncodeOptions.push({Text: 'StatusChange2', Value: 'StatusChange2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { BillingRunItemService } from './billingRunItem.service';
    providers: [ MessageService]
 })
 export class BillingRunItemCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -77,19 +78,24 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create BillingRunItem';
-    this.billingrunidOptions.push({Text: 'BillingRunId1', Value: 'BillingRunId1' });
-this.billingrunidOptions.push({Text: 'BillingRunId2', Value: 'BillingRunId2' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId1', Value: 'LeasePaymentScheduleLineId1' });
-this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId2', Value: 'LeasePaymentScheduleLineId2' });
-this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId1', Value: 'LeaseContractChargeId1' });
-this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId2', Value: 'LeaseContractChargeId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingRunId', 'billing-runs',
+      options => this.billingrunidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeasePaymentScheduleLineId', 'lease-payment-schedule-lines',
+      options => this.leasepaymentschedulelineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractChargeId', 'lease-contract-charges',
+      options => this.leasecontractchargeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
 this.sourcetypeOptions = this.loggedInUserService.getPicklistOptions('SourceType');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.validationstatusOptions = this.loggedInUserService.getPicklistOptions('ValidationStatus');
-this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId1', Value: 'CustomerInvoiceId1' });
-this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId2', Value: 'CustomerInvoiceId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceId', 'customer-invoices',
+      options => this.customerinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }

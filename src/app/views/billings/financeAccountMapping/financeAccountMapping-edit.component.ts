@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { FinanceAccountMappingService } from './financeAccountMapping.service';
   providers: [ MessageService]
 })
 export class FinanceAccountMappingEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -68,8 +69,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
-this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
+      options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

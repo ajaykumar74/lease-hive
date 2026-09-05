@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditApplicantPartyService } from './creditApplicantParty.service';
     providers: [MessageService]
 })
 export class CreditApplicantPartyCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     permission = {} as IPermission;
@@ -58,8 +59,9 @@ export class CreditApplicantPartyCreateComponent implements OnInit {
         this.Caption = 'Create CreditApplicantParty';
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.creditpartyroleidOptions.push({ Text: 'CreditPartRole1', Value: 'CreditPartRole1' });
-        this.creditpartyroleidOptions.push({ Text: 'CreditPartyRole2', Value: 'CreditPartyRole2' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditPartyRoleId', 'party-roles',
+      options => this.creditpartyroleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"PartyId":"PartyId"});
         this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 

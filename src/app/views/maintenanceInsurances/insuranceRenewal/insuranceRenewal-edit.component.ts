@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { InsuranceRenewalService } from './insuranceRenewal.service';
   providers: [ MessageService]
 })
 export class InsuranceRenewalEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -72,16 +73,20 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId1', Value: 'InsurancePolicyId1' });
-this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId2', Value: 'InsurancePolicyId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurancePolicyId', 'insurance-policies',
+      options => this.insurancepolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.renewalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RenewalStatusCode');
-this.proposedinsurerpartyidOptions.push({Text: 'ProposedInsurerPartyId1', Value: 'ProposedInsurerPartyId1' });
-this.proposedinsurerpartyidOptions.push({Text: 'ProposedInsurerPartyId2', Value: 'ProposedInsurerPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ProposedInsurerPartyId', 'parties',
+      options => this.proposedinsurerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.newinsurancepolicyidOptions.push({Text: 'NewInsurancePolicyId1', Value: 'NewInsurancePolicyId1' });
-this.newinsurancepolicyidOptions.push({Text: 'NewInsurancePolicyId2', Value: 'NewInsurancePolicyId2' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'NewInsurancePolicyId', 'insurance-policies',
+      options => this.newinsurancepolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
+      options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

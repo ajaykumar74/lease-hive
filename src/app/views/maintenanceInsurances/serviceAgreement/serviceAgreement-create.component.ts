@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ServiceAgreementService } from './serviceAgreement.service';
    providers: [ MessageService]
 })
 export class ServiceAgreementCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -74,10 +75,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create ServiceAgreement';
-    this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
-this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
-this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId1', Value: 'ServiceProviderPartyId1' });
-this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId2', Value: 'ServiceProviderPartyId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
+      options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId', 'parties',
+      options => this.serviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.agreementtypecodeOptions = this.loggedInUserService.getPicklistOptions('AgreementTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ServiceAgreementStatusCode');

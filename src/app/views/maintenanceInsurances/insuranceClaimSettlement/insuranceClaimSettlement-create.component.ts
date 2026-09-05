@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { InsuranceClaimSettlementService } from './insuranceClaimSettlement.serv
    providers: [ MessageService]
 })
 export class InsuranceClaimSettlementCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -75,12 +76,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create InsuranceClaimSettlement';
-    this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
-this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
+      options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.settlementtypecodeOptions = this.loggedInUserService.getPicklistOptions('SettlementTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.payeepartyidOptions.push({Text: 'PayeePartyId1', Value: 'PayeePartyId1' });
-this.payeepartyidOptions.push({Text: 'PayeePartyId2', Value: 'PayeePartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PayeePartyId', 'parties',
+      options => this.payeepartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId1', Value: 'FinanceReferenceId1' });
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId2', Value: 'FinanceReferenceId2' });
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceClaimSettlementStatusCode');

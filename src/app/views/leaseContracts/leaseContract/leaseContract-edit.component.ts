@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { LeaseContractService } from './leaseContract.service';
   providers: [ MessageService]
 })
 export class LeaseContractEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -80,17 +81,22 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.lessororganisationidOptions.push({Text: 'LessorOrganisationId1', Value: 'LessorOrganisationId1' });
-this.lessororganisationidOptions.push({Text: 'LessorOrganisationId2', Value: 'LessorOrganisationId2' });
-this.servicingorganisationunitidOptions.push({Text: 'ServicingOrganisationUnitId1', Value: 'ServicingOrganisationUnitId1' });
-this.servicingorganisationunitidOptions.push({Text: 'ServicingOrganisationUnitId2', Value: 'ServicingOrganisationUnitId2' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
-this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
-this.leasecontractstatusidOptions.push({Text: 'LeaseContractStatusId1', Value: 'LeaseContractStatusId1' });
-this.leasecontractstatusidOptions.push({Text: 'LeaseContractStatusId2', Value: 'LeaseContractStatusId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'LessorOrganisationId', 'organisations',
+      options => this.lessororganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ServicingOrganisationUnitId', 'organisation-units',
+      options => this.servicingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
+      options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractStatusId', 'lease-contract-statuses',
+      options => this.leasecontractstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('SourceReferenceType');
-this.quoteidOptions.push({Text: 'QuoteId1', Value: 'QuoteId1' });
-this.quoteidOptions.push({Text: 'QuoteId2', Value: 'QuoteId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes',
+      options => this.quoteidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -22,6 +22,7 @@ import { IAsset } from '@/views/assets/asset/asset';
    providers: [ MessageService]
 })
 export class AssetInspectionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -88,16 +89,21 @@ CompletedOn: new FormControl(new Date(), []),
     else {
       this.loadAssetOptions();
     }
-    this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
-this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
-this.locationidOptions.push({Text: 'Location1', Value: 'Location1' });
-this.locationidOptions.push({Text: 'Location2', Value: 'Location2' });
-this.partyidOptions.push({Text: 'Party1', Value: 'Party1' });
-this.partyidOptions.push({Text: 'Party2', Value: 'Party2' });
-this.inspectoruseridOptions.push({Text: 'AppUser1', Value: 'AppUser1' });
-this.inspectoruseridOptions.push({Text: 'AppUser2', Value: 'AppUser2' });
-this.conditiongradeidOptions.push({Text: 'ConditionGrad1', Value: 'ConditionGrad1' });
-this.conditiongradeidOptions.push({Text: 'ConditionGrad2', Value: 'ConditionGrad2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LocationId', 'locations',
+      options => this.locationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties',
+      options => this.partyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'application-users',
+      options => this.inspectoruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ConditionGradeId', 'asset-condition-grades',
+      options => this.conditiongradeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.inspectionstatusidOptions.push({Text: 'InspectionStatus1', Value: 'InspectionStatus1' });
 this.inspectionstatusidOptions.push({Text: 'InspectionStatus2', Value: 'InspectionStatus2' });
 

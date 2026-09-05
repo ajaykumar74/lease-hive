@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractConditionService } from './contractCondition.service';
   providers: [ MessageService]
 })
 export class ContractConditionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -70,8 +71,9 @@ SatisfiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 
     });
 
-   this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.conditiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ConditionTypeCode');
 this.requiredforeventcodeOptions = this.loggedInUserService.getPicklistOptions('RequiredForEventCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractConditionStatusCode');

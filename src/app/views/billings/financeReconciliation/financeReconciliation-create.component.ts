@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { FinanceReconciliationService } from './financeReconciliation.service';
    providers: [ MessageService]
 })
 export class FinanceReconciliationCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -76,8 +77,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.reconciliationtypeOptions = this.loggedInUserService.getPicklistOptions('ReconciliationType');
 this.targettypeOptions = this.loggedInUserService.getPicklistOptions('TargetType');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceReconciliationStatusCode');
-this.matchedbyuseridOptions.push({Text: 'MatchedByUserId1', Value: 'MatchedByUserId1' });
-this.matchedbyuseridOptions.push({Text: 'MatchedByUserId2', Value: 'MatchedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedByUserId', 'application-users',
+      options => this.matchedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.matchmethodOptions = this.loggedInUserService.getPicklistOptions('MatchMethod');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { EndOfLeaseDisposalExceptionService } from './endOfLeaseDisposalExceptio
   providers: [ MessageService]
 })
 export class EndOfLeaseDisposalExceptionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -74,8 +75,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
    this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionExceptionTypeCode');
 this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionReferenceTypeCode');
 this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('SeverityCode');
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
+      options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

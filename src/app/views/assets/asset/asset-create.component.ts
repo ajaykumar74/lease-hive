@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { AssetService } from './asset.service';
    providers: [ MessageService]
 })
 export class AssetCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -90,26 +91,37 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.assetcategoryidOptions.push({Text: '', Value: '' });
-this.assettypeidOptions.push({Text: 'AssetType1', Value: '1' });
-this.assettypeidOptions.push({Text: 'AssetType2', Value: '2' });
-this.assetmakeidOptions.push({Text: 'AssetMake1', Value: '1' });
-this.assetmakeidOptions.push({Text: 'AssetMake2', Value: '2' });
-this.assetmodelidOptions.push({Text: 'AssetModel1', Value: '1' });
-this.assetmodelidOptions.push({Text: 'AssetModel2', Value: '2' });
-this.owningorganisationidOptions.push({Text: 'OwningOrg1', Value: '1' });
-this.owningorganisationidOptions.push({Text: 'OwningOrg2', Value: '2' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleUnit1', Value: '1' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleUnit2', Value: '2' });
-this.currentlocationidOptions.push({Text: 'CurrentLocation1', Value: '1' });
-this.currentlocationidOptions.push({Text: 'CurrentLocation2', Value: '2' });
-this.currentpartyidOptions.push({Text: 'CurrentParty1', Value: '1' });
-this.currentpartyidOptions.push({Text: 'CurrentParty2', Value: '2' });
-this.currentpartylocationidOptions.push({Text: 'CurrentPartyLocation1', Value: '1' });
-this.currentpartylocationidOptions.push({Text: 'CurrentPartyLocation2', Value: '2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
+      options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetCategoryId":"AssetCategoryId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
+      options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetMakeId":"AssetMakeId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'OwningOrganisationId', 'organisations',
+      options => this.owningorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
+      options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentLocationId', 'locations',
+      options => this.currentlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyId', 'parties',
+      options => this.currentpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyLocationId', 'party-locations',
+      options => this.currentpartylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.acquisitioncurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.AssetStatusIdOptions.push({Text: 'Status1', Value: '1' });
-this.AssetStatusIdOptions.push({Text: 'Status2', Value: '2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetStatusId', 'asset-statuses',
+      options => this.AssetStatusIdOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.conditiongradecodeOptions.push({Text: 'Condition1', Value: 'Condition1' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

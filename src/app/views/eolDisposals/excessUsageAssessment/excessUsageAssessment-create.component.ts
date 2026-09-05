@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ExcessUsageAssessmentService } from './excessUsageAssessment.service';
    providers: [ MessageService]
 })
 export class ExcessUsageAssessmentCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -71,10 +72,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create ExcessUsageAssessment';
-    this.returnassessmentidOptions.push({Text: 'ReturnAssessmentId1', Value: 'ReturnAssessmentId1' });
-this.returnassessmentidOptions.push({Text: 'ReturnAssessmentId2', Value: 'ReturnAssessmentId2' });
-this.measuredefinitionidOptions.push({Text: 'MeasureDefinitionId1', Value: 'MeasureDefinitionId1' });
-this.measuredefinitionidOptions.push({Text: 'MeasureDefinitionId2', Value: 'MeasureDefinitionId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'ReturnAssessmentId', 'return-assessments',
+      options => this.returnassessmentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MeasureDefinitionId', 'asset-measure-definitions',
+      options => this.measuredefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { MaintenanceWorkOrderService } from './maintenanceWorkOrder.service';
   providers: [ MessageService]
 })
 export class MaintenanceWorkOrderEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -88,28 +89,38 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.maintenancerequestidOptions.push({Text: 'MaintenanceRequestId1', Value: 'MaintenanceRequestId1' });
-this.maintenancerequestidOptions.push({Text: 'MaintenanceRequestId2', Value: 'MaintenanceRequestId2' });
-this.maintenancescheduleidOptions.push({Text: 'MaintenanceScheduleId1', Value: 'MaintenanceScheduleId1' });
-this.maintenancescheduleidOptions.push({Text: 'MaintenanceScheduleId2', Value: 'MaintenanceScheduleId2' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
-this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
-this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId1', Value: 'MaintenanceTypeId1' });
-this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId2', Value: 'MaintenanceTypeId2' });
-this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId1', Value: 'ServiceProviderPartyId1' });
-this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId2', Value: 'ServiceProviderPartyId2' });
-this.servicelocationidOptions.push({Text: 'ServiceLocationId1', Value: 'ServiceLocationId1' });
-this.servicelocationidOptions.push({Text: 'ServiceLocationId2', Value: 'ServiceLocationId2' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId1', Value: 'ResponsibleOrganisationUnitId1' });
-this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId2', Value: 'ResponsibleOrganisationUnitId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceRequestId', 'maintenance-requests',
+      options => this.maintenancerequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceScheduleId', 'maintenance-schedules',
+      options => this.maintenancescheduleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractAssetId', 'lease-contract-assets',
+      options => this.leasecontractassetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId","LeaseContractId":"LeaseContractId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'maintenance-types',
+      options => this.maintenancetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId', 'parties',
+      options => this.serviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceLocationId', 'locations',
+      options => this.servicelocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
+      options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.workorderstatuscodeOptions = this.loggedInUserService.getPicklistOptions('WorkOrderStatusCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
-this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
+      options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

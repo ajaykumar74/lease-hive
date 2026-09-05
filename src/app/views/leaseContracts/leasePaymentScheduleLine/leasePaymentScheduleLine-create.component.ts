@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { LeasePaymentScheduleLineService } from './leasePaymentScheduleLine.serv
    providers: [ MessageService]
 })
 export class LeasePaymentScheduleLineCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -62,8 +63,9 @@ BillingStatusCode: new FormControl('', [Validators.required, Validators.maxLengt
 
     });
     this.Caption = 'Create LeasePaymentScheduleLine';
-    this.leasepaymentscheduleidOptions.push({Text: 'LeasePaymentScheduleId1', Value: 'LeasePaymentScheduleId1' });
-this.leasepaymentscheduleidOptions.push({Text: 'LeasePaymentScheduleId2', Value: 'LeasePaymentScheduleId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'LeasePaymentScheduleId', 'lease-payment-schedules',
+      options => this.leasepaymentscheduleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.billingstatuscodeOptions = this.loggedInUserService.getPicklistOptions('BillingStatusCode');
 
   }

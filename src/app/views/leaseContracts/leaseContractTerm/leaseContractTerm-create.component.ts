@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { LeaseContractTermService } from './leaseContractTerm.service';
    providers: [ MessageService]
 })
 export class LeaseContractTermCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -69,8 +70,9 @@ TermsJson: new FormControl('', [Validators.maxLength(8000), ]),
 
     });
     this.Caption = 'Create LeaseContractTerm';
-    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.leasetypecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseTypeCode');
 this.paymentfrequencycodeOptions = this.loggedInUserService.getPicklistOptions('PaymentFrequencyCode');
 this.paymenttimingcodeOptions = this.loggedInUserService.getPicklistOptions('PaymentTimingCode');

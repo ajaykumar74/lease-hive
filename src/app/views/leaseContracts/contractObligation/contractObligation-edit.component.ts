@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractObligationService } from './contractObligation.service';
   providers: [ MessageService]
 })
 export class ContractObligationEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,8 +70,9 @@ TargetModuleCode: new FormControl('', [Validators.maxLength(20), ]),
 
     });
 
-   this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
-this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
+      options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.obligationtypecodeOptions = this.loggedInUserService.getPicklistOptions('ObligationTypeCode');
 this.responsiblepartycodeOptions = this.loggedInUserService.getPicklistOptions('ResponsiblePartyCode');
 this.frequencycodeOptions = this.loggedInUserService.getPicklistOptions('ContractObligationFrequencyCode');

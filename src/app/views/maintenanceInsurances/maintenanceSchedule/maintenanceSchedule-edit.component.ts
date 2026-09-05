@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { MaintenanceScheduleService } from './maintenanceSchedule.service';
   providers: [ MessageService]
 })
 export class MaintenanceScheduleEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -75,17 +76,22 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.assetmaintenanceplanidOptions.push({Text: 'AssetMaintenancePlanId1', Value: 'AssetMaintenancePlanId1' });
-this.assetmaintenanceplanidOptions.push({Text: 'AssetMaintenancePlanId2', Value: 'AssetMaintenancePlanId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId1', Value: 'MaintenancePlanId1' });
-this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId2', Value: 'MaintenancePlanId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMaintenancePlanId', 'asset-maintenance-plans',
+      options => this.assetmaintenanceplanidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {"AssetId":"AssetId","MaintenancePlanId":"MaintenancePlanId"});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenancePlanId', 'maintenance-plans',
+      options => this.maintenanceplanidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.duestatuscodeOptions = this.loggedInUserService.getPicklistOptions('DueStatusCode');
-this.plannedorganisationunitidOptions.push({Text: 'PlannedOrganisationUnitId1', Value: 'PlannedOrganisationUnitId1' });
-this.plannedorganisationunitidOptions.push({Text: 'PlannedOrganisationUnitId2', Value: 'PlannedOrganisationUnitId2' });
-this.preferredserviceproviderpartyidOptions.push({Text: 'PreferredServiceProviderPartyId1', Value: 'PreferredServiceProviderPartyId1' });
-this.preferredserviceproviderpartyidOptions.push({Text: 'PreferredServiceProviderPartyId2', Value: 'PreferredServiceProviderPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PlannedOrganisationUnitId', 'organisation-units',
+      options => this.plannedorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PreferredServiceProviderPartyId', 'parties',
+      options => this.preferredserviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.generatedfromcodeOptions = this.loggedInUserService.getPicklistOptions('GeneratedFromCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

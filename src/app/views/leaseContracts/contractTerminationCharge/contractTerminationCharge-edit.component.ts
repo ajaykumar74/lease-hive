@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractTerminationChargeService } from './contractTerminationCharge.se
   providers: [ MessageService]
 })
 export class ContractTerminationChargeEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -63,8 +64,9 @@ FinanceReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.
 
     });
 
-   this.contractterminationidOptions.push({Text: 'ContractTerminationId1', Value: 'ContractTerminationId1' });
-this.contractterminationidOptions.push({Text: 'ContractTerminationId2', Value: 'ContractTerminationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'ContractTerminationId', 'contract-terminations',
+      options => this.contractterminationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractTerminationChargeChargeTypeCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
