@@ -75,8 +75,7 @@ this.assettypeidOptions.push({Text: 'AssetType1', Value: 'AssetType1' });
 this.assettypeidOptions.push({Text: 'AssetType2', Value: 'AssetType2' });
 this.unitofmeasureidOptions.push({Text: 'Text1', Value: 'Text1' });
 this.unitofmeasureidOptions.push({Text: 'Text2', Value: 'Text2' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

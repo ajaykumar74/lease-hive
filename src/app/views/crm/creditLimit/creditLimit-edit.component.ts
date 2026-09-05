@@ -65,15 +65,9 @@ export class CreditLimitEditComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-        this.limitstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.limitstatusOptions.push({ Text: 'Suspended', Value: 'Suspended' });
-        this.limitstatusOptions.push({ Text: 'Expired', Value: 'Expired' });
-        this.recordstatusOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Inactive', Value: 'Inactive' });
-        this.recordstatusOptions.push({ Text: 'Archived', Value: 'Archived' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.limitstatusOptions = this.loggedInUserService.getPicklistOptions('LimitStatus');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

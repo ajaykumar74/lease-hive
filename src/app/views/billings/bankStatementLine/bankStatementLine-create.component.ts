@@ -75,14 +75,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.bankstatementidOptions.push({Text: 'BankStatementId2', Value: 'BankStatementId2' });
 this.matchedpaymentreceiptidOptions.push({Text: 'MatchedPaymentReceiptId1', Value: 'MatchedPaymentReceiptId1' });
 this.matchedpaymentreceiptidOptions.push({Text: 'MatchedPaymentReceiptId2', Value: 'MatchedPaymentReceiptId2' });
-this.matchstatusOptions.push({Text: 'UNMATCHED', Value: 'UNMATCHED' });
-this.matchstatusOptions.push({Text: 'AUTO_MATCHED', Value: 'AUTO_MATCHED' });
-this.matchstatusOptions.push({Text: 'MANUAL_MATCHED', Value: 'MANUAL_MATCHED' });
-this.matchstatusOptions.push({Text: 'IGNORED', Value: 'IGNORED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.matchstatusOptions = this.loggedInUserService.getPicklistOptions('MatchStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

@@ -77,18 +77,9 @@ this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'PLANNED', Value: 'PLANNED' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'DISPATCHED', Value: 'DISPATCHED' });
-this.statuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierReturnStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

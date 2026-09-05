@@ -61,17 +61,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'VALIDATED', Value: 'VALIDATED' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'PROCESSING', Value: 'PROCESSING' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('BillingRunStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

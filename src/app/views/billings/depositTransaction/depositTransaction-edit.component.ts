@@ -73,21 +73,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.customerdepositidOptions.push({Text: 'CustomerDepositId1', Value: 'CustomerDepositId1' });
 this.customerdepositidOptions.push({Text: 'CustomerDepositId2', Value: 'CustomerDepositId2' });
-this.transactiontypeOptions.push({Text: 'RECEIPT', Value: 'RECEIPT' });
-this.transactiontypeOptions.push({Text: 'UTILIZE', Value: 'UTILIZE' });
-this.transactiontypeOptions.push({Text: 'REFUND', Value: 'REFUND' });
-this.transactiontypeOptions.push({Text: 'FORFEIT', Value: 'FORFEIT' });
-this.transactiontypeOptions.push({Text: 'REVERSAL', Value: 'REVERSAL' });
+this.transactiontypeOptions = this.loggedInUserService.getPicklistOptions('TransactionType');
 this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId1', Value: 'PaymentReceiptId1' });
 this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId2', Value: 'PaymentReceiptId2' });
 this.receivableidOptions.push({Text: 'ReceivableId1', Value: 'ReceivableId1' });
 this.receivableidOptions.push({Text: 'ReceivableId2', Value: 'ReceivableId2' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -77,18 +77,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.endofleasesettlementidOptions.push({Text: 'EndOfLeaseSettlementId2', Value: 'EndOfLeaseSettlementId2' });
 this.settlementchargetypeidOptions.push({Text: 'SettlementChargeTypeId1', Value: 'SettlementChargeTypeId1' });
 this.settlementchargetypeidOptions.push({Text: 'SettlementChargeTypeId2', Value: 'SettlementChargeTypeId2' });
-this.sourcetypecodeOptions.push({Text: 'USAGE', Value: 'USAGE' });
-this.sourcetypecodeOptions.push({Text: 'DAMAGE', Value: 'DAMAGE' });
-this.sourcetypecodeOptions.push({Text: 'ITEM', Value: 'ITEM' });
-this.sourcetypecodeOptions.push({Text: 'FEE', Value: 'FEE' });
-this.sourcetypecodeOptions.push({Text: 'DEPOSIT', Value: 'DEPOSIT' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.sourcetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseSettlementLineSourceTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

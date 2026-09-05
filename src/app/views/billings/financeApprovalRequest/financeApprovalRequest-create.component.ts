@@ -71,26 +71,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create FinanceApprovalRequest';
-    this.referencetypeOptions.push({Text: 'BILLING_RUN', Value: 'BILLING_RUN' });
-this.referencetypeOptions.push({Text: 'CREDIT_NOTE', Value: 'CREDIT_NOTE' });
-this.referencetypeOptions.push({Text: 'REFUND', Value: 'REFUND' });
-this.referencetypeOptions.push({Text: 'WRITE_OFF', Value: 'WRITE_OFF' });
-this.referencetypeOptions.push({Text: 'JOURNAL', Value: 'JOURNAL' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestReferenceType');
 this.workflowinstanceidOptions.push({Text: 'WorkflowInstanceId1', Value: 'WorkflowInstanceId1' });
 this.workflowinstanceidOptions.push({Text: 'WorkflowInstanceId2', Value: 'WorkflowInstanceId2' });
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'RequestedByUserId1' });
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
-this.approvalstatusOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.approvalstatusOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.approvalstatusOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.approvalstatusOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestApprovalStatus');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

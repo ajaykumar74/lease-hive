@@ -66,12 +66,7 @@ IsPrimary: new FormControl(false, [Validators.required]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.referencetypecodeOptions.push({Text: 'CUSTOMER_PO', Value: 'CUSTOMER_PO' });
-this.referencetypecodeOptions.push({Text: 'ESIGN', Value: 'ESIGN' });
-this.referencetypecodeOptions.push({Text: 'LEGAL', Value: 'LEGAL' });
-this.referencetypecodeOptions.push({Text: 'LEGACY', Value: 'LEGACY' });
-this.referencetypecodeOptions.push({Text: 'PROVIDER', Value: 'PROVIDER' });
-this.referencetypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractExternalReferenceReferenceTypeCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

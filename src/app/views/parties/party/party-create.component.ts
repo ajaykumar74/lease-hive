@@ -84,9 +84,7 @@ this.partykindOptions = this.loggedInUserService.getPicklistOptions('PartyKind')
 this.countryofregistrationOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
 this.industrycodeOptions = this.loggedInUserService.getPicklistOptions('IndustryCode');
 this.preferredcurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.taxresidencycountrycodeOptions.push({Text: 'IN', Value: 'IN' });
-this.taxresidencycountrycodeOptions.push({Text: 'USA', Value: 'USA' });
-this.taxresidencycountrycodeOptions.push({Text: 'UK', Value: 'UK' });
+this.taxresidencycountrycodeOptions = this.loggedInUserService.getPicklistOptions('TaxResidencyCountryCode');
 this.riskclassificationOptions = this.loggedInUserService.getPicklistOptions('RiskClassification');
 this.onboardingstatusOptions = this.loggedInUserService.getPicklistOptions('OnboardingStatus');
 

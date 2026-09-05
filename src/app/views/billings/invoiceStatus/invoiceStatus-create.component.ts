@@ -62,17 +62,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create InvoiceStatus';
-    this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'APPROVAL_PENDING', Value: 'APPROVAL_PENDING' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'ISSUED', Value: 'ISSUED' });
-this.statuscodeOptions.push({Text: 'PART_PAID', Value: 'PART_PAID' });
-this.statuscodeOptions.push({Text: 'PAID', Value: 'PAID' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

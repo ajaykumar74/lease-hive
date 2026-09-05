@@ -83,23 +83,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.billingorganisationidOptions.push({Text: 'BillingOrganisationId2', Value: 'BillingOrganisationId2' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
-this.sourcedocumenttypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.sourcedocumenttypeOptions.push({Text: 'DEBIT_NOTE', Value: 'DEBIT_NOTE' });
-this.sourcedocumenttypeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.sourcedocumenttypeOptions = this.loggedInUserService.getPicklistOptions('SourceDocumentType');
 this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.receivablestatusOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.receivablestatusOptions.push({Text: 'PART_PAID', Value: 'PART_PAID' });
-this.receivablestatusOptions.push({Text: 'PAID', Value: 'PAID' });
-this.receivablestatusOptions.push({Text: 'DISPUTED', Value: 'DISPUTED' });
-this.receivablestatusOptions.push({Text: 'WRITTEN_OFF', Value: 'WRITTEN_OFF' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.receivablestatusOptions = this.loggedInUserService.getPicklistOptions('ReceivableStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

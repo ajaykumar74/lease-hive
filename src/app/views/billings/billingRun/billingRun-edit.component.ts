@@ -78,19 +78,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.billingorganisationidOptions.push({Text: 'BillingOrganisationId2', Value: 'BillingOrganisationId2' });
 this.billingrunstatusidOptions.push({Text: 'BillingRunStatusId1', Value: 'BillingRunStatusId1' });
 this.billingrunstatusidOptions.push({Text: 'BillingRunStatusId2', Value: 'BillingRunStatusId2' });
-this.runtypeOptions.push({Text: 'SCHEDULED', Value: 'SCHEDULED' });
-this.runtypeOptions.push({Text: 'ADHOC', Value: 'ADHOC' });
-this.runtypeOptions.push({Text: 'FINAL', Value: 'FINAL' });
-this.runtypeOptions.push({Text: 'ADJUSTMENT', Value: 'ADJUSTMENT' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.runtypeOptions = this.loggedInUserService.getPicklistOptions('RunType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

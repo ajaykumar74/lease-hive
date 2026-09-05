@@ -64,12 +64,7 @@ export class ApprovalActionCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('approval-requests').subscribe((options) => (this.approvalrequestidOptions = options));
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.approveruseridOptions = options));
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.delegatedfromuseridOptions = options));
-        this.actioncodeOptions = [
-            { Text: 'APPROVE', Value: 'APPROVE' },
-            { Text: 'REJECT', Value: 'REJECT' },
-            { Text: 'RETURN', Value: 'RETURN' },
-            { Text: 'DELEGATE', Value: 'DELEGATE' }
-        ];
+        this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalActionActionCode');
     }
 
     loadUI(): void {

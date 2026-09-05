@@ -76,16 +76,10 @@ this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'Le
 this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
 this.contractterminationidOptions.push({Text: 'ContractTerminationId1', Value: 'ContractTerminationId1' });
 this.contractterminationidOptions.push({Text: 'ContractTerminationId2', Value: 'ContractTerminationId2' });
-this.instructioncodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.instructioncodeOptions.push({Text: 'PURCHASE', Value: 'PURCHASE' });
-this.instructioncodeOptions.push({Text: 'EXTEND', Value: 'EXTEND' });
-this.instructioncodeOptions.push({Text: 'RELEASE', Value: 'RELEASE' });
+this.instructioncodeOptions = this.loggedInUserService.getPicklistOptions('InstructionCode');
 this.returnlocationidOptions.push({Text: 'ReturnLocationId1', Value: 'ReturnLocationId1' });
 this.returnlocationidOptions.push({Text: 'ReturnLocationId2', Value: 'ReturnLocationId2' });
-this.statuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.statuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.statuscodeOptions.push({Text: 'ACKNOWLEDGED', Value: 'ACKNOWLEDGED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractAssetReturnInstructionStatusCode');
 
   }
  

@@ -67,15 +67,9 @@ export class LeadActivityEditComponent implements OnInit {
         });
         this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.activitytypeOptions.push({ Text: 'Call', Value: 'Call' });
-        this.activitytypeOptions.push({ Text: 'Email', Value: 'Email' });
-        this.activitytypeOptions.push({ Text: 'Meeting', Value: 'Meeting' });
-        this.activitytypeOptions.push({ Text: 'Note', Value: 'Note' });
-        this.activitytypeOptions.push({ Text: 'Task', Value: 'Task' });
-        this.outcomecodeOptions.push({ Text: 'Followup', Value: 'Followup' });
-        this.outcomecodeOptions.push({ Text: 'Call', Value: 'Call' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+        this.activitytypeOptions = this.loggedInUserService.getPicklistOptions('ActivityType');
+        this.outcomecodeOptions = this.loggedInUserService.getPicklistOptions('OutcomeCode');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

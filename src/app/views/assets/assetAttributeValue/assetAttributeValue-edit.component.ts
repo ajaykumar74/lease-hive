@@ -69,7 +69,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.assetidOptions.push({Text: '', Value: '' });
 this.assetattributedefinitionidOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));

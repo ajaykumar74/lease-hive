@@ -64,17 +64,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create EndOfLeaseStatus';
-    this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'NOTICE', Value: 'NOTICE' });
-this.statuscodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.statuscodeOptions.push({Text: 'ASSESSMENT', Value: 'ASSESSMENT' });
-this.statuscodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.statuscodeOptions.push({Text: 'DISPOSITION', Value: 'DISPOSITION' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

@@ -78,24 +78,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
 this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.handoffreasoncodeOptions.push({Text: 'RE_LEASE', Value: 'RE_LEASE' });
-this.handoffreasoncodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.handoffreasoncodeOptions.push({Text: 'CONDITION', Value: 'CONDITION' });
+this.handoffreasoncodeOptions = this.loggedInUserService.getPicklistOptions('HandoffReasonCode');
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'RequestedByUserId1' });
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
 this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
-this.statuscodeOptions.push({Text: 'REQUESTED', Value: 'REQUESTED' });
-this.statuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('RefurbishmentHandoffStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

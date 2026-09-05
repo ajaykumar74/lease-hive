@@ -85,24 +85,12 @@ this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId1'
 this.leasepaymentschedulelineidOptions.push({Text: 'LeasePaymentScheduleLineId2', Value: 'LeasePaymentScheduleLineId2' });
 this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId1', Value: 'LeaseContractChargeId1' });
 this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId2', Value: 'LeaseContractChargeId2' });
-this.sourcetypeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.sourcetypeOptions.push({Text: 'CHARGE', Value: 'CHARGE' });
-this.sourcetypeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.sourcetypeOptions.push({Text: 'ADJUSTMENT', Value: 'ADJUSTMENT' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.validationstatusOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.validationstatusOptions.push({Text: 'VALID', Value: 'VALID' });
-this.validationstatusOptions.push({Text: 'EXCLUDED', Value: 'EXCLUDED' });
-this.validationstatusOptions.push({Text: 'ERROR', Value: 'ERROR' });
-this.validationstatusOptions.push({Text: 'INVOICED', Value: 'INVOICED' });
+this.sourcetypeOptions = this.loggedInUserService.getPicklistOptions('SourceType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.validationstatusOptions = this.loggedInUserService.getPicklistOptions('ValidationStatus');
 this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId1', Value: 'CustomerInvoiceId1' });
 this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId2', Value: 'CustomerInvoiceId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

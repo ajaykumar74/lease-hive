@@ -72,22 +72,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.Caption = 'Create InsurancePolicyEndorsement';
     this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId1', Value: 'InsurancePolicyId1' });
 this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId2', Value: 'InsurancePolicyId2' });
-this.endorsementtypecodeOptions.push({Text: 'ADD_ASSET', Value: 'ADD_ASSET' });
-this.endorsementtypecodeOptions.push({Text: 'REMOVE_ASSET', Value: 'REMOVE_ASSET' });
-this.endorsementtypecodeOptions.push({Text: 'VALUE', Value: 'VALUE' });
-this.endorsementtypecodeOptions.push({Text: 'DETAIL', Value: 'DETAIL' });
-this.endorsementtypecodeOptions.push({Text: 'COVER', Value: 'COVER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'SUBMITTED', Value: 'SUBMITTED' });
-this.statuscodeOptions.push({Text: 'ISSUED', Value: 'ISSUED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.endorsementtypecodeOptions = this.loggedInUserService.getPicklistOptions('EndorsementTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyEndorsementStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

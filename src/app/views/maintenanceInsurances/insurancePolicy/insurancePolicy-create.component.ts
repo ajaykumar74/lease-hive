@@ -91,23 +91,15 @@ this.brokerpartyidOptions.push({Text: 'BrokerPartyId1', Value: 'BrokerPartyId1' 
 this.brokerpartyidOptions.push({Text: 'BrokerPartyId2', Value: 'BrokerPartyId2' });
 this.insurancepolicystatusidOptions.push({Text: 'InsurancePolicyStatusId1', Value: 'InsurancePolicyStatusId1' });
 this.insurancepolicystatusidOptions.push({Text: 'InsurancePolicyStatusId2', Value: 'InsurancePolicyStatusId2' });
-this.policytypecodeOptions.push({Text: 'INDIVIDUAL', Value: 'INDIVIDUAL' });
-this.policytypecodeOptions.push({Text: 'FLEET', Value: 'FLEET' });
-this.policytypecodeOptions.push({Text: 'GROUP', Value: 'GROUP' });
-this.policytypecodeOptions.push({Text: 'MASTER', Value: 'MASTER' });
+this.policytypecodeOptions = this.loggedInUserService.getPicklistOptions('PolicyTypeCode');
 this.coveragetypeidOptions.push({Text: 'CoverageTypeId1', Value: 'CoverageTypeId1' });
 this.coveragetypeidOptions.push({Text: 'CoverageTypeId2', Value: 'CoverageTypeId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId1', Value: 'PaymentReferenceId1' });
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId2', Value: 'PaymentReferenceId2' });
 this.previouspolicyidOptions.push({Text: 'PreviousPolicyId1', Value: 'PreviousPolicyId1' });
 this.previouspolicyidOptions.push({Text: 'PreviousPolicyId2', Value: 'PreviousPolicyId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

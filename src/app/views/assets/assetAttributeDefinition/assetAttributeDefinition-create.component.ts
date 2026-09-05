@@ -75,7 +75,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.assettypeidOptions.push({Text: '', Value: '' });
 this.datatypecodeOptions.push({Text: '', Value: '' });
 this.unitmeasuretypeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

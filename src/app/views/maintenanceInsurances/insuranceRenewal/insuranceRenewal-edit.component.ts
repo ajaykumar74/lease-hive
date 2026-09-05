@@ -74,24 +74,15 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId1', Value: 'InsurancePolicyId1' });
 this.insurancepolicyidOptions.push({Text: 'InsurancePolicyId2', Value: 'InsurancePolicyId2' });
-this.renewalstatuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.renewalstatuscodeOptions.push({Text: 'QUOTING', Value: 'QUOTING' });
-this.renewalstatuscodeOptions.push({Text: 'APPROVAL', Value: 'APPROVAL' });
-this.renewalstatuscodeOptions.push({Text: 'RENEWED', Value: 'RENEWED' });
-this.renewalstatuscodeOptions.push({Text: 'NOT_RENEWED', Value: 'NOT_RENEWED' });
+this.renewalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RenewalStatusCode');
 this.proposedinsurerpartyidOptions.push({Text: 'ProposedInsurerPartyId1', Value: 'ProposedInsurerPartyId1' });
 this.proposedinsurerpartyidOptions.push({Text: 'ProposedInsurerPartyId2', Value: 'ProposedInsurerPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.newinsurancepolicyidOptions.push({Text: 'NewInsurancePolicyId1', Value: 'NewInsurancePolicyId1' });
 this.newinsurancepolicyidOptions.push({Text: 'NewInsurancePolicyId2', Value: 'NewInsurancePolicyId2' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

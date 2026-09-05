@@ -60,10 +60,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
         this.documenttypeOptions.push({ Text: 'DocType1', Value: 'DocType1' });
         this.documenttypeOptions.push({ Text: 'DocType2', Value: 'DocType2' });
-        this.checkliststatusOptions.push({ Text: 'Missing', Value: 'Missing' });
-        this.checkliststatusOptions.push({ Text: 'Received', Value: 'Received' });
-        this.checkliststatusOptions.push({ Text: 'Verified', Value: 'Verified' });
-        this.checkliststatusOptions.push({ Text: 'Waived', Value: 'Waived' });
+        this.checkliststatusOptions = this.loggedInUserService.getPicklistOptions('ChecklistStatus');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.verifiedbyOptions = options));
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

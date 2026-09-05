@@ -90,13 +90,8 @@ this.finalmeasurereadingidOptions.push({Text: 'FinalMeasureReadingId1', Value: '
 this.finalmeasurereadingidOptions.push({Text: 'FinalMeasureReadingId2', Value: 'FinalMeasureReadingId2' });
 this.returninspectionidOptions.push({Text: 'ReturnInspectionId1', Value: 'ReturnInspectionId1' });
 this.returninspectionidOptions.push({Text: 'ReturnInspectionId2', Value: 'ReturnInspectionId2' });
-this.returnstatuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.returnstatuscodeOptions.push({Text: 'PENDING_EVIDENCE', Value: 'PENDING_EVIDENCE' });
-this.returnstatuscodeOptions.push({Text: 'CONFIRMED', Value: 'CONFIRMED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.returnstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ReturnStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

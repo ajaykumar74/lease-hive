@@ -94,10 +94,7 @@ this.endofleasestatusidOptions.push({Text: 'EndOfLeaseStatusId1', Value: 'EndOfL
 this.endofleasestatusidOptions.push({Text: 'EndOfLeaseStatusId2', Value: 'EndOfLeaseStatusId2' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

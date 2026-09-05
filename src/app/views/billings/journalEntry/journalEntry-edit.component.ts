@@ -73,22 +73,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
 this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
-this.sourcemoduleOptions.push({Text: 'BILLING', Value: 'BILLING' });
-this.sourcemoduleOptions.push({Text: 'AR', Value: 'AR' });
-this.sourcemoduleOptions.push({Text: 'AP', Value: 'AP' });
-this.sourcemoduleOptions.push({Text: 'DEPOSIT', Value: 'DEPOSIT' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.postingstatusOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.postingstatusOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.postingstatusOptions.push({Text: 'POSTED', Value: 'POSTED' });
-this.postingstatusOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.postingstatusOptions.push({Text: 'REVERSED', Value: 'REVERSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.sourcemoduleOptions = this.loggedInUserService.getPicklistOptions('SourceModule');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('JournalEntryPostingStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

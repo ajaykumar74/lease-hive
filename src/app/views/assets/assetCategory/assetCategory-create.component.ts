@@ -65,8 +65,8 @@ EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.maxLength(20), ]), 
 
     });
-    this.extensiontypecodeOptions.push({Text: 'Vehicle', Value: 'Vehicle' });
-    this.recordstatusOptions.push({Text: '', Value: '' }); 
+    this.extensiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ExtensionTypeCode');
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
   }
  
  loadUI(): void {

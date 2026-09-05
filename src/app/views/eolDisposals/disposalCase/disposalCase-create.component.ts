@@ -83,15 +83,8 @@ this.dispositionmethodidOptions.push({Text: 'DispositionMethodId1', Value: 'Disp
 this.dispositionmethodidOptions.push({Text: 'DispositionMethodId2', Value: 'DispositionMethodId2' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'MARKETED', Value: 'MARKETED' });
-this.statuscodeOptions.push({Text: 'AWARDED', Value: 'AWARDED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalCaseStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

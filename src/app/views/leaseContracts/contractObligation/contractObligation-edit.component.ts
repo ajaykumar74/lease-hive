@@ -71,23 +71,10 @@ TargetModuleCode: new FormControl('', [Validators.maxLength(20), ]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.obligationtypecodeOptions.push({Text: 'INSURANCE', Value: 'INSURANCE' });
-this.obligationtypecodeOptions.push({Text: 'MAINTENANCE', Value: 'MAINTENANCE' });
-this.obligationtypecodeOptions.push({Text: 'REPORTING', Value: 'REPORTING' });
-this.obligationtypecodeOptions.push({Text: 'USAGE', Value: 'USAGE' });
-this.obligationtypecodeOptions.push({Text: 'COMPLIANCE', Value: 'COMPLIANCE' });
-this.obligationtypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.responsiblepartycodeOptions.push({Text: 'LESSOR', Value: 'LESSOR' });
-this.responsiblepartycodeOptions.push({Text: 'LESSEE', Value: 'LESSEE' });
-this.responsiblepartycodeOptions.push({Text: 'THIRD_PARTY', Value: 'THIRD_PARTY' });
-this.frequencycodeOptions.push({Text: 'ONCE', Value: 'ONCE' });
-this.frequencycodeOptions.push({Text: 'MONTHLY', Value: 'MONTHLY' });
-this.frequencycodeOptions.push({Text: 'ANNUAL', Value: 'ANNUAL' });
-this.frequencycodeOptions.push({Text: 'EVENT', Value: 'EVENT' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'COMPLIANT', Value: 'COMPLIANT' });
-this.statuscodeOptions.push({Text: 'BREACHED', Value: 'BREACHED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
+this.obligationtypecodeOptions = this.loggedInUserService.getPicklistOptions('ObligationTypeCode');
+this.responsiblepartycodeOptions = this.loggedInUserService.getPicklistOptions('ResponsiblePartyCode');
+this.frequencycodeOptions = this.loggedInUserService.getPicklistOptions('ContractObligationFrequencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractObligationStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

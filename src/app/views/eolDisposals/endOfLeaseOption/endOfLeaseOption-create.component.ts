@@ -71,17 +71,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.Caption = 'Create EndOfLeaseOption';
     this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId1', Value: 'EndOfLeaseCaseId1' });
 this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
-this.optioncodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.optioncodeOptions.push({Text: 'PURCHASE', Value: 'PURCHASE' });
-this.optioncodeOptions.push({Text: 'EXTEND', Value: 'EXTEND' });
-this.optioncodeOptions.push({Text: 'RENEW', Value: 'RENEW' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.optioncodeOptions = this.loggedInUserService.getPicklistOptions('OptionCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

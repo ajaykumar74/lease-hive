@@ -75,17 +75,10 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('asset-types').subscribe((options) => (this.assettypeidOptions = options));
         this.loggedInUserService.getLookupOptions('asset-makes').subscribe((options) => (this.assetmakeidOptions = options));
         this.loggedInUserService.getLookupOptions('asset-models').subscribe((options) => (this.assetmodelidOptions = options));
-        this.newusedcodeOptions.push({ Text: 'NEW', Value: 'NEW' });
-        this.newusedcodeOptions.push({ Text: 'USED', Value: 'USED' });
-        this.newusedcodeOptions.push({ Text: 'ANY', Value: 'ANY' });
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-        this.servicepackagecodeOptions.push({ Text: 'Full', Value: 'Full' });
-        this.servicepackagecodeOptions.push({ Text: 'Partial', Value: 'Partial' });
-        this.recordstatusOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Inactive', Value: 'Inactive' });
-        this.recordstatusOptions.push({ Text: 'Archived', Value: 'Archived' });
+        this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

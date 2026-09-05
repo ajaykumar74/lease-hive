@@ -74,9 +74,7 @@ this.leasecontractpartyidOptions.push({Text: 'LeaseContractPartyId1', Value: 'Le
 this.leasecontractpartyidOptions.push({Text: 'LeaseContractPartyId2', Value: 'LeaseContractPartyId2' });
 this.signerpartyidOptions.push({Text: 'SignerPartyId1', Value: 'SignerPartyId1' });
 this.signerpartyidOptions.push({Text: 'SignerPartyId2', Value: 'SignerPartyId2' });
-this.signaturestatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.signaturestatuscodeOptions.push({Text: 'SIGNED', Value: 'SIGNED' });
-this.signaturestatuscodeOptions.push({Text: 'DECLINED', Value: 'DECLINED' });
+this.signaturestatuscodeOptions = this.loggedInUserService.getPicklistOptions('SignatureStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

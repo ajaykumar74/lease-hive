@@ -69,10 +69,7 @@ CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648)
 
    this.contractconditionidOptions.push({Text: 'ContractConditionId1', Value: 'ContractConditionId1' });
 this.contractconditionidOptions.push({Text: 'ContractConditionId2', Value: 'ContractConditionId2' });
-this.evidencetypecodeOptions.push({Text: 'DOCUMENT', Value: 'DOCUMENT' });
-this.evidencetypecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
-this.evidencetypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.evidencetypecodeOptions.push({Text: 'EXTERNAL', Value: 'EXTERNAL' });
+this.evidencetypecodeOptions = this.loggedInUserService.getPicklistOptions('EvidenceTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 this.capturedbyOptions.push({Text: 'CapturedBy1', Value: 'CapturedBy1' });

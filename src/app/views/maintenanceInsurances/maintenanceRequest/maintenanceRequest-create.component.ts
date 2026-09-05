@@ -84,32 +84,16 @@ this.maintenancescheduleidOptions.push({Text: 'MaintenanceScheduleId1', Value: '
 this.maintenancescheduleidOptions.push({Text: 'MaintenanceScheduleId2', Value: 'MaintenanceScheduleId2' });
 this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId1', Value: 'MaintenanceTypeId1' });
 this.maintenancetypeidOptions.push({Text: 'MaintenanceTypeId2', Value: 'MaintenanceTypeId2' });
-this.requestsourcecodeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.requestsourcecodeOptions.push({Text: 'BREAKDOWN', Value: 'BREAKDOWN' });
-this.requestsourcecodeOptions.push({Text: 'INSPECTION', Value: 'INSPECTION' });
-this.requestsourcecodeOptions.push({Text: 'CUSTOMER', Value: 'CUSTOMER' });
-this.requestsourcecodeOptions.push({Text: 'RECALL', Value: 'RECALL' });
-this.requestsourcecodeOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
+this.requestsourcecodeOptions = this.loggedInUserService.getPicklistOptions('RequestSourceCode');
 this.requestedbypartyidOptions.push({Text: 'RequestedByPartyId1', Value: 'RequestedByPartyId1' });
 this.requestedbypartyidOptions.push({Text: 'RequestedByPartyId2', Value: 'RequestedByPartyId2' });
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'RequestedByUserId1' });
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
 this.locationidOptions.push({Text: 'LocationId1', Value: 'LocationId1' });
 this.locationidOptions.push({Text: 'LocationId2', Value: 'LocationId2' });
-this.prioritycodeOptions.push({Text: 'LOW', Value: 'LOW' });
-this.prioritycodeOptions.push({Text: 'NORMAL', Value: 'NORMAL' });
-this.prioritycodeOptions.push({Text: 'HIGH', Value: 'HIGH' });
-this.prioritycodeOptions.push({Text: 'CRITICAL', Value: 'CRITICAL' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'TRIAGED', Value: 'TRIAGED' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.statuscodeOptions.push({Text: 'CONVERTED', Value: 'CONVERTED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.prioritycodeOptions = this.loggedInUserService.getPicklistOptions('PriorityCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceRequestStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

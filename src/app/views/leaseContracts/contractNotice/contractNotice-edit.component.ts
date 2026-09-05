@@ -72,23 +72,13 @@ SentOn: new FormControl(new Date(), []),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.noticetypecodeOptions.push({Text: 'RENEWAL', Value: 'RENEWAL' });
-this.noticetypecodeOptions.push({Text: 'DEFAULT', Value: 'DEFAULT' });
-this.noticetypecodeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.noticetypecodeOptions.push({Text: 'AMENDMENT', Value: 'AMENDMENT' });
-this.noticetypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.noticetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractNoticeNoticeTypeCode');
 this.recipientpartyidOptions.push({Text: 'RecipientPartyId1', Value: 'RecipientPartyId1' });
 this.recipientpartyidOptions.push({Text: 'RecipientPartyId2', Value: 'RecipientPartyId2' });
-this.deliverymethodcodeOptions.push({Text: 'EMAIL', Value: 'EMAIL' });
-this.deliverymethodcodeOptions.push({Text: 'POST', Value: 'POST' });
-this.deliverymethodcodeOptions.push({Text: 'PORTAL', Value: 'PORTAL' });
-this.deliverymethodcodeOptions.push({Text: 'COURIER', Value: 'COURIER' });
+this.deliverymethodcodeOptions = this.loggedInUserService.getPicklistOptions('DeliveryMethodCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.deliverystatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.deliverystatuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.deliverystatuscodeOptions.push({Text: 'DELIVERED', Value: 'DELIVERED' });
-this.deliverystatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.deliverystatuscodeOptions = this.loggedInUserService.getPicklistOptions('DeliveryStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -82,20 +82,11 @@ this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'REQUESTED', Value: 'REQUESTED' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'DECLINED', Value: 'DECLINED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOptionExerciseStatusCode');
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

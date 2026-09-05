@@ -63,7 +63,7 @@ EffectiveTo: new FormControl(new Date(), [Validators.required]),
 
     });
 
-   this.recordstatusOptions.push({Text: '', Value: '' });
+   this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

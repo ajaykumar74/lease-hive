@@ -60,13 +60,8 @@ export class CreditConditionEditComponent implements OnInit {
             VerifiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)])
         });
         this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
-        this.conditiontypeOptions.push({ Text: 'Deposit', Value: 'Deposit' });
-        this.conditiontypeOptions.push({ Text: 'Guarantee', Value: 'Guarantee' });
-        this.conditiontypeOptions.push({ Text: 'Document', Value: 'Document' });
-        this.conditionstatusOptions.push({ Text: 'Open', Value: 'Open' });
-        this.conditionstatusOptions.push({ Text: 'Satisfied', Value: 'Satisfied' });
-        this.conditionstatusOptions.push({ Text: 'Waived', Value: 'Waived' });
-        this.conditionstatusOptions.push({ Text: 'Failed', Value: 'Failed' });
+        this.conditiontypeOptions = this.loggedInUserService.getPicklistOptions('ConditionType');
+        this.conditionstatusOptions = this.loggedInUserService.getPicklistOptions('ConditionStatus');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.verifiedbyOptions = options));
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

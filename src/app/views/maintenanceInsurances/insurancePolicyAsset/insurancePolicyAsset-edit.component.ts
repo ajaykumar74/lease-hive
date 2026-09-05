@@ -83,19 +83,11 @@ this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContrac
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
 this.coveragetypeidOptions.push({Text: 'CoverageTypeId1', Value: 'CoverageTypeId1' });
 this.coveragetypeidOptions.push({Text: 'CoverageTypeId2', Value: 'CoverageTypeId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.beneficiarypartyidOptions.push({Text: 'BeneficiaryPartyId1', Value: 'BeneficiaryPartyId1' });
 this.beneficiarypartyidOptions.push({Text: 'BeneficiaryPartyId2', Value: 'BeneficiaryPartyId2' });
-this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.statuscodeOptions.push({Text: 'SUSPENDED', Value: 'SUSPENDED' });
-this.statuscodeOptions.push({Text: 'REMOVED', Value: 'REMOVED' });
-this.statuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyAssetStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

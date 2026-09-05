@@ -73,32 +73,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.domaincodeOptions.push({Text: 'MAINTENANCE', Value: 'MAINTENANCE' });
-this.domaincodeOptions.push({Text: 'INSURANCE', Value: 'INSURANCE' });
-this.exceptiontypecodeOptions.push({Text: 'COVER_GAP', Value: 'COVER_GAP' });
-this.exceptiontypecodeOptions.push({Text: 'EXPIRY', Value: 'EXPIRY' });
-this.exceptiontypecodeOptions.push({Text: 'CLAIM_DELAY', Value: 'CLAIM_DELAY' });
-this.exceptiontypecodeOptions.push({Text: 'DOCUMENT', Value: 'DOCUMENT' });
-this.exceptiontypecodeOptions.push({Text: 'HANDOFF', Value: 'HANDOFF' });
-this.referencetypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.referencetypecodeOptions.push({Text: 'POLICY', Value: 'POLICY' });
-this.referencetypecodeOptions.push({Text: 'CLAIM', Value: 'CLAIM' });
-this.referencetypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
-this.severitycodeOptions.push({Text: 'INFO', Value: 'INFO' });
-this.severitycodeOptions.push({Text: 'WARN', Value: 'WARN' });
-this.severitycodeOptions.push({Text: 'ERROR', Value: 'ERROR' });
-this.severitycodeOptions.push({Text: 'CRITICAL', Value: 'CRITICAL' });
+   this.domaincodeOptions = this.loggedInUserService.getPicklistOptions('DomainCode');
+this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceExceptionExceptionTypeCode');
+this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceExceptionReferenceTypeCode');
+this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('SeverityCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'ASSIGNED', Value: 'ASSIGNED' });
-this.statuscodeOptions.push({Text: 'RESOLVED', Value: 'RESOLVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceExceptionStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

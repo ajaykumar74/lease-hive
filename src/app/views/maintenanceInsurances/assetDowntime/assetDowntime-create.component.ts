@@ -79,20 +79,11 @@ this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value:
 this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
 this.insuranceincidentidOptions.push({Text: 'InsuranceIncidentId1', Value: 'InsuranceIncidentId1' });
 this.insuranceincidentidOptions.push({Text: 'InsuranceIncidentId2', Value: 'InsuranceIncidentId2' });
-this.downtimereasoncodeOptions.push({Text: 'BREAKDOWN', Value: 'BREAKDOWN' });
-this.downtimereasoncodeOptions.push({Text: 'ACCIDENT', Value: 'ACCIDENT' });
-this.downtimereasoncodeOptions.push({Text: 'PLANNED', Value: 'PLANNED' });
-this.downtimereasoncodeOptions.push({Text: 'CLAIM', Value: 'CLAIM' });
-this.customerimpactcodeOptions.push({Text: 'NONE', Value: 'NONE' });
-this.customerimpactcodeOptions.push({Text: 'LOW', Value: 'LOW' });
-this.customerimpactcodeOptions.push({Text: 'MEDIUM', Value: 'MEDIUM' });
-this.customerimpactcodeOptions.push({Text: 'HIGH', Value: 'HIGH' });
+this.downtimereasoncodeOptions = this.loggedInUserService.getPicklistOptions('DowntimeReasonCode');
+this.customerimpactcodeOptions = this.loggedInUserService.getPicklistOptions('CustomerImpactCode');
 this.replacementassetidOptions.push({Text: 'ReplacementAssetId1', Value: 'ReplacementAssetId1' });
 this.replacementassetidOptions.push({Text: 'ReplacementAssetId2', Value: 'ReplacementAssetId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

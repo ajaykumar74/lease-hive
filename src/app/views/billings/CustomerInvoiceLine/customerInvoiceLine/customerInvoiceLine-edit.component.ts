@@ -89,16 +89,10 @@ this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId1', Value: '
 this.leasecontractchargeidOptions.push({Text: 'LeaseContractChargeId2', Value: 'LeaseContractChargeId2' });
 this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
 this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
-this.chargetypecodeOptions.push({Text: 'RENTAL', Value: 'RENTAL' });
-this.chargetypecodeOptions.push({Text: 'FEE', Value: 'FEE' });
-this.chargetypecodeOptions.push({Text: 'SERVICE', Value: 'SERVICE' });
-this.chargetypecodeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
+this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('CustomerInvoiceLineChargeTypeCode');
 this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
 this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

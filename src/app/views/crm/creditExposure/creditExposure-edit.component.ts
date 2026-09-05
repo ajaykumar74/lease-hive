@@ -64,11 +64,8 @@ export class CreditExposureEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('credit-assessments').subscribe((options) => (this.creditassessmentidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
-        this.exposuretypeOptions.push({ Text: 'Existing', Value: 'Existing' });
-        this.exposuretypeOptions.push({ Text: 'Proposed', Value: 'Proposed' });
-        this.exposuretypeOptions.push({ Text: 'Guaranteed', Value: 'Guaranteed' });
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.exposuretypeOptions = this.loggedInUserService.getPicklistOptions('ExposureType');
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

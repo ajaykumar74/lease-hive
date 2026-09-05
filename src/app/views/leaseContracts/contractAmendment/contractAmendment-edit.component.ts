@@ -72,17 +72,8 @@ ExecutedOn: new FormControl(new Date(), []),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.amendmenttypecodeOptions.push({Text: 'TERM', Value: 'TERM' });
-this.amendmenttypecodeOptions.push({Text: 'RENTAL', Value: 'RENTAL' });
-this.amendmenttypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.amendmenttypecodeOptions.push({Text: 'PARTY', Value: 'PARTY' });
-this.amendmenttypecodeOptions.push({Text: 'EXTENSION', Value: 'EXTENSION' });
-this.amendmenttypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.amendmentstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.amendmentstatuscodeOptions.push({Text: 'PENDING_APPROVAL', Value: 'PENDING_APPROVAL' });
-this.amendmentstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.amendmentstatuscodeOptions.push({Text: 'EXECUTED', Value: 'EXECUTED' });
-this.amendmentstatuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
+this.amendmenttypecodeOptions = this.loggedInUserService.getPicklistOptions('AmendmentTypeCode');
+this.amendmentstatuscodeOptions = this.loggedInUserService.getPicklistOptions('AmendmentStatusCode');
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 

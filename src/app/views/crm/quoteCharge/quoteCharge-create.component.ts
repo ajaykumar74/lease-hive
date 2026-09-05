@@ -60,9 +60,7 @@ export class QuoteChargeCreateComponent implements OnInit {
         this.Caption = 'Create QuoteCharge';
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-assets').subscribe((options) => (this.quoteassetidOptions = options));
-        this.calculationtypecodeOptions.push({ Text: 'FIXED', Value: 'FIXED' });
-        this.calculationtypecodeOptions.push({ Text: 'PERCENT', Value: 'PERCENT' });
-        this.calculationtypecodeOptions.push({ Text: 'PER_UNIT', Value: 'PER_UNIT' });
+        this.calculationtypecodeOptions = this.loggedInUserService.getPicklistOptions('CalculationTypeCode');
     }
 
     loadUI(): void {

@@ -74,7 +74,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     });
     this.fueltypecodeOptions.push({Text: '', Value: '' });
 this.emissionnormcodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

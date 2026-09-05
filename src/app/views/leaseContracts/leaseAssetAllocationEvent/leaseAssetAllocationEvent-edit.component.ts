@@ -70,10 +70,7 @@ PerformedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648
 
    this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId1', Value: 'LeaseContractAssetId1' });
 this.leasecontractassetidOptions.push({Text: 'LeaseContractAssetId2', Value: 'LeaseContractAssetId2' });
-this.eventcodeOptions.push({Text: 'ALLOCATE', Value: 'ALLOCATE' });
-this.eventcodeOptions.push({Text: 'REPLACE', Value: 'REPLACE' });
-this.eventcodeOptions.push({Text: 'RELEASE', Value: 'RELEASE' });
-this.eventcodeOptions.push({Text: 'HOLD', Value: 'HOLD' });
+this.eventcodeOptions = this.loggedInUserService.getPicklistOptions('EventCode');
 this.fromassetidOptions.push({Text: 'FromAssetId1', Value: 'FromAssetId1' });
 this.fromassetidOptions.push({Text: 'FromAssetId2', Value: 'FromAssetId2' });
 this.toassetidOptions.push({Text: 'ToAssetId1', Value: 'ToAssetId1' });

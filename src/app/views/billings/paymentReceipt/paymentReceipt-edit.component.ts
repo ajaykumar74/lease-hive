@@ -82,19 +82,11 @@ this.receivingorganisationidOptions.push({Text: 'ReceivingOrganisationId1', Valu
 this.receivingorganisationidOptions.push({Text: 'ReceivingOrganisationId2', Value: 'ReceivingOrganisationId2' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.paymentmethodOptions.push({Text: 'BANK_TRANSFER', Value: 'BANK_TRANSFER' });
-this.paymentmethodOptions.push({Text: 'UPI', Value: 'UPI' });
-this.paymentmethodOptions.push({Text: 'CARD', Value: 'CARD' });
-this.paymentmethodOptions.push({Text: 'CHEQUE', Value: 'CHEQUE' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.paymentmethodOptions = this.loggedInUserService.getPicklistOptions('PaymentMethod');
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', Value: 'OrganisationBankAccountId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

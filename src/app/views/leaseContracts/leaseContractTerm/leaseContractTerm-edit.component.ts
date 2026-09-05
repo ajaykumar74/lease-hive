@@ -70,16 +70,9 @@ TermsJson: new FormControl('', [Validators.maxLength(8000), ]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.leasetypecodeOptions.push({Text: 'OPERATING', Value: 'OPERATING' });
-this.leasetypecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
-this.leasetypecodeOptions.push({Text: 'RENTAL', Value: 'RENTAL' });
-this.leasetypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.paymentfrequencycodeOptions.push({Text: 'MONTHLY', Value: 'MONTHLY' });
-this.paymentfrequencycodeOptions.push({Text: 'QUARTERLY', Value: 'QUARTERLY' });
-this.paymentfrequencycodeOptions.push({Text: 'ANNUAL', Value: 'ANNUAL' });
-this.paymentfrequencycodeOptions.push({Text: 'CUSTOM', Value: 'CUSTOM' });
-this.paymenttimingcodeOptions.push({Text: 'ADVANCE', Value: 'ADVANCE' });
-this.paymenttimingcodeOptions.push({Text: 'ARREARS', Value: 'ARREARS' });
+this.leasetypecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseTypeCode');
+this.paymentfrequencycodeOptions = this.loggedInUserService.getPicklistOptions('PaymentFrequencyCode');
+this.paymenttimingcodeOptions = this.loggedInUserService.getPicklistOptions('PaymentTimingCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

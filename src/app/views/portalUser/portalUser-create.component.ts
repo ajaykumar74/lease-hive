@@ -80,9 +80,7 @@ export class PortalUserCreateComponent implements OnInit {
     this.departmentOptions.push({ Text: '', Value: '' });
 
     if (this.loggedInUserService.loggedInUser.AccountType == 'Customer') {
-      this.roleOptions.push({ Text: 'MemberOwner', Value: 'MemberOwner' });
-      this.roleOptions.push({ Text: 'MemberAdmin', Value: 'MemberAdmin' });
-      this.roleOptions.push({ Text: 'MemberUser', Value: 'MemberUser' });
+      this.roleOptions = this.loggedInUserService.getPicklistOptions('Role');
 
       this.editForm.patchValue(
         {
@@ -93,9 +91,6 @@ export class PortalUserCreateComponent implements OnInit {
 
     }
     else {
-      this.roleOptions.push({ Text: 'PartnerOwner', Value: 'PartnerOwner' });
-      this.roleOptions.push({ Text: 'PartnerAdmin', Value: 'PartnerAdmin' });
-      this.roleOptions.push({ Text: 'PartnerUser', Value: 'PartnerUser' });
 
       this.editForm.patchValue(
         {

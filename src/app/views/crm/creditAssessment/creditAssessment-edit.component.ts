@@ -64,12 +64,9 @@ export class CreditAssessmentEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
         this.assessmentversionOptions.push({ Text: 'Party1', Value: 'Party1' });
         this.assessmentversionOptions.push({ Text: 'Party2', Value: 'Party2' });
-        this.assessmenttypecodeOptions.push({ Text: 'MANUAL', Value: 'MANUAL' });
-        this.assessmenttypecodeOptions.push({ Text: 'MODEL', Value: 'MODEL' });
-        this.assessmenttypecodeOptions.push({ Text: 'HYBRID', Value: 'HYBRID' });
+        this.assessmenttypecodeOptions = this.loggedInUserService.getPicklistOptions('AssessmentTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assessedbyuseridOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

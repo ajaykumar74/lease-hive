@@ -83,20 +83,11 @@ this.buyerpartyidOptions.push({Text: 'BuyerPartyId1', Value: 'BuyerPartyId1' });
 this.buyerpartyidOptions.push({Text: 'BuyerPartyId2', Value: 'BuyerPartyId2' });
 this.disposalawardidOptions.push({Text: 'DisposalAwardId1', Value: 'DisposalAwardId1' });
 this.disposalawardidOptions.push({Text: 'DisposalAwardId2', Value: 'DisposalAwardId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.financehandoffidOptions.push({Text: 'FinanceHandoffId1', Value: 'FinanceHandoffId1' });
 this.financehandoffidOptions.push({Text: 'FinanceHandoffId2', Value: 'FinanceHandoffId2' });
-this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'HANDED_OFF', Value: 'HANDED_OFF' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetSaleStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

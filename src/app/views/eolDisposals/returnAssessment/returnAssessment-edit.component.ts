@@ -80,13 +80,8 @@ this.assessedbyuseridOptions.push({Text: 'AssessedByUserId1', Value: 'AssessedBy
 this.assessedbyuseridOptions.push({Text: 'AssessedByUserId2', Value: 'AssessedByUserId2' });
 this.returninspectionidOptions.push({Text: 'ReturnInspectionId1', Value: 'ReturnInspectionId1' });
 this.returninspectionidOptions.push({Text: 'ReturnInspectionId2', Value: 'ReturnInspectionId2' });
-this.assessmentstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.assessmentstatuscodeOptions.push({Text: 'REVIEW', Value: 'REVIEW' });
-this.assessmentstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.assessmentstatuscodeOptions = this.loggedInUserService.getPicklistOptions('AssessmentStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

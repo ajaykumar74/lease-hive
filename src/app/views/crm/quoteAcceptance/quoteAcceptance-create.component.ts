@@ -59,12 +59,9 @@ export class QuoteAcceptanceCreateComponent implements OnInit {
         });
         this.Caption = 'Create QuoteAcceptance';
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
-        this.decisioncodeOptions.push({ Text: 'ACCEPTED', Value: 'ACCEPTED' });
-        this.decisioncodeOptions.push({ Text: 'REJECTED', Value: 'REJECTED' });
+        this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('QuoteAcceptanceDecisionCode');
         this.loggedInUserService.getLookupOptions('party-contacts').subscribe((options) => (this.acceptedbypartycontactidOptions = options));
-        this.acceptancemethodcodeOptions.push({ Text: 'PORTAL', Value: 'PORTAL' });
-        this.acceptancemethodcodeOptions.push({ Text: 'ESIGN/EMAIL', Value: 'ESIGN/EMAIL' });
-        this.acceptancemethodcodeOptions.push({ Text: 'MANUAL', Value: 'MANUAL' });
+        this.acceptancemethodcodeOptions = this.loggedInUserService.getPicklistOptions('AcceptanceMethodCode');
     }
 
     loadUI(): void {

@@ -78,21 +78,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.disposalcaseidOptions.push({Text: 'DisposalCaseId2', Value: 'DisposalCaseId2' });
 this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.writeoffreasoncodeOptions.push({Text: 'TOTAL_LOSS', Value: 'TOTAL_LOSS' });
-this.writeoffreasoncodeOptions.push({Text: 'OBSOLETE', Value: 'OBSOLETE' });
-this.writeoffreasoncodeOptions.push({Text: 'UNEconomic', Value: 'UNEconomic' });
-this.writeoffreasoncodeOptions.push({Text: 'LOST', Value: 'LOST' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.writeoffreasoncodeOptions = this.loggedInUserService.getPicklistOptions('WriteOffReasonCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

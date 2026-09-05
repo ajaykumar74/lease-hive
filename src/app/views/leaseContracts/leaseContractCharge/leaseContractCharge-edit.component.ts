@@ -71,21 +71,11 @@ IsCapitalised: new FormControl(false, [Validators.required]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.chargetypecodeOptions.push({Text: 'PROCESSING', Value: 'PROCESSING' });
-this.chargetypecodeOptions.push({Text: 'DOCUMENTATION', Value: 'DOCUMENTATION' });
-this.chargetypecodeOptions.push({Text: 'DELIVERY', Value: 'DELIVERY' });
-this.chargetypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.taxtypeOptions.push({Text: 'GST', Value: 'GST' });
-this.taxtypeOptions.push({Text: 'VAT', Value: 'VAT' });
-this.frequencycodeOptions.push({Text: 'ONCE', Value: 'ONCE' });
-this.frequencycodeOptions.push({Text: 'MONTHLY', Value: 'MONTHLY' });
-this.frequencycodeOptions.push({Text: 'ANNUAL', Value: 'ANNUAL' });
-this.dueeventcodeOptions.push({Text: 'SIGNING', Value: 'SIGNING' });
-this.dueeventcodeOptions.push({Text: 'ACTIVATION', Value: 'ACTIVATION' });
-this.dueeventcodeOptions.push({Text: 'SCHEDULED', Value: 'SCHEDULED' });
+this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractChargeChargeTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.taxtypeOptions = this.loggedInUserService.getPicklistOptions('TaxType');
+this.frequencycodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractChargeFrequencyCode');
+this.dueeventcodeOptions = this.loggedInUserService.getPicklistOptions('DueEventCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

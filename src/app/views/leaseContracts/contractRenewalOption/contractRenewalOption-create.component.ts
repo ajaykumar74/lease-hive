@@ -70,17 +70,9 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
     this.Caption = 'Create ContractRenewalOption';
     this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.optiontypecodeOptions.push({Text: 'RENEW', Value: 'RENEW' });
-this.optiontypecodeOptions.push({Text: 'EXTEND', Value: 'EXTEND' });
-this.optiontypecodeOptions.push({Text: 'PURCHASE', Value: 'PURCHASE' });
-this.optiontypecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'AVAILABLE', Value: 'AVAILABLE' });
-this.statuscodeOptions.push({Text: 'EXERCISED', Value: 'EXERCISED' });
-this.statuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
+this.optiontypecodeOptions = this.loggedInUserService.getPicklistOptions('OptionTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractRenewalOptionStatusCode');
 
   }
  

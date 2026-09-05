@@ -73,13 +73,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
 this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId1', Value: 'MaintenancePlanId1' });
 this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId2', Value: 'MaintenancePlanId2' });
-this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.statuscodeOptions.push({Text: 'SUSPENDED', Value: 'SUSPENDED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetMaintenancePlanStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

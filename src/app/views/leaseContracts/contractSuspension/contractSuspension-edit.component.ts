@@ -68,14 +68,8 @@ Notes: new FormControl('', [Validators.maxLength(1000), ]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.suspensionreasoncodeOptions.push({Text: 'CREDIT', Value: 'CREDIT' });
-this.suspensionreasoncodeOptions.push({Text: 'DEFAULT', Value: 'DEFAULT' });
-this.suspensionreasoncodeOptions.push({Text: 'LEGAL', Value: 'LEGAL' });
-this.suspensionreasoncodeOptions.push({Text: 'OPERATIONAL', Value: 'OPERATIONAL' });
-this.suspensionreasoncodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.statuscodeOptions.push({Text: 'REINSTATED', Value: 'REINSTATED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
+this.suspensionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('SuspensionReasonCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractSuspensionStatusCode');
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 

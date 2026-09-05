@@ -72,17 +72,9 @@ GeneratedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.schedulestatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.schedulestatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.schedulestatuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.schedulestatuscodeOptions.push({Text: 'SUPERSEDED', Value: 'SUPERSEDED' });
-this.calculationmethodcodeOptions.push({Text: 'FLAT', Value: 'FLAT' });
-this.calculationmethodcodeOptions.push({Text: 'IRR', Value: 'IRR' });
-this.calculationmethodcodeOptions.push({Text: 'CUSTOM', Value: 'CUSTOM' });
-this.calculationmethodcodeOptions.push({Text: 'RENTAL', Value: 'RENTAL' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.schedulestatuscodeOptions = this.loggedInUserService.getPicklistOptions('ScheduleStatusCode');
+this.calculationmethodcodeOptions = this.loggedInUserService.getPicklistOptions('CalculationMethodCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.generatedbyOptions.push({Text: 'GeneratedBy1', Value: 'GeneratedBy1' });
 this.generatedbyOptions.push({Text: 'GeneratedBy2', Value: 'GeneratedBy2' });
 

@@ -65,25 +65,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.referencetypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
-this.referencetypecodeOptions.push({Text: 'POLICY', Value: 'POLICY' });
-this.referencetypecodeOptions.push({Text: 'INCIDENT', Value: 'INCIDENT' });
-this.referencetypecodeOptions.push({Text: 'CLAIM', Value: 'CLAIM' });
-this.referencetypecodeOptions.push({Text: 'ASSESSMENT', Value: 'ASSESSMENT' });
-this.referencetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
+   this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceDocumentLinkReferenceTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentrolecodeOptions.push({Text: 'POLICY', Value: 'POLICY' });
-this.documentrolecodeOptions.push({Text: 'FIR', Value: 'FIR' });
-this.documentrolecodeOptions.push({Text: 'PHOTO', Value: 'PHOTO' });
-this.documentrolecodeOptions.push({Text: 'ESTIMATE', Value: 'ESTIMATE' });
-this.documentrolecodeOptions.push({Text: 'SURVEY', Value: 'SURVEY' });
-this.documentrolecodeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.documentrolecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.documentrolecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceDocumentLinkDocumentRoleCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

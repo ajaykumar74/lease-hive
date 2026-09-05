@@ -68,11 +68,7 @@ ChangeSummary: new FormControl('', [Validators.required, Validators.maxLength(50
     this.Caption = 'Create ContractAmendmentChange';
     this.contractamendmentidOptions.push({Text: 'ContractAmendmentId1', Value: 'ContractAmendmentId1' });
 this.contractamendmentidOptions.push({Text: 'ContractAmendmentId2', Value: 'ContractAmendmentId2' });
-this.changesectioncodeOptions.push({Text: 'TERMS', Value: 'TERMS' });
-this.changesectioncodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.changesectioncodeOptions.push({Text: 'PARTY', Value: 'PARTY' });
-this.changesectioncodeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.changesectioncodeOptions.push({Text: 'CHARGE', Value: 'CHARGE' });
+this.changesectioncodeOptions = this.loggedInUserService.getPicklistOptions('ChangeSectionCode');
 
   }
  

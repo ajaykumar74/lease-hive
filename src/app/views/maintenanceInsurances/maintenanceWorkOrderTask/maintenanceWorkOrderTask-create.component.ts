@@ -72,16 +72,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.Caption = 'Create MaintenanceWorkOrderTask';
     this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId1', Value: 'MaintenanceWorkOrderId1' });
 this.maintenanceworkorderidOptions.push({Text: 'MaintenanceWorkOrderId2', Value: 'MaintenanceWorkOrderId2' });
-this.taskstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.taskstatuscodeOptions.push({Text: 'IN_PROGRESS', Value: 'IN_PROGRESS' });
-this.taskstatuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.taskstatuscodeOptions.push({Text: 'NOT_REQUIRED', Value: 'NOT_REQUIRED' });
+this.taskstatuscodeOptions = this.loggedInUserService.getPicklistOptions('TaskStatusCode');
 this.completedbyuseridOptions.push({Text: 'CompletedByUserId1', Value: 'CompletedByUserId1' });
 this.completedbyuseridOptions.push({Text: 'CompletedByUserId2', Value: 'CompletedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

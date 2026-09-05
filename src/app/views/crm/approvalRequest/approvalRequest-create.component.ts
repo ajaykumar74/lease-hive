@@ -59,15 +59,10 @@ export class ApprovalRequestCreateComponent implements OnInit {
             ApprovalStatus: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
         this.Caption = 'Create ApprovalRequest';
-        this.featurecodeOptions.push({ Text: 'QUOTE', Value: 'QUOTE' });
-        this.featurecodeOptions.push({ Text: 'LEAD', Value: 'LEAD' });
-        this.featurecodeOptions.push({ Text: 'CREDIT', Value: 'CREDIT' });
+        this.featurecodeOptions = this.loggedInUserService.getPicklistOptions('FeatureCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.requestedbyOptions = options));
         this.currencyidOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-        this.approvalstatusOptions.push({ Text: 'Pending', Value: 'Pending' });
-        this.approvalstatusOptions.push({ Text: 'Approved', Value: 'Approved' });
-        this.approvalstatusOptions.push({ Text: 'Rejected', Value: 'Rejected' });
-        this.approvalstatusOptions.push({ Text: 'Preturned', Value: 'Preturned' });
+        this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('ApprovalRequestApprovalStatus');
     }
 
     loadUI(): void {

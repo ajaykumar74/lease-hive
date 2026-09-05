@@ -96,12 +96,9 @@ this.tolocationidOptions.push({Text: 'Location1', Value: 'Location1' });
 this.tolocationidOptions.push({Text: 'Location2', Value: 'Location2' });
 this.partylocationidOptions.push({Text: 'PartyLoca1', Value: 'PartyLoca1' });
 this.partylocationidOptions.push({Text: 'PartyLoc2', Value: 'PartyLoc2' });
-this.movementtypeOptions.push({Text: 'Transfer', Value: 'Transfer' });
-this.movementtypeOptions.push({Text: 'Delivery', Value: 'Delivery' });
-this.movementtypeOptions.push({Text: 'Return', Value: 'Return' });
-this.referencetypeOptions.push({Text: 'Document', Value: 'Document' });
-this.referencetypeOptions.push({Text: 'Invoice', Value: 'Invoice' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.movementtypeOptions = this.loggedInUserService.getPicklistOptions('MovementType');
+this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetLocationHistoryReferenceType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 

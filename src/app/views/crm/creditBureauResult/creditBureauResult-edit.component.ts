@@ -63,11 +63,8 @@ export class CreditBureauResultEditComponent implements OnInit {
         });
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.providercodeOptions.push({ Text: 'CIBIL', Value: 'CIBIL' });
-        this.providercodeOptions.push({ Text: 'CRISI', Value: 'CRISI' });
-        this.resultstatuscodeOptions.push({ Text: 'SUCCESS', Value: 'SUCCESS' });
-        this.resultstatuscodeOptions.push({ Text: 'FAILED', Value: 'FAILED' });
-        this.resultstatuscodeOptions.push({ Text: 'PENDING', Value: 'PENDING' });
+        this.providercodeOptions = this.loggedInUserService.getPicklistOptions('ProviderCode');
+        this.resultstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ResultStatusCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

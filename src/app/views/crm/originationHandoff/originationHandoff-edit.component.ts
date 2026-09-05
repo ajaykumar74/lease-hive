@@ -68,7 +68,7 @@ export class OriginationHandoffEditComponent implements OnInit {
         this.handoffstatusidOptions.push({ Text: 'Sent', Value: 'Sent' });
         this.handoffstatusidOptions.push({ Text: 'Accepted', Value: 'Accepted' });
         this.handoffstatusidOptions.push({ Text: 'Failed', Value: 'Failed' });
-        this.targetmodulecodeOptions.push({ Text: 'Contact', Value: 'Contact' });
+        this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('OriginationHandoffTargetModuleCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

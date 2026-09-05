@@ -67,25 +67,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.referencetypecodeOptions.push({Text: 'CASE', Value: 'CASE' });
-this.referencetypecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.referencetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.referencetypecodeOptions.push({Text: 'DISPOSAL', Value: 'DISPOSAL' });
-this.referencetypecodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.referencetypecodeOptions.push({Text: 'SCRAP', Value: 'SCRAP' });
+   this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalDocumentLinkReferenceTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentrolecodeOptions.push({Text: 'NOTICE', Value: 'NOTICE' });
-this.documentrolecodeOptions.push({Text: 'RETURN_FORM', Value: 'RETURN_FORM' });
-this.documentrolecodeOptions.push({Text: 'APPROVAL', Value: 'APPROVAL' });
-this.documentrolecodeOptions.push({Text: 'SALE_CERT', Value: 'SALE_CERT' });
-this.documentrolecodeOptions.push({Text: 'CERTIFICATE', Value: 'CERTIFICATE' });
+this.documentrolecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalDocumentLinkDocumentRoleCode');
 this.linkedbyuseridOptions.push({Text: 'LinkedByUserId1', Value: 'LinkedByUserId1' });
 this.linkedbyuseridOptions.push({Text: 'LinkedByUserId2', Value: 'LinkedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

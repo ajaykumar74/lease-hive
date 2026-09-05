@@ -68,14 +68,7 @@ PerformedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.eventtypecodeOptions.push({Text: 'CREATED', Value: 'CREATED' });
-this.eventtypecodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.eventtypecodeOptions.push({Text: 'EXECUTED', Value: 'EXECUTED' });
-this.eventtypecodeOptions.push({Text: 'ACTIVATED', Value: 'ACTIVATED' });
-this.eventtypecodeOptions.push({Text: 'AMENDED', Value: 'AMENDED' });
-this.eventtypecodeOptions.push({Text: 'SUSPENDED', Value: 'SUSPENDED' });
-this.eventtypecodeOptions.push({Text: 'TERMINATED', Value: 'TERMINATED' });
-this.eventtypecodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
+this.eventtypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractEventEventTypeCode');
 this.performedbyOptions.push({Text: 'PerformedBy1', Value: 'PerformedBy1' });
 this.performedbyOptions.push({Text: 'PerformedBy2', Value: 'PerformedBy2' });
 

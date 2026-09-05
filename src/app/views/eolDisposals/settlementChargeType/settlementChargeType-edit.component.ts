@@ -64,12 +64,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.directioncodeOptions.push({Text: 'CHARGE', Value: 'CHARGE' });
-this.directioncodeOptions.push({Text: 'CREDIT', Value: 'CREDIT' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.directioncodeOptions = this.loggedInUserService.getPicklistOptions('DirectionCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

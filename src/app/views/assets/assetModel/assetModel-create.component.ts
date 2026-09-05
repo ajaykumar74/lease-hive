@@ -70,7 +70,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     });
     this.assetmakeidOptions.push({Text: '', Value: '' });
 this.assettypeidOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

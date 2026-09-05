@@ -73,17 +73,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.disposalauctionidOptions.push({Text: 'DisposalAuctionId2', Value: 'DisposalAuctionId2' });
 this.bidderpartyidOptions.push({Text: 'BidderPartyId1', Value: 'BidderPartyId1' });
 this.bidderpartyidOptions.push({Text: 'BidderPartyId2', Value: 'BidderPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.bidstatuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.bidstatuscodeOptions.push({Text: 'VALID', Value: 'VALID' });
-this.bidstatuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.bidstatuscodeOptions.push({Text: 'WINNER', Value: 'WINNER' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.bidstatuscodeOptions = this.loggedInUserService.getPicklistOptions('BidStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

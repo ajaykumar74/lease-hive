@@ -61,8 +61,7 @@ export class QuotePartySnapshotEditComponent implements OnInit {
         });
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

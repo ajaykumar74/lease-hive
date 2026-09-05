@@ -71,15 +71,10 @@ export class PortalUserEditComponent implements OnInit {
     this.customValidators();
     this.departmentOptions.push({ Text: '', Value: '' });
     if (this.loggedInUserService.loggedInUser.AccountType == 'Customer') {
-      this.roleOptions.push({ Text: 'Member Owner', Value: 'MemberOwner' });
-      this.roleOptions.push({ Text: 'Member Admin', Value: 'MemberAdmin' });
-      this.roleOptions.push({ Text: 'Member User', Value: 'MemberUser' });
+      this.roleOptions = this.loggedInUserService.getPicklistOptions('Role');
 
     }
     else {
-      this.roleOptions.push({ Text: 'Partner Owner', Value: 'PartnerOwner' });
-      this.roleOptions.push({ Text: 'Partner Admin', Value: 'PartnerAdmin' });
-      this.roleOptions.push({ Text: 'Partner User', Value: 'PartnerUser' });
     }
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -101,16 +101,9 @@ this.customerdepartmentidOptions.push({Text: 'CustDepart1', Value: 'CustDepart1'
 this.customerdepartmentidOptions.push({Text: 'CustDepart2', Value: 'CustDepart2' });
 this.assetuseridOptions.push({Text: 'Assetuser1', Value: 'Assetuser1' });
 this.assetuseridOptions.push({Text: 'Assetuser2', Value: 'Assetuser2' });
-this.assignmenttypeOptions.push({Text: 'Lease', Value: 'Lease' });
-this.assignmenttypeOptions.push({Text: 'Custody', Value: 'Custody' });
-this.assignmenttypeOptions.push({Text: 'Demo', Value: 'Demo' });
-this.assignmenttypeOptions.push({Text: 'Internal', Value: 'Internal' });
-this.referencetypeOptions.push({Text: 'Contract', Value: 'Contract' });
-this.referencetypeOptions.push({Text: 'Handover', Value: 'Handover' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.assignmenttypeOptions = this.loggedInUserService.getPicklistOptions('AssignmentType');
+this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentReferenceType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     this.Caption = 'Create Asset Assignment';
   }
 

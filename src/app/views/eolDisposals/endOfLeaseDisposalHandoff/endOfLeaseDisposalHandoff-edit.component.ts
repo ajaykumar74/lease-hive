@@ -70,31 +70,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.sourcetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.sourcetypecodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.sourcetypecodeOptions.push({Text: 'WRITE_OFF', Value: 'WRITE_OFF' });
-this.sourcetypecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.sourcetypecodeOptions.push({Text: 'DISPOSITION', Value: 'DISPOSITION' });
-this.targetmodulecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
-this.targetmodulecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.targetmodulecodeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.targetmodulecodeOptions.push({Text: 'MAINT', Value: 'MAINT' });
-this.targetmodulecodeOptions.push({Text: 'PROCUREMENT', Value: 'PROCUREMENT' });
-this.handofftypecodeOptions.push({Text: 'CHARGE', Value: 'CHARGE' });
-this.handofftypecodeOptions.push({Text: 'REFUND', Value: 'REFUND' });
-this.handofftypecodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.handofftypecodeOptions.push({Text: 'OWNERSHIP', Value: 'OWNERSHIP' });
-this.handofftypecodeOptions.push({Text: 'LIFECYCLE', Value: 'LIFECYCLE' });
-this.handofftypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
-this.statuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.statuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.sourcetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffSourceTypeCode');
+this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffTargetModuleCode');
+this.handofftypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffHandoffTypeCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalHandoffStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

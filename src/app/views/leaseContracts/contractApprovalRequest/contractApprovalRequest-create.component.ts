@@ -67,17 +67,10 @@ CompletedOn: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create ContractApprovalRequest';
-    this.referencetypeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.referencetypeOptions.push({Text: 'ACTIVATION', Value: 'ACTIVATION' });
-this.referencetypeOptions.push({Text: 'AMENDMENT', Value: 'AMENDMENT' });
-this.referencetypeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.referencetypeOptions.push({Text: 'WAIVER', Value: 'WAIVER' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ContractApprovalRequestReferenceType');
 this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId1', Value: 'WorkflowDefinitionId1' });
 this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId2', Value: 'WorkflowDefinitionId2' });
-this.approvalstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.approvalstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.approvalstatuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.approvalstatuscodeOptions.push({Text: 'RETURNED', Value: 'RETURNED' });
+this.approvalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalStatusCode');
 this.requestedbyOptions.push({Text: 'RequestedBy1', Value: 'RequestedBy1' });
 this.requestedbyOptions.push({Text: 'RequestedBy2', Value: 'RequestedBy2' });
 

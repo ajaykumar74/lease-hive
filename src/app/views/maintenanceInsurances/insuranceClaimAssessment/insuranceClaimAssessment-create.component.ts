@@ -76,16 +76,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
 this.assessorpartyidOptions.push({Text: 'AssessorPartyId1', Value: 'AssessorPartyId1' });
 this.assessorpartyidOptions.push({Text: 'AssessorPartyId2', Value: 'AssessorPartyId2' });
-this.repairabilitycodeOptions.push({Text: 'REPAIRABLE', Value: 'REPAIRABLE' });
-this.repairabilitycodeOptions.push({Text: 'TOTAL_LOSS', Value: 'TOTAL_LOSS' });
-this.repairabilitycodeOptions.push({Text: 'REVIEW', Value: 'REVIEW' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.repairabilitycodeOptions = this.loggedInUserService.getPicklistOptions('RepairabilityCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

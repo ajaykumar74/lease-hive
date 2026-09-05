@@ -107,23 +107,11 @@ this.servicelocationidOptions.push({Text: 'ServiceLocationId1', Value: 'ServiceL
 this.servicelocationidOptions.push({Text: 'ServiceLocationId2', Value: 'ServiceLocationId2' });
 this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId1', Value: 'ResponsibleOrganisationUnitId1' });
 this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId2', Value: 'ResponsibleOrganisationUnitId2' });
-this.workorderstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.workorderstatuscodeOptions.push({Text: 'APPROVAL', Value: 'APPROVAL' });
-this.workorderstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.workorderstatuscodeOptions.push({Text: 'DISPATCHED', Value: 'DISPATCHED' });
-this.workorderstatuscodeOptions.push({Text: 'IN_PROGRESS', Value: 'IN_PROGRESS' });
-this.workorderstatuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.workorderstatuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.workorderstatuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.workorderstatuscodeOptions = this.loggedInUserService.getPicklistOptions('WorkOrderStatusCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

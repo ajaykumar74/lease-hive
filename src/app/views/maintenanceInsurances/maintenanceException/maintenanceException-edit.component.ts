@@ -71,30 +71,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.exceptiontypecodeOptions.push({Text: 'OVERDUE', Value: 'OVERDUE' });
-this.exceptiontypecodeOptions.push({Text: 'ESTIMATE', Value: 'ESTIMATE' });
-this.exceptiontypecodeOptions.push({Text: 'SLA', Value: 'SLA' });
-this.exceptiontypecodeOptions.push({Text: 'DATA', Value: 'DATA' });
-this.exceptiontypecodeOptions.push({Text: 'INTEGRATION', Value: 'INTEGRATION' });
-this.referencetypecodeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.referencetypecodeOptions.push({Text: 'REQUEST', Value: 'REQUEST' });
-this.referencetypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
-this.referencetypecodeOptions.push({Text: 'AGREEMENT', Value: 'AGREEMENT' });
-this.severitycodeOptions.push({Text: 'INFO', Value: 'INFO' });
-this.severitycodeOptions.push({Text: 'WARN', Value: 'WARN' });
-this.severitycodeOptions.push({Text: 'ERROR', Value: 'ERROR' });
-this.severitycodeOptions.push({Text: 'CRITICAL', Value: 'CRITICAL' });
+   this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionExceptionTypeCode');
+this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionReferenceTypeCode');
+this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('SeverityCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'ASSIGNED', Value: 'ASSIGNED' });
-this.statuscodeOptions.push({Text: 'RESOLVED', Value: 'RESOLVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceExceptionStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

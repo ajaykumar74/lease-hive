@@ -75,26 +75,14 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.Caption = 'Create InsuranceRecovery';
     this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId1', Value: 'InsuranceClaimId1' });
 this.insuranceclaimidOptions.push({Text: 'InsuranceClaimId2', Value: 'InsuranceClaimId2' });
-this.recoverytypecodeOptions.push({Text: 'THIRD_PARTY', Value: 'THIRD_PARTY' });
-this.recoverytypecodeOptions.push({Text: 'SUBROGATION', Value: 'SUBROGATION' });
-this.recoverytypecodeOptions.push({Text: 'SALVAGE', Value: 'SALVAGE' });
-this.recoverytypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.recoverytypecodeOptions = this.loggedInUserService.getPicklistOptions('RecoveryTypeCode');
 this.recoverypartyidOptions.push({Text: 'RecoveryPartyId1', Value: 'RecoveryPartyId1' });
 this.recoverypartyidOptions.push({Text: 'RecoveryPartyId2', Value: 'RecoveryPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId1', Value: 'FinanceReferenceId1' });
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId2', Value: 'FinanceReferenceId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'PART_RECOVERED', Value: 'PART_RECOVERED' });
-this.statuscodeOptions.push({Text: 'RECOVERED', Value: 'RECOVERED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceRecoveryStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

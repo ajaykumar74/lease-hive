@@ -77,27 +77,18 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.disposalcaseidOptions.push({Text: 'DisposalCaseId1', Value: 'DisposalCaseId1' });
 this.disposalcaseidOptions.push({Text: 'DisposalCaseId2', Value: 'DisposalCaseId2' });
-this.awardsourcecodeOptions.push({Text: 'OFFER', Value: 'OFFER' });
-this.awardsourcecodeOptions.push({Text: 'BID', Value: 'BID' });
-this.awardsourcecodeOptions.push({Text: 'NEGOTIATED', Value: 'NEGOTIATED' });
+this.awardsourcecodeOptions = this.loggedInUserService.getPicklistOptions('AwardSourceCode');
 this.disposalofferidOptions.push({Text: 'DisposalOfferId1', Value: 'DisposalOfferId1' });
 this.disposalofferidOptions.push({Text: 'DisposalOfferId2', Value: 'DisposalOfferId2' });
 this.disposalbididOptions.push({Text: 'DisposalBidId1', Value: 'DisposalBidId1' });
 this.disposalbididOptions.push({Text: 'DisposalBidId2', Value: 'DisposalBidId2' });
 this.buyerpartyidOptions.push({Text: 'BuyerPartyId1', Value: 'BuyerPartyId1' });
 this.buyerpartyidOptions.push({Text: 'BuyerPartyId2', Value: 'BuyerPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
-this.statuscodeOptions.push({Text: 'AWARDED', Value: 'AWARDED' });
-this.statuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalAwardStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

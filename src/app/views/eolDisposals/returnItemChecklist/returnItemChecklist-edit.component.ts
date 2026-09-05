@@ -69,13 +69,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.assetreturnidOptions.push({Text: 'AssetReturnId1', Value: 'AssetReturnId1' });
 this.assetreturnidOptions.push({Text: 'AssetReturnId2', Value: 'AssetReturnId2' });
-this.conditioncodeOptions.push({Text: 'GOOD', Value: 'GOOD' });
-this.conditioncodeOptions.push({Text: 'DAMAGED', Value: 'DAMAGED' });
-this.conditioncodeOptions.push({Text: 'MISSING', Value: 'MISSING' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('ConditionCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

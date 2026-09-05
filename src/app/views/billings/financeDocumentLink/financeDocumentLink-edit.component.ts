@@ -65,22 +65,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.referencetypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.referencetypeOptions.push({Text: 'RECEIPT', Value: 'RECEIPT' });
-this.referencetypeOptions.push({Text: 'CREDIT_NOTE', Value: 'CREDIT_NOTE' });
-this.referencetypeOptions.push({Text: 'BANK_STATEMENT', Value: 'BANK_STATEMENT' });
-this.referencetypeOptions.push({Text: 'JOURNAL', Value: 'JOURNAL' });
+   this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('FinanceDocumentLinkReferenceType');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentroleOptions.push({Text: 'PDF', Value: 'PDF' });
-this.documentroleOptions.push({Text: 'TAX_RESPONSE', Value: 'TAX_RESPONSE' });
-this.documentroleOptions.push({Text: 'PAYMENT_PROOF', Value: 'PAYMENT_PROOF' });
-this.documentroleOptions.push({Text: 'STATEMENT', Value: 'STATEMENT' });
-this.documentroleOptions.push({Text: 'EXPORT', Value: 'EXPORT' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.documentroleOptions = this.loggedInUserService.getPicklistOptions('DocumentRole');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

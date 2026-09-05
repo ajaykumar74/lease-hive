@@ -72,16 +72,8 @@ ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.m
     this.Caption = 'Create ContractTermination';
     this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.terminationtypecodeOptions.push({Text: 'EXPIRY', Value: 'EXPIRY' });
-this.terminationtypecodeOptions.push({Text: 'EARLY', Value: 'EARLY' });
-this.terminationtypecodeOptions.push({Text: 'CUSTOMER_DEFAULT', Value: 'CUSTOMER_DEFAULT' });
-this.terminationtypecodeOptions.push({Text: 'MUTUAL', Value: 'MUTUAL' });
-this.terminationtypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.terminationstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.terminationstatuscodeOptions.push({Text: 'PENDING_APPROVAL', Value: 'PENDING_APPROVAL' });
-this.terminationstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.terminationstatuscodeOptions.push({Text: 'EFFECTIVE', Value: 'EFFECTIVE' });
-this.terminationstatuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
+this.terminationtypecodeOptions = this.loggedInUserService.getPicklistOptions('TerminationTypeCode');
+this.terminationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('TerminationStatusCode');
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 

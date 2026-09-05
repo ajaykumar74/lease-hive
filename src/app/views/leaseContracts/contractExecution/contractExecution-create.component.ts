@@ -70,18 +70,9 @@ CompletionCertificateDocumentId: new FormControl(0, [Validators.min(-2147483648)
 
     });
     this.Caption = 'Create ContractExecution';
-    this.referencetypeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.referencetypeOptions.push({Text: 'AMENDMENT', Value: 'AMENDMENT' });
-this.executionmethodcodeOptions.push({Text: 'ESIGN', Value: 'ESIGN' });
-this.executionmethodcodeOptions.push({Text: 'WET_SIGN', Value: 'WET_SIGN' });
-this.executionmethodcodeOptions.push({Text: 'DIGITAL', Value: 'DIGITAL' });
-this.executionmethodcodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.executionstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.executionstatuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.executionstatuscodeOptions.push({Text: 'PARTIAL', Value: 'PARTIAL' });
-this.executionstatuscodeOptions.push({Text: 'EXECUTED', Value: 'EXECUTED' });
-this.executionstatuscodeOptions.push({Text: 'DECLINED', Value: 'DECLINED' });
-this.executionstatuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ContractExecutionReferenceType');
+this.executionmethodcodeOptions = this.loggedInUserService.getPicklistOptions('ExecutionMethodCode');
+this.executionstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ExecutionStatusCode');
 this.executeddocumentidOptions.push({Text: 'ExecutedDocumentId1', Value: 'ExecutedDocumentId1' });
 this.executeddocumentidOptions.push({Text: 'ExecutedDocumentId2', Value: 'ExecutedDocumentId2' });
 this.completioncertificatedocumentidOptions.push({Text: 'CompletionCertificateDocumentId1', Value: 'CompletionCertificateDocumentId1' });

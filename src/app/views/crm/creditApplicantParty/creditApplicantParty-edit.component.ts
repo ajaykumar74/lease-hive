@@ -60,8 +60,7 @@ export class CreditApplicantPartyEditComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.creditpartyroleidOptions.push({ Text: 'CreditPartRole1', Value: 'CreditPartRole1' });
         this.creditpartyroleidOptions.push({ Text: 'CreditPartyRole2', Value: 'CreditPartyRole2' });
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

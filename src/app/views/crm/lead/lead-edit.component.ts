@@ -1,3 +1,4 @@
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -40,7 +41,8 @@ recordstatusOptions: ISelectItem[] = [];
   objMaster : ILead = {} as ILead;
 
 
-  constructor( 
+  constructor(
+    private loggedInUserService: LoggedInUserService,
     private activatedRouter: ActivatedRoute,  
 	private fb: FormBuilder,
 	private router: Router, 	
@@ -81,10 +83,8 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Disabled', Value: 'Disabled' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

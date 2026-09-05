@@ -71,10 +71,7 @@ DelegatedFromUserId: new FormControl(0, [Validators.min(-2147483648), Validators
 this.contractapprovalrequestidOptions.push({Text: 'ContractApprovalRequestId2', Value: 'ContractApprovalRequestId2' });
 this.approveruseridOptions.push({Text: 'ApproverUserId1', Value: 'ApproverUserId1' });
 this.approveruseridOptions.push({Text: 'ApproverUserId2', Value: 'ApproverUserId2' });
-this.actioncodeOptions.push({Text: 'APPROVE', Value: 'APPROVE' });
-this.actioncodeOptions.push({Text: 'REJECT', Value: 'REJECT' });
-this.actioncodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.actioncodeOptions.push({Text: 'DELEGATE', Value: 'DELEGATE' });
+this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('ContractApprovalActionActionCode');
 this.delegatedfromuseridOptions.push({Text: 'DelegatedFromUserId1', Value: 'DelegatedFromUserId1' });
 this.delegatedfromuseridOptions.push({Text: 'DelegatedFromUserId2', Value: 'DelegatedFromUserId2' });
 

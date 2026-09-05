@@ -71,22 +71,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId1', Value: 'EndOfLeaseCaseId1' });
 this.endofleasecaseidOptions.push({Text: 'EndOfLeaseCaseId2', Value: 'EndOfLeaseCaseId2' });
-this.noticetypecodeOptions.push({Text: 'EXPIRY', Value: 'EXPIRY' });
-this.noticetypecodeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.noticetypecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.noticetypecodeOptions.push({Text: 'OPTION', Value: 'OPTION' });
-this.deliverychannelcodeOptions.push({Text: 'EMAIL', Value: 'EMAIL' });
-this.deliverychannelcodeOptions.push({Text: 'PORTAL', Value: 'PORTAL' });
-this.deliverychannelcodeOptions.push({Text: 'POST', Value: 'POST' });
-this.deliverychannelcodeOptions.push({Text: 'HAND', Value: 'HAND' });
-this.customerresponsecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.customerresponsecodeOptions.push({Text: 'PURCHASE', Value: 'PURCHASE' });
-this.customerresponsecodeOptions.push({Text: 'EXTEND', Value: 'EXTEND' });
-this.customerresponsecodeOptions.push({Text: 'QUERY', Value: 'QUERY' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.noticetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseNoticeNoticeTypeCode');
+this.deliverychannelcodeOptions = this.loggedInUserService.getPicklistOptions('DeliveryChannelCode');
+this.customerresponsecodeOptions = this.loggedInUserService.getPicklistOptions('CustomerResponseCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

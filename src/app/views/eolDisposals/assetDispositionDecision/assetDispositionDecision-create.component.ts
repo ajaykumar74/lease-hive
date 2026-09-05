@@ -84,20 +84,11 @@ this.dispositionmethodidOptions.push({Text: 'DispositionMethodId1', Value: 'Disp
 this.dispositionmethodidOptions.push({Text: 'DispositionMethodId2', Value: 'DispositionMethodId2' });
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId1', Value: 'ReferenceValuationId1' });
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId2', Value: 'ReferenceValuationId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'PROPOSED', Value: 'PROPOSED' });
-this.statuscodeOptions.push({Text: 'APPROVAL', Value: 'APPROVAL' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.statuscodeOptions.push({Text: 'EXECUTED', Value: 'EXECUTED' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetDispositionDecisionStatusCode');
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId1', Value: 'ApprovedByUserId1' });
 this.approvedbyuseridOptions.push({Text: 'ApprovedByUserId2', Value: 'ApprovedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

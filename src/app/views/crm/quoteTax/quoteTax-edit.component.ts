@@ -62,8 +62,7 @@ export class QuoteTaxEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-assets').subscribe((options) => (this.quoteassetidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-charges').subscribe((options) => (this.quotechargeidOptions = options));
-        this.taxtypeOptions.push({ Text: 'GST', Value: 'GST' });
-        this.taxtypeOptions.push({ Text: 'VAT', Value: 'VAT' });
+        this.taxtypeOptions = this.loggedInUserService.getPicklistOptions('TaxType');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

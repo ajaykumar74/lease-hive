@@ -83,21 +83,10 @@ this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId1', Value: 'Customer
 this.customerinvoiceidOptions.push({Text: 'CustomerInvoiceId2', Value: 'CustomerInvoiceId2' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.reasoncodeOptions.push({Text: 'UNDER_BILLING', Value: 'UNDER_BILLING' });
-this.reasoncodeOptions.push({Text: 'LATE_FEE', Value: 'LATE_FEE' });
-this.reasoncodeOptions.push({Text: 'DAMAGE', Value: 'DAMAGE' });
-this.reasoncodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'ISSUED', Value: 'ISSUED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteReasonCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

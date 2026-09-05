@@ -77,25 +77,10 @@ EffectiveTo: new FormControl(new Date(), []),
     });
 
 
-this.creditpolicycodeOptions.push({Text: 'PAN', Value: 'PAN' });
-this.creditpolicycodeOptions.push({Text: 'GSTCertificate', Value: 'GSTCertificate' });
-this.creditpolicycodeOptions.push({Text: 'CINCertificate', Value: 'CINCertificate' });
-this.creditpolicycodeOptions.push({Text: 'BankProof', Value: 'BankProof' });
-this.creditpolicycodeOptions.push({Text: 'AddressProof', Value: 'AddressProof' });
+this.creditpolicycodeOptions = this.loggedInUserService.getPicklistOptions('CreditPolicyCode');
 this.riskgradeOptions = this.loggedInUserService.getPicklistOptions('RiskGrade');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.reviewfrequencymonthsOptions.push({Text: '1', Value: '1' });
-this.reviewfrequencymonthsOptions.push({Text: '2', Value: '2' });
-this.reviewfrequencymonthsOptions.push({Text: '3', Value: '3' });
-this.reviewfrequencymonthsOptions.push({Text: '4', Value: '4' });
-this.reviewfrequencymonthsOptions.push({Text: '5', Value: '5' });
-this.reviewfrequencymonthsOptions.push({Text: '6', Value: '6' });
-this.reviewfrequencymonthsOptions.push({Text: '7', Value: '7' });
-this.reviewfrequencymonthsOptions.push({Text: '8', Value: '8' });
-this.reviewfrequencymonthsOptions.push({Text: '9', Value: '9' });
-this.reviewfrequencymonthsOptions.push({Text: '10', Value: '10' });
-this.reviewfrequencymonthsOptions.push({Text: '11', Value: '11' });
-this.reviewfrequencymonthsOptions.push({Text: '12', Value: '12' });
+this.reviewfrequencymonthsOptions = this.loggedInUserService.getPicklistOptions('ReviewFrequencyMonths');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -72,20 +72,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', Value: 'OrganisationBankAccountId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.importsourceOptions.push({Text: 'API', Value: 'API' });
-this.importsourceOptions.push({Text: 'FILE', Value: 'FILE' });
-this.importsourceOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.reconciliationstatusOptions.push({Text: 'NEW', Value: 'NEW' });
-this.reconciliationstatusOptions.push({Text: 'PART_MATCHED', Value: 'PART_MATCHED' });
-this.reconciliationstatusOptions.push({Text: 'RECONCILED', Value: 'RECONCILED' });
-this.reconciliationstatusOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.importsourceOptions = this.loggedInUserService.getPicklistOptions('ImportSource');
+this.reconciliationstatusOptions = this.loggedInUserService.getPicklistOptions('ReconciliationStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

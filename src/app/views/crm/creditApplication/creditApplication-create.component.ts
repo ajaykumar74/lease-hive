@@ -73,14 +73,10 @@ export class CreditApplicationCreateComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-application-statuses').subscribe((options) => (this.creditapplicationstatusidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.risksegmentcodeOptions.push({ Text: '', Value: '' });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
-        this.recordstatusOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Inactive', Value: 'Inactive' });
-        this.recordstatusOptions.push({ Text: 'Archived', Value: 'Archived' });
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {

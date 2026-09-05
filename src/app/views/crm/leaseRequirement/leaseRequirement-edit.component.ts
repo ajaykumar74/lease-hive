@@ -73,16 +73,9 @@ export class LeaseRequirementEditComponent implements OnInit {
                 this.loadPartyLocations(partyId);
             }
         });
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-        this.requirementstatuscodeOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.requirementstatuscodeOptions.push({ Text: 'Submitted', Value: 'Submitted' });
-        this.requirementstatuscodeOptions.push({ Text: 'Approved', Value: 'Approved' });
-        this.requirementstatuscodeOptions.push({ Text: 'Closed', Value: 'Closed' });
-        this.recordstatusOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Inactive', Value: 'Inactive' });
-        this.recordstatusOptions.push({ Text: 'Archived', Value: 'Archived' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.requirementstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RequirementStatusCode');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

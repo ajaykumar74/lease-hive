@@ -64,16 +64,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create InsurancePolicyStatus';
-    this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'PLACEMENT', Value: 'PLACEMENT' });
-this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.statuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.statuscodeOptions.push({Text: 'RENEWED', Value: 'RENEWED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

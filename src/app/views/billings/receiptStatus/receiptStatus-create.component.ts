@@ -61,16 +61,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create ReceiptStatus';
-    this.statuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.statuscodeOptions.push({Text: 'VERIFIED', Value: 'VERIFIED' });
-this.statuscodeOptions.push({Text: 'PART_ALLOCATED', Value: 'PART_ALLOCATED' });
-this.statuscodeOptions.push({Text: 'ALLOCATED', Value: 'ALLOCATED' });
-this.statuscodeOptions.push({Text: 'REVERSED', Value: 'REVERSED' });
-this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

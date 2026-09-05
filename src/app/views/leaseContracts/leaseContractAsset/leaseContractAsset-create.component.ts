@@ -84,11 +84,7 @@ this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
 this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
 this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
 this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
-this.allocationstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.allocationstatuscodeOptions.push({Text: 'ALLOCATED', Value: 'ALLOCATED' });
-this.allocationstatuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.allocationstatuscodeOptions.push({Text: 'REPLACED', Value: 'REPLACED' });
-this.allocationstatuscodeOptions.push({Text: 'RELEASED', Value: 'RELEASED' });
+this.allocationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('AllocationStatusCode');
 
   }
  

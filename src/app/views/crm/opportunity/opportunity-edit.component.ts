@@ -76,10 +76,8 @@ export class OpportunityEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('organisation-units').subscribe((options) => (this.ownerorganisationunitidOptions = options));
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.owneruseridOptions = options));
         this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Disabled', Value: 'Disabled' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

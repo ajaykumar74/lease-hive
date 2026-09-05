@@ -73,26 +73,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create FinanceException';
-    this.exceptiontypeOptions.push({Text: 'BILLING', Value: 'BILLING' });
-this.exceptiontypeOptions.push({Text: 'TAX', Value: 'TAX' });
-this.exceptiontypeOptions.push({Text: 'PAYMENT', Value: 'PAYMENT' });
-this.exceptiontypeOptions.push({Text: 'POSTING', Value: 'POSTING' });
-this.exceptiontypeOptions.push({Text: 'RECONCILIATION', Value: 'RECONCILIATION' });
-this.severityOptions.push({Text: 'INFO', Value: 'INFO' });
-this.severityOptions.push({Text: 'WARN', Value: 'WARN' });
-this.severityOptions.push({Text: 'ERROR', Value: 'ERROR' });
-this.severityOptions.push({Text: 'CRITICAL', Value: 'CRITICAL' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'ASSIGNED', Value: 'ASSIGNED' });
-this.statuscodeOptions.push({Text: 'RESOLVED', Value: 'RESOLVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
+    this.exceptiontypeOptions = this.loggedInUserService.getPicklistOptions('ExceptionType');
+this.severityOptions = this.loggedInUserService.getPicklistOptions('Severity');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceExceptionStatusCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

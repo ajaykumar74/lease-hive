@@ -73,16 +73,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.paymentreceiptidOptions.push({Text: 'PaymentReceiptId2', Value: 'PaymentReceiptId2' });
 this.receivableidOptions.push({Text: 'ReceivableId1', Value: 'ReceivableId1' });
 this.receivableidOptions.push({Text: 'ReceivableId2', Value: 'ReceivableId2' });
-this.allocationtypeOptions.push({Text: 'NORMAL', Value: 'NORMAL' });
-this.allocationtypeOptions.push({Text: 'ADVANCE', Value: 'ADVANCE' });
-this.allocationtypeOptions.push({Text: 'SHORT_PAY', Value: 'SHORT_PAY' });
-this.allocationtypeOptions.push({Text: 'WRITE_OFF', Value: 'WRITE_OFF' });
+this.allocationtypeOptions = this.loggedInUserService.getPicklistOptions('AllocationType');
 this.reversalofallocationidOptions.push({Text: 'ReversalOfAllocationId1', Value: 'ReversalOfAllocationId1' });
 this.reversalofallocationidOptions.push({Text: 'ReversalOfAllocationId2', Value: 'ReversalOfAllocationId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

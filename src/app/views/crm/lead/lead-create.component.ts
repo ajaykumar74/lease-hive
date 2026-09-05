@@ -1,3 +1,4 @@
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -42,6 +43,7 @@ export class LeadCreateComponent implements OnInit {
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
+    private loggedInUserService: LoggedInUserService,
     private fb: FormBuilder,
     private router: Router,
     private _location: Location,
@@ -80,8 +82,7 @@ export class LeadCreateComponent implements OnInit {
 
     });
     this.loadLookups();
-    this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-    this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+    this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.Caption = 'Create Lead';
   }
 

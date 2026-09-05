@@ -69,11 +69,7 @@ PerformedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 
    this.contractobligationidOptions.push({Text: 'ContractObligationId1', Value: 'ContractObligationId1' });
 this.contractobligationidOptions.push({Text: 'ContractObligationId2', Value: 'ContractObligationId2' });
-this.eventtypecodeOptions.push({Text: 'DUE', Value: 'DUE' });
-this.eventtypecodeOptions.push({Text: 'SATISFIED', Value: 'SATISFIED' });
-this.eventtypecodeOptions.push({Text: 'BREACH', Value: 'BREACH' });
-this.eventtypecodeOptions.push({Text: 'WAIVER', Value: 'WAIVER' });
-this.eventtypecodeOptions.push({Text: 'CLOSE', Value: 'CLOSE' });
+this.eventtypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractObligationEventEventTypeCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 this.performedbyOptions.push({Text: 'PerformedBy1', Value: 'PerformedBy1' });

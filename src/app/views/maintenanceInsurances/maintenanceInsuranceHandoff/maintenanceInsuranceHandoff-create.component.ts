@@ -70,24 +70,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create MaintenanceInsuranceHandoff';
-    this.handofftypecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
-this.handofftypecodeOptions.push({Text: 'PROCUREMENT', Value: 'PROCUREMENT' });
-this.handofftypecodeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.handofftypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.handofftypecodeOptions.push({Text: 'INSURER', Value: 'INSURER' });
-this.referencetypecodeOptions.push({Text: 'WORK_ORDER', Value: 'WORK_ORDER' });
-this.referencetypecodeOptions.push({Text: 'CLAIM', Value: 'CLAIM' });
-this.referencetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.referencetypecodeOptions.push({Text: 'POLICY', Value: 'POLICY' });
-this.statuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.statuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.statuscodeOptions.push({Text: 'ACKNOWLEDGED', Value: 'ACKNOWLEDGED' });
-this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.statuscodeOptions.push({Text: 'RETRY', Value: 'RETRY' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.handofftypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffHandoffTypeCode');
+this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffReferenceTypeCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceInsuranceHandoffStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

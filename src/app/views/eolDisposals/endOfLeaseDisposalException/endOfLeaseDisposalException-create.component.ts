@@ -72,32 +72,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create EndOfLeaseDisposalException';
-    this.exceptiontypecodeOptions.push({Text: 'OVERDUE_RETURN', Value: 'OVERDUE_RETURN' });
-this.exceptiontypecodeOptions.push({Text: 'EVIDENCE', Value: 'EVIDENCE' });
-this.exceptiontypecodeOptions.push({Text: 'DISPUTE', Value: 'DISPUTE' });
-this.exceptiontypecodeOptions.push({Text: 'HANDOFF', Value: 'HANDOFF' });
-this.exceptiontypecodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.exceptiontypecodeOptions.push({Text: 'DISPOSAL', Value: 'DISPOSAL' });
-this.referencetypecodeOptions.push({Text: 'CASE', Value: 'CASE' });
-this.referencetypecodeOptions.push({Text: 'RETURN', Value: 'RETURN' });
-this.referencetypecodeOptions.push({Text: 'SETTLEMENT', Value: 'SETTLEMENT' });
-this.referencetypecodeOptions.push({Text: 'DISPOSAL', Value: 'DISPOSAL' });
-this.referencetypecodeOptions.push({Text: 'SALE', Value: 'SALE' });
-this.severitycodeOptions.push({Text: 'INFO', Value: 'INFO' });
-this.severitycodeOptions.push({Text: 'WARN', Value: 'WARN' });
-this.severitycodeOptions.push({Text: 'ERROR', Value: 'ERROR' });
-this.severitycodeOptions.push({Text: 'CRITICAL', Value: 'CRITICAL' });
+    this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionExceptionTypeCode');
+this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionReferenceTypeCode');
+this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('SeverityCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'ASSIGNED', Value: 'ASSIGNED' });
-this.statuscodeOptions.push({Text: 'RESOLVED', Value: 'RESOLVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseDisposalExceptionStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

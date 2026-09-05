@@ -80,16 +80,10 @@ this.returnlocationidOptions.push({Text: 'ReturnLocationId1', Value: 'ReturnLoca
 this.returnlocationidOptions.push({Text: 'ReturnLocationId2', Value: 'ReturnLocationId2' });
 this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId1', Value: 'ResponsibleOrganisationUnitId1' });
 this.responsibleorganisationunitidOptions.push({Text: 'ResponsibleOrganisationUnitId2', Value: 'ResponsibleOrganisationUnitId2' });
-this.statuscodeOptions.push({Text: 'SCHEDULED', Value: 'SCHEDULED' });
-this.statuscodeOptions.push({Text: 'RESCHEDULED', Value: 'RESCHEDULED' });
-this.statuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.statuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetReturnScheduleStatusCode');
 this.customercontactpartyidOptions.push({Text: 'CustomerContactPartyId1', Value: 'CustomerContactPartyId1' });
 this.customercontactpartyidOptions.push({Text: 'CustomerContactPartyId2', Value: 'CustomerContactPartyId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

@@ -83,12 +83,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.incidenttypecodeOptions.push({Text: 'ACCIDENT', Value: 'ACCIDENT' });
-this.incidenttypecodeOptions.push({Text: 'THEFT', Value: 'THEFT' });
-this.incidenttypecodeOptions.push({Text: 'FIRE', Value: 'FIRE' });
-this.incidenttypecodeOptions.push({Text: 'FLOOD', Value: 'FLOOD' });
-this.incidenttypecodeOptions.push({Text: 'DAMAGE', Value: 'DAMAGE' });
-this.incidenttypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.incidenttypecodeOptions = this.loggedInUserService.getPicklistOptions('IncidentTypeCode');
 this.locationidOptions.push({Text: 'LocationId1', Value: 'LocationId1' });
 this.locationidOptions.push({Text: 'LocationId2', Value: 'LocationId2' });
 this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPartyId1' });
@@ -97,14 +92,8 @@ this.assetuseridOptions.push({Text: 'AssetUserId1', Value: 'AssetUserId1' });
 this.assetuseridOptions.push({Text: 'AssetUserId2', Value: 'AssetUserId2' });
 this.reportedbyuseridOptions.push({Text: 'ReportedByUserId1', Value: 'ReportedByUserId1' });
 this.reportedbyuseridOptions.push({Text: 'ReportedByUserId2', Value: 'ReportedByUserId2' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'UNDER_REVIEW', Value: 'UNDER_REVIEW' });
-this.statuscodeOptions.push({Text: 'CLAIMED', Value: 'CLAIMED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceIncidentStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

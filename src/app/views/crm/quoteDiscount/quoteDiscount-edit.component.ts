@@ -61,9 +61,7 @@ export class QuoteDiscountEditComponent implements OnInit {
         });
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-assets').subscribe((options) => (this.quoteassetidOptions = options));
-        this.discounttypecodeOptions.push({ Text: 'PERCENT', Value: 'PERCENT' });
-        this.discounttypecodeOptions.push({ Text: 'FIXED', Value: 'FIXED' });
-        this.discounttypecodeOptions.push({ Text: 'RATE_OVERRIDE', Value: 'RATE_OVERRIDE' });
+        this.discounttypecodeOptions = this.loggedInUserService.getPicklistOptions('DiscountTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.approvedbyOptions = options));
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

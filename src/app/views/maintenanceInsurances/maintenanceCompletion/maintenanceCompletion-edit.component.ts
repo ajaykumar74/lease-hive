@@ -79,10 +79,7 @@ this.conditiongradeidOptions.push({Text: 'ConditionGradeId1', Value: 'ConditionG
 this.conditiongradeidOptions.push({Text: 'ConditionGradeId2', Value: 'ConditionGradeId2' });
 this.verifiedbyuseridOptions.push({Text: 'VerifiedByUserId1', Value: 'VerifiedByUserId1' });
 this.verifiedbyuseridOptions.push({Text: 'VerifiedByUserId2', Value: 'VerifiedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

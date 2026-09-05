@@ -106,12 +106,11 @@ export class AssetEditComponent implements OnInit {
     this.currentpartyidOptions.push({ Text: 'CurrentParty2', Value: '2' });
     this.currentpartylocationidOptions.push({ Text: 'CurrentPartyLocation1', Value: '1' });
     this.currentpartylocationidOptions.push({ Text: 'CurrentPartyLocation2', Value: '2' });
-    this.acquisitioncurrencycodeOptions.push({ Text: 'Currency1', Value: '1' });
-    this.acquisitioncurrencycodeOptions.push({ Text: 'Currency2', Value: '2' });
+    this.acquisitioncurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.AssetStatusIdOptions.push({ Text: 'Status1', Value: '1' });
     this.AssetStatusIdOptions.push({ Text: 'Status2', Value: '2' });
     this.conditiongradecodeOptions.push({ Text: 'Condition1', Value: 'Condition1' });
-    this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     this.selectedId = this.activatedRouter.snapshot.params['id'];
 
     this.menuItems = [

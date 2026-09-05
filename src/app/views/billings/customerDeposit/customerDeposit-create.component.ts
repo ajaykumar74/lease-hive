@@ -86,21 +86,10 @@ this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPart
 this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
 this.billingorganisationidOptions.push({Text: 'BillingOrganisationId1', Value: 'BillingOrganisationId1' });
 this.billingorganisationidOptions.push({Text: 'BillingOrganisationId2', Value: 'BillingOrganisationId2' });
-this.deposittypecodeOptions.push({Text: 'SECURITY', Value: 'SECURITY' });
-this.deposittypecodeOptions.push({Text: 'ADVANCE', Value: 'ADVANCE' });
-this.deposittypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.depositstatusOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.depositstatusOptions.push({Text: 'HELD', Value: 'HELD' });
-this.depositstatusOptions.push({Text: 'PART_USED', Value: 'PART_USED' });
-this.depositstatusOptions.push({Text: 'REFUNDED', Value: 'REFUNDED' });
-this.depositstatusOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.depositstatusOptions = this.loggedInUserService.getPicklistOptions('DepositStatus');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

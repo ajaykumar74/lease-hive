@@ -83,10 +83,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     }
     this.assetidOptions.push({Text: 'Asset1', Value: 'Asset1' });
 this.assetidOptions.push({Text: 'Asset2', Value: 'Asset2' });
-this.ownershiptypeOptions.push({Text: 'Owned', Value: 'Owned' });
-this.ownershiptypeOptions.push({Text: 'Managed', Value: 'Managed' });
-this.ownershiptypeOptions.push({Text: 'Financed', Value: 'Financed' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.ownershiptypeOptions = this.loggedInUserService.getPicklistOptions('OwnershipType');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
 

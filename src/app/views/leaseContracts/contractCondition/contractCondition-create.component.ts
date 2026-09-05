@@ -73,19 +73,9 @@ SatisfiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
     this.Caption = 'Create ContractCondition';
     this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.conditiontypecodeOptions.push({Text: 'CREDIT', Value: 'CREDIT' });
-this.conditiontypecodeOptions.push({Text: 'DOCUMENT', Value: 'DOCUMENT' });
-this.conditiontypecodeOptions.push({Text: 'DEPOSIT', Value: 'DEPOSIT' });
-this.conditiontypecodeOptions.push({Text: 'INSURANCE', Value: 'INSURANCE' });
-this.conditiontypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.conditiontypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.requiredforeventcodeOptions.push({Text: 'APPROVAL', Value: 'APPROVAL' });
-this.requiredforeventcodeOptions.push({Text: 'EXECUTION', Value: 'EXECUTION' });
-this.requiredforeventcodeOptions.push({Text: 'ACTIVATION', Value: 'ACTIVATION' });
-this.statuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.statuscodeOptions.push({Text: 'SATISFIED', Value: 'SATISFIED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.conditiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ConditionTypeCode');
+this.requiredforeventcodeOptions = this.loggedInUserService.getPicklistOptions('RequiredForEventCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractConditionStatusCode');
 this.satisfiedbyOptions.push({Text: 'SatisfiedBy1', Value: 'SatisfiedBy1' });
 this.satisfiedbyOptions.push({Text: 'SatisfiedBy2', Value: 'SatisfiedBy2' });
 

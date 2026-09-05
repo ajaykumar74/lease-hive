@@ -77,23 +77,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
 this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId1', Value: 'ServiceProviderPartyId1' });
 this.serviceproviderpartyidOptions.push({Text: 'ServiceProviderPartyId2', Value: 'ServiceProviderPartyId2' });
-this.agreementtypecodeOptions.push({Text: 'AMC', Value: 'AMC' });
-this.agreementtypecodeOptions.push({Text: 'WARRANTY', Value: 'WARRANTY' });
-this.agreementtypecodeOptions.push({Text: 'SERVICE_RATE', Value: 'SERVICE_RATE' });
-this.agreementtypecodeOptions.push({Text: 'SLA', Value: 'SLA' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'ACTIVE', Value: 'ACTIVE' });
-this.statuscodeOptions.push({Text: 'SUSPENDED', Value: 'SUSPENDED' });
-this.statuscodeOptions.push({Text: 'EXPIRED', Value: 'EXPIRED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.agreementtypecodeOptions = this.loggedInUserService.getPicklistOptions('AgreementTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ServiceAgreementStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

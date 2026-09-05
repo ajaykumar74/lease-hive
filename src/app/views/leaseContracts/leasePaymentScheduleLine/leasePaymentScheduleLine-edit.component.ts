@@ -63,9 +63,7 @@ BillingStatusCode: new FormControl('', [Validators.required, Validators.maxLengt
 
    this.leasepaymentscheduleidOptions.push({Text: 'LeasePaymentScheduleId1', Value: 'LeasePaymentScheduleId1' });
 this.leasepaymentscheduleidOptions.push({Text: 'LeasePaymentScheduleId2', Value: 'LeasePaymentScheduleId2' });
-this.billingstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.billingstatuscodeOptions.push({Text: 'HANDED_OFF', Value: 'HANDED_OFF' });
-this.billingstatuscodeOptions.push({Text: 'BILLED', Value: 'BILLED' });
+this.billingstatuscodeOptions = this.loggedInUserService.getPicklistOptions('BillingStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

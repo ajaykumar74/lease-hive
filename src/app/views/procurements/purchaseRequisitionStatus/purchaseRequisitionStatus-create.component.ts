@@ -64,7 +64,7 @@ EffectiveTo: new FormControl(new Date(), [Validators.required]),
 
     });
     this.Caption = 'Create PurchaseRequisitionStatus';
-    this.recordstatusOptions.push({Text: '', Value: '' });
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

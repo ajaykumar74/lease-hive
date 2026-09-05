@@ -62,12 +62,8 @@ IsPrimary: new FormControl(false, [Validators.required]),
 
     });
 
-   this.referencetypeOptions.push({Text: 'LEAD', Value: 'LEAD' });
-this.referencetypeOptions.push({Text: 'OPPORTUNITY', Value: 'OPPORTUNITY' });
-this.referencetypeOptions.push({Text: 'REQUIREMENT', Value: 'REQUIREMENT' });
-this.referencetypeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.referencetypeOptions.push({Text: 'CREDIT', Value: 'CREDIT' });
-this.documentpurposecodeOptions.push({Text: 'FINANCIAL_STATEMENT', Value: 'FINANCIAL_STATEMENT' });
+   this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('OriginationDocumentLinkReferenceType');
+this.documentpurposecodeOptions = this.loggedInUserService.getPicklistOptions('OriginationDocumentLinkDocumentPurposeCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

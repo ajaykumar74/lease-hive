@@ -61,8 +61,7 @@ export class QuotePartySnapshotCreateComponent implements OnInit {
         this.Caption = 'Create QuotePartySnapshot';
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

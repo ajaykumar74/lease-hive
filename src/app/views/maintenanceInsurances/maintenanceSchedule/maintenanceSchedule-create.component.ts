@@ -82,22 +82,13 @@ this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
 this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId1', Value: 'MaintenancePlanId1' });
 this.maintenanceplanidOptions.push({Text: 'MaintenancePlanId2', Value: 'MaintenancePlanId2' });
-this.duestatuscodeOptions.push({Text: 'UPCOMING', Value: 'UPCOMING' });
-this.duestatuscodeOptions.push({Text: 'DUE', Value: 'DUE' });
-this.duestatuscodeOptions.push({Text: 'OVERDUE', Value: 'OVERDUE' });
-this.duestatuscodeOptions.push({Text: 'COMPLETED', Value: 'COMPLETED' });
-this.duestatuscodeOptions.push({Text: 'SKIPPED', Value: 'SKIPPED' });
+this.duestatuscodeOptions = this.loggedInUserService.getPicklistOptions('DueStatusCode');
 this.plannedorganisationunitidOptions.push({Text: 'PlannedOrganisationUnitId1', Value: 'PlannedOrganisationUnitId1' });
 this.plannedorganisationunitidOptions.push({Text: 'PlannedOrganisationUnitId2', Value: 'PlannedOrganisationUnitId2' });
 this.preferredserviceproviderpartyidOptions.push({Text: 'PreferredServiceProviderPartyId1', Value: 'PreferredServiceProviderPartyId1' });
 this.preferredserviceproviderpartyidOptions.push({Text: 'PreferredServiceProviderPartyId2', Value: 'PreferredServiceProviderPartyId2' });
-this.generatedfromcodeOptions.push({Text: 'PLAN', Value: 'PLAN' });
-this.generatedfromcodeOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.generatedfromcodeOptions.push({Text: 'EVENT', Value: 'EVENT' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.generatedfromcodeOptions = this.loggedInUserService.getPicklistOptions('GeneratedFromCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

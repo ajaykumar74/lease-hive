@@ -68,15 +68,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.endofleasesettlementidOptions.push({Text: 'EndOfLeaseSettlementId1', Value: 'EndOfLeaseSettlementId1' });
 this.endofleasesettlementidOptions.push({Text: 'EndOfLeaseSettlementId2', Value: 'EndOfLeaseSettlementId2' });
-this.responsecodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.responsecodeOptions.push({Text: 'DISPUTED', Value: 'DISPUTED' });
-this.responsecodeOptions.push({Text: 'NO_RESPONSE', Value: 'NO_RESPONSE' });
+this.responsecodeOptions = this.loggedInUserService.getPicklistOptions('ResponseCode');
 this.respondedbypartyidOptions.push({Text: 'RespondedByPartyId1', Value: 'RespondedByPartyId1' });
 this.respondedbypartyidOptions.push({Text: 'RespondedByPartyId2', Value: 'RespondedByPartyId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

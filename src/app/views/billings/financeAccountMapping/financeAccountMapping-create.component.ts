@@ -73,10 +73,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

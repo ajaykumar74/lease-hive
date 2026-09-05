@@ -79,10 +79,7 @@ this.taxtypeidOptions.push({Text: 'TaxTypeId1', Value: 'TaxTypeId1' });
 this.taxtypeidOptions.push({Text: 'TaxTypeId2', Value: 'TaxTypeId2' });
 this.taxjurisdictionidOptions.push({Text: 'TaxJurisdictionId1', Value: 'TaxJurisdictionId1' });
 this.taxjurisdictionidOptions.push({Text: 'TaxJurisdictionId2', Value: 'TaxJurisdictionId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

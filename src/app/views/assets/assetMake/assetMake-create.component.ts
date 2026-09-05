@@ -66,8 +66,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.assetcategoryidOptions.push({Text: '', Value: '' });
-this.countrycodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

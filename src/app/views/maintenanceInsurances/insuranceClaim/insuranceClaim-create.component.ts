@@ -86,15 +86,10 @@ this.insurancepolicyassetidOptions.push({Text: 'InsurancePolicyAssetId1', Value:
 this.insurancepolicyassetidOptions.push({Text: 'InsurancePolicyAssetId2', Value: 'InsurancePolicyAssetId2' });
 this.insuranceclaimstatusidOptions.push({Text: 'InsuranceClaimStatusId1', Value: 'InsuranceClaimStatusId1' });
 this.insuranceclaimstatusidOptions.push({Text: 'InsuranceClaimStatusId2', Value: 'InsuranceClaimStatusId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

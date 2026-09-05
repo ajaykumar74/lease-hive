@@ -75,26 +75,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.organisationidOptions.push({Text: 'OrganisationId1', Value: 'OrganisationId1' });
 this.organisationidOptions.push({Text: 'OrganisationId2', Value: 'OrganisationId2' });
-this.eventtypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.eventtypeOptions.push({Text: 'RECEIPT', Value: 'RECEIPT' });
-this.eventtypeOptions.push({Text: 'ALLOCATION', Value: 'ALLOCATION' });
-this.eventtypeOptions.push({Text: 'CREDIT_NOTE', Value: 'CREDIT_NOTE' });
-this.eventtypeOptions.push({Text: 'DEPOSIT', Value: 'DEPOSIT' });
-this.eventtypeOptions.push({Text: 'REFUND', Value: 'REFUND' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.postingstatusOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.postingstatusOptions.push({Text: 'GENERATED', Value: 'GENERATED' });
-this.postingstatusOptions.push({Text: 'POSTED', Value: 'POSTED' });
-this.postingstatusOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.postingstatusOptions.push({Text: 'REVERSED', Value: 'REVERSED' });
+this.eventtypeOptions = this.loggedInUserService.getPicklistOptions('EventType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('AccountingEventPostingStatus');
 this.journalentryidOptions.push({Text: 'JournalEntryId1', Value: 'JournalEntryId1' });
 this.journalentryidOptions.push({Text: 'JournalEntryId2', Value: 'JournalEntryId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

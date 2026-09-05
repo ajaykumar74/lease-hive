@@ -88,19 +88,11 @@ this.customerpartyidOptions.push({Text: 'CustomerPartyId1', Value: 'CustomerPart
 this.customerpartyidOptions.push({Text: 'CustomerPartyId2', Value: 'CustomerPartyId2' });
 this.leasecontractstatusidOptions.push({Text: 'LeaseContractStatusId1', Value: 'LeaseContractStatusId1' });
 this.leasecontractstatusidOptions.push({Text: 'LeaseContractStatusId2', Value: 'LeaseContractStatusId2' });
-this.sourcereferencetypeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.sourcereferencetypeOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.sourcereferencetypeOptions.push({Text: 'MIGRATION', Value: 'MIGRATION' });
-this.sourcereferencetypeOptions.push({Text: 'RENEWAL', Value: 'RENEWAL' });
+this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('SourceReferenceType');
 this.quoteidOptions.push({Text: 'QuoteId1', Value: 'QuoteId1' });
 this.quoteidOptions.push({Text: 'QuoteId2', Value: 'QuoteId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

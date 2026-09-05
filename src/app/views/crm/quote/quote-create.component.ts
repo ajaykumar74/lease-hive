@@ -83,15 +83,9 @@ export class QuoteCreateComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-statuses').subscribe((options) => (this.quotestatusidOptions = options));
-        this.currencycodeOptions.push({ Text: 'INR', Value: 'INR' });
-        this.currencycodeOptions.push({ Text: 'USD', Value: 'USD' });
-        this.billingfrequencyOptions.push({ Text: 'Monthly', Value: 'Monthly' });
-        this.billingfrequencyOptions.push({ Text: 'Quarterly', Value: 'Quarterly' });
-        this.billingfrequencyOptions.push({ Text: 'Annual', Value: 'Annual' });
-        this.recordstatusOptions.push({ Text: 'Draft', Value: 'Draft' });
-        this.recordstatusOptions.push({ Text: 'Active', Value: 'Active' });
-        this.recordstatusOptions.push({ Text: 'Inactive', Value: 'Inactive' });
-        this.recordstatusOptions.push({ Text: 'Archived', Value: 'Archived' });
+        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.billingfrequencyOptions = this.loggedInUserService.getPicklistOptions('BillingFrequency');
+        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     }
 
     loadUI(): void {

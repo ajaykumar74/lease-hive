@@ -73,11 +73,7 @@ EffectiveTo: new FormControl(new Date(), []),
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
 this.partyidOptions.push({Text: 'PartyId1', Value: 'PartyId1' });
 this.partyidOptions.push({Text: 'PartyId2', Value: 'PartyId2' });
-this.partyrolecodeOptions.push({Text: 'LESSEE', Value: 'LESSEE' });
-this.partyrolecodeOptions.push({Text: 'CO_LESSEE', Value: 'CO_LESSEE' });
-this.partyrolecodeOptions.push({Text: 'GUARANTOR', Value: 'GUARANTOR' });
-this.partyrolecodeOptions.push({Text: 'BROKER', Value: 'BROKER' });
-this.partyrolecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.partyrolecodeOptions = this.loggedInUserService.getPicklistOptions('PartyRoleCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

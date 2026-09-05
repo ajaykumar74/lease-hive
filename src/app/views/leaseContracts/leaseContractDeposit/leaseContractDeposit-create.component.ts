@@ -70,16 +70,9 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
     this.Caption = 'Create LeaseContractDeposit';
     this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.deposittypecodeOptions.push({Text: 'SECURITY', Value: 'SECURITY' });
-this.deposittypecodeOptions.push({Text: 'ADVANCE', Value: 'ADVANCE' });
-this.deposittypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.statuscodeOptions.push({Text: 'REQUIRED', Value: 'REQUIRED' });
-this.statuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
-this.statuscodeOptions.push({Text: 'REFUNDED', Value: 'REFUNDED' });
+this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractDepositStatusCode');
 
   }
  

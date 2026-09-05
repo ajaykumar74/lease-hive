@@ -86,16 +86,10 @@ this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
 this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
 this.assetmodelidOptions.push({Text: 'AssetModelId1', Value: 'AssetModelId1' });
 this.assetmodelidOptions.push({Text: 'AssetModelId2', Value: 'AssetModelId2' });
-this.triggertypecodeOptions.push({Text: 'DATE', Value: 'DATE' });
-this.triggertypecodeOptions.push({Text: 'MEASURE', Value: 'MEASURE' });
-this.triggertypecodeOptions.push({Text: 'BOTH', Value: 'BOTH' });
-this.triggertypecodeOptions.push({Text: 'EVENT', Value: 'EVENT' });
+this.triggertypecodeOptions = this.loggedInUserService.getPicklistOptions('TriggerTypeCode');
 this.measuredefinitionidOptions.push({Text: 'MeasureDefinitionId1', Value: 'MeasureDefinitionId1' });
 this.measuredefinitionidOptions.push({Text: 'MeasureDefinitionId2', Value: 'MeasureDefinitionId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

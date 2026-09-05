@@ -58,12 +58,7 @@ export class ApprovalActionEditComponent implements OnInit {
             DelegatedFromUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)])
         });
 
-        this.actioncodeOptions = [
-            { Text: 'APPROVE', Value: 'APPROVE' },
-            { Text: 'REJECT', Value: 'REJECT' },
-            { Text: 'RETURN', Value: 'RETURN' },
-            { Text: 'DELEGATE', Value: 'DELEGATE' }
-        ];
+        this.actioncodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalActionActionCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }

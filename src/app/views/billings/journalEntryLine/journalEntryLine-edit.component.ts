@@ -81,9 +81,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
    this.journalentryidOptions.push({Text: 'JournalEntryId1', Value: 'JournalEntryId1' });
 this.journalentryidOptions.push({Text: 'JournalEntryId2', Value: 'JournalEntryId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.costcentreidOptions.push({Text: 'CostCentreId1', Value: 'CostCentreId1' });
 this.costcentreidOptions.push({Text: 'CostCentreId2', Value: 'CostCentreId2' });
 this.profitcentreidOptions.push({Text: 'ProfitCentreId1', Value: 'ProfitCentreId1' });
@@ -96,10 +94,7 @@ this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContrac
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
 this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

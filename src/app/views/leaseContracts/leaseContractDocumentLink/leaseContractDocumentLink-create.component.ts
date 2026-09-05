@@ -65,18 +65,10 @@ IsPrimary: new FormControl(false, [Validators.required]),
 
     });
     this.Caption = 'Create LeaseContractDocumentLink';
-    this.referencetypeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.referencetypeOptions.push({Text: 'AMENDMENT', Value: 'AMENDMENT' });
-this.referencetypeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.referencetypeOptions.push({Text: 'CONDITION', Value: 'CONDITION' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractDocumentLinkReferenceType');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentpurposecodeOptions.push({Text: 'AGREEMENT', Value: 'AGREEMENT' });
-this.documentpurposecodeOptions.push({Text: 'KYC', Value: 'KYC' });
-this.documentpurposecodeOptions.push({Text: 'GUARANTEE', Value: 'GUARANTEE' });
-this.documentpurposecodeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.documentpurposecodeOptions.push({Text: 'NOTICE', Value: 'NOTICE' });
-this.documentpurposecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.documentpurposecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractDocumentLinkDocumentPurposeCode');
 
   }
  

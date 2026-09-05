@@ -66,13 +66,8 @@ FinanceReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.
     this.Caption = 'Create ContractTerminationCharge';
     this.contractterminationidOptions.push({Text: 'ContractTerminationId1', Value: 'ContractTerminationId1' });
 this.contractterminationidOptions.push({Text: 'ContractTerminationId2', Value: 'ContractTerminationId2' });
-this.chargetypecodeOptions.push({Text: 'EARLY_TERMINATION', Value: 'EARLY_TERMINATION' });
-this.chargetypecodeOptions.push({Text: 'NOTICE', Value: 'NOTICE' });
-this.chargetypecodeOptions.push({Text: 'ASSET_DAMAGE', Value: 'ASSET_DAMAGE' });
-this.chargetypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractTerminationChargeChargeTypeCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
   }
  

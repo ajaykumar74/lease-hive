@@ -69,18 +69,9 @@ ValidationJson: new FormControl('', [Validators.maxLength(8000), ]),
 
    this.leasecontractidOptions.push({Text: 'LeaseContractId1', Value: 'LeaseContractId1' });
 this.leasecontractidOptions.push({Text: 'LeaseContractId2', Value: 'LeaseContractId2' });
-this.referencetypeOptions.push({Text: 'ACTIVATION', Value: 'ACTIVATION' });
-this.referencetypeOptions.push({Text: 'AMENDMENT', Value: 'AMENDMENT' });
-this.referencetypeOptions.push({Text: 'TERMINATION', Value: 'TERMINATION' });
-this.referencetypeOptions.push({Text: 'SCHEDULE', Value: 'SCHEDULE' });
-this.targetmodulecodeOptions.push({Text: 'BILLING', Value: 'BILLING' });
-this.targetmodulecodeOptions.push({Text: 'FINANCE', Value: 'FINANCE' });
-this.targetmodulecodeOptions.push({Text: 'ASSET_OPS', Value: 'ASSET_OPS' });
-this.targetmodulecodeOptions.push({Text: 'SERVICING', Value: 'SERVICING' });
-this.handoffstatuscodeOptions.push({Text: 'READY', Value: 'READY' });
-this.handoffstatuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.handoffstatuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.handoffstatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ContractHandoffReferenceType');
+this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('ContractHandoffTargetModuleCode');
+this.handoffstatuscodeOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

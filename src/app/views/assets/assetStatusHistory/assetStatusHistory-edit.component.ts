@@ -72,7 +72,7 @@ this.tostatusidOptions.push({Text: 'Status1', Value: 'Status1' });
 this.tostatusidOptions.push({Text: 'Status', Value: 'Status' });
 this.reasoncodeOptions.push({Text: 'StatusChange1', Value: 'StatusChange1' });
 this.reasoncodeOptions.push({Text: 'StatusChange2', Value: 'StatusChange2' });
-this.recordstatusOptions.push({Text: '', Value: '' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

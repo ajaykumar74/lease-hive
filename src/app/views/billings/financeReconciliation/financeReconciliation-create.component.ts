@@ -73,22 +73,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create FinanceReconciliation';
-    this.reconciliationtypeOptions.push({Text: 'BANK_RECEIPT', Value: 'BANK_RECEIPT' });
-this.reconciliationtypeOptions.push({Text: 'GL_POSTING', Value: 'GL_POSTING' });
-this.reconciliationtypeOptions.push({Text: 'GATEWAY', Value: 'GATEWAY' });
-this.targettypeOptions.push({Text: 'PaymentReceipt', Value: 'PaymentReceipt' });
-this.targettypeOptions.push({Text: 'JournalEntry', Value: 'JournalEntry' });
-this.statuscodeOptions.push({Text: 'MATCHED', Value: 'MATCHED' });
-this.statuscodeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.statuscodeOptions.push({Text: 'REVERSED', Value: 'REVERSED' });
+    this.reconciliationtypeOptions = this.loggedInUserService.getPicklistOptions('ReconciliationType');
+this.targettypeOptions = this.loggedInUserService.getPicklistOptions('TargetType');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('FinanceReconciliationStatusCode');
 this.matchedbyuseridOptions.push({Text: 'MatchedByUserId1', Value: 'MatchedByUserId1' });
 this.matchedbyuseridOptions.push({Text: 'MatchedByUserId2', Value: 'MatchedByUserId2' });
-this.matchmethodOptions.push({Text: 'AUTO', Value: 'AUTO' });
-this.matchmethodOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.matchmethodOptions = this.loggedInUserService.getPicklistOptions('MatchMethod');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
   }
  

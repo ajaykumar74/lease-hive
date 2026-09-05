@@ -63,19 +63,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.statuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.statuscodeOptions.push({Text: 'LODGED', Value: 'LODGED' });
-this.statuscodeOptions.push({Text: 'SURVEY', Value: 'SURVEY' });
-this.statuscodeOptions.push({Text: 'QUERY', Value: 'QUERY' });
-this.statuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.statuscodeOptions.push({Text: 'PART_APPROVED', Value: 'PART_APPROVED' });
-this.statuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.statuscodeOptions.push({Text: 'SETTLED', Value: 'SETTLED' });
-this.statuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceClaimStatusStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
