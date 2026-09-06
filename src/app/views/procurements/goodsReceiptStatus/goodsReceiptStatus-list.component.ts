@@ -137,17 +137,17 @@ export class GoodsReceiptStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/goodsReceiptStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/config/receipt-statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/goodsReceiptStatuss/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/config/receipt-statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/goodsReceiptStatuss/create']);
+      this.router.navigate(['/business/procurement/config/receipt-statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

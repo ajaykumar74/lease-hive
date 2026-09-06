@@ -137,17 +137,17 @@ export class PurchaseOrderDeliveryListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseOrderDeliverys/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseOrderDeliverys/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseOrderDeliverys/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/create']);
     } 
     else if (key == "Refresh") {
       this.search();

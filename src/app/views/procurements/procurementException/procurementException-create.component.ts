@@ -70,23 +70,10 @@ ResolvedOn: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create ProcurementException';
-    this.referencetypeOptions.push({Text: 'RFQ', Value: 'RFQ' });
-this.referencetypeOptions.push({Text: 'PO', Value: 'PO' });
-this.referencetypeOptions.push({Text: 'GRN', Value: 'GRN' });
-this.referencetypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.referencetypeOptions.push({Text: 'MATCH', Value: 'MATCH' });
-this.exceptiontypecodeOptions.push({Text: 'PRICE', Value: 'PRICE' });
-this.exceptiontypecodeOptions.push({Text: 'QTY', Value: 'QTY' });
-this.exceptiontypecodeOptions.push({Text: 'QUALITY', Value: 'QUALITY' });
-this.exceptiontypecodeOptions.push({Text: 'TAX', Value: 'TAX' });
-this.exceptiontypecodeOptions.push({Text: 'DELIVERY', Value: 'DELIVERY' });
-this.exceptiontypecodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
-this.severitycodeOptions.push({Text: 'INFO', Value: 'INFO' });
-this.severitycodeOptions.push({Text: 'WARNING', Value: 'WARNING' });
-this.severitycodeOptions.push({Text: 'BLOCKING', Value: 'BLOCKING' });
-this.statuscodeOptions.push({Text: 'OPEN', Value: 'OPEN' });
-this.statuscodeOptions.push({Text: 'RESOLVED', Value: 'RESOLVED' });
-this.statuscodeOptions.push({Text: 'WAIVED', Value: 'WAIVED' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionReferenceType');
+this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionExceptionTypeCode');
+this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionSeverityCode');
+this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionStatusCode');
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
 this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
 
@@ -127,7 +114,7 @@ ResolvedOn:  obj.ResolvedOn || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/procurementExceptions/create']);
+      this.router.navigate(['/business/procurement/exceptions/create']);
     }
     else if (key == "Save") {
       this.Save();

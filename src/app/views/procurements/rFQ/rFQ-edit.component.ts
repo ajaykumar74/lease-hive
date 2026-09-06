@@ -73,17 +73,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId2', Value: 'PurchaseRequisitionId2' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.rfqstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.rfqstatuscodeOptions.push({Text: 'ISSUED', Value: 'ISSUED' });
-this.rfqstatuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.rfqstatuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.rfqstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQStatusCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -131,7 +123,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQ/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/rfqs/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -180,8 +172,8 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      RFQNo:  formValues.RFQNo || null,
-PurchaseRequisitionId:  formValues.PurchaseRequisitionId || null,
-BuyingOrganisationId:  formValues.BuyingOrganisationId || null,
+PurchaseRequisitionId:  formValues.PurchaseRequisitionId || 0,
+BuyingOrganisationId:  formValues.BuyingOrganisationId || 0,
 RFQStatusCode:  formValues.RFQStatusCode || null,
 IssueDateTime:  formValues.IssueDateTime || null,
 ResponseDueDateTime:  formValues.ResponseDueDateTime || null,

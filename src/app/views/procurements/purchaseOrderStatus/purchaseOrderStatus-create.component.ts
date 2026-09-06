@@ -27,7 +27,6 @@ export class PurchaseOrderStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   purchaseOrderStatus: IPurchaseOrderStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOrderStatus = {} as IPurchaseOrderStatus;
@@ -61,14 +60,9 @@ IsTerminal: new FormControl(false, [Validators.required]),
 SortOrder: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PurchaseOrderStatus';
-    this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -97,7 +91,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -106,7 +99,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderStatuss/create']);
+      this.router.navigate(['/business/procurement/config/po-statuses/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -132,7 +125,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -156,11 +148,10 @@ RecordStatus: obj.RecordStatus || '',
 StatusName: formValues.StatusName || null,
 IsEditable: formValues.IsEditable || false,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
+SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IPurchaseOrderStatus ; 
 	
 	  this.spinner.show(); 

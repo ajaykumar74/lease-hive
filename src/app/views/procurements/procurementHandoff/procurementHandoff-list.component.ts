@@ -137,17 +137,17 @@ export class ProcurementHandoffListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/procurementHandoffs/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/handoffs/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/procurementHandoffs/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/handoffs/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/procurementHandoffs/create']);
+      this.router.navigate(['/business/procurement/handoffs/create']);
     } 
     else if (key == "Refresh") {
       this.search();

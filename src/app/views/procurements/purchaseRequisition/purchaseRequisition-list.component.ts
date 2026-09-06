@@ -137,17 +137,17 @@ export class PurchaseRequisitionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseRequisitions/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/requisitions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseRequisitions/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/requisitions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseRequisitions/create']);
+      this.router.navigate(['/business/procurement/requisitions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

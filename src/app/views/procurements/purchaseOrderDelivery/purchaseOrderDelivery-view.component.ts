@@ -71,7 +71,7 @@ export class PurchaseOrderDeliveryViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/purchaseOrderDelivery/create']);
+            this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -77,9 +77,7 @@ this.supplierquotationidOptions.push({Text: 'SupplierQuotationId1', Value: 'Supp
 this.supplierquotationidOptions.push({Text: 'SupplierQuotationId2', Value: 'SupplierQuotationId2' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 this.awardedbyOptions.push({Text: 'AwardedBy1', Value: 'AwardedBy1' });
@@ -122,7 +120,7 @@ AwardedBy: obj.AwardedBy || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierAwards/create']);
+      this.router.navigate(['/business/procurement/awards/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -173,8 +171,8 @@ AwardedBy: obj.AwardedBy || 0,
 SupplierQuotationId: formValues.SupplierQuotationId || 0,
 SupplierPartyId: formValues.SupplierPartyId || 0,
 AwardDateTime: formValues.AwardDateTime || null,
-TechnicalScore: formValues.TechnicalScore || null,
-CommercialScore: formValues.CommercialScore || null,
+TechnicalScore: formValues.TechnicalScore || 0,
+CommercialScore: formValues.CommercialScore || 0,
 AwardAmount: formValues.AwardAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 SelectionReason: formValues.SelectionReason || null,

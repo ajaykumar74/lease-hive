@@ -31,7 +31,6 @@ export class SupplierQuotationCreateComponent implements OnInit {
 supplierpartyidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 quotationstatuscodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierQuotation = {} as ISupplierQuotation;
@@ -71,7 +70,6 @@ TotalAmount: new FormControl(0, [Validators.required]),
 PaymentTermCode: new FormControl('', [Validators.maxLength(20), ]), 
 DeliveryDays: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 QuotationStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SupplierQuotation';
@@ -79,17 +77,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.quotationstatuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.quotationstatuscodeOptions.push({Text: 'VALID', Value: 'VALID' });
-this.quotationstatuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.quotationstatuscodeOptions.push({Text: 'AWARDED', Value: 'AWARDED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
 
   }
  
@@ -124,7 +113,6 @@ TotalAmount: obj.TotalAmount || 0,
 PaymentTermCode: obj.PaymentTermCode || '',
 DeliveryDays: obj.DeliveryDays || 0,
 QuotationStatusCode: obj.QuotationStatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -133,7 +121,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierQuotations/create']);
+      this.router.navigate(['/business/procurement/supplier-quotations/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -165,7 +153,6 @@ TotalAmount: obj.TotalAmount || 0,
 PaymentTermCode: obj.PaymentTermCode || '',
 DeliveryDays: obj.DeliveryDays || 0,
 QuotationStatusCode: obj.QuotationStatusCode || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -188,7 +175,7 @@ RecordStatus: obj.RecordStatus || '',
      RFQId: formValues.RFQId || 0,
 SupplierPartyId: formValues.SupplierPartyId || 0,
 SupplierQuoteNo: formValues.SupplierQuoteNo || null,
-VersionNo: formValues.VersionNo || null,
+VersionNo: formValues.VersionNo || 0,
 QuoteDate: formValues.QuoteDate || null,
 ValidUntil: formValues.ValidUntil || null,
 CurrencyCode: formValues.CurrencyCode || null,
@@ -196,10 +183,9 @@ Subtotal: formValues.Subtotal || 0,
 TaxAmount: formValues.TaxAmount || 0,
 TotalAmount: formValues.TotalAmount || 0,
 PaymentTermCode: formValues.PaymentTermCode || null,
-DeliveryDays: formValues.DeliveryDays || null,
+DeliveryDays: formValues.DeliveryDays || 0,
 QuotationStatusCode: formValues.QuotationStatusCode || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as ISupplierQuotation ; 
 	
 	  this.spinner.show(); 

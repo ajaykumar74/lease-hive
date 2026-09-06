@@ -85,10 +85,7 @@ this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId1', Value: 'Go
 this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId2', Value: 'GoodsReceiptStatusId2' });
 this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId1', Value: 'ReceivedByUserId1' });
 this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId2', Value: 'ReceivedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -138,7 +135,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/goodsReceipt/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/goods-receipts/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -189,14 +186,14 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      GRNNo:  formValues.GRNNo || null,
-PurchaseOrderId:  formValues.PurchaseOrderId || null,
-SupplierPartyId:  formValues.SupplierPartyId || null,
-ReceivingOrganisationUnitId:  formValues.ReceivingOrganisationUnitId || null,
-ReceiptLocationId:  formValues.ReceiptLocationId || null,
-GoodsReceiptStatusId:  formValues.GoodsReceiptStatusId || null,
+PurchaseOrderId:  formValues.PurchaseOrderId || 0,
+SupplierPartyId:  formValues.SupplierPartyId || 0,
+ReceivingOrganisationUnitId:  formValues.ReceivingOrganisationUnitId || 0,
+ReceiptLocationId:  formValues.ReceiptLocationId || 0,
+GoodsReceiptStatusId:  formValues.GoodsReceiptStatusId || 0,
 ReceiptDateTime:  formValues.ReceiptDateTime || null,
 SupplierDeliveryNoteNo:  formValues.SupplierDeliveryNoteNo || null,
-ReceivedByUserId:  formValues.ReceivedByUserId || null,
+ReceivedByUserId:  formValues.ReceivedByUserId || 0,
 Remarks:  formValues.Remarks || null,
 RecordStatus:  formValues.RecordStatus || null,
 

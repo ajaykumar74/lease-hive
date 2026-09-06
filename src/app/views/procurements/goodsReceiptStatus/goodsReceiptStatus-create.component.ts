@@ -27,7 +27,6 @@ export class GoodsReceiptStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   goodsReceiptStatus: IGoodsReceiptStatus = null;
-  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IGoodsReceiptStatus = {} as IGoodsReceiptStatus;
@@ -60,14 +59,9 @@ IsTerminal: new FormControl(false, [Validators.required]),
 SortOrder: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create GoodsReceiptStatus';
-    this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -95,7 +89,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -104,7 +97,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/goodsReceiptStatuss/create']);
+      this.router.navigate(['/business/procurement/config/receipt-statuses/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -129,7 +122,6 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -152,11 +144,10 @@ RecordStatus: obj.RecordStatus || '',
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 IsTerminal: formValues.IsTerminal || false,
-SortOrder: formValues.SortOrder || null,
+SortOrder: formValues.SortOrder || 0,
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IGoodsReceiptStatus ; 
 	
 	  this.spinner.show(); 

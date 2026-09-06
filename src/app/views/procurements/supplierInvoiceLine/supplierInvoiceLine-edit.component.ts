@@ -125,7 +125,7 @@ LineTotal: obj.LineTotal || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierInvoiceLine/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/supplier-invoices/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -174,16 +174,16 @@ LineTotal: obj.LineTotal || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     SupplierInvoiceId:  formValues.SupplierInvoiceId || null,
-LineNo:  formValues.LineNo || null,
-PurchaseOrderLineId:  formValues.PurchaseOrderLineId || null,
-GoodsReceiptLineId:  formValues.GoodsReceiptLineId || null,
+     SupplierInvoiceId:  formValues.SupplierInvoiceId || 0,
+LineNo:  formValues.LineNo || 0,
+PurchaseOrderLineId:  formValues.PurchaseOrderLineId || 0,
+GoodsReceiptLineId:  formValues.GoodsReceiptLineId || 0,
 Description:  formValues.Description || null,
-InvoicedQuantity:  formValues.InvoicedQuantity || null,
-UOMId:  formValues.UOMId || null,
-UnitPrice:  formValues.UnitPrice || null,
-TaxAmount:  formValues.TaxAmount || null,
-LineTotal:  formValues.LineTotal || null,
+InvoicedQuantity:  formValues.InvoicedQuantity || 0,
+UOMId:  formValues.UOMId || 0,
+UnitPrice:  formValues.UnitPrice || 0,
+TaxAmount:  formValues.TaxAmount || 0,
+LineTotal:  formValues.LineTotal || 0,
 
     } as ISupplierInvoiceLine ;
 	

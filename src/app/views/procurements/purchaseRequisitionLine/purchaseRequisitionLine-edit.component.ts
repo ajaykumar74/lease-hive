@@ -77,18 +77,14 @@ DeliveryLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.
 
    this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId1', Value: 'PurchaseRequisitionId1' });
 this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId2', Value: 'PurchaseRequisitionId2' });
-this.linetypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.linetypecodeOptions.push({Text: 'GOODS', Value: 'GOODS' });
-this.linetypecodeOptions.push({Text: 'SERVICE', Value: 'SERVICE' });
+this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
 this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
 this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
 this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
 this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.deliverylocationidOptions.push({Text: 'DeliveryLocationId1', Value: 'DeliveryLocationId1' });
 this.deliverylocationidOptions.push({Text: 'DeliveryLocationId2', Value: 'DeliveryLocationId2' });
 
@@ -142,7 +138,7 @@ DeliveryLocationId: obj.DeliveryLocationId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseRequisitionLine/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/requisitions/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -194,19 +190,19 @@ DeliveryLocationId: obj.DeliveryLocationId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PurchaseRequisitionId:  formValues.PurchaseRequisitionId || null,
-LineNo:  formValues.LineNo || null,
+     PurchaseRequisitionId:  formValues.PurchaseRequisitionId || 0,
+LineNo:  formValues.LineNo || 0,
 LineTypeCode:  formValues.LineTypeCode || null,
-AssetCategoryId:  formValues.AssetCategoryId || null,
-AssetTypeId:  formValues.AssetTypeId || null,
+AssetCategoryId:  formValues.AssetCategoryId || 0,
+AssetTypeId:  formValues.AssetTypeId || 0,
 Description:  formValues.Description || null,
-Quantity:  formValues.Quantity || null,
-UOMId:  formValues.UOMId || null,
-EstimatedUnitCost:  formValues.EstimatedUnitCost || null,
+Quantity:  formValues.Quantity || 0,
+UOMId:  formValues.UOMId || 0,
+EstimatedUnitCost:  formValues.EstimatedUnitCost || 0,
 CurrencyCode:  formValues.CurrencyCode || null,
 SpecificationsJson:  formValues.SpecificationsJson || null,
 RequiredByDate:  formValues.RequiredByDate || null,
-DeliveryLocationId:  formValues.DeliveryLocationId || null,
+DeliveryLocationId:  formValues.DeliveryLocationId || 0,
 
     } as IPurchaseRequisitionLine ;
 	

@@ -65,15 +65,9 @@ ValidationJson: new FormControl('', [Validators.maxLength(8000), ]),
 
     });
 
-   this.referencetypeOptions.push({Text: 'GRN', Value: 'GRN' });
-this.referencetypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.targetmodulecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.targetmodulecodeOptions.push({Text: 'INVENTORY', Value: 'INVENTORY' });
-this.targetmodulecodeOptions.push({Text: 'AP', Value: 'AP' });
-this.handoffstatuscodeOptions.push({Text: 'READY', Value: 'READY' });
-this.handoffstatuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.handoffstatuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.handoffstatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+   this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ProcurementHandoffReferenceType');
+this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementHandoffTargetModuleCode');
+this.handoffstatuscodeOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -119,7 +113,7 @@ ValidationJson: obj.ValidationJson || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/procurementHandoff/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/handoffs/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -166,11 +160,11 @@ ValidationJson: obj.ValidationJson || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
+ReferenceId:  formValues.ReferenceId || 0,
 TargetModuleCode:  formValues.TargetModuleCode || null,
 HandoffStatusCode:  formValues.HandoffStatusCode || null,
 HandoffDateTime:  formValues.HandoffDateTime || null,
-TargetReferenceId:  formValues.TargetReferenceId || null,
+TargetReferenceId:  formValues.TargetReferenceId || 0,
 ValidationJson:  formValues.ValidationJson || null,
 
     } as IProcurementHandoff ;

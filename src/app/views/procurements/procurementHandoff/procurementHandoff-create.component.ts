@@ -66,15 +66,9 @@ ValidationJson: new FormControl('', [Validators.maxLength(8000), ]),
 
     });
     this.Caption = 'Create ProcurementHandoff';
-    this.referencetypeOptions.push({Text: 'GRN', Value: 'GRN' });
-this.referencetypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
-this.targetmodulecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.targetmodulecodeOptions.push({Text: 'INVENTORY', Value: 'INVENTORY' });
-this.targetmodulecodeOptions.push({Text: 'AP', Value: 'AP' });
-this.handoffstatuscodeOptions.push({Text: 'READY', Value: 'READY' });
-this.handoffstatuscodeOptions.push({Text: 'SENT', Value: 'SENT' });
-this.handoffstatuscodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.handoffstatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ProcurementHandoffReferenceType');
+this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementHandoffTargetModuleCode');
+this.handoffstatuscodeOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
 
   }
  
@@ -111,7 +105,7 @@ ValidationJson: obj.ValidationJson || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/procurementHandoffs/create']);
+      this.router.navigate(['/business/procurement/handoffs/create']);
     }
     else if (key == "Save") {
       this.Save();

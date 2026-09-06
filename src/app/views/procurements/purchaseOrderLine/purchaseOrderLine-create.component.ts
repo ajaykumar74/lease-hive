@@ -85,9 +85,7 @@ this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId1', 
 this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId2', Value: 'PurchaseRequisitionLineId2' });
 this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId1', Value: 'SupplierQuotationLineId1' });
 this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId2', Value: 'SupplierQuotationLineId2' });
-this.linetypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.linetypecodeOptions.push({Text: 'GOODS', Value: 'GOODS' });
-this.linetypecodeOptions.push({Text: 'SERVICE', Value: 'SERVICE' });
+this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
 this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
@@ -139,7 +137,7 @@ SpecificationsJson: obj.SpecificationsJson || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderLines/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -194,7 +192,7 @@ SpecificationsJson: obj.SpecificationsJson || '',
       RowVersionStr : this.objMaster.RowVersionStr,
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      PurchaseOrderId: formValues.PurchaseOrderId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 PurchaseRequisitionLineId: formValues.PurchaseRequisitionLineId || 0,
 SupplierQuotationLineId: formValues.SupplierQuotationLineId || 0,
 LineTypeCode: formValues.LineTypeCode || null,

@@ -71,7 +71,7 @@ export class PurchaseOrderLineViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/purchaseOrderLine/create']);
+            this.router.navigate(['/business/procurement/purchase-orders/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

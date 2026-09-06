@@ -80,21 +80,13 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.matchstatuscodeOptions.push({Text: 'UNMATCHED', Value: 'UNMATCHED' });
-this.matchstatuscodeOptions.push({Text: 'MATCHED', Value: 'MATCHED' });
-this.matchstatuscodeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.matchstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
 this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId1', Value: 'InvoiceDocumentId1' });
 this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId2', Value: 'InvoiceDocumentId2' });
 this.capturedbyOptions.push({Text: 'CapturedBy1', Value: 'CapturedBy1' });
 this.capturedbyOptions.push({Text: 'CapturedBy2', Value: 'CapturedBy2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -147,7 +139,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierInvoice/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/supplier-invoices/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -200,19 +192,19 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     SupplierPartyId:  formValues.SupplierPartyId || null,
-BuyingOrganisationId:  formValues.BuyingOrganisationId || null,
+     SupplierPartyId:  formValues.SupplierPartyId || 0,
+BuyingOrganisationId:  formValues.BuyingOrganisationId || 0,
 SupplierInvoiceNo:  formValues.SupplierInvoiceNo || null,
 InvoiceDate:  formValues.InvoiceDate || null,
 CurrencyCode:  formValues.CurrencyCode || null,
-Subtotal:  formValues.Subtotal || null,
-TaxAmount:  formValues.TaxAmount || null,
-TotalAmount:  formValues.TotalAmount || null,
+Subtotal:  formValues.Subtotal || 0,
+TaxAmount:  formValues.TaxAmount || 0,
+TotalAmount:  formValues.TotalAmount || 0,
 MatchStatusCode:  formValues.MatchStatusCode || null,
-InvoiceDocumentId:  formValues.InvoiceDocumentId || null,
-APReferenceId:  formValues.APReferenceId || null,
+InvoiceDocumentId:  formValues.InvoiceDocumentId || 0,
+APReferenceId:  formValues.APReferenceId || 0,
 CapturedOn:  formValues.CapturedOn || null,
-CapturedBy:  formValues.CapturedBy || null,
+CapturedBy:  formValues.CapturedBy || 0,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as ISupplierInvoice ;

@@ -74,9 +74,7 @@ this.goodsreceiptserialidOptions.push({Text: 'GoodsReceiptSerialId1', Value: 'Go
 this.goodsreceiptserialidOptions.push({Text: 'GoodsReceiptSerialId2', Value: 'GoodsReceiptSerialId2' });
 this.inspectoruseridOptions.push({Text: 'InspectorUserId1', Value: 'InspectorUserId1' });
 this.inspectoruseridOptions.push({Text: 'InspectorUserId2', Value: 'InspectorUserId2' });
-this.resultcodeOptions.push({Text: 'PASS', Value: 'PASS' });
-this.resultcodeOptions.push({Text: 'FAIL', Value: 'FAIL' });
-this.resultcodeOptions.push({Text: 'HOLD', Value: 'HOLD' });
+this.resultcodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptInspectionResultCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 
@@ -125,7 +123,7 @@ DocumentId: obj.DocumentId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/receiptInspection/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/inspections/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -172,14 +170,14 @@ DocumentId: obj.DocumentId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     GoodsReceiptLineId:  formValues.GoodsReceiptLineId || null,
-GoodsReceiptSerialId:  formValues.GoodsReceiptSerialId || null,
+     GoodsReceiptLineId:  formValues.GoodsReceiptLineId || 0,
+GoodsReceiptSerialId:  formValues.GoodsReceiptSerialId || 0,
 InspectionDateTime:  formValues.InspectionDateTime || null,
-InspectorUserId:  formValues.InspectorUserId || null,
+InspectorUserId:  formValues.InspectorUserId || 0,
 ResultCode:  formValues.ResultCode || null,
 ChecklistJson:  formValues.ChecklistJson || null,
 Remarks:  formValues.Remarks || null,
-DocumentId:  formValues.DocumentId || null,
+DocumentId:  formValues.DocumentId || 0,
 
     } as IReceiptInspection ;
 	

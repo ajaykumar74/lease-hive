@@ -31,7 +31,6 @@ export class RFQCreateComponent implements OnInit {
 buyingorganisationidOptions: ISelectItem[] = [];
 rfqstatuscodeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IRFQ = {} as IRFQ;
@@ -66,7 +65,6 @@ IssueDateTime: new FormControl(new Date(), []),
 ResponseDueDateTime: new FormControl(new Date(), [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 CommercialTerms: new FormControl('', [Validators.maxLength(2000), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create RFQ';
@@ -74,17 +72,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId2', Value: 'PurchaseRequisitionId2' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.rfqstatuscodeOptions.push({Text: 'DRAFT', Value: 'DRAFT' });
-this.rfqstatuscodeOptions.push({Text: 'ISSUED', Value: 'ISSUED' });
-this.rfqstatuscodeOptions.push({Text: 'CLOSED', Value: 'CLOSED' });
-this.rfqstatuscodeOptions.push({Text: 'CANCELLED', Value: 'CANCELLED' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.rfqstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQStatusCode');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
   }
  
@@ -114,7 +103,6 @@ IssueDateTime:  obj.IssueDateTime || new Date(),
 ResponseDueDateTime:  obj.ResponseDueDateTime || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 CommercialTerms: obj.CommercialTerms || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -123,7 +111,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQs/create']);
+      this.router.navigate(['/business/procurement/rfqs/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -150,7 +138,6 @@ IssueDateTime:  obj.IssueDateTime || new Date(),
 ResponseDueDateTime:  obj.ResponseDueDateTime || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 CommercialTerms: obj.CommercialTerms || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -178,8 +165,7 @@ IssueDateTime: formValues.IssueDateTime || null,
 ResponseDueDateTime: formValues.ResponseDueDateTime || null,
 CurrencyCode: formValues.CurrencyCode || null,
 CommercialTerms: formValues.CommercialTerms || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IRFQ ; 
 	
 	  this.spinner.show(); 

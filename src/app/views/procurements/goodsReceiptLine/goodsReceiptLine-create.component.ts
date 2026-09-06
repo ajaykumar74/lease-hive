@@ -76,10 +76,7 @@ this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId1', Value: 'Purc
 this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId2', Value: 'PurchaseOrderLineId2' });
 this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
 this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
-this.inspectionstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.inspectionstatuscodeOptions.push({Text: 'PASSED', Value: 'PASSED' });
-this.inspectionstatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
-this.inspectionstatuscodeOptions.push({Text: 'PARTIAL', Value: 'PARTIAL' });
+this.inspectionstatuscodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptLineInspectionStatusCode');
 
   }
  
@@ -119,7 +116,7 @@ RejectionReason: obj.RejectionReason || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/goodsReceiptLines/create']);
+      this.router.navigate(['/business/procurement/goods-receipts/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -169,7 +166,7 @@ RejectionReason: obj.RejectionReason || '',
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      GoodsReceiptId: formValues.GoodsReceiptId || 0,
 PurchaseOrderLineId: formValues.PurchaseOrderLineId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 ReceivedQuantity: formValues.ReceivedQuantity || 0,
 AcceptedQuantity: formValues.AcceptedQuantity || 0,
 RejectedQuantity: formValues.RejectedQuantity || 0,

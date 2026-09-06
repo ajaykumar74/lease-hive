@@ -137,17 +137,17 @@ export class ApprovalRequestListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/approvalRequests/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/approvals/pending/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/approvalRequests/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/approvals/pending/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/approvalRequests/create']);
+      this.router.navigate(['/business/procurement/approvals/pending/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -74,10 +74,7 @@ this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPart
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
 this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId1', Value: 'SupplierServiceAreaId1' });
 this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId2', Value: 'SupplierServiceAreaId2' });
-this.invitationstatuscodeOptions.push({Text: 'INVITED', Value: 'INVITED' });
-this.invitationstatuscodeOptions.push({Text: 'VIEWED', Value: 'VIEWED' });
-this.invitationstatuscodeOptions.push({Text: 'RESPONDED', Value: 'RESPONDED' });
-this.invitationstatuscodeOptions.push({Text: 'DECLINED', Value: 'DECLINED' });
+this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQSupplierInvitationStatusCode');
 this.suppliercontactidOptions.push({Text: 'SupplierContactId1', Value: 'SupplierContactId1' });
 this.suppliercontactidOptions.push({Text: 'SupplierContactId2', Value: 'SupplierContactId2' });
 
@@ -116,7 +113,7 @@ SupplierContactId: obj.SupplierContactId || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQSuppliers/create']);
+      this.router.navigate(['/business/procurement/rfqs/suppliers/create']);
     }
     else if (key == "Save") {
       this.Save();

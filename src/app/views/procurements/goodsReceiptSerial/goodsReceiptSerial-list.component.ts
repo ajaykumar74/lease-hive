@@ -137,17 +137,17 @@ export class GoodsReceiptSerialListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/goodsReceiptSerials/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/serials/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/goodsReceiptSerials/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/serials/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/goodsReceiptSerials/create']);
+      this.router.navigate(['/business/procurement/goods-receipts/serials/create']);
     } 
     else if (key == "Refresh") {
       this.search();

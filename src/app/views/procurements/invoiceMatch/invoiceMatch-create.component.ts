@@ -78,13 +78,10 @@ this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrde
 this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
 this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId1', Value: 'GoodsReceiptId1' });
 this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId2', Value: 'GoodsReceiptId2' });
-this.matchtypecodeOptions.push({Text: 'TWO_WAY', Value: 'TWO_WAY' });
-this.matchtypecodeOptions.push({Text: 'THREE_WAY', Value: 'THREE_WAY' });
+this.matchtypecodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchTypeCode');
 this.matchedbyOptions.push({Text: 'MatchedBy1', Value: 'MatchedBy1' });
 this.matchedbyOptions.push({Text: 'MatchedBy2', Value: 'MatchedBy2' });
-this.matchresultcodeOptions.push({Text: 'MATCHED', Value: 'MATCHED' });
-this.matchresultcodeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.matchresultcodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
+this.matchresultcodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchResultCode');
 
   }
  
@@ -124,7 +121,7 @@ MatchResultCode: obj.MatchResultCode || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/invoiceMatchs/create']);
+      this.router.navigate(['/business/procurement/invoice-matching/create']);
     }
     else if (key == "Save") {
       this.Save();

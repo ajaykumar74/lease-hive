@@ -71,7 +71,7 @@ export class GoodsReceiptSerialViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/goodsReceiptSerial/create']);
+            this.router.navigate(['/business/procurement/goods-receipts/serials/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

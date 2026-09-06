@@ -71,7 +71,7 @@ export class PurchaseRequisitionStatusViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/purchaseRequisitionStatus/create']);
+            this.router.navigate(['/business/procurement/config/requisition-statuses/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

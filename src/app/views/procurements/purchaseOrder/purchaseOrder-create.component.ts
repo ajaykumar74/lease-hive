@@ -34,7 +34,6 @@ purchaseorderstatusidOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOrder = {} as IPurchaseOrder;
@@ -79,7 +78,6 @@ SupplierNameSnapshot: new FormControl('', [Validators.required, Validators.maxLe
 SupplierTaxSnapshot: new FormControl('', [Validators.maxLength(100), ]), 
 ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IssuedOn: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PurchaseOrder';
@@ -91,17 +89,11 @@ this.supplierawardidOptions.push({Text: 'SupplierAwardId1', Value: 'SupplierAwar
 this.supplierawardidOptions.push({Text: 'SupplierAwardId2', Value: 'SupplierAwardId2' });
 this.purchaseorderstatusidOptions.push({Text: 'PurchaseOrderStatusId1', Value: 'PurchaseOrderStatusId1' });
 this.purchaseorderstatusidOptions.push({Text: 'PurchaseOrderStatusId2', Value: 'PurchaseOrderStatusId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.deliverylocationidOptions.push({Text: 'DeliveryLocationId1', Value: 'DeliveryLocationId1' });
 this.deliverylocationidOptions.push({Text: 'DeliveryLocationId2', Value: 'DeliveryLocationId2' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -141,7 +133,6 @@ SupplierNameSnapshot: obj.SupplierNameSnapshot || '',
 SupplierTaxSnapshot: obj.SupplierTaxSnapshot || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 IssuedOn:  obj.IssuedOn || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -150,7 +141,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrders/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -187,7 +178,6 @@ SupplierNameSnapshot: obj.SupplierNameSnapshot || '',
 SupplierTaxSnapshot: obj.SupplierTaxSnapshot || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 IssuedOn:  obj.IssuedOn || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -208,7 +198,7 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      PONo: formValues.PONo || null,
-VersionNo: formValues.VersionNo || null,
+VersionNo: formValues.VersionNo || 0,
 BuyingOrganisationId: formValues.BuyingOrganisationId || 0,
 SupplierPartyId: formValues.SupplierPartyId || 0,
 SupplierAwardId: formValues.SupplierAwardId || 0,
@@ -225,8 +215,7 @@ SupplierNameSnapshot: formValues.SupplierNameSnapshot || null,
 SupplierTaxSnapshot: formValues.SupplierTaxSnapshot || null,
 ApprovalRequestId: formValues.ApprovalRequestId || 0,
 IssuedOn: formValues.IssuedOn || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IPurchaseOrder ; 
 	
 	  this.spinner.show(); 

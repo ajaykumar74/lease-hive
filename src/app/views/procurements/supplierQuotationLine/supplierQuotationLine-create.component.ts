@@ -73,9 +73,7 @@ DeviationNotes: new FormControl('', [Validators.maxLength(1000), ]),
 this.supplierquotationidOptions.push({Text: 'SupplierQuotationId2', Value: 'SupplierQuotationId2' });
 this.rfqlineidOptions.push({Text: 'RFQLineId1', Value: 'RFQLineId1' });
 this.rfqlineidOptions.push({Text: 'RFQLineId2', Value: 'RFQLineId2' });
-this.compliancecodeOptions.push({Text: 'COMPLY', Value: 'COMPLY' });
-this.compliancecodeOptions.push({Text: 'PARTIAL', Value: 'PARTIAL' });
-this.compliancecodeOptions.push({Text: 'DEVIATION', Value: 'DEVIATION' });
+this.compliancecodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationLineComplianceCode');
 
   }
  
@@ -115,7 +113,7 @@ DeviationNotes: obj.DeviationNotes || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierQuotationLines/create']);
+      this.router.navigate(['/business/procurement/supplier-quotations/lines/create']);
     }
     else if (key == "Save") {
       this.Save();

@@ -73,10 +73,7 @@ this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPart
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
 this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId1', Value: 'SupplierServiceAreaId1' });
 this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId2', Value: 'SupplierServiceAreaId2' });
-this.invitationstatuscodeOptions.push({Text: 'INVITED', Value: 'INVITED' });
-this.invitationstatuscodeOptions.push({Text: 'VIEWED', Value: 'VIEWED' });
-this.invitationstatuscodeOptions.push({Text: 'RESPONDED', Value: 'RESPONDED' });
-this.invitationstatuscodeOptions.push({Text: 'DECLINED', Value: 'DECLINED' });
+this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQSupplierInvitationStatusCode');
 this.suppliercontactidOptions.push({Text: 'SupplierContactId1', Value: 'SupplierContactId1' });
 this.suppliercontactidOptions.push({Text: 'SupplierContactId2', Value: 'SupplierContactId2' });
 
@@ -124,7 +121,7 @@ SupplierContactId: obj.SupplierContactId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQSupplier/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/rfqs/suppliers/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -170,13 +167,13 @@ SupplierContactId: obj.SupplierContactId || 0,
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     RFQId:  formValues.RFQId || null,
-SupplierPartyId:  formValues.SupplierPartyId || null,
-SupplierServiceAreaId:  formValues.SupplierServiceAreaId || null,
+     RFQId:  formValues.RFQId || 0,
+SupplierPartyId:  formValues.SupplierPartyId || 0,
+SupplierServiceAreaId:  formValues.SupplierServiceAreaId || 0,
 InvitationStatusCode:  formValues.InvitationStatusCode || null,
 InvitedOn:  formValues.InvitedOn || null,
 RespondedOn:  formValues.RespondedOn || null,
-SupplierContactId:  formValues.SupplierContactId || null,
+SupplierContactId:  formValues.SupplierContactId || 0,
 
     } as IRFQSupplier ;
 	

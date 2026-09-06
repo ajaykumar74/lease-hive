@@ -118,7 +118,7 @@ RequiredByDate:  obj.RequiredByDate || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQLine/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/rfqs/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -165,12 +165,12 @@ RequiredByDate:  obj.RequiredByDate || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     RFQId:  formValues.RFQId || null,
-PurchaseRequisitionLineId:  formValues.PurchaseRequisitionLineId || null,
-LineNo:  formValues.LineNo || null,
+     RFQId:  formValues.RFQId || 0,
+PurchaseRequisitionLineId:  formValues.PurchaseRequisitionLineId || 0,
+LineNo:  formValues.LineNo || 0,
 Description:  formValues.Description || null,
-Quantity:  formValues.Quantity || null,
-UOMId:  formValues.UOMId || null,
+Quantity:  formValues.Quantity || 0,
+UOMId:  formValues.UOMId || 0,
 SpecificationsJson:  formValues.SpecificationsJson || null,
 RequiredByDate:  formValues.RequiredByDate || null,
 

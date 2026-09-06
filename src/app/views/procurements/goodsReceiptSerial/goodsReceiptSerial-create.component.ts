@@ -71,12 +71,8 @@ ConditionCode: new FormControl('', [Validators.maxLength(20), ]),
 this.goodsreceiptlineidOptions.push({Text: 'GoodsReceiptLineId2', Value: 'GoodsReceiptLineId2' });
 this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
 this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.acceptancecodeOptions.push({Text: 'ACCEPTED', Value: 'ACCEPTED' });
-this.acceptancecodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.acceptancecodeOptions.push({Text: 'HOLD', Value: 'HOLD' });
-this.conditioncodeOptions.push({Text: 'NEW', Value: 'NEW' });
-this.conditioncodeOptions.push({Text: 'DAMAGED', Value: 'DAMAGED' });
-this.conditioncodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.acceptancecodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialAcceptanceCode');
+this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialConditionCode');
 
   }
  
@@ -113,7 +109,7 @@ ConditionCode: obj.ConditionCode || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/goodsReceiptSerials/create']);
+      this.router.navigate(['/business/procurement/goods-receipts/serials/create']);
     }
     else if (key == "Save") {
       this.Save();

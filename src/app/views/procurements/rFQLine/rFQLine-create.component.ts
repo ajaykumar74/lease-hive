@@ -110,7 +110,7 @@ RequiredByDate:  obj.RequiredByDate || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/rFQLines/create']);
+      this.router.navigate(['/business/procurement/rfqs/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -158,7 +158,7 @@ RequiredByDate:  obj.RequiredByDate || new Date(),
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      RFQId: formValues.RFQId || 0,
 PurchaseRequisitionLineId: formValues.PurchaseRequisitionLineId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 Description: formValues.Description || null,
 Quantity: formValues.Quantity || 0,
 UOMId: formValues.UOMId || 0,

@@ -71,7 +71,7 @@ export class ApprovalRequestViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/approvalRequest/create']);
+            this.router.navigate(['/business/procurement/approvals/pending/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

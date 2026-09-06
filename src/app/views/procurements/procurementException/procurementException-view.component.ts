@@ -71,7 +71,7 @@ export class ProcurementExceptionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/procurementException/create']);
+            this.router.navigate(['/business/procurement/exceptions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

@@ -137,17 +137,17 @@ export class ReceiptInspectionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/receiptInspections/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/inspections/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/receiptInspections/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/inspections/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/receiptInspections/create']);
+      this.router.navigate(['/business/procurement/inspections/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -137,17 +137,17 @@ export class PurchaseRequisitionStatusListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseRequisitionStatuss/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/config/requisition-statuses/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseRequisitionStatuss/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/config/requisition-statuses/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseRequisitionStatuss/create']);
+      this.router.navigate(['/business/procurement/config/requisition-statuses/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -72,9 +72,7 @@ DeviationNotes: new FormControl('', [Validators.maxLength(1000), ]),
 this.supplierquotationidOptions.push({Text: 'SupplierQuotationId2', Value: 'SupplierQuotationId2' });
 this.rfqlineidOptions.push({Text: 'RFQLineId1', Value: 'RFQLineId1' });
 this.rfqlineidOptions.push({Text: 'RFQLineId2', Value: 'RFQLineId2' });
-this.compliancecodeOptions.push({Text: 'COMPLY', Value: 'COMPLY' });
-this.compliancecodeOptions.push({Text: 'PARTIAL', Value: 'PARTIAL' });
-this.compliancecodeOptions.push({Text: 'DEVIATION', Value: 'DEVIATION' });
+this.compliancecodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationLineComplianceCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -123,7 +121,7 @@ DeviationNotes: obj.DeviationNotes || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierQuotationLine/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/supplier-quotations/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -172,13 +170,13 @@ DeviationNotes: obj.DeviationNotes || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     SupplierQuotationId:  formValues.SupplierQuotationId || null,
-RFQLineId:  formValues.RFQLineId || null,
-Quantity:  formValues.Quantity || null,
-UnitPrice:  formValues.UnitPrice || null,
-DiscountAmount:  formValues.DiscountAmount || null,
-TaxAmount:  formValues.TaxAmount || null,
-LineTotal:  formValues.LineTotal || null,
+     SupplierQuotationId:  formValues.SupplierQuotationId || 0,
+RFQLineId:  formValues.RFQLineId || 0,
+Quantity:  formValues.Quantity || 0,
+UnitPrice:  formValues.UnitPrice || 0,
+DiscountAmount:  formValues.DiscountAmount || 0,
+TaxAmount:  formValues.TaxAmount || 0,
+LineTotal:  formValues.LineTotal || 0,
 DeliveryDate:  formValues.DeliveryDate || null,
 ComplianceCode:  formValues.ComplianceCode || null,
 DeviationNotes:  formValues.DeviationNotes || null,

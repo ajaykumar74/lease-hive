@@ -71,11 +71,7 @@ ChangedOn: new FormControl(new Date(), [Validators.required]),
 
    this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrderId1' });
 this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
-this.reasoncodeOptions.push({Text: 'PRICE', Value: 'PRICE' });
-this.reasoncodeOptions.push({Text: 'QTY', Value: 'QTY' });
-this.reasoncodeOptions.push({Text: 'DATE', Value: 'DATE' });
-this.reasoncodeOptions.push({Text: 'TERMS', Value: 'TERMS' });
-this.reasoncodeOptions.push({Text: 'OTHER', Value: 'OTHER' });
+this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOrderAmendmentReasonCode');
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
 this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 this.changedbyOptions.push({Text: 'ChangedBy1', Value: 'ChangedBy1' });
@@ -128,7 +124,7 @@ ChangedOn:  obj.ChangedOn || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderAmendment/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/purchase-orders/amendments/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -177,15 +173,15 @@ ChangedOn:  obj.ChangedOn || new Date(),
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PurchaseOrderId:  formValues.PurchaseOrderId || null,
-AmendmentNo:  formValues.AmendmentNo || null,
+     PurchaseOrderId:  formValues.PurchaseOrderId || 0,
+AmendmentNo:  formValues.AmendmentNo || 0,
 AmendmentDate:  formValues.AmendmentDate || null,
 ReasonCode:  formValues.ReasonCode || null,
 Reason:  formValues.Reason || null,
-PreviousVersionNo:  formValues.PreviousVersionNo || null,
-NewVersionNo:  formValues.NewVersionNo || null,
-ApprovalRequestId:  formValues.ApprovalRequestId || null,
-ChangedBy:  formValues.ChangedBy || null,
+PreviousVersionNo:  formValues.PreviousVersionNo || 0,
+NewVersionNo:  formValues.NewVersionNo || 0,
+ApprovalRequestId:  formValues.ApprovalRequestId || 0,
+ChangedBy:  formValues.ChangedBy || 0,
 ChangedOn:  formValues.ChangedOn || null,
 
     } as IPurchaseOrderAmendment ;

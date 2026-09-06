@@ -71,7 +71,7 @@ export class RFQSupplierViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/rFQSupplier/create']);
+            this.router.navigate(['/business/procurement/rfqs/suppliers/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

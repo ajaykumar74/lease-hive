@@ -71,7 +71,7 @@ export class ProcurementHandoffViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/procurementHandoff/create']);
+            this.router.navigate(['/business/procurement/handoffs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

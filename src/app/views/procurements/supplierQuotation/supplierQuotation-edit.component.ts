@@ -78,17 +78,9 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.quotationstatuscodeOptions.push({Text: 'RECEIVED', Value: 'RECEIVED' });
-this.quotationstatuscodeOptions.push({Text: 'VALID', Value: 'VALID' });
-this.quotationstatuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.quotationstatuscodeOptions.push({Text: 'AWARDED', Value: 'AWARDED' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -141,7 +133,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierQuotation/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/supplier-quotations/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -194,18 +186,18 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     RFQId:  formValues.RFQId || null,
-SupplierPartyId:  formValues.SupplierPartyId || null,
+     RFQId:  formValues.RFQId || 0,
+SupplierPartyId:  formValues.SupplierPartyId || 0,
 SupplierQuoteNo:  formValues.SupplierQuoteNo || null,
-VersionNo:  formValues.VersionNo || null,
+VersionNo:  formValues.VersionNo || 0,
 QuoteDate:  formValues.QuoteDate || null,
 ValidUntil:  formValues.ValidUntil || null,
 CurrencyCode:  formValues.CurrencyCode || null,
-Subtotal:  formValues.Subtotal || null,
-TaxAmount:  formValues.TaxAmount || null,
-TotalAmount:  formValues.TotalAmount || null,
+Subtotal:  formValues.Subtotal || 0,
+TaxAmount:  formValues.TaxAmount || 0,
+TotalAmount:  formValues.TotalAmount || 0,
 PaymentTermCode:  formValues.PaymentTermCode || null,
-DeliveryDays:  formValues.DeliveryDays || null,
+DeliveryDays:  formValues.DeliveryDays || 0,
 QuotationStatusCode:  formValues.QuotationStatusCode || null,
 RecordStatus:  formValues.RecordStatus || null,
 

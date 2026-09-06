@@ -137,17 +137,17 @@ export class ProcurementDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/procurementDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/procurementDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/procurementDocumentLinks/create']);
+      this.router.navigate(['/business/procurement/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

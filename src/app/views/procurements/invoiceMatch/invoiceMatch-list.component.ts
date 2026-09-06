@@ -137,17 +137,17 @@ export class InvoiceMatchListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/invoiceMatchs/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/invoice-matching/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/invoiceMatchs/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/invoice-matching/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/invoiceMatchs/create']);
+      this.router.navigate(['/business/procurement/invoice-matching/create']);
     } 
     else if (key == "Refresh") {
       this.search();

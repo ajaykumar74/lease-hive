@@ -66,17 +66,10 @@ CompletedOn: new FormControl(new Date(), []),
 
     });
 
-   this.referencetypeOptions.push({Text: 'PR', Value: 'PR' });
-this.referencetypeOptions.push({Text: 'AWARD', Value: 'AWARD' });
-this.referencetypeOptions.push({Text: 'PO', Value: 'PO' });
-this.referencetypeOptions.push({Text: 'PO_AMEND', Value: 'PO_AMEND' });
-this.referencetypeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
+   this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ApprovalRequestReferenceType');
 this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId1', Value: 'WorkflowDefinitionId1' });
 this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId2', Value: 'WorkflowDefinitionId2' });
-this.approvalstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
-this.approvalstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
-this.approvalstatuscodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
-this.approvalstatuscodeOptions.push({Text: 'RETURNED', Value: 'RETURNED' });
+this.approvalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalStatusCode');
 this.requestedbyOptions.push({Text: 'RequestedBy1', Value: 'RequestedBy1' });
 this.requestedbyOptions.push({Text: 'RequestedBy2', Value: 'RequestedBy2' });
 
@@ -124,7 +117,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/approvalRequest/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/approvals/pending/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -171,10 +164,10 @@ CompletedOn:  obj.CompletedOn || new Date(),
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      ReferenceType:  formValues.ReferenceType || null,
-ReferenceId:  formValues.ReferenceId || null,
-WorkflowDefinitionId:  formValues.WorkflowDefinitionId || null,
+ReferenceId:  formValues.ReferenceId || 0,
+WorkflowDefinitionId:  formValues.WorkflowDefinitionId || 0,
 ApprovalStatusCode:  formValues.ApprovalStatusCode || null,
-RequestedBy:  formValues.RequestedBy || null,
+RequestedBy:  formValues.RequestedBy || 0,
 RequestedOn:  formValues.RequestedOn || null,
 CompletedOn:  formValues.CompletedOn || null,
 

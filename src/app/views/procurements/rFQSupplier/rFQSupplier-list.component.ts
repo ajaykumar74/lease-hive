@@ -137,17 +137,17 @@ export class RFQSupplierListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/rFQSuppliers/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/rfqs/suppliers/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/rFQSuppliers/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/rfqs/suppliers/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/rFQSuppliers/create']);
+      this.router.navigate(['/business/procurement/rfqs/suppliers/create']);
     } 
     else if (key == "Refresh") {
       this.search();

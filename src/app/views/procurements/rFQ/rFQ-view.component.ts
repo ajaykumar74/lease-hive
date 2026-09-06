@@ -71,7 +71,7 @@ export class RFQViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/rFQ/create']);
+            this.router.navigate(['/business/procurement/rfqs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

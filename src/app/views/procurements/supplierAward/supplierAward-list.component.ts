@@ -137,17 +137,17 @@ export class SupplierAwardListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/supplierAwards/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/awards/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/supplierAwards/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/awards/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/supplierAwards/create']);
+      this.router.navigate(['/business/procurement/awards/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -71,7 +71,7 @@ export class SupplierInvoiceLineViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/supplierInvoiceLine/create']);
+            this.router.navigate(['/business/procurement/supplier-invoices/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

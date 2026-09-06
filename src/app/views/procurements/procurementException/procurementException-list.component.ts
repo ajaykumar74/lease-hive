@@ -137,17 +137,17 @@ export class ProcurementExceptionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/procurementExceptions/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/exceptions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/procurementExceptions/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/exceptions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/procurementExceptions/create']);
+      this.router.navigate(['/business/procurement/exceptions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

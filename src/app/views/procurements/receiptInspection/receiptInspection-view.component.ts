@@ -71,7 +71,7 @@ export class ReceiptInspectionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/receiptInspection/create']);
+            this.router.navigate(['/business/procurement/inspections/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

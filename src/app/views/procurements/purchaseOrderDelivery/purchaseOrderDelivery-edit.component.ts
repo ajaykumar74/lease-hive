@@ -116,7 +116,7 @@ Instructions: obj.Instructions || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderDelivery/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -162,12 +162,12 @@ Instructions: obj.Instructions || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PurchaseOrderLineId:  formValues.PurchaseOrderLineId || null,
-ScheduleNo:  formValues.ScheduleNo || null,
-DeliveryLocationId:  formValues.DeliveryLocationId || null,
-ScheduledQuantity:  formValues.ScheduledQuantity || null,
+     PurchaseOrderLineId:  formValues.PurchaseOrderLineId || 0,
+ScheduleNo:  formValues.ScheduleNo || 0,
+DeliveryLocationId:  formValues.DeliveryLocationId || 0,
+ScheduledQuantity:  formValues.ScheduledQuantity || 0,
 PromisedDate:  formValues.PromisedDate || null,
-ReceivingOrganisationUnitId:  formValues.ReceivingOrganisationUnitId || null,
+ReceivingOrganisationUnitId:  formValues.ReceivingOrganisationUnitId || 0,
 Instructions:  formValues.Instructions || null,
 
     } as IPurchaseOrderDelivery ;

@@ -33,7 +33,6 @@ requestedbyuseridOptions: ISelectItem[] = [];
 purchaserequisitionstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseRequisition = {} as IPurchaseRequisition;
@@ -72,7 +71,6 @@ SourceReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 EstimatedTotal: new FormControl(0, []),
 Justification: new FormControl('', [Validators.maxLength(250), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PurchaseRequisition';
@@ -84,18 +82,8 @@ this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'Requeste
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
 this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId1', Value: 'PurchaseRequisitionStatusId1' });
 this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId2', Value: 'PurchaseRequisitionStatusId2' });
-this.sourcereferencetypeOptions.push({Text: 'STOCK', Value: 'STOCK' });
-this.sourcereferencetypeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.sourcereferencetypeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.sourcereferencetypeOptions.push({Text: 'PROJECT', Value: 'PROJECT' });
-this.sourcereferencetypeOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
   }
  
@@ -129,7 +117,6 @@ SourceReferenceId: obj.SourceReferenceId || 0,
 CurrencyCode: obj.CurrencyCode || '',
 EstimatedTotal: obj.EstimatedTotal || 0,
 Justification: obj.Justification || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -138,7 +125,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseRequisitions/create']);
+      this.router.navigate(['/business/procurement/requisitions/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -169,7 +156,6 @@ SourceReferenceId: obj.SourceReferenceId || 0,
 CurrencyCode: obj.CurrencyCode || '',
 EstimatedTotal: obj.EstimatedTotal || 0,
 Justification: obj.Justification || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -201,8 +187,7 @@ SourceReferenceId: formValues.SourceReferenceId || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 EstimatedTotal: formValues.EstimatedTotal || 0,
 Justification: formValues.Justification || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IPurchaseRequisition ; 
 	
 	  this.spinner.show(); 

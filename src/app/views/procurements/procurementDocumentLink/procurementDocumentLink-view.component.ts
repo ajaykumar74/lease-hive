@@ -71,7 +71,7 @@ export class ProcurementDocumentLinkViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/procurementDocumentLink/create']);
+            this.router.navigate(['/business/procurement/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

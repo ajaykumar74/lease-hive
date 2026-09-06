@@ -137,17 +137,17 @@ export class PurchaseRequisitionLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseRequisitionLines/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/requisitions/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseRequisitionLines/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/requisitions/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseRequisitionLines/create']);
+      this.router.navigate(['/business/procurement/requisitions/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

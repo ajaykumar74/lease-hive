@@ -84,9 +84,7 @@ this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId1', 
 this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId2', Value: 'PurchaseRequisitionLineId2' });
 this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId1', Value: 'SupplierQuotationLineId1' });
 this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId2', Value: 'SupplierQuotationLineId2' });
-this.linetypecodeOptions.push({Text: 'ASSET', Value: 'ASSET' });
-this.linetypecodeOptions.push({Text: 'GOODS', Value: 'GOODS' });
-this.linetypecodeOptions.push({Text: 'SERVICE', Value: 'SERVICE' });
+this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
 this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
 this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
@@ -147,7 +145,7 @@ SpecificationsJson: obj.SpecificationsJson || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderLine/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/purchase-orders/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -202,20 +200,20 @@ SpecificationsJson: obj.SpecificationsJson || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     PurchaseOrderId:  formValues.PurchaseOrderId || null,
-LineNo:  formValues.LineNo || null,
-PurchaseRequisitionLineId:  formValues.PurchaseRequisitionLineId || null,
-SupplierQuotationLineId:  formValues.SupplierQuotationLineId || null,
+     PurchaseOrderId:  formValues.PurchaseOrderId || 0,
+LineNo:  formValues.LineNo || 0,
+PurchaseRequisitionLineId:  formValues.PurchaseRequisitionLineId || 0,
+SupplierQuotationLineId:  formValues.SupplierQuotationLineId || 0,
 LineTypeCode:  formValues.LineTypeCode || null,
-AssetCategoryId:  formValues.AssetCategoryId || null,
-AssetTypeId:  formValues.AssetTypeId || null,
+AssetCategoryId:  formValues.AssetCategoryId || 0,
+AssetTypeId:  formValues.AssetTypeId || 0,
 Description:  formValues.Description || null,
-OrderedQuantity:  formValues.OrderedQuantity || null,
-UOMId:  formValues.UOMId || null,
-UnitPrice:  formValues.UnitPrice || null,
-DiscountAmount:  formValues.DiscountAmount || null,
-TaxAmount:  formValues.TaxAmount || null,
-LineTotal:  formValues.LineTotal || null,
+OrderedQuantity:  formValues.OrderedQuantity || 0,
+UOMId:  formValues.UOMId || 0,
+UnitPrice:  formValues.UnitPrice || 0,
+DiscountAmount:  formValues.DiscountAmount || 0,
+TaxAmount:  formValues.TaxAmount || 0,
+LineTotal:  formValues.LineTotal || 0,
 RequiredByDate:  formValues.RequiredByDate || null,
 SpecificationsJson:  formValues.SpecificationsJson || null,
 

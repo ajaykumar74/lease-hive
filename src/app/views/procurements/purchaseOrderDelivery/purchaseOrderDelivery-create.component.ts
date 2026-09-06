@@ -108,7 +108,7 @@ Instructions: obj.Instructions || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderDeliverys/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -154,7 +154,7 @@ Instructions: obj.Instructions || '',
       RowVersionStr : this.objMaster.RowVersionStr,
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      PurchaseOrderLineId: formValues.PurchaseOrderLineId || 0,
-ScheduleNo: formValues.ScheduleNo || null,
+ScheduleNo: formValues.ScheduleNo || 0,
 DeliveryLocationId: formValues.DeliveryLocationId || 0,
 ScheduledQuantity: formValues.ScheduledQuantity || 0,
 PromisedDate: formValues.PromisedDate || null,

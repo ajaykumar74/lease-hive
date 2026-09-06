@@ -77,13 +77,10 @@ this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrde
 this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
 this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId1', Value: 'GoodsReceiptId1' });
 this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId2', Value: 'GoodsReceiptId2' });
-this.matchtypecodeOptions.push({Text: 'TWO_WAY', Value: 'TWO_WAY' });
-this.matchtypecodeOptions.push({Text: 'THREE_WAY', Value: 'THREE_WAY' });
+this.matchtypecodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchTypeCode');
 this.matchedbyOptions.push({Text: 'MatchedBy1', Value: 'MatchedBy1' });
 this.matchedbyOptions.push({Text: 'MatchedBy2', Value: 'MatchedBy2' });
-this.matchresultcodeOptions.push({Text: 'MATCHED', Value: 'MATCHED' });
-this.matchresultcodeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.matchresultcodeOptions.push({Text: 'REJECTED', Value: 'REJECTED' });
+this.matchresultcodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchResultCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -132,7 +129,7 @@ MatchResultCode: obj.MatchResultCode || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/invoiceMatch/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/invoice-matching/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -181,15 +178,15 @@ MatchResultCode: obj.MatchResultCode || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     SupplierInvoiceId:  formValues.SupplierInvoiceId || null,
-PurchaseOrderId:  formValues.PurchaseOrderId || null,
-GoodsReceiptId:  formValues.GoodsReceiptId || null,
+     SupplierInvoiceId:  formValues.SupplierInvoiceId || 0,
+PurchaseOrderId:  formValues.PurchaseOrderId || 0,
+GoodsReceiptId:  formValues.GoodsReceiptId || 0,
 MatchTypeCode:  formValues.MatchTypeCode || null,
 MatchedOn:  formValues.MatchedOn || null,
-MatchedBy:  formValues.MatchedBy || null,
-QuantityVariance:  formValues.QuantityVariance || null,
-AmountVariance:  formValues.AmountVariance || null,
-TolerancePassed:  formValues.TolerancePassed || null,
+MatchedBy:  formValues.MatchedBy || 0,
+QuantityVariance:  formValues.QuantityVariance || 0,
+AmountVariance:  formValues.AmountVariance || 0,
+TolerancePassed:  formValues.TolerancePassed || false,
 MatchResultCode:  formValues.MatchResultCode || null,
 
     } as IInvoiceMatch ;

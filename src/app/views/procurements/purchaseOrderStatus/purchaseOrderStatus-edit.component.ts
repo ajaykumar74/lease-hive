@@ -64,10 +64,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -114,7 +111,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseOrderStatus/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/config/po-statuses/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -163,9 +160,9 @@ RecordStatus: obj.RecordStatus || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      StatusCode:  formValues.StatusCode || null,
 StatusName:  formValues.StatusName || null,
-IsEditable:  formValues.IsEditable || null,
-IsTerminal:  formValues.IsTerminal || null,
-SortOrder:  formValues.SortOrder || null,
+IsEditable:  formValues.IsEditable || false,
+IsTerminal:  formValues.IsTerminal || false,
+SortOrder:  formValues.SortOrder || 0,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
 RecordStatus:  formValues.RecordStatus || null,

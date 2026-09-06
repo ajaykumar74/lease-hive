@@ -117,7 +117,7 @@ LineTotal: obj.LineTotal || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierInvoiceLines/create']);
+      this.router.navigate(['/business/procurement/supplier-invoices/lines/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -166,7 +166,7 @@ LineTotal: obj.LineTotal || 0,
       RowVersionStr : this.objMaster.RowVersionStr,
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      SupplierInvoiceId: formValues.SupplierInvoiceId || 0,
-LineNo: formValues.LineNo || null,
+LineNo: formValues.LineNo || 0,
 PurchaseOrderLineId: formValues.PurchaseOrderLineId || 0,
 GoodsReceiptLineId: formValues.GoodsReceiptLineId || 0,
 Description: formValues.Description || null,

@@ -137,17 +137,17 @@ export class GoodsReceiptLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/goodsReceiptLines/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/goodsReceiptLines/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/goodsReceiptLines/create']);
+      this.router.navigate(['/business/procurement/goods-receipts/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

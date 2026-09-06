@@ -71,7 +71,7 @@ export class SupplierQuotationViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/supplierQuotation/create']);
+            this.router.navigate(['/business/procurement/supplier-quotations/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

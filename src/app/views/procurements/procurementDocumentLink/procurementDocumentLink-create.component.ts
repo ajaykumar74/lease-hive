@@ -64,20 +64,10 @@ IsPrimary: new FormControl(false, [Validators.required]),
 
     });
     this.Caption = 'Create ProcurementDocumentLink';
-    this.referencetypeOptions.push({Text: 'PR', Value: 'PR' });
-this.referencetypeOptions.push({Text: 'RFQ', Value: 'RFQ' });
-this.referencetypeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.referencetypeOptions.push({Text: 'PO', Value: 'PO' });
-this.referencetypeOptions.push({Text: 'GRN', Value: 'GRN' });
-this.referencetypeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
+    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ProcurementDocumentLinkReferenceType');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentpurposecodeOptions.push({Text: 'RFQ', Value: 'RFQ' });
-this.documentpurposecodeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.documentpurposecodeOptions.push({Text: 'PO', Value: 'PO' });
-this.documentpurposecodeOptions.push({Text: 'DELIVERY', Value: 'DELIVERY' });
-this.documentpurposecodeOptions.push({Text: 'INSPECTION', Value: 'INSPECTION' });
-this.documentpurposecodeOptions.push({Text: 'INVOICE', Value: 'INVOICE' });
+this.documentpurposecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementDocumentLinkDocumentPurposeCode');
 
   }
  
@@ -112,7 +102,7 @@ IsPrimary:  obj.IsPrimary || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/procurementDocumentLinks/create']);
+      this.router.navigate(['/business/procurement/documents/create']);
     }
     else if (key == "Save") {
       this.Save();

@@ -71,7 +71,7 @@ export class PurchaseRequisitionLineViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/purchaseRequisitionLine/create']);
+            this.router.navigate(['/business/procurement/requisitions/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

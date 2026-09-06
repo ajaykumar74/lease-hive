@@ -137,17 +137,17 @@ export class PurchaseOrderLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseOrderLines/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseOrderLines/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseOrderLines/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

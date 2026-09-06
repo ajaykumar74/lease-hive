@@ -71,7 +71,7 @@ export class RFQLineViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/rFQLine/create']);
+            this.router.navigate(['/business/procurement/rfqs/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

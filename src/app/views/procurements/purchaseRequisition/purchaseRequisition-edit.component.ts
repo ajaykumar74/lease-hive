@@ -83,18 +83,9 @@ this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'Requeste
 this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
 this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId1', Value: 'PurchaseRequisitionStatusId1' });
 this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId2', Value: 'PurchaseRequisitionStatusId2' });
-this.sourcereferencetypeOptions.push({Text: 'STOCK', Value: 'STOCK' });
-this.sourcereferencetypeOptions.push({Text: 'QUOTE', Value: 'QUOTE' });
-this.sourcereferencetypeOptions.push({Text: 'CONTRACT', Value: 'CONTRACT' });
-this.sourcereferencetypeOptions.push({Text: 'PROJECT', Value: 'PROJECT' });
-this.sourcereferencetypeOptions.push({Text: 'MANUAL', Value: 'MANUAL' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -146,7 +137,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/purchaseRequisition/create', { id: -1 }]);
+      this.router.navigate(['/business/procurement/requisitions/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -199,16 +190,16 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      PRNo:  formValues.PRNo || null,
-BuyingOrganisationId:  formValues.BuyingOrganisationId || null,
-RequestingOrganisationUnitId:  formValues.RequestingOrganisationUnitId || null,
-RequestedByUserId:  formValues.RequestedByUserId || null,
-PurchaseRequisitionStatusId:  formValues.PurchaseRequisitionStatusId || null,
+BuyingOrganisationId:  formValues.BuyingOrganisationId || 0,
+RequestingOrganisationUnitId:  formValues.RequestingOrganisationUnitId || 0,
+RequestedByUserId:  formValues.RequestedByUserId || 0,
+PurchaseRequisitionStatusId:  formValues.PurchaseRequisitionStatusId || 0,
 RequisitionDate:  formValues.RequisitionDate || null,
 RequiredByDate:  formValues.RequiredByDate || null,
 SourceReferenceType:  formValues.SourceReferenceType || null,
-SourceReferenceId:  formValues.SourceReferenceId || null,
+SourceReferenceId:  formValues.SourceReferenceId || 0,
 CurrencyCode:  formValues.CurrencyCode || null,
-EstimatedTotal:  formValues.EstimatedTotal || null,
+EstimatedTotal:  formValues.EstimatedTotal || 0,
 Justification:  formValues.Justification || null,
 RecordStatus:  formValues.RecordStatus || null,
 

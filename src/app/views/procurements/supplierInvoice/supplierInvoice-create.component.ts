@@ -33,7 +33,6 @@ currencycodeOptions: ISelectItem[] = [];
 matchstatuscodeOptions: ISelectItem[] = [];
 invoicedocumentidOptions: ISelectItem[] = [];
 capturedbyOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierInvoice = {} as ISupplierInvoice;
@@ -73,7 +72,6 @@ InvoiceDocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 APReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CapturedOn: new FormControl(new Date(), [Validators.required]),
 CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SupplierInvoice';
@@ -81,21 +79,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
 this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
-this.matchstatuscodeOptions.push({Text: 'UNMATCHED', Value: 'UNMATCHED' });
-this.matchstatuscodeOptions.push({Text: 'MATCHED', Value: 'MATCHED' });
-this.matchstatuscodeOptions.push({Text: 'EXCEPTION', Value: 'EXCEPTION' });
-this.matchstatuscodeOptions.push({Text: 'APPROVED', Value: 'APPROVED' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
 this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId1', Value: 'InvoiceDocumentId1' });
 this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId2', Value: 'InvoiceDocumentId2' });
 this.capturedbyOptions.push({Text: 'CapturedBy1', Value: 'CapturedBy1' });
 this.capturedbyOptions.push({Text: 'CapturedBy2', Value: 'CapturedBy2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -130,7 +119,6 @@ InvoiceDocumentId: obj.InvoiceDocumentId || 0,
 APReferenceId: obj.APReferenceId || 0,
 CapturedOn:  obj.CapturedOn || new Date(),
 CapturedBy: obj.CapturedBy || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -139,7 +127,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/supplierInvoices/create']);
+      this.router.navigate(['/business/procurement/supplier-invoices/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -171,7 +159,6 @@ InvoiceDocumentId: obj.InvoiceDocumentId || 0,
 APReferenceId: obj.APReferenceId || 0,
 CapturedOn:  obj.CapturedOn || new Date(),
 CapturedBy: obj.CapturedBy || 0,
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -204,8 +191,7 @@ InvoiceDocumentId: formValues.InvoiceDocumentId || 0,
 APReferenceId: formValues.APReferenceId || 0,
 CapturedOn: formValues.CapturedOn || null,
 CapturedBy: formValues.CapturedBy || 0,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as ISupplierInvoice ; 
 	
 	  this.spinner.show(); 

@@ -71,7 +71,7 @@ export class GoodsReceiptLineViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/goodsReceiptLine/create']);
+            this.router.navigate(['/business/procurement/goods-receipts/lines/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

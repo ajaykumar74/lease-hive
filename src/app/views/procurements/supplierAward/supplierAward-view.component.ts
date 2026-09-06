@@ -71,7 +71,7 @@ export class SupplierAwardViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/supplierAward/create']);
+            this.router.navigate(['/business/procurement/awards/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

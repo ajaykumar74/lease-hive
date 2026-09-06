@@ -33,7 +33,6 @@ receivingorganisationunitidOptions: ISelectItem[] = [];
 receiptlocationidOptions: ISelectItem[] = [];
 goodsreceiptstatusidOptions: ISelectItem[] = [];
 receivedbyuseridOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IGoodsReceipt = {} as IGoodsReceipt;
@@ -70,7 +69,6 @@ ReceiptDateTime: new FormControl(new Date(), [Validators.required]),
 SupplierDeliveryNoteNo: new FormControl('', [Validators.maxLength(80), ]), 
 ReceivedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create GoodsReceipt';
@@ -86,10 +84,6 @@ this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId1', Value: 'Go
 this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId2', Value: 'GoodsReceiptStatusId2' });
 this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId1', Value: 'ReceivedByUserId1' });
 this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId2', Value: 'ReceivedByUserId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -121,7 +115,6 @@ ReceiptDateTime:  obj.ReceiptDateTime || new Date(),
 SupplierDeliveryNoteNo: obj.SupplierDeliveryNoteNo || '',
 ReceivedByUserId: obj.ReceivedByUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -130,7 +123,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/goodsReceipts/create']);
+      this.router.navigate(['/business/procurement/goods-receipts/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -159,7 +152,6 @@ ReceiptDateTime:  obj.ReceiptDateTime || new Date(),
 SupplierDeliveryNoteNo: obj.SupplierDeliveryNoteNo || '',
 ReceivedByUserId: obj.ReceivedByUserId || 0,
 Remarks: obj.Remarks || '',
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -189,8 +181,7 @@ ReceiptDateTime: formValues.ReceiptDateTime || null,
 SupplierDeliveryNoteNo: formValues.SupplierDeliveryNoteNo || null,
 ReceivedByUserId: formValues.ReceivedByUserId || 0,
 Remarks: formValues.Remarks || null,
-RecordStatus: formValues.RecordStatus || null,
-
+RecordStatus: 'Active',
     } as IGoodsReceipt ; 
 	
 	  this.spinner.show(); 

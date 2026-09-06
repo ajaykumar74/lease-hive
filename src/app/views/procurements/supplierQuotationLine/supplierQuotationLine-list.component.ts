@@ -137,17 +137,17 @@ export class SupplierQuotationLineListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/supplierQuotationLines/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/supplier-quotations/lines/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/supplierQuotationLines/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/supplier-quotations/lines/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/supplierQuotationLines/create']);
+      this.router.navigate(['/business/procurement/supplier-quotations/lines/create']);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -137,17 +137,17 @@ export class PurchaseOrderAmendmentListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/purchaseOrderAmendments/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/amendments/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/purchaseOrderAmendments/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/purchase-orders/amendments/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/purchaseOrderAmendments/create']);
+      this.router.navigate(['/business/procurement/purchase-orders/amendments/create']);
     } 
     else if (key == "Refresh") {
       this.search();
