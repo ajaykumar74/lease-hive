@@ -1,4 +1,5 @@
 import { IBase } from "@/shared/IBase";
+import { IPurchaseOrderLine } from '../purchaseOrderLine/purchaseOrderLine';
 
 export interface IPurchaseOrder extends IBase {
 	Id :number;
@@ -23,5 +24,6 @@ SupplierTaxSnapshot :string;
 ApprovalRequestId :number;
 IssuedOn :Date;
 RecordStatus :string;
+LineItems: IPurchaseOrderLine[];
 
 }

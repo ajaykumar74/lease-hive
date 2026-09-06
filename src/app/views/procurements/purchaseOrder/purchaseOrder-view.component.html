@@ -6,6 +6,18 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
+<div class="mt-4">
+  <h3>Line items</h3>
+  <p-table [value]="purchaseOrder.LineItems || []" styleClass="p-datatable-sm">
+    <ng-template pTemplate="header"><tr><th>#</th><th>Description</th><th>Type</th><th>Qty</th><th>UOM</th><th>Unit price</th><th>Discount</th><th>Tax</th><th>Line total</th><th>Required by</th></tr></ng-template>
+    <ng-template pTemplate="body" let-line>
+      <tr>
+        <td>{{ line.LineNo }}</td><td>{{ line.Description }}</td><td>{{ line.LineTypeCode }}</td><td>{{ line.OrderedQuantity }}</td><td>{{ line.UOMId }}</td><td>{{ line.UnitPrice }}</td><td>{{ line.DiscountAmount }}</td><td>{{ line.TaxAmount }}</td><td>{{ line.LineTotal }}</td><td>{{ line.RequiredByDate | date:'dd-MM-yyyy' }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage"><tr><td colspan="10" class="text-center">No line items.</td></tr></ng-template>
+  </p-table>
+</div>
 					<form> 
 				<p-fluid>
 		      			<div class="flex mt-8">

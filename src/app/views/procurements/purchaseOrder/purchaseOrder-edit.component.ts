@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseOrder } from './purchaseOrder';
 import { PurchaseOrderService } from './purchaseOrder.service';
+import { IPurchaseOrderLine } from '../purchaseOrderLine/purchaseOrderLine';
 
 
 @Component({
@@ -36,6 +37,8 @@ currencycodeOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+linetypecodeOptions: ISelectItem[] = [];
+uomidOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IPurchaseOrder = {} as IPurchaseOrder;
@@ -80,26 +83,28 @@ SupplierTaxSnapshot: new FormControl('', [Validators.maxLength(100), ]),
 ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IssuedOn: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+LineItems: this.fb.array([], Validators.required),
 
     });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
-      options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.approvalrequestidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
-      options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.buyingorganisationidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', 'locations',
-      options => this.deliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.deliverylocationidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderStatusId', 'purchase-order-statuses',
-      options => this.purchaseorderstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.purchaseorderstatusidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierAwardId', 'supplier-awards',
-      options => this.supplierawardidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.supplierawardidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
-      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.supplierpartyidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
+this.loadLineItemOptions();
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
@@ -153,9 +158,98 @@ RecordStatus: obj.RecordStatus || '',
  
       }
     );
+    this.setLineItems(obj.LineItems || []);
    
 	 this.Caption = "PurchaseOrder Details #" + obj.Id;
   } 
+
+  get lineItems(): FormArray<FormGroup> {
+    return this.editForm.get('LineItems') as FormArray<FormGroup>;
+  }
+
+  addLineItem(lineItem?: Partial<IPurchaseOrderLine>): void {
+    const line = this.fb.group({
+      Id: new FormControl(lineItem?.Id || 0),
+      RowVersionStr: new FormControl(lineItem?.RowVersionStr || ''),
+      PurchaseOrderId: new FormControl(lineItem?.PurchaseOrderId || this.selectedId),
+      LineNo: new FormControl(lineItem?.LineNo || this.lineItems.length + 1),
+      LineTypeCode: new FormControl(lineItem?.LineTypeCode || '', [Validators.required, Validators.maxLength(20)]),
+      Description: new FormControl(lineItem?.Description || '', [Validators.required, Validators.maxLength(100)]),
+      OrderedQuantity: new FormControl(lineItem?.OrderedQuantity || 1, [Validators.required, Validators.min(1)]),
+      UOMId: new FormControl(lineItem?.UOMId || 0, [  Validators.min(1)]),
+      UnitPrice: new FormControl(lineItem?.UnitPrice || 0, [Validators.required, Validators.min(0)]),
+      DiscountAmount: new FormControl(lineItem?.DiscountAmount || 0, [Validators.required, Validators.min(0)]),
+      TaxAmount: new FormControl(lineItem?.TaxAmount || 0, [Validators.required, Validators.min(0)]),
+      LineTotal: new FormControl({ value: lineItem?.LineTotal || 0, disabled: true }),
+      RequiredByDate: new FormControl(lineItem?.RequiredByDate ? new Date(lineItem.RequiredByDate) : null),
+      PurchaseRequisitionLineId: new FormControl(lineItem?.PurchaseRequisitionLineId || 0),
+      SupplierQuotationLineId: new FormControl(lineItem?.SupplierQuotationLineId || 0),
+      AssetCategoryId: new FormControl(lineItem?.AssetCategoryId || 0),
+      AssetTypeId: new FormControl(lineItem?.AssetTypeId || 0),
+      SpecificationsJson: new FormControl(lineItem?.SpecificationsJson || '')
+    });
+    line.valueChanges.subscribe(() => this.recalculateLineItems());
+    this.lineItems.push(line);
+    if (!lineItem) {
+      this.lineItems.markAsDirty();
+      this.editForm.markAsDirty();
+    }
+    this.recalculateLineItems();
+  }
+
+  removeLineItem(index: number): void {
+    this.lineItems.removeAt(index);
+    this.lineItems.controls.forEach((line, lineIndex) => line.get('LineNo')?.setValue(lineIndex + 1, { emitEvent: false }));
+    this.lineItems.markAsDirty();
+    this.editForm.markAsDirty();
+    this.recalculateLineItems();
+  }
+
+  private loadLineItemOptions(): void {
+    this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
+    if (!this.linetypecodeOptions.length) {
+      this.loggedInUserService.loadPicklistCache().subscribe({
+        next: () => this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode'),
+        error: error => this.showLookupError(error)
+      });
+    }
+
+    this.loggedInUserService.getEntityLookupOptions('unit-of-measures').subscribe({
+      next: options => this.uomidOptions = options,
+      error: error => this.showLookupError(error)
+    });
+  }
+
+  private showLookupError(error: unknown): void {
+    const response = error as { error?: { message?: string; Message?: string } | string; message?: string };
+    const message = typeof error === 'string'
+      ? error
+      : typeof response?.error === 'string'
+        ? response.error
+        : response?.error?.message || response?.error?.Message || response?.message || 'Unable to load purchase-order options.';
+    setTimeout(() => this.messageService?.showError(message));
+  }
+
+  private setLineItems(lineItems: IPurchaseOrderLine[]): void {
+    this.lineItems.clear();
+    lineItems.forEach(lineItem => this.addLineItem(lineItem));
+    this.recalculateLineItems();
+  }
+
+  private recalculateLineItems(): void {
+    const lines = this.lineItems.getRawValue();
+    lines.forEach((line: any, index: number) => {
+      const lineTotal = (Number(line.OrderedQuantity) * Number(line.UnitPrice)) - Number(line.DiscountAmount) + Number(line.TaxAmount);
+      this.lineItems.at(index).get('LineTotal')?.setValue(lineTotal, { emitEvent: false });
+    });
+    const totals = this.lineItems.getRawValue().reduce((result: any, line: any) => {
+      result.subtotal += (Number(line.OrderedQuantity) * Number(line.UnitPrice)) - Number(line.DiscountAmount);
+      result.tax += Number(line.TaxAmount);
+      return result;
+    }, { subtotal: 0, tax: 0 });
+    const charges = Number(this.editForm.get('ChargeAmount')?.value || 0);
+    this.editForm.patchValue({ Subtotal: totals.subtotal, TaxAmount: totals.tax, TotalAmount: totals.subtotal + totals.tax + charges }, { emitEvent: false });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -201,14 +295,14 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
   
-        if (!this.editForm.valid) {
+        if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
@@ -217,6 +311,7 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      PONo:  formValues.PONo || null,
 VersionNo:  formValues.VersionNo || 0,
 BuyingOrganisationId:  formValues.BuyingOrganisationId || 0,
@@ -236,6 +331,7 @@ SupplierTaxSnapshot:  formValues.SupplierTaxSnapshot || null,
 ApprovalRequestId:  formValues.ApprovalRequestId || 0,
 IssuedOn:  formValues.IssuedOn || null,
 RecordStatus:  formValues.RecordStatus || null,
+LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, PurchaseOrderId: this.purchaseOrder.Id })),
 
     } as IPurchaseOrder ;
 	
@@ -247,10 +343,19 @@ RecordStatus:  formValues.RecordStatus || null,
 		this._location.back();
       },
       error: err => { 
-       this.messageService.showError(err);
+       this.messageService.showError(this.getErrorMessage(err));
        this.spinner.hide(); 
 	  },
       complete: () => { this.spinner.hide();}
     });
+  }
+
+  private getErrorMessage(error: unknown): string {
+    const response = error as { error?: { message?: string; Message?: string } | string; message?: string };
+    return typeof error === 'string'
+      ? error
+      : typeof response?.error === 'string'
+        ? response.error
+        : response?.error?.message || response?.error?.Message || response?.message || 'Unable to save the purchase order.';
   }
 }
