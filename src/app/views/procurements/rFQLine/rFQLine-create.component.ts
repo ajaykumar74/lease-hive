@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { RFQLineService } from './rFQLine.service';
    providers: [ MessageService]
 })
 export class RFQLineCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -67,12 +68,15 @@ RequiredByDate: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create RFQLine';
-    this.rfqidOptions.push({Text: 'RFQId1', Value: 'RFQId1' });
-this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
-this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId1', Value: 'PurchaseRequisitionLineId1' });
-this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId2', Value: 'PurchaseRequisitionLineId2' });
-this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
-this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionLineId', 'purchase-requisition-lines',
+      options => this.purchaserequisitionlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
+      options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measures',
+      options => this.uomidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
  

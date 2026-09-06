@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { PurchaseOrderAmendmentService } from './purchaseOrderAmendment.service'
    providers: [ MessageService]
 })
 export class PurchaseOrderAmendmentCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -70,13 +71,16 @@ ChangedOn: new FormControl(new Date(), [Validators.required]),
 
     });
     this.Caption = 'Create PurchaseOrderAmendment';
-    this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrderId1' });
-this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
+      options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ChangedBy', 'application-users',
+      options => this.changedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
+      options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOrderAmendmentReasonCode');
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
-this.changedbyOptions.push({Text: 'ChangedBy1', Value: 'ChangedBy1' });
-this.changedbyOptions.push({Text: 'ChangedBy2', Value: 'ChangedBy2' });
 
   }
  

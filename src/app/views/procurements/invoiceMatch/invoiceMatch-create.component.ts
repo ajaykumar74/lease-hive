@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { InvoiceMatchService } from './invoiceMatch.service';
    providers: [ MessageService]
 })
 export class InvoiceMatchCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -72,15 +73,19 @@ MatchResultCode: new FormControl('', [Validators.required, Validators.maxLength(
 
     });
     this.Caption = 'Create InvoiceMatch';
-    this.supplierinvoiceidOptions.push({Text: 'SupplierInvoiceId1', Value: 'SupplierInvoiceId1' });
-this.supplierinvoiceidOptions.push({Text: 'SupplierInvoiceId2', Value: 'SupplierInvoiceId2' });
-this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrderId1' });
-this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
-this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId1', Value: 'GoodsReceiptId1' });
-this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId2', Value: 'GoodsReceiptId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptId', 'goods-receipts',
+      options => this.goodsreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedBy', 'application-users',
+      options => this.matchedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
+      options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierInvoiceId', 'supplier-invoices',
+      options => this.supplierinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.matchtypecodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchTypeCode');
-this.matchedbyOptions.push({Text: 'MatchedBy1', Value: 'MatchedBy1' });
-this.matchedbyOptions.push({Text: 'MatchedBy2', Value: 'MatchedBy2' });
 this.matchresultcodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchResultCode');
 
   }

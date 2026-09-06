@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { GoodsReceiptService } from './goodsReceipt.service';
   providers: [ MessageService]
 })
 export class GoodsReceiptEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -72,19 +73,24 @@ Remarks: new FormControl('', [Validators.maxLength(100), ]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-
-   this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrderId1' });
-this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.receivingorganisationunitidOptions.push({Text: 'ReceivingOrganisationUnitId1', Value: 'ReceivingOrganisationUnitId1' });
-this.receivingorganisationunitidOptions.push({Text: 'ReceivingOrganisationUnitId2', Value: 'ReceivingOrganisationUnitId2' });
-this.receiptlocationidOptions.push({Text: 'ReceiptLocationId1', Value: 'ReceiptLocationId1' });
-this.receiptlocationidOptions.push({Text: 'ReceiptLocationId2', Value: 'ReceiptLocationId2' });
-this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId1', Value: 'GoodsReceiptStatusId1' });
-this.goodsreceiptstatusidOptions.push({Text: 'GoodsReceiptStatusId2', Value: 'GoodsReceiptStatusId2' });
-this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId1', Value: 'ReceivedByUserId1' });
-this.receivedbyuseridOptions.push({Text: 'ReceivedByUserId2', Value: 'ReceivedByUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptStatusId', 'goods-receipt-statuses',
+      options => this.goodsreceiptstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
+      options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceiptLocationId', 'locations',
+      options => this.receiptlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivedByUserId', 'application-users',
+      options => this.receivedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationUnitId', 'organisation-units',
+      options => this.receivingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

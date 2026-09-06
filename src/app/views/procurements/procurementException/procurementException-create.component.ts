@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ProcurementExceptionService } from './procurementException.service';
    providers: [ MessageService]
 })
 export class ProcurementExceptionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -74,8 +75,9 @@ ResolvedOn: new FormControl(new Date(), []),
 this.exceptiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionExceptionTypeCode');
 this.severitycodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionSeverityCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementExceptionStatusCode');
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId1', Value: 'AssignedToUserId1' });
-this.assignedtouseridOptions.push({Text: 'AssignedToUserId2', Value: 'AssignedToUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
+      options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
  

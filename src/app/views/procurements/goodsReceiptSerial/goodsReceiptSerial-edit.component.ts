@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { GoodsReceiptSerialService } from './goodsReceiptSerial.service';
   providers: [ MessageService]
 })
 export class GoodsReceiptSerialEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -65,11 +66,12 @@ AcceptanceCode: new FormControl('', [Validators.required, Validators.maxLength(2
 ConditionCode: new FormControl('', [Validators.maxLength(20), ]), 
 
     });
-
-   this.goodsreceiptlineidOptions.push({Text: 'GoodsReceiptLineId1', Value: 'GoodsReceiptLineId1' });
-this.goodsreceiptlineidOptions.push({Text: 'GoodsReceiptLineId2', Value: 'GoodsReceiptLineId2' });
-this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptLineId', 'goods-receipt-lines',
+      options => this.goodsreceiptlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.acceptancecodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialAcceptanceCode');
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialConditionCode');
 

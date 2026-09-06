@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ProcurementDocumentLinkService } from './procurementDocumentLink.servic
    providers: [ MessageService]
 })
 export class ProcurementDocumentLinkCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -65,8 +66,9 @@ IsPrimary: new FormControl(false, [Validators.required]),
     });
     this.Caption = 'Create ProcurementDocumentLink';
     this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ProcurementDocumentLinkReferenceType');
-this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
-this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents',
+      options => this.documentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.documentpurposecodeOptions = this.loggedInUserService.getPicklistOptions('ProcurementDocumentLinkDocumentPurposeCode');
 
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { PurchaseOrderService } from './purchaseOrder.service';
    providers: [ MessageService]
 })
 export class PurchaseOrderCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -81,19 +82,25 @@ IssuedOn: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create PurchaseOrder';
-    this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.supplierawardidOptions.push({Text: 'SupplierAwardId1', Value: 'SupplierAwardId1' });
-this.supplierawardidOptions.push({Text: 'SupplierAwardId2', Value: 'SupplierAwardId2' });
-this.purchaseorderstatusidOptions.push({Text: 'PurchaseOrderStatusId1', Value: 'PurchaseOrderStatusId1' });
-this.purchaseorderstatusidOptions.push({Text: 'PurchaseOrderStatusId2', Value: 'PurchaseOrderStatusId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
+      options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
+      options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', 'locations',
+      options => this.deliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderStatusId', 'purchase-order-statuses',
+      options => this.purchaseorderstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierAwardId', 'supplier-awards',
+      options => this.supplierawardidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId1', Value: 'DeliveryLocationId1' });
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId2', Value: 'DeliveryLocationId2' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
 
   }
  

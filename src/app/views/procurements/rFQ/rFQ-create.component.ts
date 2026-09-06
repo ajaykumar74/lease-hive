@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { RFQService } from './rFQ.service';
    providers: [ MessageService]
 })
 export class RFQCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -68,10 +69,12 @@ CommercialTerms: new FormControl('', [Validators.maxLength(2000), ]),
 
     });
     this.Caption = 'Create RFQ';
-    this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId1', Value: 'PurchaseRequisitionId1' });
-this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId2', Value: 'PurchaseRequisitionId2' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
+      options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionId', 'purchase-requisitions',
+      options => this.purchaserequisitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.rfqstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQStatusCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 

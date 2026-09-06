@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PurchaseOrderLineService } from './purchaseOrderLine.service';
   providers: [ MessageService]
 })
 export class PurchaseOrderLineEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -77,20 +78,25 @@ RequiredByDate: new FormControl(new Date(), []),
 SpecificationsJson: new FormControl('', [Validators.maxLength(8000), ]), 
 
     });
-
-   this.purchaseorderidOptions.push({Text: 'PurchaseOrderId1', Value: 'PurchaseOrderId1' });
-this.purchaseorderidOptions.push({Text: 'PurchaseOrderId2', Value: 'PurchaseOrderId2' });
-this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId1', Value: 'PurchaseRequisitionLineId1' });
-this.purchaserequisitionlineidOptions.push({Text: 'PurchaseRequisitionLineId2', Value: 'PurchaseRequisitionLineId2' });
-this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId1', Value: 'SupplierQuotationLineId1' });
-this.supplierquotationlineidOptions.push({Text: 'SupplierQuotationLineId2', Value: 'SupplierQuotationLineId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
+      options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionLineId', 'purchase-requisition-lines',
+      options => this.purchaserequisitionlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationLineId', 'supplier-quotation-lines',
+      options => this.supplierquotationlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measures',
+      options => this.uomidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
-this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
-this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
-this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
-this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SupplierInvoiceService } from './supplierInvoice.service';
   providers: [ MessageService]
 })
 export class SupplierInvoiceEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -75,17 +76,20 @@ CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648)
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-
-   this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
+      options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CapturedBy', 'application-users',
+      options => this.capturedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InvoiceDocumentId', 'documents',
+      options => this.invoicedocumentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
-this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId1', Value: 'InvoiceDocumentId1' });
-this.invoicedocumentidOptions.push({Text: 'InvoiceDocumentId2', Value: 'InvoiceDocumentId2' });
-this.capturedbyOptions.push({Text: 'CapturedBy1', Value: 'CapturedBy1' });
-this.capturedbyOptions.push({Text: 'CapturedBy2', Value: 'CapturedBy2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

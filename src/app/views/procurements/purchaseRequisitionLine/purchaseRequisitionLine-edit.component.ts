@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PurchaseRequisitionLineService } from './purchaseRequisitionLine.servic
   providers: [ MessageService]
 })
 export class PurchaseRequisitionLineEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -74,19 +75,23 @@ RequiredByDate: new FormControl(new Date(), []),
 DeliveryLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
-
-   this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId1', Value: 'PurchaseRequisitionId1' });
-this.purchaserequisitionidOptions.push({Text: 'PurchaseRequisitionId2', Value: 'PurchaseRequisitionId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', 'locations',
+      options => this.deliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionId', 'purchase-requisitions',
+      options => this.purchaserequisitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measures',
+      options => this.uomidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
-this.assettypeidOptions.push({Text: 'AssetTypeId1', Value: 'AssetTypeId1' });
-this.assettypeidOptions.push({Text: 'AssetTypeId2', Value: 'AssetTypeId2' });
-this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
-this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId1', Value: 'DeliveryLocationId1' });
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId2', Value: 'DeliveryLocationId2' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

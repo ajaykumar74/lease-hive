@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { RFQSupplierService } from './rFQSupplier.service';
    providers: [ MessageService]
 })
 export class RFQSupplierCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -68,15 +69,19 @@ SupplierContactId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 
     });
     this.Caption = 'Create RFQSupplier';
-    this.rfqidOptions.push({Text: 'RFQId1', Value: 'RFQId1' });
-this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId1', Value: 'SupplierServiceAreaId1' });
-this.supplierserviceareaidOptions.push({Text: 'SupplierServiceAreaId2', Value: 'SupplierServiceAreaId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
+      options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierContactId', 'party-contacts',
+      options => this.suppliercontactidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'PartyId':'SupplierPartyId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierServiceAreaId', 'supplier-service-areas',
+      options => this.supplierserviceareaidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'PartyId':'SupplierPartyId'});
 this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQSupplierInvitationStatusCode');
-this.suppliercontactidOptions.push({Text: 'SupplierContactId1', Value: 'SupplierContactId1' });
-this.suppliercontactidOptions.push({Text: 'SupplierContactId2', Value: 'SupplierContactId2' });
 
   }
  

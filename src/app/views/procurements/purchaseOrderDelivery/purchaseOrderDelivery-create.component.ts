@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { PurchaseOrderDeliveryService } from './purchaseOrderDelivery.service';
    providers: [ MessageService]
 })
 export class PurchaseOrderDeliveryCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -66,12 +67,15 @@ Instructions: new FormControl('', [Validators.maxLength(500), ]),
 
     });
     this.Caption = 'Create PurchaseOrderDelivery';
-    this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId1', Value: 'PurchaseOrderLineId1' });
-this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId2', Value: 'PurchaseOrderLineId2' });
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId1', Value: 'DeliveryLocationId1' });
-this.deliverylocationidOptions.push({Text: 'DeliveryLocationId2', Value: 'DeliveryLocationId2' });
-this.receivingorganisationunitidOptions.push({Text: 'ReceivingOrganisationUnitId1', Value: 'ReceivingOrganisationUnitId1' });
-this.receivingorganisationunitidOptions.push({Text: 'ReceivingOrganisationUnitId2', Value: 'ReceivingOrganisationUnitId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', 'locations',
+      options => this.deliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderLineId', 'purchase-order-lines',
+      options => this.purchaseorderlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationUnitId', 'organisation-units',
+      options => this.receivingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
  

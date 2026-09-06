@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { ReceiptInspectionService } from './receiptInspection.service';
    providers: [ MessageService]
 })
 export class ReceiptInspectionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -69,15 +70,19 @@ DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147
 
     });
     this.Caption = 'Create ReceiptInspection';
-    this.goodsreceiptlineidOptions.push({Text: 'GoodsReceiptLineId1', Value: 'GoodsReceiptLineId1' });
-this.goodsreceiptlineidOptions.push({Text: 'GoodsReceiptLineId2', Value: 'GoodsReceiptLineId2' });
-this.goodsreceiptserialidOptions.push({Text: 'GoodsReceiptSerialId1', Value: 'GoodsReceiptSerialId1' });
-this.goodsreceiptserialidOptions.push({Text: 'GoodsReceiptSerialId2', Value: 'GoodsReceiptSerialId2' });
-this.inspectoruseridOptions.push({Text: 'InspectorUserId1', Value: 'InspectorUserId1' });
-this.inspectoruseridOptions.push({Text: 'InspectorUserId2', Value: 'InspectorUserId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents',
+      options => this.documentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptLineId', 'goods-receipt-lines',
+      options => this.goodsreceiptlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptSerialId', 'goods-receipt-serials',
+      options => this.goodsreceiptserialidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'GoodsReceiptLineId':'GoodsReceiptLineId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'application-users',
+      options => this.inspectoruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.resultcodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptInspectionResultCode');
-this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
-this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 
   }
  

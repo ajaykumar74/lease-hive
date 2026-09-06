@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { GoodsReceiptLineService } from './goodsReceiptLine.service';
   providers: [ MessageService]
 })
 export class GoodsReceiptLineEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -68,13 +69,15 @@ InspectionStatusCode: new FormControl('', [Validators.maxLength(20), ]),
 RejectionReason: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
-   this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId1', Value: 'GoodsReceiptId1' });
-this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId2', Value: 'GoodsReceiptId2' });
-this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId1', Value: 'PurchaseOrderLineId1' });
-this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId2', Value: 'PurchaseOrderLineId2' });
-this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
-this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptId', 'goods-receipts',
+      options => this.goodsreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderLineId', 'purchase-order-lines',
+      options => this.purchaseorderlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measures',
+      options => this.uomidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.inspectionstatuscodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptLineInspectionStatusCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

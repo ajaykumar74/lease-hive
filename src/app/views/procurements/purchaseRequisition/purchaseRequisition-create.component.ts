@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { PurchaseRequisitionService } from './purchaseRequisition.service';
    providers: [ MessageService]
 })
 export class PurchaseRequisitionCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -74,14 +75,18 @@ Justification: new FormControl('', [Validators.maxLength(250), ]),
 
     });
     this.Caption = 'Create PurchaseRequisition';
-    this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId1', Value: 'BuyingOrganisationId1' });
-this.buyingorganisationidOptions.push({Text: 'BuyingOrganisationId2', Value: 'BuyingOrganisationId2' });
-this.requestingorganisationunitidOptions.push({Text: 'RequestingOrganisationUnitId1', Value: 'RequestingOrganisationUnitId1' });
-this.requestingorganisationunitidOptions.push({Text: 'RequestingOrganisationUnitId2', Value: 'RequestingOrganisationUnitId2' });
-this.requestedbyuseridOptions.push({Text: 'RequestedByUserId1', Value: 'RequestedByUserId1' });
-this.requestedbyuseridOptions.push({Text: 'RequestedByUserId2', Value: 'RequestedByUserId2' });
-this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId1', Value: 'PurchaseRequisitionStatusId1' });
-this.purchaserequisitionstatusidOptions.push({Text: 'PurchaseRequisitionStatusId2', Value: 'PurchaseRequisitionStatusId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
+      options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionStatusId', 'purchase-requisition-statuses',
+      options => this.purchaserequisitionstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'application-users',
+      options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestingOrganisationUnitId', 'organisation-units',
+      options => this.requestingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 

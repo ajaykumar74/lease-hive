@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SupplierAwardService } from './supplierAward.service';
   providers: [ MessageService]
 })
 export class SupplierAwardEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,18 +70,22 @@ ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 AwardedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
-
-   this.rfqidOptions.push({Text: 'RFQId1', Value: 'RFQId1' });
-this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
-this.supplierquotationidOptions.push({Text: 'SupplierQuotationId1', Value: 'SupplierQuotationId1' });
-this.supplierquotationidOptions.push({Text: 'SupplierQuotationId2', Value: 'SupplierQuotationId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests',
+      options => this.approvalrequestidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AwardedBy', 'application-users',
+      options => this.awardedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
+      options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 'supplier-quotations',
+      options => this.supplierquotationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId1', Value: 'ApprovalRequestId1' });
-this.approvalrequestidOptions.push({Text: 'ApprovalRequestId2', Value: 'ApprovalRequestId2' });
-this.awardedbyOptions.push({Text: 'AwardedBy1', Value: 'AwardedBy1' });
-this.awardedbyOptions.push({Text: 'AwardedBy2', Value: 'AwardedBy2' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

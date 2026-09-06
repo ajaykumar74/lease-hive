@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ApprovalRequestService } from './approvalRequest.service';
   providers: [ MessageService]
 })
 export class ApprovalRequestEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,11 +68,13 @@ CompletedOn: new FormControl(new Date(), []),
     });
 
    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ApprovalRequestReferenceType');
-this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId1', Value: 'WorkflowDefinitionId1' });
-this.workflowdefinitionidOptions.push({Text: 'WorkflowDefinitionId2', Value: 'WorkflowDefinitionId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedBy', 'application-users',
+      options => this.requestedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'WorkflowDefinitionId', 'workflow-definitions',
+      options => this.workflowdefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.approvalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalStatusCode');
-this.requestedbyOptions.push({Text: 'RequestedBy1', Value: 'RequestedBy1' });
-this.requestedbyOptions.push({Text: 'RequestedBy2', Value: 'RequestedBy2' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

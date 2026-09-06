@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SupplierQuotationLineService } from './supplierQuotationLine.service';
   providers: [ MessageService]
 })
 export class SupplierQuotationLineEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,11 +68,12 @@ ComplianceCode: new FormControl('', [Validators.maxLength(20), ]),
 DeviationNotes: new FormControl('', [Validators.maxLength(1000), ]), 
 
     });
-
-   this.supplierquotationidOptions.push({Text: 'SupplierQuotationId1', Value: 'SupplierQuotationId1' });
-this.supplierquotationidOptions.push({Text: 'SupplierQuotationId2', Value: 'SupplierQuotationId2' });
-this.rfqlineidOptions.push({Text: 'RFQLineId1', Value: 'RFQLineId1' });
-this.rfqlineidOptions.push({Text: 'RFQLineId2', Value: 'RFQLineId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQLineId', 'rfq-lines',
+      options => this.rfqlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 'supplier-quotations',
+      options => this.supplierquotationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.compliancecodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationLineComplianceCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

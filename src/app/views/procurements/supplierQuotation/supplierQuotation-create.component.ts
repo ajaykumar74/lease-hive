@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { SupplierQuotationService } from './supplierQuotation.service';
    providers: [ MessageService]
 })
 export class SupplierQuotationCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -73,10 +74,12 @@ QuotationStatusCode: new FormControl('', [Validators.required, Validators.maxLen
 
     });
     this.Caption = 'Create SupplierQuotation';
-    this.rfqidOptions.push({Text: 'RFQId1', Value: 'RFQId1' });
-this.rfqidOptions.push({Text: 'RFQId2', Value: 'RFQId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
+      options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
 
