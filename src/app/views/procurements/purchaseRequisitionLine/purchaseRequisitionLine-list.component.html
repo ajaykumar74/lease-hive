@@ -33,7 +33,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.PurchaseRequisitionLineId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.PurchaseRequisitionLineId}}</td>
  <td style="width:200px">{{obj.PurchaseRequisitionId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.LineNo | number:'1.0':'en-US' }}</td>

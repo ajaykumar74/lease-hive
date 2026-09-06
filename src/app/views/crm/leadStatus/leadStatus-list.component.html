@@ -27,7 +27,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.LeadStatusId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.StatusCode}}</td>
  <td style="width:200px">{{obj.StatusName}}</td>
  <td style="width:200px">{{obj.IsQualified | yesNo }}</td>

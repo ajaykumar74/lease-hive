@@ -25,7 +25,7 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.CreditApplicantPartyId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.CreditApplicationId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.CreditPartyRoleId | number:'1.0':'en-US' }}</td>
