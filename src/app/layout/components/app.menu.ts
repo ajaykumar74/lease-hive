@@ -1086,6 +1086,11 @@ export class AppMenu {
                                             routerLink: ['/business/procurement/goods-receipts/new']
                                         },
                                         {
+                                            label: 'Goods Receipt Serials',
+                                            icon: 'pi pi-fw pi-barcode',
+                                            routerLink: ['/business/procurement/goods-receipts/serials']
+                                        },
+                                        {
                                             label: 'Service Receipts',
                                             icon: 'pi pi-fw pi-wrench',
                                             routerLink: ['/business/procurement/service-receipts']
