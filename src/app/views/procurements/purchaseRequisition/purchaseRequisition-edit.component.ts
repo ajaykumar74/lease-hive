@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseRequisition } from './purchaseRequisition';
 import { PurchaseRequisitionService } from './purchaseRequisition.service';
+import { IPurchaseRequisitionLine } from '../purchaseRequisitionLine/purchaseRequisitionLine';
 
 
 @Component({
@@ -35,6 +36,8 @@ purchaserequisitionstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+linetypecodeOptions: ISelectItem[] = [];
+uomidOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IPurchaseRequisition = {} as IPurchaseRequisition;
@@ -73,6 +76,7 @@ CurrencyCode: new FormControl('', [Validators.maxLength(20), ]),
 EstimatedTotal: new FormControl(0, []),
 Justification: new FormControl('', [Validators.maxLength(250), ]), 
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+LineItems: this.fb.array([], Validators.required),
 
     });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
@@ -90,6 +94,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestingOrganisation
 this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loadLineItemOptions();
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -135,9 +140,62 @@ RecordStatus: obj.RecordStatus || '',
  
       }
     );
+    this.setLineItems(obj.LineItems || []);
    
 	 this.Caption = "PurchaseRequisition Details #" + obj.Id;
   } 
+
+  get lineItems(): FormArray<FormGroup> {
+    return this.editForm.get('LineItems') as FormArray<FormGroup>;
+  }
+
+  addLineItem(lineItem?: Partial<IPurchaseRequisitionLine>): void {
+    const line = this.fb.group({
+      Id: new FormControl(lineItem?.Id || 0), RowVersionStr: new FormControl(lineItem?.RowVersionStr || ''),
+      PurchaseRequisitionId: new FormControl(lineItem?.PurchaseRequisitionId || this.selectedId),
+      LineNo: new FormControl(lineItem?.LineNo || this.lineItems.length + 1),
+      LineTypeCode: new FormControl(lineItem?.LineTypeCode || '', [Validators.required, Validators.maxLength(20)]),
+      Description: new FormControl(lineItem?.Description || '', [Validators.required, Validators.maxLength(100)]),
+      Quantity: new FormControl(lineItem?.Quantity || 1, [Validators.required, Validators.min(1)]),
+      UOMId: new FormControl(lineItem?.UOMId || 1, [Validators.min(1)]),
+      EstimatedUnitCost: new FormControl(lineItem?.EstimatedUnitCost || 0, [Validators.required, Validators.min(0)]),
+      CurrencyCode: new FormControl(lineItem?.CurrencyCode || this.editForm.get('CurrencyCode')?.value || ''),
+      SpecificationsJson: new FormControl(lineItem?.SpecificationsJson || ''),
+      RequiredByDate: new FormControl(lineItem?.RequiredByDate ? new Date(lineItem.RequiredByDate) : null),
+      DeliveryLocationId: new FormControl(lineItem?.DeliveryLocationId || 0),
+      AssetCategoryId: new FormControl(lineItem?.AssetCategoryId || 0), AssetTypeId: new FormControl(lineItem?.AssetTypeId || 0)
+    });
+    line.valueChanges.subscribe(() => this.recalculateLineItems());
+    this.lineItems.push(line);
+    if (!lineItem) { this.lineItems.markAsDirty(); this.editForm.markAsDirty(); }
+    this.recalculateLineItems();
+  }
+
+  removeLineItem(index: number): void {
+    this.lineItems.removeAt(index);
+    this.lineItems.controls.forEach((line, lineIndex) => line.get('LineNo')?.setValue(lineIndex + 1, { emitEvent: false }));
+    this.lineItems.markAsDirty(); this.editForm.markAsDirty(); this.recalculateLineItems();
+  }
+
+  private loadLineItemOptions(): void {
+    this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
+    if (!this.linetypecodeOptions.length) this.loggedInUserService.loadPicklistCache().subscribe({
+      next: () => this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode'), error: error => this.showLookupError(error)
+    });
+    this.loggedInUserService.getEntityLookupOptions('unit-of-measures').subscribe({ next: options => this.uomidOptions = options, error: error => this.showLookupError(error) });
+  }
+
+  private showLookupError(error: unknown): void {
+    const response = error as { error?: { message?: string; Message?: string } | string; message?: string };
+    const message = typeof error === 'string' ? error : typeof response?.error === 'string' ? response.error : response?.error?.message || response?.error?.Message || response?.message || 'Unable to load purchase-requisition options.';
+    setTimeout(() => this.messageService?.showError(message));
+  }
+
+  private setLineItems(lineItems: IPurchaseRequisitionLine[]): void { this.lineItems.clear(); lineItems.forEach(lineItem => this.addLineItem(lineItem)); this.recalculateLineItems(); }
+  private recalculateLineItems(): void {
+    const estimatedTotal = this.lineItems.getRawValue().reduce((total: number, line: any) => total + (Number(line.Quantity) * Number(line.EstimatedUnitCost)), 0);
+    this.editForm.patchValue({ EstimatedTotal: estimatedTotal }, { emitEvent: false });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -177,14 +235,14 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
   
-        if (!this.editForm.valid) {
+        if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
@@ -205,6 +263,7 @@ SourceReferenceId:  formValues.SourceReferenceId || 0,
 CurrencyCode:  formValues.CurrencyCode || null,
 EstimatedTotal:  formValues.EstimatedTotal || 0,
 Justification:  formValues.Justification || null,
+LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, PurchaseRequisitionId: this.purchaseRequisition.Id })),
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IPurchaseRequisition ;

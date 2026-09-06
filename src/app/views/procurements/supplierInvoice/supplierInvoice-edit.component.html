@@ -152,8 +152,18 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
-											label="Record Status">
+										label="Record Status">
 										</app-validation-errors></div></div>
+
+								<div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
+									<div class="flex align-items-center justify-content-between gap-3"><h3 class="m-0">Line items</h3><button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()"></button></div>
+									<small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line item and complete its required fields before saving.</small>
+									<p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll" styleClass="p-datatable-sm">
+										<ng-template pTemplate="header"><tr><th>#</th><th>Description</th><th>PO line</th><th>Receipt line</th><th>Qty</th><th>UOM</th><th>Unit price</th><th>Tax</th><th>Line total</th><th></th></tr></ng-template>
+										<ng-template pTemplate="body" let-line let-rowIndex="rowIndex"><tr [formGroupName]="rowIndex"><td>{{ line.get('LineNo')?.value }}</td><td style="min-width: 12rem"><input pInputText type="text" formControlName="Description" class="w-full p-inputtext-sm" /></td><td style="min-width: 9rem"><p-dropdown [options]="purchaseorderlineidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="PurchaseOrderLineId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 9rem"><p-dropdown [options]="goodsreceiptlineidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="GoodsReceiptLineId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 6rem"><p-inputNumber formControlName="InvoicedQuantity" [min]="1" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-dropdown [options]="uomidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="UOMId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 8rem"><p-inputNumber formControlName="UnitPrice" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 7rem"><p-inputNumber formControlName="TaxAmount" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-inputNumber formControlName="LineTotal" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td><button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Delete line item ' + (rowIndex + 1)"></button></td></tr></ng-template>
+										<ng-template pTemplate="emptymessage"><tr><td colspan="10" class="text-center">Add at least one line item.</td></tr></ng-template>
+									</p-table>
+								</div>
 
 					</div>
 				</div>

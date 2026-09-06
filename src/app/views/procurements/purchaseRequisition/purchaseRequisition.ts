@@ -1,4 +1,5 @@
 import { IBase } from "@/shared/IBase";
+import { IPurchaseRequisitionLine } from '../purchaseRequisitionLine/purchaseRequisitionLine';
 
 export interface IPurchaseRequisition extends IBase {
 	Id :number;
@@ -17,5 +18,6 @@ CurrencyCode :string;
 EstimatedTotal :number;
 Justification :string;
 RecordStatus :string;
+LineItems: IPurchaseRequisitionLine[];
 
 }

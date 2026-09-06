@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierInvoice } from './supplierInvoice';
 import { SupplierInvoiceService } from './supplierInvoice.service';
+import { ISupplierInvoiceLine } from '../supplierInvoiceLine/supplierInvoiceLine';
 
 
 @Component({
@@ -35,6 +36,9 @@ matchstatuscodeOptions: ISelectItem[] = [];
 invoicedocumentidOptions: ISelectItem[] = [];
 capturedbyOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+uomidOptions: ISelectItem[] = [];
+purchaseorderlineidOptions: ISelectItem[] = [];
+goodsreceiptlineidOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : ISupplierInvoice = {} as ISupplierInvoice;
@@ -74,6 +78,7 @@ APReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2
 CapturedOn: new FormControl(new Date(), [Validators.required]),
 CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+LineItems: this.fb.array([], Validators.required),
 
     });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
@@ -91,6 +96,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'par
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loadLineItemOptions();
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -137,9 +143,52 @@ RecordStatus: obj.RecordStatus || '',
  
       }
     );
+    this.setLineItems(obj.LineItems || []);
    
 	 this.Caption = "SupplierInvoice Details #" + obj.Id;
   } 
+
+  get lineItems(): FormArray<FormGroup> { return this.editForm.get('LineItems') as FormArray<FormGroup>; }
+
+  addLineItem(lineItem?: Partial<ISupplierInvoiceLine>): void {
+    const line = this.fb.group({
+      Id: new FormControl(lineItem?.Id || 0), RowVersionStr: new FormControl(lineItem?.RowVersionStr || ''),
+      SupplierInvoiceId: new FormControl(lineItem?.SupplierInvoiceId || this.selectedId), LineNo: new FormControl(lineItem?.LineNo || this.lineItems.length + 1),
+      PurchaseOrderLineId: new FormControl(lineItem?.PurchaseOrderLineId || 0), GoodsReceiptLineId: new FormControl(lineItem?.GoodsReceiptLineId || 0),
+      Description: new FormControl(lineItem?.Description || '', [Validators.required, Validators.maxLength(100)]),
+      InvoicedQuantity: new FormControl(lineItem?.InvoicedQuantity || 1, [Validators.required, Validators.min(1)]), UOMId: new FormControl(lineItem?.UOMId || 1, [Validators.min(1)]),
+      UnitPrice: new FormControl(lineItem?.UnitPrice || 0, [Validators.required, Validators.min(0)]), TaxAmount: new FormControl(lineItem?.TaxAmount || 0, [Validators.required, Validators.min(0)]),
+      LineTotal: new FormControl({ value: lineItem?.LineTotal || 0, disabled: true })
+    });
+    line.valueChanges.subscribe(() => this.recalculateLineItems()); this.lineItems.push(line);
+    if (!lineItem) { this.lineItems.markAsDirty(); this.editForm.markAsDirty(); }
+    this.recalculateLineItems();
+  }
+
+  removeLineItem(index: number): void {
+    this.lineItems.removeAt(index); this.lineItems.controls.forEach((line, lineIndex) => line.get('LineNo')?.setValue(lineIndex + 1, { emitEvent: false }));
+    this.lineItems.markAsDirty(); this.editForm.markAsDirty(); this.recalculateLineItems();
+  }
+
+  private loadLineItemOptions(): void {
+    this.loggedInUserService.getEntityLookupOptions('unit-of-measures').subscribe({ next: options => this.uomidOptions = options, error: error => this.showLookupError(error) });
+    this.loggedInUserService.getEntityLookupOptions('purchase-order-lines').subscribe({ next: options => this.purchaseorderlineidOptions = options, error: error => this.showLookupError(error) });
+    this.loggedInUserService.getEntityLookupOptions('goods-receipt-lines').subscribe({ next: options => this.goodsreceiptlineidOptions = options, error: error => this.showLookupError(error) });
+  }
+
+  private showLookupError(error: unknown): void {
+    const response = error as { error?: { message?: string; Message?: string } | string; message?: string };
+    const message = typeof error === 'string' ? error : typeof response?.error === 'string' ? response.error : response?.error?.message || response?.error?.Message || response?.message || 'Unable to load supplier-invoice options.';
+    setTimeout(() => this.messageService?.showError(message));
+  }
+
+  private setLineItems(lineItems: ISupplierInvoiceLine[]): void { this.lineItems.clear(); lineItems.forEach(lineItem => this.addLineItem(lineItem)); this.recalculateLineItems(); }
+  private recalculateLineItems(): void {
+    const lines = this.lineItems.getRawValue();
+    lines.forEach((line: any, index: number) => this.lineItems.at(index).get('LineTotal')?.setValue((Number(line.InvoicedQuantity) * Number(line.UnitPrice)) + Number(line.TaxAmount), { emitEvent: false }));
+    const totals = lines.reduce((result: { subtotal: number; tax: number }, line: any) => ({ subtotal: result.subtotal + (Number(line.InvoicedQuantity) * Number(line.UnitPrice)), tax: result.tax + Number(line.TaxAmount) }), { subtotal: 0, tax: 0 });
+    this.editForm.patchValue({ Subtotal: totals.subtotal, TaxAmount: totals.tax, TotalAmount: totals.subtotal + totals.tax }, { emitEvent: false });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -180,14 +229,14 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
   
-        if (!this.editForm.valid) {
+        if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
@@ -209,6 +258,7 @@ InvoiceDocumentId:  formValues.InvoiceDocumentId || 0,
 APReferenceId:  formValues.APReferenceId || 0,
 CapturedOn:  formValues.CapturedOn || null,
 CapturedBy:  formValues.CapturedBy || 0,
+LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, SupplierInvoiceId: this.supplierInvoice.Id })),
 RecordStatus:  formValues.RecordStatus || null,
 
     } as ISupplierInvoice ;

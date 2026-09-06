@@ -1,4 +1,5 @@
 import { IBase } from "@/shared/IBase";
+import { ISupplierInvoiceLine } from '../supplierInvoiceLine/supplierInvoiceLine';
 
 export interface ISupplierInvoice extends IBase {
 	Id :number;
@@ -18,5 +19,6 @@ APReferenceId :number;
 CapturedOn :Date;
 CapturedBy :number;
 RecordStatus :string;
+LineItems: ISupplierInvoiceLine[];
 
 }

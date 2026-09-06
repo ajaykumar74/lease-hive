@@ -6,7 +6,15 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
-					<form> 
+					<div class="mt-4">
+						<h3>Line items</h3>
+						<p-table [value]="supplierInvoice.LineItems || []" styleClass="p-datatable-sm">
+							<ng-template pTemplate="header"><tr><th>#</th><th>Description</th><th>PO line</th><th>Receipt line</th><th>Qty</th><th>UOM</th><th>Unit price</th><th>Tax</th><th>Line total</th></tr></ng-template>
+							<ng-template pTemplate="body" let-line><tr><td>{{ line.LineNo }}</td><td>{{ line.Description }}</td><td>{{ line.PurchaseOrderLineId }}</td><td>{{ line.GoodsReceiptLineId }}</td><td>{{ line.InvoicedQuantity }}</td><td>{{ line.UOMId }}</td><td>{{ line.UnitPrice }}</td><td>{{ line.TaxAmount }}</td><td>{{ line.LineTotal }}</td></tr></ng-template>
+							<ng-template pTemplate="emptymessage"><tr><td colspan="9" class="text-center">No line items.</td></tr></ng-template>
+						</p-table>
+					</div>
+					<form>
 				<p-fluid>
 		      			<div class="flex mt-8">
 						<div class="card flex flex-col gap-4 w-full"> 
