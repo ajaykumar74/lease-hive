@@ -1,0 +1,107 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="RFQ Id" class="mb-1">RFQId</label>
+        <p-dropdown
+            inputId="RFQId" 
+            [options]="rfqidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RFQId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RFQId')"
+											label="RFQ Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Supplier Party Id" class="mb-1">SupplierPartyId</label>
+        <p-dropdown
+            inputId="SupplierPartyId" 
+            [options]="supplierpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SupplierPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierPartyId')"
+											label="Supplier Party Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Supplier Service Area Id" class="mb-1">SupplierServiceAreaId</label>
+        <p-dropdown
+            inputId="SupplierServiceAreaId" 
+            [options]="supplierserviceareaidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SupplierServiceAreaId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierServiceAreaId')"
+											label="Supplier Service Area Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Invitation Status Code" class="mb-1">InvitationStatusCode</label>
+        <p-dropdown
+            inputId="InvitationStatusCode" 
+            [options]="invitationstatuscodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="InvitationStatusCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('InvitationStatusCode')"
+											label="Invitation Status Code">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 			
+							<label for="InvitedOn">Invited On 
+							</label> 
+							<p-calendar id="InvitedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="InvitedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('InvitedOn')"
+											label="Invited On">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 			
+							<label for="RespondedOn">Responded On 
+							</label> 
+							<p-calendar id="RespondedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RespondedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RespondedOn')"
+											label="Responded On">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Supplier Contact Id" class="mb-1">SupplierContactId</label>
+        <p-dropdown
+            inputId="SupplierContactId" 
+            [options]="suppliercontactidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SupplierContactId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierContactId')"
+											label="Supplier Contact Id">
+										</app-validation-errors></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

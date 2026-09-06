@@ -1,0 +1,103 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="Goods Receipt Line Id" class="mb-1">GoodsReceiptLineId</label>
+        <p-dropdown
+            inputId="GoodsReceiptLineId" 
+            [options]="goodsreceiptlineidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="GoodsReceiptLineId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('GoodsReceiptLineId')"
+											label="Goods Receipt Line Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 					
+							<label for="SerialNo">Serial No 
+							</label> 
+							<input pInputText id="SerialNo" type="text" pSize="small"	formControlName="SerialNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SerialNo')"
+											label="Serial No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 					
+							<label for="ManufacturerSerialNo">Manufacturer Serial No 
+							</label> 
+							<input pInputText id="ManufacturerSerialNo" type="text" pSize="small"	formControlName="ManufacturerSerialNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ManufacturerSerialNo')"
+											label="Manufacturer Serial No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 					
+							<label for="IMEIOrIdentifier">IMEI Or Identifier 
+							</label> 
+							<input pInputText id="IMEIOrIdentifier" type="text" pSize="small"	formControlName="IMEIOrIdentifier"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('IMEIOrIdentifier')"
+											label="IMEI Or Identifier">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Acceptance Code" class="mb-1">AcceptanceCode</label>
+        <p-dropdown
+            inputId="AcceptanceCode" 
+            [options]="acceptancecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AcceptanceCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AcceptanceCode')"
+											label="Acceptance Code">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Condition Code" class="mb-1">ConditionCode</label>
+        <p-dropdown
+            inputId="ConditionCode" 
+            [options]="conditioncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ConditionCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ConditionCode')"
+											label="Condition Code">
+										</app-validation-errors></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

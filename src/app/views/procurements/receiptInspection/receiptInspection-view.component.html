@@ -1,0 +1,39 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Goods Receipt Line Id" [value]="receiptInspection.GoodsReceiptLineId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Goods Receipt Serial Id" [value]="receiptInspection.GoodsReceiptSerialId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Inspection Date Time" [value]="receiptInspection.InspectionDateTime">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Inspector User Id" [value]="receiptInspection.InspectorUserId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Result Code" [value]="receiptInspection.ResultCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Checklist Json" [value]="receiptInspection.ChecklistJson">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Remarks" [value]="receiptInspection.Remarks">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Document Id" [value]="receiptInspection.DocumentId">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

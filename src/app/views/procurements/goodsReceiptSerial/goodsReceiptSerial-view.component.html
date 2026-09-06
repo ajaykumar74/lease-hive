@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Goods Receipt Line Id" [value]="goodsReceiptSerial.GoodsReceiptLineId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Serial No" [value]="goodsReceiptSerial.SerialNo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Manufacturer Serial No" [value]="goodsReceiptSerial.ManufacturerSerialNo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="IMEI Or Identifier" [value]="goodsReceiptSerial.IMEIOrIdentifier">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Asset Id" [value]="goodsReceiptSerial.AssetId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Acceptance Code" [value]="goodsReceiptSerial.AcceptanceCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Condition Code" [value]="goodsReceiptSerial.ConditionCode">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

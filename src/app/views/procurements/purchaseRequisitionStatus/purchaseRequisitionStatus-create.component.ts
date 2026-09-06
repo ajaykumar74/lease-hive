@@ -27,6 +27,7 @@ export class PurchaseRequisitionStatusCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   purchaseRequisitionStatus: IPurchaseRequisitionStatus = null;
+  recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseRequisitionStatus = {} as IPurchaseRequisitionStatus;
@@ -54,14 +55,19 @@ export class PurchaseRequisitionStatusCreateComponent implements OnInit {
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-StatusName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-IsTerminal: new FormControl(false, []),
-SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
-EffectiveFrom: new FormControl(new Date(), []),
-EffectiveTo: new FormControl(new Date(), [Validators.required]),
+StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
+IsTerminal: new FormControl(false, [Validators.required]),
+SortOrder: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+EffectiveTo: new FormControl(new Date(), []),
+RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create PurchaseRequisitionStatus';
+    this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
   }
  
@@ -89,6 +95,7 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -122,6 +129,7 @@ IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -138,16 +146,16 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
   
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
-      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || null,
-RecordStatus: 'Active',
 EffectiveFrom: formValues.EffectiveFrom || null,
 EffectiveTo: formValues.EffectiveTo || null,
+RecordStatus: formValues.RecordStatus || null,
 
     } as IPurchaseRequisitionStatus ; 
 	

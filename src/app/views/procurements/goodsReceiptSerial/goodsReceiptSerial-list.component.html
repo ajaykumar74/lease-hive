@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'GoodsReceiptSerial List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Goods Receipt Serial Id <p-sortIcon field="GoodsReceiptSerialId" /> </th> 
+<th style="width:200px">Goods Receipt Line Id <p-sortIcon field="GoodsReceiptLineId" /> </th> 
+<th style="width:200px">Serial No <p-sortIcon field="SerialNo" /> </th> 
+<th style="width:200px">Manufacturer Serial No <p-sortIcon field="ManufacturerSerialNo" /> </th> 
+<th style="width:200px">IMEI Or Identifier <p-sortIcon field="IMEIOrIdentifier" /> </th> 
+<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Acceptance Code <p-sortIcon field="AcceptanceCode" /> </th> 
+<th style="width:200px">Condition Code <p-sortIcon field="ConditionCode" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.GoodsReceiptSerialId}}</td>
+ <td style="width:200px">{{obj.GoodsReceiptLineId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SerialNo}}</td>
+ <td style="width:200px">{{obj.ManufacturerSerialNo}}</td>
+ <td style="width:200px">{{obj.IMEIOrIdentifier}}</td>
+ <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AcceptanceCode}}</td>
+ <td style="width:200px">{{obj.ConditionCode}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

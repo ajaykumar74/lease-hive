@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Quotation Id" [value]="supplierQuotationLine.SupplierQuotationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RFQ Line Id" [value]="supplierQuotationLine.RFQLineId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quantity" [value]="supplierQuotationLine.Quantity">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Unit Price" [value]="supplierQuotationLine.UnitPrice">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Discount Amount" [value]="supplierQuotationLine.DiscountAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="supplierQuotationLine.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Line Total" [value]="supplierQuotationLine.LineTotal">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Date" [value]="supplierQuotationLine.DeliveryDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Compliance Code" [value]="supplierQuotationLine.ComplianceCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Deviation Notes" [value]="supplierQuotationLine.DeviationNotes">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

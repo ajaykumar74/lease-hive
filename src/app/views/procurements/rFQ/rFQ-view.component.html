@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RFQ No" [value]="rFQ.RFQNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Purchase Requisition Id" [value]="rFQ.PurchaseRequisitionId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Buying Organisation Id" [value]="rFQ.BuyingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="RFQ Status Code" [value]="rFQ.RFQStatusCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Issue Date Time" [value]="rFQ.IssueDateTime">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Response Due Date Time" [value]="rFQ.ResponseDueDateTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="rFQ.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Commercial Terms" [value]="rFQ.CommercialTerms">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,98 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="Purchase Order Line Id" class="mb-1">PurchaseOrderLineId</label>
+        <p-dropdown
+            inputId="PurchaseOrderLineId" 
+            [options]="purchaseorderlineidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PurchaseOrderLineId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PurchaseOrderLineId')"
+											label="Purchase Order Line Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 							<label for="ScheduleNo">Schedule No 
+							</label> 
+							<p-inputNumber id="ScheduleNo"  pSize="small"	formControlName="ScheduleNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ScheduleNo')"
+											label="Schedule No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Delivery Location Id" class="mb-1">DeliveryLocationId</label>
+        <p-dropdown
+            inputId="DeliveryLocationId" 
+            [options]="deliverylocationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DeliveryLocationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DeliveryLocationId')"
+											label="Delivery Location Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 							<label for="ScheduledQuantity">Scheduled Quantity 
+							</label> 
+							<p-inputNumber id="ScheduledQuantity"  pSize="small"	formControlName="ScheduledQuantity"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ScheduledQuantity')"
+											label="Scheduled Quantity">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 			
+							<label for="PromisedDate">Promised Date 
+							</label> 
+							<p-calendar id="PromisedDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="PromisedDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('PromisedDate')"
+											label="Promised Date">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Receiving Organisation Unit Id" class="mb-1">ReceivingOrganisationUnitId</label>
+        <p-dropdown
+            inputId="ReceivingOrganisationUnitId" 
+            [options]="receivingorganisationunitidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReceivingOrganisationUnitId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReceivingOrganisationUnitId')"
+											label="Receiving Organisation Unit Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >                  <label for="address">Instructions</label>
+                    <textarea size="small" pTextarea placeholder="Type Instructions" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Instructions"
+										[ngClass]="{'is-invalid': (editForm.get('Instructions').touched || editForm.get('Instructions').dirty) && !editForm.get('Instructions').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Instructions')"
+											label="Instructions">
+										</app-validation-errors>
+
+
+               </div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

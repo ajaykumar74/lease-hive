@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Purchase Order Id" [value]="purchaseOrderAmendment.PurchaseOrderId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Amendment No" [value]="purchaseOrderAmendment.AmendmentNo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Amendment Date" [value]="purchaseOrderAmendment.AmendmentDate">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Reason Code" [value]="purchaseOrderAmendment.ReasonCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Reason" [value]="purchaseOrderAmendment.Reason">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Previous Version No" [value]="purchaseOrderAmendment.PreviousVersionNo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="New Version No" [value]="purchaseOrderAmendment.NewVersionNo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Approval Request Id" [value]="purchaseOrderAmendment.ApprovalRequestId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Changed By" [value]="purchaseOrderAmendment.ChangedBy">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Changed On" [value]="purchaseOrderAmendment.ChangedOn">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PO No" [value]="purchaseOrder.PONo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Version No" [value]="purchaseOrder.VersionNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Buying Organisation Id" [value]="purchaseOrder.BuyingOrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Party Id" [value]="purchaseOrder.SupplierPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Award Id" [value]="purchaseOrder.SupplierAwardId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Purchase Order Status Id" [value]="purchaseOrder.PurchaseOrderStatusId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PO Date" [value]="purchaseOrder.PODate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="purchaseOrder.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Subtotal" [value]="purchaseOrder.Subtotal">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="purchaseOrder.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Charge Amount" [value]="purchaseOrder.ChargeAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Total Amount" [value]="purchaseOrder.TotalAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Term Code" [value]="purchaseOrder.PaymentTermCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Location Id" [value]="purchaseOrder.DeliveryLocationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Name Snapshot" [value]="purchaseOrder.SupplierNameSnapshot">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Tax Snapshot" [value]="purchaseOrder.SupplierTaxSnapshot">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approval Request Id" [value]="purchaseOrder.ApprovalRequestId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Issued On" [value]="purchaseOrder.IssuedOn">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

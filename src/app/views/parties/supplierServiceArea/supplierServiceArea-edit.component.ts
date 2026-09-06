@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SupplierServiceAreaService } from './supplierServiceArea.service';
   providers: [ MessageService]
 })
 export class SupplierServiceAreaEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -86,8 +87,12 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
 this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
 this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
-this.assetcategoryidOptions = this.loggedInUserService.getPicklistOptions('AssetCategory');
-this.assettypeidOptions = this.loggedInUserService.getPicklistOptions('AssetType');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
+      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

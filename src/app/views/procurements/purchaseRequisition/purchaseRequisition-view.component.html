@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="PR No" [value]="purchaseRequisition.PRNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Buying Organisation Id" [value]="purchaseRequisition.BuyingOrganisationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Requesting Organisation Unit Id" [value]="purchaseRequisition.RequestingOrganisationUnitId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Requested By User Id" [value]="purchaseRequisition.RequestedByUserId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Purchase Requisition Status Id" [value]="purchaseRequisition.PurchaseRequisitionStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Requisition Date" [value]="purchaseRequisition.RequisitionDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Required By Date" [value]="purchaseRequisition.RequiredByDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Source Reference Type" [value]="purchaseRequisition.SourceReferenceType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Source Reference Id" [value]="purchaseRequisition.SourceReferenceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="purchaseRequisition.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Estimated Total" [value]="purchaseRequisition.EstimatedTotal">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Justification" [value]="purchaseRequisition.Justification">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

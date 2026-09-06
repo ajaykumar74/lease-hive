@@ -10,15 +10,20 @@
 				<p-fluid>
 		      			<div class="flex mt-8">
 						<div class="card flex flex-col gap-4 w-full"> 
- 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="StatusCode" [value]="purchaseRequisitionStatus.StatusCode">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="StatusName" [value]="purchaseRequisitionStatus.StatusName">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="IsTerminal" [value]="purchaseRequisitionStatus.IsTerminal">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="SortOrder" [value]="purchaseRequisitionStatus.SortOrder">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="purchaseRequisitionStatus.RecordStatus">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="purchaseRequisitionStatus.EffectiveFrom">
-								</app-view-field></div></div>
+ 						<div class="flex flex-wrap" > <app-view-field label="Status Code" [value]="purchaseRequisitionStatus.StatusCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Status Name" [value]="purchaseRequisitionStatus.StatusName">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Is Terminal" [value]="purchaseRequisitionStatus.IsTerminal">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Sort Order" [value]="purchaseRequisitionStatus.SortOrder">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Effective From" [value]="purchaseRequisitionStatus.EffectiveFrom">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Effective To" [value]="purchaseRequisitionStatus.EffectiveTo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Record Status" [value]="purchaseRequisitionStatus.RecordStatus">
+								</app-view-field></div>
 
 						</div>
 					</div>

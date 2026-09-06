@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Purchase Requisition Id" [value]="purchaseRequisitionLine.PurchaseRequisitionId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="purchaseRequisitionLine.LineNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Line Type Code" [value]="purchaseRequisitionLine.LineTypeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Category Id" [value]="purchaseRequisitionLine.AssetCategoryId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Type Id" [value]="purchaseRequisitionLine.AssetTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Description" [value]="purchaseRequisitionLine.Description">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quantity" [value]="purchaseRequisitionLine.Quantity">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="UOM Id" [value]="purchaseRequisitionLine.UOMId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Estimated Unit Cost" [value]="purchaseRequisitionLine.EstimatedUnitCost">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="purchaseRequisitionLine.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Specifications Json" [value]="purchaseRequisitionLine.SpecificationsJson">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Required By Date" [value]="purchaseRequisitionLine.RequiredByDate">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

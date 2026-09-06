@@ -3,170 +3,181 @@
 		<div class="col-12 md:col-12">
 			<div class="card p-fluid">
 				<app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
-				</app-toolbar-buttons> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				
-		       <form [formGroup]="editForm" (ngSubmit)="Save()">
- 				<p-fluid>
-		      		<div class="flex mt-8">
-					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
-        <p-dropdown
-            inputId="LeaseContractId" 
-            [options]="leasecontractidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="LeaseContractId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
-											label="Lease Contract Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Lease Contract Deposit Id" class="mb-1">LeaseContractDepositId</label>
-        <p-dropdown
-            inputId="LeaseContractDepositId" 
-            [options]="leasecontractdepositidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="LeaseContractDepositId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractDepositId')"
-											label="Lease Contract Deposit Id">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Customer Party Id" class="mb-1">CustomerPartyId</label>
-        <p-dropdown
-            inputId="CustomerPartyId" 
-            [options]="customerpartyidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CustomerPartyId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerPartyId')"
-											label="Customer Party Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Billing Organisation Id" class="mb-1">BillingOrganisationId</label>
-        <p-dropdown
-            inputId="BillingOrganisationId" 
-            [options]="billingorganisationidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="BillingOrganisationId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('BillingOrganisationId')"
-											label="Billing Organisation Id">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Deposit Type Code" class="mb-1">DepositTypeCode</label>
-        <p-dropdown
-            inputId="DepositTypeCode" 
-            [options]="deposittypecodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="DepositTypeCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('DepositTypeCode')"
-											label="Deposit Type Code">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
-        <p-dropdown
-            inputId="CurrencyCode" 
-            [options]="currencycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CurrencyCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
-											label="Currency Code">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="RequiredAmount">Required Amount 
-							</label> 
-							<p-inputNumber id="RequiredAmount"  pSize="small"	formControlName="RequiredAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('RequiredAmount')"
-											label="Required Amount">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="ReceivedAmount">Received Amount 
-							</label> 
-							<p-inputNumber id="ReceivedAmount"  pSize="small"	formControlName="ReceivedAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('ReceivedAmount')"
-											label="Received Amount">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="UtilizedAmount">Utilized Amount 
-							</label> 
-							<p-inputNumber id="UtilizedAmount"  pSize="small"	formControlName="UtilizedAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('UtilizedAmount')"
-											label="Utilized Amount">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="RefundedAmount">Refunded Amount 
-							</label> 
-							<p-inputNumber id="RefundedAmount"  pSize="small"	formControlName="RefundedAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('RefundedAmount')"
-											label="Refunded Amount">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ForfeitedAmount">Forfeited Amount 
-							</label> 
-							<p-inputNumber id="ForfeitedAmount"  pSize="small"	formControlName="ForfeitedAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('ForfeitedAmount')"
-											label="Forfeited Amount">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="AvailableBalance">Available Balance 
-							</label> 
-							<p-inputNumber id="AvailableBalance"  pSize="small"	formControlName="AvailableBalance"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('AvailableBalance')"
-											label="Available Balance">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Deposit Status" class="mb-1">DepositStatus</label>
-        <p-dropdown
-            inputId="DepositStatus" 
-            [options]="depositstatusOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="DepositStatus"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('DepositStatus')"
-											label="Deposit Status">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
-        <p-dropdown
-            inputId="RecordStatus" 
-            [options]="recordstatusOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RecordStatus"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
-											label="Record Status">
-										</app-validation-errors></div></div>
 
-					</div>
-				</div>
- 			</p-fluid> 	
-                     </form>			 
+				<form [formGroup]="editForm" (ngSubmit)="Save()">
+					<p-fluid>
+						<div class="flex mt-8">
+							<div class="card flex flex-col gap-4 w-full">
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+										<p-dropdown inputId="LeaseContractId" [options]="leasecontractidOptions"
+											optionLabel="Text" optionValue="Value" formControlName="LeaseContractId"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'"
+											[control]="editForm.get('LeaseContractId')" label="Lease Contract Id">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Lease Contract Deposit Id"
+											class="mb-1">LeaseContractDepositId</label>
+										<p-dropdown inputId="LeaseContractDepositId"
+											[options]="leasecontractdepositidOptions" optionLabel="Text"
+											optionValue="Value" formControlName="LeaseContractDepositId"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'"
+											[control]="editForm.get('LeaseContractDepositId')"
+											label="Lease Contract Deposit Id">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Customer Party Id" class="mb-1">CustomerPartyId</label>
+										<p-dropdown inputId="CustomerPartyId" [options]="customerpartyidOptions"
+											optionLabel="Text" optionValue="Value" formControlName="CustomerPartyId"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'"
+											[control]="editForm.get('CustomerPartyId')" label="Customer Party Id">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Billing Organisation Id" class="mb-1">BillingOrganisationId</label>
+										<p-dropdown inputId="BillingOrganisationId"
+											[options]="billingorganisationidOptions" optionLabel="Text"
+											optionValue="Value" formControlName="BillingOrganisationId"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'"
+											[control]="editForm.get('BillingOrganisationId')"
+											label="Billing Organisation Id">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Deposit Type Code" class="mb-1">DepositTypeCode</label>
+										<p-dropdown inputId="DepositTypeCode" [options]="deposittypecodeOptions"
+											optionLabel="Text" optionValue="Value" formControlName="DepositTypeCode"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'"
+											[control]="editForm.get('DepositTypeCode')" label="Deposit Type Code">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Currency Code" class="mb-1">CurrencyCode</label>
+										<p-dropdown inputId="CurrencyCode" [options]="currencycodeOptions"
+											optionLabel="Text" optionValue="Value" formControlName="CurrencyCode"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency Code">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="RequiredAmount">Required Amount
+										</label>
+										<p-inputNumber id="RequiredAmount" pSize="small"
+											formControlName="RequiredAmount">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('RequiredAmount')" label="Required Amount">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="ReceivedAmount">Received Amount
+										</label>
+										<p-inputNumber id="ReceivedAmount" pSize="small"
+											formControlName="ReceivedAmount">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('ReceivedAmount')" label="Received Amount">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="UtilizedAmount">Utilized Amount
+										</label>
+										<p-inputNumber id="UtilizedAmount" pSize="small"
+											formControlName="UtilizedAmount">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('UtilizedAmount')" label="Utilized Amount">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="RefundedAmount">Refunded Amount
+										</label>
+										<p-inputNumber id="RefundedAmount" pSize="small"
+											formControlName="RefundedAmount">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('RefundedAmount')" label="Refunded Amount">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="ForfeitedAmount">Forfeited Amount
+										</label>
+										<p-inputNumber id="ForfeitedAmount" pSize="small"
+											formControlName="ForfeitedAmount">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('ForfeitedAmount')" label="Forfeited Amount">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="AvailableBalance">Available Balance
+										</label>
+										<p-inputNumber id="AvailableBalance" pSize="small"
+											formControlName="AvailableBalance">
+										</p-inputNumber>
+										<app-validation-errors [type]="'number'"
+											[control]="editForm.get('AvailableBalance')" label="Available Balance">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4">
+									<div class="flex flex-col w-full">
+										<label for="Deposit Status" class="mb-1">DepositStatus</label>
+										<p-dropdown inputId="DepositStatus" [options]="depositstatusOptions"
+											optionLabel="Text" optionValue="Value" formControlName="DepositStatus"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'" [control]="editForm.get('DepositStatus')"
+											label="Deposit Status">
+										</app-validation-errors>
+									</div>
+									<div class="flex flex-col w-full">
+										<label for="Record Status" class="mb-1">RecordStatus</label>
+										<p-dropdown inputId="RecordStatus" [options]="recordstatusOptions"
+											optionLabel="Text" optionValue="Value" formControlName="RecordStatus"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</p-fluid>
+				</form>
 
 			</div>
 		</div>
 	</div>
 </div>
-
- 
-

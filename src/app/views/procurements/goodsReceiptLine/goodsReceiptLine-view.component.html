@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Goods Receipt Id" [value]="goodsReceiptLine.GoodsReceiptId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Purchase Order Line Id" [value]="goodsReceiptLine.PurchaseOrderLineId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Line No" [value]="goodsReceiptLine.LineNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Received Quantity" [value]="goodsReceiptLine.ReceivedQuantity">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Accepted Quantity" [value]="goodsReceiptLine.AcceptedQuantity">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Rejected Quantity" [value]="goodsReceiptLine.RejectedQuantity">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="UOM Id" [value]="goodsReceiptLine.UOMId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Inspection Required" [value]="goodsReceiptLine.InspectionRequired">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Inspection Status Code" [value]="goodsReceiptLine.InspectionStatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Rejection Reason" [value]="goodsReceiptLine.RejectionReason">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

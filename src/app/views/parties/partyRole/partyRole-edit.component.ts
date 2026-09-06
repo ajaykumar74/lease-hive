@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PartyRoleService } from './partyRole.service';
   providers: [ MessageService]
 })
 export class PartyRoleEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -31,8 +32,9 @@ export class PartyRoleEditComponent implements OnInit {
   roletypeOptions: ISelectItem[] = [];
 rolecodeOptions: ISelectItem[] = [];
 organisationidOptions: ISelectItem[] = [];
-rolestatusOptions: ISelectItem[] = [];
+  rolestatusOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+approvedbyOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IPartyRole = {} as IPartyRole;
@@ -64,7 +66,7 @@ OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483
 RoleStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 OnboardingReference: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ApprovedBy: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
-ApprovedById: new FormControl('', [Validators.required, Validators.maxLength(0), ]),
+ApprovedById: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedAt: new FormControl(new Date(), [Validators.required]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -75,6 +77,9 @@ this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
 this.rolecodeOptions.push({Text: '', Value: '' });
 this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedById', 'application-users',
+      options => this.approvedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -121,7 +126,7 @@ OrganisationId: obj.OrganisationId || 0,
 RoleStatus: obj.RoleStatus || '',
 OnboardingReference: obj.OnboardingReference || '',
 ApprovedBy: obj.ApprovedBy || '',
-ApprovedById: obj.ApprovedById || '',
+ApprovedById: obj.ApprovedById || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
@@ -160,7 +165,7 @@ OrganisationId: obj.OrganisationId || 0,
 RoleStatus: obj.RoleStatus || '',
 OnboardingReference: obj.OnboardingReference || '',
 ApprovedBy: obj.ApprovedBy || '',
-ApprovedById: obj.ApprovedById || '',
+ApprovedById: obj.ApprovedById || 0,
 ApprovedAt:  obj.ApprovedAt || new Date(),
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),

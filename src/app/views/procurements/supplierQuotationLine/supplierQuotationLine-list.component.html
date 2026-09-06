@@ -1,0 +1,52 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'SupplierQuotationLine List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Supplier Quotation Line Id <p-sortIcon field="SupplierQuotationLineId" /> </th> 
+<th style="width:200px">Supplier Quotation Id <p-sortIcon field="SupplierQuotationId" /> </th> 
+<th style="width:200px">RFQ Line Id <p-sortIcon field="RFQLineId" /> </th> 
+<th style="width:200px">Quantity <p-sortIcon field="Quantity" /> </th> 
+<th style="width:200px">Unit Price <p-sortIcon field="UnitPrice" /> </th> 
+<th style="width:200px">Discount Amount <p-sortIcon field="DiscountAmount" /> </th> 
+<th style="width:200px">Tax Amount <p-sortIcon field="TaxAmount" /> </th> 
+<th style="width:200px">Line Total <p-sortIcon field="LineTotal" /> </th> 
+<th style="width:200px">Delivery Date <p-sortIcon field="DeliveryDate" /> </th> 
+<th style="width:200px">Compliance Code <p-sortIcon field="ComplianceCode" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.SupplierQuotationLineId}}</td>
+ <td style="width:200px">{{obj.SupplierQuotationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RFQLineId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Quantity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.UnitPrice | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DiscountAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.TaxAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LineTotal | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DeliveryDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ComplianceCode}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

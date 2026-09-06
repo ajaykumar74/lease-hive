@@ -8,8 +8,8 @@ StatusCode :string;
 StatusName :string;
 IsTerminal : boolean;
 SortOrder :number;
-RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date;
+RecordStatus :string;
 
 }

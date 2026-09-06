@@ -1,0 +1,58 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'PurchaseRequisition List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Purchase Requisition Id <p-sortIcon field="PurchaseRequisitionId" /> </th> 
+<th style="width:200px">PR No <p-sortIcon field="PRNo" /> </th> 
+<th style="width:200px">Buying Organisation Id <p-sortIcon field="BuyingOrganisationId" /> </th> 
+<th style="width:200px">Requesting Organisation Unit Id <p-sortIcon field="RequestingOrganisationUnitId" /> </th> 
+<th style="width:200px">Requested By User Id <p-sortIcon field="RequestedByUserId" /> </th> 
+<th style="width:200px">Purchase Requisition Status Id <p-sortIcon field="PurchaseRequisitionStatusId" /> </th> 
+<th style="width:200px">Requisition Date <p-sortIcon field="RequisitionDate" /> </th> 
+<th style="width:200px">Required By Date <p-sortIcon field="RequiredByDate" /> </th> 
+<th style="width:200px">Source Reference Type <p-sortIcon field="SourceReferenceType" /> </th> 
+<th style="width:200px">Source Reference Id <p-sortIcon field="SourceReferenceId" /> </th> 
+<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
+<th style="width:200px">Estimated Total <p-sortIcon field="EstimatedTotal" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.PurchaseRequisitionId}}</td>
+ <td style="width:200px">{{obj.PRNo}}</td>
+ <td style="width:200px">{{obj.BuyingOrganisationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RequestingOrganisationUnitId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RequestedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.PurchaseRequisitionStatusId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RequisitionDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RequiredByDate | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.SourceReferenceType}}</td>
+ <td style="width:200px">{{obj.SourceReferenceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CurrencyCode}}</td>
+ <td style="width:200px">{{obj.EstimatedTotal | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

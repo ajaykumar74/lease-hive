@@ -1,0 +1,118 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="Goods Receipt Line Id" class="mb-1">GoodsReceiptLineId</label>
+        <p-dropdown
+            inputId="GoodsReceiptLineId" 
+            [options]="goodsreceiptlineidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="GoodsReceiptLineId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('GoodsReceiptLineId')"
+											label="Goods Receipt Line Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Goods Receipt Serial Id" class="mb-1">GoodsReceiptSerialId</label>
+        <p-dropdown
+            inputId="GoodsReceiptSerialId" 
+            [options]="goodsreceiptserialidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="GoodsReceiptSerialId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('GoodsReceiptSerialId')"
+											label="Goods Receipt Serial Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 			
+							<label for="InspectionDateTime">Inspection Date Time 
+							</label> 
+							<p-calendar id="InspectionDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="InspectionDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('InspectionDateTime')"
+											label="Inspection Date Time">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Inspector User Id" class="mb-1">InspectorUserId</label>
+        <p-dropdown
+            inputId="InspectorUserId" 
+            [options]="inspectoruseridOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="InspectorUserId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('InspectorUserId')"
+											label="Inspector User Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Result Code" class="mb-1">ResultCode</label>
+        <p-dropdown
+            inputId="ResultCode" 
+            [options]="resultcodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ResultCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ResultCode')"
+											label="Result Code">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >                  <label for="address">Checklist Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Checklist Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ChecklistJson"
+										[ngClass]="{'is-invalid': (editForm.get('ChecklistJson').touched || editForm.get('ChecklistJson').dirty) && !editForm.get('ChecklistJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ChecklistJson')"
+											label="Checklist Json">
+										</app-validation-errors>
+
+
+               </div>
+<div class="flex flex-wrap" >                  <label for="address">Remarks</label>
+                    <textarea size="small" pTextarea placeholder="Type Remarks" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Remarks"
+										[ngClass]="{'is-invalid': (editForm.get('Remarks').touched || editForm.get('Remarks').dirty) && !editForm.get('Remarks').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Remarks')"
+											label="Remarks">
+										</app-validation-errors>
+
+
+               </div>
+<div class="flex flex-wrap" >  <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

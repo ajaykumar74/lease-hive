@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RFQ Id" [value]="supplierQuotation.RFQId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Party Id" [value]="supplierQuotation.SupplierPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Quote No" [value]="supplierQuotation.SupplierQuoteNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Version No" [value]="supplierQuotation.VersionNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quote Date" [value]="supplierQuotation.QuoteDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Valid Until" [value]="supplierQuotation.ValidUntil">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="supplierQuotation.CurrencyCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Subtotal" [value]="supplierQuotation.Subtotal">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="supplierQuotation.TaxAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Total Amount" [value]="supplierQuotation.TotalAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Term Code" [value]="supplierQuotation.PaymentTermCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Delivery Days" [value]="supplierQuotation.DeliveryDays">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quotation Status Code" [value]="supplierQuotation.QuotationStatusCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="supplierQuotation.RecordStatus">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

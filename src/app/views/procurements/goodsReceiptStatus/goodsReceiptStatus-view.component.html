@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Status Code" [value]="goodsReceiptStatus.StatusCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Status Name" [value]="goodsReceiptStatus.StatusName">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Is Terminal" [value]="goodsReceiptStatus.IsTerminal">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Sort Order" [value]="goodsReceiptStatus.SortOrder">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Effective From" [value]="goodsReceiptStatus.EffectiveFrom">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Effective To" [value]="goodsReceiptStatus.EffectiveTo">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Record Status" [value]="goodsReceiptStatus.RecordStatus">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

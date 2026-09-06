@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'RFQSupplier List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">RFQ Supplier Id <p-sortIcon field="RFQSupplierId" /> </th> 
+<th style="width:200px">RFQ Id <p-sortIcon field="RFQId" /> </th> 
+<th style="width:200px">Supplier Party Id <p-sortIcon field="SupplierPartyId" /> </th> 
+<th style="width:200px">Supplier Service Area Id <p-sortIcon field="SupplierServiceAreaId" /> </th> 
+<th style="width:200px">Invitation Status Code <p-sortIcon field="InvitationStatusCode" /> </th> 
+<th style="width:200px">Invited On <p-sortIcon field="InvitedOn" /> </th> 
+<th style="width:200px">Responded On <p-sortIcon field="RespondedOn" /> </th> 
+<th style="width:200px">Supplier Contact Id <p-sortIcon field="SupplierContactId" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.RFQSupplierId}}</td>
+ <td style="width:200px">{{obj.RFQId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SupplierPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.SupplierServiceAreaId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.InvitationStatusCode}}</td>
+ <td style="width:200px">{{obj.InvitedOn | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RespondedOn | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.SupplierContactId | number:'1.0':'en-US' }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

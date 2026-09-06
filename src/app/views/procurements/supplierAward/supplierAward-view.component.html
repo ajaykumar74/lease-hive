@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="RFQ Id" [value]="supplierAward.RFQId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Quotation Id" [value]="supplierAward.SupplierQuotationId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Party Id" [value]="supplierAward.SupplierPartyId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Award Date Time" [value]="supplierAward.AwardDateTime">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Technical Score" [value]="supplierAward.TechnicalScore">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Commercial Score" [value]="supplierAward.CommercialScore">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Award Amount" [value]="supplierAward.AwardAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="supplierAward.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Selection Reason" [value]="supplierAward.SelectionReason">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approval Request Id" [value]="supplierAward.ApprovalRequestId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

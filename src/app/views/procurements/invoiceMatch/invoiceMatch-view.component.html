@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Supplier Invoice Id" [value]="invoiceMatch.SupplierInvoiceId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Purchase Order Id" [value]="invoiceMatch.PurchaseOrderId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Goods Receipt Id" [value]="invoiceMatch.GoodsReceiptId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Match Type Code" [value]="invoiceMatch.MatchTypeCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Matched On" [value]="invoiceMatch.MatchedOn">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Matched By" [value]="invoiceMatch.MatchedBy">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Quantity Variance" [value]="invoiceMatch.QuantityVariance">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Amount Variance" [value]="invoiceMatch.AmountVariance">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Tolerance Passed" [value]="invoiceMatch.TolerancePassed">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Match Result Code" [value]="invoiceMatch.MatchResultCode">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

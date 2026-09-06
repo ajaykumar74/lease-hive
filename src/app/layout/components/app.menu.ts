@@ -301,6 +301,11 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-lock',
                                     routerLink: ['/business/parties/supplier-profiles']
                                 },
+                                 {
+                                    label: 'Supplier Service Area',
+                                    icon: 'pi pi-fw pi-lock',
+                                    routerLink: ['/business/parties/supplier-service-areas']
+                                },
                                 {
                                     label: 'Party roles',
                                     icon: 'pi pi-fw pi-user-plus',

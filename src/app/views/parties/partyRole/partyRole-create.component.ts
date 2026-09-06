@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,6 +22,7 @@ import { IParty } from '@/views/parties/party/party';
   providers: [MessageService]
 })
 export class PartyRoleCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
 
   selectedId: number;
@@ -69,7 +70,7 @@ export class PartyRoleCreateComponent implements OnInit {
       RoleStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       OnboardingReference: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       ApprovedBy: new FormControl('', [  Validators.maxLength(20),]),
-      ApprovedById: new FormControl('', []),
+      ApprovedById: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       ApprovedAt: new FormControl(new Date(), [Validators.required]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       EffectiveTo: new FormControl(new Date(), []),
@@ -87,8 +88,9 @@ this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
     if (this.partyId) this.loadParty(this.partyId);
 this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus');
 
-    this.approvedbyOptions.push({ Text: 'User1', Value: '1' });
-    this.approvedbyOptions.push({ Text: 'User2', Value: '2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedById', 'application-users',
+      options => this.approvedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
 

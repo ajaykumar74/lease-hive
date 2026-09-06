@@ -54,16 +54,19 @@ export class PurchaseRequisitionStatusEditComponent implements OnInit {
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-StatusName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-IsTerminal: new FormControl(false), 
-SortOrder: new FormControl(0, [Validators.min(0), Validators.max(255)]),
+StatusName: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
+IsTerminal: new FormControl(false, [Validators.required]),
+SortOrder: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+EffectiveTo: new FormControl(new Date(), []),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-EffectiveFrom: new FormControl(new Date(), []),
-EffectiveTo: new FormControl(new Date(), [Validators.required]),
 
     });
 
-   this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+   this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
+this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
+this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
+this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -97,9 +100,9 @@ EffectiveTo: new FormControl(new Date(), [Validators.required]),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -132,9 +135,9 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
+RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -159,9 +162,9 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName:  formValues.StatusName || null,
 IsTerminal:  formValues.IsTerminal || null,
 SortOrder:  formValues.SortOrder || null,
-RecordStatus:  formValues.RecordStatus || null,
 EffectiveFrom:  formValues.EffectiveFrom || null,
 EffectiveTo:  formValues.EffectiveTo || null,
+RecordStatus:  formValues.RecordStatus || null,
 
     } as IPurchaseRequisitionStatus ;
 	

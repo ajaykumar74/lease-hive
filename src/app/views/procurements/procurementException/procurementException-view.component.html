@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-wrap" > <app-view-field label="Reference Type" [value]="procurementException.ReferenceType">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Reference Id" [value]="procurementException.ReferenceId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Exception Type Code" [value]="procurementException.ExceptionTypeCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Severity Code" [value]="procurementException.SeverityCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Description" [value]="procurementException.Description">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Status Code" [value]="procurementException.StatusCode">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Assigned To User Id" [value]="procurementException.AssignedToUserId">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Resolution" [value]="procurementException.Resolution">
+								</app-view-field></div>
+<div class="flex flex-wrap" > <app-view-field label="Resolved On" [value]="procurementException.ResolvedOn">
+								</app-view-field></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

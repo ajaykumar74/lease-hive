@@ -1,0 +1,131 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-wrap" >  <label for="Purchase Order Id" class="mb-1">PurchaseOrderId</label>
+        <p-dropdown
+            inputId="PurchaseOrderId" 
+            [options]="purchaseorderidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PurchaseOrderId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PurchaseOrderId')"
+											label="Purchase Order Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 							<label for="AmendmentNo">Amendment No 
+							</label> 
+							<p-inputNumber id="AmendmentNo"  pSize="small"	formControlName="AmendmentNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('AmendmentNo')"
+											label="Amendment No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 			
+							<label for="AmendmentDate">Amendment Date 
+							</label> 
+							<p-calendar id="AmendmentDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="AmendmentDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('AmendmentDate')"
+											label="Amendment Date">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Reason Code" class="mb-1">ReasonCode</label>
+        <p-dropdown
+            inputId="ReasonCode" 
+            [options]="reasoncodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ReasonCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReasonCode')"
+											label="Reason Code">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >                  <label for="address">Reason</label>
+                    <textarea size="small" pTextarea placeholder="Type Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Reason"
+										[ngClass]="{'is-invalid': (editForm.get('Reason').touched || editForm.get('Reason').dirty) && !editForm.get('Reason').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Reason')"
+											label="Reason">
+										</app-validation-errors>
+
+
+               </div>
+<div class="flex flex-wrap" > 							<label for="PreviousVersionNo">Previous Version No 
+							</label> 
+							<p-inputNumber id="PreviousVersionNo"  pSize="small"	formControlName="PreviousVersionNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('PreviousVersionNo')"
+											label="Previous Version No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" > 							<label for="NewVersionNo">New Version No 
+							</label> 
+							<p-inputNumber id="NewVersionNo"  pSize="small"	formControlName="NewVersionNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('NewVersionNo')"
+											label="New Version No">
+										</app-validation-errors>
+						 </div>
+<div class="flex flex-wrap" >  <label for="Approval Request Id" class="mb-1">ApprovalRequestId</label>
+        <p-dropdown
+            inputId="ApprovalRequestId" 
+            [options]="approvalrequestidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ApprovalRequestId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovalRequestId')"
+											label="Approval Request Id">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" >  <label for="Changed By" class="mb-1">ChangedBy</label>
+        <p-dropdown
+            inputId="ChangedBy" 
+            [options]="changedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ChangedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ChangedBy')"
+											label="Changed By">
+										</app-validation-errors></div>
+<div class="flex flex-wrap" > 			
+							<label for="ChangedOn">Changed On 
+							</label> 
+							<p-calendar id="ChangedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ChangedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ChangedOn')"
+											label="Changed On">
+										</app-validation-errors>
+						 </div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

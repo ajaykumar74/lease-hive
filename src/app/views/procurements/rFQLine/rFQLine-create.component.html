@@ -1,0 +1,104 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="RFQ Id" class="mb-1">RFQId</label>
+        <p-dropdown
+            inputId="RFQId" 
+            [options]="rfqidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RFQId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RFQId')"
+											label="RFQ Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Purchase Requisition Line Id" class="mb-1">PurchaseRequisitionLineId</label>
+        <p-dropdown
+            inputId="PurchaseRequisitionLineId" 
+            [options]="purchaserequisitionlineidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="PurchaseRequisitionLineId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('PurchaseRequisitionLineId')"
+											label="Purchase Requisition Line Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="LineNo">Line No 
+							</label> 
+							<p-inputNumber id="LineNo"  pSize="small"	formControlName="LineNo"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('LineNo')"
+											label="Line No">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Description')"
+											label="Description">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="Quantity">Quantity 
+							</label> 
+							<p-inputNumber id="Quantity"  pSize="small"	formControlName="Quantity"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('Quantity')"
+											label="Quantity">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="UOM Id" class="mb-1">UOMId</label>
+        <p-dropdown
+            inputId="UOMId" 
+            [options]="uomidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="UOMId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('UOMId')"
+											label="UOM Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Specifications Json</label>
+                    <textarea size="small" pTextarea placeholder="Type Specifications Json" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="SpecificationsJson"
+										[ngClass]="{'is-invalid': (editForm.get('SpecificationsJson').touched || editForm.get('SpecificationsJson').dirty) && !editForm.get('SpecificationsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('SpecificationsJson')"
+											label="Specifications Json">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">			
+							<label for="RequiredByDate">Required By Date 
+							</label> 
+							<p-calendar id="RequiredByDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="RequiredByDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('RequiredByDate')"
+											label="Required By Date">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

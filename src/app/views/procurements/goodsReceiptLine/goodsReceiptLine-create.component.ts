@@ -1,0 +1,200 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common'; 
+
+
+import { MessageService } from 'primeng/api';
+import { MessageComponent } from '@/shared/message.component';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { IGoodsReceiptLine } from './goodsReceiptLine';
+import { GoodsReceiptLineService } from './goodsReceiptLine.service';
+
+@Component({
+  selector: 'app-goodsReceiptLine-create',
+  standalone: false,
+  templateUrl: './goodsReceiptLine-create.component.html' ,
+   providers: [ MessageService]
+})
+export class GoodsReceiptLineCreateComponent implements OnInit {
+
+   
+  selectedId: number; 
+  isLoading : boolean = false;
+  permission = {} as IPermission;
+  Caption: string = 'Loading...';
+  goodsReceiptLine: IGoodsReceiptLine = null;
+  goodsreceiptidOptions: ISelectItem[] = [];
+purchaseorderlineidOptions: ISelectItem[] = [];
+uomidOptions: ISelectItem[] = [];
+inspectionstatuscodeOptions: ISelectItem[] = [];
+
+  editForm: any; 
+  objMaster : IGoodsReceiptLine = {} as IGoodsReceiptLine;
+  
+    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService: MessageComponent;
+
+  constructor(
+	private fb: FormBuilder,
+	private router: Router, 	
+	private _location: Location, 
+	private goodsReceiptLineService: GoodsReceiptLineService,
+	private loggedInUserService : LoggedInUserService
+	
+  ) {
+  }
+ 
+
+ 
+
+  
+  ngOnInit(): void {
+   this.objMaster = { ...this.goodsReceiptLine };
+
+    this.editForm = this.fb.group({
+     Id: new FormControl(0, []),
+GoodsReceiptId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+ReceivedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AcceptedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RejectedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+InspectionRequired: new FormControl(false, [Validators.required]),
+InspectionStatusCode: new FormControl('', [Validators.maxLength(20), ]), 
+RejectionReason: new FormControl('', [Validators.maxLength(100), ]), 
+
+    });
+    this.Caption = 'Create GoodsReceiptLine';
+    this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId1', Value: 'GoodsReceiptId1' });
+this.goodsreceiptidOptions.push({Text: 'GoodsReceiptId2', Value: 'GoodsReceiptId2' });
+this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId1', Value: 'PurchaseOrderLineId1' });
+this.purchaseorderlineidOptions.push({Text: 'PurchaseOrderLineId2', Value: 'PurchaseOrderLineId2' });
+this.uomidOptions.push({Text: 'UOMId1', Value: 'UOMId1' });
+this.uomidOptions.push({Text: 'UOMId2', Value: 'UOMId2' });
+this.inspectionstatuscodeOptions.push({Text: 'PENDING', Value: 'PENDING' });
+this.inspectionstatuscodeOptions.push({Text: 'PASSED', Value: 'PASSED' });
+this.inspectionstatuscodeOptions.push({Text: 'FAILED', Value: 'FAILED' });
+this.inspectionstatuscodeOptions.push({Text: 'PARTIAL', Value: 'PARTIAL' });
+
+  }
+ 
+ loadUI(): void {
+    this.isLoading = true;    
+    this.goodsReceiptLineService.getById(this.selectedId).subscribe({
+      next: data => {
+        this.goodsReceiptLine = data;
+        this.objMaster = { ...this.goodsReceiptLine };
+        this.populateUI(data);
+      },
+      error: err => {  this.messageService.showSuccess(err); },
+      complete: () => { this.isLoading = false; }
+    }); 
+  }  
+
+
+  populateUI(obj: IGoodsReceiptLine): void {
+     this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  GoodsReceiptId: obj.GoodsReceiptId || 0,
+PurchaseOrderLineId: obj.PurchaseOrderLineId || 0,
+LineNo: obj.LineNo || 0,
+ReceivedQuantity: obj.ReceivedQuantity || 0,
+AcceptedQuantity: obj.AcceptedQuantity || 0,
+RejectedQuantity: obj.RejectedQuantity || 0,
+UOMId: obj.UOMId || 0,
+InspectionRequired:  obj.InspectionRequired || false,
+InspectionStatusCode: obj.InspectionStatusCode || '',
+RejectionReason: obj.RejectionReason || '',
+ 
+      }
+    );
+  }
+
+ 
+  onOptionItemClicked(key: string): void {
+    if (key == "Create") {
+      this.router.navigate(['/goodsReceiptLines/create']);
+    }
+    else if (key == "Save") {
+      this.Save();
+    }
+    else if (key == "Cancel") {
+      this.onCancel();
+    }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
+  }
+
+  onCancel(): void {
+    this.goodsReceiptLine = { ...this.objMaster };
+    var obj  = this.goodsReceiptLine;
+   this.editForm.patchValue(
+      {
+	   Id: obj.Id || 0,
+	  GoodsReceiptId: obj.GoodsReceiptId || 0,
+PurchaseOrderLineId: obj.PurchaseOrderLineId || 0,
+LineNo: obj.LineNo || 0,
+ReceivedQuantity: obj.ReceivedQuantity || 0,
+AcceptedQuantity: obj.AcceptedQuantity || 0,
+RejectedQuantity: obj.RejectedQuantity || 0,
+UOMId: obj.UOMId || 0,
+InspectionRequired:  obj.InspectionRequired || false,
+InspectionStatusCode: obj.InspectionStatusCode || '',
+RejectionReason: obj.RejectionReason || '',
+ 
+      }
+    );
+    this.editForm.reset(); 
+  } 
+
+  Save(): void {    
+   
+        if (!this.editForm.valid) {
+            this.messageService.showError('One or more validation failed. Please clear error to continue...');
+            return;
+        }	
+  
+  
+	const formValues  = this.editForm.value ;
+	var createdObj = { 
+      Id: this.objMaster.Id,
+      RowVersionStr : this.objMaster.RowVersionStr,
+      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
+     GoodsReceiptId: formValues.GoodsReceiptId || 0,
+PurchaseOrderLineId: formValues.PurchaseOrderLineId || 0,
+LineNo: formValues.LineNo || null,
+ReceivedQuantity: formValues.ReceivedQuantity || 0,
+AcceptedQuantity: formValues.AcceptedQuantity || 0,
+RejectedQuantity: formValues.RejectedQuantity || 0,
+UOMId: formValues.UOMId || 0,
+InspectionRequired: formValues.InspectionRequired || false,
+InspectionStatusCode: formValues.InspectionStatusCode || null,
+RejectionReason: formValues.RejectionReason || null,
+
+    } as IGoodsReceiptLine ; 
+	
+	  this.spinner.show(); 
+    this.goodsReceiptLineService.create(createdObj).subscribe({
+      next: data => {	   
+         // this.messageService.showSuccess(GoodsReceiptLine +  'Details Updated sucessfully.');
+		 this._location.back();     
+      },
+      error: err => { 
+	   this.messageService.showError(err);
+       this.spinner.hide(); 
+	  },
+      complete: () => { this.spinner.hide(); }
+    });
+  } 
+
+}
+
+
+
