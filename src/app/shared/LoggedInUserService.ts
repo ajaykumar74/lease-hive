@@ -147,7 +147,7 @@ export class LoggedInUserService {
   }
 
   getPicklistOptions(category: string): ISelectItem[] {
-    return [...(this.picklistCache.get(this.normalizePicklistCategory(category)) || [])];
+    return this.sortSelectItems(this.picklistCache.get(this.normalizePicklistCategory(category)) || []);
   }
 
   clearPicklistCache(): void {
@@ -200,9 +200,9 @@ export class LoggedInUserService {
     return page(0).pipe(
       expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
       reduce((items, result) => [...items, ...result.rows], [] as any[]),
-      map(items => [...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
+      map(items => this.sortSelectItems([...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
         Id: item.Id, Value: valueMode === 'reference' ? item.ReferenceValue : item.Id, Text: item.DisplayText
-      })))
+      }))))
     );
   }
 
@@ -259,11 +259,11 @@ export class LoggedInUserService {
 
     const url = `${this.baseService.C_APP_URL}/Lookups/${lookupType}?${params.toString()}`;
     return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => (response.data || []).map(item => ({
+      map(response => this.sortSelectItems((response.data || []).map(item => ({
         Id: item.Id,
         Value: item.Id,
         Text: item.DisplayText
-      })))
+      }))))
     );
   }
 
@@ -281,11 +281,11 @@ export class LoggedInUserService {
     const url = `${this.baseService.C_APP_URL}/Lookups/parties?tenantId=${tenantId}&pageSize=100${selectedIdQuery}`;
 
     return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => (response.data || []).map(item => ({
+      map(response => this.sortSelectItems((response.data || []).map(item => ({
         Id: item.Id,
         Value: item.Id,
         Text: item.DisplayText
-      })))
+      }))))
     );
   }
 
@@ -303,11 +303,11 @@ export class LoggedInUserService {
     const url = `${this.baseService.C_APP_URL}/Lookups/organisations?tenantId=${tenantId}&pageSize=100${selectedIdQuery}`;
 
     return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => (response.data || []).map(item => ({
+      map(response => this.sortSelectItems((response.data || []).map(item => ({
         Id: item.Id,
         Value: item.Id,
         Text: item.DisplayText
-      })))
+      }))))
     );
   }
 
@@ -328,11 +328,17 @@ export class LoggedInUserService {
     const url = `${this.baseService.C_APP_URL}/Lookups/application-users?tenantId=${tenantId}&pageSize=100${selectedIdQuery}${organisationUnitQuery}`;
 
     return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => (response.data || []).map(item => ({
+      map(response => this.sortSelectItems((response.data || []).map(item => ({
         Id: item.Id,
         Value: item.Id,
         Text: item.DisplayText
-      })))
+      }))))
+    );
+  }
+
+  private sortSelectItems(items: ISelectItem[]): ISelectItem[] {
+    return [...items].sort((left, right) =>
+      String(left.Text ?? '').localeCompare(String(right.Text ?? ''), 'en', { numeric: true, sensitivity: 'base' })
     );
   }
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IBillingRun } from './billingRun';
 import { BillingRunService } from './billingRun.service';
+import { IBillingRunItem } from '../billingRunItem/billingRunItem';
 
 @Component({
   selector: 'app-billingRun-create',
@@ -33,6 +34,12 @@ billingrunstatusidOptions: ISelectItem[] = [];
 runtypeOptions: ISelectItem[] = [];
 currencycodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
+leasecontractidOptions: ISelectItem[] = [];
+leasepaymentschedulelineidOptions: ISelectItem[] = [];
+leasecontractchargeidOptions: ISelectItem[] = [];
+customerinvoiceidOptions: ISelectItem[] = [];
+sourcetypeOptions: ISelectItem[] = [];
+validationstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBillingRun = {} as IBillingRun;
@@ -71,6 +78,7 @@ TotalAmount: new FormControl(0, [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 ApprovedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovedAtUtc: new FormControl(new Date(), []),
+BillingRunItems: this.fb.array([]),
 
     });
     this.Caption = 'Create BillingRun';
@@ -85,6 +93,7 @@ this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('Currency
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
+this.loadBillingRunItemOptions();
 
   }
  
@@ -121,6 +130,61 @@ ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
  
       }
     );
+    this.setBillingRunItems(obj.BillingRunItems || []);
+  }
+
+  get billingRunItems(): FormArray<FormGroup> { return this.editForm.get('BillingRunItems') as FormArray<FormGroup>; }
+
+  addBillingRunItem(item?: Partial<IBillingRunItem>): void {
+    const line = this.fb.group({
+      Id: new FormControl(item?.Id || 0),
+      RowVersionStr: new FormControl(item?.RowVersionStr || ''),
+      LeaseContractId: new FormControl(item?.LeaseContractId || 0, [Validators.required, Validators.min(1)]),
+      LeasePaymentScheduleLineId: new FormControl(item?.LeasePaymentScheduleLineId || 0, [Validators.min(0)]),
+      LeaseContractChargeId: new FormControl(item?.LeaseContractChargeId || 0, [Validators.min(0)]),
+      SourceType: new FormControl(item?.SourceType || '', [Validators.required, Validators.maxLength(20)]),
+      DueDate: new FormControl(item?.DueDate || new Date(), [Validators.required]),
+      Amount: new FormControl(item?.Amount || 0, [Validators.required, Validators.min(0)]),
+      CurrencyCode: new FormControl(item?.CurrencyCode || '', [Validators.required, Validators.maxLength(20)]),
+      ValidationStatus: new FormControl(item?.ValidationStatus || '', [Validators.required, Validators.maxLength(20)]),
+      ExclusionReason: new FormControl(item?.ExclusionReason || '', [Validators.maxLength(100)]),
+      CustomerInvoiceId: new FormControl(item?.CustomerInvoiceId || 0, [Validators.min(0)]),
+      RecordStatus: new FormControl(item?.RecordStatus || 'Active', [Validators.required, Validators.maxLength(20)])
+    });
+    line.valueChanges.subscribe(() => this.recalculateBillingRunItems());
+    this.billingRunItems.push(line);
+    this.recalculateBillingRunItems();
+  }
+
+  removeBillingRunItem(index: number): void {
+    this.billingRunItems.removeAt(index);
+    this.recalculateBillingRunItems();
+  }
+
+  private setBillingRunItems(items: IBillingRunItem[]): void {
+    this.billingRunItems.clear();
+    items.forEach(item => this.addBillingRunItem(item));
+    this.recalculateBillingRunItems();
+  }
+
+  private recalculateBillingRunItems(): void {
+    const items = this.billingRunItems.getRawValue() as IBillingRunItem[];
+    this.editForm.patchValue({
+      CandidateCount: items.length,
+      InvoiceCount: items.filter((item: IBillingRunItem) => Number(item.CustomerInvoiceId) > 0).length,
+      TotalAmount: items.reduce((total: number, item: IBillingRunItem) => total + Number(item.Amount || 0), 0)
+    }, { emitEvent: false });
+  }
+
+  private loadBillingRunItemOptions(): void {
+    const load = (lookupType: string, assign: (options: ISelectItem[]) => void) =>
+      this.loggedInUserService.getEntityLookupOptions(lookupType).subscribe({ next: assign, error: error => setTimeout(() => this.messageService?.showError(error)) });
+    load('lease-contracts', options => this.leasecontractidOptions = options);
+    load('lease-payment-schedule-lines', options => this.leasepaymentschedulelineidOptions = options);
+    load('lease-contract-charges', options => this.leasecontractchargeidOptions = options);
+    load('customer-invoices', options => this.customerinvoiceidOptions = options);
+    this.sourcetypeOptions = this.loggedInUserService.getPicklistOptions('SourceType');
+    this.validationstatusOptions = this.loggedInUserService.getPicklistOptions('ValidationStatus');
   }
 
  
@@ -160,12 +224,12 @@ ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
  
       }
     );
-    this.editForm.reset(); 
+    this.setBillingRunItems(this.objMaster.BillingRunItems || []);
   } 
 
   Save(): void {    
    
-        if (!this.editForm.valid) {
+        if (!this.editForm.valid || this.billingRunItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
@@ -188,6 +252,7 @@ TotalAmount: formValues.TotalAmount || 0,
 CurrencyCode: formValues.CurrencyCode || null,
 ApprovedByUserId: formValues.ApprovedByUserId || 0,
 ApprovedAtUtc: formValues.ApprovedAtUtc || null,
+BillingRunItems: this.billingRunItems.getRawValue().map((item: any) => ({ ...item, BillingRunId: 0, TenantId: this.loggedInUserService.loggedInUser.Tenant.Id })),
 RecordStatus: 'Active',
 
     } as IBillingRun ; 
@@ -207,6 +272,3 @@ RecordStatus: 'Active',
   } 
 
 }
-
-
-

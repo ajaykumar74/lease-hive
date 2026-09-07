@@ -3,7 +3,7 @@ import { IBase } from "@/shared/IBase";
 export interface ICustomerInvoice extends IBase {
 	Id :number;
 TenantId :number;
-InvoiceNo :string;
+InvoiceId :string;
 InvoiceStatusId :number;
 BillingOrganisationId :number;
 CustomerPartyId :number;

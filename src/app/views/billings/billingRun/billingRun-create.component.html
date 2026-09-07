@@ -136,7 +136,36 @@
 					</div>
 				</div>
  			</p-fluid> 				 
-                     </form>				 
+                    <section class="mt-5" formArrayName="BillingRunItems">
+                        <div class="flex justify-between items-center mb-3">
+                            <h5 class="m-0">Billing Run Items</h5>
+                            <button type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
+                        </div>
+                        <p class="text-sm text-color-secondary" *ngIf="billingRunItems.length === 0">Add at least one billing run item.</p>
+                        <div class="card mb-3" *ngFor="let item of billingRunItems.controls; let index = index" [formGroupName]="index">
+                            <div class="flex justify-between items-center mb-3">
+                                <strong>Item {{ index + 1 }}</strong>
+                                <button type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="flex flex-col w-full"><label>Lease Contract</label><p-dropdown [options]="leasecontractidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractId" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Schedule Line</label><p-dropdown [options]="leasepaymentschedulelineidOptions" optionLabel="Text" optionValue="Value" formControlName="LeasePaymentScheduleLineId" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Contract Charge</label><p-dropdown [options]="leasecontractchargeidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractChargeId" placeholder="Select One"></p-dropdown></div>
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-4 mt-3">
+                                <div class="flex flex-col w-full"><label>Source Type</label><p-dropdown [options]="sourcetypeOptions" optionLabel="Text" optionValue="Value" formControlName="SourceType" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Due Date</label><p-calendar formControlName="DueDate" size="small" dateFormat="dd-MM-yy" [showIcon]="true"></p-calendar></div>
+                                <div class="flex flex-col w-full"><label>Amount</label><p-inputNumber formControlName="Amount" pSize="small"></p-inputNumber></div>
+                                <div class="flex flex-col w-full"><label>Currency</label><p-dropdown [options]="currencycodeOptions" optionLabel="Text" optionValue="Value" formControlName="CurrencyCode" placeholder="Select One"></p-dropdown></div>
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-4 mt-3">
+                                <div class="flex flex-col w-full"><label>Validation Status</label><p-dropdown [options]="validationstatusOptions" optionLabel="Text" optionValue="Value" formControlName="ValidationStatus" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Customer Invoice</label><p-dropdown [options]="customerinvoiceidOptions" optionLabel="Text" optionValue="Value" formControlName="CustomerInvoiceId" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Exclusion Reason</label><input pInputText formControlName="ExclusionReason" /></div>
+                            </div>
+                        </div>
+                    </section>
+                     </form>
 
 			</div>
 		</div>

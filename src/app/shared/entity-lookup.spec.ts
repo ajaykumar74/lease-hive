@@ -41,6 +41,23 @@ describe('Entity lookups', () => {
     expect(get).not.toHaveBeenCalled();
   });
 
+  it('sorts picklist and lookup labels A-Z, case-insensitively', async () => {
+    (service as any).picklistCache = new Map([['status', [
+      { Id: 1, Value: 'z', Text: 'Zulu' },
+      { Id: 2, Value: 'a10', Text: 'Alpha 10' },
+      { Id: 3, Value: 'a2', Text: 'alpha 2' }
+    ]]);
+    expect(service.getPicklistOptions('Status').map(item => item.Text)).toEqual(['alpha 2', 'Alpha 10', 'Zulu']);
+
+    get.and.returnValue(of({ data: [
+      { Id: 1, DisplayText: 'Zulu' },
+      { Id: 2, DisplayText: 'Alpha 10' },
+      { Id: 3, DisplayText: 'alpha 2' }
+    ] }));
+    const items = await firstValueFrom(service.getEntityLookupOptions('assets'));
+    expect(items.map(item => item.Text)).toEqual(['alpha 2', 'Alpha 10', 'Zulu']);
+  });
+
   it('preserves readable category IDs for the string-backed asset type relationship', async () => {
     get.and.callFake((url: string) => {
       const params = new URL(url, 'https://example.test').searchParams;

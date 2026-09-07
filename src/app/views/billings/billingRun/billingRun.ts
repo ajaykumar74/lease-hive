@@ -1,4 +1,5 @@
 import { IBase } from "@/shared/IBase";
+import { IBillingRunItem } from '../billingRunItem/billingRunItem';
 
 export interface IBillingRun extends IBase {
 	Id :number;
@@ -17,5 +18,6 @@ CurrencyCode :string;
 ApprovedByUserId :number;
 ApprovedAtUtc :Date;
 RecordStatus :string;
+BillingRunItems: IBillingRunItem[];
 
 }
