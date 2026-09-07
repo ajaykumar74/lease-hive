@@ -728,6 +728,21 @@ export class AppMenu {
                                     routerLink: ['/business/assets/create']
                                 },
                                 {
+                                    label: 'Acquisition',
+                                    icon: 'pi pi-fw pi-shopping-cart',
+                                    items: [
+                                        {
+                                            label: 'Asset Acquisitions',
+                                            routerLink: ['/business/assets/acquisitions']
+                                        }
+                                    ]
+                                },
+                                {
+                                    label: 'Vehicle Assets',
+                                    icon: 'pi pi-fw pi-car',
+                                    routerLink: ['/business/assets/specialised/vehicles']
+                                },
+                                {
                                     label: 'Classification',
                                     icon: 'pi pi-fw pi-sitemap',
                                     items: [
@@ -901,12 +916,22 @@ export class AppMenu {
                                 {
                                     label: 'Documents',
                                     icon: 'pi pi-fw pi-folder',
-                                    routerLink: ['/business/assets/documents']
+                                    items: [
+                                        {
+                                            label: 'Asset Documents',
+                                            routerLink: ['/business/assets/documents']
+                                        }
+                                    ]
                                 },
                                 {
                                     label: 'Valuations',
                                     icon: 'pi pi-fw pi-chart-line',
-                                    routerLink: ['/business/assets/valuations']
+                                    items: [
+                                        {
+                                            label: 'Asset Valuations',
+                                            routerLink: ['/business/assets/valuations']
+                                        }
+                                    ]
                                 },
                                 {
                                     label: 'Warranty & Insurance',
@@ -925,7 +950,12 @@ export class AppMenu {
                                 {
                                     label: 'Lifecycle History',
                                     icon: 'pi pi-fw pi-history',
-                                    routerLink: ['/business/assets/lifecycle']
+                                    items: [
+                                        {
+                                            label: 'Asset Lifecycle Events',
+                                            routerLink: ['/business/assets/lifecycle']
+                                        }
+                                    ]
                                 }
                             ]
                         },

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { VehicleAssetService } from './vehicleAsset.service';
    providers: [ MessageService]
 })
 export class VehicleAssetCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -27,8 +28,9 @@ export class VehicleAssetCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Create Vehicle Asset';
   vehicleAsset: IVehicleAsset = null;
+  assetidOptions: ISelectItem[] = [];
   fueltypecodeOptions: ISelectItem[] = [];
-emissionnormcodeOptions: ISelectItem[] = [];
+  emissionnormcodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IVehicleAsset = {} as IVehicleAsset;
@@ -70,8 +72,11 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.fueltypecodeOptions.push({Text: '', Value: '' });
-this.emissionnormcodeOptions.push({Text: '', Value: '' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+    this.fueltypecodeOptions = this.loggedInUserService.getPicklistOptions('FuelTypeCode');
+    this.emissionnormcodeOptions = this.loggedInUserService.getPicklistOptions('EmissionNormCode');
 
   }
  
@@ -197,6 +202,5 @@ RecordStatus: 'Active',
   } 
 
 }
-
 
 

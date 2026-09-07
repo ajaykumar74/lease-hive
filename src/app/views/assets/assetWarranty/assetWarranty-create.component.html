@@ -1,0 +1,121 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Warranty Provider Party Id" class="mb-1">WarrantyProviderPartyId</label>
+        <p-dropdown
+            inputId="WarrantyProviderPartyId" 
+            [options]="warrantyproviderpartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="WarrantyProviderPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('WarrantyProviderPartyId')"
+											label="Warranty Provider Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Warranty Type Id" class="mb-1">WarrantyTypeId</label>
+        <p-dropdown
+            inputId="WarrantyTypeId" 
+            [options]="warrantytypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="WarrantyTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('WarrantyTypeId')"
+											label="Warranty Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="WarrantyNo">Warranty No 
+							</label> 
+							<input pInputText id="WarrantyNo" type="text" pSize="small"	formControlName="WarrantyNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('WarrantyNo')"
+											label="Warranty No">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="StartDate">Start Date 
+							</label> 
+							<p-calendar id="StartDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="StartDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('StartDate')"
+											label="Start Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EndDate">End Date 
+							</label> 
+							<p-calendar id="EndDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EndDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EndDate')"
+											label="End Date">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Coverage Summary</label>
+                    <textarea size="small" pTextarea placeholder="Type Coverage Summary" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="CoverageSummary"
+										[ngClass]="{'is-invalid': (editForm.get('CoverageSummary').touched || editForm.get('CoverageSummary').dirty) && !editForm.get('CoverageSummary').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('CoverageSummary')"
+											label="Coverage Summary">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Warranty Status Id" class="mb-1">WarrantyStatusId</label>
+        <p-dropdown
+            inputId="WarrantyStatusId" 
+            [options]="warrantystatusidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="WarrantyStatusId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('WarrantyStatusId')"
+											label="Warranty Status Id">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

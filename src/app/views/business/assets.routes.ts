@@ -15,14 +15,8 @@ const placeholderPages: AssetPlaceholderPage[] = [
     { path: 'assets/movements/create', title: 'Move Asset', icon: 'pi pi-directions', description: 'Record an asset movement.' },
     { path: 'assets/movements/transfers', title: 'Branch Transfers', icon: 'pi pi-building', description: 'Manage asset transfers between branches.' },
     { path: 'assets/compliance', title: 'Compliance Dashboard', icon: 'pi pi-verified', description: 'Monitor asset compliance and upcoming expiries.' },
-    { path: 'assets/compliance/types', title: 'Compliance Types', icon: 'pi pi-list', description: 'Configure asset compliance types.' },
-    { path: 'assets/compliance/records', title: 'Certificates & Permits', icon: 'pi pi-id-card', description: 'Manage certificates and permits associated with assets.' },
     { path: 'assets/compliance/expiring', title: 'Expiry Worklist', icon: 'pi pi-clock', description: 'Review compliance records approaching expiry.' },
-    { path: 'assets/documents', title: 'Asset Documents', icon: 'pi pi-folder', description: 'Manage documents associated with assets.' },
-    { path: 'assets/valuations', title: 'Asset Valuations', icon: 'pi pi-chart-line', description: 'Review and maintain asset valuations.' },
-    { path: 'assets/warranties', title: 'Asset Warranties', icon: 'pi pi-shield', description: 'Manage asset warranty coverage.' },
-    { path: 'assets/insurance', title: 'Asset Insurance', icon: 'pi pi-shield', description: 'Manage asset insurance policies.' },
-    { path: 'assets/lifecycle', title: 'Asset Lifecycle History', icon: 'pi pi-history', description: 'Review lifecycle events across assets.' }
+    { path: 'assets/insurance', title: 'Asset Insurance', icon: 'pi pi-shield', description: 'Manage asset insurance policies.' }
 ];
 
 export const ASSET_ROUTES: Routes = [
@@ -125,6 +119,41 @@ export const ASSET_ROUTES: Routes = [
         path: 'assets/inspections',
         data: { title: 'Asset Inspections', breadcrumb: 'Inspections' },
         loadChildren: () => import('@/views/assets/assetInspection/assetInspection.module').then(m => m.AssetInspectionModule)
+    },
+    {
+        path: 'assets/acquisitions',
+        data: { title: 'Asset Acquisitions', breadcrumb: 'Acquisitions' },
+        loadChildren: () => import('@/views/assets/assetAcquisition/assetAcquisition.module').then(m => m.AssetAcquisitionModule)
+    },
+    {
+        path: 'assets/compliance/types',
+        data: { title: 'Compliance Types', breadcrumb: 'Compliance Types' },
+        loadChildren: () => import('@/views/assets/assetComplianceType/assetComplianceType.module').then(m => m.AssetComplianceTypeModule)
+    },
+    {
+        path: 'assets/compliance/records',
+        data: { title: 'Certificates & Permits', breadcrumb: 'Certificates & Permits' },
+        loadChildren: () => import('@/views/assets/assetComplianceRecord/assetComplianceRecord.module').then(m => m.AssetComplianceRecordModule)
+    },
+    {
+        path: 'assets/documents',
+        data: { title: 'Asset Documents', breadcrumb: 'Documents' },
+        loadChildren: () => import('@/views/assets/assetDocumentLink/assetDocumentLink.module').then(m => m.AssetDocumentLinkModule)
+    },
+    {
+        path: 'assets/valuations',
+        data: { title: 'Asset Valuations', breadcrumb: 'Valuations' },
+        loadChildren: () => import('@/views/assets/assetValuation/assetValuation.module').then(m => m.AssetValuationModule)
+    },
+    {
+        path: 'assets/warranties',
+        data: { title: 'Asset Warranties', breadcrumb: 'Warranties' },
+        loadChildren: () => import('@/views/assets/assetWarranty/assetWarranty.module').then(m => m.AssetWarrantyModule)
+    },
+    {
+        path: 'assets/lifecycle',
+        data: { title: 'Asset Lifecycle Events', breadcrumb: 'Lifecycle Events' },
+        loadChildren: () => import('@/views/assets/assetLifecycleEvent/assetLifecycleEvent.module').then(m => m.AssetLifecycleEventModule)
     },
     {
         path: 'assets/specialised/vehicles',

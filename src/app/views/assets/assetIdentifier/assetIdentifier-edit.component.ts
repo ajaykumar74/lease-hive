@@ -70,10 +70,10 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.identifiertypecodeOptions.push({Text: '', Value: '' });
-this.issuingcountrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
-this.issuingstatecodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.identifiertypecodeOptions = this.loggedInUserService.getPicklistOptions('IdentifierTypeCode');
+    this.issuingcountrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+    this.issuingstatecodeOptions.push({Text: '', Value: '' });
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routeAssetId = Number(this.activatedRouter.snapshot.paramMap.get('assetId'));

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetComplianceRecord.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Compliance Type Id" [value]="assetComplianceRecord.AssetComplianceTypeId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Certificate No" [value]="assetComplianceRecord.CertificateNo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Issued By Party Id" [value]="assetComplianceRecord.IssuedByPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Issue Date" [value]="assetComplianceRecord.IssueDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Valid From" [value]="assetComplianceRecord.ValidFrom">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Valid To" [value]="assetComplianceRecord.ValidTo">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="assetComplianceRecord.DocumentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Verification Status Id" [value]="assetComplianceRecord.VerificationStatusId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Verified By" [value]="assetComplianceRecord.VerifiedBy">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

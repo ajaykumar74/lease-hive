@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetWarranty.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Warranty Provider Party Id" [value]="assetWarranty.WarrantyProviderPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Warranty Type Id" [value]="assetWarranty.WarrantyTypeId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Warranty No" [value]="assetWarranty.WarrantyNo">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Start Date" [value]="assetWarranty.StartDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="End Date" [value]="assetWarranty.EndDate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Coverage Summary" [value]="assetWarranty.CoverageSummary">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="assetWarranty.DocumentId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetComplianceType List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Asset Compliance Type Id <p-sortIcon field="AssetComplianceTypeId" /> </th> 
+<th style="width:200px">Asset Category Id <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Compliance Code <p-sortIcon field="ComplianceCode" /> </th> 
+<th style="width:200px">Compliance Name <p-sortIcon field="ComplianceName" /> </th> 
+<th style="width:200px">Requires Expiry <p-sortIcon field="RequiresExpiry" /> </th> 
+<th style="width:200px">Requires Document <p-sortIcon field="RequiresDocument" /> </th> 
+<th style="width:200px">Reminder Days Before <p-sortIcon field="ReminderDaysBefore" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.AssetComplianceTypeId}}</td>
+ <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ComplianceCode}}</td>
+ <td style="width:200px">{{obj.ComplianceName}}</td>
+ <td style="width:200px">{{obj.RequiresExpiry | yesNo }}</td>
+ <td style="width:200px">{{obj.RequiresDocument | yesNo }}</td>
+ <td style="width:200px">{{obj.ReminderDaysBefore | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

@@ -1,0 +1,144 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+        <p-dropdown
+            inputId="AssetId" 
+            [options]="assetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Compliance Type Id" class="mb-1">AssetComplianceTypeId</label>
+        <p-dropdown
+            inputId="AssetComplianceTypeId" 
+            [options]="assetcompliancetypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetComplianceTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetComplianceTypeId')"
+											label="Asset Compliance Type Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="CertificateNo">Certificate No 
+							</label> 
+							<input pInputText id="CertificateNo" type="text" pSize="small"	formControlName="CertificateNo"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CertificateNo')"
+											label="Certificate No">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Issued By Party Id" class="mb-1">IssuedByPartyId</label>
+        <p-dropdown
+            inputId="IssuedByPartyId" 
+            [options]="issuedbypartyidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="IssuedByPartyId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('IssuedByPartyId')"
+											label="Issued By Party Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="IssueDate">Issue Date 
+							</label> 
+							<p-calendar id="IssueDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="IssueDate"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('IssueDate')"
+											label="Issue Date">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="ValidFrom">Valid From 
+							</label> 
+							<p-calendar id="ValidFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ValidFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ValidFrom')"
+											label="Valid From">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ValidTo">Valid To 
+							</label> 
+							<p-calendar id="ValidTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ValidTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ValidTo')"
+											label="Valid To">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Verification Status Id" class="mb-1">VerificationStatusId</label>
+        <p-dropdown
+            inputId="VerificationStatusId" 
+            [options]="verificationstatusidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="VerificationStatusId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('VerificationStatusId')"
+											label="Verification Status Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Verified By" class="mb-1">VerifiedBy</label>
+        <p-dropdown
+            inputId="VerifiedBy" 
+            [options]="verifiedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="VerifiedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('VerifiedBy')"
+											label="Verified By">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">			
+							<label for="VerifiedOn">Verified On 
+							</label> 
+							<p-calendar id="VerifiedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="VerifiedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('VerifiedOn')"
+											label="Verified On">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

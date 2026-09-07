@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="assetAcquisition.AssetId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Party Id" [value]="assetAcquisition.SupplierPartyId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Supplier Party Location Id" [value]="assetAcquisition.SupplierPartyLocationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Purchase Order Reference" [value]="assetAcquisition.PurchaseOrderReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Goods Receipt Reference" [value]="assetAcquisition.GoodsReceiptReference">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Supplier Invoice Reference" [value]="assetAcquisition.SupplierInvoiceReference">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Acquisition Date" [value]="assetAcquisition.AcquisitionDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="assetAcquisition.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Basic Amount" [value]="assetAcquisition.BasicAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Tax Amount" [value]="assetAcquisition.TaxAmount">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Other Capitalizable Cost" [value]="assetAcquisition.OtherCapitalizableCost">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Total Acquisition Cost" [value]="assetAcquisition.TotalAcquisitionCost">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Capitalization Date" [value]="assetAcquisition.CapitalizationDate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Procurement Source Id" [value]="assetAcquisition.ProcurementSourceId">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

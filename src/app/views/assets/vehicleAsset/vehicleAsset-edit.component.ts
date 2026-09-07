@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,14 +21,16 @@ import { VehicleAssetService } from './vehicleAsset.service';
   providers: [ MessageService]
 })
 export class VehicleAssetEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
   vehicleAsset: IVehicleAsset = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  assetidOptions: ISelectItem[] = [];
   fueltypecodeOptions: ISelectItem[] = [];
-emissionnormcodeOptions: ISelectItem[] = [];
+  emissionnormcodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -72,9 +74,12 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.fueltypecodeOptions.push({Text: '', Value: '' });
-this.emissionnormcodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
+      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+    this.fueltypecodeOptions = this.loggedInUserService.getPicklistOptions('FuelTypeCode');
+    this.emissionnormcodeOptions = this.loggedInUserService.getPicklistOptions('EmissionNormCode');
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

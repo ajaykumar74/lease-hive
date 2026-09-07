@@ -83,9 +83,9 @@ EffectiveTo: new FormControl(new Date(), []),
     else {
       this.loadAssetOptions();
     }
-    this.identifiertypecodeOptions.push({Text: '', Value: '' });
-this.issuingcountrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
-this.issuingstatecodeOptions.push({Text: '', Value: '' });
+    this.identifiertypecodeOptions = this.loggedInUserService.getPicklistOptions('IdentifierTypeCode');
+    this.issuingcountrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
+    this.issuingstatecodeOptions.push({Text: '', Value: '' });
 
   }
 
@@ -228,6 +228,5 @@ RecordStatus: 'Active',
   } 
 
 }
-
 
 
