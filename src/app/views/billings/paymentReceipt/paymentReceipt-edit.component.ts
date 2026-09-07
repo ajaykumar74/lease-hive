@@ -88,8 +88,9 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'par
       this.entityLookupDestroyRef);
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentmethodOptions = this.loggedInUserService.getPicklistOptions('PaymentMethod');
-this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });
-this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', Value: 'OrganisationBankAccountId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationBankAccountId', 'party-bank-accounts',
+      options => this.organisationbankaccountidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

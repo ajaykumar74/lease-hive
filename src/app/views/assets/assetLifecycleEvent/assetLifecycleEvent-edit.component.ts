@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetLifecycleEvent } from './assetLifecycleEvent';
 import { AssetLifecycleEventService } from './assetLifecycleEvent.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetLifecycleEventService } from './assetLifecycleEvent.service';
   providers: [ MessageService]
 })
 export class AssetLifecycleEventEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,16 +71,11 @@ Summary: new FormControl('', [Validators.required, Validators.maxLength(500), ])
 
     });
 
-   this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.eventtypeidOptions.push({Text: 'EventTypeId1', Value: 'EventTypeId1' });
-this.eventtypeidOptions.push({Text: 'EventTypeId2', Value: 'EventTypeId2' });
-this.organisationunitidOptions.push({Text: 'OrganisationUnitId1', Value: 'OrganisationUnitId1' });
-this.organisationunitidOptions.push({Text: 'OrganisationUnitId2', Value: 'OrganisationUnitId2' });
-this.partyidOptions.push({Text: 'PartyId1', Value: 'PartyId1' });
-this.partyidOptions.push({Text: 'PartyId2', Value: 'PartyId2' });
-this.locationidOptions.push({Text: 'LocationId1', Value: 'LocationId1' });
-this.locationidOptions.push({Text: 'LocationId2', Value: 'LocationId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'EventTypeId', 'asset-event-types', options => this.eventtypeidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationUnitId', 'organisation-units', options => this.organisationunitidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'LocationId', 'locations', options => this.locationidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -126,7 +123,7 @@ Summary: obj.Summary || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetLifecycleEvent/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/lifecycle/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -185,6 +182,7 @@ ReferenceId:  formValues.ReferenceId || null,
 Summary:  formValues.Summary || null,
 
     } as IAssetLifecycleEvent ;
+	applyAssetPayloadDefaults(updatedObj, formValues, ['AssetId', 'EventTypeId', 'OrganisationUnitId', 'PartyId', 'LocationId', 'ReferenceId'], [], ['EventDateTime']);
 	
 	this.spinner.show();  	   
     this.assetLifecycleEventService.update(this.assetLifecycleEvent.Id, updatedObj).subscribe({

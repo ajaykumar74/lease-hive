@@ -151,7 +151,7 @@ IsPrimary:  obj.IsPrimary || false,
      ReferenceType: formValues.ReferenceType || null,
 ReferenceId: formValues.ReferenceId || 0,
 DocumentId: formValues.DocumentId || 0,
-DocumentPurposeCode: formValues.DocumentPurposeCode || null,
+DocumentPurposeCode: formValues.DocumentPurposeCode || 0,
 DocumentVersionNo: formValues.DocumentVersionNo || 0,
 IsPrimary: formValues.IsPrimary || false,
 

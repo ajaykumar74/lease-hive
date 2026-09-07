@@ -104,8 +104,9 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'app
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ConditionGradeId', 'asset-condition-grades',
       options => this.conditiongradeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.inspectionstatusidOptions.push({Text: 'InspectionStatus1', Value: 'InspectionStatus1' });
-this.inspectionstatusidOptions.push({Text: 'InspectionStatus2', Value: 'InspectionStatus2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectionStatusId', 'asset-inspection-statuses',
+      options => this.inspectionstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
 

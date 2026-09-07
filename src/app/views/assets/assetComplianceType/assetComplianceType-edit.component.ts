@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetComplianceType } from './assetComplianceType';
 import { AssetComplianceTypeService } from './assetComplianceType.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetComplianceTypeService } from './assetComplianceType.service';
   providers: [ MessageService]
 })
 export class AssetComplianceTypeEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -28,7 +30,6 @@ export class AssetComplianceTypeEditComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   assetcategoryidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IAssetComplianceType = {} as IAssetComplianceType;
@@ -62,16 +63,10 @@ RequiresDocument: new FormControl(false, [Validators.required]),
 ReminderDaysBefore: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
 
-   this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -109,7 +104,6 @@ RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -119,7 +113,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetComplianceType/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/compliance/types/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -146,7 +140,6 @@ RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -167,17 +160,18 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetCategoryId:  formValues.AssetCategoryId || null,
-ComplianceCode:  formValues.ComplianceCode || null,
-ComplianceName:  formValues.ComplianceName || null,
-RequiresExpiry:  formValues.RequiresExpiry || null,
-RequiresDocument:  formValues.RequiresDocument || null,
-ReminderDaysBefore:  formValues.ReminderDaysBefore || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
-RecordStatus:  formValues.RecordStatus || null,
+     AssetCategoryId: formValues.AssetCategoryId ?? 0,
+ComplianceCode: formValues.ComplianceCode ?? null,
+ComplianceName: formValues.ComplianceName ?? null,
+RequiresExpiry: formValues.RequiresExpiry ?? false,
+RequiresDocument: formValues.RequiresDocument ?? false,
+ReminderDaysBefore: formValues.ReminderDaysBefore ?? 0,
+EffectiveFrom: formValues.EffectiveFrom ?? null,
+EffectiveTo: formValues.EffectiveTo ?? null,
+RecordStatus: 'Active',
 
     } as IAssetComplianceType ;
+	applyAssetPayloadDefaults(updatedObj, formValues, ['AssetCategoryId', 'ReminderDaysBefore'], ['RequiresExpiry', 'RequiresDocument'], ['EffectiveFrom', 'EffectiveTo']);
 	
 	this.spinner.show();  	   
     this.assetComplianceTypeService.update(this.assetComplianceType.Id, updatedObj).subscribe({

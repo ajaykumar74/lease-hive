@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { ContractExecutionService } from './contractExecution.service';
   providers: [ MessageService]
 })
 export class ContractExecutionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -72,10 +73,12 @@ CompletionCertificateDocumentId: new FormControl(0, [Validators.min(-2147483648)
    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('ContractExecutionReferenceType');
 this.executionmethodcodeOptions = this.loggedInUserService.getPicklistOptions('ExecutionMethodCode');
 this.executionstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ExecutionStatusCode');
-this.executeddocumentidOptions.push({Text: 'ExecutedDocumentId1', Value: 'ExecutedDocumentId1' });
-this.executeddocumentidOptions.push({Text: 'ExecutedDocumentId2', Value: 'ExecutedDocumentId2' });
-this.completioncertificatedocumentidOptions.push({Text: 'CompletionCertificateDocumentId1', Value: 'CompletionCertificateDocumentId1' });
-this.completioncertificatedocumentidOptions.push({Text: 'CompletionCertificateDocumentId2', Value: 'CompletionCertificateDocumentId2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ExecutedDocumentId', 'documents',
+      options => this.executeddocumentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CompletionCertificateDocumentId', 'documents',
+      options => this.completioncertificatedocumentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

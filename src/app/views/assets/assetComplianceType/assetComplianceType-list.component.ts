@@ -137,17 +137,17 @@ export class AssetComplianceTypeListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetComplianceTypes/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/compliance/types/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetComplianceTypes/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/compliance/types/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetComplianceTypes/create']);
+      this.router.navigate(['/business/assets/compliance/types/create']);
     } 
     else if (key == "Refresh") {
       this.search();

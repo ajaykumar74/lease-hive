@@ -137,17 +137,17 @@ export class AssetWarrantyListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetWarrantys/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/warranties/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetWarrantys/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/warranties/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetWarrantys/create']);
+      this.router.navigate(['/business/assets/warranties/create']);
     } 
     else if (key == "Refresh") {
       this.search();

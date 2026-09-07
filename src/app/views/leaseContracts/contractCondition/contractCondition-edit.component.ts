@@ -77,8 +77,9 @@ SatisfiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 this.conditiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ConditionTypeCode');
 this.requiredforeventcodeOptions = this.loggedInUserService.getPicklistOptions('RequiredForEventCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractConditionStatusCode');
-this.satisfiedbyOptions.push({Text: 'SatisfiedBy1', Value: 'SatisfiedBy1' });
-this.satisfiedbyOptions.push({Text: 'SatisfiedBy2', Value: 'SatisfiedBy2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SatisfiedBy', 'application-users',
+      options => this.satisfiedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

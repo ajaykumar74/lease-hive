@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetComplianceType } from './assetComplianceType';
 import { AssetComplianceTypeService } from './assetComplianceType.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 @Component({
   selector: 'app-assetComplianceType-create',
@@ -20,6 +21,7 @@ import { AssetComplianceTypeService } from './assetComplianceType.service';
    providers: [ MessageService]
 })
 export class AssetComplianceTypeCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -28,7 +30,6 @@ export class AssetComplianceTypeCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   assetComplianceType: IAssetComplianceType = null;
   assetcategoryidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetComplianceType = {} as IAssetComplianceType;
@@ -63,16 +64,10 @@ RequiresDocument: new FormControl(false, [Validators.required]),
 ReminderDaysBefore: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create AssetComplianceType';
-    this.assetcategoryidOptions.push({Text: 'AssetCategoryId1', Value: 'AssetCategoryId1' });
-this.assetcategoryidOptions.push({Text: 'AssetCategoryId2', Value: 'AssetCategoryId2' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
   }
  
@@ -102,7 +97,6 @@ RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -111,7 +105,7 @@ RecordStatus: obj.RecordStatus || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetComplianceTypes/create']);
+      this.router.navigate(['/business/assets/compliance/types/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -138,7 +132,6 @@ RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
  
       }
     );
@@ -158,17 +151,18 @@ RecordStatus: obj.RecordStatus || '',
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
-     AssetCategoryId: formValues.AssetCategoryId || 0,
-ComplianceCode: formValues.ComplianceCode || null,
-ComplianceName: formValues.ComplianceName || null,
-RequiresExpiry: formValues.RequiresExpiry || false,
-RequiresDocument: formValues.RequiresDocument || false,
-ReminderDaysBefore: formValues.ReminderDaysBefore || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: formValues.RecordStatus || null,
+     AssetCategoryId: formValues.AssetCategoryId ?? 0,
+ComplianceCode: formValues.ComplianceCode ?? null,
+ComplianceName: formValues.ComplianceName ?? null,
+RequiresExpiry: formValues.RequiresExpiry ?? false,
+RequiresDocument: formValues.RequiresDocument ?? false,
+ReminderDaysBefore: formValues.ReminderDaysBefore ?? 0,
+EffectiveFrom: formValues.EffectiveFrom ?? null,
+EffectiveTo: formValues.EffectiveTo ?? null,
+RecordStatus: 'Active',
 
     } as IAssetComplianceType ; 
+	applyAssetPayloadDefaults(createdObj, formValues, ['AssetCategoryId', 'ReminderDaysBefore'], ['RequiresExpiry', 'RequiresDocument'], ['EffectiveFrom', 'EffectiveTo']);
 	
 	  this.spinner.show(); 
     this.assetComplianceTypeService.create(createdObj).subscribe({

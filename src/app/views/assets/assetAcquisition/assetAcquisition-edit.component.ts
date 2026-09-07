@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetAcquisition } from './assetAcquisition';
 import { AssetAcquisitionService } from './assetAcquisition.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetAcquisitionService } from './assetAcquisition.service';
   providers: [ MessageService]
 })
 export class AssetAcquisitionEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -73,15 +75,10 @@ ProcurementSourceId: new FormControl(0, [Validators.min(-2147483648), Validators
 
     });
 
-   this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId1', Value: 'SupplierPartyId1' });
-this.supplierpartyidOptions.push({Text: 'SupplierPartyId2', Value: 'SupplierPartyId2' });
-this.supplierpartylocationidOptions.push({Text: 'SupplierPartyLocationId1', Value: 'SupplierPartyLocationId1' });
-this.supplierpartylocationidOptions.push({Text: 'SupplierPartyLocationId2', Value: 'SupplierPartyLocationId2' });
-this.currencycodeOptions.push({Text: 'INR', Value: 'INR' });
-this.currencycodeOptions.push({Text: 'USD', Value: 'USD' });
-this.currencycodeOptions.push({Text: 'GBP', Value: 'GBP' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties', options => this.supplierpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyLocationId', 'party-locations', options => this.supplierpartylocationidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef, { PartyId: 'SupplierPartyId' });
+this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -134,7 +131,7 @@ ProcurementSourceId: obj.ProcurementSourceId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAcquisition/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/acquisitions/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -203,6 +200,7 @@ CapitalizationDate:  formValues.CapitalizationDate || null,
 ProcurementSourceId:  formValues.ProcurementSourceId || null,
 
     } as IAssetAcquisition ;
+	applyAssetPayloadDefaults(updatedObj, formValues, ['AssetId', 'SupplierPartyId', 'SupplierPartyLocationId', 'BasicAmount', 'TaxAmount', 'OtherCapitalizableCost', 'TotalAcquisitionCost', 'ProcurementSourceId'], [], ['AcquisitionDate', 'CapitalizationDate']);
 	
 	this.spinner.show();  	   
     this.assetAcquisitionService.update(this.assetAcquisition.Id, updatedObj).subscribe({

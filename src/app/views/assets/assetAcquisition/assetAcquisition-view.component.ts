@@ -71,7 +71,7 @@ export class AssetAcquisitionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/assetAcquisition/create']);
+            this.router.navigate(['/business/assets/acquisitions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

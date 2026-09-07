@@ -71,7 +71,7 @@ export class AssetDocumentLinkViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/assetDocumentLink/create']);
+            this.router.navigate(['/business/assets/documents/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

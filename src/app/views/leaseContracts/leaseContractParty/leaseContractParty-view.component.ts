@@ -71,7 +71,7 @@ export class LeaseContractPartyViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Create") {
-            this.router.navigate(['/contracts/dashboard/create']);
+            this.router.navigate(['/contracts/parties/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

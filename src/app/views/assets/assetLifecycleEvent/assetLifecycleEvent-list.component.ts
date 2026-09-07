@@ -137,17 +137,17 @@ export class AssetLifecycleEventListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetLifecycleEvents/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/lifecycle/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetLifecycleEvents/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/lifecycle/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetLifecycleEvents/create']);
+      this.router.navigate(['/business/assets/lifecycle/create']);
     } 
     else if (key == "Refresh") {
       this.search();

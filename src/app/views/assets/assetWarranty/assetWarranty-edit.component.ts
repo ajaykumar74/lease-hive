@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetWarranty } from './assetWarranty';
 import { AssetWarrantyService } from './assetWarranty.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetWarrantyService } from './assetWarranty.service';
   providers: [ MessageService]
 })
 export class AssetWarrantyEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -69,16 +71,11 @@ WarrantyStatusId: new FormControl(0, [Validators.required, Validators.min(-21474
 
     });
 
-   this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.warrantyproviderpartyidOptions.push({Text: 'WarrantyProviderPartyId1', Value: 'WarrantyProviderPartyId1' });
-this.warrantyproviderpartyidOptions.push({Text: 'WarrantyProviderPartyId2', Value: 'WarrantyProviderPartyId2' });
-this.warrantytypeidOptions.push({Text: 'WarrantyTypeId1', Value: 'WarrantyTypeId1' });
-this.warrantytypeidOptions.push({Text: 'WarrantyTypeId2', Value: 'WarrantyTypeId2' });
-this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
-this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.warrantystatusidOptions.push({Text: 'WarrantyStatusId1', Value: 'WarrantyStatusId1' });
-this.warrantystatusidOptions.push({Text: 'WarrantyStatusId2', Value: 'WarrantyStatusId2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'WarrantyProviderPartyId', 'parties', options => this.warrantyproviderpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'WarrantyTypeId', 'asset-warranty-types', options => this.warrantytypeidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'WarrantyStatusId', 'asset-warranty-statuses', options => this.warrantystatusidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -126,7 +123,7 @@ WarrantyStatusId: obj.WarrantyStatusId || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetWarranty/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/warranties/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -185,6 +182,7 @@ DocumentId:  formValues.DocumentId || null,
 WarrantyStatusId:  formValues.WarrantyStatusId || null,
 
     } as IAssetWarranty ;
+	applyAssetPayloadDefaults(updatedObj, formValues, ['AssetId', 'WarrantyProviderPartyId', 'WarrantyTypeId', 'DocumentId', 'WarrantyStatusId'], [], ['StartDate', 'EndDate']);
 	
 	this.spinner.show();  	   
     this.assetWarrantyService.update(this.assetWarranty.Id, updatedObj).subscribe({

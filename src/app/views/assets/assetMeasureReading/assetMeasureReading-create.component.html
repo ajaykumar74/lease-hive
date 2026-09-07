@@ -12,89 +12,86 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset CategoryId" class="mb-1">AssetCategoryId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
         <p-dropdown
-            inputId="AssetCategoryId" 
-            [options]="assetcategoryidOptions"
+            inputId="AssetId" 
+            [options]="assetidOptions"
             optionLabel="Text"
 	    optionValue="Value"
-	    formControlName="AssetCategoryId"
+	    formControlName="AssetId"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
-											label="Asset CategoryId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset TypeId" class="mb-1">AssetTypeId</label>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
+											label="Asset Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Measure Definition Id" class="mb-1">AssetMeasureDefinitionId</label>
         <p-dropdown
-            inputId="AssetTypeId" 
-            [options]="assettypeidOptions"
+            inputId="AssetMeasureDefinitionId" 
+            [options]="assetmeasuredefinitionidOptions"
             optionLabel="Text"
 	    optionValue="Value"
-	    formControlName="AssetTypeId"
+	    formControlName="AssetMeasureDefinitionId"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
-											label="Asset TypeId">
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetMeasureDefinitionId')"
+											label="Asset Measure Definition Id">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
-							<label for="MeasureCode">Measure Code 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ReadingValue">Reading Value 
 							</label> 
-							<input pInputText id="MeasureCode" type="text" pSize="small"	formControlName="MeasureCode"  />
-							<app-validation-errors [type]="'text'" [control]="editForm.get('MeasureCode')"
-											label="Measure Code">
+							<p-inputNumber id="ReadingValue"  pSize="small"	formControlName="ReadingValue"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReadingValue')"
+											label="Reading Value">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">					
-							<label for="MeasureName">Measure Name 
+						 </div><div class="flex flex-col w-full">			
+							<label for="ReadingDateTime">Reading Date Time 
 							</label> 
-							<input pInputText id="MeasureName" type="text" pSize="small"	formControlName="MeasureName"  />
-							<app-validation-errors [type]="'text'" [control]="editForm.get('MeasureName')"
-											label="Measure Name">
+							<p-calendar id="ReadingDateTime"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ReadingDateTime"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ReadingDateTime')"
+											label="Reading Date Time">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Unit Of MeasureId" class="mb-1">UnitOfMeasureId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Reading Source Id" class="mb-1">ReadingSourceId</label>
         <p-dropdown
-            inputId="UnitOfMeasureId" 
-            [options]="unitofmeasureidOptions"
+            inputId="ReadingSourceId" 
+            [options]="readingsourceidOptions"
             optionLabel="Text"
 	    optionValue="Value"
-	    formControlName="UnitOfMeasureId"
+	    formControlName="ReadingSourceId"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('UnitOfMeasureId')"
-											label="Unit Of MeasureId">
-										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
-										<div class="flex items-center gap-2">
-											<p-checkbox inputId="IsCumulative" binary="true" formControlName="IsCumulative">
-											</p-checkbox>
-											<label for="IsCumulative">Is Cumulative</label>
-										</div>
-										<div class="validation-space"></div></div></div>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ReadingSourceId')"
+											label="Reading Source Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="SourceReference">Source Reference 
+							</label> 
+							<input pInputText id="SourceReference" type="text" pSize="small"	formControlName="SourceReference"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('SourceReference')"
+											label="Source Reference">
+										</app-validation-errors>
+						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
 										<div class="flex items-center gap-2">
-											<p-checkbox inputId="IsRequired" binary="true" formControlName="IsRequired">
+											<p-checkbox inputId="IsVerified" binary="true" formControlName="IsVerified">
 											</p-checkbox>
-											<label for="IsRequired">Is Required</label>
+											<label for="IsVerified">Is Verified</label>
 										</div>
-										<div class="validation-space"></div></div><div class="flex flex-col w-full">			
-							<label for="EffectiveFrom">Effective From 
-							</label> 
-							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="EffectiveFrom"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
-											label="Effective From">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
-							<label for="EffectiveTo">Effective To 
-							</label> 
-							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="EffectiveTo"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
-											label="Effective To">
-										</app-validation-errors>
-						 </div></div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Recorded By" class="mb-1">RecordedBy</label>
+        <p-dropdown
+            inputId="RecordedBy" 
+            [options]="recordedbyOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordedBy"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordedBy')"
+											label="Recorded By">
+										</app-validation-errors></div></div>
 
 					</div>
 				</div>

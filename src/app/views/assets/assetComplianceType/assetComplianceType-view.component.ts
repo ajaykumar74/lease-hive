@@ -71,7 +71,7 @@ export class AssetComplianceTypeViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/assetComplianceType/create']);
+            this.router.navigate(['/business/assets/compliance/types/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

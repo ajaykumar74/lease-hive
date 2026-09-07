@@ -137,17 +137,17 @@ export class AssetValuationListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetValuations/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/valuations/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetValuations/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/valuations/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetValuations/create']);
+      this.router.navigate(['/business/assets/valuations/create']);
     } 
     else if (key == "Refresh") {
       this.search();

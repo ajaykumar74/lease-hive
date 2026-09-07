@@ -2,17 +2,15 @@ import { IBase } from "@/shared/IBase";
 
 export interface IAssetMeasureReading extends IBase {
 	Id :number;
-AssetMeasureDefinitionId :string;
+AssetMeasureReadingId :string;
 TenantId :number;
-AssetCategoryId :number;
-AssetTypeId :number;
-MeasureCode :string;
-MeasureName :string;
-UnitOfMeasureId :string;
-IsCumulative : boolean;
-IsRequired : boolean;
-EffectiveFrom :Date;
-EffectiveTo :Date;
-RecordStatus :string;
+AssetId :number;
+AssetMeasureDefinitionId :number;
+ReadingValue :number;
+ReadingDateTime :Date;
+ReadingSourceId :number;
+SourceReference :string;
+IsVerified : boolean;
+RecordedBy :number;
 
 }

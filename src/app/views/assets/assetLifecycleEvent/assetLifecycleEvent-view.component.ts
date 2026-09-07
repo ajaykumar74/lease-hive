@@ -71,7 +71,7 @@ export class AssetLifecycleEventViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/assetLifecycleEvent/create']);
+            this.router.navigate(['/business/assets/lifecycle/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

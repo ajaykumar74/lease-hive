@@ -118,7 +118,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/leaseContractPartys/create']);
+      this.router.navigate(['/contracts/parties/create']);
     }
     else if (key == "Save") {
       this.Save();

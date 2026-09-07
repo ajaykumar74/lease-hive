@@ -78,8 +78,9 @@ GeneratedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648
 this.schedulestatuscodeOptions = this.loggedInUserService.getPicklistOptions('ScheduleStatusCode');
 this.calculationmethodcodeOptions = this.loggedInUserService.getPicklistOptions('CalculationMethodCode');
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.generatedbyOptions.push({Text: 'GeneratedBy1', Value: 'GeneratedBy1' });
-this.generatedbyOptions.push({Text: 'GeneratedBy2', Value: 'GeneratedBy2' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'GeneratedBy', 'application-users',
+      options => this.generatedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
   }
  

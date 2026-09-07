@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -28,10 +28,10 @@ export class AssetMeasureReadingEditComponent implements OnInit {
   assetMeasureReading: IAssetMeasureReading = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
-  assetcategoryidOptions: ISelectItem[] = [];
-assettypeidOptions: ISelectItem[] = [];
-unitofmeasureidOptions: ISelectItem[] = [];
-recordstatusOptions: ISelectItem[] = [];
+  assetidOptions: ISelectItem[] = [];
+assetmeasuredefinitionidOptions: ISelectItem[] = [];
+readingsourceidOptions: ISelectItem[] = [];
+recordedbyOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IAssetMeasureReading = {} as IAssetMeasureReading;
@@ -57,28 +57,21 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-MeasureCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-MeasureName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-UnitOfMeasureId: new FormControl('', [Validators.maxLength(20), ]), 
-IsCumulative: new FormControl(false), 
-IsRequired: new FormControl(false), 
-EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-EffectiveTo: new FormControl(new Date(), []),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetMeasureDefinitionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ReadingValue: new FormControl(0, [Validators.required]),
+ReadingDateTime: new FormControl(new Date(), [Validators.required]),
+ReadingSourceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SourceReference: new FormControl('', [Validators.maxLength(120), ]), 
+IsVerified: new FormControl(false, [Validators.required]),
+RecordedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
 
-   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
-      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
-      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
-this.unitofmeasureidOptions.push({Text: 'Text1', Value: 'Text1' });
-this.unitofmeasureidOptions.push({Text: 'Text2', Value: 'Text2' });
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMeasureDefinitionId', 'asset-measure-definitions', options => this.assetmeasuredefinitionidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ReadingSourceId', 'asset-reading-sources', options => this.readingsourceidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RecordedBy', 'application-users', options => this.recordedbyOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -108,16 +101,14 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  AssetCategoryId: obj.AssetCategoryId || 0,
-AssetTypeId: obj.AssetTypeId || 0,
-MeasureCode: obj.MeasureCode || '',
-MeasureName: obj.MeasureName || '',
-UnitOfMeasureId: obj.UnitOfMeasureId || '',
-IsCumulative:  obj.IsCumulative || false,
-IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
+	  AssetId: obj.AssetId || 0,
+AssetMeasureDefinitionId: obj.AssetMeasureDefinitionId || 0,
+ReadingValue: obj.ReadingValue || 0,
+ReadingDateTime:  obj.ReadingDateTime || new Date(),
+ReadingSourceId: obj.ReadingSourceId || 0,
+SourceReference: obj.SourceReference || '',
+IsVerified:  obj.IsVerified || false,
+RecordedBy: obj.RecordedBy || 0,
  
       }
     );
@@ -146,16 +137,14 @@ RecordStatus: obj.RecordStatus || '',
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  AssetCategoryId: obj.AssetCategoryId || 0,
-AssetTypeId: obj.AssetTypeId || 0,
-MeasureCode: obj.MeasureCode || '',
-MeasureName: obj.MeasureName || '',
-UnitOfMeasureId: obj.UnitOfMeasureId || '',
-IsCumulative:  obj.IsCumulative || false,
-IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
-RecordStatus: obj.RecordStatus || '',
+	  AssetId: obj.AssetId || 0,
+AssetMeasureDefinitionId: obj.AssetMeasureDefinitionId || 0,
+ReadingValue: obj.ReadingValue || 0,
+ReadingDateTime:  obj.ReadingDateTime || new Date(),
+ReadingSourceId: obj.ReadingSourceId || 0,
+SourceReference: obj.SourceReference || '',
+IsVerified:  obj.IsVerified || false,
+RecordedBy: obj.RecordedBy || 0,
  
       }
     );
@@ -176,16 +165,14 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     AssetCategoryId:  formValues.AssetCategoryId || 0,
-AssetTypeId:  formValues.AssetTypeId || 0,
-MeasureCode:  formValues.MeasureCode || null,
-MeasureName:  formValues.MeasureName || null,
-UnitOfMeasureId:  formValues.UnitOfMeasureId || null,
-IsCumulative:  formValues.IsCumulative || false,
-IsRequired:  formValues.IsRequired || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
-RecordStatus:  formValues.RecordStatus || null,
+     AssetId:  formValues.AssetId || null,
+AssetMeasureDefinitionId:  formValues.AssetMeasureDefinitionId || null,
+ReadingValue:  formValues.ReadingValue || null,
+ReadingDateTime:  formValues.ReadingDateTime || null,
+ReadingSourceId:  formValues.ReadingSourceId || null,
+SourceReference:  formValues.SourceReference || null,
+IsVerified:  formValues.IsVerified || null,
+RecordedBy:  formValues.RecordedBy || null,
 
     } as IAssetMeasureReading ;
 	

@@ -137,17 +137,17 @@ export class AssetDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/documents/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/documents/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetDocumentLinks/create']);
+      this.router.navigate(['/business/assets/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();

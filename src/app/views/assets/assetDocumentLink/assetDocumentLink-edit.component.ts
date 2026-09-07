@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetDocumentLink } from './assetDocumentLink';
 import { AssetDocumentLinkService } from './assetDocumentLink.service';
+import { applyAssetPayloadDefaults } from '@/views/assets/asset-payload-defaults';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetDocumentLinkService } from './assetDocumentLink.service';
   providers: [ MessageService]
 })
 export class AssetDocumentLinkEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -67,14 +69,10 @@ VerifiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147
 
     });
 
-   this.assetidOptions.push({Text: 'AssetId1', Value: 'AssetId1' });
-this.assetidOptions.push({Text: 'AssetId2', Value: 'AssetId2' });
-this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
-this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
-this.documentpurposeidOptions.push({Text: 'DocumentPurposeId1', Value: 'DocumentPurposeId1' });
-this.documentpurposeidOptions.push({Text: 'DocumentPurposeId2', Value: 'DocumentPurposeId2' });
-this.verifiedbyOptions.push({Text: 'VerifiedBy1', Value: 'VerifiedBy1' });
-this.verifiedbyOptions.push({Text: 'VerifiedBy2', Value: 'VerifiedBy2' });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentPurposeId', 'asset-document-purposes', options => this.documentpurposeidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedBy', 'application-users', options => this.verifiedbyOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -121,7 +119,7 @@ VerifiedBy: obj.VerifiedBy || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetDocumentLink/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/documents/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -178,6 +176,7 @@ IsVerified:  formValues.IsVerified || null,
 VerifiedBy:  formValues.VerifiedBy || null,
 
     } as IAssetDocumentLink ;
+	applyAssetPayloadDefaults(updatedObj, formValues, ['AssetId', 'DocumentId', 'DocumentPurposeId', 'VerifiedBy'], ['IsPrimary', 'IsVerified'], ['EffectiveFrom', 'EffectiveTo']);
 	
 	this.spinner.show();  	   
     this.assetDocumentLinkService.update(this.assetDocumentLink.Id, updatedObj).subscribe({

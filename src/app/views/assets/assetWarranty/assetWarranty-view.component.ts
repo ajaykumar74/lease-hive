@@ -71,7 +71,7 @@ export class AssetWarrantyViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/assetWarranty/create']);
+            this.router.navigate(['/business/assets/warranties/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

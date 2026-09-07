@@ -137,17 +137,17 @@ export class AssetComplianceRecordListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/assetComplianceRecords/edit/' + obj.Id]);
+        this.router.navigate(['/business/assets/compliance/records/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/assetComplianceRecords/view/' + obj.Id]);
+        this.router.navigate(['/business/assets/compliance/records/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/assetComplianceRecords/create']);
+      this.router.navigate(['/business/assets/compliance/records/create']);
     } 
     else if (key == "Refresh") {
       this.search();
