@@ -109,7 +109,7 @@ export class QuoteAcceptanceEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['origination/quotes/acceptances/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/quotes/acceptances/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

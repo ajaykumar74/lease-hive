@@ -5,24 +5,24 @@ import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
-import { QuoteAcceptanceService } from './quoteAcceptance.service';
-import { IQuoteAcceptance } from './quoteAcceptance';
+import { QuoteAssetService } from './quoteAsset.service';
+import { IQuoteAsset } from './quoteAsset';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './quoteAcceptance-list.component.html'
+  templateUrl: './quoteAsset-list.component.html'
 })
-export class QuoteAcceptanceListComponent implements OnInit {
+export class QuoteAssetListComponent implements OnInit {
 
   constructor(
-    private quoteAcceptanceService: QuoteAcceptanceService,
+    private quoteAssetService: QuoteAssetService,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IQuoteAcceptance[]; 
+  lstMain: IQuoteAsset[]; 
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -37,16 +37,16 @@ export class QuoteAcceptanceListComponent implements OnInit {
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.quoteAcceptanceService.CacheData.IsLoaded) {
-      this.currentPage = this.quoteAcceptanceService.CacheData.CurrentPage;
-      this.objSearch = this.quoteAcceptanceService.CacheData.objSearch;
-      this.permission = this.quoteAcceptanceService.CacheData.permission;
+     if (this.quoteAssetService.CacheData.IsLoaded) {
+      this.currentPage = this.quoteAssetService.CacheData.CurrentPage;
+      this.objSearch = this.quoteAssetService.CacheData.objSearch;
+      this.permission = this.quoteAssetService.CacheData.permission;
     }  
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.quoteAcceptanceService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !this.quoteAssetService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -75,7 +75,7 @@ export class QuoteAcceptanceListComponent implements OnInit {
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
 
-    if (isReload || this.quoteAcceptanceService.CacheData.CurrentPage != pgEvent.page) {
+    if (isReload || this.quoteAssetService.CacheData.CurrentPage != pgEvent.page) {
 
       var searchParam = {
         Skip: pgEvent.first,
@@ -85,18 +85,18 @@ export class QuoteAcceptanceListComponent implements OnInit {
         Conditions: this.getSearchParams()  
       }
       this.isLoading = true;
-      this.quoteAcceptanceService.search(searchParam).subscribe({
+      this.quoteAssetService.search(searchParam).subscribe({
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.quoteAcceptanceService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          this.quoteAssetService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
       });
     }
     else {
-      this.SetListData(this.quoteAcceptanceService.CacheData.Data, this.quoteAcceptanceService.CacheData.TotalRecords);
+      this.SetListData(this.quoteAssetService.CacheData.Data, this.quoteAssetService.CacheData.TotalRecords);
     }
   }
 
@@ -111,6 +111,9 @@ export class QuoteAcceptanceListComponent implements OnInit {
     var Items = [];
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
+      // { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
+      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 
@@ -134,17 +137,17 @@ export class QuoteAcceptanceListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/origination/quotes/acceptances/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/assets/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['/business/origination/quotes/acceptances/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/assets/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/business/origination/quotes/acceptances/create']);
+      this.router.navigate(['/business/origination/quotes/assets/create']);
     } 
     else if (key == "Refresh") {
       this.search();

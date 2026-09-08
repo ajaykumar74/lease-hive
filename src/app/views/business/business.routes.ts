@@ -154,8 +154,8 @@ export const BUSINESS_ROUTES: Routes = [
             },
             {
                 path: 'origination/quotes/assets',
-                redirectTo: 'origination/quotes',
-                pathMatch: 'full'
+                data: { title: 'Quote Assets', breadcrumb: 'Quote Assets' },
+                loadChildren: () => import('@/views/crm/quoteAsset/quoteAsset.module').then((m) => m.QuoteAssetModule)
             },
             {
                 path: 'origination/quotes',

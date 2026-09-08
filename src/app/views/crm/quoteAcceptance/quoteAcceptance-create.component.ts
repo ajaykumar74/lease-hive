@@ -97,7 +97,7 @@ export class QuoteAcceptanceCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/quoteAcceptances/create']);
+            this.router.navigate(['/business/origination/quotes/acceptances/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

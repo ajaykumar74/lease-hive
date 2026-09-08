@@ -611,6 +611,11 @@ export class AppMenu {
                                             label: 'Quote Assets',
                                             icon: 'pi pi-fw pi-box',
                                             routerLink: ['/business/origination/quotes/assets']
+                                        },
+                                        {
+                                            label: 'Quote Acceptances',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/business/origination/quotes/acceptances']
                                         }
                                     ]
                                 },

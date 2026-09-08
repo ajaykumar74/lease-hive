@@ -10,26 +10,26 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { QuoteAcceptanceService } from './quoteAcceptance.service';
-import { IQuoteAcceptance } from './quoteAcceptance';
+import { QuoteAssetService } from './quoteAsset.service';
+import { IQuoteAsset } from './quoteAsset';
 
 @Component({
-    templateUrl: './quoteAcceptance-view.component.html', 
+    templateUrl: './quoteAsset-view.component.html', 
 standalone: false,
     providers: [MessageService]
 })
-export class QuoteAcceptanceViewComponent implements OnInit {
+export class QuoteAssetViewComponent implements OnInit {
     selectedId: number;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
-    quoteAcceptance: IQuoteAcceptance = {} as IQuoteAcceptance;
+    quoteAsset: IQuoteAsset = {} as IQuoteAsset;
     Caption: string = 'Loading...';
     
 
     constructor( 
         private router: Router,
         private activatedRouter: ActivatedRoute,
-        private quoteAcceptanceService: QuoteAcceptanceService, 
+        private quoteAssetService: QuoteAssetService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
@@ -54,24 +54,24 @@ export class QuoteAcceptanceViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.quoteAcceptanceService.getById(this.selectedId).subscribe({
+        this.quoteAssetService.getById(this.selectedId).subscribe({
             next: data => {
-                this.quoteAcceptance = data.data;
+                this.quoteAsset = data.data;
                 this.permission = data.permission; 
-                this.populateUI(this.quoteAcceptance);
+                this.populateUI(this.quoteAsset);
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IQuoteAcceptance): void { 
-        this.Caption = "QuoteAcceptance Details #" + obj.Id;
+    populateUI(obj: IQuoteAsset): void { 
+        this.Caption = "QuoteAsset Details #" + obj.Id;
     }
 
     onOptionItemClicked(key: string): void {
         if (key == "Create") {
-            this.router.navigate(['/business/origination/quotes/acceptances/create']);
+            this.router.navigate(['/business/origination/quotes/assets/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();
