@@ -70,9 +70,9 @@ export class PermissionViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/permission/create']);
-        }        
+        if (key == "Create") {
+            this.router.navigate(['/dashboard/permissions/create']);
+        }
         else if (key == "Refresh") {
             this.loadUI();
         }

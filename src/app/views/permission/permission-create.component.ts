@@ -108,7 +108,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/permissions/create']);
+      this.router.navigate(['/dashboard/permissions/create']);
     }
     else if (key == "Save") {
       this.Save();

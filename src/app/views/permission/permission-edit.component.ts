@@ -120,7 +120,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/permission/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/permissions/create']);
     }
     else if (key == "Save") {
       this.Save();

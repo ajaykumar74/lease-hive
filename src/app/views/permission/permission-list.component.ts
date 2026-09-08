@@ -138,17 +138,17 @@ if (this.objSearch.AuditType == 'Created') {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['permissions/edit/' + obj.Id]);
+        this.router.navigate(['/dashboard/permissions/edit', obj.Id]);
     }
     else {
-        this.router.navigate(['permissions/view/' + obj.Id]);
+        this.router.navigate(['/dashboard/permissions/view', obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['permissions/create']);
+      this.router.navigate(['/dashboard/permissions/create']);
     } 
     else if (key == "Refresh") {
       this.search();
