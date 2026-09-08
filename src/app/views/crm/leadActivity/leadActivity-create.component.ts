@@ -26,6 +26,7 @@ export class LeadActivityCreateComponent implements OnInit {
     leadActivity: ILeadActivity = null;
     leadidOptions: ISelectItem[] = [];
     opportunityidOptions: ISelectItem[] = [];
+    assigneduseridOptions: ISelectItem[] = [];
     activitytypeOptions: ISelectItem[] = [];
     outcomecodeOptions: ISelectItem[] = [];
 
@@ -65,6 +66,7 @@ export class LeadActivityCreateComponent implements OnInit {
         this.Caption = 'Create LeadActivity';
         this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
         this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
+        this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assigneduseridOptions = options));
         this.activitytypeOptions = this.loggedInUserService.getPicklistOptions('ActivityType');
         this.outcomecodeOptions = this.loggedInUserService.getPicklistOptions('OutcomeCode');
     }

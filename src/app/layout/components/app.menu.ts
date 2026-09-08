@@ -743,6 +743,11 @@ export class AppMenu {
                                     routerLink: ['/business/assets/specialised/vehicles']
                                 },
                                 {
+                                    label: 'Property Assets',
+                                    icon: 'pi pi-fw pi-building',
+                                    routerLink: ['/business/assets/specialised/property']
+                                },
+                                {
                                     label: 'Classification',
                                     icon: 'pi pi-fw pi-sitemap',
                                     items: [

@@ -82,22 +82,26 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
-
+ 
 this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 
-  private loadLookups(selected?: ILead): void {
-    this.leadFormService.loadLookups(selected).subscribe(lookups => {
-      this.originatingorganisationidOptions = lookups.originatingOrganisations;
-      this.ownerorganisationunitidOptions = lookups.ownerOrganisationUnits;
-      this.owneruseridOptions = lookups.ownerUsers;
-      this.leadsourceidOptions = lookups.leadSources;
-      this.leadstatusidOptions = lookups.leadStatuses;
-      this.interestedassetcategoryidOptions = lookups.interestedAssetCategories;
-    });
+  private loadLookups(): void {
+    this.loggedInUserService.getOrganisationOptions()
+      .subscribe(options => this.originatingorganisationidOptions = options);
+    this.loggedInUserService.getLookupOptions('organisation-units')
+      .subscribe(options => this.ownerorganisationunitidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions()
+      .subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-sources')
+      .subscribe(options => this.leadsourceidOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-statuses')
+      .subscribe(options => this.leadstatusidOptions = options);
+    this.loggedInUserService.getLookupOptions('asset-categories')
+      .subscribe(options => this.interestedassetcategoryidOptions = options);
   }
 
   ngAfterViewInit(): void {
@@ -122,7 +126,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ILead): void {  
-    this.loadLookups(obj);
+    this.loadLookups( );
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

@@ -70,7 +70,7 @@ EffectiveTo: new FormControl(new Date(), []),
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.propertytypeOptions.push({Text: '', Value: '' });
+this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('PropertyType');
 
   }
  
@@ -109,7 +109,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/propertyAssets/create']);
+      this.router.navigate(['/business/assets/specialised/property/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -185,6 +185,4 @@ RecordStatus: 'Active',
   } 
 
 }
-
-
 

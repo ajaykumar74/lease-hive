@@ -12,7 +12,6 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ILead } from './lead';
 import { LeadService } from './lead.service';
-import { LeadFormService } from './lead-form.service';
 
 @Component({
   selector: 'app-lead-create',
@@ -47,8 +46,7 @@ export class LeadCreateComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _location: Location,
-    private leadService: LeadService,
-    private leadFormService: LeadFormService
+    private leadService: LeadService
 
   ) {
   }
@@ -87,14 +85,18 @@ export class LeadCreateComponent implements OnInit {
   }
 
   private loadLookups(): void {
-    this.leadFormService.loadLookups().subscribe(lookups => {
-      this.originatingorganisationidOptions = lookups.originatingOrganisations;
-      this.ownerorganisationunitidOptions = lookups.ownerOrganisationUnits;
-      this.owneruseridOptions = lookups.ownerUsers;
-      this.leadsourceidOptions = lookups.leadSources;
-      this.leadstatusidOptions = lookups.leadStatuses;
-      this.interestedassetcategoryidOptions = lookups.interestedAssetCategories;
-    });
+    this.loggedInUserService.getOrganisationOptions()
+      .subscribe(options => this.originatingorganisationidOptions = options);
+    this.loggedInUserService.getLookupOptions('organisation-units')
+      .subscribe(options => this.ownerorganisationunitidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions()
+      .subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-sources')
+      .subscribe(options => this.leadsourceidOptions = options);
+    this.loggedInUserService.getLookupOptions('lead-statuses')
+      .subscribe(options => this.leadstatusidOptions = options);
+    this.loggedInUserService.getLookupOptions('asset-categories')
+      .subscribe(options => this.interestedassetcategoryidOptions = options);
   }
 
   loadUI(): void {

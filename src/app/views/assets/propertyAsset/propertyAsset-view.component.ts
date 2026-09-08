@@ -70,8 +70,8 @@ export class PropertyAssetViewComponent implements OnInit {
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/propertyAsset/create']);
+        if (key == "Create") {
+            this.router.navigate(['/business/assets/specialised/property/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();
