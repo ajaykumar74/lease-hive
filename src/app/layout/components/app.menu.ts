@@ -18,7 +18,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 export class AppMenu {
     model: any[] = [];
 
-    constructor(private loggedInUserService: LoggedInUserService) { }
+    constructor(private loggedInUserService: LoggedInUserService) {}
     ngOnInit() {
         if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
@@ -182,7 +182,7 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/mydashboard/'],
                             tooltip: 'see your dashboard here'
-                        }/* ,
+                        } /* ,
                         {
                             label: 'Approvals',
                             icon: 'pi pi-fw pi-home',
@@ -301,7 +301,7 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-lock',
                                     routerLink: ['/business/parties/supplier-profiles']
                                 },
-                                 {
+                                {
                                     label: 'Supplier Service Area',
                                     icon: 'pi pi-fw pi-lock',
                                     routerLink: ['/business/parties/supplier-service-areas']
@@ -963,7 +963,6 @@ export class AppMenu {
                             label: 'Procurement',
                             icon: 'pi pi-fw pi-shopping-cart',
                             items: [
-
                                 // =========================================================
                                 // PROCUREMENT OVERVIEW
                                 // =========================================================
@@ -1297,6 +1296,7 @@ export class AppMenu {
                         {
                             label: 'Lease Contracts',
                             icon: 'pi pi-file-edit',
+                            class: 'font-bold',
                             items: [
                                 {
                                     label: 'Dashboard',
@@ -1314,7 +1314,7 @@ export class AppMenu {
                                     routerLink: ['/contracts/create']
                                 },
                                 {
-                                    label: 'By Status',
+                                    label: 'Contract work',
                                     icon: 'pi pi-briefcase',
                                     items: [
                                         {
@@ -1386,7 +1386,7 @@ export class AppMenu {
                                     ]
                                 },
                                 {
-                                    label: 'Contract Details',
+                                    label: 'Define contract',
                                     icon: 'pi pi-sliders-h',
                                     items: [
                                         {
@@ -2359,5 +2359,48 @@ export class AppMenu {
                 }
             ];
         }
+
+        //this.flattenLeaseContractMenu();
+    }
+
+    private flattenLeaseContractMenu(): void {
+        const leaseContracts = this.findMenuItem(this.model, 'Lease Contracts');
+        if (!leaseContracts?.items?.length) {
+            return;
+        }
+
+        const sectionLabels: Record<string, string> = {
+            'By Status': 'Contract work',
+            'Contract Details': 'Define contract',
+            'Documents & Signing': 'Documents & signing',
+            'Activation & Checklist': 'Activate',
+            'Manage Contracts': 'Manage contract',
+            'Renewals & Expiry': 'Renew or exit',
+            'End a Contract': 'Close contract',
+            'Activity & Audit': 'Activity & audit',
+            Settings: 'Configuration'
+        };
+
+        const startItems = leaseContracts.items.filter((item: any) => !item.items);
+        const groupedItems = leaseContracts.items.filter((item: any) => item.items);
+        const toLink = (item: any) => ({ ...item, class: 'lease-contract-menu-link' });
+
+        leaseContracts.class = 'lease-contract-menu-module';
+        leaseContracts.items = [{ label: 'Start', section: true }, ...startItems.map(toLink), ...groupedItems.flatMap((group: any) => [{ label: sectionLabels[group.label] || group.label, section: true }, ...group.items.map(toLink)])];
+    }
+
+    private findMenuItem(items: any[], label: string): any | undefined {
+        for (const item of items) {
+            if (item.label === label) {
+                return item;
+            }
+
+            const match = item.items ? this.findMenuItem(item.items, label) : undefined;
+            if (match) {
+                return match;
+            }
+        }
+
+        return undefined;
     }
 }
