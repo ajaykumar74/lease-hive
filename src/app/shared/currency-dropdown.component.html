@@ -1,0 +1,13 @@
+<p-dropdown
+  [inputId]="inputId"
+  [options]="currencyOptions"
+  optionLabel="Text"
+  optionValue="Value"
+  [ngModel]="value"
+  [ngModelOptions]="{ standalone: true }"
+  [disabled]="disabled"
+  [placeholder]="placeholder"
+  (onChange)="onCurrencyChange($event.value)"
+  (onBlur)="markAsTouched()"
+  class="w-full">
+</p-dropdown>

@@ -32,9 +32,17 @@ export class ApplicationUserService extends BaseCrudService<any> {
     this.CacheData.objSearch = objsearch;
   } 
  
- search(  searchParam: any): Observable<any> {
+  search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;
     return this.http.post<any>(url, searchParam, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
+
+  getCurrent(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/current`, { headers: this.headers })
       .pipe(
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)

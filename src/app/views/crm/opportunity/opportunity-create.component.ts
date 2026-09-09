@@ -30,7 +30,6 @@ export class OpportunityCreateComponent implements OnInit {
     ownerorganisationunitidOptions: ISelectItem[] = [];
     owneruseridOptions: ISelectItem[] = [];
     opportunitystageidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: IOpportunity = {} as IOpportunity;
@@ -75,7 +74,6 @@ export class OpportunityCreateComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('organisation-units').subscribe((options) => (this.ownerorganisationunitidOptions = options));
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.owneruseridOptions = options));
         this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

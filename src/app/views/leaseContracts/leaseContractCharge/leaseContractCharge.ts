@@ -9,7 +9,7 @@ ChargeTypeCode :string;
 ChargeDescription :string;
 ChargeAmount :number;
 CurrencyCode :string;
-TaxType :number;
+TaxType :string;
 TaxAmount :number;
 FrequencyCode :string;
 DueEventCode :string;

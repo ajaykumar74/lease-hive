@@ -56,6 +56,8 @@ import { InputFormatDirective } from '@/shared/InputFormatDirective';
 import { UploadComponent } from './upload.component';
 import { ViewFieldComponent } from './view-field.component';
 import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
+import { DropdownModule } from 'primeng/dropdown';
+import { CurrencyDropdownComponent } from './currency-dropdown.component';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -72,6 +74,7 @@ import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
 		ButtonModule,
 		MessagesModule,
 		MessageModule,
+		DropdownModule,
 		InputFormatDirective
 	],
 	providers: [
@@ -93,7 +96,8 @@ import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
 		AuditDetailsComponent,
 		UploadComponent,
 		ViewFieldComponent, 
-		ValidationErrorsComponent
+		ValidationErrorsComponent,
+		CurrencyDropdownComponent
 	],
 	exports: [
 		MessageComponent,
@@ -110,7 +114,8 @@ import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
 		InputFormatDirective,
 		UploadComponent,
 		ViewFieldComponent,
-		ValidationErrorsComponent
+		ValidationErrorsComponent,
+		CurrencyDropdownComponent
 	]
 })
 export class MySharedModule { }
