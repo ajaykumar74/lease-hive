@@ -109,8 +109,6 @@ ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
 AssignedAt:  obj.AssignedAt || new Date(),
 IsDelegated:  obj.IsDelegated || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -145,8 +143,6 @@ ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
 AssignedAt:  obj.AssignedAt || new Date(),
 IsDelegated:  obj.IsDelegated || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -174,8 +170,8 @@ AssignedById: formValues.AssignedById || 0,
 AssignedAt: formValues.AssignedAt || null,
 IsDelegated: formValues.IsDelegated || false,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IUserRole ; 
 	

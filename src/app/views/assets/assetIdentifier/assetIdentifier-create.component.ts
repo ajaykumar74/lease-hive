@@ -138,8 +138,6 @@ IssuingCountryCode: obj.IssuingCountryCode || '',
 IssuingStateCode: obj.IssuingStateCode || '',
 IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -178,8 +176,6 @@ IssuingCountryCode: obj.IssuingCountryCode || '',
 IssuingStateCode: obj.IssuingStateCode || '',
 IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -207,8 +203,8 @@ IssuingCountryCode: formValues.IssuingCountryCode || null,
 IssuingStateCode: formValues.IssuingStateCode || null,
 IsPrimary: formValues.IsPrimary || false,
 IsVerified: formValues.IsVerified || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetIdentifier ; 

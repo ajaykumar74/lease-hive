@@ -101,8 +101,6 @@ ModelName: obj.ModelName || '',
 VariantName: obj.VariantName || '',
 ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -137,8 +135,6 @@ ModelName: obj.ModelName || '',
 VariantName: obj.VariantName || '',
 ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -165,8 +161,8 @@ ModelName: formValues.ModelName || null,
 VariantName: formValues.VariantName || null,
 ModelYearFrom: formValues.ModelYearFrom || 0,
 ModelYearTo: formValues.ModelYearTo || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetModel ; 

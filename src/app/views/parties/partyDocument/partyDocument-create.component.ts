@@ -140,8 +140,6 @@ export class PartyDocumentCreateComponent implements OnInit {
         VerifiedBy: obj.VerifiedBy || '',
         VerifiedAt: obj.VerifiedAt || new Date(),
         RejectionReason: obj.RejectionReason || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -184,8 +182,6 @@ export class PartyDocumentCreateComponent implements OnInit {
         VerifiedBy: obj.VerifiedBy || '',
         VerifiedAt: obj.VerifiedAt || new Date(),
         RejectionReason: obj.RejectionReason || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -218,8 +214,8 @@ export class PartyDocumentCreateComponent implements OnInit {
       VerifiedAt: formValues.VerifiedAt || null,
       RejectionReason: formValues.RejectionReason || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
 
     } as IPartyDocument;
 

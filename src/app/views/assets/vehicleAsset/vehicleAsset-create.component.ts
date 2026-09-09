@@ -109,8 +109,6 @@ FuelTypeCode: obj.FuelTypeCode || '',
 EmissionNormCode: obj.EmissionNormCode || '',
 SeatingCapacity: obj.SeatingCapacity || 0,
 GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -149,8 +147,6 @@ FuelTypeCode: obj.FuelTypeCode || '',
 EmissionNormCode: obj.EmissionNormCode || '',
 SeatingCapacity: obj.SeatingCapacity || 0,
 GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -181,8 +177,8 @@ FuelTypeCode: formValues.FuelTypeCode || null,
 EmissionNormCode: formValues.EmissionNormCode || null,
 SeatingCapacity: formValues.SeatingCapacity || 0,
 GrossVehicleWeightKg: formValues.GrossVehicleWeightKg || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IVehicleAsset ; 

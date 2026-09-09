@@ -134,8 +134,6 @@ OrganisationId: obj.OrganisationId || 0,
 OwnershipType: obj.OwnershipType || '',
 AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -172,8 +170,6 @@ OrganisationId: obj.OrganisationId || 0,
 OwnershipType: obj.OwnershipType || '',
 AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -199,8 +195,8 @@ OrganisationId: formValues.OrganisationId || 0,
 OwnershipType: formValues.OwnershipType || null,
 AcquisitionReference: formValues.AcquisitionReference || null,
 Remarks: formValues.Remarks || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetOwnershipHistory ; 

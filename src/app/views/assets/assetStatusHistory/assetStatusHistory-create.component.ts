@@ -98,8 +98,6 @@ this.reasoncodeOptions.push({Text: 'StatusChange2', Value: 'StatusChange2' });
 ToStatusId: obj.ToStatusId || 0,
 ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -131,8 +129,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 ToStatusId: obj.ToStatusId || 0,
 ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -156,8 +152,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 ToStatusId: formValues.ToStatusId || 0,
 ReasonCode: formValues.ReasonCode || null,
 Remarks: formValues.Remarks || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetStatusHistory ; 

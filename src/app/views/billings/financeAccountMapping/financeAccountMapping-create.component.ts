@@ -100,8 +100,6 @@ ChargeTypeCode: obj.ChargeTypeCode || '',
 TaxTypeId: obj.TaxTypeId || 0,
 DebitAccountCode: obj.DebitAccountCode || '',
 CreditAccountCode: obj.CreditAccountCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Priority: obj.Priority || 0,
  
       }
@@ -136,8 +134,6 @@ ChargeTypeCode: obj.ChargeTypeCode || '',
 TaxTypeId: obj.TaxTypeId || 0,
 DebitAccountCode: obj.DebitAccountCode || '',
 CreditAccountCode: obj.CreditAccountCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Priority: obj.Priority || 0,
  
       }
@@ -164,8 +160,8 @@ ChargeTypeCode: formValues.ChargeTypeCode || null,
 TaxTypeId: formValues.TaxTypeId || 0,
 DebitAccountCode: formValues.DebitAccountCode || null,
 CreditAccountCode: formValues.CreditAccountCode || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Priority: formValues.Priority || 0,
 RecordStatus: 'Active',
 

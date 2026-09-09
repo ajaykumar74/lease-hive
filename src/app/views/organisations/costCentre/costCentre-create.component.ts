@@ -127,8 +127,6 @@ export class CostCentreCreateComponent implements OnInit {
         ParentCostCentreId: obj.ParentCostCentreId || 0,
         OrganisationUnitId: obj.OrganisationUnitId || 0,
         ExternalLedgerCode: obj.ExternalLedgerCode || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
 
       }
@@ -166,8 +164,6 @@ export class CostCentreCreateComponent implements OnInit {
         ParentCostCentreId: obj.ParentCostCentreId || 0,
         OrganisationUnitId: obj.OrganisationUnitId || 0,
         ExternalLedgerCode: obj.ExternalLedgerCode || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
         Description: obj.Description || '',
 
       }
@@ -195,8 +191,8 @@ export class CostCentreCreateComponent implements OnInit {
       OrganisationUnitId: selectedOrganisationUnitId || 0,
       ExternalLedgerCode: formValues.ExternalLedgerCode || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
       Description: formValues.Description || null,
 
     } as ICostCentre;

@@ -103,8 +103,6 @@ RelationshipType: obj.RelationshipType || '',
 OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -138,8 +136,6 @@ RelationshipType: obj.RelationshipType || '',
 OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -166,8 +162,8 @@ OwnershipPercentage: formValues.OwnershipPercentage || 0,
 ControlType: formValues.ControlType || null,
 RelationshipReference: formValues.RelationshipReference || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IPartyRelationship ; 
 	

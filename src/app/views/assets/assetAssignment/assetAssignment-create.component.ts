@@ -163,8 +163,6 @@ IsPrimary:  obj.IsPrimary || false,
 AssignmentStatusId: obj.AssignmentStatusId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -208,8 +206,6 @@ IsPrimary:  obj.IsPrimary || false,
 AssignmentStatusId: obj.AssignmentStatusId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -242,8 +238,8 @@ IsPrimary: formValues.IsPrimary || false,
 AssignmentStatusId: formValues.AssignmentStatusId || 0,
 ReferenceType: formValues.ReferenceType || null,
 ReferenceId: formValues.ReferenceId || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetAssignment ; 

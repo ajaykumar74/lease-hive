@@ -114,8 +114,6 @@ PartyRoleType: obj.PartyRoleType || '',
 AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -149,8 +147,6 @@ PartyRoleType: obj.PartyRoleType || '',
 AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -177,8 +173,8 @@ AccessLevel: formValues.AccessLevel || null,
 PartyLocationId: formValues.PartyLocationId || 0,
 CustomerDepartmentId: formValues.CustomerDepartmentId || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IUserPartyAccess ; 
 	

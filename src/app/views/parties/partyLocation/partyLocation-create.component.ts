@@ -156,8 +156,6 @@ IsShipTo:  obj.IsShipTo || false,
 IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -206,8 +204,6 @@ IsShipTo:  obj.IsShipTo || false,
 IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -246,8 +242,8 @@ IsDefaultBillTo: formValues.IsDefaultBillTo || false,
 IsDefaultShipTo: formValues.IsDefaultShipTo || false,
 WorkingHours: formValues.WorkingHours || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IPartyLocation ; 
 	

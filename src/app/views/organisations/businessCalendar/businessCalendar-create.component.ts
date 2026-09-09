@@ -100,8 +100,6 @@ WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
 DayStartTime:  obj.DayStartTime || new Date(),
 DayEndTime:  obj.DayEndTime || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -137,8 +135,6 @@ WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
 DayStartTime:  obj.DayStartTime || new Date(),
 DayEndTime:  obj.DayEndTime || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -167,8 +163,8 @@ TimeZoneId: formValues.TimeZoneId || null,
 DayStartTime: formValues.DayStartTime || null,
 DayEndTime: formValues.DayEndTime || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IBusinessCalendar ; 
 	

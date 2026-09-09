@@ -121,8 +121,6 @@ SourcePurchaseOrderLineId: obj.SourcePurchaseOrderLineId || 0,
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 AllocationStatusCode: obj.AllocationStatusCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 SerialSnapshot: obj.SerialSnapshot || '',
  
       }
@@ -160,8 +158,6 @@ SourcePurchaseOrderLineId: obj.SourcePurchaseOrderLineId || 0,
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 AllocationStatusCode: obj.AllocationStatusCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 SerialSnapshot: obj.SerialSnapshot || '',
  
       }
@@ -191,8 +187,8 @@ SourcePurchaseOrderLineId: formValues.SourcePurchaseOrderLineId || 0,
 Quantity: formValues.Quantity || 0,
 UOMId: formValues.UOMId || 0,
 AllocationStatusCode: formValues.AllocationStatusCode || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 AssetValueSnapshot: formValues.AssetValueSnapshot || 0,
 SerialSnapshot: formValues.SerialSnapshot || null,
 

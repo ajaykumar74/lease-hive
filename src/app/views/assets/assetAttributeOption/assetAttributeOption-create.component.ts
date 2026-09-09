@@ -91,8 +91,6 @@ EffectiveTo: new FormControl(new Date(), []),
 OptionCode: obj.OptionCode || '',
 OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -124,8 +122,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 OptionCode: obj.OptionCode || '',
 OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -149,8 +145,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 OptionCode: formValues.OptionCode || null,
 OptionLabel: formValues.OptionLabel || null,
 SortOrder: formValues.SortOrder || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetAttributeOption ; 

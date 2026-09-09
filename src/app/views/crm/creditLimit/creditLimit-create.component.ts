@@ -90,8 +90,6 @@ export class CreditLimitCreateComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             CurrencyCode: obj.CurrencyCode || '',
             LimitAmount: obj.LimitAmount || 0,
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
         });
@@ -119,8 +117,6 @@ export class CreditLimitCreateComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             CurrencyCode: obj.CurrencyCode || '',
             LimitAmount: obj.LimitAmount || 0,
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
         });
@@ -143,8 +139,8 @@ export class CreditLimitCreateComponent implements OnInit {
             CreditDecisionId: formValues.CreditDecisionId || 0,
             CurrencyCode: formValues.CurrencyCode || null,
             LimitAmount: formValues.LimitAmount || 0,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             LimitStatus: formValues.LimitStatus || null,
             Remarks: formValues.Remarks || null,
             RecordStatus: 'Active'

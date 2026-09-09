@@ -123,8 +123,6 @@ TaxResidencyCountryCode: obj.TaxResidencyCountryCode || '',
 IsRelatedParty:  obj.IsRelatedParty || false,
 RiskClassification: obj.RiskClassification || '',
 OnboardingStatus: obj.OnboardingStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -168,8 +166,6 @@ TaxResidencyCountryCode: obj.TaxResidencyCountryCode || '',
 IsRelatedParty:  obj.IsRelatedParty || false,
 RiskClassification: obj.RiskClassification || '',
 OnboardingStatus: obj.OnboardingStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -206,8 +202,8 @@ IsRelatedParty: formValues.IsRelatedParty || false,
 RiskClassification: formValues.RiskClassification || null,
 OnboardingStatus: formValues.OnboardingStatus || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as IParty ; 

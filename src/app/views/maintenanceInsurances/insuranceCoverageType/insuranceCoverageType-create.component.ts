@@ -85,8 +85,6 @@ EffectiveTo: new FormControl(new Date(), []),
 	  CoverageTypeCode: obj.CoverageTypeCode || '',
 CoverageTypeName: obj.CoverageTypeName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -117,8 +115,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	  CoverageTypeCode: obj.CoverageTypeCode || '',
 CoverageTypeName: obj.CoverageTypeName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -141,8 +137,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      CoverageTypeCode: formValues.CoverageTypeCode || null,
 CoverageTypeName: formValues.CoverageTypeName || null,
 Description: formValues.Description || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IInsuranceCoverageType ; 

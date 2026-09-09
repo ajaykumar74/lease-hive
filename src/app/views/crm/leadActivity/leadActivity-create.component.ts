@@ -101,8 +101,6 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
     }
@@ -134,8 +132,6 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
         this.editForm.reset();
@@ -163,8 +159,8 @@ export class LeadActivityCreateComponent implements OnInit {
             Notes: formValues.Notes || null,
             CompletedOn: formValues.CompletedOn || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             Description: formValues.Description || null
         } as ILeadActivity;
 

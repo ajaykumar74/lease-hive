@@ -87,8 +87,6 @@ EffectiveTo: new FormControl(new Date(), []),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -120,8 +118,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -145,8 +141,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 StatusName: formValues.StatusName || null,
 IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
     } as IGoodsReceiptStatus ; 
 	

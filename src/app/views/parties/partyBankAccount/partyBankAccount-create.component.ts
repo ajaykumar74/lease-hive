@@ -144,8 +144,6 @@ IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -192,8 +190,6 @@ IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -230,8 +226,8 @@ IsDefaultForRefunds: formValues.IsDefaultForRefunds || false,
 VerificationStatus: formValues.VerificationStatus || null,
 VerifiedAt: formValues.VerifiedAt || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IPartyBankAccount ; 
 	

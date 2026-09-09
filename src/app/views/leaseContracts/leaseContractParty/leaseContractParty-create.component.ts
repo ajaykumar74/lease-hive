@@ -108,8 +108,6 @@ RegistrationNoSnapshot: obj.RegistrationNoSnapshot || '',
 TaxIdSnapshot: obj.TaxIdSnapshot || '',
 AddressSnapshotJson: obj.AddressSnapshotJson || '',
 ContactSnapshotJson: obj.ContactSnapshotJson || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -146,8 +144,6 @@ RegistrationNoSnapshot: obj.RegistrationNoSnapshot || '',
 TaxIdSnapshot: obj.TaxIdSnapshot || '',
 AddressSnapshotJson: obj.AddressSnapshotJson || '',
 ContactSnapshotJson: obj.ContactSnapshotJson || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -176,8 +172,8 @@ RegistrationNoSnapshot: formValues.RegistrationNoSnapshot || null,
 TaxIdSnapshot: formValues.TaxIdSnapshot || null,
 AddressSnapshotJson: formValues.AddressSnapshotJson || null,
 ContactSnapshotJson: formValues.ContactSnapshotJson || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as ILeaseContractParty ; 
 	

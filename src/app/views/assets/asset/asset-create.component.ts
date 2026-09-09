@@ -159,8 +159,6 @@ export class AssetCreateComponent implements OnInit {
         AssetStatusId: obj.AssetStatusId || '',
         ConditionGradeCode: obj.ConditionGradeCode || '',
         IsLeaseable: obj.IsLeaseable || false,
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -205,8 +203,6 @@ export class AssetCreateComponent implements OnInit {
         AssetStatusId: obj.AssetStatusId || '',
         ConditionGradeCode: obj.ConditionGradeCode || '',
         IsLeaseable: obj.IsLeaseable || false,
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -245,8 +241,8 @@ export class AssetCreateComponent implements OnInit {
       AssetStatusId: formValues.AssetStatusId || 0,
       ConditionGradeCode: formValues.ConditionGradeCode || null,
       IsLeaseable: formValues.IsLeaseable || false,
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
       RecordStatus: 'Active',
 
     } as IAsset;

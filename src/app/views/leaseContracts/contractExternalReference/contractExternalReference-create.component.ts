@@ -95,8 +95,6 @@ this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('Con
 ReferenceTypeCode: obj.ReferenceTypeCode || '',
 ReferenceValue: obj.ReferenceValue || '',
 ProviderCode: obj.ProviderCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 IsPrimary:  obj.IsPrimary || false,
  
       }
@@ -129,8 +127,6 @@ IsPrimary:  obj.IsPrimary || false,
 ReferenceTypeCode: obj.ReferenceTypeCode || '',
 ReferenceValue: obj.ReferenceValue || '',
 ProviderCode: obj.ProviderCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 IsPrimary:  obj.IsPrimary || false,
  
       }
@@ -155,8 +151,8 @@ IsPrimary:  obj.IsPrimary || false,
 ReferenceTypeCode: formValues.ReferenceTypeCode || null,
 ReferenceValue: formValues.ReferenceValue || null,
 ProviderCode: formValues.ProviderCode || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 IsPrimary: formValues.IsPrimary || false,
 
     } as IContractExternalReference ; 

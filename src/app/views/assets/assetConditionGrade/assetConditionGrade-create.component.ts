@@ -88,8 +88,6 @@ GradeName: obj.GradeName || '',
 ScoreFrom: obj.ScoreFrom || 0,
 ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -122,8 +120,6 @@ GradeName: obj.GradeName || '',
 ScoreFrom: obj.ScoreFrom || 0,
 ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -148,8 +144,8 @@ GradeName: formValues.GradeName || null,
 ScoreFrom: formValues.ScoreFrom || 0,
 ScoreTo: formValues.ScoreTo || 0,
 IsLeaseable: formValues.IsLeaseable || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetConditionGrade ; 

@@ -134,7 +134,6 @@ export class PartyContactCreateComponent implements OnInit {
         Email: obj.Email || '',
         MobileCountryCode: obj.MobileCountryCode || '',
         MobileNumber: obj.MobileNumber || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
 
       }
     );
@@ -177,7 +176,6 @@ export class PartyContactCreateComponent implements OnInit {
         Email: obj.Email || '',
         MobileCountryCode: obj.MobileCountryCode || '',
         MobileNumber: obj.MobileNumber || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
 
       }
     );
@@ -210,8 +208,8 @@ export class PartyContactCreateComponent implements OnInit {
       MobileCountryCode: formValues.MobileCountryCode || null,
       MobileNumber: formValues.MobileNumber || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || new Date(),
-      EffectiveTo: formValues.EffectiveTo || new Date(),
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
     } as IPartyContact;
 
     this.spinner.show();

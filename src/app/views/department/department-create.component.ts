@@ -140,8 +140,6 @@ DepartmentName: obj.DepartmentName || '',
 DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -181,8 +179,6 @@ DepartmentName: obj.DepartmentName || '',
 DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -212,8 +208,8 @@ DepartmentType: formValues.DepartmentType || null,
 HeadUserId: formValues.HeadUserId || 0,
 CostCentreCode: formValues.CostCentreCode || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as IDepartment ; 

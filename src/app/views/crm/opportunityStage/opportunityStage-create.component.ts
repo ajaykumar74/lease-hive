@@ -90,8 +90,6 @@ DefaultProbabilityPct: obj.DefaultProbabilityPct || 0,
 IsWon:  obj.IsWon || false,
 IsLost:  obj.IsLost || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -125,8 +123,6 @@ DefaultProbabilityPct: obj.DefaultProbabilityPct || 0,
 IsWon:  obj.IsWon || false,
 IsLost:  obj.IsLost || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -153,8 +149,8 @@ IsWon: formValues.IsWon || false,
 IsLost: formValues.IsLost || false,
 SortOrder: formValues.SortOrder || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IOpportunityStage ; 
 	

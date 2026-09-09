@@ -164,8 +164,6 @@ OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
 QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -215,8 +213,6 @@ OnTimeDeliveryPercentage: obj.OnTimeDeliveryPercentage || 0,
 QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -256,8 +252,8 @@ QualityAcceptancePercentage: formValues.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked: formValues.IsPurchaseBlocked || false,
 BlockReason: formValues.BlockReason || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as ISupplierProfile ; 

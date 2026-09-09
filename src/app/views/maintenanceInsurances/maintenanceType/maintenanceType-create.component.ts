@@ -87,8 +87,6 @@ EffectiveTo: new FormControl(new Date(), []),
 MaintenanceTypeName: obj.MaintenanceTypeName || '',
 Description: obj.Description || '',
 IsPlanned:  obj.IsPlanned || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -120,8 +118,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 MaintenanceTypeName: obj.MaintenanceTypeName || '',
 Description: obj.Description || '',
 IsPlanned:  obj.IsPlanned || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -145,8 +141,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 MaintenanceTypeName: formValues.MaintenanceTypeName || null,
 Description: formValues.Description || null,
 IsPlanned: formValues.IsPlanned || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IMaintenanceType ; 

@@ -141,8 +141,6 @@ CanInspect:  obj.CanInspect || false,
 CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -187,8 +185,6 @@ CanInspect:  obj.CanInspect || false,
 CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -226,8 +222,8 @@ CanRecover: formValues.CanRecover || false,
 CanDispose: formValues.CanDispose || false,
 StandardLeadTimeDays: formValues.StandardLeadTimeDays || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as ISupplierServiceArea ; 

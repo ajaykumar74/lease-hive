@@ -127,8 +127,6 @@ DepartmentName: obj.DepartmentName || '',
 CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -165,8 +163,6 @@ DepartmentName: obj.DepartmentName || '',
 CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -196,8 +192,8 @@ CostCentreCode: formValues.CostCentreCode || null,
 DepartmentHeadContactId: formValues.DepartmentHeadContactId || 0,
 BillingReference: formValues.BillingReference || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as ICustomerDepartment ; 
 	

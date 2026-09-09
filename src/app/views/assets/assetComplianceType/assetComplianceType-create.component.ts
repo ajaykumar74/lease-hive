@@ -95,8 +95,6 @@ ComplianceName: obj.ComplianceName || '',
 RequiresExpiry:  obj.RequiresExpiry || false,
 RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -130,8 +128,6 @@ ComplianceName: obj.ComplianceName || '',
 RequiresExpiry:  obj.RequiresExpiry || false,
 RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -157,12 +153,12 @@ ComplianceName: formValues.ComplianceName ?? null,
 RequiresExpiry: formValues.RequiresExpiry ?? false,
 RequiresDocument: formValues.RequiresDocument ?? false,
 ReminderDaysBefore: formValues.ReminderDaysBefore ?? 0,
-EffectiveFrom: formValues.EffectiveFrom ?? null,
-EffectiveTo: formValues.EffectiveTo ?? null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetComplianceType ; 
-	applyAssetPayloadDefaults(createdObj, formValues, ['AssetCategoryId', 'ReminderDaysBefore'], ['RequiresExpiry', 'RequiresDocument'], ['EffectiveFrom', 'EffectiveTo']);
+	applyAssetPayloadDefaults(createdObj, formValues, ['AssetCategoryId', 'ReminderDaysBefore'], ['RequiresExpiry', 'RequiresDocument'], []);
 	
 	  this.spinner.show(); 
     this.assetComplianceTypeService.create(createdObj).subscribe({

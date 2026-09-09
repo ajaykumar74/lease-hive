@@ -114,8 +114,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
             SubmittedOn: obj.SubmittedOn || new Date(),
             DecisionOn: obj.DecisionOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
     }
 
@@ -148,8 +146,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
             SubmittedOn: obj.SubmittedOn || new Date(),
             DecisionOn: obj.DecisionOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
         this.editForm.reset();
     }
@@ -178,8 +174,8 @@ export class CreditApplicationCreateComponent implements OnInit {
             SubmittedOn: formValues.SubmittedOn || null,
             DecisionOn: formValues.DecisionOn || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as ICreditApplication;
 
         this.spinner.show();

@@ -136,8 +136,6 @@ AssetAttributeDefinitionId: obj.AssetAttributeDefinitionId || 0,
 StringValue: obj.StringValue || '',
 DateValue:  obj.DateValue || new Date(),
 BooleanValue:  obj.BooleanValue || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -174,8 +172,6 @@ AssetAttributeDefinitionId: obj.AssetAttributeDefinitionId || 0,
 StringValue: obj.StringValue || '',
 DateValue:  obj.DateValue || new Date(),
 BooleanValue:  obj.BooleanValue || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -202,8 +198,8 @@ StringValue: formValues.StringValue || null,
 NumberValue: formValues.NumberValue || 0,
 DateValue: formValues.DateValue || null,
 BooleanValue: formValues.BooleanValue || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetAttributeValue ; 

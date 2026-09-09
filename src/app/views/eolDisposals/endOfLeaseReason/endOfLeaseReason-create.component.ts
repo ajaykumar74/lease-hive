@@ -85,8 +85,6 @@ EffectiveTo: new FormControl(new Date(), []),
 	  ReasonCode: obj.ReasonCode || '',
 ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -117,8 +115,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	  ReasonCode: obj.ReasonCode || '',
 ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -141,8 +137,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      ReasonCode: formValues.ReasonCode || null,
 ReasonName: formValues.ReasonName || null,
 Description: formValues.Description || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IEndOfLeaseReason ; 

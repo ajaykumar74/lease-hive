@@ -126,8 +126,6 @@ MeasureDefinitionId: obj.MeasureDefinitionId || 0,
 IntervalMeasureValue: obj.IntervalMeasureValue || 0,
 LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -167,8 +165,6 @@ MeasureDefinitionId: obj.MeasureDefinitionId || 0,
 IntervalMeasureValue: obj.IntervalMeasureValue || 0,
 LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -200,8 +196,8 @@ MeasureDefinitionId: formValues.MeasureDefinitionId || 0,
 IntervalMeasureValue: formValues.IntervalMeasureValue || 0,
 LeadDays: formValues.LeadDays || 0,
 LeadMeasureValue: formValues.LeadMeasureValue || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IMaintenancePlan ; 

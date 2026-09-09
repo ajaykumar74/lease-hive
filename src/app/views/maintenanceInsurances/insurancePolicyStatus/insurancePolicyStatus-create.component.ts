@@ -87,8 +87,6 @@ EffectiveTo: new FormControl(new Date(), []),
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -119,8 +117,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	  StatusCode: obj.StatusCode || '',
 StatusName: obj.StatusName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -143,8 +139,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
      StatusCode: formValues.StatusCode || null,
 StatusName: formValues.StatusName || null,
 Description: formValues.Description || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IInsurancePolicyStatus ; 

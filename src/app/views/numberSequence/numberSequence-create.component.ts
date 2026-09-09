@@ -112,8 +112,6 @@ NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
 LastResetDate:  obj.LastResetDate || new Date(),
 ExampleNumber: obj.ExampleNumber || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -151,8 +149,6 @@ NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
 LastResetDate:  obj.LastResetDate || new Date(),
 ExampleNumber: obj.ExampleNumber || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -183,8 +179,8 @@ ResetFrequency: formValues.ResetFrequency || null,
 LastResetDate: formValues.LastResetDate || null,
 ExampleNumber: formValues.ExampleNumber || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as INumberSequence ; 
 	

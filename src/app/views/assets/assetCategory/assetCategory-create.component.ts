@@ -89,8 +89,6 @@ CategoryName: obj.CategoryName || '',
 SupportsRegistration:  obj.SupportsRegistration || false,
 SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -123,8 +121,6 @@ CategoryName: obj.CategoryName || '',
 SupportsRegistration:  obj.SupportsRegistration || false,
 SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -149,8 +145,8 @@ CategoryName: formValues.CategoryName || null,
 SupportsRegistration: formValues.SupportsRegistration || false,
 SupportsMeasure: formValues.SupportsMeasure || false,
 ExtensionTypeCode: formValues.ExtensionTypeCode || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetCategory ; 

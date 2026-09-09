@@ -127,8 +127,6 @@ DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
 LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
 FailedLoginCount: obj.FailedLoginCount || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -170,8 +168,6 @@ DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
 LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
 FailedLoginCount: obj.FailedLoginCount || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -206,8 +202,8 @@ TimeZoneId: formValues.TimeZoneId || null,
 LastLoginDateTime: formValues.LastLoginDateTime || null,
 FailedLoginCount: formValues.FailedLoginCount || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IApplicationUser ; 
 	

@@ -112,8 +112,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             UsageUOMId: obj.UsageUOMId || 0,
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
     }
 
@@ -148,8 +146,6 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             UsageUOMId: obj.UsageUOMId || 0,
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
         this.editForm.reset();
     }
@@ -180,8 +176,8 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             ServicePackageCode: formValues.ServicePackageCode || null,
             Remarks: formValues.Remarks || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as ILeaseRequirementAsset;
 
         this.spinner.show();

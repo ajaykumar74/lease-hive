@@ -132,8 +132,6 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: obj.AcceptedOn || new Date(),
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
     }
 
@@ -175,8 +173,6 @@ export class QuoteCreateComponent implements OnInit {
             AcceptedOn: obj.AcceptedOn || new Date(),
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
         this.editForm.reset();
     }
@@ -214,8 +210,8 @@ export class QuoteCreateComponent implements OnInit {
             SupersedesQuoteId: formValues.SupersedesQuoteId || 0,
             Remarks: formValues.Remarks || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as IQuote;
 
         this.spinner.show();

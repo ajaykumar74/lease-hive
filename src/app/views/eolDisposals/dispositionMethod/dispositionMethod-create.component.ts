@@ -87,8 +87,6 @@ EffectiveTo: new FormControl(new Date(), []),
 DispositionMethodName: obj.DispositionMethodName || '',
 RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -120,8 +118,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 DispositionMethodName: obj.DispositionMethodName || '',
 RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -145,8 +141,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 DispositionMethodName: formValues.DispositionMethodName || null,
 RequiresBuyerFlag: formValues.RequiresBuyerFlag || false,
 RequiresApprovalFlag: formValues.RequiresApprovalFlag || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IDispositionMethod ; 

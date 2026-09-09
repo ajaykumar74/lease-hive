@@ -114,8 +114,6 @@ this.purposetypeOptions = this.loggedInUserService.getPicklistOptions('PurposeTy
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -150,8 +148,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 	  OrganisationUnitId: obj.OrganisationUnitId || 0,
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -176,8 +172,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 PurposeType: formValues.PurposeType || null,
 IsPrimary: formValues.IsPrimary || false,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IOrganisationUnitLocation ; 
 	

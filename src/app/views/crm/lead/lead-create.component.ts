@@ -128,7 +128,6 @@ export class LeadCreateComponent implements OnInit {
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
         DisqualificationReason: obj.DisqualificationReason || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
         Description: obj.Description || '',
 
       }
@@ -172,7 +171,6 @@ export class LeadCreateComponent implements OnInit {
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
         DisqualificationReason: obj.DisqualificationReason || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
         Description: obj.Description || '',
 
       }
@@ -209,7 +207,7 @@ export class LeadCreateComponent implements OnInit {
       ExpectedCloseDate: formValues.ExpectedCloseDate || null,
       DisqualificationReason: formValues.DisqualificationReason || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || null,
+      EffectiveFrom: new Date(),
       EffectiveTo: null,
       Description: formValues.Description || null,
 

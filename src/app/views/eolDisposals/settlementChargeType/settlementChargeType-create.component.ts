@@ -89,8 +89,6 @@ EffectiveTo: new FormControl(new Date(), []),
 ChargeTypeName: obj.ChargeTypeName || '',
 DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -122,8 +120,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 ChargeTypeName: obj.ChargeTypeName || '',
 DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -147,8 +143,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 ChargeTypeName: formValues.ChargeTypeName || null,
 DirectionCode: formValues.DirectionCode || null,
 TaxableFlag: formValues.TaxableFlag || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as ISettlementChargeType ; 

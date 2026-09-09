@@ -112,8 +112,6 @@ CountryCode: obj.CountryCode || '',
 GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -154,8 +152,6 @@ CountryCode: obj.CountryCode || '',
 GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -189,8 +185,8 @@ GeoLocation: formValues.GeoLocation || null,
 Email: formValues.Email || null,
 ContactPhone: formValues.ContactPhone || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as ILocation ; 
 	

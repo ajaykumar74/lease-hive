@@ -94,8 +94,6 @@ RoleType: obj.RoleType || '',
 Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -129,8 +127,6 @@ RoleType: obj.RoleType || '',
 Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -157,8 +153,8 @@ Description: formValues.Description || null,
 IsSystemRole: formValues.IsSystemRole || false,
 ScopeType: formValues.ScopeType || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IRole ; 
 	

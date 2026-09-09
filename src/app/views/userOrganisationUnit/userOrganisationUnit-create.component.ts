@@ -102,8 +102,6 @@ AccessLevel: obj.AccessLevel || '',
 CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -137,8 +135,6 @@ AccessLevel: obj.AccessLevel || '',
 CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -165,8 +161,8 @@ CanViewChildUnits: formValues.CanViewChildUnits || false,
 CanViewParentUnits: formValues.CanViewParentUnits || false,
 IsDefault: formValues.IsDefault || false,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IUserOrganisationUnit ; 
 	

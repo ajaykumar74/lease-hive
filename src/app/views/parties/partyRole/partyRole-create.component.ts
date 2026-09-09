@@ -131,8 +131,6 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
         ApprovedBy: obj.ApprovedBy || '',
         ApprovedById: obj.ApprovedById || 0,
         ApprovedAt: obj.ApprovedAt || new Date(),
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -172,8 +170,6 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
         ApprovedBy: obj.ApprovedBy || '',
         ApprovedById: obj.ApprovedById || '',
         ApprovedAt: obj.ApprovedAt || new Date(),
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -203,8 +199,8 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
       ApprovedById: formValues.ApprovedById || 0,
       ApprovedAt: formValues.ApprovedAt || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
 
     } as IPartyRole;
 

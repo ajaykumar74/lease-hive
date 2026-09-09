@@ -109,8 +109,6 @@ export class OpportunityCreateComponent implements OnInit {
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
             LostReasonCode: obj.LostReasonCode || '',
             ClosedOn: obj.ClosedOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
     }
@@ -145,8 +143,6 @@ export class OpportunityCreateComponent implements OnInit {
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
             LostReasonCode: obj.LostReasonCode || '',
             ClosedOn: obj.ClosedOn || new Date(),
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
         this.editForm.reset();
@@ -177,8 +173,8 @@ export class OpportunityCreateComponent implements OnInit {
             LostReasonCode: formValues.LostReasonCode || null,
             ClosedOn: formValues.ClosedOn || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             Description: formValues.Description || null
         } as IOpportunity;
 

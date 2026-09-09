@@ -93,8 +93,6 @@ this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCo
 MakeName: obj.MakeName || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -126,8 +124,6 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 MakeName: obj.MakeName || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -151,8 +147,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 MakeName: formValues.MakeName || null,
 AssetCategoryId: formValues.AssetCategoryId || 0,
 CountryCode: formValues.CountryCode || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetMake ; 

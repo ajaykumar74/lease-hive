@@ -98,8 +98,6 @@ this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType')
         PermissionId: obj.PermissionId || 0,
         GrantType: obj.GrantType || '',
         ConstraintJson: obj.ConstraintJson || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -131,8 +129,6 @@ this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType')
         PermissionId: obj.PermissionId || 0,
         GrantType: obj.GrantType || '',
         ConstraintJson: obj.ConstraintJson || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
 
       }
     );
@@ -157,8 +153,8 @@ this.granttypeOptions = this.loggedInUserService.getPicklistOptions('GrantType')
       GrantType: formValues.GrantType || null,
       ConstraintJson: formValues.ConstraintJson || null,
       RecordStatus: 'Active',
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
 
     } as IRolePermission;
 

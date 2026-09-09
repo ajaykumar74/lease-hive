@@ -134,8 +134,6 @@ AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
 NextReviewDate:  obj.NextReviewDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -178,8 +176,6 @@ AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
 NextReviewDate:  obj.NextReviewDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -212,8 +208,8 @@ PaymentTermsDays: formValues.PaymentTermsDays || 0,
 ReviewFrequencyMonths: formValues.ReviewFrequencyMonths || 0,
 NextReviewDate: formValues.NextReviewDate || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IPartyCreditProfile ; 
 	

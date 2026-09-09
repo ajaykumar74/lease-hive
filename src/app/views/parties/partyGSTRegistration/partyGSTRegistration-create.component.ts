@@ -140,8 +140,6 @@ PrincipalLocationId: obj.PrincipalLocationId || 0,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 CancellationDate:  obj.CancellationDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 IsDefault:  obj.IsDefault || false,
  
       }
@@ -185,8 +183,6 @@ PrincipalLocationId: obj.PrincipalLocationId || 0,
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedAt:  obj.VerifiedAt || new Date(),
 CancellationDate:  obj.CancellationDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 IsDefault:  obj.IsDefault || false,
  
       }
@@ -220,8 +216,8 @@ VerificationStatus: formValues.VerificationStatus || null,
 VerifiedAt: formValues.VerifiedAt || null,
 CancellationDate: formValues.CancellationDate || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 IsDefault: formValues.IsDefault || false,
 
     } as IPartyGSTRegistration ; 

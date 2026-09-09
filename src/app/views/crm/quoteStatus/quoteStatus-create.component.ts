@@ -88,8 +88,6 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -122,8 +120,6 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -149,8 +145,8 @@ IsEditable: formValues.IsEditable || false,
 IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IQuoteStatus ; 
 	

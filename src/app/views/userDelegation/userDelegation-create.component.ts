@@ -120,8 +120,6 @@ StartDateTime:  obj.StartDateTime || new Date(),
 EndDateTime:  obj.EndDateTime || new Date(),
 Reason: obj.Reason || '',
 ApprovedById: obj.ApprovedById || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -159,8 +157,6 @@ StartDateTime:  obj.StartDateTime || new Date(),
 EndDateTime:  obj.EndDateTime || new Date(),
 Reason: obj.Reason || '',
 ApprovedById: obj.ApprovedById || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -190,8 +186,8 @@ EndDateTime: formValues.EndDateTime || null,
 Reason: formValues.Reason || null,
 ApprovedById: formValues.ApprovedById || 0,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IUserDelegation ; 
 	

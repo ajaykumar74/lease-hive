@@ -88,8 +88,6 @@ StatusName: obj.StatusName || '',
 IsLeaseable:  obj.IsLeaseable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -122,8 +120,6 @@ StatusName: obj.StatusName || '',
 IsLeaseable:  obj.IsLeaseable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -148,8 +144,8 @@ StatusName: formValues.StatusName || null,
 IsLeaseable: formValues.IsLeaseable || false,
 IsTerminal: formValues.IsTerminal || false,
 SortOrder: formValues.SortOrder || 0,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetStatus ; 

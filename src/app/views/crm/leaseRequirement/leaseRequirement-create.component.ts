@@ -101,8 +101,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
     }
 
@@ -143,8 +141,6 @@ export class LeaseRequirementCreateComponent implements OnInit {
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
         });
         this.editForm.reset();
     }
@@ -171,8 +167,8 @@ export class LeaseRequirementCreateComponent implements OnInit {
             CustomerReference: formValues.CustomerReference || null,
             Remarks: formValues.Remarks || null,
             RecordStatus: 'Active',
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as ILeaseRequirement;
 
         this.spinner.show();

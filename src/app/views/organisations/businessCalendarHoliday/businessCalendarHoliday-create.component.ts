@@ -97,8 +97,6 @@ DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -134,8 +132,6 @@ DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -164,8 +160,8 @@ DayType: formValues.DayType || null,
 StartTime: formValues.StartTime || null,
 EndTime: formValues.EndTime || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as IBusinessCalendarHoliday ; 

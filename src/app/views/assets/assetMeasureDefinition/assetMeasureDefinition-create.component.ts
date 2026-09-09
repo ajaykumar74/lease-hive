@@ -104,8 +104,6 @@ MeasureName: obj.MeasureName || '',
 UnitOfMeasureId: obj.UnitOfMeasureId || '',
 IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -140,8 +138,6 @@ MeasureName: obj.MeasureName || '',
 UnitOfMeasureId: obj.UnitOfMeasureId || '',
 IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -168,8 +164,8 @@ MeasureName: formValues.MeasureName || null,
 UnitOfMeasureId: formValues.UnitOfMeasureId || null,
 IsCumulative: formValues.IsCumulative || false,
 IsRequired: formValues.IsRequired || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetMeasureDefinition ; 

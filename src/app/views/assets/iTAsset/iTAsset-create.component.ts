@@ -103,8 +103,6 @@ MACAddress: obj.MACAddress || '',
 IMEI: obj.IMEI || '',
 WarrantyExpiryDate:  obj.WarrantyExpiryDate || new Date(),
 MDMDeviceId: obj.MDMDeviceId || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -142,8 +140,6 @@ MACAddress: obj.MACAddress || '',
 IMEI: obj.IMEI || '',
 WarrantyExpiryDate:  obj.WarrantyExpiryDate || new Date(),
 MDMDeviceId: obj.MDMDeviceId || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -173,8 +169,8 @@ MACAddress: formValues.MACAddress || null,
 IMEI: formValues.IMEI || null,
 WarrantyExpiryDate: formValues.WarrantyExpiryDate || null,
 MDMDeviceId: formValues.MDMDeviceId || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IITAsset ; 

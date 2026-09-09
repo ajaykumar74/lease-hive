@@ -98,8 +98,6 @@ ResourceName: obj.ResourceName || '',
 ActionName: obj.ActionName || '',
 Description: obj.Description || '',
 IsSensitive:  obj.IsSensitive || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -134,8 +132,6 @@ ResourceName: obj.ResourceName || '',
 ActionName: obj.ActionName || '',
 Description: obj.Description || '',
 IsSensitive:  obj.IsSensitive || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -162,8 +158,8 @@ ActionName: formValues.ActionName || null,
 Description: formValues.Description || null,
 IsSensitive: formValues.IsSensitive || false,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IAppPermission ; 
 	

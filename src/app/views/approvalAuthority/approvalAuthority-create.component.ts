@@ -115,8 +115,6 @@ MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -154,8 +152,6 @@ MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -186,8 +182,8 @@ MaximumAmount: formValues.MaximumAmount || 0,
 RequiredApproverCount: formValues.RequiredApproverCount || 0,
 CanDelegate: formValues.CanDelegate || false,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 
     } as IApprovalAuthority ; 
 	

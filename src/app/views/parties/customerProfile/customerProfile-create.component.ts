@@ -164,8 +164,6 @@ DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -211,8 +209,6 @@ DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || new Date(),
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
 Description: obj.Description || '',
  
       }
@@ -248,8 +244,8 @@ PreferredBillingFrequency: formValues.PreferredBillingFrequency || null,
 PurchaseOrderRequired: formValues.PurchaseOrderRequired || false,
 CustomerSinceDate: formValues.CustomerSinceDate || null,
 RecordStatus: 'Active',
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 Description: formValues.Description || null,
 
     } as ICustomerProfile ; 

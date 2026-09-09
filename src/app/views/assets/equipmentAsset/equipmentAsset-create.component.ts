@@ -97,8 +97,6 @@ CapacityUOMId: obj.CapacityUOMId || 0,
 PowerUOMId: obj.PowerUOMId || 0,
 ManufactureDate:  obj.ManufactureDate || new Date(),
 SafetyClass: obj.SafetyClass || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -132,8 +130,6 @@ CapacityUOMId: obj.CapacityUOMId || 0,
 PowerUOMId: obj.PowerUOMId || 0,
 ManufactureDate:  obj.ManufactureDate || new Date(),
 SafetyClass: obj.SafetyClass || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
  
       }
     );
@@ -161,8 +157,8 @@ PowerRating: formValues.PowerRating || 0,
 PowerUOMId: formValues.PowerUOMId || 0,
 ManufactureDate: formValues.ManufactureDate || null,
 SafetyClass: formValues.SafetyClass || null,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IEquipmentAsset ; 
