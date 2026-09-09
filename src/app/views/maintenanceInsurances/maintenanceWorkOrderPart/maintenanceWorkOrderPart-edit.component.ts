@@ -29,7 +29,6 @@ export class MaintenanceWorkOrderPartEditComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   maintenanceworkorderidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 procurementreferenceidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -74,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
    this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
       options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.procurementreferenceidOptions.push({Text: 'ProcurementReferenceId1', Value: 'ProcurementReferenceId1' });
 this.procurementreferenceidOptions.push({Text: 'ProcurementReferenceId2', Value: 'ProcurementReferenceId2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

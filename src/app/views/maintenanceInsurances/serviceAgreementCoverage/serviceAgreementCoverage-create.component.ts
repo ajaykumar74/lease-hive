@@ -34,8 +34,6 @@ assettypeidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
 maintenancetypeidOptions: ISelectItem[] = [];
 coveragecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IServiceAgreementCoverage = {} as IServiceAgreementCoverage;
   
@@ -88,8 +86,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'm
       options => this.maintenancetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.coveragecodeOptions = this.loggedInUserService.getPicklistOptions('CoverageCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

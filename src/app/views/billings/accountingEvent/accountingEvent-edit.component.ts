@@ -30,7 +30,6 @@ export class AccountingEventEditComponent implements OnInit {
   Caption: string = 'Loading...';
   organisationidOptions: ISelectItem[] = [];
 eventtypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
 journalentryidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -78,7 +77,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.eventtypeOptions = this.loggedInUserService.getPicklistOptions('EventType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('AccountingEventPostingStatus');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
       options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

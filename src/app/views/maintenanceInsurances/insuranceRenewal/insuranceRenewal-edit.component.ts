@@ -31,7 +31,6 @@ export class InsuranceRenewalEditComponent implements OnInit {
   insurancepolicyidOptions: ISelectItem[] = [];
 renewalstatuscodeOptions: ISelectItem[] = [];
 proposedinsurerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 newinsurancepolicyidOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -80,7 +79,6 @@ this.renewalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('Ren
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ProposedInsurerPartyId', 'parties',
       options => this.proposedinsurerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'NewInsurancePolicyId', 'insurance-policies',
       options => this.newinsurancepolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

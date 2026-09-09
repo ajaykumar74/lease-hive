@@ -30,8 +30,6 @@ export class ReturnAssessmentDamageCreateComponent implements OnInit {
   returnAssessmentDamage: IReturnAssessmentDamage = null;
   returnassessmentidOptions: ISelectItem[] = [];
 inspectionitemreferenceidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IReturnAssessmentDamage = {} as IReturnAssessmentDamage;
   
@@ -75,8 +73,6 @@ WaiverReason: new FormControl('', [Validators.maxLength(100), ]),
       this.entityLookupDestroyRef);
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId1', Value: 'InspectionItemReferenceId1' });
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId2', Value: 'InspectionItemReferenceId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

@@ -27,7 +27,6 @@ export class CreditLimitCreateComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     organisationidOptions: ISelectItem[] = [];
     creditdecisionidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     limitstatusOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -63,7 +62,6 @@ export class CreditLimitCreateComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.limitstatusOptions = this.loggedInUserService.getPicklistOptions('LimitStatus');
     }
 

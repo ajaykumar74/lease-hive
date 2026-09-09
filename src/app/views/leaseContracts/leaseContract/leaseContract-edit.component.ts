@@ -34,7 +34,6 @@ customerpartyidOptions: ISelectItem[] = [];
 leasecontractstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
 quoteidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -97,7 +96,6 @@ this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('S
 this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes',
       options => this.quoteidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

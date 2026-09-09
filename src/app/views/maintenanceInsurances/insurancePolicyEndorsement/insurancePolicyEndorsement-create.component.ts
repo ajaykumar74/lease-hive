@@ -30,7 +30,6 @@ export class InsurancePolicyEndorsementCreateComponent implements OnInit {
   insurancePolicyEndorsement: IInsurancePolicyEndorsement = null;
   insurancepolicyidOptions: ISelectItem[] = [];
 endorsementtypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -73,7 +72,6 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
       options => this.insurancepolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.endorsementtypecodeOptions = this.loggedInUserService.getPicklistOptions('EndorsementTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsurancePolicyEndorsementStatusCode');
 
   }

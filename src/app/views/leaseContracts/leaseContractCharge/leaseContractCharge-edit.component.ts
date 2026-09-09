@@ -30,7 +30,6 @@ export class LeaseContractChargeEditComponent implements OnInit {
   Caption: string = 'Loading...';
   leasecontractidOptions: ISelectItem[] = [];
 chargetypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 taxtypeOptions: ISelectItem[] = [];
 frequencycodeOptions: ISelectItem[] = [];
 dueeventcodeOptions: ISelectItem[] = [];
@@ -74,7 +73,6 @@ IsCapitalised: new FormControl(false, [Validators.required]),
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractChargeChargeTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.taxtypeOptions = this.loggedInUserService.getPicklistOptions('TaxType');
 this.frequencycodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractChargeFrequencyCode');
 this.dueeventcodeOptions = this.loggedInUserService.getPicklistOptions('DueEventCode');

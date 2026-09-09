@@ -30,7 +30,6 @@ export class AccountingEventCreateComponent implements OnInit {
   accountingEvent: IAccountingEvent = null;
   organisationidOptions: ISelectItem[] = [];
 eventtypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
 journalentryidOptions: ISelectItem[] = [];
 
@@ -77,7 +76,6 @@ ErrorMessage: new FormControl('', [Validators.maxLength(1000), ]),
       options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.eventtypeOptions = this.loggedInUserService.getPicklistOptions('EventType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('AccountingEventPostingStatus');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
       options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

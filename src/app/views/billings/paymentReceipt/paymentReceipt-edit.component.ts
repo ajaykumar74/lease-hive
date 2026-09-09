@@ -31,7 +31,6 @@ export class PaymentReceiptEditComponent implements OnInit {
   receiptstatusidOptions: ISelectItem[] = [];
 receivingorganisationidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 paymentmethodOptions: ISelectItem[] = [];
 organisationbankaccountidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -86,7 +85,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationI
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
       options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentmethodOptions = this.loggedInUserService.getPicklistOptions('PaymentMethod');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationBankAccountId', 'party-bank-accounts',
       options => this.organisationbankaccountidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

@@ -30,7 +30,6 @@ export class QuoteCreateComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
     quotestatusidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     billingfrequencyOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -89,7 +88,6 @@ export class QuoteCreateComponent implements OnInit {
             (error) => setTimeout(() => this.messageService?.showError(error)),
             this.entityLookupDestroyRef
         );
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.billingfrequencyOptions = this.loggedInUserService.getPicklistOptions('BillingFrequency');
     }
 

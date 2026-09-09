@@ -38,7 +38,6 @@ serviceproviderpartyidOptions: ISelectItem[] = [];
 servicelocationidOptions: ISelectItem[] = [];
 responsibleorganisationunitidOptions: ISelectItem[] = [];
 workorderstatuscodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 insuranceclaimidOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -116,7 +115,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisatio
       options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.workorderstatuscodeOptions = this.loggedInUserService.getPicklistOptions('WorkOrderStatusCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
       options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

@@ -30,7 +30,6 @@ export class DisposalOfferEditComponent implements OnInit {
   Caption: string = 'Loading...';
   disposalcaseidOptions: ISelectItem[] = [];
 buyerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -76,7 +75,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyerPartyId', 'parties',
       options => this.buyerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DisposalOfferStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

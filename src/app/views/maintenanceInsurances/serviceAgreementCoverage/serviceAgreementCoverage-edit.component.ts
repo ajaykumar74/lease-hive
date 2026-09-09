@@ -34,7 +34,6 @@ assettypeidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
 maintenancetypeidOptions: ISelectItem[] = [];
 coveragecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -89,7 +88,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'm
       options => this.maintenancetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.coveragecodeOptions = this.loggedInUserService.getPicklistOptions('CoverageCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -31,7 +31,6 @@ export class PartyCreditProfileEditComponent implements OnInit {
   partyidOptions: ISelectItem[] = [];
 creditpolicycodeOptions: ISelectItem[] = [];
 riskgradeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 reviewfrequencymonthsOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -79,7 +78,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
 this.creditpolicycodeOptions = this.loggedInUserService.getPicklistOptions('CreditPolicyCode');
 this.riskgradeOptions = this.loggedInUserService.getPicklistOptions('RiskGrade');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.reviewfrequencymonthsOptions = this.loggedInUserService.getPicklistOptions('ReviewFrequencyMonths');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

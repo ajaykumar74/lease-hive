@@ -30,8 +30,6 @@ export class ContractTerminationChargeEditComponent implements OnInit {
   Caption: string = 'Loading...';
   contractterminationidOptions: ISelectItem[] = [];
 chargetypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
    editForm: any; 
   objMaster : IContractTerminationCharge = {} as IContractTerminationCharge;
 
@@ -68,8 +66,6 @@ FinanceReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.
       options => this.contractterminationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.chargetypecodeOptions = this.loggedInUserService.getPicklistOptions('ContractTerminationChargeChargeTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 

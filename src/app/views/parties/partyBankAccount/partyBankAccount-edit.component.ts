@@ -30,7 +30,6 @@ export class PartyBankAccountEditComponent implements OnInit {
   Caption: string = 'Loading...';
   partyidOptions: ISelectItem[] = [];
 accounttypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 verificationstatusOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -79,7 +78,6 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.accounttypeOptions = this.loggedInUserService.getPicklistOptions('AccountType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

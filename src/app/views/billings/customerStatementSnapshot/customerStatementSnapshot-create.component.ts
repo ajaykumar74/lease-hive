@@ -30,7 +30,6 @@ export class CustomerStatementSnapshotCreateComponent implements OnInit {
   customerStatementSnapshot: ICustomerStatementSnapshot = null;
   billingorganisationidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 documentidOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -81,7 +80,6 @@ DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
       options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.documentidOptions.push({Text: 'DocumentId1', Value: 'DocumentId1' });
 this.documentidOptions.push({Text: 'DocumentId2', Value: 'DocumentId2' });
 

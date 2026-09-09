@@ -32,7 +32,6 @@ export class BillingRunEditComponent implements OnInit {
   billingorganisationidOptions: ISelectItem[] = [];
 billingrunstatusidOptions: ISelectItem[] = [];
 runtypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
@@ -90,7 +89,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingRunStatusId', '
       options => this.billingrunstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.runtypeOptions = this.loggedInUserService.getPicklistOptions('RunType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

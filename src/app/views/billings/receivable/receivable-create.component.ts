@@ -32,7 +32,6 @@ export class ReceivableCreateComponent implements OnInit {
 customerpartyidOptions: ISelectItem[] = [];
 sourcedocumenttypeOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 receivablestatusOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -89,7 +88,6 @@ this.sourcedocumenttypeOptions = this.loggedInUserService.getPicklistOptions('So
 this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.receivablestatusOptions = this.loggedInUserService.getPicklistOptions('ReceivableStatus');
 
   }

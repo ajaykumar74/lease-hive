@@ -30,7 +30,6 @@ export class JournalEntryEditComponent implements OnInit {
   Caption: string = 'Loading...';
   organisationidOptions: ISelectItem[] = [];
 sourcemoduleOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -76,7 +75,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.sourcemoduleOptions = this.loggedInUserService.getPicklistOptions('SourceModule');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('JournalEntryPostingStatus');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

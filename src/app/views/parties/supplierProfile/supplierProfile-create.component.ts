@@ -38,8 +38,6 @@ procurementowneruseridOptions: ISelectItem[] = [];
 owningorganisationunitidOptions: ISelectItem[] = [];
 defaultgstregistrationidOptions: ISelectItem[] = [];
 defaultremittancebankaccountidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : ISupplierProfile = {} as ISupplierProfile;
   
@@ -102,7 +100,6 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
     }
 this.suppliertierOptions = this.loggedInUserService.getPicklistOptions('SupplierTier');
 this.suppliercategoryOptions = this.loggedInUserService.getPicklistOptions('SupplierCategory');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.loggedInUserService.getLookupOptions('party-gst-registrations').subscribe({
       next: options => this.defaultgstregistrationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))

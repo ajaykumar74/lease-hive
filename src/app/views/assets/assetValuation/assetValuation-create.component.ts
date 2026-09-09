@@ -31,7 +31,6 @@ export class AssetValuationCreateComponent implements OnInit {
   assetValuation: IAssetValuation = null;
   assetidOptions: ISelectItem[] = [];
 valuationtypeidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 valuerpartyidOptions: ISelectItem[] = [];
 referencedocumentidOptions: ISelectItem[] = [];
 
@@ -75,7 +74,6 @@ Remarks: new FormControl('', [Validators.maxLength(100), ]),
     this.Caption = 'Create AssetValuation';
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ValuationTypeId', 'asset-valuation-types', options => this.valuationtypeidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ValuerPartyId', 'parties', options => this.valuerpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ReferenceDocumentId', 'documents', options => this.referencedocumentidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 

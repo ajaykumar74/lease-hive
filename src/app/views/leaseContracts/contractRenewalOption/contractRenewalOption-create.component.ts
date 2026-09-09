@@ -30,7 +30,6 @@ export class ContractRenewalOptionCreateComponent implements OnInit {
   contractRenewalOption: IContractRenewalOption = null;
   leasecontractidOptions: ISelectItem[] = [];
 optiontypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -73,7 +72,6 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.optiontypecodeOptions = this.loggedInUserService.getPicklistOptions('OptionTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractRenewalOptionStatusCode');
 
   }

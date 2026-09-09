@@ -31,8 +31,6 @@ export class EndOfLeaseSettlementLineCreateComponent implements OnInit {
   endofleasesettlementidOptions: ISelectItem[] = [];
 settlementchargetypeidOptions: ISelectItem[] = [];
 sourcetypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IEndOfLeaseSettlementLine = {} as IEndOfLeaseSettlementLine;
   
@@ -79,8 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SettlementChargeTypeId
       options => this.settlementchargetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.sourcetypecodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseSettlementLineSourceTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

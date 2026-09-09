@@ -30,7 +30,6 @@ export class JournalEntryCreateComponent implements OnInit {
   journalEntry: IJournalEntry = null;
   organisationidOptions: ISelectItem[] = [];
 sourcemoduleOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 postingstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -75,7 +74,6 @@ PostedAtUtc: new FormControl(new Date(), []),
       options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.sourcemoduleOptions = this.loggedInUserService.getPicklistOptions('SourceModule');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.postingstatusOptions = this.loggedInUserService.getPicklistOptions('JournalEntryPostingStatus');
 
   }

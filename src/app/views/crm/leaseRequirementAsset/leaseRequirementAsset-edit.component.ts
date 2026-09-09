@@ -30,7 +30,6 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
     assetmakeidOptions: ISelectItem[] = [];
     assetmodelidOptions: ISelectItem[] = [];
     newusedcodeOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     servicepackagecodeOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
 
@@ -78,7 +77,6 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('asset-makes').subscribe((options) => (this.assetmakeidOptions = options));
         this.loggedInUserService.getLookupOptions('asset-models').subscribe((options) => (this.assetmodelidOptions = options));
         this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

@@ -31,7 +31,6 @@ export class RFQEditComponent implements OnInit {
   purchaserequisitionidOptions: ISelectItem[] = [];
 buyingorganisationidOptions: ISelectItem[] = [];
 rfqstatuscodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -76,7 +75,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionId'
       options => this.purchaserequisitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.rfqstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQStatusCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

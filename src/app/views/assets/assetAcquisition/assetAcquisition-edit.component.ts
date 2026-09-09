@@ -32,8 +32,6 @@ export class AssetAcquisitionEditComponent implements OnInit {
   assetidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
 supplierpartylocationidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
    editForm: any; 
   objMaster : IAssetAcquisition = {} as IAssetAcquisition;
 
@@ -78,8 +76,6 @@ ProcurementSourceId: new FormControl(0, [Validators.min(-2147483648), Validators
    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties', options => this.supplierpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyLocationId', 'party-locations', options => this.supplierpartylocationidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef, { PartyId: 'SupplierPartyId' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 

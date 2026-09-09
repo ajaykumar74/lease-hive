@@ -32,7 +32,6 @@ export class InsuranceClaimEditComponent implements OnInit {
 insurancepolicyidOptions: ISelectItem[] = [];
 insurancepolicyassetidOptions: ISelectItem[] = [];
 insuranceclaimstatusidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 assignedtouseridOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -90,7 +89,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurancePolicyAssetId
 this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimStatusId', 'insurance-claim-statuses',
       options => this.insuranceclaimstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'application-users',
       options => this.assignedtouseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

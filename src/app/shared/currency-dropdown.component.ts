@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, forwardRef } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, EMPTY, Subject, Subscription, catchError, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subject, Subscription, catchError, defaultIfEmpty, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs';
 import { ISelectItem } from './ISelectItem';
 import { LoggedInUserService } from './LoggedInUserService';
 import { OrganisationService } from '@/views/organisations/organisation/organisation.service';
@@ -51,12 +51,7 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
       switchMap(organisationId => this.organisationService.getById(organisationId)),
       takeUntil(this.destroy$)
     ).subscribe(response => {
-      this.organisationDefaultCurrency = response.data?.FunctionalCurrency || '';
-
-      if (!this.isManuallyOverridden) {
-        this.value = this.organisationDefaultCurrency;
-        this.onChange(this.value);
-      }
+      this.applyDefaultCurrency(response.data?.FunctionalCurrency || '', true);
     });
 
     this.bindOrganisationControl();
@@ -126,15 +121,25 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
       map(response => response.data),
       filter(organisationUnit => Number(organisationUnit?.OrganisationId) > 0),
       switchMap(organisationUnit => this.organisationService.getById(organisationUnit.OrganisationId)),
-      catchError(() => EMPTY),
+      defaultIfEmpty(null),
+      catchError(() => {
+        this.applyDefaultCurrency(this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrency || '');
+        return EMPTY;
+      }),
       takeUntil(this.destroy$)
     ).subscribe(response => {
-      if (!this.hasSelectedOrganisation() && !this.isManuallyOverridden) {
-        this.organisationDefaultCurrency = response.data?.FunctionalCurrency || '';
-        this.value = this.organisationDefaultCurrency;
-        this.onChange(this.value);
-      }
+      this.applyDefaultCurrency(response?.data?.FunctionalCurrency || this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrency || '');
     });
+  }
+
+  private applyDefaultCurrency(currencyCode: string, allowSelectedOrganisation = false): void {
+    if ((!allowSelectedOrganisation && this.hasSelectedOrganisation()) || this.isManuallyOverridden || !currencyCode) {
+      return;
+    }
+
+    this.organisationDefaultCurrency = currencyCode;
+    this.value = currencyCode;
+    this.onChange(this.value);
   }
 
   private hasSelectedOrganisation(): boolean {

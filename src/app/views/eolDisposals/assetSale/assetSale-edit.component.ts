@@ -32,7 +32,6 @@ export class AssetSaleEditComponent implements OnInit {
 assetidOptions: ISelectItem[] = [];
 buyerpartyidOptions: ISelectItem[] = [];
 disposalawardidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 financehandoffidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -87,7 +86,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyerPartyId', 'partie
 this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalAwardId', 'disposal-awards',
       options => this.disposalawardidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"DisposalCaseId":"DisposalCaseId"});
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'FinanceHandoffId', 'finance-handoffs',
       options => this.financehandoffidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

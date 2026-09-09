@@ -30,7 +30,6 @@ export class EndOfLeaseOptionEditComponent implements OnInit {
   Caption: string = 'Loading...';
   endofleasecaseidOptions: ISelectItem[] = [];
 optioncodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -73,7 +72,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       options => this.endofleasecaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.optioncodeOptions = this.loggedInUserService.getPicklistOptions('OptionCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

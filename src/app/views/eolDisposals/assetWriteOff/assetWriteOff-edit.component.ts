@@ -31,7 +31,6 @@ export class AssetWriteOffEditComponent implements OnInit {
   disposalcaseidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
 writeoffreasoncodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 insuranceclaimidOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -81,7 +80,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.writeoffreasoncodeOptions = this.loggedInUserService.getPicklistOptions('WriteOffReasonCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'InsuranceClaimId', 'insurance-claims',
       options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

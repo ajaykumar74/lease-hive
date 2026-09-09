@@ -30,8 +30,6 @@ export class MaintenanceWorkOrderServiceCreateComponent implements OnInit {
   maintenanceWorkOrderService: IMaintenanceWorkOrderService = null;
   maintenanceworkorderidOptions: ISelectItem[] = [];
 serviceproviderpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IMaintenanceWorkOrderService = {} as IMaintenanceWorkOrderService;
   
@@ -75,8 +73,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId', 'parties',
       options => this.serviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

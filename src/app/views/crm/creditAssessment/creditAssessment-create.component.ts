@@ -28,8 +28,6 @@ export class CreditAssessmentCreateComponent implements OnInit {
     assessmentversionOptions: ISelectItem[] = [];
     assessmenttypecodeOptions: ISelectItem[] = [];
     assessedbyuseridOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
-
     editForm: any;
     objMaster: ICreditAssessment = {} as ICreditAssessment;
 
@@ -66,7 +64,6 @@ export class CreditAssessmentCreateComponent implements OnInit {
         this.assessmentversionOptions.push({ Text: 'Party2', Value: 'Party2' });
         this.assessmenttypecodeOptions = this.loggedInUserService.getPicklistOptions('AssessmentTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assessedbyuseridOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

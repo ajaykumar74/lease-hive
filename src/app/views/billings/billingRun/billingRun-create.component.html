@@ -98,15 +98,7 @@
 											label="Total Amount">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
-        <p-dropdown
-            inputId="CurrencyCode" 
-            [options]="currencycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CurrencyCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+        <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
 											label="Currency Code">
 										</app-validation-errors></div></div>
@@ -156,7 +148,7 @@
                                 <div class="flex flex-col w-full"><label>Source Type</label><p-dropdown [options]="sourcetypeOptions" optionLabel="Text" optionValue="Value" formControlName="SourceType" placeholder="Select One"></p-dropdown></div>
                                 <div class="flex flex-col w-full"><label>Due Date</label><p-calendar formControlName="DueDate" size="small" dateFormat="dd-MM-yy" [showIcon]="true"></p-calendar></div>
                                 <div class="flex flex-col w-full"><label>Amount</label><p-inputNumber formControlName="Amount" pSize="small"></p-inputNumber></div>
-                                <div class="flex flex-col w-full"><label>Currency</label><p-dropdown [options]="currencycodeOptions" optionLabel="Text" optionValue="Value" formControlName="CurrencyCode" placeholder="Select One"></p-dropdown></div>
+                                <div class="flex flex-col w-full"><label>Currency</label><app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown></div>
                             </div>
                             <div class="flex flex-col md:flex-row gap-4 mt-3">
                                 <div class="flex flex-col w-full"><label>Validation Status</label><p-dropdown [options]="validationstatusOptions" optionLabel="Text" optionValue="Value" formControlName="ValidationStatus" placeholder="Select One"></p-dropdown></div>
@@ -171,3 +163,6 @@
 		</div>
 	</div>
 </div>
+
+
+

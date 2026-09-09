@@ -32,7 +32,6 @@ export class AssetDispositionDecisionCreateComponent implements OnInit {
 assetidOptions: ISelectItem[] = [];
 dispositionmethodidOptions: ISelectItem[] = [];
 referencevaluationidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 
@@ -86,7 +85,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DispositionMethodId', 
       this.entityLookupDestroyRef);
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId1', Value: 'ReferenceValuationId1' });
 this.referencevaluationidOptions.push({Text: 'ReferenceValuationId2', Value: 'ReferenceValuationId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetDispositionDecisionStatusCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

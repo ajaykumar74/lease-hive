@@ -32,8 +32,6 @@ export class FinanceApprovalRequestCreateComponent implements OnInit {
 workflowinstanceidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 approvalstatusOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IFinanceApprovalRequest = {} as IFinanceApprovalRequest;
   
@@ -77,8 +75,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'a
       options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestApprovalStatus');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

@@ -34,7 +34,6 @@ owneruseridOptions: ISelectItem[] = [];
 leadsourceidOptions: ISelectItem[] = [];
 leadstatusidOptions: ISelectItem[] = [];
 interestedassetcategoryidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -82,8 +81,6 @@ EffectiveTo: new FormControl(new Date(), []),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 
     });
- 
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

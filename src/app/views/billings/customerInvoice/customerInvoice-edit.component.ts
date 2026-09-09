@@ -32,7 +32,6 @@ export class CustomerInvoiceEditComponent implements OnInit {
 billingorganisationidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -94,7 +93,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'par
 this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

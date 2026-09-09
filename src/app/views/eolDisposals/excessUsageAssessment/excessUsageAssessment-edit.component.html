@@ -90,15 +90,7 @@
 											label="Calculated Amount">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
-        <p-dropdown
-            inputId="CurrencyCode" 
-            [options]="currencycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CurrencyCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+        <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
 											label="Currency Code">
 										</app-validation-errors></div></div>
@@ -127,4 +119,7 @@
 </div>
 
  
+
+
+
 

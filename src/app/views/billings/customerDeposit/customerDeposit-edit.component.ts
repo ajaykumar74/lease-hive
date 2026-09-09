@@ -33,7 +33,6 @@ export class CustomerDepositEditComponent implements OnInit {
   customerpartyidOptions: ISelectItem[] = [];
   billingorganisationidOptions: ISelectItem[] = [];
   deposittypecodeOptions: ISelectItem[] = [];
-  currencycodeOptions: ISelectItem[] = [];
   depositstatusOptions: ISelectItem[] = [];
   recordstatusOptions: ISelectItem[] = [];
 
@@ -91,7 +90,6 @@ export class CustomerDepositEditComponent implements OnInit {
       options => this.billingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
     this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
-    this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.depositstatusOptions = this.loggedInUserService.getPicklistOptions('DepositStatus');
     this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

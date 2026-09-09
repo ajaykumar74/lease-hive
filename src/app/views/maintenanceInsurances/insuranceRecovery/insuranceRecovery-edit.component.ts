@@ -31,7 +31,6 @@ export class InsuranceRecoveryEditComponent implements OnInit {
   insuranceclaimidOptions: ISelectItem[] = [];
 recoverytypecodeOptions: ISelectItem[] = [];
 recoverypartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 financereferenceidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -80,7 +79,6 @@ this.recoverytypecodeOptions = this.loggedInUserService.getPicklistOptions('Reco
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RecoveryPartyId', 'parties',
       options => this.recoverypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId1', Value: 'FinanceReferenceId1' });
 this.financereferenceidOptions.push({Text: 'FinanceReferenceId2', Value: 'FinanceReferenceId2' });
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('InsuranceRecoveryStatusCode');

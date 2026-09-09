@@ -34,7 +34,6 @@ requestingorganisationunitidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 purchaserequisitionstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
 
@@ -92,7 +91,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestingOrganisation
       options => this.requestingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loadLineItemOptions();
 
   }

@@ -30,7 +30,6 @@ export class EndOfLeaseSettlementCreateComponent implements OnInit {
   endOfLeaseSettlement: IEndOfLeaseSettlement = null;
   endofleasecaseidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 
@@ -78,7 +77,6 @@ ApprovedAt: new FormControl(new Date(), []),
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerPartyId', 'parties',
       options => this.customerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('EndOfLeaseSettlementStatusCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

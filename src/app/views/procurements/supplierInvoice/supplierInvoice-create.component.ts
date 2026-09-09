@@ -31,7 +31,6 @@ export class SupplierInvoiceCreateComponent implements OnInit {
   supplierInvoice: ISupplierInvoice = null;
   supplierpartyidOptions: ISelectItem[] = [];
 buyingorganisationidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 matchstatuscodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
 purchaseorderlineidOptions: ISelectItem[] = [];
@@ -93,7 +92,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InvoiceDocumentId', 'd
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
 this.loadLineItemOptions();
 

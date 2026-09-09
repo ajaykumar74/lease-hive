@@ -33,7 +33,6 @@ export class PurchaseOrderCreateComponent implements OnInit {
 supplierpartyidOptions: ISelectItem[] = [];
 supplierawardidOptions: ISelectItem[] = [];
 purchaseorderstatusidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
@@ -105,8 +104,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'par
       options => this.supplierpartyidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loadLineItemOptions();
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

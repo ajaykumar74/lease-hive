@@ -31,7 +31,6 @@ export class ServiceAgreementEditComponent implements OnInit {
   organisationidOptions: ISelectItem[] = [];
 serviceproviderpartyidOptions: ISelectItem[] = [];
 agreementtypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -81,7 +80,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ServiceProviderPartyId
       options => this.serviceproviderpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.agreementtypecodeOptions = this.loggedInUserService.getPicklistOptions('AgreementTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ServiceAgreementStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

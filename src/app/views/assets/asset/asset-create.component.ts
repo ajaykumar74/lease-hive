@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
-import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAsset } from './asset';
@@ -16,157 +16,157 @@ import { AssetService } from './asset.service';
 @Component({
   selector: 'app-asset-create',
   standalone: false,
-  templateUrl: './asset-create.component.html' ,
-   providers: [ MessageService]
+  templateUrl: './asset-create.component.html',
+  providers: [MessageService]
 })
 export class AssetCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
-  selectedId: number; 
-  isLoading : boolean = false;
+
+  selectedId: number;
+  isLoading: boolean = false;
   permission = {} as IPermission;
   Caption: string = 'Create Asset';
   asset: IAsset = null;
   assetcategoryidOptions: ISelectItem[] = [];
-assettypeidOptions: ISelectItem[] = [];
-assetmakeidOptions: ISelectItem[] = [];
-assetmodelidOptions: ISelectItem[] = [];
-owningorganisationidOptions: ISelectItem[] = [];
-responsibleorganisationunitidOptions: ISelectItem[] = [];
-currentlocationidOptions: ISelectItem[] = [];
-currentpartyidOptions: ISelectItem[] = [];
-currentpartylocationidOptions: ISelectItem[] = [];
-acquisitioncurrencycodeOptions: ISelectItem[] = [];
-AssetStatusIdOptions: ISelectItem[] = [];
-conditiongradecodeOptions: ISelectItem[] = [];
+  assettypeidOptions: ISelectItem[] = [];
+  assetmakeidOptions: ISelectItem[] = [];
+  assetmodelidOptions: ISelectItem[] = [];
+  owningorganisationidOptions: ISelectItem[] = [];
+  responsibleorganisationunitidOptions: ISelectItem[] = [];
+  currentlocationidOptions: ISelectItem[] = [];
+  currentpartyidOptions: ISelectItem[] = [];
+  currentpartylocationidOptions: ISelectItem[] = [];
+  acquisitioncurrencycodeOptions: ISelectItem[] = [];
+  AssetStatusIdOptions: ISelectItem[] = [];
+  conditiongradecodeOptions: ISelectItem[] = [];
 
-  editForm: any; 
-  objMaster : IAsset = {} as IAsset;
-  
-    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent;
+  editForm: any;
+  objMaster: IAsset = {} as IAsset;
+
+  @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+  @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
-	private fb: FormBuilder,
-	private router: Router, 	
-	private _location: Location, 
-	private assetService: AssetService,
-	private loggedInUserService : LoggedInUserService
-	
+    private fb: FormBuilder,
+    private router: Router,
+    private _location: Location,
+    private assetService: AssetService,
+    private loggedInUserService: LoggedInUserService
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
-   this.objMaster = { ...this.asset };
+    this.objMaster = { ...this.asset };
 
     this.editForm = this.fb.group({
-     Id: new FormControl(0, []),
-AssetNo: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetMakeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetModelId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-OwningOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ResponsibleOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-CurrentLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-CurrentPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-CurrentPartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-PrimarySerialNo: new FormControl('', [Validators.maxLength(20), ]), 
-AcquisitionDate: new FormControl(new Date(), [Validators.required]),
-InServiceDate: new FormControl(new Date(), []),
-AcquisitionCurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
-AssetStatusId: new FormControl(0, [Validators.required]),
-ConditionGradeCode: new FormControl('', [Validators.maxLength(20), ]), 
-IsLeaseable: new FormControl(false, [Validators.required]),
-EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-EffectiveTo: new FormControl(new Date(), []),
-  AcquisitionCost: new FormControl(0, []),
-    ResidualValueAmount: new FormControl(0, []),
+      Id: new FormControl(0, []),
+      AssetNo: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      AssetMakeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      AssetModelId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      OwningOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      ResponsibleOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      CurrentLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      CurrentPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      CurrentPartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      PrimarySerialNo: new FormControl('', [Validators.maxLength(20),]),
+      AcquisitionDate: new FormControl(new Date(), [Validators.required]),
+      InServiceDate: new FormControl(new Date(), []),
+      AcquisitionCurrencyCode: new FormControl('', [Validators.maxLength(20),]),
+      AssetStatusId: new FormControl(0, [Validators.required]),
+      ConditionGradeCode: new FormControl('', [Validators.maxLength(20),]),
+      IsLeaseable: new FormControl(false, [Validators.required]),
+      EffectiveFrom: new FormControl(new Date(), [Validators.required]),
+      EffectiveTo: new FormControl(new Date(), []),
+      AcquisitionCost: new FormControl(0, []),
+      ResidualValueAmount: new FormControl(0, []),
 
     });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
       options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
       options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"AssetCategoryId":"AssetCategoryId"});
-this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
+      this.entityLookupDestroyRef, { "AssetCategoryId": "AssetCategoryId" });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
       options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"AssetMakeId":"AssetMakeId"});
-this.loggedInUserService.bindEntityLookup(this.editForm, 'OwningOrganisationId', 'organisations',
+      this.entityLookupDestroyRef, { "AssetMakeId": "AssetMakeId" });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwningOrganisationId', 'organisations',
       options => this.owningorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
       options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentLocationId', 'locations',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentLocationId', 'locations',
       options => this.currentlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyId', 'parties',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyId', 'parties',
       options => this.currentpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyLocationId', 'party-locations',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyLocationId', 'party-locations',
       options => this.currentpartylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.acquisitioncurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetStatusId', 'asset-statuses',
+    this.acquisitioncurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetStatusId', 'asset-statuses',
       options => this.AssetStatusIdOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.conditiongradecodeOptions.push({Text: 'Condition1', Value: 'Condition1' });
+    this.conditiongradecodeOptions.push({ Text: 'Condition1', Value: 'Condition1' });
 
   }
- 
- loadUI(): void {
-    this.isLoading = true;    
+
+  loadUI(): void {
+    this.isLoading = true;
     this.assetService.getById(this.selectedId).subscribe({
       next: data => {
         this.asset = data;
         this.objMaster = { ...this.asset };
         this.populateUI(data);
       },
-      error: err => {  this.messageService.showSuccess(err); },
+      error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
-    }); 
-  }  
+    });
+  }
 
 
   populateUI(obj: IAsset): void {
-     this.editForm.patchValue(
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  AssetNo: obj.AssetNo || '',
-AssetCategoryId: obj.AssetCategoryId || 0,
-AssetTypeId: obj.AssetTypeId || 0,
-AssetMakeId: obj.AssetMakeId || 0,
-AssetModelId: obj.AssetModelId || 0,
-OwningOrganisationId: obj.OwningOrganisationId || 0,
-ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
-CurrentLocationId: obj.CurrentLocationId || 0,
-CurrentPartyId: obj.CurrentPartyId || 0,
-CurrentPartyLocationId: obj.CurrentPartyLocationId || 0,
-PrimarySerialNo: obj.PrimarySerialNo || '',
-AcquisitionDate:  obj.AcquisitionDate || new Date(),
-InServiceDate:  obj.InServiceDate || new Date(),
-AcquisitionCurrencyCode: obj.AcquisitionCurrencyCode || '',
-AssetStatusId: obj.AssetStatusId || '',
-ConditionGradeCode: obj.ConditionGradeCode || '',
-IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
- 
+        Id: obj.Id || 0,
+        AssetNo: obj.AssetNo || '',
+        AssetCategoryId: obj.AssetCategoryId || 0,
+        AssetTypeId: obj.AssetTypeId || 0,
+        AssetMakeId: obj.AssetMakeId || 0,
+        AssetModelId: obj.AssetModelId || 0,
+        OwningOrganisationId: obj.OwningOrganisationId || 0,
+        ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
+        CurrentLocationId: obj.CurrentLocationId || 0,
+        CurrentPartyId: obj.CurrentPartyId || 0,
+        CurrentPartyLocationId: obj.CurrentPartyLocationId || 0,
+        PrimarySerialNo: obj.PrimarySerialNo || '',
+        AcquisitionDate: obj.AcquisitionDate || new Date(),
+        InServiceDate: obj.InServiceDate || new Date(),
+        AcquisitionCurrencyCode: obj.AcquisitionCurrencyCode || '',
+        AssetStatusId: obj.AssetStatusId || '',
+        ConditionGradeCode: obj.ConditionGradeCode || '',
+        IsLeaseable: obj.IsLeaseable || false,
+        EffectiveFrom: obj.EffectiveFrom || new Date(),
+        EffectiveTo: obj.EffectiveTo || new Date(),
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/assets/create']);
@@ -184,86 +184,86 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onCancel(): void {
     this.asset = { ...this.objMaster };
-    var obj  = this.asset;
-   this.editForm.patchValue(
+    var obj = this.asset;
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  AssetNo: obj.AssetNo || '',
-AssetCategoryId: obj.AssetCategoryId || 0,
-AssetTypeId: obj.AssetTypeId || 0,
-AssetMakeId: obj.AssetMakeId || 0,
-AssetModelId: obj.AssetModelId || 0,
-OwningOrganisationId: obj.OwningOrganisationId || 0,
-ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
-CurrentLocationId: obj.CurrentLocationId || 0,
-CurrentPartyId: obj.CurrentPartyId || 0,
-CurrentPartyLocationId: obj.CurrentPartyLocationId || 0,
-PrimarySerialNo: obj.PrimarySerialNo || '',
-AcquisitionDate:  obj.AcquisitionDate || new Date(),
-InServiceDate:  obj.InServiceDate || new Date(),
-AcquisitionCurrencyCode: obj.AcquisitionCurrencyCode || '',
-AssetStatusId: obj.AssetStatusId || '',
-ConditionGradeCode: obj.ConditionGradeCode || '',
-IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
- 
+        Id: obj.Id || 0,
+        AssetNo: obj.AssetNo || '',
+        AssetCategoryId: obj.AssetCategoryId || 0,
+        AssetTypeId: obj.AssetTypeId || 0,
+        AssetMakeId: obj.AssetMakeId || 0,
+        AssetModelId: obj.AssetModelId || 0,
+        OwningOrganisationId: obj.OwningOrganisationId || 0,
+        ResponsibleOrganisationUnitId: obj.ResponsibleOrganisationUnitId || 0,
+        CurrentLocationId: obj.CurrentLocationId || 0,
+        CurrentPartyId: obj.CurrentPartyId || 0,
+        CurrentPartyLocationId: obj.CurrentPartyLocationId || 0,
+        PrimarySerialNo: obj.PrimarySerialNo || '',
+        AcquisitionDate: obj.AcquisitionDate || new Date(),
+        InServiceDate: obj.InServiceDate || new Date(),
+        AcquisitionCurrencyCode: obj.AcquisitionCurrencyCode || '',
+        AssetStatusId: obj.AssetStatusId || '',
+        ConditionGradeCode: obj.ConditionGradeCode || '',
+        IsLeaseable: obj.IsLeaseable || false,
+        EffectiveFrom: obj.EffectiveFrom || new Date(),
+        EffectiveTo: obj.EffectiveTo || new Date(),
+
       }
     );
-    this.editForm.reset(); 
-  } 
+    this.editForm.reset();
+  }
 
-  Save(): void {    
-   
-        if (!this.editForm.valid) {
-            this.messageService.showError('One or more validation failed. Please clear error to continue...');
-            return;
-        }	
-  
-  
-	const formValues  = this.editForm.value ;
-	var createdObj = { 
+  Save(): void {
+
+    if (!this.editForm.valid) {
+      this.messageService.showError('One or more validation failed. Please clear error to continue...');
+      return;
+    }
+
+
+    const formValues = this.editForm.value;
+    var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
-      RowVersionStr : this.objMaster.RowVersionStr,
-     AssetNo: formValues.AssetNo || null,
-AssetCategoryId: formValues.AssetCategoryId || 0,
-AssetTypeId: formValues.AssetTypeId || 0,
-AssetMakeId: formValues.AssetMakeId || 0,
-AssetModelId: formValues.AssetModelId || 0,
-OwningOrganisationId: formValues.OwningOrganisationId || 0,
-ResponsibleOrganisationUnitId: formValues.ResponsibleOrganisationUnitId || 0,
-CurrentLocationId: formValues.CurrentLocationId || 0,
-CurrentPartyId: formValues.CurrentPartyId || 0,
-CurrentPartyLocationId: formValues.CurrentPartyLocationId || 0,
-PrimarySerialNo: formValues.PrimarySerialNo || null,
-AcquisitionDate: formValues.AcquisitionDate || null,
-InServiceDate: formValues.InServiceDate || null,
-AcquisitionCurrencyCode: formValues.AcquisitionCurrencyCode || null,
-AcquisitionCost: formValues.AcquisitionCost || 0,
-ResidualValueAmount: formValues.ResidualValueAmount || 0,
-AssetStatusId: formValues.AssetStatusId || 0,
-ConditionGradeCode: formValues.ConditionGradeCode || null,
-IsLeaseable: formValues.IsLeaseable || false,
-EffectiveFrom: formValues.EffectiveFrom || null,
-EffectiveTo: formValues.EffectiveTo || null,
-RecordStatus: 'Active',
+      RowVersionStr: this.objMaster.RowVersionStr,
+      AssetNo: formValues.AssetNo || null,
+      AssetCategoryId: formValues.AssetCategoryId || 0,
+      AssetTypeId: formValues.AssetTypeId || 0,
+      AssetMakeId: formValues.AssetMakeId || 0,
+      AssetModelId: formValues.AssetModelId || 0,
+      OwningOrganisationId: formValues.OwningOrganisationId || 0,
+      ResponsibleOrganisationUnitId: formValues.ResponsibleOrganisationUnitId || 0,
+      CurrentLocationId: formValues.CurrentLocationId || 0,
+      CurrentPartyId: formValues.CurrentPartyId || 0,
+      CurrentPartyLocationId: formValues.CurrentPartyLocationId || 0,
+      PrimarySerialNo: formValues.PrimarySerialNo || null,
+      AcquisitionDate: formValues.AcquisitionDate || null,
+      InServiceDate: formValues.InServiceDate || null,
+      AcquisitionCurrencyCode: formValues.AcquisitionCurrencyCode || null,
+      AcquisitionCost: formValues.AcquisitionCost || 0,
+      ResidualValueAmount: formValues.ResidualValueAmount || 0,
+      AssetStatusId: formValues.AssetStatusId || 0,
+      ConditionGradeCode: formValues.ConditionGradeCode || null,
+      IsLeaseable: formValues.IsLeaseable || false,
+      EffectiveFrom: formValues.EffectiveFrom || null,
+      EffectiveTo: formValues.EffectiveTo || null,
+      RecordStatus: 'Active',
 
-    } as IAsset ; 
-	
-	  this.spinner.show(); 
+    } as IAsset;
+
+    this.spinner.show();
     this.assetService.create(createdObj).subscribe({
-      next: data => {	   
-         // this.messageService.showSuccess(Asset +  'Details Updated sucessfully.');
-		 this._location.back();     
+      next: data => {
+        // this.messageService.showSuccess(Asset +  'Details Updated sucessfully.');
+        this._location.back();
       },
-      error: err => { 
-	   this.messageService.showError(err);
-       this.spinner.hide(); 
-	  },
+      error: err => {
+        this.messageService.showError(err);
+        this.spinner.hide();
+      },
       complete: () => { this.spinner.hide(); }
     });
-  } 
+  }
 
 }
 

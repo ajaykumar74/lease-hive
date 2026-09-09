@@ -30,7 +30,6 @@ export class SupplierQuotationEditComponent implements OnInit {
   Caption: string = 'Loading...';
   rfqidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 quotationstatuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -80,7 +79,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

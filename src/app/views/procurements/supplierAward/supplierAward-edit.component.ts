@@ -31,7 +31,6 @@ export class SupplierAwardEditComponent implements OnInit {
   rfqidOptions: ISelectItem[] = [];
 supplierquotationidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
 awardedbyOptions: ISelectItem[] = [];
 
@@ -85,8 +84,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'par
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 'supplier-quotations',
       options => this.supplierquotationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 

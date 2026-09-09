@@ -33,7 +33,6 @@ export class PurchaseOrderEditComponent implements OnInit {
 supplierpartyidOptions: ISelectItem[] = [];
 supplierawardidOptions: ISelectItem[] = [];
 purchaseorderstatusidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -105,7 +104,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'par
       options => this.supplierpartyidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loadLineItemOptions();
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

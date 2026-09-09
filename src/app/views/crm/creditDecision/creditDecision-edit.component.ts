@@ -27,7 +27,6 @@ export class CreditDecisionEditComponent implements OnInit {
     creditapplicationidOptions: ISelectItem[] = [];
     creditassessmentidOptions: ISelectItem[] = [];
     decisioncodeOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     riskratingcodeOptions: ISelectItem[] = [];
     decisionreasoncodeOptions: ISelectItem[] = [];
     approvalrequestidOptions: ISelectItem[] = [];
@@ -70,7 +69,6 @@ export class CreditDecisionEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-assessments').subscribe((options) => (this.creditassessmentidOptions = options));
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('CreditDecisionDecisionCode');
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.riskratingcodeOptions = this.loggedInUserService.getPicklistOptions('RiskRatingCode');
         this.decisionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('DecisionReasonCode');
         this.loggedInUserService.getLookupOptions('approval-requests').subscribe((options) => (this.approvalrequestidOptions = options));

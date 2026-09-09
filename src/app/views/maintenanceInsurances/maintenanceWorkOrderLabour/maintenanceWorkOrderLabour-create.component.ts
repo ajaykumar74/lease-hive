@@ -31,8 +31,6 @@ export class MaintenanceWorkOrderLabourCreateComponent implements OnInit {
   maintenanceworkorderidOptions: ISelectItem[] = [];
 technicianpartyidOptions: ISelectItem[] = [];
 technicianuseridOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IMaintenanceWorkOrderLabour = {} as IMaintenanceWorkOrderLabour;
   
@@ -78,8 +76,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'TechnicianPartyId', 'p
 this.loggedInUserService.bindEntityLookup(this.editForm, 'TechnicianUserId', 'application-users',
       options => this.technicianuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

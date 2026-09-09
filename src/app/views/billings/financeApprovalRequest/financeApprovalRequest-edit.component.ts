@@ -32,7 +32,6 @@ export class FinanceApprovalRequestEditComponent implements OnInit {
 workflowinstanceidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 approvalstatusOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -78,7 +77,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'a
       options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('FinanceApprovalRequestApprovalStatus');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

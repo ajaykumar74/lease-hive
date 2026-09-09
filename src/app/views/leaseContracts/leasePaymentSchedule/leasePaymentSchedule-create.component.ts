@@ -31,7 +31,6 @@ export class LeasePaymentScheduleCreateComponent implements OnInit {
   leasecontractidOptions: ISelectItem[] = [];
 schedulestatuscodeOptions: ISelectItem[] = [];
 calculationmethodcodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 generatedbyOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -77,7 +76,6 @@ GeneratedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648
       this.entityLookupDestroyRef);
 this.schedulestatuscodeOptions = this.loggedInUserService.getPicklistOptions('ScheduleStatusCode');
 this.calculationmethodcodeOptions = this.loggedInUserService.getPicklistOptions('CalculationMethodCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'GeneratedBy', 'application-users',
       options => this.generatedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

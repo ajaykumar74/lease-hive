@@ -33,7 +33,6 @@ leasecontractidOptions: ISelectItem[] = [];
 leasepaymentschedulelineidOptions: ISelectItem[] = [];
 leasecontractchargeidOptions: ISelectItem[] = [];
 sourcetypeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 validationstatusOptions: ISelectItem[] = [];
 customerinvoiceidOptions: ISelectItem[] = [];
 
@@ -89,7 +88,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractChargeId'
       options => this.leasecontractchargeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"LeaseContractId":"LeaseContractId"});
 this.sourcetypeOptions = this.loggedInUserService.getPicklistOptions('SourceType');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.validationstatusOptions = this.loggedInUserService.getPicklistOptions('ValidationStatus');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerInvoiceId', 'customer-invoices',
       options => this.customerinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),

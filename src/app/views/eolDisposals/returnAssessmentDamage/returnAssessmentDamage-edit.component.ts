@@ -30,7 +30,6 @@ export class ReturnAssessmentDamageEditComponent implements OnInit {
   Caption: string = 'Loading...';
   returnassessmentidOptions: ISelectItem[] = [];
 inspectionitemreferenceidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -76,7 +75,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       this.entityLookupDestroyRef);
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId1', Value: 'InspectionItemReferenceId1' });
 this.inspectionitemreferenceidOptions.push({Text: 'InspectionItemReferenceId2', Value: 'InspectionItemReferenceId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

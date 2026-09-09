@@ -29,7 +29,6 @@ export class JournalEntryLineCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   journalEntryLine: IJournalEntryLine = null;
   journalentryidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 costcentreidOptions: ISelectItem[] = [];
 profitcentreidOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
@@ -82,7 +81,6 @@ Narration: new FormControl('', [Validators.maxLength(300), ]),
     this.loggedInUserService.bindEntityLookup(this.editForm, 'JournalEntryId', 'journal-entries',
       options => this.journalentryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CostCentreId', 'cost-centres',
       options => this.costcentreidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"OrganisationUnitId":"OrganisationUnitId"});

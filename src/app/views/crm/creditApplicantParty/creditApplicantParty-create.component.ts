@@ -28,8 +28,6 @@ export class CreditApplicantPartyCreateComponent implements OnInit {
     creditapplicationidOptions: ISelectItem[] = [];
     partyidOptions: ISelectItem[] = [];
     creditpartyroleidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
-
     editForm: any;
     objMaster: ICreditApplicantParty = {} as ICreditApplicantParty;
 
@@ -62,7 +60,6 @@ export class CreditApplicantPartyCreateComponent implements OnInit {
         this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditPartyRoleId', 'party-roles',
       options => this.creditpartyroleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"PartyId":"PartyId"});
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

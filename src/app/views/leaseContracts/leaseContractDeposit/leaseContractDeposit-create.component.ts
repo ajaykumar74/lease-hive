@@ -30,7 +30,6 @@ export class LeaseContractDepositCreateComponent implements OnInit {
   leaseContractDeposit: ILeaseContractDeposit = null;
   leasecontractidOptions: ISelectItem[] = [];
 deposittypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -74,7 +73,6 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('LeaseContractDepositStatusCode');
 
   }

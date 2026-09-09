@@ -31,7 +31,6 @@ export class SupplierReturnEditComponent implements OnInit {
   disposalcaseidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -81,7 +80,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierReturnStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

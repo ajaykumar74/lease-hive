@@ -30,7 +30,6 @@ export class DisposalValuationReferenceEditComponent implements OnInit {
   Caption: string = 'Loading...';
   disposalcaseidOptions: ISelectItem[] = [];
 assetvaluationidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -74,7 +73,6 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       this.entityLookupDestroyRef);
 this.assetvaluationidOptions.push({Text: 'AssetValuationId1', Value: 'AssetValuationId1' });
 this.assetvaluationidOptions.push({Text: 'AssetValuationId2', Value: 'AssetValuationId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -33,7 +33,6 @@ awardsourcecodeOptions: ISelectItem[] = [];
 disposalofferidOptions: ISelectItem[] = [];
 disposalbididOptions: ISelectItem[] = [];
 buyerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 approvedbyuseridOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
@@ -88,7 +87,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DisposalBidId', 'dispo
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyerPartyId', 'parties',
       options => this.buyerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
       options => this.approvedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

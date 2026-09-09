@@ -30,7 +30,6 @@ export class InsuranceClaimSettlementCreateComponent implements OnInit {
   insuranceClaimSettlement: IInsuranceClaimSettlement = null;
   insuranceclaimidOptions: ISelectItem[] = [];
 settlementtypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 payeepartyidOptions: ISelectItem[] = [];
 financereferenceidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
@@ -78,7 +77,6 @@ StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), 
       options => this.insuranceclaimidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.settlementtypecodeOptions = this.loggedInUserService.getPicklistOptions('SettlementTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PayeePartyId', 'parties',
       options => this.payeepartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

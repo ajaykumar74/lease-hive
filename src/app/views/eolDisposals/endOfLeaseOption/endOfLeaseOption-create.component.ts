@@ -30,8 +30,6 @@ export class EndOfLeaseOptionCreateComponent implements OnInit {
   endOfLeaseOption: IEndOfLeaseOption = null;
   endofleasecaseidOptions: ISelectItem[] = [];
 optioncodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IEndOfLeaseOption = {} as IEndOfLeaseOption;
   
@@ -72,8 +70,6 @@ SelectedAt: new FormControl(new Date(), []),
       options => this.endofleasecaseidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.optioncodeOptions = this.loggedInUserService.getPicklistOptions('OptionCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

@@ -33,8 +33,6 @@ export class LeadCreateComponent implements OnInit {
   leadsourceidOptions: ISelectItem[] = [];
   leadstatusidOptions: ISelectItem[] = [];
   interestedassetcategoryidOptions: ISelectItem[] = [];
-  currencycodeOptions: ISelectItem[] = [];
-
   editForm: any;
   objMaster: ILead = {} as ILead;
 
@@ -80,7 +78,6 @@ export class LeadCreateComponent implements OnInit {
 
     });
     this.loadLookups();
-    this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.Caption = 'Create Lead';
   }
 

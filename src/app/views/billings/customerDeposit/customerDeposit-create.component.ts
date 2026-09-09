@@ -33,7 +33,6 @@ leasecontractdepositidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
 billingorganisationidOptions: ISelectItem[] = [];
 deposittypecodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 depositstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -90,7 +89,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingOrganisationId'
       options => this.billingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.deposittypecodeOptions = this.loggedInUserService.getPicklistOptions('DepositTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.depositstatusOptions = this.loggedInUserService.getPicklistOptions('DepositStatus');
 
   }

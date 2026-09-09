@@ -28,7 +28,6 @@ export class BankStatementCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   bankStatement: IBankStatement = null;
   organisationbankaccountidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 importsourceOptions: ISelectItem[] = [];
 reconciliationstatusOptions: ISelectItem[] = [];
 
@@ -71,7 +70,6 @@ ReconciliationStatus: new FormControl('', [Validators.required, Validators.maxLe
     this.Caption = 'Create BankStatement';
     this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId1', Value: 'OrganisationBankAccountId1' });
 this.organisationbankaccountidOptions.push({Text: 'OrganisationBankAccountId2', Value: 'OrganisationBankAccountId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.importsourceOptions = this.loggedInUserService.getPicklistOptions('ImportSource');
 this.reconciliationstatusOptions = this.loggedInUserService.getPicklistOptions('ReconciliationStatus');
 

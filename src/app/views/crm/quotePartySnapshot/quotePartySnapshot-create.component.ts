@@ -26,8 +26,6 @@ export class QuotePartySnapshotCreateComponent implements OnInit {
     quotePartySnapshot: IQuotePartySnapshot = null;
     quoteidOptions: ISelectItem[] = [];
     partyidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
-
     editForm: any;
     objMaster: IQuotePartySnapshot = {} as IQuotePartySnapshot;
 
@@ -61,7 +59,6 @@ export class QuotePartySnapshotCreateComponent implements OnInit {
         this.Caption = 'Create QuotePartySnapshot';
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

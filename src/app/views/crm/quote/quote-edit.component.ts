@@ -29,7 +29,6 @@ export class QuoteEditComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
     quotestatusidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     billingfrequencyOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
 
@@ -83,7 +82,6 @@ export class QuoteEditComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.getLookupOptions('quote-statuses').subscribe((options) => (this.quotestatusidOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.billingfrequencyOptions = this.loggedInUserService.getPicklistOptions('BillingFrequency');
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

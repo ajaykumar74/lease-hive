@@ -32,7 +32,6 @@ export class RefurbishmentHandoffCreateComponent implements OnInit {
 assetidOptions: ISelectItem[] = [];
 handoffreasoncodeOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 maintenanceworkorderidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
@@ -83,7 +82,6 @@ this.handoffreasoncodeOptions = this.loggedInUserService.getPicklistOptions('Han
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'application-users',
       options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceWorkOrderId', 'maintenance-work-orders',
       options => this.maintenanceworkorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"AssetId":"AssetId"});

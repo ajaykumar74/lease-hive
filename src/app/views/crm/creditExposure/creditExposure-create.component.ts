@@ -28,8 +28,6 @@ export class CreditExposureCreateComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     organisationidOptions: ISelectItem[] = [];
     exposuretypeOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
-
     editForm: any;
     objMaster: ICreditExposure = {} as ICreditExposure;
 
@@ -65,7 +63,6 @@ export class CreditExposureCreateComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
         this.exposuretypeOptions = this.loggedInUserService.getPicklistOptions('ExposureType');
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     }
 
     loadUI(): void {

@@ -27,7 +27,6 @@ export class LeaseRequirementEditComponent implements OnInit {
     opportunityidOptions: ISelectItem[] = [];
     partyidOptions: ISelectItem[] = [];
     partylocationidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     requirementstatuscodeOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
 
@@ -73,7 +72,6 @@ export class LeaseRequirementEditComponent implements OnInit {
                 this.loadPartyLocations(partyId);
             }
         });
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.requirementstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RequirementStatusCode');
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

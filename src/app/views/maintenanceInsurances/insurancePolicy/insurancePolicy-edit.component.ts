@@ -34,7 +34,6 @@ brokerpartyidOptions: ISelectItem[] = [];
 insurancepolicystatusidOptions: ISelectItem[] = [];
 policytypecodeOptions: ISelectItem[] = [];
 coveragetypeidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 paymentreferenceidOptions: ISelectItem[] = [];
 previouspolicyidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -99,7 +98,6 @@ this.policytypecodeOptions = this.loggedInUserService.getPicklistOptions('Policy
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CoverageTypeId', 'insurance-coverage-types',
       options => this.coveragetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId1', Value: 'PaymentReferenceId1' });
 this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId2', Value: 'PaymentReferenceId2' });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PreviousPolicyId', 'insurance-policies',

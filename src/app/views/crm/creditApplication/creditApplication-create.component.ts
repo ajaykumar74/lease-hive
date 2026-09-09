@@ -29,7 +29,6 @@ export class CreditApplicationCreateComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
     creditapplicationstatusidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     risksegmentcodeOptions: ISelectItem[] = [];
     assignedanalystuseridOptions: ISelectItem[] = [];
 
@@ -79,7 +78,6 @@ export class CreditApplicationCreateComponent implements OnInit {
             (error) => setTimeout(() => this.messageService?.showError(error)),
             this.entityLookupDestroyRef
         );
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
     }

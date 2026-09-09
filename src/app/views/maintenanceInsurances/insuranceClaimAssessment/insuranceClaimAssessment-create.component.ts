@@ -31,8 +31,6 @@ export class InsuranceClaimAssessmentCreateComponent implements OnInit {
   insuranceclaimidOptions: ISelectItem[] = [];
 assessorpartyidOptions: ISelectItem[] = [];
 repairabilitycodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IInsuranceClaimAssessment = {} as IInsuranceClaimAssessment;
   
@@ -78,8 +76,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssessorPartyId', 'par
       options => this.assessorpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.repairabilitycodeOptions = this.loggedInUserService.getPicklistOptions('RepairabilityCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

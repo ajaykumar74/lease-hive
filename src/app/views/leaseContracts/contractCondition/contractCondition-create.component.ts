@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
-import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IContractCondition } from './contractCondition';
@@ -16,108 +16,108 @@ import { ContractConditionService } from './contractCondition.service';
 @Component({
   selector: 'app-contractCondition-create',
   standalone: false,
-  templateUrl: './contractCondition-create.component.html' ,
-   providers: [ MessageService]
+  templateUrl: './contractCondition-create.component.html',
+  providers: [MessageService]
 })
 export class ContractConditionCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
-  selectedId: number; 
-  isLoading : boolean = false;
+
+  selectedId: number;
+  isLoading: boolean = false;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   contractCondition: IContractCondition = null;
   leasecontractidOptions: ISelectItem[] = [];
-conditiontypecodeOptions: ISelectItem[] = [];
-requiredforeventcodeOptions: ISelectItem[] = [];
-statuscodeOptions: ISelectItem[] = [];
-satisfiedbyOptions: ISelectItem[] = [];
+  conditiontypecodeOptions: ISelectItem[] = [];
+  requiredforeventcodeOptions: ISelectItem[] = [];
+  statuscodeOptions: ISelectItem[] = [];
+  satisfiedbyOptions: ISelectItem[] = [];
 
-  editForm: any; 
-  objMaster : IContractCondition = {} as IContractCondition;
-  
-    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent;
+  editForm: any;
+  objMaster: IContractCondition = {} as IContractCondition;
+
+  @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+  @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
-	private fb: FormBuilder,
-	private router: Router, 	
-	private _location: Location, 
-	private contractConditionService: ContractConditionService,
-	private loggedInUserService : LoggedInUserService
-	
+    private fb: FormBuilder,
+    private router: Router,
+    private _location: Location,
+    private contractConditionService: ContractConditionService,
+    private loggedInUserService: LoggedInUserService
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
-   this.objMaster = { ...this.contractCondition };
+    this.objMaster = { ...this.contractCondition };
 
     this.editForm = this.fb.group({
-     Id: new FormControl(0, []),
-LeaseContractId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ConditionTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-ConditionDescription: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-RequiredForEventCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DueDate: new FormControl(new Date(), []),
-MandatoryFlag: new FormControl(false, [Validators.required]),
-WaiverAllowedFlag: new FormControl(false, [Validators.required]),
-StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-SatisfiedOn: new FormControl(new Date(), []),
-SatisfiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      Id: new FormControl(0, []),
+      LeaseContractId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      ConditionTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      ConditionDescription: new FormControl('', [Validators.required, Validators.maxLength(100),]),
+      RequiredForEventCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      DueDate: new FormControl(new Date(), []),
+      MandatoryFlag: new FormControl(false, [Validators.required]),
+      WaiverAllowedFlag: new FormControl(false, [Validators.required]),
+      StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      SatisfiedOn: new FormControl(new Date(), []),
+      SatisfiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
     this.Caption = 'Create ContractCondition';
     this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lease-contracts',
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.conditiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ConditionTypeCode');
-this.requiredforeventcodeOptions = this.loggedInUserService.getPicklistOptions('RequiredForEventCode');
-this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractConditionStatusCode');
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SatisfiedBy', 'application-users',
+    this.conditiontypecodeOptions = this.loggedInUserService.getPicklistOptions('ConditionTypeCode');
+    this.requiredforeventcodeOptions = this.loggedInUserService.getPicklistOptions('RequiredForEventCode');
+    this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('ContractConditionStatusCode');
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'SatisfiedBy', 'application-users',
       options => this.satisfiedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 
   }
- 
- loadUI(): void {
-    this.isLoading = true;    
+
+  loadUI(): void {
+    this.isLoading = true;
     this.contractConditionService.getById(this.selectedId).subscribe({
       next: data => {
         this.contractCondition = data;
         this.objMaster = { ...this.contractCondition };
         this.populateUI(data);
       },
-      error: err => {  this.messageService.showSuccess(err); },
+      error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
-    }); 
-  }  
+    });
+  }
 
 
   populateUI(obj: IContractCondition): void {
-     this.editForm.patchValue(
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  LeaseContractId: obj.LeaseContractId || 0,
-ConditionTypeCode: obj.ConditionTypeCode || '',
-ConditionDescription: obj.ConditionDescription || '',
-RequiredForEventCode: obj.RequiredForEventCode || '',
-DueDate:  obj.DueDate || new Date(),
-MandatoryFlag:  obj.MandatoryFlag || false,
-WaiverAllowedFlag:  obj.WaiverAllowedFlag || false,
-StatusCode: obj.StatusCode || '',
-SatisfiedOn:  obj.SatisfiedOn || new Date(),
-SatisfiedBy: obj.SatisfiedBy || 0,
- 
+        Id: obj.Id || 0,
+        LeaseContractId: obj.LeaseContractId || 0,
+        ConditionTypeCode: obj.ConditionTypeCode || '',
+        ConditionDescription: obj.ConditionDescription || '',
+        RequiredForEventCode: obj.RequiredForEventCode || '',
+        DueDate: obj.DueDate || new Date(),
+        MandatoryFlag: obj.MandatoryFlag || false,
+        WaiverAllowedFlag: obj.WaiverAllowedFlag || false,
+        StatusCode: obj.StatusCode || '',
+        SatisfiedOn: obj.SatisfiedOn || new Date(),
+        SatisfiedBy: obj.SatisfiedBy || 0,
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/contractConditions/create']);
@@ -135,65 +135,65 @@ SatisfiedBy: obj.SatisfiedBy || 0,
 
   onCancel(): void {
     this.contractCondition = { ...this.objMaster };
-    var obj  = this.contractCondition;
-   this.editForm.patchValue(
+    var obj = this.contractCondition;
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  LeaseContractId: obj.LeaseContractId || 0,
-ConditionTypeCode: obj.ConditionTypeCode || '',
-ConditionDescription: obj.ConditionDescription || '',
-RequiredForEventCode: obj.RequiredForEventCode || '',
-DueDate:  obj.DueDate || new Date(),
-MandatoryFlag:  obj.MandatoryFlag || false,
-WaiverAllowedFlag:  obj.WaiverAllowedFlag || false,
-StatusCode: obj.StatusCode || '',
-SatisfiedOn:  obj.SatisfiedOn || new Date(),
-SatisfiedBy: obj.SatisfiedBy || 0,
- 
+        Id: obj.Id || 0,
+        LeaseContractId: obj.LeaseContractId || 0,
+        ConditionTypeCode: obj.ConditionTypeCode || '',
+        ConditionDescription: obj.ConditionDescription || '',
+        RequiredForEventCode: obj.RequiredForEventCode || '',
+        DueDate: obj.DueDate || new Date(),
+        MandatoryFlag: obj.MandatoryFlag || false,
+        WaiverAllowedFlag: obj.WaiverAllowedFlag || false,
+        StatusCode: obj.StatusCode || '',
+        SatisfiedOn: obj.SatisfiedOn || new Date(),
+        SatisfiedBy: obj.SatisfiedBy || 0,
+
       }
     );
-    this.editForm.reset(); 
-  } 
+    this.editForm.reset();
+  }
 
-  Save(): void {    
-   
-        if (!this.editForm.valid) {
-            this.messageService.showError('One or more validation failed. Please clear error to continue...');
-            return;
-        }	
-  
-  
-	const formValues  = this.editForm.value ;
-	var createdObj = { 
+  Save(): void {
+
+    if (!this.editForm.valid) {
+      this.messageService.showError('One or more validation failed. Please clear error to continue...');
+      return;
+    }
+
+
+    const formValues = this.editForm.value;
+    var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
-      RowVersionStr : this.objMaster.RowVersionStr,
-     LeaseContractId: formValues.LeaseContractId || 0,
-ConditionTypeCode: formValues.ConditionTypeCode || null,
-ConditionDescription: formValues.ConditionDescription || null,
-RequiredForEventCode: formValues.RequiredForEventCode || null,
-DueDate: formValues.DueDate || null,
-MandatoryFlag: formValues.MandatoryFlag || false,
-WaiverAllowedFlag: formValues.WaiverAllowedFlag || false,
-StatusCode: formValues.StatusCode || null,
-SatisfiedOn: formValues.SatisfiedOn || null,
-SatisfiedBy: formValues.SatisfiedBy || 0,
+      RowVersionStr: this.objMaster.RowVersionStr,
+      LeaseContractId: formValues.LeaseContractId || 0,
+      ConditionTypeCode: formValues.ConditionTypeCode || null,
+      ConditionDescription: formValues.ConditionDescription || null,
+      RequiredForEventCode: formValues.RequiredForEventCode || null,
+      DueDate: formValues.DueDate || null,
+      MandatoryFlag: formValues.MandatoryFlag || false,
+      WaiverAllowedFlag: formValues.WaiverAllowedFlag || false,
+      StatusCode: formValues.StatusCode || null,
+      SatisfiedOn: formValues.SatisfiedOn || null,
+      SatisfiedBy: formValues.SatisfiedBy || 0,
 
-    } as IContractCondition ; 
-	
-	  this.spinner.show(); 
+    } as IContractCondition;
+
+    this.spinner.show();
     this.contractConditionService.create(createdObj).subscribe({
-      next: data => {	   
-         // this.messageService.showSuccess(ContractCondition +  'Details Updated sucessfully.');
-		 this._location.back();     
+      next: data => {
+        // this.messageService.showSuccess(ContractCondition +  'Details Updated sucessfully.');
+        this._location.back();
       },
-      error: err => { 
-	   this.messageService.showError(err);
-       this.spinner.hide(); 
-	  },
+      error: err => {
+        this.messageService.showError(err);
+        this.spinner.hide();
+      },
       complete: () => { this.spinner.hide(); }
     });
-  } 
+  }
 
 }
 

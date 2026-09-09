@@ -32,7 +32,6 @@ export class InsurancePolicyAssetEditComponent implements OnInit {
 assetidOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
 coveragetypeidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 beneficiarypartyidOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -88,7 +87,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
 this.loggedInUserService.bindEntityLookup(this.editForm, 'CoverageTypeId', 'insurance-coverage-types',
       options => this.coveragetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BeneficiaryPartyId', 'parties',
       options => this.beneficiarypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

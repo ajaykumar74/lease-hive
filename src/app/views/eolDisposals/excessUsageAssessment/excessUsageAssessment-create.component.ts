@@ -30,8 +30,6 @@ export class ExcessUsageAssessmentCreateComponent implements OnInit {
   excessUsageAssessment: IExcessUsageAssessment = null;
   returnassessmentidOptions: ISelectItem[] = [];
 measuredefinitionidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IExcessUsageAssessment = {} as IExcessUsageAssessment;
   
@@ -76,8 +74,6 @@ CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MeasureDefinitionId', 'asset-measure-definitions',
       options => this.measuredefinitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

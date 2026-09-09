@@ -31,7 +31,6 @@ export class AssetScrapEditComponent implements OnInit {
   disposalcaseidOptions: ISelectItem[] = [];
 assetidOptions: ISelectItem[] = [];
 recyclerpartyidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -81,7 +80,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RecyclerPartyId', 'parties',
       options => this.recyclerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetScrapStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

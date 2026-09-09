@@ -33,7 +33,6 @@ linetypecodeOptions: ISelectItem[] = [];
 assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -91,8 +90,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measu
       options => this.uomidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 

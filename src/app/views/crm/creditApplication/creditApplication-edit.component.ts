@@ -28,7 +28,6 @@ export class CreditApplicationEditComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
     creditapplicationstatusidOptions: ISelectItem[] = [];
-    currencycodeOptions: ISelectItem[] = [];
     risksegmentcodeOptions: ISelectItem[] = [];
     assignedanalystuseridOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
@@ -73,7 +72,6 @@ export class CreditApplicationEditComponent implements OnInit {
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-application-statuses').subscribe((options) => (this.creditapplicationstatusidOptions = options));
-        this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.risksegmentcodeOptions.push({ Text: '', Value: '' });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');

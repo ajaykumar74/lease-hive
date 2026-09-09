@@ -30,8 +30,6 @@ export class DisposalValuationReferenceCreateComponent implements OnInit {
   disposalValuationReference: IDisposalValuationReference = null;
   disposalcaseidOptions: ISelectItem[] = [];
 assetvaluationidOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
-
   editForm: any; 
   objMaster : IDisposalValuationReference = {} as IDisposalValuationReference;
   
@@ -73,8 +71,6 @@ Remarks: new FormControl('', [Validators.maxLength(100), ]),
       this.entityLookupDestroyRef);
 this.assetvaluationidOptions.push({Text: 'AssetValuationId1', Value: 'AssetValuationId1' });
 this.assetvaluationidOptions.push({Text: 'AssetValuationId2', Value: 'AssetValuationId2' });
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
   }
  
  loadUI(): void {

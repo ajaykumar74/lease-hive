@@ -33,7 +33,6 @@ customerpartyidOptions: ISelectItem[] = [];
 customerinvoiceidOptions: ISelectItem[] = [];
 leasecontractidOptions: ISelectItem[] = [];
 reasoncodeOptions: ISelectItem[] = [];
-currencycodeOptions: ISelectItem[] = [];
 statuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -88,7 +87,6 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseContractId', 'lea
       options => this.leasecontractidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"CustomerPartyId":"CustomerPartyId"});
 this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteReasonCode');
-this.currencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
 this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('DebitNoteStatusCode');
 
   }
