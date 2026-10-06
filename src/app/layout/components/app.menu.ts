@@ -524,7 +524,7 @@ export class AppMenu {
                                         {
                                             label: 'New Lead',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/crm/leads/new']
+                                            routerLink: ['/business/crm/leads/create']
                                         },
                                         {
                                             label: 'My Leads',
@@ -1027,7 +1027,7 @@ export class AppMenu {
                                         {
                                             label: 'Create Requisition',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/procurement/requisitions/new']
+                                            routerLink: ['/business/procurement/requisitions/create']
                                         },
                                         {
                                             label: 'Pending Approval',
@@ -1052,7 +1052,7 @@ export class AppMenu {
                                         {
                                             label: 'Create RFQ',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/procurement/rfqs/new']
+                                            routerLink: ['/business/procurement/rfqs/create']
                                         },
                                         {
                                             label: 'Supplier Quotations',
@@ -1087,7 +1087,7 @@ export class AppMenu {
                                         {
                                             label: 'Create Purchase Order',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/procurement/purchase-orders/new']
+                                            routerLink: ['/business/procurement/purchase-orders/create']
                                         },
                                         {
                                             label: 'Pending Approval',
@@ -1122,7 +1122,7 @@ export class AppMenu {
                                         {
                                             label: 'Receive Goods',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/procurement/goods-receipts/new']
+                                            routerLink: ['/business/procurement/goods-receipts/create']
                                         },
                                         {
                                             label: 'Goods Receipt Serials',
@@ -1182,7 +1182,7 @@ export class AppMenu {
                                         {
                                             label: 'Capture Invoice',
                                             icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/procurement/supplier-invoices/new']
+                                            routerLink: ['/business/procurement/supplier-invoices/create']
                                         },
                                         {
                                             label: 'Invoice Matching',
@@ -1306,7 +1306,6 @@ export class AppMenu {
                         {
                             label: 'Lease Contracts',
                             icon: 'pi pi-file-edit',
-                            class: 'font-bold',
                             items: [
                                 {
                                     label: 'Dashboard',
