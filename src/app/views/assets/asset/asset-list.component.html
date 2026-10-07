@@ -3,10 +3,9 @@
     <div class="card list-card">
       <app-message [AlertType]="'message'"></app-message>
       <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-        [Caption]="'Asset List'" [PageType]="'List'">
-        <p-button *appPermission="'asset.asset.create'" label="Add Asset" icon="pi pi-plus">
-        </p-button>
-         <p-button *appPermission="'asset.asset.view'" label="View Assets" icon="pi pi-eye">
+        [Caption]="'Asset List'" [PageType]="'List'" [createAccessPermission]="'asset.asset.create'">
+        <p-button *appPermission="'asset.asset.download'" label="Download Assets" icon="pi pi-download"
+          (onClick)="downloadAssets()">
         </p-button>
       </app-toolbar-buttons>
       <app-spinner></app-spinner>
@@ -65,10 +64,12 @@
                 obj.RecordStatus || 'Pending' }}</span></td>
             <td>
               <div class="list-actions">
-                <button type="button" class="list-action view" title="View asset" aria-label="View asset"
+                <button *appPermission="'asset.asset.view'" type="button" class="list-action view" title="View asset" aria-label="View asset"
                   (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
-                <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit asset"
+                <button *appPermission="'asset.asset.update'" type="button" class="list-action edit" title="Edit asset"
                   aria-label="Edit asset" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button>
+                <button *appPermission="'asset.asset.delete'" type="button" class="list-action delete" title="Delete asset"
+                  aria-label="Delete asset" (click)="onDeleteClick(obj)"><i class="pi pi-trash"></i></button>
               </div>
             </td>
           </tr>

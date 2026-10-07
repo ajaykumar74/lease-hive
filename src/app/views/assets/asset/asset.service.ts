@@ -32,13 +32,23 @@ export class AssetService extends BaseCrudService<any> {
     this.CacheData.objSearch = objsearch;
   } 
  
- search(  searchParam: any): Observable<any> {
+  search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;
     return this.http.post<any>(url, searchParam, { headers: this.headers })
       .pipe(
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)
       );
+  }
+
+  download(): Observable<Blob> {
+    const url = `${this.baseUrl}/download`;
+    return this.http.get(url, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(
+      catchError(this.baseService.handleError)
+    );
   }
 
   GetAll(IsDeleted: Boolean): Observable<any> {

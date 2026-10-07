@@ -18,6 +18,7 @@ export class ToolbarButtonsComponent implements OnInit {
     @Input() Entity: string;
     @Input() buttons: any[] = [];
     @Input() permission: IPermission;
+    @Input() createAccessPermission: string = '';
     @Input() IsHideCreate: boolean = false;
     @Input() IsShowDelete: boolean;
     @Input() IsHideBack: boolean;

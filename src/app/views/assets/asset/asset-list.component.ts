@@ -7,8 +7,7 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { AssetService } from './asset.service';
 import { IAsset } from './asset';
-import { PageEvent } from '@/shared/IBase'; 
-import { AppPermissionDirective } from '@/shared/security/permission.directive';
+import { PageEvent } from '@/shared/IBase';  
 @Component({
   selector: 'app-customer-list',
   standalone: false,
@@ -85,8 +84,9 @@ export class AssetListComponent implements OnInit {
         Skip: pgEvent.first,
         Take: pgEvent.rows,
         SortBy: this.sortBy,
-        IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
+        IsDescending: this.IsDescending,
+        AssetNo: this.objSearch.Name || null,
+        RecordStatus: this.objSearch.RecordStatus || null
       }
       this.isLoading = true;
       this.assetService.search(searchParam).subscribe({
@@ -155,6 +155,45 @@ export class AssetListComponent implements OnInit {
 
   onEditClick(asset: IAsset): void {
     this.router.navigate(['/business/assets/edit', asset.Id], { state: { asset } });
+  }
+
+  onDeleteClick(asset: IAsset): void {
+    if (!window.confirm(`Delete asset ${asset.AssetNo || asset.Id}? This action cannot be undone.`)) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.assetService.delete(asset.Id).subscribe({
+      next: () => this.search(),
+      error: err => {
+        this.messageService.showError(err);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  downloadAssets(): void {
+    this.isLoading = true;
+    this.assetService.download().subscribe({
+      next: blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'assets.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      },
+      error: err => {
+        this.messageService.showError(err);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   getAssetInitials(asset: IAsset): string {
