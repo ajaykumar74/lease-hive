@@ -58,6 +58,7 @@ import { ViewFieldComponent } from './view-field.component';
 import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
 import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyDropdownComponent } from './currency-dropdown.component';
+import { AppPermissionDirective } from './security/permission.directive';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -97,7 +98,8 @@ import { CurrencyDropdownComponent } from './currency-dropdown.component';
 		UploadComponent,
 		ViewFieldComponent, 
 		ValidationErrorsComponent,
-		CurrencyDropdownComponent
+		CurrencyDropdownComponent,
+		AppPermissionDirective
 	],
 	exports: [
 		MessageComponent,
@@ -115,7 +117,8 @@ import { CurrencyDropdownComponent } from './currency-dropdown.component';
 		UploadComponent,
 		ViewFieldComponent,
 		ValidationErrorsComponent,
-		CurrencyDropdownComponent
+		CurrencyDropdownComponent,
+		AppPermissionDirective
 	]
 })
 export class MySharedModule { }

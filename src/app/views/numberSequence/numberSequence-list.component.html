@@ -1,38 +1,96 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'NumberSequence List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons> 
-				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
+<div class="grid list-page">
+    <div class="col-12">
+        <div class="card list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Number Sequences'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="list-heading list-heading-compact">
+                <div>
+                    <p>Manage the identifiers used across your leasing workspace.</p>
                 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">SequenceCode <p-sortIcon field="SequenceCode" /> </th> 
-<th style="width:200px">OrganisationId <p-sortIcon field="OrganisationId" /> </th> 
-<th style="width:200px">Organisation UnitId <p-sortIcon field="OrganisationUnitId" /> </th> 
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.SequenceCode}}</td>
- <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.OrganisationUnitId | number:'1.0':'en-US' }}</td>
- 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div> 
+                <div class="record-count-inline" aria-label="Total number sequences">
+                    <i class="pi pi-hashtag"></i><strong>{{ totalNoOfRecords }}</strong
+                    ><span>sequences</span>
+                </div>
+            </div>
+
+            <div class="list-search">
+                <i class="pi pi-search"></i>
+                <input type="search" pInputText placeholder="Search by sequence code..." [(ngModel)]="objSearch.Code" (keyup.enter)="search()" aria-label="Search number sequences" />
+                <button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
+                <button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button>
+            </div>
+
+            <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll" styleClass="list-table" [tableStyle]="{ 'min-width': '1100px' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="SequenceCode">Sequence <p-sortIcon field="SequenceCode" /></th>
+                        <th pSortableColumn="EntityType">Configuration <p-sortIcon field="EntityType" /></th>
+                        <th pSortableColumn="CurrentNumber">Current number <p-sortIcon field="CurrentNumber" /></th>
+                        <th>Scope</th>
+                        <th pSortableColumn="ResetFrequency">Reset policy <p-sortIcon field="ResetFrequency" /></th>
+                        <th>Status</th>
+                        <th class="list-actions-column">Quick actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td>
+                            <div class="list-primary-cell">
+                                <span class="list-avatar">{{ getSequenceInitials(obj) }}</span>
+                                <div>
+                                    <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.SequenceCode || 'Sequence #' + obj.Id }}</button>
+                                    <span class="list-secondary">{{ obj.ExampleNumber || 'No example number configured' }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="list-cell">
+                            <strong>{{ obj.EntityType || 'Entity type not set' }}</strong>
+                            <span class="list-secondary">Prefix: {{ obj.PrefixPattern || 'None' }} · {{ obj.NumberLength || 0 }} digits</span>
+                        </td>
+                        <td class="list-cell">
+                            <strong>{{ obj.CurrentNumber | number: '1.0-0' }}</strong>
+                            <span class="list-secondary">Next generated identifier</span>
+                        </td>
+                        <td class="list-cell">
+                            <strong>Organisation {{ obj.OrganisationId || '—' }}</strong>
+                            <span class="list-secondary">Unit {{ obj.OrganisationUnitId || 'All units' }}</span>
+                        </td>
+                        <td class="list-cell">
+                            <strong>{{ obj.ResetFrequency || 'Never resets' }}</strong>
+                            <span class="list-secondary">{{ obj.LastResetDate ? 'Last reset ' + (obj.LastResetDate | date: 'dd MMM y') : 'No reset recorded' }}</span>
+                        </td>
+                        <td>
+                            <span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span>
+                        </td>
+                        <td>
+                            <div class="list-actions">
+                                <button type="button" class="list-action view" title="View sequence" aria-label="View sequence" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
+                                <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit sequence" aria-label="Edit sequence" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">
+                            <div class="list-empty"><i class="pi pi-hashtag"></i><strong>No number sequences found</strong><span>Try a different sequence code or create a new number sequence.</span></div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <p-paginator
+                *ngIf="totalNoOfRecords > 0"
+                [first]="pgEvent.first"
+                [rows]="pgEvent.rows"
+                [totalRecords]="totalNoOfRecords"
+                [rowsPerPageOptions]="[10, 20, 50]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                (onPageChange)="pageChanged($event)"
+            />
+        </div>
+    </div>
 </div>
-  

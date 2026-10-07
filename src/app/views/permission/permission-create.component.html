@@ -15,7 +15,7 @@
  					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="PermissionCode">Permission Code 
 							</label> 
-							<input pInputText id="PermissionCode" type="text" pSize="small"	formControlName="PermissionCode"  />
+							<input pInputText id="PermissionCode" type="text" pSize="small" formControlName="PermissionCode" readonly />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('PermissionCode')"
 											label="Permission Code">
 										</app-validation-errors>

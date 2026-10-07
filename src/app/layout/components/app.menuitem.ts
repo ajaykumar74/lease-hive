@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { IsActiveMatchOptions, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -41,14 +41,7 @@ import { LayoutService } from '@/layout/service/layout.service';
                 [ngClass]="item.class"
                 [routerLink]="item.routerLink"
                 routerLinkActive="active-route"
-                [routerLinkActiveOptions]="
-                    item.routerLinkActiveOptions || {
-                        paths: 'exact',
-                        queryParams: 'ignored',
-                        matrixParams: 'ignored',
-                        fragment: 'ignored'
-                    }
-                "
+                [routerLinkActiveOptions]="getRouteMatchOptions()"
                 [fragment]="item.fragment"
                 [queryParamsHandling]="item.queryParamsHandling"
                 [preserveFragment]="item.preserveFragment"
@@ -102,8 +95,7 @@ import { LayoutService } from '@/layout/service/layout.service';
             ),
             transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
         ])
-    ],
-
+    ]
 })
 export class AppMenuitem implements OnInit, OnDestroy {
     @Input() item: any;
@@ -129,6 +121,13 @@ export class AppMenuitem implements OnInit, OnDestroy {
 
     key: string = '';
 
+    private readonly exactRouteMatchOptions: IsActiveMatchOptions = {
+        paths: 'exact',
+        queryParams: 'ignored',
+        matrixParams: 'ignored',
+        fragment: 'ignored'
+    };
+
     get submenuAnimation() {
         if (this.layoutService.isDesktop() && (this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus())) {
             return this.active ? 'visible' : 'hidden';
@@ -148,7 +147,6 @@ export class AppMenuitem implements OnInit, OnDestroy {
     get isMobile() {
         return this.layoutService.isMobile();
     }
-
 
     constructor(
         public layoutService: LayoutService,
@@ -196,12 +194,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
     }
 
     updateActiveStateFromRoute() {
-        let activeRoute = this.router.isActive(this.item.routerLink[0], {
-            paths: 'exact',
-            queryParams: 'ignored',
-            matrixParams: 'ignored',
-            fragment: 'ignored'
-        });
+        const activeRoute = this.router.isActive(this.item.routerLink[0], this.getRouteMatchOptions());
 
         if (activeRoute) {
             this.layoutService.onMenuStateChange({
@@ -209,6 +202,10 @@ export class AppMenuitem implements OnInit, OnDestroy {
                 routeEvent: true
             });
         }
+    }
+
+    getRouteMatchOptions(): IsActiveMatchOptions {
+        return this.item.routerLinkActiveOptions || this.exactRouteMatchOptions;
     }
     onSubmenuAnimated(event: AnimationEvent) {
         if (event.toState === 'visible' && this.isDesktop && (this.isHorizontal() || this.isSlim() || this.isSlimPlus())) {

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Subject, merge } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 import { MessageService } from 'primeng/api';
@@ -20,7 +22,7 @@ import { PermissionService } from './permission.service';
   templateUrl: './permission-edit.component.html',
   providers: [MessageService]
 })
-export class PermissionEditComponent implements OnInit {
+export class PermissionEditComponent implements OnInit, OnDestroy {
 
   selectedId: number;
   isLoading: boolean = false;
@@ -34,6 +36,7 @@ export class PermissionEditComponent implements OnInit {
 
   editForm: any;
   objMaster: IAppPermission = {} as IAppPermission;
+  private readonly destroy$ = new Subject<void>();
 
 
   constructor(
@@ -56,8 +59,8 @@ export class PermissionEditComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, [Validators.required]),
-      PermissionCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
-      ModuleCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      PermissionCode: new FormControl('', [Validators.maxLength(50),]),
+      ModuleCode: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       ResourceType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       ResourceName: new FormControl('', [Validators.required, Validators.maxLength(30),]),
       ActionName: new FormControl('', [Validators.required, Validators.maxLength(20),]),
@@ -68,10 +71,16 @@ export class PermissionEditComponent implements OnInit {
       EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.modulecodeOptions = this.loggedInUserService.getPicklistOptions('ModuleCode');
-this.resourcetypeOptions = this.loggedInUserService.getPicklistOptions('ResourceType');
-this.actionnameOptions = this.loggedInUserService.getPicklistOptions('ActionName');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.modulecodeOptions = this.loggedInUserService.getPicklistOptions('ModuleCode');
+    this.resourcetypeOptions = this.loggedInUserService.getPicklistOptions('ResourceType');
+    this.actionnameOptions = this.loggedInUserService.getPicklistOptions('PermissionAction');
+    this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+
+    merge(
+      this.editForm.get('ModuleCode').valueChanges,
+      this.editForm.get('ResourceName').valueChanges,
+      this.editForm.get('ActionName').valueChanges
+    ).pipe(takeUntil(this.destroy$)).subscribe(() => this.updatePermissionCode());
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -87,7 +96,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.isLoading = true;
     this.permissionService.getById(this.selectedId).subscribe({
       next: data => {
-        this.permission = data.data;
+        this.apppermission = data.data;
         this.permission = data.permission;
         this.objMaster = { ...this.apppermission };
         this.populateUI(this.apppermission);
@@ -95,6 +104,24 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private updatePermissionCode(): void {
+    const values = [
+      this.editForm.get('ModuleCode')?.value,
+      this.editForm.get('ResourceName')?.value,
+      this.editForm.get('ActionName')?.value
+    ].map(value => String(value ?? '').trim());
+
+    this.editForm.get('PermissionCode')?.setValue(
+      values.every(Boolean) ? values.join('.') : '',
+      { emitEvent: false }
+    );
   }
 
   populateUI(obj: IAppPermission): void {
@@ -116,6 +143,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     );
 
     this.Caption = "Permission Details #" + obj.Id;
+    this.updatePermissionCode();
   }
 
   onOptionItemClicked(key: string): void {

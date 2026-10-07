@@ -247,23 +247,18 @@ export class AppMenu {
                                     tooltip: ''
                                 },
                                 {
-                                    label: 'Cost / profit centres',
+                                    label: 'Cost Centres',
                                     icon: 'pi pi-fw pi-address-book',
-                                    items: [
-                                        {
-                                            label: 'Cost Centres',
-                                            icon: 'pi pi-fw pi-address-book',
-                                            routerLink: ['/business/organisations/cost-centres'],
-                                            tooltip: ''
-                                        },
-                                        {
-                                            label: 'Profit Centres',
-                                            icon: 'pi pi-fw pi-address-book',
-                                            routerLink: ['/business/organisations/profit-centres'],
-                                            tooltip: ''
-                                        }
-                                    ]
+                                    routerLink: ['/business/organisations/cost-centres'],
+                                    tooltip: ''
                                 },
+                                {
+                                    label: 'Profit Centres',
+                                    icon: 'pi pi-fw pi-address-book',
+                                    routerLink: ['/business/organisations/profit-centres'],
+                                    tooltip: ''
+                                },
+
                                 {
                                     label: 'Business calendars',
                                     icon: 'pi pi-fw pi-address-book',
@@ -317,15 +312,9 @@ export class AppMenu {
                                     routerLink: ['/business/parties/relationships']
                                 },
                                 {
-                                    label: 'Contacts and documents',
-                                    icon: 'pi pi-fw pi-cog',
-                                    items: [
-                                        {
-                                            label: 'Party contacts',
-                                            icon: 'pi pi-fw pi-question',
-                                            routerLink: ['/business/parties/contacts']
-                                        }
-                                    ]
+                                    label: 'Party contacts',
+                                    icon: 'pi pi-fw pi-question',
+                                    routerLink: ['/business/parties/contacts']
                                 },
                                 {
                                     label: 'Tax & Banking',
@@ -405,9 +394,20 @@ export class AppMenu {
                                             routerLink: ['/dashboard/permissions/list']
                                         },
                                         {
+                                            label: 'Role Permissions',
+                                            icon: 'pi pi-fw pi-key',
+                                            routerLink: ['/dashboard/rolePermissions/list']
+                                        },
+                                        {
                                             label: 'User Roles',
                                             icon: 'pi pi-fw pi-home',
-                                            routerLink: ['/dashboard/userRoles/list']
+                                            routerLink: ['/dashboard/userRoles'],
+                                            routerLinkActiveOptions: {
+                                                paths: 'subset',
+                                                queryParams: 'ignored',
+                                                matrixParams: 'ignored',
+                                                fragment: 'ignored'
+                                            }
                                         },
                                         {
                                             label: 'User Organisation Units',

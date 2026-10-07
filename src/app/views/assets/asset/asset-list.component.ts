@@ -7,19 +7,20 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { AssetService } from './asset.service';
 import { IAsset } from './asset';
-import { PageEvent } from '@/shared/IBase';
-
+import { PageEvent } from '@/shared/IBase'; 
+import { AppPermissionDirective } from '@/shared/security/permission.directive';
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './asset-list.component.html'
+  templateUrl: './asset-list.component.html' 
 })
 export class AssetListComponent implements OnInit {
 
   constructor(
     private assetService: AssetService,
     private router: Router, 
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+     
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
   lstMain: IAsset[] = [];

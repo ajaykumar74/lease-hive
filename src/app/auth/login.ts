@@ -13,6 +13,7 @@ import { PortalUserService } from '@/views/portalUser/portalUser.service';
 import { environment } from '../../environments/environment';
 import { AppConstants } from '@/shared/constants/AppConstants';
 import { ExternalAuthProvider } from './ExternalAuthProvider';
+import { PermissionService } from '@/shared/security/permission.service';
 
 declare const google: any;
 @Component({
@@ -47,6 +48,7 @@ export class Login {
     private accountService: AccountService,
     private loggedInUserService: LoggedInUserService,
     private portalUserService: PortalUserService,
+        private permissionService: PermissionService,
     private baseService: BaseService,
     private messageService: MessageService,
     private http: HttpClient,
@@ -126,6 +128,14 @@ export class Login {
           this.baseService.updateJwtToken(response.Token);
           localStorage.setItem("jwt", response.Token);
           localStorage.setItem("refreshToken", response.RefreshToken);
+
+        this.permissionService.loadPermissions(response.Token,"UTC").subscribe({
+          next: (securityContext) => {
+            console.log(securityContext);
+          }
+
+          });
+
           this.getCustomerAndPartner(user);
 
         }
