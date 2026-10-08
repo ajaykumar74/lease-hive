@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { distinctUntilChanged } from 'rxjs';
 
 
 import { MenuItem, MessageService } from 'primeng/api';
@@ -32,6 +34,11 @@ export class AssetEditComponent implements OnInit {
   assettypeidOptions: ISelectItem[] = [];
   assetmakeidOptions: ISelectItem[] = [];
   assetmodelidOptions: ISelectItem[] = [];
+  private allAssetTypeOptions: ISelectItem[] = [];
+  private readonly assetMakesByType = new Map<number, ISelectItem[]>();
+  private readonly assetModelsByTypeAndMake = new Map<string, ISelectItem[]>();
+  private assetMakeRequest = 0;
+  private assetModelRequest = 0;
   owningorganisationidOptions: ISelectItem[] = [];
   responsibleorganisationunitidOptions: ISelectItem[] = [];
   currentlocationidOptions: ISelectItem[] = [];
@@ -90,18 +97,7 @@ export class AssetEditComponent implements OnInit {
       RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]), 
     });
 
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
-      options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
-      options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
-      options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"AssetCategoryId":"AssetCategoryId"});
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
-      options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"AssetMakeId":"AssetMakeId"});
+    this.configureAssetHierarchy();
     this.loggedInUserService.bindEntityLookup(this.editForm, 'OwningOrganisationId', 'organisations',
       options => this.owningorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -138,6 +134,177 @@ export class AssetEditComponent implements OnInit {
       { label: 'Ownership History', icon: 'pi pi-users', command: () => this.onCommandClicked('OwnershipHistory') }
     ]; 
 
+  }
+
+  private configureAssetHierarchy(): void {
+    this.loggedInUserService.getEntityLookupOptions('asset-categories')
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => this.assetcategoryidOptions = this.mergeLookupOptions(this.assetcategoryidOptions, options),
+        error: error => this.showLookupError(error)
+      });
+
+    this.loggedInUserService.getEntityLookupOptions('asset-types')
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => {
+          this.allAssetTypeOptions = this.mergeLookupOptions(this.allAssetTypeOptions, options);
+          this.applyAssetTypeFilter(this.getLookupId(this.editForm.get('AssetCategoryId')?.value));
+        },
+        error: error => this.showLookupError(error)
+      });
+
+    this.editForm.get('AssetCategoryId')?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe(value => this.onAssetCategoryChanged(this.getLookupId(value)));
+    this.editForm.get('AssetTypeId')?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe(value => this.onAssetTypeChanged(this.getLookupId(value)));
+    this.editForm.get('AssetMakeId')?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe(value => this.onAssetMakeChanged(this.getLookupId(value)));
+  }
+
+  private onAssetCategoryChanged(assetCategoryId: number): void {
+    this.assetMakeRequest++;
+    this.assetModelRequest++;
+    this.applyAssetTypeFilter(assetCategoryId);
+    this.assetmakeidOptions = [];
+    this.assetmodelidOptions = [];
+    this.editForm.patchValue({ AssetTypeId: 0, AssetMakeId: 0, AssetModelId: 0 }, { emitEvent: false });
+  }
+
+  private onAssetTypeChanged(assetTypeId: number): void {
+    this.assetModelRequest++;
+    this.assetmakeidOptions = [];
+    this.assetmodelidOptions = [];
+    this.editForm.patchValue({ AssetMakeId: 0, AssetModelId: 0 }, { emitEvent: false });
+    this.loadAssetMakes(assetTypeId);
+  }
+
+  private onAssetMakeChanged(assetMakeId: number): void {
+    this.assetmodelidOptions = [];
+    this.editForm.patchValue({ AssetModelId: 0 }, { emitEvent: false });
+    this.loadAssetModels(this.getLookupId(this.editForm.get('AssetTypeId')?.value), assetMakeId);
+  }
+
+  private applyAssetTypeFilter(assetCategoryId: number): void {
+    this.assettypeidOptions = assetCategoryId > 0
+      ? this.allAssetTypeOptions.filter(option => this.getLookupId(option.ParentId) === assetCategoryId)
+      : [];
+  }
+
+  private loadAssetMakes(assetTypeId: number, selectedMakeId = 0, afterLoad?: () => void): void {
+    const request = ++this.assetMakeRequest;
+    if (assetTypeId <= 0) {
+      this.assetmakeidOptions = [];
+      afterLoad?.();
+      return;
+    }
+
+    const cached = selectedMakeId <= 0 ? this.assetMakesByType.get(assetTypeId) : undefined;
+    if (cached) {
+      this.assetmakeidOptions = cached;
+      afterLoad?.();
+      return;
+    }
+
+    this.loggedInUserService.getEntityLookupOptions('asset-makes', selectedMakeId || undefined, { AssetTypeId: assetTypeId })
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => {
+          if (request !== this.assetMakeRequest) return;
+          this.assetmakeidOptions = options;
+          if (selectedMakeId <= 0) this.assetMakesByType.set(assetTypeId, options);
+          afterLoad?.();
+        },
+        error: error => {
+          if (request === this.assetMakeRequest) this.showLookupError(error);
+        }
+      });
+  }
+
+  private loadAssetModels(assetTypeId: number, assetMakeId: number, selectedModelId = 0): void {
+    const request = ++this.assetModelRequest;
+    if (assetTypeId <= 0 || assetMakeId <= 0) {
+      this.assetmodelidOptions = [];
+      return;
+    }
+
+    const key = `${assetTypeId}:${assetMakeId}`;
+    const cached = selectedModelId <= 0 ? this.assetModelsByTypeAndMake.get(key) : undefined;
+    if (cached) {
+      this.assetmodelidOptions = cached;
+      return;
+    }
+
+    this.loggedInUserService.getEntityLookupOptions('asset-models', selectedModelId || undefined,
+      { AssetTypeId: assetTypeId, AssetMakeId: assetMakeId })
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => {
+          if (request !== this.assetModelRequest) return;
+          this.assetmodelidOptions = options;
+          if (selectedModelId <= 0) this.assetModelsByTypeAndMake.set(key, options);
+        },
+        error: error => {
+          if (request === this.assetModelRequest) this.showLookupError(error);
+        }
+      });
+  }
+
+  private hydrateAssetHierarchy(obj: IAsset): void {
+    const assetCategoryId = this.getLookupId(obj.AssetCategoryId);
+    const assetTypeId = this.getLookupId(obj.AssetTypeId);
+    const assetMakeId = this.getLookupId(obj.AssetMakeId);
+    const assetModelId = this.getLookupId(obj.AssetModelId);
+
+    this.assetModelRequest++;
+    this.assetmodelidOptions = [];
+    this.ensureSelectedAssetCategory(assetCategoryId);
+    this.ensureSelectedAssetType(assetTypeId);
+    this.applyAssetTypeFilter(assetCategoryId);
+    this.loadAssetMakes(assetTypeId, assetMakeId, () =>
+      this.loadAssetModels(assetTypeId, assetMakeId, assetModelId));
+  }
+
+  private getLookupId(value: any): number {
+    const id = Number(value);
+    return Number.isFinite(id) && id > 0 ? id : 0;
+  }
+
+  private ensureSelectedAssetCategory(assetCategoryId: number): void {
+    if (assetCategoryId <= 0 || this.assetcategoryidOptions.some(option => option.Id === assetCategoryId)) return;
+
+    this.loggedInUserService.getEntityLookupOptions('asset-categories', assetCategoryId)
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => this.assetcategoryidOptions = this.mergeLookupOptions(this.assetcategoryidOptions, options),
+        error: error => this.showLookupError(error)
+      });
+  }
+
+  private ensureSelectedAssetType(assetTypeId: number): void {
+    if (assetTypeId <= 0 || this.allAssetTypeOptions.some(option => option.Id === assetTypeId)) return;
+
+    this.loggedInUserService.getEntityLookupOptions('asset-types', assetTypeId)
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: options => {
+          this.allAssetTypeOptions = this.mergeLookupOptions(this.allAssetTypeOptions, options);
+          this.applyAssetTypeFilter(this.getLookupId(this.editForm.get('AssetCategoryId')?.value));
+        },
+        error: error => this.showLookupError(error)
+      });
+  }
+
+  private mergeLookupOptions(current: ISelectItem[], incoming: ISelectItem[]): ISelectItem[] {
+    return [...new Map([...current, ...incoming].map(option => [option.Id, option])).values()]
+      .sort((left, right) => left.Text.localeCompare(right.Text));
+  }
+
+  private showLookupError(error: any): void {
+    setTimeout(() => this.messageService?.showError(error));
   }
 
   ngAfterViewInit(): void {
@@ -209,8 +376,10 @@ export class AssetEditComponent implements OnInit {
         EffectiveTo: obj.EffectiveTo || new Date(),
         RecordStatus: obj.RecordStatus || '',
 
-      }
+      },
+      { emitEvent: false }
     );
+    this.hydrateAssetHierarchy(obj);
 
     this.Caption = "Asset Details #" + obj.Id;
   }
