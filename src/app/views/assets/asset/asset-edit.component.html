@@ -16,129 +16,129 @@
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
 
-										<label for="AssetNo">AssetNo
+										<label for="AssetNo">Asset Number
 										</label>
 										<input pInputText id="AssetNo" type="text" pSize="small"
 											formControlName="AssetNo" />
 										<app-validation-errors [type]="'text'" [control]="editForm.get('AssetNo')"
-											label="AssetNo">
+											label="Asset Number">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Asset CategoryId" class="mb-1">AssetCategoryId</label>
-										<p-dropdown inputId="AssetCategoryId" [options]="assetcategoryidOptions"
+										<label for="AssetCategoryId" class="mb-1">Category</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AssetCategoryId" [options]="assetcategoryidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="AssetCategoryId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('AssetCategoryId')" label="Asset CategoryId">
+											[control]="editForm.get('AssetCategoryId')" label="Category">
 										</app-validation-errors>
 									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Asset TypeId" class="mb-1">AssetTypeId</label>
-										<p-dropdown inputId="AssetTypeId" [options]="assettypeidOptions"
+										<label for="AssetTypeId" class="mb-1">Type</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AssetTypeId" [options]="assettypeidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="AssetTypeId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
-											label="Asset TypeId">
+											label="Type">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Asset MakeId" class="mb-1">AssetMakeId</label>
-										<p-dropdown inputId="AssetMakeId" [options]="assetmakeidOptions"
+										<label for="AssetMakeId" class="mb-1">Make</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AssetMakeId" [options]="assetmakeidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="AssetMakeId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'" [control]="editForm.get('AssetMakeId')"
-											label="Asset MakeId">
+											label="Make">
 										</app-validation-errors>
 									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Asset ModelId" class="mb-1">AssetModelId</label>
-										<p-dropdown inputId="AssetModelId" [options]="assetmodelidOptions"
+										<label for="AssetModelId" class="mb-1">Model</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AssetModelId" [options]="assetmodelidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="AssetModelId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'" [control]="editForm.get('AssetModelId')"
-											label="Asset ModelId">
+											label="Model">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Owning OrganisationId" class="mb-1">OwningOrganisationId</label>
-										<p-dropdown inputId="OwningOrganisationId"
+										<label for="OwningOrganisationId" class="mb-1">Owning Organisation</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="OwningOrganisationId"
 											[options]="owningorganisationidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="OwningOrganisationId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('OwningOrganisationId')"
-											label="Owning OrganisationId">
+											label="Owning Organisation">
 										</app-validation-errors>
 									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Responsible OrganisationUnitId"
-											class="mb-1">ResponsibleOrganisationUnitId</label>
-										<p-dropdown inputId="ResponsibleOrganisationUnitId"
+										<label for="ResponsibleOrganisationUnitId"
+											class="mb-1">Responsible Organisation Unit</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="ResponsibleOrganisationUnitId"
 											[options]="responsibleorganisationunitidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="ResponsibleOrganisationUnitId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('ResponsibleOrganisationUnitId')"
-											label="Responsible OrganisationUnitId">
+											label="Responsible Organisation Unit">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Current LocationId" class="mb-1">CurrentLocationId</label>
-										<p-dropdown inputId="CurrentLocationId" [options]="currentlocationidOptions"
+										<label for="CurrentLocationId" class="mb-1">Current Location</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="CurrentLocationId" [options]="currentlocationidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="CurrentLocationId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('CurrentLocationId')" label="Current LocationId">
+											[control]="editForm.get('CurrentLocationId')" label="Current Location">
 										</app-validation-errors>
 									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Current PartyId" class="mb-1">CurrentPartyId</label>
-										<p-dropdown inputId="CurrentPartyId" [options]="currentpartyidOptions"
+										<label for="CurrentPartyId" class="mb-1">Current Party</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="CurrentPartyId" [options]="currentpartyidOptions"
 											optionLabel="Text" optionValue="Value" formControlName="CurrentPartyId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('CurrentPartyId')" label="Current PartyId">
+											[control]="editForm.get('CurrentPartyId')" label="Current Party">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Current PartyLocationId" class="mb-1">CurrentPartyLocationId</label>
-										<p-dropdown inputId="CurrentPartyLocationId"
+										<label for="CurrentPartyLocationId" class="mb-1">Current Party Location</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="CurrentPartyLocationId"
 											[options]="currentpartylocationidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="CurrentPartyLocationId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('CurrentPartyLocationId')"
-											label="Current PartyLocationId">
+											label="Current Party Location">
 										</app-validation-errors>
 									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
 
-										<label for="PrimarySerialNo">Primary SerialNo
+										<label for="PrimarySerialNo">Primary Serial Number
 										</label>
 										<input pInputText id="PrimarySerialNo" type="text" pSize="small"
 											formControlName="PrimarySerialNo" />
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('PrimarySerialNo')" label="Primary SerialNo">
+											[control]="editForm.get('PrimarySerialNo')" label="Primary Serial Number">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
@@ -164,16 +164,16 @@
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Acquisition CurrencyCode"
-											class="mb-1">AcquisitionCurrencyCode</label>
-										<p-dropdown inputId="AcquisitionCurrencyCode"
+										<label for="AcquisitionCurrencyCode"
+											class="mb-1">Acquisition Currency</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AcquisitionCurrencyCode"
 											[options]="acquisitioncurrencycodeOptions" optionLabel="Text"
 											optionValue="Value" formControlName="AcquisitionCurrencyCode"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('AcquisitionCurrencyCode')"
-											label="Acquisition CurrencyCode">
+											label="Acquisition Currency">
 										</app-validation-errors>
 									</div>
 								</div>
@@ -203,22 +203,22 @@
 								<div class="flex flex-col md:flex-row gap-4">
 										<div class="flex flex-col w-full">
 										<label for="Asset Status" class="mb-1">Asset Status</label>
-										<p-dropdown inputId="AssetStatusId" [options]="AssetStatusIdOptions"
+										<p-dropdown [filter]="true" filterBy="Text" inputId="AssetStatusId" [options]="AssetStatusIdOptions"
 											optionLabel="Text" optionValue="Value" formControlName="AssetStatusId"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('AssetStatusId')" label="Asset Status Code">
+											[control]="editForm.get('AssetStatusId')" label="Asset Status">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="ConditionGrade Code" class="mb-1">ConditionGradeCode</label>
-										<p-dropdown inputId="ConditionGradeCode" [options]="conditiongradecodeOptions"
+										<label for="ConditionGradeCode" class="mb-1">Condition Grade</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="ConditionGradeCode" [options]="conditiongradecodeOptions"
 											optionLabel="Text" optionValue="Value" formControlName="ConditionGradeCode"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
-											[control]="editForm.get('ConditionGradeCode')" label="ConditionGrade Code">
+											[control]="editForm.get('ConditionGradeCode')" label="Condition Grade">
 										</app-validation-errors>
 									</div>
 								</div>
@@ -229,7 +229,7 @@
 											<p-checkbox inputId="IsLeaseable" binary="true"
 												formControlName="IsLeaseable">
 											</p-checkbox>
-											<label for="IsLeaseable">IsLeaseable</label>
+											<label for="IsLeaseable">Is Leaseable</label>
 										</div>
 										<div class="validation-space"></div>
 									</div>
@@ -256,8 +256,8 @@
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Record Status" class="mb-1">RecordStatus</label>
-										<p-dropdown inputId="RecordStatus" [options]="recordstatusOptions"
+										<label for="RecordStatus" class="mb-1">Record Status</label>
+										<p-dropdown [filter]="true" filterBy="Text" inputId="RecordStatus" [options]="recordstatusOptions"
 											optionLabel="Text" optionValue="Value" formControlName="RecordStatus"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>

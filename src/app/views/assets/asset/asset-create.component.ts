@@ -111,7 +111,7 @@ export class AssetCreateComponent implements OnInit {
       this.entityLookupDestroyRef);
     this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentPartyLocationId', 'party-locations',
       options => this.currentpartylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, { PartyId: 'CurrentPartyId' });
     this.acquisitioncurrencycodeOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetStatusId', 'asset-statuses',
       options => this.AssetStatusIdOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
