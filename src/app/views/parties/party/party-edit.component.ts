@@ -136,6 +136,10 @@ export class PartyEditComponent implements OnInit {
       next: data => {
         this.party = data.data;
         this.permission = data.permission;
+        if (!this.permission.CanUpdate || !this.party.CanUpdate) {
+          this.router.navigate(['/business/parties/view', this.selectedId], { replaceUrl: true });
+          return;
+        }
         this.objMaster = { ...this.party };
         this.populateUI(this.party);
       },

@@ -23,5 +23,6 @@ RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 Description :string;
+CanUpdate :boolean;
 
 }

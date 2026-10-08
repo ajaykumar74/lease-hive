@@ -7,7 +7,9 @@
       <app-spinner></app-spinner>
 
       <div class="list-heading list-heading-compact">
-        <div><p>Manage customers, suppliers and other business parties from one place.</p></div>
+        <div>
+          <p>Manage customers, suppliers and other business parties from one place.</p>
+        </div>
         <div class="record-count-inline" aria-label="Total parties">
           <i class="pi pi-users"></i><strong>{{ totalNoOfRecords }}</strong><span>parties</span>
         </div>
@@ -41,27 +43,44 @@
               <div class="list-primary-cell">
                 <span class="list-avatar">{{ getPartyInitials(obj) }}</span>
                 <div>
-                  <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.TradeName || obj.LegalName || 'Unnamed party' }}</button>
-                  <span class="list-secondary">{{ obj.PartyCode || ('#' + obj.Id) }}<ng-container *ngIf="obj.TradeName && obj.LegalName"> · {{ obj.LegalName }}</ng-container></span>
+                  <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.TradeName ||
+                    obj.LegalName || 'Unnamed party' }}</button>
+                  <span class="list-secondary">{{ obj.PartyCode || ('#' + obj.Id) }}<ng-container
+                      *ngIf="obj.TradeName && obj.LegalName"> · {{ obj.LegalName }}</ng-container></span>
                 </div>
               </div>
             </td>
             <td><span class="list-chip"><i class="pi pi-building"></i>{{ obj.PartyKind || 'Not specified' }}</span></td>
-            <td class="list-cell"><strong>{{ obj.RegistrationNumber || 'Not recorded' }}</strong><span class="list-secondary">PAN: {{ obj.PAN || '—' }}</span></td>
-            <td class="list-cell"><strong>{{ obj.IndustryCode || 'Industry not set' }}</strong><span class="list-secondary">{{ obj.CountryOfRegistration || 'Country not set' }} · {{ obj.PreferredCurrencyCode || 'Currency not set' }}</span></td>
-            <td><span class="list-chip"><i class="pi" [ngClass]="obj.IsRelatedParty ? 'pi-check-circle' : 'pi-minus-circle'"></i>{{ obj.IsRelatedParty ? 'Related' : 'Not related' }}</span></td>
-            <td><span class="list-status" [ngClass]="getStatusClass(obj.OnboardingStatus)"><i class="list-status-dot"></i>{{ obj.OnboardingStatus || 'Pending' }}</span></td>
-            <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+            <td class="list-cell"><strong>{{ obj.RegistrationNumber || 'Not recorded' }}</strong><span
+                class="list-secondary">PAN: {{ obj.PAN || '—' }}</span></td>
+            <td class="list-cell"><strong>{{ obj.IndustryCode || 'Industry not set' }}</strong><span
+                class="list-secondary">{{ obj.CountryOfRegistration || 'Country not set' }} · {{
+                obj.PreferredCurrencyCode || 'Currency not set' }}</span></td>
+            <td><span class="list-chip"><i class="pi"
+                  [ngClass]="obj.IsRelatedParty ? 'pi-check-circle' : 'pi-minus-circle'"></i>{{ obj.IsRelatedParty ?
+                'Related' : 'Not related' }}</span></td>
+            <td><span class="list-status" [ngClass]="getStatusClass(obj.OnboardingStatus)"><i
+                  class="list-status-dot"></i>{{ obj.OnboardingStatus || 'Pending' }}</span></td>
+            <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{
+                obj.RecordStatus || 'Pending' }}</span></td>
             <td>
               <div class="list-actions">
-                <button type="button" class="list-action view" title="View party" aria-label="View party" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
-                <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit party" aria-label="Edit party" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button>
+                <button type="button" class="list-action view" title="View party" aria-label="View party"
+                  (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
+                <button *ngIf="permission.CanUpdate && obj.CanUpdate" type="button" class="list-action edit"
+                  title="Edit party" aria-label="Edit party" (click)="onEditClick(obj)"><i
+                    class="pi pi-pencil"></i></button>
               </div>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
-          <tr><td colspan="8"><div class="list-empty"><i class="pi pi-users"></i><strong>No parties found</strong><span>Try changing your search or create a new party.</span></div></td></tr>
+          <tr>
+            <td colspan="8">
+              <div class="list-empty"><i class="pi pi-users"></i><strong>No parties found</strong><span>Try changing
+                  your search or create a new party.</span></div>
+            </td>
+          </tr>
         </ng-template>
       </p-table>
 

@@ -136,13 +136,7 @@ export class PartyListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/parties/edit', obj.Id]);
-    }
-    else {
-        this.router.navigate(['/business/parties/view', obj.Id]);
-    } 
-  
+    this.router.navigate(['/business/parties/view', obj.Id]);
   };
 
   onViewClick(party: IParty): void {
