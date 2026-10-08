@@ -17,8 +17,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">OrganisationId <p-sortIcon field="OrganisationId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Organisation <p-sortIcon field="OrganisationId" /> </th> 
 <th style="width:200px">OwnershipType <p-sortIcon field="OwnershipType" /> </th> 
 <th style="width:200px">AcquisitionReference <p-sortIcon field="AcquisitionReference" /> </th> 
 <th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
@@ -29,8 +29,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-building"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.OwnershipType || "Ownership record"}}</button><span class="list-secondary">{{obj.AssetOwnershipHistoryId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.OrganisationDisplayName}}</td>
  <td style="width:200px">{{obj.OwnershipType}}</td>
  <td style="width:200px">{{obj.AcquisitionReference}}</td>
 <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>

@@ -6,6 +6,8 @@ AssetAttributeValueId :string;
 TenantId :number;
 AssetId :number;
 AssetAttributeDefinitionId :number;
+AssetDisplayName?: string;
+AssetAttributeDefinitionDisplayName?: string;
 StringValue :string;
 NumberValue :number;
 DateValue :Date;

@@ -6,6 +6,8 @@ AssetOwnershipHistoryId :string;
 TenantId :number;
 AssetId :number;
 OrganisationId :number;
+AssetDisplayName?: string;
+OrganisationDisplayName?: string;
 OwnershipType :string;
 AcquisitionReference :string;
 Remarks :string;

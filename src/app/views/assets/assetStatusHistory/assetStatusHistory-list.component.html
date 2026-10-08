@@ -17,9 +17,9 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">From StatusId <p-sortIcon field="FromStatusId" /> </th> 
-<th style="width:200px">To StatusId <p-sortIcon field="ToStatusId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">From Status <p-sortIcon field="FromStatusId" /> </th> 
+<th style="width:200px">To Status <p-sortIcon field="ToStatusId" /> </th> 
 <th style="width:200px">Reason Code <p-sortIcon field="ReasonCode" /> </th> 
 <th style="width:200px">Remarks <p-sortIcon field="Remarks" /> </th> 
 <th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
@@ -30,9 +30,9 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-history"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.ReasonCode || "Status change"}}</button><span class="list-secondary">{{obj.AssetStatusHistoryId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.FromStatusId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ToStatusId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.FromStatusDisplayName}}</td>
+ <td style="width:200px">{{obj.ToStatusDisplayName}}</td>
  <td style="width:200px">{{obj.ReasonCode}}</td>
  <td style="width:200px">{{obj.Remarks}}</td>
 <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>

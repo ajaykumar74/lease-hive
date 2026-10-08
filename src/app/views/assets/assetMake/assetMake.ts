@@ -12,5 +12,7 @@ CountryCode :string;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 RecordStatus :string;
+ManufacturerPartyDisplayName?: string;
+AssetCategoryDisplayName?: string;
 
 }

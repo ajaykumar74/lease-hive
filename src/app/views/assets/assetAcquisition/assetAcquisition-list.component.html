@@ -17,9 +17,9 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Acquisition Id <p-sortIcon field="AssetAcquisitionId" /> </th> 
-<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Supplier Party Id <p-sortIcon field="SupplierPartyId" /> </th> 
-<th style="width:200px">Supplier Party Location Id <p-sortIcon field="SupplierPartyLocationId" /> </th> 
+<th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Supplier <p-sortIcon field="SupplierPartyId" /> </th> 
+<th style="width:200px">Supplier Location <p-sortIcon field="SupplierPartyLocationId" /> </th> 
 <th style="width:200px">Purchase Order Reference <p-sortIcon field="PurchaseOrderReference" /> </th> 
 <th style="width:200px">Goods Receipt Reference <p-sortIcon field="GoodsReceiptReference" /> </th> 
 <th style="width:200px">Supplier Invoice Reference <p-sortIcon field="SupplierInvoiceReference" /> </th> 
@@ -38,9 +38,9 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetAcquisitionId}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.SupplierPartyId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.SupplierPartyLocationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.SupplierPartyDisplayName}}</td>
+ <td style="width:200px">{{obj.SupplierPartyLocationDisplayName}}</td>
  <td style="width:200px">{{obj.PurchaseOrderReference}}</td>
  <td style="width:200px">{{obj.GoodsReceiptReference}}</td>
  <td style="width:200px">{{obj.SupplierInvoiceReference}}</td>

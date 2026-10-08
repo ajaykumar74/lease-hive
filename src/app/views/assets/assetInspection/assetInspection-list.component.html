@@ -17,15 +17,15 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Inspection TypeId <p-sortIcon field="InspectionTypeId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Inspection Type <p-sortIcon field="InspectionTypeId" /> </th> 
 <th style="width:200px">InspectionNo <p-sortIcon field="InspectionNo" /> </th> 
 <th style="width:200px">InspectionDateTime <p-sortIcon field="InspectionDateTime" /> </th> 
-<th style="width:200px">LocationId <p-sortIcon field="LocationId" /> </th> 
-<th style="width:200px">PartyId <p-sortIcon field="PartyId" /> </th> 
-<th style="width:200px">InspectorUserId <p-sortIcon field="InspectorUserId" /> </th> 
-<th style="width:200px">ConditionGradeId <p-sortIcon field="ConditionGradeId" /> </th> 
-<th style="width:200px">InspectionStatusId <p-sortIcon field="InspectionStatusId" /> </th> 
+<th style="width:200px">Location <p-sortIcon field="LocationId" /> </th> 
+<th style="width:200px">Party <p-sortIcon field="PartyId" /> </th> 
+<th style="width:200px">Inspector <p-sortIcon field="InspectorUserId" /> </th> 
+<th style="width:200px">Condition Grade <p-sortIcon field="ConditionGradeId" /> </th> 
+<th style="width:200px">Inspection Status <p-sortIcon field="InspectionStatusId" /> </th> 
 <th class="list-actions-column">Quick actions</th>
 
 					</tr>
@@ -33,15 +33,15 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-check-square"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.InspectionNo || "Inspection record"}}</button><span class="list-secondary">{{obj.AssetInspectionId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
  <td style="width:200px">{{obj.InspectionTypeId}}</td>
  <td style="width:200px">{{obj.InspectionNo}}</td>
  <td style="width:200px">{{obj.InspectionDateTime | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.LocationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.InspectorUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ConditionGradeId | number:'1.0':'en-US' }}</td>
-<td style="width:200px">{{obj.InspectionStatusId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.LocationDisplayName}}</td>
+ <td style="width:200px">{{obj.PartyDisplayName}}</td>
+ <td style="width:200px">{{obj.InspectorUserDisplayName}}</td>
+ <td style="width:200px">{{obj.ConditionGradeDisplayName}}</td>
+<td style="width:200px">{{obj.InspectionStatusDisplayName}}</td>
  <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
  
 					</tr>

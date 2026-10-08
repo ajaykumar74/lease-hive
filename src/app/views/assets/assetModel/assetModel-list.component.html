@@ -17,8 +17,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetMakeId <p-sortIcon field="AssetMakeId" /> </th> 
-<th style="width:200px">AssetTypeId <p-sortIcon field="AssetTypeId" /> </th> 
+ 						<th style="width:200px">Make <p-sortIcon field="AssetMakeId" /> </th> 
+<th style="width:200px">Type <p-sortIcon field="AssetTypeId" /> </th> 
 <th style="width:200px">ModelCode <p-sortIcon field="ModelCode" /> </th> 
 <th style="width:200px">ModelName <p-sortIcon field="ModelName" /> </th> 
 <th style="width:200px">VariantName <p-sortIcon field="VariantName" /> </th> 
@@ -30,8 +30,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-box"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.ModelName || "Unnamed model"}}</button><span class="list-secondary">{{obj.AssetModelId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetMakeId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetTypeId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetMakeDisplayName || 'Not recorded'}}</td>
+ <td style="width:200px">{{obj.AssetTypeDisplayName || 'Not recorded'}}</td>
  <td style="width:200px">{{obj.ModelCode}}</td>
  <td style="width:200px">{{obj.ModelName}}</td>
  <td style="width:200px">{{obj.VariantName}}</td>

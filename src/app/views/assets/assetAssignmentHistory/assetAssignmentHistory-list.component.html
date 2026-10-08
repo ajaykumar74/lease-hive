@@ -17,13 +17,13 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetAssignmentId <p-sortIcon field="AssetAssignmentId" /> </th> 
-<th style="width:200px">EventTypeId <p-sortIcon field="EventTypeId" /> </th> 
-<th style="width:200px">EventDateTime <p-sortIcon field="EventDateTime" /> </th> 
-<th style="width:200px">FromAssetUserId <p-sortIcon field="FromAssetUserId" /> </th> 
-<th style="width:200px">ToAssetUserId <p-sortIcon field="ToAssetUserId" /> </th> 
-<th style="width:200px">FromPartyLocationId <p-sortIcon field="FromPartyLocationId" /> </th> 
-<th style="width:200px">ToPartyLocationId <p-sortIcon field="ToPartyLocationId" /> </th> 
+\t\t\t\t\t\t <th style="width:200px">Assignment <p-sortIcon field="AssetAssignmentId" /> </th> 
+<th style="width:200px">Event Type <p-sortIcon field="EventTypeId" /> </th> 
+<th style="width:200px">Event Date &amp; Time <p-sortIcon field="EventDateTime" /> </th> 
+<th style="width:200px">From Asset User <p-sortIcon field="FromAssetUserId" /> </th> 
+<th style="width:200px">To Asset User <p-sortIcon field="ToAssetUserId" /> </th> 
+<th style="width:200px">From Party Location <p-sortIcon field="FromPartyLocationId" /> </th> 
+<th style="width:200px">To Party Location <p-sortIcon field="ToPartyLocationId" /> </th> 
 <th class="list-actions-column">Quick actions</th>
 
 					</tr>
@@ -31,13 +31,13 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-history"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.EventTypeId || "Assignment event"}}</button><span class="list-secondary">{{obj.AssetAssignmentHistoryId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetAssignmentId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetAssignmentDisplayName}}</td>
  <td style="width:200px">{{obj.EventTypeId}}</td>
  <td style="width:200px">{{obj.EventDateTime | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.FromAssetUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ToAssetUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.FromPartyLocationId | number:'1.0':'en-US' }}</td>
-<td style="width:200px">{{obj.ToPartyLocationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.FromAssetUserDisplayName}}</td>
+ <td style="width:200px">{{obj.ToAssetUserDisplayName}}</td>
+ <td style="width:200px">{{obj.FromPartyLocationDisplayName}}</td>
+<td style="width:200px">{{obj.ToPartyLocationDisplayName}}</td>
  <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
  
 					</tr>

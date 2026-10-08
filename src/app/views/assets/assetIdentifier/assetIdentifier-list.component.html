@@ -17,7 +17,7 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
 <th style="width:200px">IdentifierTypeCode <p-sortIcon field="IdentifierTypeCode" /> </th> 
 <th style="width:200px">Identifier Value <p-sortIcon field="IdentifierValue" /> </th> 
 <th style="width:200px">Issuing CountryCode <p-sortIcon field="IssuingCountryCode" /> </th> 
@@ -29,7 +29,7 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-hashtag"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.IdentifierValue || "Unnamed identifier"}}</button><span class="list-secondary">{{obj.AssetIdentifierId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
  <td style="width:200px">{{obj.IdentifierTypeCode}}</td>
  <td style="width:200px">{{obj.IdentifierValue}}</td>
  <td style="width:200px">{{obj.IssuingCountryCode}}</td>

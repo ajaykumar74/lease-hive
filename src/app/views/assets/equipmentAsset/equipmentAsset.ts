@@ -9,6 +9,8 @@ CapacityValue :number;
 CapacityUOMId :number;
 PowerRating :number;
 PowerUOMId :number;
+CapacityUomDisplayName?: string;
+PowerUomDisplayName?: string;
 ManufactureDate :Date;
 SafetyClass :string;
 EffectiveFrom :Date;

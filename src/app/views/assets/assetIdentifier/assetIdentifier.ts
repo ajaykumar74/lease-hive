@@ -5,6 +5,7 @@ export interface IAssetIdentifier extends IBase {
 AssetIdentifierId :string;
 TenantId :number;
 AssetId :number;
+AssetDisplayName?: string;
 IdentifierTypeCode :string;
 IdentifierValue :string;
 IssuingCountryCode :string;

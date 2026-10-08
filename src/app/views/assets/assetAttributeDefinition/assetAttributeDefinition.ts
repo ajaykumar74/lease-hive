@@ -6,6 +6,8 @@ AssetAttributeDefinitionId :string;
 TenantId :number;
 AssetCategoryId :number;
 AssetTypeId :number;
+AssetCategoryDisplayName?: string;
+AssetTypeDisplayName?: string;
 AttributeCode :string;
 AttributeName :string;
 DataTypeCode :string;

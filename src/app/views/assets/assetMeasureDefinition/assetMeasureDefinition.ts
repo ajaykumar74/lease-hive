@@ -6,6 +6,8 @@ AssetMeasureDefinitionId :string;
 TenantId :number;
 AssetCategoryId :number;
 AssetTypeId :number;
+AssetCategoryDisplayName?: string;
+AssetTypeDisplayName?: string;
 MeasureCode :string;
 MeasureName :string;
 UnitOfMeasureId :string;

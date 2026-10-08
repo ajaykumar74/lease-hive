@@ -14,5 +14,7 @@ ModelYearTo :number;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 RecordStatus :string;
+AssetMakeDisplayName?: string;
+AssetTypeDisplayName?: string;
 
 }

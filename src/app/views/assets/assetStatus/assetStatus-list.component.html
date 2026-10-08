@@ -17,7 +17,6 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">TenantId <p-sortIcon field="TenantId" /> </th> 
 <th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th> 
 <th style="width:200px">Status Name <p-sortIcon field="StatusName" /> </th> 
 <th style="width:200px">Is Leaseable <p-sortIcon field="IsLeaseable" /> </th> 
@@ -31,7 +30,6 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-circle-fill"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.StatusName || "Unnamed status"}}</button><span class="list-secondary">{{obj.AssetStatusId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.TenantId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.StatusCode}}</td>
  <td style="width:200px">{{obj.StatusName}}</td>
  <td style="width:200px">{{obj.IsLeaseable | yesNo }}</td>

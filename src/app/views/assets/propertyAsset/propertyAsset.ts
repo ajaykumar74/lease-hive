@@ -8,6 +8,7 @@ PropertyType :string;
 SurveyNo :string;
 BuiltUpArea :number;
 AreaUOMId :number;
+AreaUomDisplayName?: string;
 FloorNo :string;
 PossessionDate :Date;
 TitleReference :string;

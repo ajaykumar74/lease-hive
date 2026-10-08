@@ -17,15 +17,15 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Compliance Record Id <p-sortIcon field="AssetComplianceRecordId" /> </th> 
-<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Asset Compliance Type Id <p-sortIcon field="AssetComplianceTypeId" /> </th> 
+<th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Compliance Type <p-sortIcon field="AssetComplianceTypeId" /> </th> 
 <th style="width:200px">Certificate No <p-sortIcon field="CertificateNo" /> </th> 
-<th style="width:200px">Issued By Party Id <p-sortIcon field="IssuedByPartyId" /> </th> 
+<th style="width:200px">Issued By <p-sortIcon field="IssuedByPartyId" /> </th> 
 <th style="width:200px">Issue Date <p-sortIcon field="IssueDate" /> </th> 
 <th style="width:200px">Valid From <p-sortIcon field="ValidFrom" /> </th> 
 <th style="width:200px">Valid To <p-sortIcon field="ValidTo" /> </th> 
-<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th> 
-<th style="width:200px">Verification Status Id <p-sortIcon field="VerificationStatusId" /> </th> 
+<th style="width:200px">Document <p-sortIcon field="DocumentId" /> </th> 
+<th style="width:200px">Verification Status <p-sortIcon field="VerificationStatusId" /> </th> 
 <th style="width:200px">Verified By <p-sortIcon field="VerifiedBy" /> </th> 
 <th style="width:200px">Verified On <p-sortIcon field="VerifiedOn" /> </th> 
 
@@ -35,16 +35,16 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetComplianceRecordId}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetComplianceTypeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetComplianceTypeDisplayName}}</td>
  <td style="width:200px">{{obj.CertificateNo}}</td>
- <td style="width:200px">{{obj.IssuedByPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.IssuedByPartyDisplayName}}</td>
  <td style="width:200px">{{obj.IssueDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ValidFrom | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ValidTo | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.VerificationStatusId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.VerifiedBy | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DocumentDisplayName}}</td>
+ <td style="width:200px">{{obj.VerificationStatusDisplayName}}</td>
+ <td style="width:200px">{{obj.VerifiedByDisplayName}}</td>
  <td style="width:200px">{{obj.VerifiedOn | date:'dd-MMM-yyyy' }}</td>
  
 					</tr>

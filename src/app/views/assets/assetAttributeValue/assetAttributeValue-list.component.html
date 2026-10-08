@@ -17,8 +17,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Asset Attribute DefinitionId <p-sortIcon field="AssetAttributeDefinitionId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Attribute <p-sortIcon field="AssetAttributeDefinitionId" /> </th> 
 <th style="width:200px">String Value <p-sortIcon field="StringValue" /> </th> 
 <th style="width:200px">Number Value <p-sortIcon field="NumberValue" /> </th> 
 <th style="width:200px">DateValue <p-sortIcon field="DateValue" /> </th> 
@@ -31,8 +31,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-database"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.StringValue || obj.NumberValue || "Attribute value"}}</button><span class="list-secondary">{{obj.AssetAttributeValueId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetAttributeDefinitionId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetAttributeDefinitionDisplayName}}</td>
  <td style="width:200px">{{obj.StringValue}}</td>
  <td style="width:200px">{{obj.DateValue | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.BooleanValue | yesNo }}</td>

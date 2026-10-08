@@ -14,5 +14,9 @@ MethodCode :string;
 ReferenceDocumentId :number;
 ValidTo :Date;
 Remarks :string;
+AssetDisplayName?: string;
+ValuationTypeDisplayName?: string;
+ValuerPartyDisplayName?: string;
+ReferenceDocumentDisplayName?: string;
 
 }

@@ -12,5 +12,9 @@ EffectiveFrom :Date;
 EffectiveTo :Date;
 IsVerified : boolean;
 VerifiedBy :number;
+AssetDisplayName?: string;
+DocumentDisplayName?: string;
+DocumentPurposeDisplayName?: string;
+VerifiedByDisplayName?: string;
 
 }

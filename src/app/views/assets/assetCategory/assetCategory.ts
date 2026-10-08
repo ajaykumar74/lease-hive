@@ -7,6 +7,7 @@ TenantId :string;
 CategoryCode :string;
 CategoryName :string;
 ParentCategoryId :number;
+ParentCategoryDisplayName?: string;
 SupportsRegistration : boolean;
 SupportsMeasure : boolean;
 ExtensionTypeCode :string;

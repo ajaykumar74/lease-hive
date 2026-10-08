@@ -17,14 +17,14 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Valuation Id <p-sortIcon field="AssetValuationId" /> </th> 
-<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Valuation Type Id <p-sortIcon field="ValuationTypeId" /> </th> 
+<th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Valuation Type <p-sortIcon field="ValuationTypeId" /> </th> 
 <th style="width:200px">Valuation Date <p-sortIcon field="ValuationDate" /> </th> 
 <th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
 <th style="width:200px">Valuation Amount <p-sortIcon field="ValuationAmount" /> </th> 
-<th style="width:200px">Valuer Party Id <p-sortIcon field="ValuerPartyId" /> </th> 
+<th style="width:200px">Valuer <p-sortIcon field="ValuerPartyId" /> </th> 
 <th style="width:200px">Method Code <p-sortIcon field="MethodCode" /> </th> 
-<th style="width:200px">Reference Document Id <p-sortIcon field="ReferenceDocumentId" /> </th> 
+<th style="width:200px">Reference Document <p-sortIcon field="ReferenceDocumentId" /> </th> 
 <th style="width:200px">Valid To <p-sortIcon field="ValidTo" /> </th> 
 
 					</tr>
@@ -33,14 +33,14 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetValuationId}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ValuationTypeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.ValuationTypeDisplayName}}</td>
  <td style="width:200px">{{obj.ValuationDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.CurrencyCode}}</td>
  <td style="width:200px">{{obj.ValuationAmount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ValuerPartyId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ValuerPartyDisplayName}}</td>
  <td style="width:200px">{{obj.MethodCode}}</td>
- <td style="width:200px">{{obj.ReferenceDocumentId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReferenceDocumentDisplayName}}</td>
  <td style="width:200px">{{obj.ValidTo | date:'dd-MMM-yyyy' }}</td>
  
 					</tr>

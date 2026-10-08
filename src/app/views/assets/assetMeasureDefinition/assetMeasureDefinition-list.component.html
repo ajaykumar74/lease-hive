@@ -17,11 +17,11 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">Asset CategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
-<th style="width:200px">Asset TypeId <p-sortIcon field="AssetTypeId" /> </th> 
+						 <th style="width:200px">Asset Category <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Asset Type <p-sortIcon field="AssetTypeId" /> </th> 
 <th style="width:200px">Measure Code <p-sortIcon field="MeasureCode" /> </th> 
 <th style="width:200px">Measure Name <p-sortIcon field="MeasureName" /> </th> 
-<th style="width:200px">Unit Of MeasureId <p-sortIcon field="UnitOfMeasureId" /> </th> 
+<th style="width:200px">Unit of Measure <p-sortIcon field="UnitOfMeasureId" /> </th> 
 <th style="width:200px">Is Cumulative <p-sortIcon field="IsCumulative" /> </th> 
 <th style="width:200px">Is Required <p-sortIcon field="IsRequired" /> </th> 
 <th class="list-actions-column">Quick actions</th>
@@ -31,8 +31,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-chart-line"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.MeasureName || "Unnamed measure"}}</button><span class="list-secondary">{{obj.AssetMeasureDefinitionId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetTypeId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetCategoryDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetTypeDisplayName}}</td>
  <td style="width:200px">{{obj.MeasureCode}}</td>
  <td style="width:200px">{{obj.MeasureName}}</td>
  <td style="width:200px">{{obj.UnitOfMeasureId}}</td>

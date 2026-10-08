@@ -17,10 +17,10 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">From LocationId <p-sortIcon field="FromLocationId" /> </th> 
-<th style="width:200px">To LocationId <p-sortIcon field="ToLocationId" /> </th> 
-<th style="width:200px">Party LocationId <p-sortIcon field="PartyLocationId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">From Location <p-sortIcon field="FromLocationId" /> </th> 
+<th style="width:200px">To Location <p-sortIcon field="ToLocationId" /> </th> 
+<th style="width:200px">Party Location <p-sortIcon field="PartyLocationId" /> </th> 
 <th style="width:200px">Movement Type <p-sortIcon field="MovementType" /> </th> 
 <th style="width:200px">Movement DateTime <p-sortIcon field="MovementDateTime" /> </th> 
 <th style="width:200px">Reference Type <p-sortIcon field="ReferenceType" /> </th> 
@@ -32,10 +32,10 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-map-marker"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.MovementType || "Location movement"}}</button><span class="list-secondary">{{obj.AssetLocationHistoryId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.FromLocationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ToLocationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PartyLocationId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.FromLocationDisplayName}}</td>
+ <td style="width:200px">{{obj.ToLocationDisplayName}}</td>
+ <td style="width:200px">{{obj.PartyLocationDisplayName}}</td>
  <td style="width:200px">{{obj.MovementType}}</td>
  <td style="width:200px">{{obj.MovementDateTime | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ReferenceType}}</td>

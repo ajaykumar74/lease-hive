@@ -17,7 +17,7 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Compliance Type Id <p-sortIcon field="AssetComplianceTypeId" /> </th> 
-<th style="width:200px">Asset Category Id <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Asset Category <p-sortIcon field="AssetCategoryId" /> </th> 
 <th style="width:200px">Compliance Code <p-sortIcon field="ComplianceCode" /> </th> 
 <th style="width:200px">Compliance Name <p-sortIcon field="ComplianceName" /> </th> 
 <th style="width:200px">Requires Expiry <p-sortIcon field="RequiresExpiry" /> </th> 
@@ -31,7 +31,7 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetComplianceTypeId}}</td>
- <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetCategoryDisplayName}}</td>
  <td style="width:200px">{{obj.ComplianceCode}}</td>
  <td style="width:200px">{{obj.ComplianceName}}</td>
  <td style="width:200px">{{obj.RequiresExpiry | yesNo }}</td>

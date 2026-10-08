@@ -19,7 +19,7 @@
 						 <th style="width:200px">PropertyType <p-sortIcon field="PropertyType" /> </th> 
 <th style="width:200px">SurveyNo <p-sortIcon field="SurveyNo" /> </th> 
 <th style="width:200px">BuiltUpArea <p-sortIcon field="BuiltUpArea" /> </th> 
-<th style="width:200px">AreaUOMId <p-sortIcon field="AreaUOMId" /> </th> 
+<th style="width:200px">Area Unit <p-sortIcon field="AreaUOMId" /> </th> 
 <th style="width:200px">FloorNo <p-sortIcon field="FloorNo" /> </th> 
 <th style="width:200px">PossessionDate <p-sortIcon field="PossessionDate" /> </th> 
 <th style="width:200px">TitleReference <p-sortIcon field="TitleReference" /> </th> 
@@ -32,7 +32,7 @@
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.PropertyType}}</td>
  <td style="width:200px">{{obj.SurveyNo}}</td>
- <td style="width:200px">{{obj.AreaUOMId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AreaUomDisplayName}}</td>
  <td style="width:200px">{{obj.FloorNo}}</td>
  <td style="width:200px">{{obj.PossessionDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.TitleReference}}</td>

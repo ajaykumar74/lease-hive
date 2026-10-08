@@ -17,7 +17,7 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetCategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
+						 <th style="width:200px">Category <p-sortIcon field="AssetCategoryId" /> </th> 
 <th style="width:200px">Asset Type Code <p-sortIcon field="AssetTypeCode" /> </th> 
 <th style="width:200px">Asset Type Name <p-sortIcon field="AssetTypeName" /> </th> 
 <th style="width:200px">Default UsefulLife Months <p-sortIcon field="DefaultUsefulLifeMonths" /> </th> 
@@ -32,7 +32,7 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-sitemap"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.AssetTypeName || "Unnamed type"}}</button><span class="list-secondary">{{obj.AssetTypeId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetCategoryId}}</td>
+                         <td style="width:200px">{{obj.AssetCategoryDisplayName || 'Not recorded'}}</td>
  <td style="width:200px">{{obj.AssetTypeCode}}</td>
  <td style="width:200px">{{obj.AssetTypeName}}</td>
  <td style="width:200px">{{obj.DefaultUsefulLifeMonths | number:'1.0':'en-US' }}</td>

@@ -13,5 +13,10 @@ LocationId :number;
 ReferenceType :string;
 ReferenceId :number;
 Summary :string;
+AssetDisplayName?: string;
+EventTypeDisplayName?: string;
+OrganisationUnitDisplayName?: string;
+PartyDisplayName?: string;
+LocationDisplayName?: string;
 
 }

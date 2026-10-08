@@ -13,5 +13,10 @@ EndDate :Date;
 CoverageSummary :string;
 DocumentId :number;
 WarrantyStatusId :number;
+AssetDisplayName?: string;
+WarrantyProviderPartyDisplayName?: string;
+WarrantyTypeDisplayName?: string;
+DocumentDisplayName?: string;
+WarrantyStatusDisplayName?: string;
 
 }

@@ -17,11 +17,11 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Measure Reading Id <p-sortIcon field="AssetMeasureReadingId" /> </th> 
-<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Asset Measure Definition Id <p-sortIcon field="AssetMeasureDefinitionId" /> </th> 
+<th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Measure Definition <p-sortIcon field="AssetMeasureDefinitionId" /> </th> 
 <th style="width:200px">Reading Value <p-sortIcon field="ReadingValue" /> </th> 
 <th style="width:200px">Reading Date Time <p-sortIcon field="ReadingDateTime" /> </th> 
-<th style="width:200px">Reading Source Id <p-sortIcon field="ReadingSourceId" /> </th> 
+<th style="width:200px">Reading Source <p-sortIcon field="ReadingSourceId" /> </th> 
 <th style="width:200px">Source Reference <p-sortIcon field="SourceReference" /> </th> 
 <th style="width:200px">Is Verified <p-sortIcon field="IsVerified" /> </th> 
 <th style="width:200px">Recorded By <p-sortIcon field="RecordedBy" /> </th> 
@@ -32,14 +32,14 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetMeasureReadingId}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetMeasureDefinitionId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetMeasureDefinitionDisplayName}}</td>
  <td style="width:200px">{{obj.ReadingValue | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ReadingDateTime | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.ReadingSourceId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ReadingSourceDisplayName}}</td>
  <td style="width:200px">{{obj.SourceReference}}</td>
  <td style="width:200px">{{obj.IsVerified | yesNo }}</td>
- <td style="width:200px">{{obj.RecordedBy | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordedByDisplayName}}</td>
  
 					</tr>
 				</ng-template>

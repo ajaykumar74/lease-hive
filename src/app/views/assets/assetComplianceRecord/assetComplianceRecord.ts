@@ -15,5 +15,11 @@ DocumentId :number;
 VerificationStatusId :number;
 VerifiedBy :number;
 VerifiedOn :Date;
+AssetDisplayName?: string;
+AssetComplianceTypeDisplayName?: string;
+IssuedByPartyDisplayName?: string;
+DocumentDisplayName?: string;
+VerificationStatusDisplayName?: string;
+VerifiedByDisplayName?: string;
 
 }

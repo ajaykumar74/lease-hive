@@ -17,9 +17,9 @@
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
 						 <th style="width:200px">Asset Document Link Id <p-sortIcon field="AssetDocumentLinkId" /> </th> 
-<th style="width:200px">Asset Id <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th> 
-<th style="width:200px">Document Purpose Id <p-sortIcon field="DocumentPurposeId" /> </th> 
+<th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Document <p-sortIcon field="DocumentId" /> </th> 
+<th style="width:200px">Document Purpose <p-sortIcon field="DocumentPurposeId" /> </th> 
 <th style="width:200px">Is Primary <p-sortIcon field="IsPrimary" /> </th> 
 <th style="width:200px">Is Verified <p-sortIcon field="IsVerified" /> </th> 
 <th style="width:200px">Verified By <p-sortIcon field="VerifiedBy" /> </th> 
@@ -30,12 +30,12 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.AssetDocumentLinkId}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.DocumentPurposeId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.DocumentDisplayName}}</td>
+ <td style="width:200px">{{obj.DocumentPurposeDisplayName}}</td>
  <td style="width:200px">{{obj.IsPrimary | yesNo }}</td>
  <td style="width:200px">{{obj.IsVerified | yesNo }}</td>
- <td style="width:200px">{{obj.VerifiedBy | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.VerifiedByDisplayName}}</td>
  
 					</tr>
 				</ng-template>

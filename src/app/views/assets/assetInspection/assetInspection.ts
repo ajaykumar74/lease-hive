@@ -16,5 +16,11 @@ OverallScore :number;
 InspectionStatusId :number;
 Remarks :string;
 CompletedOn :Date;
+AssetDisplayName?: string;
+LocationDisplayName?: string;
+PartyDisplayName?: string;
+InspectorUserDisplayName?: string;
+ConditionGradeDisplayName?: string;
+InspectionStatusDisplayName?: string;
 
 }

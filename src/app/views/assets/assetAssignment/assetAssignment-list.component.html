@@ -17,11 +17,11 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetId <p-sortIcon field="AssetId" /> </th> 
-<th style="width:200px">PartyId <p-sortIcon field="PartyId" /> </th> 
-<th style="width:200px">PartyLocationId <p-sortIcon field="PartyLocationId" /> </th> 
-<th style="width:200px">CustomerDepartmentId <p-sortIcon field="CustomerDepartmentId" /> </th> 
-<th style="width:200px">AssetUserId <p-sortIcon field="AssetUserId" /> </th> 
+						 <th style="width:200px">Asset <p-sortIcon field="AssetId" /> </th> 
+<th style="width:200px">Party <p-sortIcon field="PartyId" /> </th> 
+<th style="width:200px">Party Location <p-sortIcon field="PartyLocationId" /> </th> 
+<th style="width:200px">Customer Department <p-sortIcon field="CustomerDepartmentId" /> </th> 
+<th style="width:200px">Asset User <p-sortIcon field="AssetUserId" /> </th> 
 <th style="width:200px">AssignmentType <p-sortIcon field="AssignmentType" /> </th> 
 <th style="width:200px">AssignedTo <p-sortIcon field="AssignedTo" /> </th> 
 <th style="width:200px">IsPrimary <p-sortIcon field="IsPrimary" /> </th> 
@@ -34,11 +34,11 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-users"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.AssignmentType || "Asset assignment"}}</button><span class="list-secondary">{{obj.AssetAssignmentId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PartyLocationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.CustomerDepartmentId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetUserId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.PartyDisplayName}}</td>
+ <td style="width:200px">{{obj.PartyLocationDisplayName}}</td>
+ <td style="width:200px">{{obj.CustomerDepartmentDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetUserDisplayName}}</td>
  <td style="width:200px">{{obj.AssignmentType}}</td>
  <td style="width:200px">{{obj.AssignedTo | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.IsPrimary | yesNo }}</td>

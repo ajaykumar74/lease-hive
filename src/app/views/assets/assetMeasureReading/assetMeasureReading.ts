@@ -12,5 +12,9 @@ ReadingSourceId :number;
 SourceReference :string;
 IsVerified : boolean;
 RecordedBy :number;
+AssetDisplayName?: string;
+AssetMeasureDefinitionDisplayName?: string;
+ReadingSourceDisplayName?: string;
+RecordedByDisplayName?: string;
 
 }

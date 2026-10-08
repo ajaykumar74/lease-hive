@@ -14,5 +14,6 @@ RequiresRegistrationNo : boolean;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 RecordStatus :string;
+AssetCategoryDisplayName?: string;
 
 }

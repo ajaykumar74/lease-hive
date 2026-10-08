@@ -17,7 +17,7 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">AssetAttributeDefinitionId <p-sortIcon field="AssetAttributeDefinitionId" /> </th> 
+						 <th style="width:200px">Attribute <p-sortIcon field="AssetAttributeDefinitionId" /> </th> 
 <th style="width:200px">OptionCode <p-sortIcon field="OptionCode" /> </th> 
 <th style="width:200px">OptionLabel <p-sortIcon field="OptionLabel" /> </th> 
 <th style="width:200px">SortOrder <p-sortIcon field="SortOrder" /> </th> 
@@ -29,7 +29,7 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-list"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.OptionLabel || "Unnamed option"}}</button><span class="list-secondary">{{obj.AssetAttributeOptionId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetAttributeDefinitionId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetAttributeDefinitionDisplayName}}</td>
  <td style="width:200px">{{obj.OptionCode}}</td>
  <td style="width:200px">{{obj.OptionLabel}}</td>
  <td style="width:200px">{{obj.SortOrder | number:'1.0':'en-US' }}</td>

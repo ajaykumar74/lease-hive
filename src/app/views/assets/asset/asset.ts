@@ -26,5 +26,15 @@ IsLeaseable : boolean;
 EffectiveFrom :Date;
 EffectiveTo :Date;
 RecordStatus :string;
+AssetCategoryDisplayName?: string;
+AssetTypeDisplayName?: string;
+AssetMakeDisplayName?: string;
+AssetModelDisplayName?: string;
+OwningOrganisationDisplayName?: string;
+ResponsibleOrganisationUnitDisplayName?: string;
+CurrentLocationDisplayName?: string;
+CurrentPartyDisplayName?: string;
+CurrentPartyLocationDisplayName?: string;
+AssetStatusDisplayName?: string;
 
 }

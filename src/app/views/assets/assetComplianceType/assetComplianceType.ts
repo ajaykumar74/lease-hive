@@ -5,6 +5,7 @@ export interface IAssetComplianceType extends IBase {
 AssetComplianceTypeId :string;
 TenantId :number;
 AssetCategoryId :number;
+AssetCategoryDisplayName?: string;
 ComplianceCode :string;
 ComplianceName :string;
 RequiresExpiry : boolean;

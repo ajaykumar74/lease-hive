@@ -5,6 +5,7 @@ export interface IAssetAttributeOption extends IBase {
 AssetAttributeOptionId :string;
 TenantId :number;
 AssetAttributeDefinitionId :number;
+AssetAttributeDefinitionDisplayName?: string;
 OptionCode :string;
 OptionLabel :string;
 SortOrder :number;

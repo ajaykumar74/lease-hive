@@ -50,9 +50,9 @@
                 </div>
               </div>
             </td>
-            <td class="list-cell"><strong>Type {{ obj.AssetTypeId || '—' }}</strong><span
-                class="list-secondary">Category {{ obj.AssetCategoryId || '—' }} · Make {{ obj.AssetMakeId || '—' }} ·
-                Model {{ obj.AssetModelId || '—' }}</span></td>
+            <td class="list-cell"><strong>{{ obj.AssetTypeDisplayName || 'Type not recorded' }}</strong><span
+                class="list-secondary">{{ obj.AssetCategoryDisplayName || 'Category not recorded' }} · {{ obj.AssetMakeDisplayName || 'Make not recorded' }} ·
+                {{ obj.AssetModelDisplayName || 'Model not recorded' }}</span></td>
             <td>{{ obj.PrimarySerialNo || 'Not recorded' }}</td>
             <td class="list-cell"><strong>{{ obj.AcquisitionCost | currency:(obj.AcquisitionCurrencyCode ||
                 'USD'):'symbol':'1.0-0' }}</strong><span class="list-secondary">Residual: {{ obj.ResidualValueAmount |

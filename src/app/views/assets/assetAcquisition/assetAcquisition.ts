@@ -18,5 +18,8 @@ OtherCapitalizableCost :number;
 TotalAcquisitionCost :number;
 CapitalizationDate :Date;
 ProcurementSourceId :number;
+AssetDisplayName?: string;
+SupplierPartyDisplayName?: string;
+SupplierPartyLocationDisplayName?: string;
 
 }

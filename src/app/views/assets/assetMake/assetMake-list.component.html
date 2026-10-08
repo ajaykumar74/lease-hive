@@ -17,10 +17,10 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">Manufacturer Party Id <p-sortIcon field="ManufacturerPartyId" /> </th> 
+						 <th style="width:200px">Manufacturer <p-sortIcon field="ManufacturerPartyId" /> </th> 
 <th style="width:200px">Make Code <p-sortIcon field="MakeCode" /> </th> 
 <th style="width:200px">Make Name <p-sortIcon field="MakeName" /> </th> 
-<th style="width:200px">Asset CategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Category <p-sortIcon field="AssetCategoryId" /> </th> 
 <th style="width:200px">Country Code <p-sortIcon field="CountryCode" /> </th> 
 <th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
 <th class="list-actions-column">Quick actions</th>
@@ -30,10 +30,10 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-building"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.MakeName || "Unnamed make"}}</button><span class="list-secondary">{{obj.AssetMakeId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.ManufacturerPartyId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.ManufacturerPartyDisplayName || 'Not recorded'}}</td>
  <td style="width:200px">{{obj.MakeCode}}</td>
  <td style="width:200px">{{obj.MakeName}}</td>
- <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AssetCategoryDisplayName || 'Not recorded'}}</td>
  <td style="width:200px">{{obj.CountryCode}}</td>
 <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
  <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>

@@ -30,7 +30,7 @@
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-tags"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.CategoryName || 'Unnamed category' }}</button><span class="list-secondary">{{ obj.AssetCategoryId || ('#' + obj.Id) }}</span></div></div></td>
 						<td><span class="list-chip"><i class="pi pi-check-circle"></i>{{ obj.SupportsRegistration ? 'Registration' : 'No registration' }}</span> <span class="list-chip"><i class="pi pi-chart-line"></i>{{ obj.SupportsMeasure ? 'Measured' : 'Not measured' }}</span></td>
 						<td>{{ obj.ExtensionTypeCode || '—' }}</td>
-						<td>{{ obj.ParentCategoryId || 'Root category' }}</td>
+						<td>{{ obj.ParentCategoryDisplayName || 'Root category' }}</td>
 						<td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
 						<td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View category" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit category" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
 					</tr>

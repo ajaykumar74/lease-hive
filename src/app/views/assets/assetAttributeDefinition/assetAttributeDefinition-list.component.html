@@ -17,8 +17,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Record</th> 
-						 <th style="width:200px">Asset CategoryId <p-sortIcon field="AssetCategoryId" /> </th> 
-<th style="width:200px">Asset TypeId <p-sortIcon field="AssetTypeId" /> </th> 
+						 <th style="width:200px">Category <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Type <p-sortIcon field="AssetTypeId" /> </th> 
 <th style="width:200px">Attribute Code <p-sortIcon field="AttributeCode" /> </th> 
 <th style="width:200px">Attribute Name <p-sortIcon field="AttributeName" /> </th> 
 <th style="width:200px">DataType Code <p-sortIcon field="DataTypeCode" /> </th> 
@@ -30,8 +30,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-sliders-h"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.AttributeName || "Unnamed attribute"}}</button><span class="list-secondary">{{obj.AssetAttributeDefinitionId || ("#" + obj.Id)}}</span></div></div></td>
-                         <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetTypeId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetCategoryDisplayName}}</td>
+ <td style="width:200px">{{obj.AssetTypeDisplayName}}</td>
  <td style="width:200px">{{obj.AttributeCode}}</td>
  <td style="width:200px">{{obj.AttributeName}}</td>
  <td style="width:200px">{{obj.DataTypeCode}}</td>

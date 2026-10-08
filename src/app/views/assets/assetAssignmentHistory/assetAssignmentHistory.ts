@@ -11,6 +11,11 @@ FromAssetUserId :number;
 ToAssetUserId :number;
 FromPartyLocationId :number;
 ToPartyLocationId :number;
+AssetAssignmentDisplayName?: string;
+FromAssetUserDisplayName?: string;
+ToAssetUserDisplayName?: string;
+FromPartyLocationDisplayName?: string;
+ToPartyLocationDisplayName?: string;
 Remarks :string;
 
 }
