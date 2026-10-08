@@ -6,7 +6,7 @@ import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserS
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { UserOrganisationUnitService } from './userOrganisationUnit.service';
-import { IUserOrganisationUnit } from './userOrganisationUnit';
+import { IUserOrganisationUnitList } from './userOrganisationUnit';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
@@ -22,8 +22,8 @@ export class UserOrganisationUnitListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IUserOrganisationUnit[]; 
-  sortBy: string = 'Id';
+  lstMain: IUserOrganisationUnitList[];
+  sortBy: string = 'OrganisationUnitDisplayName';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
   currentPage: number = 1;
@@ -112,7 +112,7 @@ export class UserOrganisationUnitListComponent implements OnInit {
     Items = [
       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
-      { DBName: 'AccessLevel', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'SearchTerm', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       //{ DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 

@@ -6,7 +6,7 @@ import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserS
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { UserRoleService } from './userRole.service';
-import { IUserRole } from './userRole';
+import { IUserRoleList } from './userRole';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
@@ -22,8 +22,8 @@ export class UserRoleListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IUserRole[]; 
-  sortBy: string = 'Id';
+  lstMain: IUserRoleList[];
+  sortBy: string = 'ApplicationUserName';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
   currentPage: number = 1;
@@ -112,7 +112,7 @@ export class UserRoleListComponent implements OnInit {
     Items = [
       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
-      { DBName: 'ScopeType', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'SearchTerm', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       //{ DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 

@@ -6,7 +6,7 @@ import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserS
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { PermissionService } from './permission.service';
-import { IAppPermission } from './appPermission';
+import { IAppPermissionList } from './appPermission';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
@@ -22,8 +22,8 @@ export class PermissionListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IAppPermission[]; 
-  sortBy: string = 'Id';
+  lstMain: IAppPermissionList[];
+  sortBy: string = 'PermissionCode';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
   currentPage: number = 1;
@@ -117,6 +117,7 @@ export class PermissionListComponent implements OnInit {
     var Items = [];
     Items = [
       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
+      { DBName: 'SearchTerm', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
     ];
 

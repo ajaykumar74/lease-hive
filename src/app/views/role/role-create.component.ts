@@ -27,6 +27,7 @@ export class RoleCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Create Role';
   role: IRole = null;
+  rolecodeOptions: ISelectItem[] = [];
   roletypeOptions: ISelectItem[] = [];
 scopetypeOptions: ISelectItem[] = [];
 
@@ -65,6 +66,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
+this.rolecodeOptions = this.loggedInUserService.getPicklistOptions('Role');
 this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
 this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType');
 

@@ -15,3 +15,15 @@ EffectiveFrom :Date;
 EffectiveTo :Date;
 
 }
+
+export interface IRoleList {
+    Id: number;
+    RoleId: string;
+    RoleCode: string;
+    RoleName: string;
+    RoleType: string;
+    Description: string;
+    IsSystemRole: boolean;
+    ScopeType: string;
+    RecordStatus: string;
+}

@@ -15,3 +15,15 @@ EffectiveFrom :Date;
 EffectiveTo :Date;
 
 }
+
+export interface IAppPermissionList {
+    Id: number;
+    PermissionCode: string;
+    ModuleCode: string;
+    ResourceType: string;
+    ResourceName: string;
+    ActionName: string;
+    Description: string;
+    IsSensitive: boolean;
+    RecordStatus: string;
+}

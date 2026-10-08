@@ -1,45 +1,37 @@
 <div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'Role List'" [PageType]="'List'">
-			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<p-inputGroup>
-					<input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword"
-						[(ngModel)]="objSearch.Name" />
-					<button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-				</p-inputGroup>
-			</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
-				styleClass="list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">RoleId <p-sortIcon field="Id" /> </th>
-						<th style="width:200px">Role Name <p-sortIcon field="RoleName" /> </th>
-						<th style="width:200px">Description <p-sortIcon field="Description" /> </th>
-						<th style="width:200px">Role Type <p-sortIcon field="RoleType" /> </th>
-						<th style="width:200px">Scope Type <p-sortIcon field="ScopeType" /> </th>
-						<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
-
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.RoleId}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.RoleName}}</td>
-						<td style="width:200px">{{obj.Description}}</td>
-						<td style="width:200px">{{obj.RoleType}}</td>
-						<td style="width:200px">{{obj.ScopeType}}</td>
-						<td style="width:200px">{{obj.RecordStatus}}</td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Role List'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
+            <div class="col-12 md:col-6">
+                <p-inputGroup>
+                    <input type="text" class="p-inputtext-sm" pInputText placeholder="Search roles" [(ngModel)]="objSearch.Name" />
+                    <button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
+                </p-inputGroup>
+            </div>
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="RoleCode" style="width: 180px">Role Code <p-sortIcon field="RoleCode" /></th>
+                        <th pSortableColumn="RoleName" style="width: 240px">Role Name <p-sortIcon field="RoleName" /></th>
+                        <th pSortableColumn="RoleType" style="width: 160px">Role Type <p-sortIcon field="RoleType" /></th>
+                        <th pSortableColumn="ScopeType" style="width: 160px">Scope Type <p-sortIcon field="ScopeType" /></th>
+                        <th style="width: 280px">Description</th>
+                        <th style="width: 130px">Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td style="width: 180px" pFrozenColumn><p-button [label]="obj.RoleCode || obj.RoleId" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td style="width: 240px">{{ obj.RoleName }}</td>
+                        <td style="width: 160px">{{ obj.RoleType }}</td>
+                        <td style="width: 160px">{{ obj.ScopeType }}</td>
+                        <td style="width: 280px">{{ obj.Description }}</td>
+                        <td style="width: 130px">{{ obj.RecordStatus }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
 </div>

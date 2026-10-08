@@ -10,5 +10,24 @@ TenantId :number;
 RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date;
+RoleCode?: string;
+RoleName?: string;
+RoleDisplayName?: string;
+PermissionCode?: string;
+PermissionDisplayName?: string;
 
+}
+
+export interface IRolePermissionList {
+    Id: number;
+    RoleId: number;
+    RoleCode: string;
+    RoleName: string;
+    RoleDisplayName: string;
+    PermissionId: number;
+    PermissionCode: string;
+    PermissionDisplayName: string;
+    GrantType: string;
+    ConstraintJson: string;
+    RecordStatus: string;
 }

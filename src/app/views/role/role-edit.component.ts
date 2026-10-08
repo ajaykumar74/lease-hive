@@ -27,6 +27,7 @@ export class RoleEditComponent implements OnInit {
   role: IRole = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  rolecodeOptions: ISelectItem[] = [];
   roletypeOptions: ISelectItem[] = [];
 scopetypeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -66,6 +67,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
+this.rolecodeOptions = this.loggedInUserService.getPicklistOptions('Role');
 this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
 this.scopetypeOptions = this.loggedInUserService.getPicklistOptions('ScopeType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
