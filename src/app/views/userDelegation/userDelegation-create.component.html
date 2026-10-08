@@ -58,9 +58,18 @@
 											label="Delegation Type">
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
-							<label for="ProcessCode">Process Code 
-							</label> 
-							<input pInputText id="ProcessCode" type="text" pSize="small"	formControlName="ProcessCode"  />
+							<label for="ProcessCode">Process Code
+							</label>
+							<p-dropdown *ngIf="showProcessCodeDropdown"
+								inputId="ProcessCode"
+								[options]="processcodeOptions"
+								optionLabel="Text"
+								optionValue="Value"
+								formControlName="ProcessCode"
+								placeholder="Select One"
+								class="w-full">
+							</p-dropdown>
+							<input *ngIf="!showProcessCodeDropdown" pInputText id="ProcessCode" type="text" pSize="small" formControlName="ProcessCode" />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('ProcessCode')"
 											label="Process Code">
 										</app-validation-errors>

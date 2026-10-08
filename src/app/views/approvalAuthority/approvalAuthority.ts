@@ -2,7 +2,7 @@ import { IBase } from "@/shared/IBase";
 
 export interface IApprovalAuthority extends IBase {
 	Id :number;
-ProcessCode :number;
+ProcessCode :string;
 ApprovalLevel :number;
 AuthorityType :string;
 RoleId :number;

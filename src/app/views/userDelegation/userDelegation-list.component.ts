@@ -6,7 +6,7 @@ import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserS
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { UserDelegationService } from './userDelegation.service';
-import { IUserDelegation } from './userDelegation';
+import { IUserDelegationList } from './userDelegation';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
@@ -22,8 +22,8 @@ export class UserDelegationListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IUserDelegation[]; 
-  sortBy: string = 'Id';
+  lstMain: IUserDelegationList[];
+  sortBy: string = 'StartDateTime';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
   currentPage: number = 1;
@@ -112,7 +112,7 @@ export class UserDelegationListComponent implements OnInit {
     Items = [
       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
-      { DBName: 'DelegationType', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'SearchTerm', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       //{ DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
     ];
 

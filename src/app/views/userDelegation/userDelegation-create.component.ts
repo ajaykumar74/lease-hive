@@ -30,6 +30,8 @@ export class UserDelegationCreateComponent implements OnInit {
   delegatoruseridOptions: ISelectItem[] = [];
 delegateuseridOptions: ISelectItem[] = [];
 delegationtypeOptions: ISelectItem[] = [];
+processcodeOptions: ISelectItem[] = [];
+showProcessCodeDropdown: boolean = false;
 organisationunitidOptions: ISelectItem[] = [];
 approvedbyidOptions: ISelectItem[] = [];
 
@@ -73,6 +75,9 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('DelegationType');
+    this.editForm.get('DelegationType').valueChanges.subscribe((delegationType: string) => {
+      this.setProcessCodeOptions(delegationType, true);
+    });
     this.loggedInUserService.getLookupOptions('application-users').subscribe({
       next: options => this.approvedbyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -107,6 +112,7 @@ this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('Delega
 
 
   populateUI(obj: IUserDelegation): void {
+    this.setProcessCodeOptions(obj.DelegationType);
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
@@ -121,8 +127,27 @@ EndDateTime:  obj.EndDateTime || new Date(),
 Reason: obj.Reason || '',
 ApprovedById: obj.ApprovedById || 0,
  
-      }
+      },
+      { emitEvent: false }
     );
+  }
+
+  private setProcessCodeOptions(delegationType: string, clearSelection = false): void {
+    const normalizedDelegationType = (delegationType || '').trim().toLowerCase();
+    const category = normalizedDelegationType === 'approval'
+      ? 'ApprovalProcessCode'
+      : normalizedDelegationType === 'task'
+        ? 'TaskProcessCode'
+        : null;
+
+    this.showProcessCodeDropdown = category !== null;
+    this.processcodeOptions = category
+      ? this.loggedInUserService.getPicklistOptions(category)
+      : [];
+
+    if (clearSelection) {
+      this.editForm.get('ProcessCode').setValue('', { emitEvent: false });
+    }
   }
 
  

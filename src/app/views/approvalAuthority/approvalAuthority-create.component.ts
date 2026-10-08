@@ -28,9 +28,12 @@ export class ApprovalAuthorityCreateComponent implements OnInit {
   Caption: string = 'Create Approval Authority';
   approvalAuthority: IApprovalAuthority = null;
   authoritytypeOptions: ISelectItem[] = [];
+processcodeOptions: ISelectItem[] = [];
 roleidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
+showRoleIdDropdown: boolean = false;
+showApplicationUserIdDropdown: boolean = false;
 
   editForm: any; 
   objMaster : IApprovalAuthority = {} as IApprovalAuthority;
@@ -57,11 +60,11 @@ organisationunitidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-ProcessCode: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ProcessCode: new FormControl('', [Validators.required, Validators.maxLength(50)]),
 ApprovalLevel: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
 AuthorityType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RoleId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ApplicationUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RoleId: new FormControl(null),
+ApplicationUserId: new FormControl(null),
 OrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 MinimumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MaximumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -72,6 +75,11 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
+this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
+    this.editForm.get('AuthorityType').valueChanges.subscribe((authorityType: string) => {
+      this.configureAuthorityTarget(authorityType, true);
+    });
+    this.configureAuthorityTarget(this.editForm.get('AuthorityType').value);
 this.loggedInUserService.getApplicationUserOptions().subscribe({
   next: options => this.applicationuseridOptions = options,
   error: err => setTimeout(() => this.messageService?.showError(err))
@@ -105,19 +113,61 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  ProcessCode: obj.ProcessCode || 0,
+	  ProcessCode: obj.ProcessCode || '',
 ApprovalLevel: obj.ApprovalLevel || 0,
 AuthorityType: obj.AuthorityType || '',
-RoleId: obj.RoleId || 0,
-ApplicationUserId: obj.ApplicationUserId || 0,
+RoleId: obj.RoleId || null,
+ApplicationUserId: obj.ApplicationUserId || null,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
  
-      }
+      },
+      { emitEvent: false }
     );
+    this.configureAuthorityTarget(obj.AuthorityType);
+  }
+
+  private configureAuthorityTarget(authorityType: string, clearSelection = false): void {
+    const normalizedAuthorityType = (authorityType || '').trim().toLowerCase();
+    const roleControl = this.editForm.get('RoleId');
+    const applicationUserControl = this.editForm.get('ApplicationUserId');
+
+    this.showRoleIdDropdown = normalizedAuthorityType === 'role';
+    this.showApplicationUserIdDropdown = normalizedAuthorityType === 'user';
+
+    roleControl.clearValidators();
+    applicationUserControl.clearValidators();
+
+    if (this.showRoleIdDropdown) {
+      roleControl.enable({ emitEvent: false });
+      roleControl.setValidators([Validators.required]);
+      applicationUserControl.setValue(null, { emitEvent: false });
+      applicationUserControl.disable({ emitEvent: false });
+    } else if (this.showApplicationUserIdDropdown) {
+      applicationUserControl.enable({ emitEvent: false });
+      applicationUserControl.setValidators([Validators.required]);
+      roleControl.setValue(null, { emitEvent: false });
+      roleControl.disable({ emitEvent: false });
+    } else {
+      roleControl.setValue(null, { emitEvent: false });
+      applicationUserControl.setValue(null, { emitEvent: false });
+      roleControl.disable({ emitEvent: false });
+      applicationUserControl.disable({ emitEvent: false });
+    }
+
+    if (clearSelection) {
+      if (this.showRoleIdDropdown) {
+        roleControl.setValue(null, { emitEvent: false });
+      } else if (this.showApplicationUserIdDropdown) {
+        applicationUserControl.setValue(null, { emitEvent: false });
+      }
+    }
+
+    roleControl.updateValueAndValidity({ emitEvent: false });
+    applicationUserControl.updateValueAndValidity({ emitEvent: false });
   }
 
  
@@ -142,20 +192,21 @@ CanDelegate:  obj.CanDelegate || false,
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  ProcessCode: obj.ProcessCode || 0,
+	  ProcessCode: obj.ProcessCode || '',
 ApprovalLevel: obj.ApprovalLevel || 0,
 AuthorityType: obj.AuthorityType || '',
-RoleId: obj.RoleId || 0,
-ApplicationUserId: obj.ApplicationUserId || 0,
+RoleId: obj.RoleId || null,
+ApplicationUserId: obj.ApplicationUserId || null,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
  
-      }
+      },
+      { emitEvent: false }
     );
-    this.editForm.reset(); 
+    this.configureAuthorityTarget(obj.AuthorityType);
   } 
 
   Save(): void {    
@@ -166,12 +217,12 @@ CanDelegate:  obj.CanDelegate || false,
         }	
   
   
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     ProcessCode: formValues.ProcessCode || 0,
+     ProcessCode: formValues.ProcessCode || null,
 ApprovalLevel: formValues.ApprovalLevel || 0,
 AuthorityType: formValues.AuthorityType || null,
 RoleId: formValues.RoleId || 0,

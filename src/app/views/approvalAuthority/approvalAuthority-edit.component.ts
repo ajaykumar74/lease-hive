@@ -28,10 +28,13 @@ export class ApprovalAuthorityEditComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   authoritytypeOptions: ISelectItem[] = [];
+processcodeOptions: ISelectItem[] = [];
 roleidOptions: ISelectItem[] = [];
 applicationuseridOptions: ISelectItem[] = [];
 organisationunitidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+showRoleIdDropdown: boolean = false;
+showApplicationUserIdDropdown: boolean = false;
 
    editForm: any; 
   objMaster : IApprovalAuthority = {} as IApprovalAuthority;
@@ -57,11 +60,11 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-ProcessCode: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ProcessCode: new FormControl('', [Validators.required, Validators.maxLength(50)]),
 ApprovalLevel: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
 AuthorityType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RoleId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ApplicationUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RoleId: new FormControl(null),
+ApplicationUserId: new FormControl(null),
 OrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 MinimumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MaximumAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -73,7 +76,12 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
+this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.editForm.get('AuthorityType').valueChanges.subscribe((authorityType: string) => {
+      this.configureAuthorityTarget(authorityType, true);
+    });
+    this.configureAuthorityTarget(this.editForm.get('AuthorityType').value);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -104,22 +112,26 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-    this.loggedInUserService.getLookupOptions('roles', obj.RoleId).subscribe({
-      next: options => this.roleidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
-    this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
-      next: options => this.applicationuseridOptions = options,
-      error: err => this.messageService?.showError(err)
-    });
+    if ((obj.AuthorityType || '').trim().toLowerCase() === 'role') {
+      this.loggedInUserService.getLookupOptions('roles', obj.RoleId).subscribe({
+        next: options => this.roleidOptions = options,
+        error: err => setTimeout(() => this.messageService?.showError(err))
+      });
+    }
+    if ((obj.AuthorityType || '').trim().toLowerCase() === 'user') {
+      this.loggedInUserService.getApplicationUserOptions(obj.ApplicationUserId).subscribe({
+        next: options => this.applicationuseridOptions = options,
+        error: err => this.messageService?.showError(err)
+      });
+    }
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  ProcessCode: obj.ProcessCode || 0,
+	  ProcessCode: obj.ProcessCode || '',
 ApprovalLevel: obj.ApprovalLevel || 0,
 AuthorityType: obj.AuthorityType || '',
-RoleId: obj.RoleId || 0,
-ApplicationUserId: obj.ApplicationUserId || 0,
+RoleId: obj.RoleId || null,
+ApplicationUserId: obj.ApplicationUserId || null,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
@@ -129,11 +141,67 @@ RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
-      }
+      },
+      { emitEvent: false }
     );
+    this.configureAuthorityTarget(obj.AuthorityType);
    
 	 this.Caption = "ApprovalAuthority Details #" + obj.Id;
-  } 
+  }
+
+  private configureAuthorityTarget(authorityType: string, clearSelection = false): void {
+    const normalizedAuthorityType = (authorityType || '').trim().toLowerCase();
+    const roleControl = this.editForm.get('RoleId');
+    const applicationUserControl = this.editForm.get('ApplicationUserId');
+
+    this.showRoleIdDropdown = normalizedAuthorityType === 'role';
+    this.showApplicationUserIdDropdown = normalizedAuthorityType === 'user';
+
+    if (clearSelection && this.showRoleIdDropdown) {
+      this.loggedInUserService.getLookupOptions('roles').subscribe({
+        next: options => this.roleidOptions = options,
+        error: err => this.messageService?.showError(err)
+      });
+    }
+
+    if (clearSelection && this.showApplicationUserIdDropdown) {
+      this.loggedInUserService.getApplicationUserOptions().subscribe({
+        next: options => this.applicationuseridOptions = options,
+        error: err => this.messageService?.showError(err)
+      });
+    }
+
+    roleControl.clearValidators();
+    applicationUserControl.clearValidators();
+
+    if (this.showRoleIdDropdown) {
+      roleControl.enable({ emitEvent: false });
+      roleControl.setValidators([Validators.required]);
+      applicationUserControl.setValue(null, { emitEvent: false });
+      applicationUserControl.disable({ emitEvent: false });
+    } else if (this.showApplicationUserIdDropdown) {
+      applicationUserControl.enable({ emitEvent: false });
+      applicationUserControl.setValidators([Validators.required]);
+      roleControl.setValue(null, { emitEvent: false });
+      roleControl.disable({ emitEvent: false });
+    } else {
+      roleControl.setValue(null, { emitEvent: false });
+      applicationUserControl.setValue(null, { emitEvent: false });
+      roleControl.disable({ emitEvent: false });
+      applicationUserControl.disable({ emitEvent: false });
+    }
+
+    if (clearSelection) {
+      if (this.showRoleIdDropdown) {
+        roleControl.setValue(null, { emitEvent: false });
+      } else if (this.showApplicationUserIdDropdown) {
+        applicationUserControl.setValue(null, { emitEvent: false });
+      }
+    }
+
+    roleControl.updateValueAndValidity({ emitEvent: false });
+    applicationUserControl.updateValueAndValidity({ emitEvent: false });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -156,11 +224,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
-	  ProcessCode: obj.ProcessCode || 0,
+	  ProcessCode: obj.ProcessCode || '',
 ApprovalLevel: obj.ApprovalLevel || 0,
 AuthorityType: obj.AuthorityType || '',
-RoleId: obj.RoleId || 0,
-ApplicationUserId: obj.ApplicationUserId || 0,
+RoleId: obj.RoleId || null,
+ApplicationUserId: obj.ApplicationUserId || null,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 MinimumAmount: obj.MinimumAmount || 0,
 MaximumAmount: obj.MaximumAmount || 0,
@@ -170,10 +238,10 @@ RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
-      }
+      },
+      { emitEvent: false }
     );
-   
-    this.editForm.reset();
+    this.configureAuthorityTarget(obj.AuthorityType);
   }
 
 
@@ -185,11 +253,11 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
             return;
         }
 	
-     const formValues = this.editForm.value; 
+     const formValues = this.editForm.getRawValue();
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
-     ProcessCode:  formValues.ProcessCode || 0,
+     ProcessCode:  formValues.ProcessCode || null,
 ApprovalLevel:  formValues.ApprovalLevel || 0,
 AuthorityType:  formValues.AuthorityType || null,
 RoleId:  formValues.RoleId || 0,

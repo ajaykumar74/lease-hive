@@ -30,6 +30,8 @@ export class UserDelegationEditComponent implements OnInit {
   delegatoruseridOptions: ISelectItem[] = [];
 delegateuseridOptions: ISelectItem[] = [];
 delegationtypeOptions: ISelectItem[] = [];
+processcodeOptions: ISelectItem[] = [];
+showProcessCodeDropdown: boolean = false;
 organisationunitidOptions: ISelectItem[] = [];
 approvedbyidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
@@ -75,6 +77,9 @@ EffectiveTo: new FormControl(new Date(), []),
     });
 this.delegationtypeOptions = this.loggedInUserService.getPicklistOptions('DelegationType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.editForm.get('DelegationType').valueChanges.subscribe((delegationType: string) => {
+      this.setProcessCodeOptions(delegationType, true);
+    });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -117,6 +122,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       next: options => this.organisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });  
+    this.setProcessCodeOptions(obj.DelegationType);
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
@@ -134,11 +140,30 @@ RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
 EffectiveTo:  obj.EffectiveTo || new Date(),
  
-      }
+      },
+      { emitEvent: false }
     );
    
 	 this.Caption = "UserDelegation Details #" + obj.Id;
   } 
+
+  private setProcessCodeOptions(delegationType: string, clearSelection = false): void {
+    const normalizedDelegationType = (delegationType || '').trim().toLowerCase();
+    const category = normalizedDelegationType === 'approval'
+      ? 'ApprovalProcessCode'
+      : normalizedDelegationType === 'task'
+        ? 'TaskProcessCode'
+        : null;
+
+    this.showProcessCodeDropdown = category !== null;
+    this.processcodeOptions = category
+      ? this.loggedInUserService.getPicklistOptions(category)
+      : [];
+
+    if (clearSelection) {
+      this.editForm.get('ProcessCode').setValue('', { emitEvent: false });
+    }
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

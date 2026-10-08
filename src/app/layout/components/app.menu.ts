@@ -421,12 +421,7 @@ export class AppMenu {
                                         }
                                     ]
                                 },
-                                {
-                                    label: 'Organisation scope',
-                                    icon: 'pi pi-fw pi-address-book',
-                                    routerLink: ['/dashboard/customers/list/'],
-                                    tooltip: ''
-                                },
+                              
                                 {
                                     label: 'Approval authority',
                                     icon: 'pi pi-fw pi-address-book',
