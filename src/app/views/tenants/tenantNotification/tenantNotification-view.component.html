@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Organisation" [value]="tenantNotification.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Code" [value]="tenantNotification.Code">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Name" [value]="tenantNotification.Name">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Channel" [value]="tenantNotification.Channel">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Description" [value]="tenantNotification.Description">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Subject Template" [value]="tenantNotification.SubjectTemplate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Body Template" [value]="tenantNotification.BodyTemplate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Email Profile Code" [value]="tenantNotification.EmailProfileCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Use Tenant Header" [value]="tenantNotification.UseTenantHeader">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Use Tenant Footer" [value]="tenantNotification.UseTenantFooter">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Template Version" [value]="tenantNotification.TemplateVersion">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Is Active" [value]="tenantNotification.IsActive">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { IsActiveMatchOptions, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -40,8 +40,7 @@ import { LayoutService } from '@/layout/service/layout.service';
                 (mouseenter)="onMouseEnter()"
                 [ngClass]="item.class"
                 [routerLink]="item.routerLink"
-                routerLinkActive="active-route"
-                [routerLinkActiveOptions]="getRouteMatchOptions()"
+                [class.active-route]="routeActive"
                 [fragment]="item.fragment"
                 [queryParamsHandling]="item.queryParamsHandling"
                 [preserveFragment]="item.preserveFragment"
@@ -115,18 +114,13 @@ export class AppMenuitem implements OnInit, OnDestroy {
 
     active = false;
 
+    routeActive = false;
+
     menuSourceSubscription: Subscription;
 
     menuResetSubscription: Subscription;
 
     key: string = '';
-
-    private readonly exactRouteMatchOptions: IsActiveMatchOptions = {
-        paths: 'exact',
-        queryParams: 'ignored',
-        matrixParams: 'ignored',
-        fragment: 'ignored'
-    };
 
     get submenuAnimation() {
         if (this.layoutService.isDesktop() && (this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus())) {
@@ -194,7 +188,8 @@ export class AppMenuitem implements OnInit, OnDestroy {
     }
 
     updateActiveStateFromRoute() {
-        const activeRoute = this.router.isActive(this.item.routerLink[0], this.getRouteMatchOptions());
+        const activeRoute = this.isCurrentRouteForItem();
+        this.routeActive = activeRoute;
 
         if (activeRoute) {
             this.layoutService.onMenuStateChange({
@@ -204,8 +199,43 @@ export class AppMenuitem implements OnInit, OnDestroy {
         }
     }
 
-    getRouteMatchOptions(): IsActiveMatchOptions {
-        return this.item.routerLinkActiveOptions || this.exactRouteMatchOptions;
+    private isCurrentRouteForItem(): boolean {
+        const itemRoute = this.getNormalizedRoute(this.item.routerLink);
+        if (!itemRoute) {
+            return false;
+        }
+
+        const currentRoute = this.getCurrentRoute();
+        if (!this.isRoutePrefix(itemRoute, currentRoute)) {
+            return false;
+        }
+
+        const menuRoutes = (this.item.menuRoutes || []) as string[];
+        return !menuRoutes.some((route) =>
+            route !== itemRoute &&
+            route.length > itemRoute.length &&
+            this.isRoutePrefix(route, currentRoute)
+        );
+    }
+
+    private getCurrentRoute(): string {
+        const primaryOutlet = this.router.parseUrl(this.router.url).root.children['primary'];
+        const path = primaryOutlet?.segments.map((segment) => segment.path).join('/') || '';
+        return path ? `/${path}` : '/';
+    }
+
+    private getNormalizedRoute(routerLink: unknown): string | null {
+        const route = Array.isArray(routerLink) ? routerLink[0] : routerLink;
+        if (typeof route !== 'string' || !route.trim()) {
+            return null;
+        }
+
+        const normalizedRoute = `/${route.replace(/^\/+|\/+$/g, '')}`;
+        return normalizedRoute === '/' ? null : normalizedRoute;
+    }
+
+    private isRoutePrefix(route: string, currentRoute: string): boolean {
+        return currentRoute === route || currentRoute.startsWith(`${route}/`);
     }
     onSubmenuAnimated(event: AnimationEvent) {
         if (event.toState === 'visible' && this.isDesktop && (this.isHorizontal() || this.isSlim() || this.isSlimPlus())) {

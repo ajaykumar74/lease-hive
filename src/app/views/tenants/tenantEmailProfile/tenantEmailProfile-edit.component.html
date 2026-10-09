@@ -1,0 +1,170 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Organisation" class="mb-1">OrganisationId</label>
+        <p-dropdown
+            inputId="OrganisationId" 
+            [options]="organisationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="OrganisationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('OrganisationId')"
+											label="Organisation">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="ProfileCode">Profile Code 
+							</label> 
+							<input pInputText id="ProfileCode" type="text" pSize="small"	formControlName="ProfileCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ProfileCode')"
+											label="Profile Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="FromEmail">From Email 
+							</label> 
+							<input pInputText id="FromEmail" type="email" pSize="small"	formControlName="FromEmail"  />
+	<app-validation-errors [type]="'email'" [control]="editForm.get('FromEmail')"
+											label="From Email">
+										</app-validation-errors>
+
+						 </div><div class="flex flex-col w-full">					
+							<label for="FromDisplayName">From Display Name 
+							</label> 
+							<input pInputText id="FromDisplayName" type="text" pSize="small"	formControlName="FromDisplayName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FromDisplayName')"
+											label="From Display Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ReplyToEmail">Reply To Email 
+							</label> 
+							<input pInputText id="ReplyToEmail" type="email" pSize="small"	formControlName="ReplyToEmail"  />
+	<app-validation-errors [type]="'email'" [control]="editForm.get('ReplyToEmail')"
+											label="Reply To Email">
+										</app-validation-errors>
+
+						 </div><div class="flex flex-col w-full">					
+							<label for="CompanyName">Company Name 
+							</label> 
+							<input pInputText id="CompanyName" type="text" pSize="small"	formControlName="CompanyName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CompanyName')"
+											label="Company Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="AddressLine1">Address Line 1 
+							</label> 
+							<input pInputText id="AddressLine1" type="text" pSize="small"	formControlName="AddressLine1"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine1')"
+											label="Address Line 1">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="AddressLine2">Address Line 2 
+							</label> 
+							<input pInputText id="AddressLine2" type="text" pSize="small"	formControlName="AddressLine2"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('AddressLine2')"
+											label="Address Line 2">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="City">City 
+							</label> 
+							<input pInputText id="City" type="text" pSize="small"	formControlName="City"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('City')"
+											label="City">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="State">State 
+							</label> 
+							<input pInputText id="State" type="text" pSize="small"	formControlName="State"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('State')"
+											label="State">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Pin">Pin 
+							</label> 
+							<input pInputText id="Pin" type="text" pSize="small"	formControlName="Pin"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Pin')"
+											label="Pin">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="Phone">Phone 
+							</label> 
+							<input pInputText id="Phone" type="text" pSize="small"	formControlName="Phone"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Phone')"
+											label="Phone">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Mobile">Mobile 
+							</label> 
+							<input pInputText id="Mobile" type="text" pSize="small"	formControlName="Mobile"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Mobile')"
+											label="Mobile">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Logo Document" class="mb-1">LogoDocumentId</label>
+        <p-dropdown
+            inputId="LogoDocumentId" 
+            [options]="logodocumentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LogoDocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LogoDocumentId')"
+											label="Logo Document">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Header HTML</label>
+                    <textarea size="small" pTextarea placeholder="Type Header HTML" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="HeaderHtml"
+										[ngClass]="{'is-invalid': (editForm.get('HeaderHtml').touched || editForm.get('HeaderHtml').dirty) && !editForm.get('HeaderHtml').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('HeaderHtml')"
+											label="Header HTML">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Footer HTML</label>
+                    <textarea size="small" pTextarea placeholder="Type Footer HTML" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="FooterHtml"
+										[ngClass]="{'is-invalid': (editForm.get('FooterHtml').touched || editForm.get('FooterHtml').dirty) && !editForm.get('FooterHtml').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('FooterHtml')"
+											label="Footer HTML">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsActive" binary="true" formControlName="IsActive">
+											</p-checkbox>
+											<label for="IsActive">Is Active</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

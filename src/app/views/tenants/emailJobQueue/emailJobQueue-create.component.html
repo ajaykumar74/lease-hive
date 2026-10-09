@@ -1,0 +1,138 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="EmailType">Email Type 
+							</label> 
+							<input pInputText id="EmailType" type="text" pSize="small"	formControlName="EmailType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('EmailType')"
+											label="Email Type">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ReferenceType">Reference Type 
+							</label> 
+							<input pInputText id="ReferenceType" type="text" pSize="small"	formControlName="ReferenceType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ReferenceType')"
+											label="Reference Type">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ReferenceId">Reference Id 
+							</label> 
+							<p-inputNumber id="ReferenceId"  pSize="small"	formControlName="ReferenceId"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ReferenceId')"
+											label="Reference Id">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="From Profile Code" class="mb-1">FromProfileCode</label>
+        <p-dropdown
+            inputId="FromProfileCode" 
+            [options]="fromprofilecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="FromProfileCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('FromProfileCode')"
+											label="From Profile Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">To Recipients JSON</label>
+                    <textarea size="small" pTextarea placeholder="Type To Recipients JSON" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ToRecipientsJson"
+										[ngClass]="{'is-invalid': (editForm.get('ToRecipientsJson').touched || editForm.get('ToRecipientsJson').dirty) && !editForm.get('ToRecipientsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ToRecipientsJson')"
+											label="To Recipients JSON">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">CC Recipients JSON</label>
+                    <textarea size="small" pTextarea placeholder="Type CC Recipients JSON" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="CcRecipientsJson"
+										[ngClass]="{'is-invalid': (editForm.get('CcRecipientsJson').touched || editForm.get('CcRecipientsJson').dirty) && !editForm.get('CcRecipientsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('CcRecipientsJson')"
+											label="CC Recipients JSON">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">BCC Recipients JSON</label>
+                    <textarea size="small" pTextarea placeholder="Type BCC Recipients JSON" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="BccRecipientsJson"
+										[ngClass]="{'is-invalid': (editForm.get('BccRecipientsJson').touched || editForm.get('BccRecipientsJson').dirty) && !editForm.get('BccRecipientsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('BccRecipientsJson')"
+											label="BCC Recipients JSON">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">					
+							<label for="Subject">Subject 
+							</label> 
+							<input pInputText id="Subject" type="text" pSize="small"	formControlName="Subject"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Subject')"
+											label="Subject">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">HTML Body</label>
+                    <textarea size="small" pTextarea placeholder="Type HTML Body" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="HtmlBody"
+										[ngClass]="{'is-invalid': (editForm.get('HtmlBody').touched || editForm.get('HtmlBody').dirty) && !editForm.get('HtmlBody').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('HtmlBody')"
+											label="HTML Body">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Attachments JSON</label>
+                    <textarea size="small" pTextarea placeholder="Type Attachments JSON" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="AttachmentsJson"
+										[ngClass]="{'is-invalid': (editForm.get('AttachmentsJson').touched || editForm.get('AttachmentsJson').dirty) && !editForm.get('AttachmentsJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('AttachmentsJson')"
+											label="Attachments JSON">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="Priority">Priority 
+							</label> 
+							<p-inputNumber id="Priority"  pSize="small"	formControlName="Priority"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('Priority')"
+											label="Priority">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="ScheduledAtUtc">Scheduled At UTC 
+							</label> 
+							<p-calendar id="ScheduledAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ScheduledAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ScheduledAtUtc')"
+											label="Scheduled At UTC">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">							<label for="MaxAttempts">Max Attempts 
+							</label> 
+							<p-inputNumber id="MaxAttempts"  pSize="small"	formControlName="MaxAttempts"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MaxAttempts')"
+											label="Max Attempts">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

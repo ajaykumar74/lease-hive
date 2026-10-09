@@ -5,6 +5,7 @@ import { UserComponent } from './user-component';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { AdminDashboardComponent } from './dashboardAdmin-component';
+import { NotificationModule } from '@/views/notification/notification.module';
 
 
 const routes: Routes = [
@@ -164,6 +165,28 @@ const routes: Routes = [
         path: 'notifications',
         data: { breadcrumb: 'Notifications' },
         loadChildren: () => import('@/views/notification/notification.module').then(c => c.NotificationModule),
+      },
+
+   {
+        path: 'tenantNotifications',
+        data: { breadcrumb: 'Email templates' },
+        loadChildren: () => import('@/views/tenants/tenantNotification/tenantNotification.module').then(c => c.TenantNotificationModule),
+      },
+ {
+        path: 'emailProfiles',
+        data: { breadcrumb: 'Email Profiles' },
+        loadChildren: () => import('@/views/tenants/tenantEmailProfile/tenantEmailProfile.module').then(c => c.TenantEmailProfileModule),
+      },
+
+       {
+        path: 'notificationRecipientRules',
+        data: { breadcrumb: 'Notification recipient rules' },
+        loadChildren: () => import('@/views/tenants/tenantNotificationRecipientRule/tenantNotificationRecipientRule.module').then(c => c.TenantNotificationRecipientRuleModule),
+      },
+       {
+        path: 'emailJobQueues',
+        data: { breadcrumb: 'Email Job Queue' },
+        loadChildren: () => import('@/views/tenants/emailJobQueue/emailJobQueue.module').then(c => c.EmailJobQueueModule),
       },
 
       {

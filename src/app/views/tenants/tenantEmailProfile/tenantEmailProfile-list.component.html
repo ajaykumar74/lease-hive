@@ -1,0 +1,64 @@
+<div class="grid list-page generated-list-page">
+	<div class="col-12">
+		<div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="'Email profiles'" [PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="generated-list-search">
+					<div class="generated-list-filter">
+						<label for="emailProfileCode">Profile code</label>
+						<input id="emailProfileCode" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.ProfileCode" (keyup.enter)="search()" />
+					</div>
+					<div class="generated-list-filter">
+						<label for="emailProfileCompany">Company</label>
+						<input id="emailProfileCompany" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.CompanyName" (keyup.enter)="search()" />
+					</div>
+					<div class="generated-list-filter">
+						<label for="emailProfileFrom">From email</label>
+						<input id="emailProfileFrom" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.FromEmail" (keyup.enter)="search()" />
+					</div>
+					<button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search email profiles" title="Search"></button>
+					<button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+					<div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+				</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Organisation <p-sortIcon field="OrganisationId" /> </th> 
+<th style="width:200px">Profile Code <p-sortIcon field="ProfileCode" /> </th> 
+<th style="width:200px">From Email <p-sortIcon field="FromEmail" /> </th> 
+<th style="width:200px">From Display Name <p-sortIcon field="FromDisplayName" /> </th> 
+<th style="width:200px">Company Name <p-sortIcon field="CompanyName" /> </th> 
+<th style="width:200px">City <p-sortIcon field="City" /> </th> 
+<th style="width:200px">State <p-sortIcon field="State" /> </th> 
+<th style="width:200px">Mobile <p-sortIcon field="Mobile" /> </th> 
+<th style="width:200px">Is Active <p-sortIcon field="IsActive" /> </th> 
+
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ProfileCode}}</td>
+ <td style="width:200px">{{obj.FromEmail}}</td>
+ <td style="width:200px">{{obj.FromDisplayName}}</td>
+ <td style="width:200px">{{obj.CompanyName}}</td>
+ <td style="width:200px">{{obj.City}}</td>
+ <td style="width:200px">{{obj.State}}</td>
+ <td style="width:200px">{{obj.Mobile}}</td>
+ <td style="width:200px">{{obj.IsActive | yesNo }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords"
+				[rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="pageChanged($event)"></p-paginator>
+		</div>
+	</div> 
+</div>
+  

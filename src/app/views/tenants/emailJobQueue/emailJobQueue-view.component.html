@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Email Type" [value]="emailJobQueue.EmailType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="emailJobQueue.ReferenceType">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="emailJobQueue.ReferenceId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="From Profile Code" [value]="emailJobQueue.FromProfileCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="To Recipients JSON" [value]="emailJobQueue.ToRecipientsJson">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CC Recipients JSON" [value]="emailJobQueue.CcRecipientsJson">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="BCC Recipients JSON" [value]="emailJobQueue.BccRecipientsJson">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Subject" [value]="emailJobQueue.Subject">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="HTML Body" [value]="emailJobQueue.HtmlBody">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Attachments JSON" [value]="emailJobQueue.AttachmentsJson">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Priority" [value]="emailJobQueue.Priority">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Scheduled At UTC" [value]="emailJobQueue.ScheduledAtUtc">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

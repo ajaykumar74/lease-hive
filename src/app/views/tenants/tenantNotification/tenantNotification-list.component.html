@@ -1,0 +1,64 @@
+<div class="grid list-page generated-list-page">
+	<div class="col-12">
+		<div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="'Email templates'" [PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="generated-list-search">
+					<div class="generated-list-filter">
+						<label for="emailTemplateCode">Template code</label>
+						<input id="emailTemplateCode" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.Code" (keyup.enter)="search()" />
+					</div>
+					<div class="generated-list-filter">
+						<label for="emailTemplateName">Template name</label>
+						<input id="emailTemplateName" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.Name" (keyup.enter)="search()" />
+					</div>
+					<div class="generated-list-filter">
+						<label for="emailTemplateProfile">Email profile</label>
+						<input id="emailTemplateProfile" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.EmailProfileCode" (keyup.enter)="search()" />
+					</div>
+					<button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search email templates" title="Search"></button>
+					<button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+					<div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+				</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Organisation <p-sortIcon field="OrganisationId" /> </th> 
+<th style="width:200px">Code <p-sortIcon field="Code" /> </th> 
+<th style="width:200px">Name <p-sortIcon field="Name" /> </th> 
+<th style="width:200px">Channel <p-sortIcon field="Channel" /> </th> 
+<th style="width:200px">Email Profile Code <p-sortIcon field="EmailProfileCode" /> </th> 
+<th style="width:200px">Use Tenant Header <p-sortIcon field="UseTenantHeader" /> </th> 
+<th style="width:200px">Use Tenant Footer <p-sortIcon field="UseTenantFooter" /> </th> 
+<th style="width:200px">Template Version <p-sortIcon field="TemplateVersion" /> </th> 
+<th style="width:200px">Is Active <p-sortIcon field="IsActive" /> </th> 
+
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.OrganisationId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Code}}</td>
+ <td style="width:200px">{{obj.Name}}</td>
+ <td style="width:200px">{{obj.Channel}}</td>
+ <td style="width:200px">{{obj.EmailProfileCode}}</td>
+ <td style="width:200px">{{obj.UseTenantHeader | yesNo }}</td>
+ <td style="width:200px">{{obj.UseTenantFooter | yesNo }}</td>
+ <td style="width:200px">{{obj.TemplateVersion | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.IsActive | yesNo }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords"
+				[rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="pageChanged($event)"></p-paginator>
+		</div>
+	</div> 
+</div>
+  

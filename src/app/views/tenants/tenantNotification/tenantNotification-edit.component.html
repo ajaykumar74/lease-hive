@@ -1,0 +1,135 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Organisation" class="mb-1">OrganisationId</label>
+        <p-dropdown
+            inputId="OrganisationId" 
+            [options]="organisationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="OrganisationId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('OrganisationId')"
+											label="Organisation">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="Code">Code 
+							</label> 
+							<input pInputText id="Code" type="text" pSize="small"	formControlName="Code"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Code')"
+											label="Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Name">Name 
+							</label> 
+							<input pInputText id="Name" type="text" pSize="small"	formControlName="Name"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Name')"
+											label="Name">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Channel" class="mb-1">Channel</label>
+        <p-dropdown
+            inputId="Channel" 
+            [options]="channelOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="Channel"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('Channel')"
+											label="Channel">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Description')"
+											label="Description">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Subject Template</label>
+                    <textarea size="small" pTextarea placeholder="Type Subject Template" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="SubjectTemplate"
+										[ngClass]="{'is-invalid': (editForm.get('SubjectTemplate').touched || editForm.get('SubjectTemplate').dirty) && !editForm.get('SubjectTemplate').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('SubjectTemplate')"
+											label="Subject Template">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Body Template</label>
+                    <textarea size="small" pTextarea placeholder="Type Body Template" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="BodyTemplate"
+										[ngClass]="{'is-invalid': (editForm.get('BodyTemplate').touched || editForm.get('BodyTemplate').dirty) && !editForm.get('BodyTemplate').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('BodyTemplate')"
+											label="Body Template">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Email Profile Code" class="mb-1">EmailProfileCode</label>
+        <p-dropdown
+            inputId="EmailProfileCode" 
+            [options]="emailprofilecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="EmailProfileCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('EmailProfileCode')"
+											label="Email Profile Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="UseTenantHeader" binary="true" formControlName="UseTenantHeader">
+											</p-checkbox>
+											<label for="UseTenantHeader">Use Tenant Header</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="UseTenantFooter" binary="true" formControlName="UseTenantFooter">
+											</p-checkbox>
+											<label for="UseTenantFooter">Use Tenant Footer</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TemplateVersion">Template Version 
+							</label> 
+							<p-inputNumber id="TemplateVersion"  pSize="small"	formControlName="TemplateVersion"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('TemplateVersion')"
+											label="Template Version">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsActive" binary="true" formControlName="IsActive">
+											</p-checkbox>
+											<label for="IsActive">Is Active</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

@@ -1,0 +1,75 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Organisation" [value]="tenantEmailProfile.OrganisationId">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Profile Code" [value]="tenantEmailProfile.ProfileCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="From Email" [value]="tenantEmailProfile.FromEmail">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="From Display Name" [value]="tenantEmailProfile.FromDisplayName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Reply To Email" [value]="tenantEmailProfile.ReplyToEmail">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Company Name" [value]="tenantEmailProfile.CompanyName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Address Line 1" [value]="tenantEmailProfile.AddressLine1">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Address Line 2" [value]="tenantEmailProfile.AddressLine2">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="City" [value]="tenantEmailProfile.City">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="State" [value]="tenantEmailProfile.State">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Pin" [value]="tenantEmailProfile.Pin">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Phone" [value]="tenantEmailProfile.Phone">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Mobile" [value]="tenantEmailProfile.Mobile">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Logo Document" [value]="tenantEmailProfile.LogoDocumentId">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Header HTML" [value]="tenantEmailProfile.HeaderHtml">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Footer HTML" [value]="tenantEmailProfile.FooterHtml">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Active" [value]="tenantEmailProfile.IsActive">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

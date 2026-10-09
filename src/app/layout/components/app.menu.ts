@@ -401,13 +401,7 @@ export class AppMenu {
                                         {
                                             label: 'User Roles',
                                             icon: 'pi pi-fw pi-home',
-                                            routerLink: ['/dashboard/userRoles'],
-                                            routerLinkActiveOptions: {
-                                                paths: 'subset',
-                                                queryParams: 'ignored',
-                                                matrixParams: 'ignored',
-                                                fragment: 'ignored'
-                                            }
+                                            routerLink: ['/dashboard/userRoles']
                                         },
                                         {
                                             label: 'User Organisation Units',
@@ -487,6 +481,30 @@ export class AppMenu {
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/numberSequences/'],
                                     tooltip: 'See your fleet/ actions and costs here'
+                                },
+                                {
+                                    label: 'Email templates',
+                                    icon: 'pi pi-fw pi-envelope',
+                                    routerLink: ['/dashboard/tenantNotifications/'],
+                                    tooltip: 'Manage tenant email templates'
+                                },
+                                {
+                                    label: 'Email Profiles',
+                                    icon: 'pi pi-fw pi-send',
+                                    routerLink: ['/dashboard', 'emailProfiles'],
+                                    tooltip: 'Manage tenant email profiles'
+                                },
+                                {
+                                    label: 'Recipient Rules',
+                                    icon: 'pi pi-fw pi-users',
+                                    routerLink: ['/dashboard/notificationRecipientRules/'],
+                                    tooltip: 'Manage recipient resolution rules'
+                                },
+                                {
+                                    label: 'Email Job Queues',
+                                    icon: 'pi pi-fw pi-inbox',
+                                    routerLink: ['/dashboard/emailJobQueues/'],
+                                    tooltip: 'Manage email job queues'
                                 }
                             ]
                         }
@@ -2365,6 +2383,41 @@ export class AppMenu {
         }
 
         //this.flattenLeaseContractMenu();
+        this.configureRouteMatching();
+    }
+
+    private configureRouteMatching(): void {
+        const menuRoutes = [...new Set(this.collectMenuRoutes(this.model))];
+        this.attachMenuRoutes(this.model, menuRoutes);
+    }
+
+    private collectMenuRoutes(items: any[]): string[] {
+        return items.flatMap((item) => [
+            ...this.getMenuRoute(item),
+            ...this.collectMenuRoutes(item.items || [])
+        ]);
+    }
+
+    private attachMenuRoutes(items: any[], menuRoutes: string[]): void {
+        for (const item of items) {
+            if (item.routerLink) {
+                item.menuRoutes = menuRoutes;
+            }
+
+            if (item.items) {
+                this.attachMenuRoutes(item.items, menuRoutes);
+            }
+        }
+    }
+
+    private getMenuRoute(item: any): string[] {
+        const route = Array.isArray(item.routerLink) ? item.routerLink[0] : item.routerLink;
+        if (typeof route !== 'string' || !route.trim()) {
+            return [];
+        }
+
+        const normalizedRoute = `/${route.replace(/^\/+|\/+$/g, '')}`;
+        return normalizedRoute === '/' ? [] : [normalizedRoute];
     }
 
     private flattenLeaseContractMenu(): void {

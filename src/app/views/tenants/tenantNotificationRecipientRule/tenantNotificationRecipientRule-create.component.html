@@ -1,0 +1,158 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Tenant Notification" class="mb-1">Notification template</label>
+        <p-dropdown
+            inputId="TenantNotificationId" 
+            [options]="tenantnotificationidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TenantNotificationId"
+            placeholder="Select a notification"
+            [filter]="true"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('TenantNotificationId')"
+											label="Tenant Notification">
+										</app-validation-errors></div><div class="flex flex-col w-full" *ngIf="usesSource('ContextValue')">
+ <label for="Recipient Type" class="mb-1">Recipient type</label>
+        <p-dropdown
+            inputId="RecipientType" 
+            [options]="recipienttypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecipientType"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecipientType')"
+											label="Recipient Type">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Source Type" class="mb-1">Recipient source</label>
+        <p-dropdown
+            inputId="SourceType" 
+            [options]="sourcetypeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="SourceType"
+            placeholder="Select how the recipient is resolved"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('SourceType')"
+											label="Source Type">
+										</app-validation-errors></div><div class="flex flex-col w-full">
+					
+							<label for="ContextKey">Context Key 
+							</label> 
+							<input pInputText id="ContextKey" type="text" pSize="small"	formControlName="ContextKey"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContextKey')"
+											label="Context Key">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4" *ngIf="usesSource('DepartmentRole', 'ApplicationRole')">
+<div class="flex flex-col w-full" *ngIf="usesSource('DepartmentRole')">
+ <label for="Department" class="mb-1">Department</label>
+        <p-dropdown
+            inputId="DepartmentId" 
+            [options]="departmentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DepartmentId"
+            placeholder="Select a department"
+            [filter]="true"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentId')"
+											label="Department">
+										</app-validation-errors></div><div class="flex flex-col w-full">
+ <label for="Role Code" class="mb-1">Role</label>
+        <p-dropdown
+            inputId="RoleCode" 
+            [options]="rolecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RoleCode"
+            placeholder="Select a role"
+            [filter]="true"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RoleCode')"
+											label="Role Code">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4" *ngIf="usesSource('Contact', 'FixedEmail')">
+<div class="flex flex-col w-full" *ngIf="usesSource('Contact')">
+ <label for="Contact" class="mb-1">Contact</label>
+        <p-dropdown
+            inputId="ContactId" 
+            [options]="contactidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ContactId"
+            placeholder="Select a contact"
+            [filter]="true"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ContactId')"
+											label="Contact">
+										</app-validation-errors></div><div class="flex flex-col w-full" *ngIf="usesSource('FixedEmail')">
+			
+							<label for="FixedEmail">Fixed Email 
+							</label> 
+							<input pInputText id="FixedEmail" type="email" pSize="small"	formControlName="FixedEmail"  />
+	<app-validation-errors [type]="'email'" [control]="editForm.get('FixedEmail')"
+											label="Fixed Email">
+										</app-validation-errors>
+
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+							<label for="SortOrder">Sort Order 
+							</label> 
+							<p-inputNumber id="SortOrder"  pSize="small"	formControlName="SortOrder"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('SortOrder')"
+											label="Sort Order">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">
+<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsRequired" binary="true" formControlName="IsRequired">
+											</p-checkbox>
+											<label for="IsRequired">Is Required</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-wrap" > 
+<div class="flex flex-col w-full">
+<label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsActive" binary="true" formControlName="IsActive">
+											</p-checkbox>
+											<label for="IsActive">Is Active</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>
