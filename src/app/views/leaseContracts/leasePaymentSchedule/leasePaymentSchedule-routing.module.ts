@@ -6,6 +6,7 @@ import { LeasePaymentScheduleListComponent } from './leasePaymentSchedule-list.c
 import { LeasePaymentScheduleCreateComponent } from './leasePaymentSchedule-create.component';
 import { LeasePaymentScheduleEditComponent } from './leasePaymentSchedule-edit.component';
 import { LeasePaymentScheduleViewComponent } from './leasePaymentSchedule-view.component';
+import { LeasePaymentScheduleGenerateComponent } from './leasePaymentSchedule-generate.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
         path: 'edit/:id',
         canActivate: [AuthGuard],
         component: LeasePaymentScheduleEditComponent 
+      },
+	  {
+        path: 'generate/:id',
+        canActivate: [AuthGuard],
+        component: LeasePaymentScheduleGenerateComponent
       },
 	  {
         path: 'view/:id',

@@ -20,6 +20,7 @@ import { LeasePaymentScheduleListComponent } from './leasePaymentSchedule-list.c
 import { LeasePaymentScheduleCreateComponent } from './leasePaymentSchedule-create.component';
 import { LeasePaymentScheduleEditComponent } from './leasePaymentSchedule-edit.component';
 import { LeasePaymentScheduleViewComponent } from './leasePaymentSchedule-view.component';
+import { LeasePaymentScheduleGenerateComponent } from './leasePaymentSchedule-generate.component';
 import { LeasePaymentScheduleRoutingModule } from './leasePaymentSchedule-routing.module';
 
 
@@ -48,7 +49,8 @@ import { LeasePaymentScheduleRoutingModule } from './leasePaymentSchedule-routin
 		LeasePaymentScheduleCreateComponent,
 		LeasePaymentScheduleListComponent,
 		LeasePaymentScheduleEditComponent,
-		LeasePaymentScheduleViewComponent
+		LeasePaymentScheduleViewComponent,
+		LeasePaymentScheduleGenerateComponent
 	]
 })
 export class LeasePaymentScheduleModule { }

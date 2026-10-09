@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { ILeasePaymentSchedule } from './leasePaymentSchedule';
+import { IGenerateLeasePaymentScheduleRequest } from './leasePaymentSchedule';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -43,6 +43,14 @@ export class LeasePaymentScheduleService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  generate(id: number, request: IGenerateLeasePaymentScheduleRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/generate`, request, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
   }
 }
 

@@ -1,0 +1,116 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12 md:col-12">
+      <div class="card p-fluid">
+        <app-message [AlertType]="'message'"></app-message>
+        <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+          [PageType]="'View'" [form]="editForm">
+          <p-button label="Generate" icon="pi pi-calendar-plus" size="small" severity="success"
+            [disabled]="!permission?.CanUpdate || isGenerating" (click)="onOptionItemClicked('Generate')">
+          </p-button>
+        </app-toolbar-buttons>
+        <app-spinner></app-spinner>
+
+        <form [formGroup]="editForm" (ngSubmit)="generate()">
+          <p-fluid>
+            <div class="flex mt-8">
+              <div class="card flex flex-col gap-4 w-full">
+                <h3 class="m-0 text-xl">Schedule generation details</h3>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full">
+                    <label for="TotalAmount" class="mb-1">Total Amount</label>
+                    <p-inputNumber inputId="TotalAmount" formControlName="TotalAmount" mode="decimal"
+                      [min]="0.01" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+                    <app-validation-errors [type]="'number'" [control]="editForm.get('TotalAmount')" label="Total Amount"></app-validation-errors>
+                  </div>
+                  <div class="flex flex-col w-full">
+                    <label for="TaxRate" class="mb-1">Tax Rate</label>
+                    <p-inputNumber inputId="TaxRate" formControlName="TaxRate" suffix="%" [min]="0" [max]="100"
+                      [minFractionDigits]="0" [maxFractionDigits]="4"></p-inputNumber>
+                    <app-validation-errors [type]="'number'" [control]="editForm.get('TaxRate')" label="Tax Rate"></app-validation-errors>
+                  </div>
+                  <div class="flex flex-col w-full">
+                    <label for="Months" class="mb-1">Tenor (Months)</label>
+                    <p-inputNumber inputId="Months" formControlName="Months" [min]="1" [max]="600" [useGrouping]="false"></p-inputNumber>
+                    <app-validation-errors [type]="'number'" [control]="editForm.get('Months')" label="Tenor"></app-validation-errors>
+                  </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full">
+                    <label for="PaymentTiming" class="mb-1">Payment Timing</label>
+                    <p-dropdown inputId="PaymentTiming" [options]="paymentTimingOptions" optionLabel="Text" optionValue="Value"
+                      formControlName="PaymentTiming" placeholder="Select timing"></p-dropdown>
+                    <app-validation-errors [type]="'text'" [control]="editForm.get('PaymentTiming')" label="Payment Timing"></app-validation-errors>
+                  </div>
+                  <div class="flex flex-col w-full">
+                    <label for="Roi" class="mb-1">ROI</label>
+                    <p-inputNumber inputId="Roi" formControlName="Roi" suffix="%" [min]="0" [max]="100"
+                      [minFractionDigits]="0" [maxFractionDigits]="4"></p-inputNumber>
+                    <app-validation-errors [type]="'number'" [control]="editForm.get('Roi')" label="ROI"></app-validation-errors>
+                  </div>
+                  <div class="flex flex-col w-full">
+                    <label for="MonthlyDueDay" class="mb-1">Monthly Due Date</label>
+                    <p-dropdown inputId="MonthlyDueDay" [options]="monthlyDueDayOptions" optionLabel="Text" optionValue="Value"
+                      formControlName="MonthlyDueDay" placeholder="Select day"></p-dropdown>
+                    <app-validation-errors [type]="'text'" [control]="editForm.get('MonthlyDueDay')" label="Monthly Due Date"></app-validation-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-fluid>
+        </form>
+
+        <section *ngIf="leasePaymentSchedule" class="mt-4">
+          <div class="card flex flex-col gap-3">
+            <h3 class="m-0 text-xl">Schedule</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+              <div class="flex flex-col w-full"><span class="text-sm text-color-secondary">Schedule ID</span><strong>{{ leasePaymentSchedule.LeasePaymentScheduleId }}</strong></div>
+              <div class="flex flex-col w-full"><span class="text-sm text-color-secondary">Start Date</span><strong>{{ leasePaymentSchedule.StartDate | date:'dd MMM yyyy' }}</strong></div>
+              <div class="flex flex-col w-full"><span class="text-sm text-color-secondary">Currency</span><strong>{{ leasePaymentSchedule.CurrencyCode }}</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <section *ngIf="generatedLines.length" class="mt-5">
+          <div class="flex justify-content-between align-items-center mb-3">
+            <div>
+              <h3 class="m-0 text-xl">Generated payment lines</h3>
+              <span class="text-sm text-color-secondary">{{ generatedLines.length }} installments</span>
+            </div>
+            <span class="text-sm text-color-secondary">{{ leasePaymentSchedule?.CurrencyCode }}</span>
+          </div>
+          <p-table [value]="generatedLines" [scrollable]="true" scrollHeight="360px" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Installment</th>
+                <th>Due Date</th>
+                <th class="text-right">Opening Principal</th>
+                <th class="text-right">Principal</th>
+                <th class="text-right">Finance</th>
+                <th class="text-right">Rental</th>
+                <th class="text-right">Tax</th>
+                <th class="text-right">Total Due</th>
+                <th class="text-right">Closing Principal</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{ line.InstallmentNo }}</td>
+                <td>{{ line.DueDate | date:'dd MMM yyyy' }}</td>
+                <td class="text-right">{{ line.OpeningPrincipal | number:'1.2-2' }}</td>
+                <td class="text-right">{{ line.PrincipalAmount | number:'1.2-2' }}</td>
+                <td class="text-right">{{ line.FinanceAmount | number:'1.2-2' }}</td>
+                <td class="text-right">{{ line.RentalAmount | number:'1.2-2' }}</td>
+                <td class="text-right">{{ line.TaxAmount | number:'1.2-2' }}</td>
+                <td class="text-right font-semibold">{{ line.TotalDueAmount | number:'1.2-2' }}</td>
+                <td class="text-right">{{ line.ClosingPrincipal | number:'1.2-2' }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

@@ -134,6 +134,9 @@ GeneratedBy: obj.GeneratedBy || 0,
     else if (key == "Cancel") {
       this.onCancel();
     }
+    else if (key == "GenerateSchedule") {
+      this.router.navigate(['/contracts/payment-schedules/generate', this.selectedId]);
+    }
 
   }
 

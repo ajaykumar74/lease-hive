@@ -5,6 +5,9 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
+					<p-button label="Generate Schedule" icon="pi pi-calendar-plus" size="small"
+						[disabled]="!permission?.CanUpdate" (click)="onOptionItemClicked('GenerateSchedule')">
+					</p-button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				
@@ -12,7 +15,9 @@
  				<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
+ 					<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Lease Contract Id" class="mb-1">LeaseContractId</label>
         <p-dropdown
             inputId="LeaseContractId" 
             [options]="leasecontractidOptions"
@@ -24,7 +29,8 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseContractId')"
 											label="Lease Contract Id">
-										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="ScheduleVersionNo">Schedule Version No 
+										</app-validation-errors></div><div class="flex flex-col w-full">
+							<label for="ScheduleVersionNo">Schedule Version No 
 							</label> 
 							<p-inputNumber id="ScheduleVersionNo"  pSize="small"	formControlName="ScheduleVersionNo"  >
 </p-inputNumber>
@@ -32,7 +38,9 @@
 											label="Schedule Version No">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Schedule Status Code" class="mb-1">ScheduleStatusCode</label>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Schedule Status Code" class="mb-1">ScheduleStatusCode</label>
         <p-dropdown
             inputId="ScheduleStatusCode" 
             [options]="schedulestatuscodeOptions"
@@ -44,7 +52,8 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('ScheduleStatusCode')"
 											label="Schedule Status Code">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Calculation Method Code" class="mb-1">CalculationMethodCode</label>
+										</app-validation-errors></div><div class="flex flex-col w-full">
+ <label for="Calculation Method Code" class="mb-1">CalculationMethodCode</label>
         <p-dropdown
             inputId="CalculationMethodCode" 
             [options]="calculationmethodcodeOptions"
@@ -57,7 +66,9 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('CalculationMethodCode')"
 											label="Calculation Method Code">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+			
 							<label for="StartDate">Start Date 
 							</label> 
 							<p-calendar id="StartDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
@@ -65,7 +76,8 @@
 	<app-validation-errors [type]="'date'" [control]="editForm.get('StartDate')"
 											label="Start Date">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">			
+						 </div><div class="flex flex-col w-full">
+			
 							<label for="EndDate">End Date 
 							</label> 
 							<p-calendar id="EndDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
@@ -74,26 +86,32 @@
 											label="End Date">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="NumberOfPayments">Number Of Payments 
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+							<label for="NumberOfPayments">Number Of Payments 
 							</label> 
 							<p-inputNumber id="NumberOfPayments"  pSize="small"	formControlName="NumberOfPayments"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('NumberOfPayments')"
 											label="Number Of Payments">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+						 </div><div class="flex flex-col w-full">
+ <label for="Currency Code" class="mb-1">CurrencyCode</label>
         <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
 											label="Currency Code">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TotalRentalAmount">Total Rental Amount 
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+							<label for="TotalRentalAmount">Total Rental Amount 
 							</label> 
 							<p-inputNumber id="TotalRentalAmount"  pSize="small"	formControlName="TotalRentalAmount"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('TotalRentalAmount')"
 											label="Total Rental Amount">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="TotalTaxAmount">Total Tax Amount 
+						 </div><div class="flex flex-col w-full">
+							<label for="TotalTaxAmount">Total Tax Amount 
 							</label> 
 							<p-inputNumber id="TotalTaxAmount"  pSize="small"	formControlName="TotalTaxAmount"  >
 </p-inputNumber>
@@ -101,7 +119,9 @@
 											label="Total Tax Amount">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+			
 							<label for="GeneratedOn">Generated On 
 							</label> 
 							<p-calendar id="GeneratedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
@@ -109,7 +129,8 @@
 	<app-validation-errors [type]="'date'" [control]="editForm.get('GeneratedOn')"
 											label="Generated On">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Generated By" class="mb-1">GeneratedBy</label>
+						 </div><div class="flex flex-col w-full">
+ <label for="Generated By" class="mb-1">GeneratedBy</label>
         <p-dropdown
             inputId="GeneratedBy" 
             [options]="generatedbyOptions"

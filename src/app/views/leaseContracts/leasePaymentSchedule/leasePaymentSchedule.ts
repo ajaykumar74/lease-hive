@@ -18,3 +18,13 @@ GeneratedOn :Date;
 GeneratedBy :number;
 
 }
+
+export interface IGenerateLeasePaymentScheduleRequest {
+ TotalAmount: number;
+ TaxRate: number;
+ Months: number;
+ PaymentTiming: 'ADVANCE' | 'ARREAR';
+ Roi: number;
+ MonthlyDueDay: number;
+ RowVersionStr: string;
+}
