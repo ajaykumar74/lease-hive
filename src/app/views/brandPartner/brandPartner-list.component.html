@@ -1,44 +1,24 @@
-<div class="grid">
+<div class="grid list-page generated-list-page">
 	<div class="col-12">
-		<div class="card">
+		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 				[Caption]="'Brand Partners'" [PageType]="'List'">
 			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-			<div class="col-12 md:col-6">
-				<div class="flex flex-col items-center mb-12">
-					<div class="w-1/2 md:w-6 lg:w-4 xl:w-3">
-						<p-inputGroup>
-							<input pSize="small" type="text" class="p-inputtext-sm" pInputText placeholder="type business name"
-								[(ngModel)]="objSearch.Name" />
-							<p-inputgroup-addon>
-								<i class="pi pi-times" style="cursor: pointer;" (click)="clearSearch()"></i>
-							</p-inputgroup-addon>
-							<p-button label="Search" pRipple size="small" (click)="search()" />
-							<div class="ml-3" style="display: flex; align-items: center;">
-								<p-checkbox size="small" [(ngModel)]="objSearch.IncludeDeleted" binary="true"
-									inputId="IncludeDeleted">
-								</p-checkbox>
-								<label for="IncludeDeleted" style="margin-left: 0.5rem;font-size: small;">Include
-									Deleted</label>
-							</div>
-
-						</p-inputGroup>
-						<label for="Records Found" style=" font-size:small;">Records Found: {{totalNoOfRecords}}</label>
-					</div>
-
-				</div>
-			</div>
+			<app-spinner></app-spinner><div class="generated-list-search">
+    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
+    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>    <label class="generated-list-filter" for="IncludeDeleted"><p-checkbox size="small" [(ngModel)]="objSearch.IncludeDeleted" binary="true" inputId="IncludeDeleted"></p-checkbox><span>Include Deleted</span></label></div>
 			<p-table [size]="gridSize" [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
-				styleClass="list-table" responsiveLayout="scroll">
+				styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:60px">Id <p-sortIcon field="Id" /> </th>
+						<th pFrozenColumn pSortableColumn="Id" style="width:60px">ID <p-sortIcon field="Id" /> </th>
 						<th style="width:200px" pSortableColumn="Code">Code <p-sortIcon field="Code" /> </th>
 						<th style="width:200px" pSortableColumn="BusinessName">Business Name <p-sortIcon
 								field="BusinessName" /> </th>
-						<th style="width:200px">EmailId </th>
+						<th style="width:200px">Email ID </th>
 						<th style="width:200px">Short Name </th>
 						<th style="width:200px">Deleted </th>
 

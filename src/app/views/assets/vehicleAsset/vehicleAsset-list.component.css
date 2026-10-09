@@ -1,0 +1,98 @@
+:host {
+    display: block;
+}
+
+.vehicle-list-meta {
+    margin: .25rem 1.5rem .75rem;
+}
+
+.vehicle-list-meta p {
+    margin: 0;
+    color: var(--text-color-secondary);
+}
+
+.vehicle-list-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin: 0 1.5rem 1.25rem;
+}
+
+.vehicle-search-input {
+    width: min(100%, 20rem);
+}
+
+.vehicle-search-input input {
+    width: 100%;
+    height: 2.5rem;
+}
+
+.vehicle-record-count {
+    flex: 0 0 auto;
+    margin-left: .25rem;
+}
+
+:host ::ng-deep .vehicle-search-action.p-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 2.5rem;
+    padding: 0;
+}
+
+:host ::ng-deep .vehicle-list-table .p-datatable-thead > tr > th {
+    padding: .85rem .9rem;
+    background: color-mix(in srgb, var(--primary-color) 8%, var(--surface-0));
+    color: var(--text-color);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: normal;
+}
+
+.vehicle-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    min-height: 1.5rem;
+}
+
+:host ::ng-deep .vehicle-list-table .p-sortable-column-icon {
+    color: var(--text-color-secondary);
+    font-size: .75rem;
+}
+
+:host ::ng-deep .vehicle-list-table .p-datatable-tbody > tr > td {
+    padding: .95rem .9rem;
+    white-space: nowrap;
+}
+
+.vehicle-record-link {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--primary-color);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.vehicle-record-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .vehicle-list-meta p {
+        font-size: .875rem;
+    }
+
+    .vehicle-list-search {
+        flex-wrap: wrap;
+    }
+
+    .vehicle-search-input {
+        width: calc(100% - 6rem);
+    }
+}

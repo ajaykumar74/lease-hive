@@ -1,38 +1,38 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
+<div class="grid list-page generated-list-page">
+<div class="col-12">
+		<div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'LeaseContractTerm List'"
 					[PageType]="'List'">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
-                </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<div class="generated-list-search">
+    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
+    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">Lease Contract Term Id <p-sortIcon field="LeaseContractTermId" /> </th> 
-<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
-<th style="width:200px">Term Version No <p-sortIcon field="TermVersionNo" /> </th> 
-<th style="width:200px">Lease Type Code <p-sortIcon field="LeaseTypeCode" /> </th> 
-<th style="width:200px">Term Months <p-sortIcon field="TermMonths" /> </th> 
-<th style="width:200px">Payment Frequency Code <p-sortIcon field="PaymentFrequencyCode" /> </th> 
-<th style="width:200px">Payment Timing Code <p-sortIcon field="PaymentTimingCode" /> </th> 
-<th style="width:200px">Base Rental Amount <p-sortIcon field="BaseRentalAmount" /> </th> 
-<th style="width:200px">Rental Rate <p-sortIcon field="RentalRate" /> </th> 
-<th style="width:200px">Residual Value Amount <p-sortIcon field="ResidualValueAmount" /> </th> 
-<th style="width:200px">Residual Value Percent <p-sortIcon field="ResidualValuePercent" /> </th> 
-<th style="width:200px">Upfront Payment Amount <p-sortIcon field="UpfrontPaymentAmount" /> </th> 
-<th style="width:200px">Balloon Amount <p-sortIcon field="BalloonAmount" /> </th> 
-<th style="width:200px">Grace Days <p-sortIcon field="GraceDays" /> </th> 
-<th style="width:200px">Tax Inclusive <p-sortIcon field="TaxInclusive" /> </th> 
-<th style="width:200px">Terms Json <p-sortIcon field="TermsJson" /> </th> 
-
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
+						 <th style="width:200px">Lease Contract Term ID <p-sortIcon field="LeaseContractTermId" /> </th>
+<th style="width:200px">Lease Contract ID <p-sortIcon field="LeaseContractId" /> </th>
+<th style="width:200px">Term Version No. <p-sortIcon field="TermVersionNo" /> </th>
+<th style="width:200px">Lease Type Code <p-sortIcon field="LeaseTypeCode" /> </th>
+<th style="width:200px">Term Months <p-sortIcon field="TermMonths" /> </th>
+<th style="width:200px">Payment Frequency Code <p-sortIcon field="PaymentFrequencyCode" /> </th>
+<th style="width:200px">Payment Timing Code <p-sortIcon field="PaymentTimingCode" /> </th>
+<th style="width:200px">Base Rental Amount <p-sortIcon field="BaseRentalAmount" /> </th>
+<th style="width:200px">Rental Rate <p-sortIcon field="RentalRate" /> </th>
+<th style="width:200px">Residual Value Amount <p-sortIcon field="ResidualValueAmount" /> </th>
+<th style="width:200px">Residual Value Percent <p-sortIcon field="ResidualValuePercent" /> </th>
+<th style="width:200px">Upfront Payment Amount <p-sortIcon field="UpfrontPaymentAmount" /> </th>
+<th style="width:200px">Balloon Amount <p-sortIcon field="BalloonAmount" /> </th>
+<th style="width:200px">Grace Days <p-sortIcon field="GraceDays" /> </th>
+<th style="width:200px">Tax Inclusive <p-sortIcon field="TaxInclusive" /> </th>
+<th style="width:200px">Terms Json <p-sortIcon field="TermsJson" /> </th>
+
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
@@ -48,11 +48,11 @@
  <td style="width:200px">{{obj.GraceDays | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TaxInclusive | yesNo }}</td>
  <td style="width:200px">{{obj.TermsJson}}</td>
- 
+
 					</tr>
 				</ng-template>
 			</p-table>
 		</div>
-	</div> 
+	</div>
 </div>
-  
+

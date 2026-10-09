@@ -11,6 +11,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button'; 
 import { RadioButtonModule } from 'primeng/radiobutton'; 
 import { InputGroupModule } from 'primeng/inputgroup';
+import { TooltipModule } from 'primeng/tooltip';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
@@ -40,6 +41,7 @@ import { VehicleAssetRoutingModule } from './vehicleAsset-routing.module';
 		CheckboxModule,
 		ButtonModule,
 		InputGroupModule, 
+		TooltipModule,
 		MySharedModule, 
 		FluidModule,
 		VehicleAssetRoutingModule,

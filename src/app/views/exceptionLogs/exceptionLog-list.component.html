@@ -1,60 +1,24 @@
-<div class="grid">
+<div class="grid list-page generated-list-page">
 	<div class="col-12">
-		<div class="card">
+		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 				[Caption]="'Exception Logs'" [PageType]="'View'">
 					<p-button label="Clear" pRipple size="small" (click)="onDeleteOld()" />
 				<p-button label="Refresh" pRipple size="small" (click)="search()" />
 			</app-toolbar-buttons>
-			<app-spinner></app-spinner>
-
-			<div class="col-12 md:col-6">
-				<div class="flex flex-col items-center mb-12">
-					<div class="md:w-6 lg:w-4 xl:w-3">
-						<div class="flex flex-col mb-3">
-							<div class="flex items-center gap-2">
-								<!-- <label pSize="small" for="">From Date : </label>
-								<p-floatlabel variant="on">
-									<p-datepicker pSize="small" inputId="on_label" [(ngModel)]="fromDate"
-										[showWeek]="true" showIcon iconDisplay="input" dateFormat="dd MM yy">
-									</p-datepicker>
-								</p-floatlabel>
-								<label pSize="small" for="">To Date : </label>
-								<p-floatlabel variant="on">
-									<p-datepicker pSize="small" inputId="on_label" [(ngModel)]="toDate"
-										[showWeek]="true" showIcon iconDisplay="input" dateFormat="dd MM yy">
-									</p-datepicker>
-								</p-floatlabel> -->
-								<!-- <p-select class="w-1/2" size="small" name="Department"
-									[(ngModel)]="" optionLabel="label" optionValue="value"
-									[options]="" placeholder="Select a value">
-								</p-select> -->
-							</div>
-						</div>
-						<!-- <p-inputGroup>
-							<input pSize="small" type="text" class="p-inputtext-sm" pInputText
-								placeholder="Type Transaction ID" [(ngModel)]="objSearch.Name" />
-							<p-inputgroup-addon>
-								<i class="pi pi-times" style="cursor: pointer;" (click)="clearSearch()"></i>
-							</p-inputgroup-addon>
-							<p-button label="Search" pRipple size="small" (click)="search()" />
-						</p-inputGroup> -->
-						<!-- <label for="Records Found" style=" font-size:small;">Records Found: {{totalNoOfRecords}}</label> -->
-					</div>
-				</div>
-			</div>
+			<app-spinner></app-spinner><div class="generated-list-search"><div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
 			<p-table [size]="gridSize" [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
-				styleClass="mt-3" responsiveLayout="scroll">
+				styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:60px">Id <p-sortIcon field="Id" /> </th>
-						<th style="width:200px" pSortableColumn="CreatedDateTime">CreatedDateTime <p-sortIcon
+						<th pFrozenColumn pSortableColumn="Id" style="width:60px">ID <p-sortIcon field="Id" /> </th>
+						<th style="width:200px" pSortableColumn="CreatedDateTime">Created Date Time <p-sortIcon
 								field="CreatedDateTime " /> </th>
-						<th style="width:200px">StatusCode </th>
-						<th style="width:200px">RequestPath </th>
+						<th style="width:200px">Status Code </th>
+						<th style="width:200px">Request Path </th>
 						<th style="width:200px">Message </th>
-						<th style="width:200px">StatusCode </th>
+						<th style="width:200px">Status Code </th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>

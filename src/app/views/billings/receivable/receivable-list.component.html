@@ -1,39 +1,39 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
+<div class="grid list-page generated-list-page">
+<div class="col-12">
+		<div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Receivable List'"
 					[PageType]="'List'">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
-                </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<div class="generated-list-search">
+    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
+    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+</div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">Billing Organisation Id <p-sortIcon field="BillingOrganisationId" /> </th> 
-<th style="width:200px">Customer Party Id <p-sortIcon field="CustomerPartyId" /> </th> 
-<th style="width:200px">Source Document Type <p-sortIcon field="SourceDocumentType" /> </th> 
-<th style="width:200px">Source Document Id <p-sortIcon field="SourceDocumentId" /> </th> 
-<th style="width:200px">Lease Contract Id <p-sortIcon field="LeaseContractId" /> </th> 
-<th style="width:200px">Document No <p-sortIcon field="DocumentNo" /> </th> 
-<th style="width:200px">Document Date <p-sortIcon field="DocumentDate" /> </th> 
-<th style="width:200px">Due Date <p-sortIcon field="DueDate" /> </th> 
-<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th> 
-<th style="width:200px">Original Amount <p-sortIcon field="OriginalAmount" /> </th> 
-<th style="width:200px">Allocated Amount <p-sortIcon field="AllocatedAmount" /> </th> 
-<th style="width:200px">Credit Applied Amount <p-sortIcon field="CreditAppliedAmount" /> </th> 
-<th style="width:200px">Write Off Amount <p-sortIcon field="WriteOffAmount" /> </th> 
-<th style="width:200px">Outstanding Amount <p-sortIcon field="OutstandingAmount" /> </th> 
-<th style="width:200px">Receivable Status <p-sortIcon field="ReceivableStatus" /> </th> 
-<th style="width:200px">Dispute Hold Flag <p-sortIcon field="DisputeHoldFlag" /> </th> 
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
-
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
+						 <th style="width:200px">Billing Organisation ID <p-sortIcon field="BillingOrganisationId" /> </th>
+<th style="width:200px">Customer Party ID <p-sortIcon field="CustomerPartyId" /> </th>
+<th style="width:200px">Source Document Type <p-sortIcon field="SourceDocumentType" /> </th>
+<th style="width:200px">Source Document ID <p-sortIcon field="SourceDocumentId" /> </th>
+<th style="width:200px">Lease Contract ID <p-sortIcon field="LeaseContractId" /> </th>
+<th style="width:200px">Document No. <p-sortIcon field="DocumentNo" /> </th>
+<th style="width:200px">Document Date <p-sortIcon field="DocumentDate" /> </th>
+<th style="width:200px">Due Date <p-sortIcon field="DueDate" /> </th>
+<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th>
+<th style="width:200px">Original Amount <p-sortIcon field="OriginalAmount" /> </th>
+<th style="width:200px">Allocated Amount <p-sortIcon field="AllocatedAmount" /> </th>
+<th style="width:200px">Credit Applied Amount <p-sortIcon field="CreditAppliedAmount" /> </th>
+<th style="width:200px">Write Off Amount <p-sortIcon field="WriteOffAmount" /> </th>
+<th style="width:200px">Outstanding Amount <p-sortIcon field="OutstandingAmount" /> </th>
+<th style="width:200px">Receivable Status <p-sortIcon field="ReceivableStatus" /> </th>
+<th style="width:200px">Dispute Hold Flag <p-sortIcon field="DisputeHoldFlag" /> </th>
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
+
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
@@ -56,11 +56,10 @@
  <td style="width:200px">{{obj.ReceivableStatus}}</td>
  <td style="width:200px">{{obj.DisputeHoldFlag | yesNo }}</td>
  <td style="width:200px">{{obj.RecordStatus}}</td>
- 
+
 					</tr>
 				</ng-template>
 			</p-table>
 		</div>
-	</div> 
+	</div>
 </div>
-  

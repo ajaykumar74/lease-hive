@@ -1,41 +1,29 @@
-<div class="grid">
+<div class="grid list-page generated-list-page">
 	<div class="col-12">
-		<div class="card">
+		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 				[Caption]="'LeaseRequirement List'" [PageType]="'List'">
 			</app-toolbar-buttons>
-			<app-spinner></app-spinner>  
-			<div class="col-12 md:col-6">
-				<div class="flex flex-col items-center mb-12">
-					<div class="w-1/2 md:w-6 lg:w-4 xl:w-3">
-						<p-inputGroup>
-							<input pSize="small" type="text" class="p-inputtext-sm" pInputText  
-								placeholder="type name" [(ngModel)]="objSearch.Name" />
-							<p-inputgroup-addon>
-								<i class="pi pi-times" style="cursor: pointer;" (click)="clearSearch()"></i>
-							</p-inputgroup-addon>
-							<p-button label="Search" pRipple size="small" (click)="search()" />
-						</p-inputGroup>
-						<label for="Records Found" style=" font-size:small;">Records Found: {{totalNoOfRecords}}</label>
-					</div>
-
-				</div>
-			</div>
+			<app-spinner></app-spinner><div class="generated-list-search">
+    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
+    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
 
 
 
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" styleClass="list-table"
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" styleClass="list-table generated-list-table"
 				scrollHeight="400px" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
-						<th pSortableColumn="PartyName" style="width:200px">Party <p-sortIcon field="PartyName" /> </th>
-						<th pSortableColumn="PartyLocationName" style="width:200px">Party Location <p-sortIcon field="PartyLocationName" /> </th>
-						<th pSortableColumn="RequirementDate" style="width:200px">Req. Date <p-sortIcon field="RequirementDate" /> </th>
-						<th pSortableColumn="PreferredStartDate" style="width:200px">Pref. StartDate <p-sortIcon field="PreferredStartDate" /> </th>
-						<th pSortableColumn="RequestedTermMonths" style="width:200px">Term Months <p-sortIcon field="RequestedTermMonths" /> </th>
-						<th pSortableColumn="RequirementStatusCode" style="width:200px">Req. Status Code <p-sortIcon field="RequirementStatusCode" />
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
+						<th pSortableColumn="PartyName" style="width:200px">Party Name <p-sortIcon field="PartyName" /> </th>
+						<th pSortableColumn="PartyLocationName" style="width:200px">Party Location Name <p-sortIcon field="PartyLocationName" /> </th>
+						<th pSortableColumn="RequirementDate" style="width:200px">Requirement Date <p-sortIcon field="RequirementDate" /> </th>
+						<th pSortableColumn="PreferredStartDate" style="width:200px">Preferred Start Date <p-sortIcon field="PreferredStartDate" /> </th>
+						<th pSortableColumn="RequestedTermMonths" style="width:200px">Requested Term Months <p-sortIcon field="RequestedTermMonths" /> </th>
+						<th pSortableColumn="RequirementStatusCode" style="width:200px">Requirement Status Code <p-sortIcon field="RequirementStatusCode" />
 						</th>
 						<th pSortableColumn="RecordStatus" style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
 

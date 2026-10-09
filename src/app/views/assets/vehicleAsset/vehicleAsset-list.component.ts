@@ -12,7 +12,8 @@ import { PageEvent } from '@/shared/IBase';
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './vehicleAsset-list.component.html'
+  templateUrl: './vehicleAsset-list.component.html',
+  styleUrl: './vehicleAsset-list.component.css'
 })
 export class VehicleAssetListComponent implements OnInit {
 
@@ -153,6 +154,20 @@ export class VehicleAssetListComponent implements OnInit {
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+
+    if (value.includes('active') || value.includes('available') || value.includes('in service')) {
+      return 'status-active';
+    }
+
+    if (value.includes('inactive') || value.includes('disposed') || value.includes('retired')) {
+      return 'status-closed';
+    }
+
+    return 'status-pending';
   }
 }
 

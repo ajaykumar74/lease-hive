@@ -1,6 +1,6 @@
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
+<div class="grid list-page generated-list-page">
+<div class="col-12">
+        <div class="card list-card generated-list-card">
             <app-message [AlertType]="'message'"></app-message>
             <app-toolbar-buttons
                 (onItemClicked)="onOptionItemClicked($event)"
@@ -9,23 +9,23 @@
                 [PageType]="'List'">
             </app-toolbar-buttons>
             <app-spinner></app-spinner>
-            <div class="col-12 md:col-6">
-                <p-inputGroup>
-                    <input type="text" class="p-inputtext-sm" pInputText placeholder="Search delegations" [(ngModel)]="objSearch.Name" />
-                    <button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button>
-                </p-inputGroup>
-            </div>
-            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+            <div class="generated-list-search">
+    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
+    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
+    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+</div>
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pFrozenColumn pSortableColumn="UserDelegationId" style="width: 180px">Delegation ID <p-sortIcon field="UserDelegationId" /></th>
-                        <th pSortableColumn="DelegatorUserName" style="width: 220px">Delegator <p-sortIcon field="DelegatorUserName" /></th>
-                        <th pSortableColumn="DelegateUserName" style="width: 220px">Delegate <p-sortIcon field="DelegateUserName" /></th>
-                        <th pSortableColumn="DelegationType" style="width: 160px">Type <p-sortIcon field="DelegationType" /></th>
+                        <th pFrozenColumn pSortableColumn="UserDelegationId" style="width: 180px">User Delegation ID <p-sortIcon field="UserDelegationId" /></th>
+                        <th pSortableColumn="DelegatorUserName" style="width: 220px">Delegator User Name <p-sortIcon field="DelegatorUserName" /></th>
+                        <th pSortableColumn="DelegateUserName" style="width: 220px">Delegate User Name <p-sortIcon field="DelegateUserName" /></th>
+                        <th pSortableColumn="DelegationType" style="width: 160px">Delegation Type <p-sortIcon field="DelegationType" /></th>
                         <th pSortableColumn="ProcessCode" style="width: 180px">Process Code <p-sortIcon field="ProcessCode" /></th>
-                        <th pSortableColumn="OrganisationUnitDisplayName" style="width: 260px">Organisation Unit <p-sortIcon field="OrganisationUnitDisplayName" /></th>
-                        <th pSortableColumn="StartDateTime" style="width: 180px">Start <p-sortIcon field="StartDateTime" /></th>
-                        <th pSortableColumn="EndDateTime" style="width: 180px">End <p-sortIcon field="EndDateTime" /></th>
+                        <th pSortableColumn="OrganisationUnitDisplayName" style="width: 260px">Organisation Unit Display Name <p-sortIcon field="OrganisationUnitDisplayName" /></th>
+                        <th pSortableColumn="StartDateTime" style="width: 180px">Start Date Time <p-sortIcon field="StartDateTime" /></th>
+                        <th pSortableColumn="EndDateTime" style="width: 180px">End Date Time <p-sortIcon field="EndDateTime" /></th>
                         <th style="width: 140px">Status</th>
                     </tr>
                 </ng-template>

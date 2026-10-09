@@ -1,45 +1,48 @@
-<div class="grid"> 
+<div class="grid list-page">
 	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'VehicleAsset List'"
+		<div class="card list-card vehicle-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Vehicle Assets'"
 					[PageType]="'List'">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
+				<div class="vehicle-list-meta">
+                    <p>Review registration, identification and current status for vehicle assets.</p>
                 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<div class="vehicle-list-search">
+					<span class="vehicle-search-input"><input type="search" pInputText placeholder="Search registration number..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search vehicle assets" /></span>
+					<button type="button" pButton pRipple icon="pi pi-search" class="vehicle-search-action" (click)="search()" pTooltip="Search" tooltipPosition="top" aria-label="Search vehicle assets"></button>
+					<button type="button" pButton pRipple icon="pi pi-times" [outlined]="true" class="vehicle-search-action" (click)="clearSearch()" pTooltip="Clear search" tooltipPosition="top" aria-label="Clear vehicle asset search"></button>
+					<div class="record-count-inline vehicle-record-count" aria-label="Total vehicle assets"><i class="pi pi-car"></i><strong>{{ totalNoOfRecords }}</strong><span>vehicles</span></div>
+                </div>
+			<p-table [value]="lstMain" [loading]="isLoading" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table vehicle-list-table" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '1260px' }">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">VIN <p-sortIcon field="VIN" /> </th> 
-<th style="width:200px">RegistrationNo <p-sortIcon field="RegistrationNo" /> </th> 
-<th style="width:200px">RegistrationDate <p-sortIcon field="RegistrationDate" /> </th> 
-<th style="width:200px">RegistrationExpiryDate <p-sortIcon field="RegistrationExpiryDate" /> </th> 
-<th style="width:200px">EngineNo <p-sortIcon field="EngineNo" /> </th> 
-<th style="width:200px">ChassisNo <p-sortIcon field="ChassisNo" /> </th> 
-<th style="width:200px">FuleTypeCode <p-sortIcon field="FuelTypeCode" /> </th> 
-<th style="width:200px">SeatingCapacity <p-sortIcon field="SeatingCapacity" /> </th> 
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+						<th pFrozenColumn pSortableColumn="Id" style="width:90px"><span class="vehicle-table-header">Record <p-sortIcon field="Id" /></span></th>
+						<th pSortableColumn="VIN" style="width:185px"><span class="vehicle-table-header">VIN <p-sortIcon field="VIN" /></span></th>
+						<th pSortableColumn="RegistrationNo" style="width:155px"><span class="vehicle-table-header">Registration No. <p-sortIcon field="RegistrationNo" /></span></th>
+						<th pSortableColumn="RegistrationDate" style="width:140px"><span class="vehicle-table-header">Registered <p-sortIcon field="RegistrationDate" /></span></th>
+						<th pSortableColumn="RegistrationExpiryDate" style="width:140px"><span class="vehicle-table-header">Expires <p-sortIcon field="RegistrationExpiryDate" /></span></th>
+						<th pSortableColumn="EngineNo" style="width:150px"><span class="vehicle-table-header">Engine No. <p-sortIcon field="EngineNo" /></span></th>
+						<th pSortableColumn="ChassisNo" style="width:150px"><span class="vehicle-table-header">Chassis No. <p-sortIcon field="ChassisNo" /></span></th>
+						<th pSortableColumn="FuelTypeCode" style="width:110px"><span class="vehicle-table-header">Fuel Type <p-sortIcon field="FuelTypeCode" /></span></th>
+						<th pSortableColumn="SeatingCapacity" style="width:85px"><span class="vehicle-table-header">Seats <p-sortIcon field="SeatingCapacity" /></span></th>
+						<th pSortableColumn="RecordStatus" style="width:120px"><span class="vehicle-table-header">Status <p-sortIcon field="RecordStatus" /></span></th>
 
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.VIN}}</td>
- <td style="width:200px">{{obj.RegistrationNo}}</td>
- <td style="width:200px">{{obj.RegistrationDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RegistrationExpiryDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.EngineNo}}</td>
- <td style="width:200px">{{obj.ChassisNo}}</td>
- <td style="width:200px">{{obj.FuelTypeCode}}</td>
- <td style="width:200px">{{obj.SeatingCapacity | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+						<td pFrozenColumn><button type="button" class="vehicle-record-link" (click)="onDetailsClick(obj)">#{{ obj.Id }}</button></td>
+                        <td>{{ obj.VIN || '—' }}</td>
+                        <td>{{ obj.RegistrationNo || '—' }}</td>
+                        <td>{{ obj.RegistrationDate ? (obj.RegistrationDate | date:'dd MMM yyyy') : '—' }}</td>
+                        <td>{{ obj.RegistrationExpiryDate ? (obj.RegistrationExpiryDate | date:'dd MMM yyyy') : '—' }}</td>
+                        <td>{{ obj.EngineNo || '—' }}</td>
+                        <td>{{ obj.ChassisNo || '—' }}</td>
+                        <td>{{ obj.FuelTypeCode || '—' }}</td>
+                        <td>{{ obj.SeatingCapacity ?? '—' }}</td>
+                        <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
  
 					</tr>
 				</ng-template>
@@ -47,4 +50,3 @@
 		</div>
 	</div> 
 </div>
-  

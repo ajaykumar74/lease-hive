@@ -23,3 +23,23 @@
 .list-empty { display: flex; min-height: 210px; align-items: center; justify-content: center; flex-direction: column; gap: .55rem; color: var(--text-color-secondary); }.list-empty i { font-size: 2rem; color: var(--primary-color); }.list-empty strong { color: var(--text-color); font-size: 1rem; }
 .list-card > .p-paginator { justify-content: flex-end; padding: 1rem 1.5rem; border-top: 1px solid var(--surface-border); }
 @media (max-width: 700px) { .list-heading { align-items: flex-start; }.record-count { display: none; }.list-search { flex-wrap: wrap; }.list-search input { width: calc(100% - 2rem); }.list-search .p-button { flex: 1; } }
+
+// Applied only to list pages that retain the original generated search template.
+.generated-list-card { padding: 0; overflow: hidden; border: 1px solid var(--surface-border); box-shadow: 0 12px 32px rgba(15, 23, 42, .06); }
+.generated-list-card app-toolbar-buttons { display: block; padding: 1rem 1.5rem 0; }
+.generated-list-search { display: flex; align-items: center; justify-content: center; gap: .5rem; margin: .75rem 1.5rem 1.25rem; }
+.generated-list-input { width: min(100%, 20rem); height: 2.5rem; }
+.generated-list-action.p-button { display: inline-flex; width: 2.5rem; height: 2.5rem; flex: 0 0 2.5rem; align-items: center; justify-content: center; padding: 0; }
+.generated-list-clear.p-button { border-color: var(--surface-border); background: var(--surface-0); color: var(--text-color-secondary); }
+.generated-list-clear.p-button:hover { border-color: var(--primary-color); color: var(--primary-color); }
+.generated-list-count { flex: 0 0 auto; margin-left: .25rem; }
+.generated-list-filter { display: inline-flex; align-items: center; gap: .4rem; margin-left: .25rem; color: var(--text-color-secondary); font-size: .8rem; white-space: nowrap; }
+.generated-list-table .p-datatable-thead > tr > th { padding: .85rem .9rem; border-width: 1px 0; background: color-mix(in srgb, var(--primary-color) 8%, var(--surface-0)); color: var(--text-color); font-size: .8rem; font-weight: 700; letter-spacing: 0; text-transform: none; white-space: normal; }
+.generated-list-table .p-datatable-tbody > tr > td { padding: .95rem .9rem; border-color: var(--surface-border); vertical-align: middle; white-space: nowrap; }
+.generated-list-table .p-sortable-column-icon { color: var(--text-color-secondary); font-size: .75rem; }
+
+@media (max-width: 700px) {
+    .generated-list-search { flex-wrap: wrap; }
+    .generated-list-input { width: calc(100% - 6rem); }
+    .generated-list-count { margin-left: 0; }
+}
