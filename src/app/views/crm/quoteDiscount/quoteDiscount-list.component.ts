@@ -134,17 +134,17 @@ export class QuoteDiscountListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/quoteDiscounts/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/discount/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/quoteDiscounts/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/discount/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/quoteDiscounts/create']);
+      this.router.navigate(['/business/origination/quotes/discount/create']);
     } 
     else if (key == "Refresh") {
       this.search();

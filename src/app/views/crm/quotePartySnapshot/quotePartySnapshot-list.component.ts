@@ -134,17 +134,17 @@ export class QuotePartySnapshotListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/quotePartySnapshots/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/snapshot/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/quotePartySnapshots/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/snapshot/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/quotePartySnapshots/create']);
+      this.router.navigate(['/business/origination/quotes/snapshot/create']);
     } 
     else if (key == "Refresh") {
       this.search();

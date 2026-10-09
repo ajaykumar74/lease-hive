@@ -135,17 +135,17 @@ export class LeaseRequirementAssetListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/leaseRequirementAssets/edit/' + obj.Id]);
+        this.router.navigate(['/business/crm/leaseRequirementAssets/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/leaseRequirementAssets/view/' + obj.Id]);
+        this.router.navigate(['/business/crm/leaseRequirementAssets/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/leaseRequirementAssets/create']);
+      this.router.navigate(['/business/crm/leaseRequirementAssets/create']);
     } 
     else if (key == "Refresh") {
       this.search();

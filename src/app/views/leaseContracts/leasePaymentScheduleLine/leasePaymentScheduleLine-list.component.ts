@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -8,6 +8,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { LeasePaymentScheduleLineService } from './leasePaymentScheduleLine.service';
 import { ILeasePaymentScheduleLine } from './leasePaymentScheduleLine';
 import { PageEvent } from '@/shared/IBase';
+import { ILeasePaymentSchedule } from '../leasePaymentSchedule/leasePaymentSchedule';
 
 @Component({
   selector: 'app-customer-list',
@@ -19,6 +20,7 @@ export class LeasePaymentScheduleLineListComponent implements OnInit {
   constructor(
     private leasePaymentScheduleLineService: LeasePaymentScheduleLineService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -31,13 +33,24 @@ export class LeasePaymentScheduleLineListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  Caption = 'Lease Payment Schedule Lines';
+  leasePaymentScheduleId: number = 0;
+  leasePaymentSchedule: ILeasePaymentSchedule = null;
   objSearch: any = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.leasePaymentScheduleLineService.CacheData.IsLoaded) {
+    this.leasePaymentScheduleId = Number(this.activatedRoute.snapshot.params['leasePaymentScheduleId']) || 0;
+    this.leasePaymentSchedule = history.state?.leasePaymentSchedule || null;
+
+    if (this.leasePaymentScheduleId > 0) {
+      const scheduleReference = this.leasePaymentSchedule?.LeasePaymentScheduleId || this.leasePaymentScheduleId;
+      this.Caption = `PaymentScheduleId# ${scheduleReference}'s Schedules`;
+      this.leasePaymentScheduleLineService.CacheData.IsLoaded = false;
+    }
+    else if (this.leasePaymentScheduleLineService.CacheData.IsLoaded) {
       this.currentPage = this.leasePaymentScheduleLineService.CacheData.CurrentPage;
       this.objSearch = this.leasePaymentScheduleLineService.CacheData.objSearch;
       this.permission = this.leasePaymentScheduleLineService.CacheData.permission;
@@ -89,7 +102,13 @@ export class LeasePaymentScheduleLineListComponent implements OnInit {
         next: res => {
           this.permission = res.permission; 
           this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.leasePaymentScheduleLineService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          if (this.leasePaymentScheduleId > 0) {
+            // A filtered schedule view must not become the cached unfiltered line list.
+            this.leasePaymentScheduleLineService.CacheData.IsLoaded = false;
+          }
+          else {
+            this.leasePaymentScheduleLineService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
+          }
         },
         error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
         complete: () => { this.isLoading = false; }
@@ -111,8 +130,11 @@ export class LeasePaymentScheduleLineListComponent implements OnInit {
     var Items = [];
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-     
     ];
+
+    if (this.leasePaymentScheduleId > 0) {
+      Items.push({ DBName: 'LeasePaymentScheduleId', Value: this.leasePaymentScheduleId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;

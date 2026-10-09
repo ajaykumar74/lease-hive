@@ -24,6 +24,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'list/:leasePaymentScheduleId',
+        canActivate: [AuthGuard],
+        component: LeasePaymentScheduleLineListComponent,
+        data: {
+          title: 'Payment Schedules'
+        }
+      },
+      {
         path: 'list',
         canActivate: [AuthGuard],
         component: LeasePaymentScheduleLineListComponent,      

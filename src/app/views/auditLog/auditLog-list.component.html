@@ -2,28 +2,49 @@
 <div class="col-12">
 		<div class="card list-card generated-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AuditLog List'"
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Audit Logs'"
 					[PageType]="'List'">
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
 				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
-</div>
+					<div class="generated-list-filter">
+						<label for="auditStartDate">Start date</label>
+						<p-calendar inputId="auditStartDate" [(ngModel)]="objSearch.StartDate" [showIcon]="true" dateFormat="dd M yy" placeholder="Select date" appendTo="body"></p-calendar>
+					</div>
+					<div class="generated-list-filter">
+						<label for="auditEndDate">End date</label>
+						<p-calendar inputId="auditEndDate" [(ngModel)]="objSearch.EndDate" [showIcon]="true" dateFormat="dd M yy" placeholder="Select date" appendTo="body"></p-calendar>
+					</div>
+					<div class="generated-list-filter">
+						<label for="auditApplicationUser">Application user</label>
+						<p-dropdown inputId="auditApplicationUser" [options]="applicationUserOptions" optionLabel="Text" optionValue="Value" [filter]="true" filterBy="Text" [showClear]="true" [(ngModel)]="objSearch.ApplicationUserId" placeholder="All users" appendTo="body"></p-dropdown>
+					</div>
+					<button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search audit logs" title="Search"></button>
+					<button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+					<div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+				</div>
 			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Entity Type <p-sortIcon field="EntityType" /> </th>
+						<th pFrozenColumn pSortableColumn="Id" style="width:110px">ID <p-sortIcon field="Id" /></th>
+						<th pSortableColumn="OccurredAt" style="width:190px">Occurred at <p-sortIcon field="OccurredAt" /></th>
+						<th pSortableColumn="ApplicationUserId" style="width:230px">Application user <p-sortIcon field="ApplicationUserId" /></th>
+						<th pSortableColumn="ActionType" style="width:150px">Action <p-sortIcon field="ActionType" /></th>
+						<th pSortableColumn="EntityType" style="width:180px">Entity <p-sortIcon field="EntityType" /></th>
+						<th pSortableColumn="EntityId" style="width:120px">Entity ID <p-sortIcon field="EntityId" /></th>
+						<th pSortableColumn="Outcome" style="width:130px">Outcome <p-sortIcon field="Outcome" /></th>
 
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.EntityType}}</td>
+						<td style="width:110px" pFrozenColumn><p-button [label]="obj.Id.toString()" [link]="true" (click)="onDetailsClick(obj)" /></td>
+						<td style="width:190px">{{ obj.OccurredAt | date:'dd MMM yyyy, HH:mm' }}</td>
+						<td style="width:230px">{{ getApplicationUserLabel(obj.ApplicationUserId) }}</td>
+						<td style="width:150px">{{ obj.ActionType }}</td>
+						<td style="width:180px">{{ obj.EntityType }}</td>
+						<td style="width:120px">{{ obj.EntityId }}</td>
+						<td style="width:130px">{{ obj.Outcome }}</td>
 
 					</tr>
 				</ng-template>

@@ -132,10 +132,10 @@ if (this.objSearch.AuditType == 'Created') {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/customers/edit' + obj.Id]);
+        this.router.navigate(['dashboard/customers/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/customers/view' + obj.Id]);
+        this.router.navigate(['dashboard/customers/view/' + obj.Id]);
     } 
   
   };

@@ -26,6 +26,7 @@ export class LeasePaymentScheduleEditComponent implements OnInit {
   selectedId: number;
   isLoading: boolean = false;
   leasePaymentSchedule: ILeasePaymentSchedule = null;
+  hasGeneratedLines: boolean = false;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   leasecontractidOptions: ISelectItem[] = [];
@@ -94,9 +95,10 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'GeneratedBy', 'applica
     this.leasePaymentScheduleService.getById(this.selectedId).subscribe({
       next: data => {	        
         this.leasePaymentSchedule = data.data;
-		this.permission = data.permission;
+        this.permission = data.permission;
         this.objMaster = { ...this.leasePaymentSchedule };
         this.populateUI(this.leasePaymentSchedule);
+        this.loadGeneratedLineStatus();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -137,7 +139,19 @@ GeneratedBy: obj.GeneratedBy || 0,
     else if (key == "GenerateSchedule") {
       this.router.navigate(['/contracts/payment-schedules/generate', this.selectedId]);
     }
+    else if (key == "PaymentSchedules") {
+      this.router.navigate(['/contracts/payment-schedules/lines/list', this.selectedId], {
+        state: { leasePaymentSchedule: this.leasePaymentSchedule }
+      });
+    }
 
+  }
+
+  private loadGeneratedLineStatus(): void {
+    this.leasePaymentScheduleService.hasGeneratedLines(this.selectedId).subscribe({
+      next: response => this.hasGeneratedLines = response.data === true,
+      error: () => this.hasGeneratedLines = false
+    });
   }
 
 

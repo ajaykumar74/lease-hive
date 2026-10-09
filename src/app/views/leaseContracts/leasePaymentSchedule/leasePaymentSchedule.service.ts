@@ -52,6 +52,14 @@ export class LeasePaymentScheduleService extends BaseCrudService<any> {
         catchError(this.baseService.handleError)
       );
   }
+
+  hasGeneratedLines(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}/has-generated-lines`, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
 }
 
 

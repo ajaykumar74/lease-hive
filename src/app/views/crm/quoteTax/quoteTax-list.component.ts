@@ -134,17 +134,17 @@ export class QuoteTaxListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/quoteTaxs/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/taxes/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/quoteTaxs/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/quotes/taxes/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/quoteTaxs/create']);
+      this.router.navigate(['/business/origination/quotes/taxes/create']);
     } 
     else if (key == "Refresh") {
       this.search();

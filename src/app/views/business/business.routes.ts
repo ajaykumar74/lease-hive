@@ -22,6 +22,7 @@ const pages: BusinessPage[] = [
     { path: 'crm/leads/my', title: 'My Leads', area: 'CRM', icon: 'pi pi-user' },
     { path: 'crm/activities', title: 'Lead Activities', area: 'CRM', icon: 'pi pi-calendar' },
     { path: 'crm/leaseRequirementAssets', title: 'Lease Requirement Asset', area: 'CRM', icon: 'pi pi-calendar' },
+    { path: 'crm/approval-actions', title: 'Approval Actions', area: 'CRM', icon: 'pi pi-check-circle' },
     { path: 'crm/opportunities/pipeline', title: 'Opportunity Pipeline', area: 'CRM', icon: 'pi pi-chart-line' },
     { path: 'crm/opportunities', title: 'All Opportunities', area: 'CRM', icon: 'pi pi-list' },
     { path: 'crm/opportunities/create', title: 'New Opportunity', area: 'CRM', icon: 'pi pi-plus' },
@@ -34,6 +35,8 @@ const pages: BusinessPage[] = [
     { path: 'origination/quotes/snapshot', title: 'Quote Snapshots', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/charges', title: 'Quote Charges', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
+    { path: 'origination/quotes/taxes', title: 'Quote Taxes', area: 'Origination', icon: 'pi pi-percentage' },
+    { path: 'origination/documents', title: 'Origination Documents', area: 'Origination', icon: 'pi pi-folder' },
     { path: 'origination/quotes/acceptances', title: 'Quote Acceptances', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
@@ -143,6 +146,11 @@ export const BUSINESS_ROUTES: Routes = [
                 loadChildren: () => import('@/views/crm/leaseRequirementAsset/leaseRequirementAsset.module').then((m) => m.LeaseRequirementAssetModule)
             },
             {
+                path: 'crm/approval-actions',
+                data: { title: 'Approval Actions', breadcrumb: 'Approval Actions' },
+                loadChildren: () => import('@/views/crm/approvalAction/approvalAction.module').then((m) => m.ApprovalActionModule)
+            },
+            {
                 path: 'origination/quotes/approvals',
                 redirectTo: 'origination/credit/approvals',
                 pathMatch: 'full'
@@ -156,11 +164,6 @@ export const BUSINESS_ROUTES: Routes = [
                 path: 'origination/quotes/assets',
                 data: { title: 'Quote Assets', breadcrumb: 'Quote Assets' },
                 loadChildren: () => import('@/views/crm/quoteAsset/quoteAsset.module').then((m) => m.QuoteAssetModule)
-            },
-            {
-                path: 'origination/quotes',
-                data: { title: 'Quotes', breadcrumb: 'Quotes' },
-                loadChildren: () => import('@/views/crm/quote/quote.module').then((m) => m.QuoteModule)
             },
             {
                 path: 'origination/quotes/snapshot',
@@ -178,9 +181,24 @@ export const BUSINESS_ROUTES: Routes = [
                 loadChildren: () => import('@/views/crm/quoteDiscount/quoteDiscount.module').then((m) => m.QuoteDiscountModule)
             },
             {
+                path: 'origination/quotes/taxes',
+                data: { title: 'Quote Taxes', breadcrumb: 'Quote Taxes' },
+                loadChildren: () => import('@/views/crm/quoteTax/quoteTax.module').then((m) => m.QuoteTaxModule)
+            },
+            {
                 path: 'origination/quotes/acceptances',
                 data: { title: 'Quote Acceptances', breadcrumb: 'Quote Acceptances' },
                 loadChildren: () => import('@/views/crm/quoteAcceptance/quoteAcceptance.module').then((m) => m.QuoteAcceptanceModule)
+            },
+            {
+                path: 'origination/documents',
+                data: { title: 'Origination Documents', breadcrumb: 'Origination Documents' },
+                loadChildren: () => import('@/views/crm/originationDocumentLink/originationDocumentLink.module').then((m) => m.OriginationDocumentLinkModule)
+            },
+            {
+                path: 'origination/quotes',
+                data: { title: 'Quotes', breadcrumb: 'Quotes' },
+                loadChildren: () => import('@/views/crm/quote/quote.module').then((m) => m.QuoteModule)
             },
             {
                 path: 'origination/credit/applications',

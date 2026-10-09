@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
+import { LoggedInUserService } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { AuditLogService } from './auditLog.service';
 import { IAuditLog } from './auditLog';
 import { PageEvent } from '@/shared/IBase';
+import { ISelectItem } from '@/shared/ISelectItem';
 
 @Component({
   selector: 'app-customer-list',
@@ -23,15 +24,16 @@ export class AuditLogListComponent implements OnInit {
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: IAuditLog[]; 
-  sortBy: string = 'Id';
-  IsDescending: boolean;
+  sortBy: string = 'OccurredAt';
+  IsDescending: boolean = true;
   totalNoOfRecords = 0; 
   currentPage: number = 1;
   isAdvanceView: boolean = true;
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { StartDate: null, EndDate: null, ApplicationUserId: null };
+  applicationUserOptions: ISelectItem[] = [];
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -41,7 +43,9 @@ export class AuditLogListComponent implements OnInit {
       this.currentPage = this.auditLogService.CacheData.CurrentPage;
       this.objSearch = this.auditLogService.CacheData.objSearch;
       this.permission = this.auditLogService.CacheData.permission;
-    }  
+    }
+
+    this.loadApplicationUserOptions();
   }
 
   ngAfterViewInit(): void {
@@ -65,7 +69,7 @@ export class AuditLogListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { StartDate: null, EndDate: null, ApplicationUserId: null };
     this.searchData(this.pgEvent, true);
   }
 
@@ -77,13 +81,15 @@ export class AuditLogListComponent implements OnInit {
 
     if (isReload || this.auditLogService.CacheData.CurrentPage != pgEvent.page) {
 
-      var searchParam = {
+      const searchParam = {
         Skip: pgEvent.first,
         Take: pgEvent.rows,
         SortBy: this.sortBy,
-        IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
-      }
+        IsDescending: this.IsDescending,
+        StartDate: this.formatDateForApi(this.objSearch.StartDate),
+        EndDate: this.formatDateForApi(this.objSearch.EndDate),
+        ApplicationUserId: this.objSearch.ApplicationUserId || null
+      };
       this.isLoading = true;
       this.auditLogService.search(searchParam).subscribe({
         next: res => {
@@ -107,40 +113,14 @@ export class AuditLogListComponent implements OnInit {
     this.totalNoOfRecords = totalrecords; 
   }
 
-  getSearchParams() {
-    var Items = [];
-    Items = [
-    //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
-    //  { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-   //   { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
-    ];
-
-
-    var auditCriteria = null; 
-
-    if (this.objSearch.AuditType == 'Created') {
-      auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    else if (this.objSearch.AuditType == 'Modified') {
-      auditCriteria = 'ModifiedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    if (auditCriteria != null) {
-      Items.push({ DBName: 'Records', Value: auditCriteria, DataType: DataType.Text, Operator: Operator.EqualTo })
-    }
-
-    return Items;
-
+  getApplicationUserLabel(applicationUserId: number): string {
+    return this.applicationUserOptions.find(option => Number(option.Value) === applicationUserId)?.Text
+      ?? `User #${applicationUserId}`;
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/auditLogs/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/auditLogs/view/' + obj.Id]);
-    } 
-  
-  };
+    this.router.navigate(['/dashboard/auditLogs/view', obj.Id]);
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -150,7 +130,30 @@ export class AuditLogListComponent implements OnInit {
       this.search();
     }
     else if (key == "Cancel") {
-    }    
+    }
+  }
+
+  private loadApplicationUserOptions(): void {
+    this.loggedInUserService.getApplicationUserOptions().subscribe({
+      next: options => this.applicationUserOptions = options,
+      error: err => this.messageService?.showError(err)
+    });
+  }
+
+  private formatDateForApi(value: Date | string | null | undefined): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
 

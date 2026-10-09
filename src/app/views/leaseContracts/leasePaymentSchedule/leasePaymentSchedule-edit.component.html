@@ -8,6 +8,9 @@
 					<p-button label="Generate Schedule" icon="pi pi-calendar-plus" size="small"
 						[disabled]="!permission?.CanUpdate" (click)="onOptionItemClicked('GenerateSchedule')">
 					</p-button>
+					<p-button *ngIf="hasGeneratedLines" label="Payment Schedules" icon="pi pi-list" size="small"
+						(click)="onOptionItemClicked('PaymentSchedules')">
+					</p-button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				
@@ -155,7 +158,6 @@
 </div>
 
  
-
 
 
 

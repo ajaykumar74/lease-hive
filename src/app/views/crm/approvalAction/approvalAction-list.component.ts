@@ -134,17 +134,17 @@ export class ApprovalActionListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/approvalActions/edit/' + obj.Id]);
+        this.router.navigate(['/business/crm/approval-actions/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/approvalActions/view/' + obj.Id]);
+        this.router.navigate(['/business/crm/approval-actions/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/approvalActions/create']);
+      this.router.navigate(['/business/crm/approval-actions/create']);
     } 
     else if (key == "Refresh") {
       this.search();

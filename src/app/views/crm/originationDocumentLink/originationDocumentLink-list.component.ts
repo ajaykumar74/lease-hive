@@ -134,17 +134,17 @@ export class OriginationDocumentLinkListComponent implements OnInit {
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/originationDocumentLinks/edit/' + obj.Id]);
+        this.router.navigate(['/business/origination/documents/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/originationDocumentLinks/view/' + obj.Id]);
+        this.router.navigate(['/business/origination/documents/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/originationDocumentLinks/create']);
+      this.router.navigate(['/business/origination/documents/create']);
     } 
     else if (key == "Refresh") {
       this.search();
