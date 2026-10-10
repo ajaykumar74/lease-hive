@@ -44,6 +44,12 @@ const routes: Routes = [
         }
       },
       {
+        path: 'my-access',
+        canActivate: [AuthGuard],
+        data: { breadcrumb: 'My Access' },
+        loadChildren: () => import('@/views/security/myAccess/myAccess.module').then(c => c.MyAccessModule),
+      },
+      {
         path: 'customers',
         data: { breadcrumb: 'Customers' },
         loadChildren: () => import('@/views/customer/customer.module').then(c => c.CustomerModule),

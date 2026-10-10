@@ -368,6 +368,12 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'My Access',
+                                    icon: 'pi pi-fw pi-shield',
+                                    routerLink: ['/dashboard/my-access'],
+                                    tooltip: 'View your roles, permissions, access scopes and delegations'
+                                },
+                                {
                                     label: 'Application users',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/applicationUsers/list'],
