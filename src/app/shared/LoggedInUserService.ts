@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { loggedInUser } from './IloggedInUser';
 import { IBrandPartner } from '@/views/brandPartner/brandPartner';
 import { ISelectItem } from './ISelectItem';
+import { PermissionService } from './security/permission.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,8 @@ export class LoggedInUserService {
   // private _brandPartner : IBrandPartner ;
   constructor(
     private http: HttpClient,
-    private baseService: BaseService
+    private baseService: BaseService,
+    private permissionService: PermissionService
   ) {
     this.initializeProperties();
     this.baseService.isTokenUpdated().subscribe(token => {
@@ -106,6 +108,7 @@ export class LoggedInUserService {
 
 
   public logout(): void {
+    this.permissionService.clear();
     this.loggedInUserSubject.next(null);
     this.baseService.updateJwtToken('');
     localStorage.removeItem('loggedInUser'); // Clear stored user

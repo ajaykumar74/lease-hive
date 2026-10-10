@@ -225,7 +225,11 @@ export class AppMenuitem implements OnInit, OnDestroy {
     }
 
     private getNormalizedRoute(routerLink: unknown): string | null {
-        const route = Array.isArray(routerLink) ? routerLink[0] : routerLink;
+        const route = Array.isArray(routerLink)
+            ? routerLink
+                .filter((segment): segment is string => typeof segment === 'string')
+                .join('/')
+            : routerLink;
         if (typeof route !== 'string' || !route.trim()) {
             return null;
         }

@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { combineLatest, Subscription } from 'rxjs';
 import { AppMenuitem } from './app.menuitem';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { AppMenuItem, MenuPermissionService } from '@/shared/security/menu-permission.service';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
     selector: 'app-menu',
@@ -15,10 +18,16 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
         </ng-container>
     </ul> `
 })
-export class AppMenu {
+export class AppMenu implements OnInit, OnDestroy {
     model: any[] = [];
+    private sourceModel: AppMenuItem[] = [];
+    private permissionSubscription?: Subscription;
 
-    constructor(private loggedInUserService: LoggedInUserService) {}
+    constructor(
+        private readonly loggedInUserService: LoggedInUserService,
+        private readonly menuPermissionService: MenuPermissionService,
+        private readonly permissionService: PermissionService
+    ) {}
     ngOnInit() {
         if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
@@ -2322,7 +2331,7 @@ export class AppMenu {
                         }
                     ]
                 },
-                {
+                /* {
                     label: 'Administration',
                     icon: 'pi pi-fw pi-user',
                     items: [
@@ -2351,7 +2360,7 @@ export class AppMenu {
                             tooltip: ''
                         }
                     ]
-                }
+                } */
             ];
         } else {
             this.model = [
@@ -2395,7 +2404,26 @@ export class AppMenu {
         }
 
         //this.flattenLeaseContractMenu();
-        this.configureRouteMatching();
+        this.sourceModel = this.model;
+        this.model = [];
+
+        this.permissionSubscription = combineLatest([
+            this.permissionService.permissions$,
+            this.permissionService.permissionsLoaded$
+        ]).subscribe(([, permissionsLoaded]) => {
+            if (!permissionsLoaded) {
+                return;
+            }
+
+            this.model = this.menuPermissionService.filterMenu(this.sourceModel);
+            this.configureRouteMatching();
+        });
+
+        this.permissionService.ensurePermissionsLoaded().subscribe();
+    }
+
+    ngOnDestroy(): void {
+        this.permissionSubscription?.unsubscribe();
     }
 
     private configureRouteMatching(): void {
@@ -2423,7 +2451,11 @@ export class AppMenu {
     }
 
     private getMenuRoute(item: any): string[] {
-        const route = Array.isArray(item.routerLink) ? item.routerLink[0] : item.routerLink;
+        const route = Array.isArray(item.routerLink)
+            ? item.routerLink
+                .filter((segment: unknown): segment is string => typeof segment === 'string')
+                .join('/')
+            : item.routerLink;
         if (typeof route !== 'string' || !route.trim()) {
             return [];
         }

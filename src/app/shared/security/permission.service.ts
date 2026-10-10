@@ -6,10 +6,12 @@ import {
 
 import {
     BehaviorSubject,
-    Observable
+    Observable,
+    of,
+    throwError
 } from 'rxjs';
 
-import { map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, shareReplay, tap } from 'rxjs/operators';
 
 import {
     UserSecurityContext,
@@ -32,11 +34,21 @@ export class PermissionService {
             null
         );
 
+    private readonly permissionsLoadedSubject =
+        new BehaviorSubject<boolean>(
+            false
+        );
+
+    private permissionLoad$: Observable<UserSecurityContext> | null = null;
+
     public readonly permissions$ =
         this.permissionsSubject.asObservable();
 
     public readonly securityContext$ =
         this.securityContextSubject.asObservable();
+
+    public readonly permissionsLoaded$ =
+        this.permissionsLoadedSubject.asObservable();
 
 
     constructor(
@@ -51,13 +63,21 @@ export class PermissionService {
         timeZoneId?: string
     ): Observable<UserSecurityContext> {
 
+        if (this.permissionLoad$) {
+            return this.permissionLoad$;
+        }
+
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
             'X-Timezone': timeZoneId || 'UTC'
         });
 
-        return this.http
+        this.permissionsLoadedSubject.next(
+            false
+        );
+
+        this.permissionLoad$ = this.http
             .get<UserSecurityContextResponse>(
                 this.baseService.C_APP_URL +'/security/me',
                 {
@@ -80,8 +100,62 @@ export class PermissionService {
                     this.setPermissions(
                         context.permissions
                     );
+
+                    this.permissionsLoadedSubject.next(
+                        true
+                    );
+                }),
+                catchError(error => {
+
+                    this.setPermissions(
+                        []
+                    );
+
+                    this.permissionsLoadedSubject.next(
+                        true
+                    );
+
+                    return throwError(
+                        () => error
+                    );
+                }),
+                finalize(() => {
+
+                    this.permissionLoad$ = null;
+                }),
+                shareReplay({
+                    bufferSize: 1,
+                    refCount: false
                 })
             );
+
+        return this.permissionLoad$;
+    }
+
+    ensurePermissionsLoaded(): Observable<UserSecurityContext | null> {
+
+        if (this.permissionsLoadedSubject.value) {
+            return of(
+                this.securityContextSubject.value
+            );
+        }
+
+        const token = localStorage.getItem(
+            'jwt'
+        );
+
+        if (!token) {
+            return of(
+                null
+            );
+        }
+
+        return this.loadPermissions(
+            token,
+            'UTC'
+        ).pipe(
+            catchError(() => of(null))
+        );
     }
 
 
@@ -169,6 +243,10 @@ export class PermissionService {
 
         this.securityContextSubject.next(
             null
+        );
+
+        this.permissionsLoadedSubject.next(
+            false
         );
     }
 }

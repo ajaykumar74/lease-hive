@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
 import {
-  CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot
+  CanActivate, CanActivateChild, Router, ActivatedRouteSnapshot, RouterStateSnapshot
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; 
+import { firstValueFrom } from 'rxjs';
 import { BaseService } from './IBaseService';
 import { LoggedInUserService } from './LoggedInUserService';
+import { PermissionService } from './security/permission.service';
  
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
   private baseUrl :  string ;
 
   constructor(private jwtHelper: JwtHelperService,
     private router: Router,
     private http: HttpClient,
     private baseService: BaseService,
-    private loggedInUserService: LoggedInUserService) {
+    private loggedInUserService: LoggedInUserService,
+    private permissionService: PermissionService) {
       this.baseUrl = this.baseService.C_APP_URL + '/Account';
   }
 
@@ -37,6 +40,7 @@ export class AuthGuard implements CanActivate {
      var isSuccess = await this.tryRefreshingTokens(token);
      if (!isSuccess) {
       this.router.navigate(["/auth/login"], { queryParams: { returnUrl: state.url } });
+      return false;
      }
      return true;
     }
@@ -45,6 +49,10 @@ export class AuthGuard implements CanActivate {
       return true;      
     }     
     return false;
+  }
+
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    return this.canActivate(route, state);
   }
 
   private async tryRefreshingTokens(token: string): Promise<boolean> {
@@ -63,13 +71,14 @@ export class AuthGuard implements CanActivate {
         }),
         observe: 'response'
       }).toPromise()
-        .then((data: any) => {
+        .then(async (data: any) => {
         
           const newToken = data.body.AccessToken;
           const newRefreshToken =data.body.RefreshToken; 
            // If token refresh is successful, set new tokens in local storage.  
             localStorage.setItem("jwt", newToken);
             localStorage.setItem("refreshToken", newRefreshToken);
+            await firstValueFrom(this.permissionService.loadPermissions(newToken, 'UTC'));
             isRefreshSuccess = true;  
         })
         .catch((error) => {
