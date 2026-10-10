@@ -2,14 +2,19 @@
 	<div class="col-12">
 		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'PicklistItem List'" [PageType]="'List'">
+			<p-confirmDialog></p-confirmDialog>
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'PickList Items'" [PageType]="'List'">
 			</app-toolbar-buttons>
-			<app-spinner></app-spinner><div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
+			<app-spinner></app-spinner>
+			<div class="generated-list-search">
+				<div class="generated-list-filter">
+					<label for="picklistCategory">Category</label>
+					<p-dropdown inputId="picklistCategory" [options]="categoryOptions" optionLabel="Text" optionValue="Value" [filter]="true" filterBy="Text" [showClear]="true" placeholder="All categories" styleClass="generated-list-input" [(ngModel)]="objSearch.Category" (onChange)="search()"></p-dropdown>
+				</div>
+				<button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search PickList items" title="Search"></button>
+				<button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear category filter" title="Clear category filter"></button>
+				<div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+			</div>
 			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table"
 				responsiveLayout="scroll">
 				<ng-template pTemplate="header">
@@ -18,24 +23,28 @@
 						<th style="width:200px">Category </th>
 						<th style="width:200px" pSortableColumn="ItemName">Item Name <p-sortIcon field="ItemName" />
 						</th>
-						<th style="width:200px">Description </th>
-
-
+						<th style="min-width:250px">Description </th>
+						<th style="width:120px">Actions</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
 					<tr>
-						<td pFrozenColumn pTooltip="Click here to view details">
-							<i class="pi pi-file-edit" style="font-size: small" style="margin-right: -10px;"></i>
-							<p-button label="{{obj.Id}}" [link]="true" (click)="onDetailsClick(obj)" />
+						<td pFrozenColumn>
+							<button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">#{{obj.Id}}</button>
 						</td>
 						<td>{{obj.Category}}</td>
 						<td>{{obj.ItemName}}</td>
 						<td>{{obj.Description}}</td>
-
+						<td>
+							<button *ngIf="permission.CanDelete" type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [loading]="deletingId === obj.Id" (click)="confirmDelete(obj)" aria-label="Delete PickList item" title="Delete"></button>
+						</td>
 					</tr>
 				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr><td colspan="5"><div class="list-empty"><i class="pi pi-list"></i><strong>No PickList items found</strong><span>Try changing or clearing the category filter.</span></div></td></tr>
+				</ng-template>
 			</p-table>
+			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="onPageChanged($event)"></p-paginator>
 		</div>
 	</div>
 </div>

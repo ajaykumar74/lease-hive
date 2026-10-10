@@ -483,6 +483,12 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'PickList Items',
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['/dashboard/picklistItems/list'],
+                                    tooltip: 'Manage PickList item categories and values'
+                                },
+                                {
                                     label: 'Number sequences',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/numberSequences/'],

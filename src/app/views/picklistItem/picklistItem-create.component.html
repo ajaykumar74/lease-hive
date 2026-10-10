@@ -14,8 +14,7 @@
 								<label for="name3"
 									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Category</label>
 								<div class="col-span-12 md:col-span-10">
-									<input type="text" pInputText name="Category" formControlName="Category"
-										class="w-full" />
+									<p-dropdown inputId="Category" [options]="categoryOptions" optionLabel="Text" optionValue="Value" [filter]="true" filterBy="Text" placeholder="Select a category" formControlName="Category" class="w-full"></p-dropdown>
 									<small class="p-error block" *ngIf="
 							editForm.get('Category')?.errors?.required && editForm.get('Category')?.dirty ">
 										Category is required field.</small>
@@ -54,35 +53,6 @@
 										The maximum allowed len of a valid Description is 100 chars.</small>
 								</div>
 							</div>
-						<div class="grid grid-cols-12 gap-2">
-								<label for="name3"
-									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">System</label>
-								<div class="col-span-12 md:col-span-10">
-									<input type="text" pInputText name="IsSystem" formControlName="IsSystem"
-										class="w-full" />
-									<small class="p-error block" *ngIf="
-							editForm.get('IsSystem')?.errors?.required && editForm.get('IsSystem')?.dirty ">
-										IsSystem is required field.</small>
-									<small class="p-error block" *ngIf="
-							editForm.get('IsSystem')?.errors?.maxlength && editForm.get('IsSystem')?.dirty ">
-										The maximum allowed len of a valid IsSystem is 0 chars.</small>
-								</div>
-							</div>
-						<div class="grid grid-cols-12 gap-2">
-								<label for="name3"
-									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Partner Id</label>
-								<div class="col-span-12 md:col-span-10">
-<input type="text" pInputText name="TenantId" formControlName="TenantId"
-										class="w-full" />
-									<small class="p-error block" *ngIf="
-editForm.get('TenantId')?.errors?.required && editForm.get('TenantId')?.dirty ">
-TenantId is required field.</small>
-									<small class="p-error block" *ngIf="
-editForm.get('TenantId')?.errors?.maxlength && editForm.get('TenantId')?.dirty ">
-The maximum allowed len of a valid TenantId is 0 chars.</small>
-								</div>
-							</div>
-
               </form>				 
 
 			</div>

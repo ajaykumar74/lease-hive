@@ -14,6 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { DropdownModule } from 'primeng/dropdown';
+import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { PicklistItemListComponent } from './picklistItem-list.component';
 import { PicklistItemCreateComponent } from './picklistItem-create.component';
@@ -40,7 +43,10 @@ import { PicklistItemRoutingModule } from './picklistItem-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		PicklistItemRoutingModule,
-		InputGroupAddonModule
+		InputGroupAddonModule,
+		DropdownModule,
+		PaginatorModule,
+		ConfirmDialogModule
 	],
 	declarations: [
 		PicklistItemCreateComponent,

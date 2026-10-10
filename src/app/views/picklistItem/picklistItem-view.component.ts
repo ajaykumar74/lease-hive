@@ -15,6 +15,7 @@ import { IPicklistItem } from './picklistItem';
 
 @Component({
     templateUrl: './picklistItem-view.component.html',
+    standalone: false,
     providers: [MessageService]
 })
 export class PicklistItemViewComponent implements OnInit {

@@ -102,7 +102,7 @@ export class PicklistItemEditComponent implements OnInit {
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/picklistItem/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/picklistItems/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -137,11 +137,11 @@ export class PicklistItemEditComponent implements OnInit {
     var updatedObj = {
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
-      Category: formValues.Category || null,
+      Category: this.objMaster.Category,
       ItemName: formValues.ItemName || null,
       Description: formValues.Description || null,
-      IsSystem: formValues.IsSystem || false,
-      TenantId: formValues.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
+      IsSystem: this.objMaster.IsSystem,
+      TenantId: this.objMaster.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
       ModifiedById: this.loggedInUserService.getRecordId,
 
     } as IPicklistItem;

@@ -120,6 +120,11 @@ const routes: Routes = [
         loadChildren: () => import('@/views/numberSequence/numberSequence.module').then(c => c.NumberSequenceModule),
       },
       {
+        path: 'picklistItems',
+        data: { breadcrumb: 'PickList Items' },
+        loadChildren: () => import('@/views/picklistItem/picklistItem.module').then(c => c.PicklistItemModule),
+      },
+      {
         path: 'auditLogs',
         data: { breadcrumb: 'Audit Logs' },
         loadChildren: () => import('@/views/auditLog/auditLog.module').then(c => c.AuditLogModule),

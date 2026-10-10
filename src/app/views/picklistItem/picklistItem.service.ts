@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, catchError, map, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 import { IPicklistItem } from './picklistItem';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
+import { ISelectItem } from '@/shared/ISelectItem';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,28 @@ export class PicklistItemService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  getCategoryOptions(): Observable<ISelectItem[]> {
+    return this.http.get<any>(`${this.baseUrl}/bootstrap`, { headers: this.headers })
+      .pipe(
+        map(response => {
+          const items: IPicklistItem[] = response?.data ?? [];
+          const categories = new Set<string>();
+
+          for (const item of items) {
+            const category = (item.Category ?? '').trim();
+            if (category) {
+              categories.add(category);
+            }
+          }
+
+          return Array.from(categories)
+            .sort()
+            .map((category: string) => ({ Value: category, Text: category } as ISelectItem));
+        }),
+        catchError(this.baseService.handleError)
+      );
   }
 }
 

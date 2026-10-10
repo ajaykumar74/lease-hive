@@ -27,6 +27,7 @@ export class PicklistItemCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Create Picklist Item';
   picklistItem: IPicklistItem = null;
+  categoryOptions: ISelectItem[] = [];
   
   editForm: any; 
   objMaster : IPicklistItem = {} as IPicklistItem;
@@ -60,7 +61,7 @@ IsSystem: new FormControl(false, []),
 TenantId: new FormControl(null, []),
 
     });
-    
+    this.loadCategoryOptions();
   }
  
  loadUI(): void {
@@ -94,7 +95,7 @@ TenantId: obj.TenantId || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/picklistItems/create']);
+      this.router.navigate(['/dashboard/picklistItems/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -139,7 +140,7 @@ TenantId: obj.TenantId || 0,
      Category: formValues.Category || null,
 ItemName: formValues.ItemName || null,
 Description: formValues.Description || null,
-IsSystem: formValues.IsSystem || null,
+IsSystem: false,
 TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
 
     } as IPicklistItem ; 
@@ -160,6 +161,13 @@ TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       complete: () => { this.spinner.hide(); }
     });
   } 
+
+  private loadCategoryOptions(): void {
+    this.picklistItemService.getCategoryOptions().subscribe({
+      next: options => this.categoryOptions = options,
+      error: err => this.messageService.showError(err)
+    });
+  }
 
 }
 
