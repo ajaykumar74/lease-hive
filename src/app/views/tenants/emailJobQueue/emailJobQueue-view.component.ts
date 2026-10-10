@@ -1,7 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 import { IPermission } from '@/shared/IPermission';
@@ -9,7 +7,6 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
-import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { EmailJobQueueService } from './emailJobQueue.service';
 import { IEmailJobQueue } from './emailJobQueue';
 
@@ -21,17 +18,18 @@ standalone: false,
 export class EmailJobQueueViewComponent implements OnInit {
     selectedId: number;
     isLoading: boolean = false;
-    permission = { CanCreate: true } as IPermission;
+    permission = {} as IPermission;
     emailJobQueue: IEmailJobQueue = {} as IEmailJobQueue;
     Caption: string = 'Loading...';
+    toRecipients: string[] = [];
+    ccRecipients: string[] = [];
+    bccRecipients: string[] = [];
+    attachments: string[] = [];
     
 
     constructor( 
-        private router: Router,
         private activatedRouter: ActivatedRoute,
-        private emailJobQueueService: EmailJobQueueService, 
-        private _location: Location,
-        private loggedInUserService: LoggedInUserService
+        private emailJobQueueService: EmailJobQueueService
     ) {
 
     }
@@ -60,22 +58,75 @@ export class EmailJobQueueViewComponent implements OnInit {
                 this.permission = data.permission; 
                 this.populateUI(this.emailJobQueue);
             },
-            error: err => { },
+            error: err => { this.messageService.showError(err); },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
         });
     }
 
-    populateUI(obj: IEmailJobQueue): void { 
+    populateUI(obj: IEmailJobQueue): void {
         this.Caption = "EmailJobQueue Details #" + obj.Id;
+        this.toRecipients = this.parseStringArray(obj.ToRecipientsJson);
+        this.ccRecipients = this.parseStringArray(obj.CcRecipientsJson);
+        this.bccRecipients = this.parseStringArray(obj.BccRecipientsJson);
+        this.attachments = this.parseAttachmentNames(obj.AttachmentsJson);
     }
 
     onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/emailJobQueue/create']);
-        }        
-        else if (key == "Refresh") {
+        if (key == "Refresh") {
             this.loadUI();
         }
+    }
+
+    private parseStringArray(value: string): string[] {
+        if (!value) {
+            return [];
+        }
+
+        try {
+            const parsed = JSON.parse(value);
+            if (Array.isArray(parsed)) {
+                return parsed
+                    .filter(item => typeof item === 'string' && item.trim().length > 0)
+                    .map(item => item.trim());
+            }
+        } catch {
+            // Legacy/manual entries can be a semicolon-delimited value rather than JSON.
+        }
+
+        return value
+            .split(/[;,]/)
+            .map(item => item.trim())
+            .filter(Boolean);
+    }
+
+    private parseAttachmentNames(value: string): string[] {
+        if (!value) {
+            return [];
+        }
+
+        try {
+            const parsed = JSON.parse(value);
+            if (Array.isArray(parsed)) {
+                return parsed
+                    .map(item => {
+                        if (typeof item === 'string') {
+                            return item;
+                        }
+
+                        if (item && typeof item === 'object') {
+                            return item.Name || item.name || item.FileName || item.fileName || JSON.stringify(item);
+                        }
+
+                        return '';
+                    })
+                    .filter(item => item && item.trim().length > 0)
+                    .map(item => item.trim());
+            }
+        } catch {
+            // Preserve a legacy attachment value so it remains visible in the read-only view.
+        }
+
+        return [value];
     }
 
      

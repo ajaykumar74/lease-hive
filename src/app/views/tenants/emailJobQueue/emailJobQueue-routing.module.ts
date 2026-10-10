@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { EmailJobQueueListComponent } from './emailJobQueue-list.component';
-import { EmailJobQueueCreateComponent } from './emailJobQueue-create.component';
-import { EmailJobQueueEditComponent } from './emailJobQueue-edit.component';
 import { EmailJobQueueViewComponent } from './emailJobQueue-view.component';
 
 const routes: Routes = [
@@ -32,19 +30,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'create',
-        canActivate: [AuthGuard],
-        component: EmailJobQueueCreateComponent,
-        data: {
-          title: 'Create'
-        }
-      },
-       {
-        path: 'edit/:id',
-        canActivate: [AuthGuard],
-        component: EmailJobQueueEditComponent 
-      },
-	  {
         path: 'view/:id',
         canActivate: [AuthGuard],
         component: EmailJobQueueViewComponent 
@@ -61,5 +46,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class EmailJobQueueRoutingModule { } 
- 
+export class EmailJobQueueRoutingModule { }

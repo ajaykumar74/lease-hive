@@ -1,41 +1,88 @@
 <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
-					<app-spinner></app-spinner>
-					<form> 
-				<p-fluid>
-		      			<div class="flex mt-8">
-						<div class="card flex flex-col gap-4 w-full"> 
- 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Email Type" [value]="emailJobQueue.EmailType">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Reference Type" [value]="emailJobQueue.ReferenceType">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Reference Id" [value]="emailJobQueue.ReferenceId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="From Profile Code" [value]="emailJobQueue.FromProfileCode">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="To Recipients JSON" [value]="emailJobQueue.ToRecipientsJson">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="CC Recipients JSON" [value]="emailJobQueue.CcRecipientsJson">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="BCC Recipients JSON" [value]="emailJobQueue.BccRecipientsJson">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Subject" [value]="emailJobQueue.Subject">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="HTML Body" [value]="emailJobQueue.HtmlBody">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Attachments JSON" [value]="emailJobQueue.AttachmentsJson">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Priority" [value]="emailJobQueue.Priority">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Scheduled At UTC" [value]="emailJobQueue.ScheduledAtUtc">
-								</app-view-field></div></div>
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <app-message [AlertType]="'message'"></app-message>
+                <app-toolbar-buttons
+                    (onItemClicked)="onOptionItemClicked($event)"
+                    [permission]="permission"
+                    [Caption]="Caption"
+                    [PageType]="'View'">
+                </app-toolbar-buttons>
+                <app-spinner></app-spinner>
 
-						</div>
-					</div>
- 				</p-fluid> 	
+                <div class="mt-6 grid gap-5">
+                    <section class="border-1 surface-border border-round overflow-hidden">
+                        <div class="flex flex-column md:flex-row md:align-items-start gap-3 p-4 border-bottom-1 surface-border">
+                            <div class="flex align-items-center justify-content-center border-circle bg-primary text-primary-reverse w-3rem h-3rem flex-shrink-0">
+                                <i class="pi pi-envelope text-xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-500 text-sm mb-1">Subject</div>
+                                <h2 class="text-xl font-semibold m-0 line-height-3">{{ emailJobQueue.Subject || '(No subject)' }}</h2>
+                            </div>
+                            <div class="border-round px-3 py-2 text-sm font-medium surface-100 text-700">
+                                {{ emailJobQueue.Status || 'Pending' }}
+                            </div>
+                        </div>
 
+                        <div class="p-4 grid gap-3 text-sm">
+                            <div class="grid grid-nogutter gap-2">
+                                <div class="col-12 md:col-2 font-semibold text-600">To</div>
+                                <div class="col-12 md:col-10 flex flex-wrap gap-2">
+                                    <span *ngFor="let recipient of toRecipients" class="surface-100 border-round px-2 py-1">{{ recipient }}</span>
+                                    <span *ngIf="toRecipients.length === 0" class="text-500">No recipients</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-nogutter gap-2" *ngIf="ccRecipients.length > 0">
+                                <div class="col-12 md:col-2 font-semibold text-600">CC</div>
+                                <div class="col-12 md:col-10 flex flex-wrap gap-2">
+                                    <span *ngFor="let recipient of ccRecipients" class="surface-100 border-round px-2 py-1">{{ recipient }}</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-nogutter gap-2" *ngIf="bccRecipients.length > 0">
+                                <div class="col-12 md:col-2 font-semibold text-600">BCC</div>
+                                <div class="col-12 md:col-10 flex flex-wrap gap-2">
+                                    <span *ngFor="let recipient of bccRecipients" class="surface-100 border-round px-2 py-1">{{ recipient }}</span>
+                                </div>
+                            </div>
+                        </div>
 
-					</form>
-			</div>
-		</div>
-	</div>
+                        <div class="border-top-1 surface-border p-4">
+                            <div class="text-500 text-sm font-semibold uppercase mb-3">Message</div>
+                            <div class="surface-50 border-round p-4 min-h-10rem line-height-3" [innerHTML]="emailJobQueue.HtmlBody || '<p>No message body.</p>'"></div>
+                        </div>
+
+                        <div class="border-top-1 surface-border p-4" *ngIf="attachments.length > 0">
+                            <div class="text-500 text-sm font-semibold uppercase mb-3">Attachments</div>
+                            <div class="flex flex-wrap gap-2">
+                                <span *ngFor="let attachment of attachments" class="inline-flex align-items-center gap-2 border-1 surface-border border-round px-3 py-2">
+                                    <i class="pi pi-paperclip text-500"></i>{{ attachment }}
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="border-1 surface-border border-round p-4">
+                        <h3 class="text-base font-semibold m-0 mb-4">Queue details</h3>
+                        <div class="grid text-sm">
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Email type</div><div class="font-medium">{{ emailJobQueue.EmailType || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">From profile</div><div class="font-medium">{{ emailJobQueue.FromProfileCode || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Priority</div><div class="font-medium">{{ emailJobQueue.Priority || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Reference</div><div class="font-medium">{{ emailJobQueue.ReferenceType || '—' }} #{{ emailJobQueue.ReferenceId || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Scheduled</div><div class="font-medium">{{ emailJobQueue.ScheduledAtUtc ? (emailJobQueue.ScheduledAtUtc | date:'dd MMM y, HH:mm') : '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Attempts</div><div class="font-medium">{{ emailJobQueue.AttemptCount || 0 }} / {{ emailJobQueue.MaxAttempts || 0 }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Hangfire job</div><div class="font-medium">{{ emailJobQueue.HangfireJobId || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Provider message ID</div><div class="font-medium">{{ emailJobQueue.ProviderMessageId || '—' }}</div></div>
+                            <div class="col-12 md:col-4 mb-4"><div class="text-500 mb-1">Sent</div><div class="font-medium">{{ emailJobQueue.SentAtUtc ? (emailJobQueue.SentAtUtc | date:'dd MMM y, HH:mm') : '—' }}</div></div>
+                        </div>
+                        <div class="mt-2 p-3 border-round bg-red-50 text-red-700 white-space-pre-wrap line-height-3" *ngIf="emailJobQueue.LastError">
+                            <div class="font-semibold mb-1">Last error</div>
+                            {{ emailJobQueue.LastError }}
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

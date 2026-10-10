@@ -11,14 +11,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button'; 
 import { RadioButtonModule } from 'primeng/radiobutton'; 
 import { InputGroupModule } from 'primeng/inputgroup';
+import { PaginatorModule } from 'primeng/paginator';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 
 import { EmailJobQueueListComponent } from './emailJobQueue-list.component';
-import { EmailJobQueueCreateComponent } from './emailJobQueue-create.component';
-import { EmailJobQueueEditComponent } from './emailJobQueue-edit.component';
 import { EmailJobQueueViewComponent } from './emailJobQueue-view.component';
 import { EmailJobQueueRoutingModule } from './emailJobQueue-routing.module';
 
@@ -40,14 +39,13 @@ import { EmailJobQueueRoutingModule } from './emailJobQueue-routing.module';
 		CheckboxModule,
 		ButtonModule,
 		InputGroupModule, 
+		PaginatorModule,
 		MySharedModule, 
 		FluidModule,
 		EmailJobQueueRoutingModule,
 	],
 	declarations: [
-		EmailJobQueueCreateComponent,
 		EmailJobQueueListComponent,
-		EmailJobQueueEditComponent,
 		EmailJobQueueViewComponent
 	]
 })
