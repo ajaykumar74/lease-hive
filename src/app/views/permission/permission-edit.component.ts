@@ -12,7 +12,7 @@ import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
-import { IAppPermission } from './appPermission';
+import { IAccessPermissionResource, IAppPermission } from './appPermission';
 import { PermissionService } from './permission.service';
 
 
@@ -33,6 +33,7 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
   resourcetypeOptions: ISelectItem[] = [];
   actionnameOptions: ISelectItem[] = [];
   recordstatusOptions: ISelectItem[] = [];
+  resourceNameOptions: ISelectItem[] = [];
 
   editForm: any;
   objMaster: IAppPermission = {} as IAppPermission;
@@ -63,6 +64,7 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
       ModuleCode: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       ResourceType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       ResourceName: new FormControl('', [Validators.required, Validators.maxLength(30),]),
+      ResourceKey: new FormControl('', []),
       ActionName: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       Description: new FormControl('', [Validators.maxLength(100),]),
       IsSensitive: new FormControl(false),
@@ -75,6 +77,13 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
     this.resourcetypeOptions = this.loggedInUserService.getPicklistOptions('ResourceType');
     this.actionnameOptions = this.loggedInUserService.getPicklistOptions('PermissionAction');
     this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+
+    this.permissionService.getAccessPermissionResources()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: resources => this.setResourceNameOptions(resources),
+        error: err => this.messageService.showError(err)
+      });
 
     merge(
       this.editForm.get('ModuleCode').valueChanges,
@@ -124,6 +133,51 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
     );
   }
 
+  onResourceSelected(resourceKey: string): void {
+    const resource = this.accessPermissionResources.find(
+      item => this.getResourceKey(item.ModuleCode, item.ResourceName) === resourceKey
+    );
+    if (!resource) {
+      return;
+    }
+
+    this.editForm.patchValue(
+      {
+        ModuleCode: this.getModuleCodeValue(resource.ModuleCode),
+        ResourceName: resource.ResourceName,
+        ResourceType: this.editForm.get('ResourceType')?.value || this.getEntityResourceType()
+      },
+      { emitEvent: false }
+    );
+    this.updatePermissionCode();
+  }
+
+  private accessPermissionResources: IAccessPermissionResource[] = [];
+
+  private setResourceNameOptions(resources: IAccessPermissionResource[]): void {
+    this.accessPermissionResources = resources ?? [];
+    this.resourceNameOptions = this.accessPermissionResources.map(resource => ({
+      Text: `${resource.DisplayName} (${resource.ModuleCode})`,
+      Value: this.getResourceKey(resource.ModuleCode, resource.ResourceName)
+    }));
+  }
+
+  private getResourceKey(moduleCode: string, resourceName: string): string {
+    return `${String(moduleCode ?? '').trim().toLowerCase()}|${String(resourceName ?? '').trim().toLowerCase()}`;
+  }
+
+  private getModuleCodeValue(moduleCode: string): string {
+    return this.modulecodeOptions.find(
+      option => option.Value.toLowerCase() === moduleCode.toLowerCase()
+    )?.Value ?? moduleCode;
+  }
+
+  private getEntityResourceType(): string {
+    return this.resourcetypeOptions.find(
+      option => option.Value.toLowerCase() === 'entity'
+    )?.Value ?? 'Entity';
+  }
+
   populateUI(obj: IAppPermission): void {
     this.editForm.patchValue(
       {
@@ -132,6 +186,7 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
         ModuleCode: obj.ModuleCode || '',
         ResourceType: obj.ResourceType || '',
         ResourceName: obj.ResourceName || '',
+        ResourceKey: this.getResourceKey(obj.ModuleCode, obj.ResourceName),
         ActionName: obj.ActionName || '',
         Description: obj.Description || '',
         IsSensitive: obj.IsSensitive || false,
@@ -171,6 +226,7 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
         ModuleCode: obj.ModuleCode || '',
         ResourceType: obj.ResourceType || '',
         ResourceName: obj.ResourceName || '',
+        ResourceKey: this.getResourceKey(obj.ModuleCode, obj.ResourceName),
         ActionName: obj.ActionName || '',
         Description: obj.Description || '',
         IsSensitive: obj.IsSensitive || false,

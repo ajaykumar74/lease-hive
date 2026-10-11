@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { IAppPermission } from './appPermission';
+import { IAccessPermissionResource, IAppPermission } from './appPermission';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -43,6 +43,14 @@ export class PermissionService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  getAccessPermissionResources(): Observable<IAccessPermissionResource[]> {
+    return this.http.get<IAccessPermissionResource[]>(`${this.baseUrl}/resources`, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
   }
 }
 

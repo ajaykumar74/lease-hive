@@ -27,3 +27,9 @@ export interface IAppPermissionList {
     IsSensitive: boolean;
     RecordStatus: string;
 }
+
+export interface IAccessPermissionResource {
+    ModuleCode: string;
+    ResourceName: string;
+    DisplayName: string;
+}
