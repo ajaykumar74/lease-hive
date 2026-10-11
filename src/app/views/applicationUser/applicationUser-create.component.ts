@@ -29,6 +29,7 @@ export class ApplicationUserCreateComponent implements OnInit {
   applicationUser: IApplicationUser = null;
   identityproviderOptions: ISelectItem[] = [];
 usertypeOptions: ISelectItem[] = [];
+roleidOptions: ISelectItem[] = [];
 partycontactidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 defaultorganisationunitidOptions: ISelectItem[] = [];
@@ -67,6 +68,7 @@ MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10)
 IdentityProvider: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 ExternalSubjectId: new FormControl('', [Validators.maxLength(30), ]), 
 UserType: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
+RoleId: new FormControl(null, [Validators.required, Validators.min(1)]),
 PartyContactId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 AssetUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DefaultOrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -80,6 +82,10 @@ EffectiveTo: new FormControl(new Date(), []),
 this.identityproviderOptions = this.loggedInUserService.getPicklistOptions('IdentityProvider');
 this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
 this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+    this.loggedInUserService.getEntityLookupOptions('roles').subscribe({
+      next: options => this.roleidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
     this.loggedInUserService.getLookupOptions('asset-users').subscribe({
       next: options => this.assetuseridOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -121,6 +127,7 @@ MobileNumber: obj.MobileNumber || '',
 IdentityProvider: obj.IdentityProvider || '',
 ExternalSubjectId: obj.ExternalSubjectId || '',
 UserType: obj.UserType || '',
+RoleId: obj.RoleId || null,
 PartyContactId: obj.PartyContactId || 0,
 AssetUserId: obj.AssetUserId || 0,
 DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
@@ -162,6 +169,7 @@ MobileNumber: obj.MobileNumber || '',
 IdentityProvider: obj.IdentityProvider || '',
 ExternalSubjectId: obj.ExternalSubjectId || '',
 UserType: obj.UserType || '',
+RoleId: obj.RoleId || null,
 PartyContactId: obj.PartyContactId || 0,
 AssetUserId: obj.AssetUserId || 0,
 DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
@@ -195,6 +203,7 @@ MobileNumber: formValues.MobileNumber || null,
 IdentityProvider: formValues.IdentityProvider || null,
 ExternalSubjectId: formValues.ExternalSubjectId || null,
 UserType: formValues.UserType || null,
+RoleId: formValues.RoleId || 0,
 PartyContactId: formValues.PartyContactId || 0,
 AssetUserId: formValues.AssetUserId || 0,
 DefaultOrganisationUnitId: formValues.DefaultOrganisationUnitId || 0,

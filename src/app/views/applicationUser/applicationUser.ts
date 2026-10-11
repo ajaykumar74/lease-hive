@@ -11,6 +11,7 @@ MobileNumber :string;
 IdentityProvider :string;
 ExternalSubjectId :string;
 UserType :string;
+RoleId :number;
 PartyContactId :number;
 AssetUserId :number;
 DefaultOrganisationUnitId :number;

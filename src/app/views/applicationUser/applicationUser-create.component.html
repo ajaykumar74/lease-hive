@@ -99,6 +99,26 @@
 											label="User Type">
 										</app-validation-errors>
 									</div>
+									<div class="flex flex-col w-full">
+										<label for="RoleId" class="mb-1">Role</label>
+										<p-dropdown inputId="RoleId" [options]="roleidOptions" optionLabel="Text"
+											optionValue="Value" formControlName="RoleId" [filter]="true" filterBy="Text"
+											placeholder="Select role" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'" [control]="editForm.get('RoleId')" label="Role">
+										</app-validation-errors>
+									</div>
+								</div>
+								<div class="flex flex-col md:flex-row gap-4"> 
+									<div class="flex flex-col w-full">
+										<label for="RoleId" class="mb-1">Role</label>
+										<p-dropdown inputId="RoleId" [options]="roleidOptions" optionLabel="Text"
+											optionValue="Value" formControlName="RoleId" [filter]="true" filterBy="Text"
+											placeholder="Select role" class="w-full">
+										</p-dropdown>
+										<app-validation-errors [type]="'text'" [control]="editForm.get('RoleId')" label="Role">
+										</app-validation-errors>
+									</div>
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
