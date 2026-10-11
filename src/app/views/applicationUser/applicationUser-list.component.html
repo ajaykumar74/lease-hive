@@ -3,7 +3,7 @@
 		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'ApplicationUser List'" [PageType]="'List'">
+				[Caption]="'ApplicationUser List'" [PageType]="'List'" [createAccessPermission]="'security.applicationuser.create'">
 			</app-toolbar-buttons>
 			<app-spinner></app-spinner>
 			<div class="generated-list-search">

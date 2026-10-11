@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { IPermission } from './IPermission';
+import { PermissionService } from './security/permission.service';
 
 
 
@@ -30,7 +31,8 @@ export class ToolbarButtonsComponent implements OnInit {
 
     constructor(
         private confirmationService: ConfirmationService,
-        private _location: Location
+        private _location: Location,
+        private readonly permissionService: PermissionService
     ) {
     }
 
@@ -42,6 +44,12 @@ export class ToolbarButtonsComponent implements OnInit {
 
     IsSaveDisabled(): boolean {
         return this.form == null || !this.form.dirty || !this.form.valid;
+    }
+
+    canCreate(): boolean {
+        return this.createAccessPermission
+            ? this.permissionService.hasPermission(this.createAccessPermission)
+            : this.permission?.CanCreate === true;
     }
 
     confirmSave() {

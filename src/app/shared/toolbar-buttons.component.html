@@ -20,7 +20,7 @@
 								[disabled]="!createAccessPermission && !permission?.CanCreate" /> -->
 							<p-button   [hidden]="IsHideCreate" label="Create" size="small"
 								(click)="onButtonClicked('Create')"
-								[disabled]="!createAccessPermission && !permission?.CanCreate" />
+								[disabled]="!canCreate()" />
 							<p-button label="Back" size="small" [hidden]="IsHideBack"
 								(click)="confirmBack()" />
 						</ng-template>
