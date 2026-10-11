@@ -3,9 +3,7 @@ import {
     ActivatedRouteSnapshot,
     CanActivate,
     CanActivateChild,
-    Router,
-    RouterStateSnapshot,
-    UrlTree
+    RouterStateSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -16,7 +14,6 @@ import { PermissionService } from './permission.service';
 @Injectable({ providedIn: 'root' })
 export class PermissionGuard implements CanActivate, CanActivateChild {
     constructor(
-        private readonly router: Router,
         private readonly menuPermissionService: MenuPermissionService,
         private readonly permissionService: PermissionService
     ) {
@@ -25,18 +22,18 @@ export class PermissionGuard implements CanActivate, CanActivateChild {
     canActivate(
         _route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ): Observable<boolean | UrlTree> {
+    ): Observable<boolean> {
         return this.authorize(state.url);
     }
 
     canActivateChild(
         _childRoute: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ): Observable<boolean | UrlTree> {
+    ): Observable<boolean> {
         return this.authorize(state.url);
     }
 
-    private authorize(url: string): Observable<boolean | UrlTree> {
+    private authorize(url: string): Observable<boolean> {
         const requiredPermission = this.menuPermissionService.getRequiredPermission(url);
 
         if (!requiredPermission) {
@@ -44,10 +41,22 @@ export class PermissionGuard implements CanActivate, CanActivateChild {
         }
 
         return this.permissionService.ensurePermissionsLoaded().pipe(
-            map(() => this.permissionService.hasPermission(requiredPermission)
-                ? true
-                : this.router.createUrlTree(['/auth/access'])),
-            catchError(() => of(this.router.createUrlTree(['/auth/access'])))
+            map(() => {
+                if (this.permissionService.hasPermission(requiredPermission)) {
+                    return true;
+                }
+
+                this.showInsufficientPermissionAlert();
+                return false;
+            }),
+            catchError(() => {
+                this.showInsufficientPermissionAlert();
+                return of(false);
+            })
         );
+    }
+
+    private showInsufficientPermissionAlert(): void {
+        window.alert('Insufficient permission access for this feature');
     }
 }

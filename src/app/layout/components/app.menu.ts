@@ -380,6 +380,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     label: 'My Access',
                                     icon: 'pi pi-fw pi-shield',
                                     routerLink: ['/dashboard/my-access'],
+                                    alwaysVisible: true,
                                     tooltip: 'View your roles, permissions, access scopes and delegations'
                                 },
                                 {
@@ -2397,6 +2398,19 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-address-book',
                             routerLink: ['/dashboard/customers/list/'],
                             tooltip: ''
+                        }
+                    ]
+                },
+                {
+                    label: 'People & Access',
+                    icon: 'pi pi-fw pi-user',
+                    items: [
+                        {
+                            label: 'My Access',
+                            icon: 'pi pi-fw pi-shield',
+                            routerLink: ['/dashboard/my-access'],
+                            alwaysVisible: true,
+                            tooltip: 'View your roles, permissions, access scopes and delegations'
                         }
                     ]
                 }

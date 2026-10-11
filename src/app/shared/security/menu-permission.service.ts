@@ -8,6 +8,7 @@ export interface AppMenuItem {
     items?: AppMenuItem[];
     separator?: boolean;
     visible?: boolean;
+    alwaysVisible?: boolean;
     requiredPermission?: string;
     [key: string]: unknown;
 }
@@ -126,7 +127,7 @@ export class MenuPermissionService {
             return { ...item };
         }
 
-        const bypassPermissions = inheritedPeopleAndAccess || item.label === 'People & Access';
+        const bypassPermissions = inheritedPeopleAndAccess || item.label === 'People & Access' || item.alwaysVisible === true;
         const children = item.items
             ?.map(child => this.filterItem(child, bypassPermissions))
             .filter((child): child is AppMenuItem => child !== null);
