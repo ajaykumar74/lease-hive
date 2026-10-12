@@ -21,6 +21,6 @@ SpecificationsJson :string;
 Remarks :string;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

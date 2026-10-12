@@ -14,7 +14,7 @@ Quantity :number;
 UOMId :number;
 AllocationStatusCode :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 AssetValueSnapshot :number;
 SerialSnapshot :string;
 

@@ -16,7 +16,7 @@ DefaultLocationId :number;
 IsContractingUnit : boolean;
 IsBillingUnit : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Status :string;
 HierarchyPath :string;
 Description :string;

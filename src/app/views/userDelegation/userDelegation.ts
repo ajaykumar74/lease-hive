@@ -16,7 +16,7 @@ export interface IUserDelegation extends IBase {
     TenantId: number;
     RecordStatus: string;
     EffectiveFrom: Date;
-    EffectiveTo: Date;
+    EffectiveTo: Date | null;
     DelegatorUserName?: string;
     DelegateUserName?: string;
     ApprovedByUserName?: string;

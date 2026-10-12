@@ -15,6 +15,6 @@ CanDelegate : boolean;
 TenantId :number;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

@@ -14,7 +14,7 @@ PowerUomDisplayName?: string;
 ManufactureDate :Date;
 SafetyClass :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

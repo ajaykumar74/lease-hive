@@ -10,7 +10,7 @@ TaxTypeId :number;
 DebitAccountCode :string;
 CreditAccountCode :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Priority :number;
 RecordStatus :string;
 

@@ -18,6 +18,6 @@ TaxSystem :string;
 Status :string;
 Description :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

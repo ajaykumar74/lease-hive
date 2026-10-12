@@ -13,7 +13,7 @@ IssuingStateCode :string;
 IsPrimary : boolean;
 IsVerified : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

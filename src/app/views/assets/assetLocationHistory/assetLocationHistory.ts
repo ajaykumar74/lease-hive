@@ -17,7 +17,7 @@ MovementDateTime :Date;
 ReferenceType :string;
 ReferenceId :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

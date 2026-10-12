@@ -14,6 +14,6 @@ ApprovedById :number;
 ApprovedAt :Date;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

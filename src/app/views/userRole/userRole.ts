@@ -12,7 +12,7 @@ IsDelegated : boolean;
 TenantId :number;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RoleCode?: string;
 RoleName?: string;
 RoleDisplayName?: string;

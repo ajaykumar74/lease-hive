@@ -12,7 +12,7 @@ VariantName :string;
 ModelYearFrom :number;
 ModelYearTo :number;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 AssetMakeDisplayName?: string;
 AssetTypeDisplayName?: string;

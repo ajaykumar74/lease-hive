@@ -7,7 +7,7 @@ StatusCode :string;
 StatusName :string;
 Description :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

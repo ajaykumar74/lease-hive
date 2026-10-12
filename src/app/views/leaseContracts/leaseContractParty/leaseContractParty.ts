@@ -14,6 +14,6 @@ TaxIdSnapshot :string;
 AddressSnapshotJson :string;
 ContactSnapshotJson :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

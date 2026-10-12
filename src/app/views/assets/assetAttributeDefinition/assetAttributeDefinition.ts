@@ -16,7 +16,7 @@ IsRequired : boolean;
 IsSearchable : boolean;
 ValidationJson :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

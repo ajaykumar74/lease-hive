@@ -12,7 +12,7 @@ StartTime :string;
 EndTime :string;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 
 }

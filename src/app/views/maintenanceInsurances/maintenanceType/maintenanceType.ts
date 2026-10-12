@@ -8,7 +8,7 @@ MaintenanceTypeName :string;
 Description :string;
 IsPlanned : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

@@ -10,7 +10,7 @@ CreditDecisionId :number;
 CurrencyCode :string;
 LimitAmount :number;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 LimitStatus :string;
 Remarks :string;
 RecordStatus :string;

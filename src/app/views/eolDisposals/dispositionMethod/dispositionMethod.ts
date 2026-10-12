@@ -8,7 +8,7 @@ DispositionMethodName :string;
 RequiresBuyerFlag : boolean;
 RequiresApprovalFlag : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

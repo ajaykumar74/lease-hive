@@ -11,7 +11,7 @@ IsDefault : boolean;
 TenantId :number;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 OrganisationUnitCode?: string;
 OrganisationUnitName?: string;
 OrganisationUnitDisplayName?: string;

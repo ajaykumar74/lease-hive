@@ -19,6 +19,6 @@ CreditHoldFlag : boolean;
 CreditHoldReason :string;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

@@ -11,6 +11,6 @@ IsTerminal : boolean;
 SortOrder :number;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

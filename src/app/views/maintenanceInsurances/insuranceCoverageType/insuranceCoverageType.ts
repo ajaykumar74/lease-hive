@@ -7,7 +7,7 @@ CoverageTypeCode :string;
 CoverageTypeName :string;
 Description :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

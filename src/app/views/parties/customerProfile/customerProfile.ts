@@ -19,7 +19,7 @@ PurchaseOrderRequired : boolean;
 CustomerSinceDate :Date;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 
 }

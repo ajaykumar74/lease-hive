@@ -10,7 +10,7 @@ OptionCode :string;
 OptionLabel :string;
 SortOrder :number;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

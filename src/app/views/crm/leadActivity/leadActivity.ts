@@ -16,7 +16,7 @@ Notes :string;
 CompletedOn :Date;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 
 }

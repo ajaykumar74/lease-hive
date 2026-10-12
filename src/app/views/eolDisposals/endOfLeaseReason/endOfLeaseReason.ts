@@ -7,7 +7,7 @@ ReasonCode :string;
 ReasonName :string;
 Description :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

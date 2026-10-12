@@ -19,7 +19,7 @@ LostReasonCode :string;
 ClosedOn :Date;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 
 }

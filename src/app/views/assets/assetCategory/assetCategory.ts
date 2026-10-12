@@ -12,7 +12,7 @@ SupportsRegistration : boolean;
 SupportsMeasure : boolean;
 ExtensionTypeCode :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

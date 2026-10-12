@@ -8,7 +8,7 @@ ChargeTypeName :string;
 DirectionCode :string;
 TaxableFlag : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

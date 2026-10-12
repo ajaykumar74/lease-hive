@@ -23,7 +23,7 @@ IsPurchaseBlocked : boolean;
 BlockReason :string;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 
 }

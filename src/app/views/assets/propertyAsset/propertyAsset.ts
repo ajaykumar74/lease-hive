@@ -13,7 +13,7 @@ FloorNo :string;
 PossessionDate :Date;
 TitleReference :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

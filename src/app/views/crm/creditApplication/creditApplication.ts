@@ -18,6 +18,6 @@ SubmittedOn :Date;
 DecisionOn :Date;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 
 }

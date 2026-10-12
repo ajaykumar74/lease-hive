@@ -9,7 +9,7 @@ ReferenceTypeCode :string;
 ReferenceValue :string;
 ProviderCode :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 IsPrimary : boolean;
 
 }

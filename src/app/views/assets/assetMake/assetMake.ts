@@ -10,7 +10,7 @@ MakeName :string;
 AssetCategoryId :number;
 CountryCode :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 ManufacturerPartyDisplayName?: string;
 AssetCategoryDisplayName?: string;

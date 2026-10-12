@@ -21,7 +21,7 @@ RiskClassification :string;
 OnboardingStatus :string;
 RecordStatus :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 Description :string;
 CanUpdate :boolean;
 

@@ -12,7 +12,7 @@ DefaultResidualPercent :number;
 RequiresSerialNo : boolean;
 RequiresRegistrationNo : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 AssetCategoryDisplayName?: string;
 

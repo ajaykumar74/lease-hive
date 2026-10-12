@@ -10,7 +10,7 @@ ScoreFrom :number;
 ScoreTo :number;
 IsLeaseable : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

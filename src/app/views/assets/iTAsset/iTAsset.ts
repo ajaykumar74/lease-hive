@@ -14,7 +14,7 @@ IMEI :string;
 WarrantyExpiryDate :Date;
 MDMDeviceId :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

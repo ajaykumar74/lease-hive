@@ -13,7 +13,7 @@ ToStatusDisplayName?: string;
 ReasonCode :string;
 Remarks :string;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

@@ -9,7 +9,7 @@ DocumentId :number;
 DocumentPurposeId :number;
 IsPrimary : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 IsVerified : boolean;
 VerifiedBy :number;
 AssetDisplayName?: string;

@@ -16,7 +16,7 @@ IntervalMeasureValue :number;
 LeadDays :number;
 LeadMeasureValue :number;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

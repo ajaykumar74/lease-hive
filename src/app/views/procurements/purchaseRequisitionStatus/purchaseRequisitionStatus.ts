@@ -9,7 +9,7 @@ StatusName :string;
 IsTerminal : boolean;
 SortOrder :number;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 
 }

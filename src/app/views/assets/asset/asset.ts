@@ -24,7 +24,7 @@ AcquisitionCost :number;
 ResidualValueAmount :number;
 IsLeaseable : boolean;
 EffectiveFrom :Date;
-EffectiveTo :Date;
+EffectiveTo :Date | null;
 RecordStatus :string;
 AssetCategoryDisplayName?: string;
 AssetTypeDisplayName?: string;
