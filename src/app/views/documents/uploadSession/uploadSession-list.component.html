@@ -1,30 +1,33 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'UploadSession List'"
+<div class="grid list-page generated-list-page">
+<div class="col-12">
+		<div class="card list-card generated-list-card">
+<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Upload Sessions'"
 					[PageType]="'List'">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
+                <div class="generated-list-search">
+                    <div class="generated-list-filter"><label for="uploadSession-DocumentId">Document ID</label><input id="uploadSession-DocumentId" type="number" pInputText class="generated-list-input" [(ngModel)]="objSearch.DocumentId" (keyup.enter)="search()" /></div>
+                    <div class="generated-list-filter"><label for="uploadSession-DocumentVersionId">Version ID</label><input id="uploadSession-DocumentVersionId" type="number" pInputText class="generated-list-input" [(ngModel)]="objSearch.DocumentVersionId" (keyup.enter)="search()" /></div>
+                    <div class="generated-list-filter"><label for="uploadSession-ObjectETag">Object ETag</label><input id="uploadSession-ObjectETag" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.ObjectETag" (keyup.enter)="search()" /></div>
+                    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search upload sessions" title="Search"></button>
+                    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+                    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
                 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">Upload Session Id <p-sortIcon field="UploadSessionId" /> </th> 
-<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th> 
-<th style="width:200px">Document Version Id <p-sortIcon field="DocumentVersionId" /> </th> 
-<th style="width:200px">Expires At UTC <p-sortIcon field="ExpiresAtUtc" /> </th> 
-<th style="width:200px">Status <p-sortIcon field="Status" /> </th> 
-<th style="width:200px">Object E Tag <p-sortIcon field="ObjectETag" /> </th> 
-<th style="width:200px">Server Verified At UTC <p-sortIcon field="ServerVerifiedAtUtc" /> </th> 
-<th style="width:200px">Completed At UTC <p-sortIcon field="CompletedAtUtc" /> </th> 
-
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
+						 <th style="width:200px">Upload Session Id <p-sortIcon field="UploadSessionId" /> </th>
+<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th>
+<th style="width:200px">Document Version Id <p-sortIcon field="DocumentVersionId" /> </th>
+<th style="width:200px">Expires At UTC <p-sortIcon field="ExpiresAtUtc" /> </th>
+<th style="width:200px">Status <p-sortIcon field="Status" /> </th>
+<th style="width:200px">Object E Tag <p-sortIcon field="ObjectETag" /> </th>
+<th style="width:200px">Server Verified At UTC <p-sortIcon field="ServerVerifiedAtUtc" /> </th>
+<th style="width:200px">Completed At UTC <p-sortIcon field="CompletedAtUtc" /> </th>
+
+
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
@@ -38,11 +41,11 @@
  <td style="width:200px">{{obj.ObjectETag}}</td>
  <td style="width:200px">{{obj.ServerVerifiedAtUtc | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.CompletedAtUtc | date:'dd-MMM-yyyy' }}</td>
- 
+
 					</tr>
 				</ng-template>
 			</p-table>
+			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="pageChanged($event)"></p-paginator>
 		</div>
-	</div> 
+	</div>
 </div>
-  

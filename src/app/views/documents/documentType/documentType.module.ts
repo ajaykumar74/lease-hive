@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { DocumentTypeListComponent } from './documentType-list.component';
 import { DocumentTypeCreateComponent } from './documentType-create.component';
@@ -42,6 +43,7 @@ import { DocumentTypeRoutingModule } from './documentType-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		DocumentTypeRoutingModule,
 	],
 	declarations: [

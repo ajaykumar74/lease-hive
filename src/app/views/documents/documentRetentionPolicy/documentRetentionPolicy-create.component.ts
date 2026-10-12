@@ -95,7 +95,7 @@ IsActive:  obj.IsActive || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentRetentionPolicys/create']);
+      this.router.navigate(['/dashboard/document-retention-policies/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -137,6 +137,7 @@ IsActive:  obj.IsActive || false,
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+      DocumentRetentionPolicyId: this.objMaster.DocumentRetentionPolicyId || '',
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
      Code: formValues.Code || null,
 Name: formValues.Name || null,

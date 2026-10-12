@@ -71,7 +71,7 @@ export class DocumentLegalHoldViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentLegalHold/create']);
+            this.router.navigate(['/dashboard/document-legal-holds/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

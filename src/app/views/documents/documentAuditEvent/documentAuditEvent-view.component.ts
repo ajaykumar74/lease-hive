@@ -71,7 +71,7 @@ export class DocumentAuditEventViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentAuditEvent/create']);
+            this.router.navigate(['/dashboard/document-audit-events/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

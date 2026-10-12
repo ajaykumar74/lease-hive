@@ -110,7 +110,7 @@ FailureReason: obj.FailureReason || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/uploadSessions/create']);
+      this.router.navigate(['/dashboard/upload-sessions/create']);
     }
     else if (key == "Save") {
       this.Save();

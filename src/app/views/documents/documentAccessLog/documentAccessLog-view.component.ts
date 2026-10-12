@@ -71,7 +71,7 @@ export class DocumentAccessLogViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentAccessLog/create']);
+            this.router.navigate(['/dashboard/document-access-logs/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

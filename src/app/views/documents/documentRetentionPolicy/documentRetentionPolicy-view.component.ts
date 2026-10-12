@@ -71,7 +71,7 @@ export class DocumentRetentionPolicyViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentRetentionPolicy/create']);
+            this.router.navigate(['/dashboard/document-retention-policies/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

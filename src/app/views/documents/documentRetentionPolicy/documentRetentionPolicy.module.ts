@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { DocumentRetentionPolicyListComponent } from './documentRetentionPolicy-list.component';
 import { DocumentRetentionPolicyCreateComponent } from './documentRetentionPolicy-create.component';
@@ -42,6 +43,7 @@ import { DocumentRetentionPolicyRoutingModule } from './documentRetentionPolicy-
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		DocumentRetentionPolicyRoutingModule,
 	],
 	declarations: [

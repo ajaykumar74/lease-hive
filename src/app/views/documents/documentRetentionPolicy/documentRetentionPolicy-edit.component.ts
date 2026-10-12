@@ -103,7 +103,7 @@ IsActive:  obj.IsActive || false,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentRetentionPolicy/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/document-retention-policies/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

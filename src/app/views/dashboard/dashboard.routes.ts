@@ -165,6 +165,46 @@ const routes: Routes = [
         data: { breadcrumb: 'settings' },
         loadChildren: () => import('@/views/settings/settings.module').then(c => c.SettingsModule),
       },
+      {
+        path: 'documents',
+        data: { breadcrumb: 'Documents' },
+        loadChildren: () => import('@/views/documents/document/document.module').then(c => c.DocumentModule),
+      },
+      {
+        path: 'document-types',
+        data: { breadcrumb: 'Document Types' },
+        loadChildren: () => import('@/views/documents/documentType/documentType.module').then(c => c.DocumentTypeModule),
+      },
+      {
+        path: 'document-versions',
+        data: { breadcrumb: 'Document Versions' },
+        loadChildren: () => import('@/views/documents/documentVersion/documentVersion.module').then(c => c.DocumentVersionModule),
+      },
+      {
+        path: 'document-access-logs',
+        data: { breadcrumb: 'Document Access Logs' },
+        loadChildren: () => import('@/views/documents/documentAccessLog/documentAccessLog.module').then(c => c.DocumentAccessLogModule),
+      },
+      {
+        path: 'document-audit-events',
+        data: { breadcrumb: 'Document Audit Events' },
+        loadChildren: () => import('@/views/documents/documentAuditEvent/documentAuditEvent.module').then(c => c.DocumentAuditEventModule),
+      },
+      {
+        path: 'document-legal-holds',
+        data: { breadcrumb: 'Document Legal Holds' },
+        loadChildren: () => import('@/views/documents/documentLegalHold/documentLegalHold.module').then(c => c.DocumentLegalHoldModule),
+      },
+      {
+        path: 'document-retention-policies',
+        data: { breadcrumb: 'Document Retention Policies' },
+        loadChildren: () => import('@/views/documents/documentRetentionPolicy/documentRetentionPolicy.module').then(c => c.DocumentRetentionPolicyModule),
+      },
+      {
+        path: 'upload-sessions',
+        data: { breadcrumb: 'Upload Sessions' },
+        loadChildren: () => import('@/views/documents/uploadSession/uploadSession.module').then(c => c.UploadSessionModule),
+      },
 
 
       {

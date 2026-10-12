@@ -106,7 +106,7 @@ MetadataJson: obj.MetadataJson || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentAuditEvents/create']);
+      this.router.navigate(['/dashboard/document-audit-events/create']);
     }
     else if (key == "Save") {
       this.Save();

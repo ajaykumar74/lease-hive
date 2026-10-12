@@ -8,6 +8,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { DocumentAuditEventService } from './documentAuditEvent.service';
 import { IDocumentAuditEvent } from './documentAuditEvent';
 import { PageEvent } from '@/shared/IBase';
+import { PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-customer-list',
@@ -21,7 +22,7 @@ export class DocumentAuditEventListComponent implements OnInit {
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
+  pgEvent: PageEvent = { first: 0, rows: 10, page: 0, pageCount: 0 };
   lstMain: IDocumentAuditEvent[]; 
   sortBy: string = 'Id';
   IsDescending: boolean;
@@ -31,7 +32,7 @@ export class DocumentAuditEventListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  objSearch: any = { DocumentId: '', ActionCode: '', ActorUserId: '' };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -65,12 +66,21 @@ export class DocumentAuditEventListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { DocumentId: '', ActionCode: '', ActorUserId: '' };
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(arg: PaginatorState): void {
+    const rows = arg.rows ?? this.pgEvent.rows;
+    const first = arg.first ?? 0;
+    const pageEvent: PageEvent = {
+      first,
+      rows,
+      page: arg.page ?? Math.floor(first / rows),
+      pageCount: arg.pageCount ?? Math.ceil(this.totalNoOfRecords / rows)
+    };
+    this.pgEvent = pageEvent;
+    this.searchData(pageEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -108,46 +118,27 @@ export class DocumentAuditEventListComponent implements OnInit {
   }
 
   getSearchParams() {
-    var Items = [];
-    Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
-     
+    return [
+      { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
+      { DBName: 'DocumentId', Value: this.objSearch.DocumentId, DataType: DataType.Int, Operator: Operator.EqualTo },
+      { DBName: 'ActionCode', Value: this.objSearch.ActionCode, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'ActorUserId', Value: this.objSearch.ActorUserId, DataType: DataType.Int, Operator: Operator.EqualTo }
     ];
-
-
-    var auditCriteria = null;
-    
-
-    if (this.objSearch.AuditType == 'Created') {
-      auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    else if (this.objSearch.AuditType == 'Modified') {
-      auditCriteria = 'ModifiedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    if (auditCriteria != null) {
-      Items.push({ DBName: 'Records', Value: auditCriteria, DataType: DataType.Text, Operator: Operator.EqualTo })
-    }
-
-    return Items;
-
   }
 
   onDetailsClick(obj: any): void {
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/documentAuditEvents/edit/' + obj.Id]);
+        this.router.navigate(['/dashboard/document-audit-events/edit/' + obj.Id]);
     }
     else {
-        this.router.navigate(['dashboard/documentAuditEvents/view/' + obj.Id]);
+        this.router.navigate(['/dashboard/document-audit-events/view/' + obj.Id]);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['dashboard/documentAuditEvents/create']);
+      this.router.navigate(['/dashboard/document-audit-events/create']);
     } 
     else if (key == "Refresh") {
       this.search();

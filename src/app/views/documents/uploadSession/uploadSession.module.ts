@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { UploadSessionListComponent } from './uploadSession-list.component';
 import { UploadSessionCreateComponent } from './uploadSession-create.component';
@@ -42,6 +43,7 @@ import { UploadSessionRoutingModule } from './uploadSession-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		UploadSessionRoutingModule,
 	],
 	declarations: [

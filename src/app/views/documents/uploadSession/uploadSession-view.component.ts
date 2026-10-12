@@ -71,7 +71,7 @@ export class UploadSessionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/uploadSession/create']);
+            this.router.navigate(['/dashboard/upload-sessions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

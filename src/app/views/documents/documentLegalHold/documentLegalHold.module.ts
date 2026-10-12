@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { DocumentLegalHoldListComponent } from './documentLegalHold-list.component';
 import { DocumentLegalHoldCreateComponent } from './documentLegalHold-create.component';
@@ -42,6 +43,7 @@ import { DocumentLegalHoldRoutingModule } from './documentLegalHold-routing.modu
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		DocumentLegalHoldRoutingModule,
 	],
 	declarations: [

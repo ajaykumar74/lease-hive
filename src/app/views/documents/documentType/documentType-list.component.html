@@ -1,27 +1,29 @@
-<div class="grid"> 
-	<div class="col-12">
-		<div class="card"> 
-            <app-message [AlertType]="'message'"></app-message> 
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'DocumentType List'"
+<div class="grid list-page generated-list-page">
+<div class="col-12">
+		<div class="card list-card generated-list-card">
+<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Document Types'"
 					[PageType]="'List'">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				<div class="col-12 md:col-6">
-                    <p-inputGroup>                     
-                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
-						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
-                    </p-inputGroup>
+                <div class="generated-list-search">
+                    <div class="generated-list-filter"><label for="documentType-Code">Code</label><input id="documentType-Code" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.Code" (keyup.enter)="search()" /></div>
+                    <div class="generated-list-filter"><label for="documentType-Name">Name</label><input id="documentType-Name" type="text" pInputText class="generated-list-input" [(ngModel)]="objSearch.Name" (keyup.enter)="search()" /></div>
+                    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search document types" title="Search"></button>
+                    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+                    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
                 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
-						 <th style="width:200px">Document Type Id <p-sortIcon field="DocumentTypeId" /> </th> 
-<th style="width:200px">Code <p-sortIcon field="Code" /> </th> 
-<th style="width:200px">Name <p-sortIcon field="Name" /> </th> 
-<th style="width:200px">Sensitivity Level <p-sortIcon field="SensitivityLevel" /> </th> 
-<th style="width:200px">Is Active <p-sortIcon field="IsActive" /> </th> 
-
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th>
+						 <th style="width:200px">Document Type Id <p-sortIcon field="DocumentTypeId" /> </th>
+<th style="width:200px">Code <p-sortIcon field="Code" /> </th>
+<th style="width:200px">Name <p-sortIcon field="Name" /> </th>
+<th style="width:200px">Sensitivity Level <p-sortIcon field="SensitivityLevel" /> </th>
+<th style="width:200px">Is Active <p-sortIcon field="IsActive" /> </th>
+
+
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-obj>
@@ -32,11 +34,11 @@
  <td style="width:200px">{{obj.Name}}</td>
  <td style="width:200px">{{obj.SensitivityLevel | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.IsActive | yesNo }}</td>
- 
+
 					</tr>
 				</ng-template>
 			</p-table>
+			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="pageChanged($event)"></p-paginator>
 		</div>
-	</div> 
+	</div>
 </div>
-  

@@ -128,7 +128,7 @@ ScanResult: obj.ScanResult || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentVersions/create']);
+      this.router.navigate(['/dashboard/document-versions/create']);
     }
     else if (key == "Save") {
       this.Save();

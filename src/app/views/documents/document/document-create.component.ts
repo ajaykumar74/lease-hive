@@ -107,7 +107,7 @@ DeleteReason: obj.DeleteReason || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documents/create']);
+      this.router.navigate(['/dashboard/documents/create']);
     }
     else if (key == "Save") {
       this.Save();

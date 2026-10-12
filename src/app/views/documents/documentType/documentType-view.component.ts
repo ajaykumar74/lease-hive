@@ -71,7 +71,7 @@ export class DocumentTypeViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentType/create']);
+            this.router.navigate(['/dashboard/document-types/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

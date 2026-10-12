@@ -58,6 +58,7 @@ accessactionOptions: ISelectItem[] = [];
 DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DocumentVersionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 AccessAction: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
+CorrelationId: new FormControl('', []),
 ClientIpAddress: new FormControl('', [Validators.maxLength(45), ]), 
 
     });
@@ -100,6 +101,7 @@ this.accessactionOptions.push({Text: 'Download', Value: 'Download' });
 	  DocumentId: obj.DocumentId || 0,
 DocumentVersionId: obj.DocumentVersionId || 0,
 AccessAction: obj.AccessAction || 0,
+CorrelationId: obj.CorrelationId || '',
 ClientIpAddress: obj.ClientIpAddress || '',
  
       }
@@ -110,7 +112,7 @@ ClientIpAddress: obj.ClientIpAddress || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentAccessLog/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/document-access-logs/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
@@ -132,6 +134,7 @@ ClientIpAddress: obj.ClientIpAddress || '',
 	  DocumentId: obj.DocumentId || 0,
 DocumentVersionId: obj.DocumentVersionId || 0,
 AccessAction: obj.AccessAction || 0,
+CorrelationId: obj.CorrelationId || '',
 ClientIpAddress: obj.ClientIpAddress || '',
  
       }
@@ -153,10 +156,14 @@ ClientIpAddress: obj.ClientIpAddress || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+     DocumentAccessLogId: this.objMaster.DocumentAccessLogId || '',
+TenantId: this.objMaster.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
      DocumentId:  formValues.DocumentId || null,
 DocumentVersionId:  formValues.DocumentVersionId || null,
 AccessAction:  formValues.AccessAction || null,
-CorrelationId:  formValues.CorrelationId || null,
+AccessedByUserId: this.objMaster.AccessedByUserId || Number(this.loggedInUserService.loggedInUser.RecordId) || 0,
+AccessedAtUtc: this.objMaster.AccessedAtUtc || new Date(),
+CorrelationId:  formValues.CorrelationId || '',
 ClientIpAddress:  formValues.ClientIpAddress || null,
 
     } as IDocumentAccessLog ;

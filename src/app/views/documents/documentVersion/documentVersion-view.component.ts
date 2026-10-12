@@ -71,7 +71,7 @@ export class DocumentVersionViewComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
-            this.router.navigate(['/documentVersion/create']);
+            this.router.navigate(['/dashboard/document-versions/create']);
         }        
         else if (key == "Refresh") {
             this.loadUI();

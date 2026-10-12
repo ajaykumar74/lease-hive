@@ -9,6 +9,7 @@ DocumentVersionId :number;
 AccessAction :number;
 AccessedByUserId :number;
 AccessedAtUtc :Date;
+CorrelationId :string;
 ClientIpAddress :string;
 
 }

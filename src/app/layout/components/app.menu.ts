@@ -493,11 +493,26 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'Documents',
+                                    icon: 'pi pi-fw pi-folder',
+                                    items: [
+                                        { label: 'Documents', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/documents'], tooltip: 'Manage tenant documents' },
+                                        { label: 'Document Types', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/document-types'], tooltip: 'Manage document classifications' },
+                                        { label: 'Retention Policies', icon: 'pi pi-fw pi-calendar-clock', routerLink: ['/dashboard/document-retention-policies'], tooltip: 'Manage document retention policies' },
+                                        { label: 'Legal Holds', icon: 'pi pi-fw pi-lock', routerLink: ['/dashboard/document-legal-holds'], tooltip: 'Manage document legal holds' },
+                                        { label: 'Versions', icon: 'pi pi-fw pi-history', routerLink: ['/dashboard/document-versions'], tooltip: 'Review document versions' },
+                                        { label: 'Upload Sessions', icon: 'pi pi-fw pi-upload', routerLink: ['/dashboard/upload-sessions'], tooltip: 'Review document upload sessions' },
+                                        { label: 'Access Logs', icon: 'pi pi-fw pi-eye', routerLink: ['/dashboard/document-access-logs'], tooltip: 'Review document access activity' },
+                                        { label: 'Audit Events', icon: 'pi pi-fw pi-list', routerLink: ['/dashboard/document-audit-events'], tooltip: 'Review document audit events' }
+                                    ]
+                                },
+                                {
                                     label: 'PickList Items',
                                     icon: 'pi pi-fw pi-list',
                                     routerLink: ['/dashboard/picklistItems/list'],
                                     tooltip: 'Manage PickList item categories and values'
                                 },
+                                  
                                 {
                                     label: 'Number sequences',
                                     icon: 'pi pi-fw pi-home',

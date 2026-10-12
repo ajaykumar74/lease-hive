@@ -104,7 +104,7 @@ ReleaseReason: obj.ReleaseReason || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentLegalHold/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/document-legal-holds/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

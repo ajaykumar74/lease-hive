@@ -108,7 +108,7 @@ IsActive:  obj.IsActive || false,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/documentType/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/document-types/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();
