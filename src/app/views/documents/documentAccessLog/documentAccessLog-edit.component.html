@@ -1,0 +1,80 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Document Version Id" class="mb-1">DocumentVersionId</label>
+        <p-dropdown
+            inputId="DocumentVersionId" 
+            [options]="documentversionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentVersionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentVersionId')"
+											label="Document Version Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Access Action" class="mb-1">AccessAction</label>
+        <p-dropdown
+            inputId="AccessAction" 
+            [options]="accessactionOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AccessAction"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AccessAction')"
+											label="Access Action">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="CorrelationId">Correlation Id 
+							</label> 
+							<input pInputText id="CorrelationId" type="text" pSize="small"	formControlName="CorrelationId"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CorrelationId')"
+											label="Correlation Id">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">					
+							<label for="ClientIpAddress">Client Ip Address 
+							</label> 
+							<input pInputText id="ClientIpAddress" type="text" pSize="small"	formControlName="ClientIpAddress"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ClientIpAddress')"
+											label="Client Ip Address">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

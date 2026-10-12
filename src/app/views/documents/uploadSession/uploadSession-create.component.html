@@ -1,0 +1,87 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Document Version Id" class="mb-1">DocumentVersionId</label>
+        <p-dropdown
+            inputId="DocumentVersionId" 
+            [options]="documentversionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentVersionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentVersionId')"
+											label="Document Version Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="ExpiresAtUtc">Expires At UTC 
+							</label> 
+							<p-calendar id="ExpiresAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ExpiresAtUtc"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ExpiresAtUtc')"
+											label="Expires At UTC">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Status" class="mb-1">Status</label>
+        <p-dropdown
+            inputId="Status" 
+            [options]="statusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="Status"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('Status')"
+											label="Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ObjectETag">Object E Tag 
+							</label> 
+							<input pInputText id="ObjectETag" type="text" pSize="small"	formControlName="ObjectETag"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ObjectETag')"
+											label="Object E Tag">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">                 <label for="address">Failure Reason</label>
+                    <textarea size="small" pTextarea placeholder="Type Failure Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="FailureReason"
+										[ngClass]="{'is-invalid': (editForm.get('FailureReason').touched || editForm.get('FailureReason').dirty) && !editForm.get('FailureReason').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('FailureReason')"
+											label="Failure Reason">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

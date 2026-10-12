@@ -1,0 +1,94 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Type Id" class="mb-1">DocumentTypeId</label>
+        <p-dropdown
+            inputId="DocumentTypeId" 
+            [options]="documenttypeidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentTypeId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentTypeId')"
+											label="Document Type Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="Title">Title 
+							</label> 
+							<input pInputText id="Title" type="text" pSize="small"	formControlName="Title"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Title')"
+											label="Title">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="IssuedOn">Issued On 
+							</label> 
+							<p-calendar id="IssuedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="IssuedOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('IssuedOn')"
+											label="Issued On">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="ExpiresOn">Expires On 
+							</label> 
+							<p-calendar id="ExpiresOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="ExpiresOn"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('ExpiresOn')"
+											label="Expires On">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ExternalReferenceNumber">External Reference Number 
+							</label> 
+							<input pInputText id="ExternalReferenceNumber" type="text" pSize="small"	formControlName="ExternalReferenceNumber"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ExternalReferenceNumber')"
+											label="External Reference Number">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Status" class="mb-1">Status</label>
+        <p-dropdown
+            inputId="Status" 
+            [options]="statusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="Status"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('Status')"
+											label="Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Delete Reason</label>
+                    <textarea size="small" pTextarea placeholder="Type Delete Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="DeleteReason"
+										[ngClass]="{'is-invalid': (editForm.get('DeleteReason').touched || editForm.get('DeleteReason').dirty) && !editForm.get('DeleteReason').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('DeleteReason')"
+											label="Delete Reason">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

@@ -1,0 +1,70 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'DocumentVersion List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Document Version Id <p-sortIcon field="DocumentVersionId" /> </th> 
+<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th> 
+<th style="width:200px">Version Number <p-sortIcon field="VersionNumber" /> </th> 
+<th style="width:200px">Storage Provider <p-sortIcon field="StorageProvider" /> </th> 
+<th style="width:200px">Storage E Tag <p-sortIcon field="StorageETag" /> </th> 
+<th style="width:200px">Original File Name <p-sortIcon field="OriginalFileName" /> </th> 
+<th style="width:200px">Content Type <p-sortIcon field="ContentType" /> </th> 
+<th style="width:200px">File Extension <p-sortIcon field="FileExtension" /> </th> 
+<th style="width:200px">Expected Size Bytes <p-sortIcon field="ExpectedSizeBytes" /> </th> 
+<th style="width:200px">Stored Size Bytes <p-sortIcon field="StoredSizeBytes" /> </th> 
+<th style="width:200px">Sha256 <p-sortIcon field="Sha256" /> </th> 
+<th style="width:200px">File Status <p-sortIcon field="FileStatus" /> </th> 
+<th style="width:200px">Scan Engine <p-sortIcon field="ScanEngine" /> </th> 
+<th style="width:200px">Scan Result <p-sortIcon field="ScanResult" /> </th> 
+<th style="width:200px">Scanned At UTC <p-sortIcon field="ScannedAtUtc" /> </th> 
+<th style="width:200px">Uploaded At UTC <p-sortIcon field="UploadedAtUtc" /> </th> 
+<th style="width:200px">Uploaded By User Id <p-sortIcon field="UploadedByUserId" /> </th> 
+<th style="width:200px">Available At UTC <p-sortIcon field="AvailableAtUtc" /> </th> 
+<th style="width:200px">Superseded At UTC <p-sortIcon field="SupersededAtUtc" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.DocumentVersionId}}</td>
+ <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.VersionNumber | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.StorageProvider}}</td>
+ <td style="width:200px">{{obj.StorageETag}}</td>
+ <td style="width:200px">{{obj.OriginalFileName}}</td>
+ <td style="width:200px">{{obj.ContentType}}</td>
+ <td style="width:200px">{{obj.FileExtension}}</td>
+ <td style="width:200px">{{obj.ExpectedSizeBytes | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.StoredSizeBytes | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Sha256}}</td>
+ <td style="width:200px">{{obj.FileStatus | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.ScanEngine}}</td>
+ <td style="width:200px">{{obj.ScanResult}}</td>
+ <td style="width:200px">{{obj.ScannedAtUtc | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.UploadedAtUtc | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.UploadedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AvailableAtUtc | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.SupersededAtUtc | date:'dd-MMM-yyyy' }}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

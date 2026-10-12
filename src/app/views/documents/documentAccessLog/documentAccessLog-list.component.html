@@ -1,0 +1,47 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'DocumentAccessLog List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Keyword" [(ngModel)]="objSearch.Name" />
+						<button type="button" pButton label="Search"  class="btn-sm" (click)="search()" ></button>
+                    </p-inputGroup>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Document Access Log Id <p-sortIcon field="DocumentAccessLogId" /> </th> 
+<th style="width:200px">Document Id <p-sortIcon field="DocumentId" /> </th> 
+<th style="width:200px">Document Version Id <p-sortIcon field="DocumentVersionId" /> </th> 
+<th style="width:200px">Access Action <p-sortIcon field="AccessAction" /> </th> 
+<th style="width:200px">Accessed By User Id <p-sortIcon field="AccessedByUserId" /> </th> 
+<th style="width:200px">Accessed At UTC <p-sortIcon field="AccessedAtUtc" /> </th> 
+<th style="width:200px">Correlation Id <p-sortIcon field="CorrelationId" /> </th> 
+<th style="width:200px">Client Ip Address <p-sortIcon field="ClientIpAddress" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.DocumentAccessLogId}}</td>
+ <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.DocumentVersionId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AccessAction | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AccessedByUserId | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.AccessedAtUtc | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.ClientIpAddress}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

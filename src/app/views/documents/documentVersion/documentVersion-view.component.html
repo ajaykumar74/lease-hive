@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Document Id" [value]="documentVersion.DocumentId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Version Number" [value]="documentVersion.VersionNumber">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Storage Provider" [value]="documentVersion.StorageProvider">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Storage Key" [value]="documentVersion.StorageKey">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Storage E Tag" [value]="documentVersion.StorageETag">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Original File Name" [value]="documentVersion.OriginalFileName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Content Type" [value]="documentVersion.ContentType">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="File Extension" [value]="documentVersion.FileExtension">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Expected Size Bytes" [value]="documentVersion.ExpectedSizeBytes">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Stored Size Bytes" [value]="documentVersion.StoredSizeBytes">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Sha256" [value]="documentVersion.Sha256">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="File Status" [value]="documentVersion.FileStatus">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Scan Engine" [value]="documentVersion.ScanEngine">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Scan Result" [value]="documentVersion.ScanResult">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

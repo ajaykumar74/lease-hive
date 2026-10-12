@@ -1,0 +1,146 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="VersionNumber">Version Number 
+							</label> 
+							<p-inputNumber id="VersionNumber"  pSize="small"	formControlName="VersionNumber"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('VersionNumber')"
+											label="Version Number">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Storage Provider" class="mb-1">StorageProvider</label>
+        <p-dropdown
+            inputId="StorageProvider" 
+            [options]="storageproviderOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="StorageProvider"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('StorageProvider')"
+											label="Storage Provider">
+										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Storage Key</label>
+                    <textarea size="small" pTextarea placeholder="Type Storage Key" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="StorageKey"
+										[ngClass]="{'is-invalid': (editForm.get('StorageKey').touched || editForm.get('StorageKey').dirty) && !editForm.get('StorageKey').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('StorageKey')"
+											label="Storage Key">
+										</app-validation-errors>
+
+
+               </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="StorageETag">Storage E Tag 
+							</label> 
+							<input pInputText id="StorageETag" type="text" pSize="small"	formControlName="StorageETag"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('StorageETag')"
+											label="Storage E Tag">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="OriginalFileName">Original File Name 
+							</label> 
+							<input pInputText id="OriginalFileName" type="text" pSize="small"	formControlName="OriginalFileName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('OriginalFileName')"
+											label="Original File Name">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ContentType">Content Type 
+							</label> 
+							<input pInputText id="ContentType" type="text" pSize="small"	formControlName="ContentType"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ContentType')"
+											label="Content Type">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="FileExtension">File Extension 
+							</label> 
+							<input pInputText id="FileExtension" type="text" pSize="small"	formControlName="FileExtension"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('FileExtension')"
+											label="File Extension">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ExpectedSizeBytes">Expected Size Bytes 
+							</label> 
+							<p-inputNumber id="ExpectedSizeBytes"  pSize="small"	formControlName="ExpectedSizeBytes"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('ExpectedSizeBytes')"
+											label="Expected Size Bytes">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="StoredSizeBytes">Stored Size Bytes 
+							</label> 
+							<p-inputNumber id="StoredSizeBytes"  pSize="small"	formControlName="StoredSizeBytes"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('StoredSizeBytes')"
+											label="Stored Size Bytes">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="Sha256">Sha256 
+							</label> 
+							<input pInputText id="Sha256" type="text" pSize="small"	formControlName="Sha256"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Sha256')"
+											label="Sha256">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="File Status" class="mb-1">FileStatus</label>
+        <p-dropdown
+            inputId="FileStatus" 
+            [options]="filestatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="FileStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('FileStatus')"
+											label="File Status">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="ScanEngine">Scan Engine 
+							</label> 
+							<input pInputText id="ScanEngine" type="text" pSize="small"	formControlName="ScanEngine"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ScanEngine')"
+											label="Scan Engine">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">					
+							<label for="ScanResult">Scan Result 
+							</label> 
+							<input pInputText id="ScanResult" type="text" pSize="small"	formControlName="ScanResult"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ScanResult')"
+											label="Scan Result">
+										</app-validation-errors>
+						 </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

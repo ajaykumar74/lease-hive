@@ -1,0 +1,91 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Id" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId" 
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentId')"
+											label="Document Id">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Document Version Id" class="mb-1">DocumentVersionId</label>
+        <p-dropdown
+            inputId="DocumentVersionId" 
+            [options]="documentversionidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentVersionId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentVersionId')"
+											label="Document Version Id">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Document Link Id" class="mb-1">DocumentLinkId</label>
+        <p-dropdown
+            inputId="DocumentLinkId" 
+            [options]="documentlinkidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentLinkId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DocumentLinkId')"
+											label="Document Link Id">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="ActionCode">Action Code 
+							</label> 
+							<input pInputText id="ActionCode" type="text" pSize="small"	formControlName="ActionCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('ActionCode')"
+											label="Action Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Reason</label>
+                    <textarea size="small" pTextarea placeholder="Type Reason" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Reason"
+										[ngClass]="{'is-invalid': (editForm.get('Reason').touched || editForm.get('Reason').dirty) && !editForm.get('Reason').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Reason')"
+											label="Reason">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full">                 <label for="address">Metadata JSON</label>
+                    <textarea size="small" pTextarea placeholder="Type Metadata JSON" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="MetadataJson"
+										[ngClass]="{'is-invalid': (editForm.get('MetadataJson').touched || editForm.get('MetadataJson').dirty) && !editForm.get('MetadataJson').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('MetadataJson')"
+											label="Metadata JSON">
+										</app-validation-errors>
+
+
+               </div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
