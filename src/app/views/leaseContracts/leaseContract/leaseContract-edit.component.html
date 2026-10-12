@@ -181,6 +181,10 @@
  			</p-fluid> 	
                      </form>			 
 
+                     <app-document-attachment-requirements [ownerType]="'LeaseContract'"
+                         [ownerId]="leaseContract?.Id" [allowUpload]="true" [allowRemove]="true">
+                     </app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

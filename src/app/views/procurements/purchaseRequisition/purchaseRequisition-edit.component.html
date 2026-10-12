@@ -156,6 +156,10 @@
  			</p-fluid> 	
                      </form>			 
 
+                     <app-document-attachment-requirements [ownerType]="'PurchaseRequisition'"
+                         [ownerId]="purchaseRequisition?.Id" [allowUpload]="true" [allowRemove]="true">
+                     </app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

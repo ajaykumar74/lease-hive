@@ -139,6 +139,10 @@
  			</p-fluid> 	
                      </form>			 
 
+                     <app-document-attachment-requirements [ownerType]="'GoodsReceipt'"
+                         [ownerId]="goodsReceipt?.Id" [allowUpload]="true" [allowRemove]="true">
+                     </app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

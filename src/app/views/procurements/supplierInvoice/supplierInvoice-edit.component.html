@@ -162,6 +162,10 @@
  			</p-fluid> 	
                      </form>			 
 
+                     <app-document-attachment-requirements [ownerType]="'SupplierInvoice'"
+                         [ownerId]="supplierInvoice?.Id" [allowUpload]="true" [allowRemove]="true">
+                     </app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

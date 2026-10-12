@@ -152,6 +152,10 @@
  			</p-fluid> 	
                      </form>			 
 
+                     <app-document-attachment-requirements [ownerType]="'PaymentReceipt'"
+                         [ownerId]="paymentReceipt?.Id" [allowUpload]="true" [allowRemove]="true">
+                     </app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

@@ -56,6 +56,10 @@
 
 
 					</form>
+
+					<app-document-attachment-requirements [ownerType]="'PurchaseOrder'"
+					    [ownerId]="purchaseOrder?.Id" [allowUpload]="false" [allowRemove]="false">
+					</app-document-attachment-requirements>
 			</div>
 		</div>
 	</div>

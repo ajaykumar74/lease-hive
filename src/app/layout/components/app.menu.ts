@@ -498,6 +498,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     items: [
                                         { label: 'Documents', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/documents'], tooltip: 'Manage tenant documents' },
                                         { label: 'Document Types', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/document-types'], tooltip: 'Manage document classifications' },
+                                        { label: 'Document Requirements', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/document-requirements'], tooltip: 'Manage document requirements' },
                                         { label: 'Retention Policies', icon: 'pi pi-fw pi-calendar-clock', routerLink: ['/dashboard/document-retention-policies'], tooltip: 'Manage document retention policies' },
                                         { label: 'Legal Holds', icon: 'pi pi-fw pi-lock', routerLink: ['/dashboard/document-legal-holds'], tooltip: 'Manage document legal holds' },
                                         { label: 'Versions', icon: 'pi pi-fw pi-history', routerLink: ['/dashboard/document-versions'], tooltip: 'Review document versions' },
@@ -2432,6 +2433,8 @@ export class AppMenu implements OnInit, OnDestroy {
             ];
         }
 
+        this.addDocumentConfigurationMenuForNonTenantAccounts();
+
         //this.flattenLeaseContractMenu();
         this.sourceModel = this.model;
         this.model = [];
@@ -2453,6 +2456,40 @@ export class AppMenu implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.permissionSubscription?.unsubscribe();
+    }
+
+    /**
+     * The legacy AccountType chooses the broad navigation model, but it is not
+     * the authorization source. Users with document permissions must still be
+     * able to reach the document configuration menu when they receive the
+     * Platform or fallback model.
+     */
+    private addDocumentConfigurationMenuForNonTenantAccounts(): void {
+        if (this.loggedInUserService.loggedInUser?.AccountType === 'Tenant') {
+            return;
+        }
+
+        this.model.push({
+            label: 'Configurations and masters',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Documents',
+                    icon: 'pi pi-fw pi-folder',
+                    items: [
+                        { label: 'Documents', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/documents'], tooltip: 'Manage tenant documents' },
+                        { label: 'Document Types', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/document-types'], tooltip: 'Manage document classifications' },
+                        { label: 'Document Requirements', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/document-requirements'], tooltip: 'Manage document requirements' },
+                        { label: 'Retention Policies', icon: 'pi pi-fw pi-calendar-clock', routerLink: ['/dashboard/document-retention-policies'], tooltip: 'Manage document retention policies' },
+                        { label: 'Legal Holds', icon: 'pi pi-fw pi-lock', routerLink: ['/dashboard/document-legal-holds'], tooltip: 'Manage document legal holds' },
+                        { label: 'Versions', icon: 'pi pi-fw pi-history', routerLink: ['/dashboard/document-versions'], tooltip: 'Review document versions' },
+                        { label: 'Upload Sessions', icon: 'pi pi-fw pi-upload', routerLink: ['/dashboard/upload-sessions'], tooltip: 'Review document upload sessions' },
+                        { label: 'Access Logs', icon: 'pi pi-fw pi-eye', routerLink: ['/dashboard/document-access-logs'], tooltip: 'Review document access activity' },
+                        { label: 'Audit Events', icon: 'pi pi-fw pi-list', routerLink: ['/dashboard/document-audit-events'], tooltip: 'Review document audit events' }
+                    ]
+                }
+            ]
+        });
     }
 
     private configureRouteMatching(): void {

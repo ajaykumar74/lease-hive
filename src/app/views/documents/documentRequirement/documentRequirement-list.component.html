@@ -1,0 +1,94 @@
+<div class="grid list-page generated-list-page">
+    <div class="col-12">
+        <div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                [Caption]="'Document Requirements'" [PageType]="'List'">
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="generated-list-search">
+                <div class="generated-list-filter">
+                    <label for="documentRequirement-id">Requirement ID</label>
+                    <input id="documentRequirement-id" type="text" pInputText class="generated-list-input"
+                        [(ngModel)]="objSearch.DocumentRequirementId" (keyup.enter)="search()" />
+                </div>
+                <div class="generated-list-filter">
+                    <label for="documentRequirement-ownerType">Owner type</label>
+                    <input id="documentRequirement-ownerType" type="text" pInputText class="generated-list-input"
+                        [(ngModel)]="objSearch.OwnerType" (keyup.enter)="search()" />
+                </div>
+                <div class="generated-list-filter">
+                    <label for="documentRequirement-code">Code</label>
+                    <input id="documentRequirement-code" type="text" pInputText class="generated-list-input"
+                        [(ngModel)]="objSearch.Code" (keyup.enter)="search()" />
+                </div>
+                <div class="generated-list-filter">
+                    <label for="documentRequirement-displayName">Display name</label>
+                    <input id="documentRequirement-displayName" type="text" pInputText class="generated-list-input"
+                        [(ngModel)]="objSearch.DisplayName" (keyup.enter)="search()" />
+                </div>
+                <div class="generated-list-filter">
+                    <label for="documentRequirement-documentType">Document type</label>
+                    <p-dropdown inputId="documentRequirement-documentType" [options]="documentTypeOptions"
+                        optionLabel="Text" optionValue="Value" [filter]="true" filterBy="Text" [showClear]="true"
+                        placeholder="All document types" styleClass="generated-list-input"
+                        [(ngModel)]="objSearch.DocumentTypeId" (onChange)="search()">
+                    </p-dropdown>
+                </div>
+                <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()"
+                    aria-label="Search document requirements" title="Search"></button>
+                <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear"
+                    (click)="clearSearch()" aria-label="Clear filters" title="Clear filters"></button>
+                <div class="record-count-inline generated-list-count" aria-live="polite">
+                    <i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span>
+                </div>
+            </div>
+
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
+                styleClass="list-table generated-list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="Id" style="width:90px">ID <p-sortIcon field="Id" /></th>
+                        <th pSortableColumn="DocumentRequirementId" style="width:190px">Requirement ID <p-sortIcon field="DocumentRequirementId" /></th>
+                        <th pSortableColumn="OwnerType" style="width:190px">Owner type <p-sortIcon field="OwnerType" /></th>
+                        <th pSortableColumn="Code" style="width:150px">Code <p-sortIcon field="Code" /></th>
+                        <th pSortableColumn="DisplayName" style="width:250px">Display name <p-sortIcon field="DisplayName" /></th>
+                        <th pSortableColumn="DocumentTypeId" style="width:260px">Document type <p-sortIcon field="DocumentTypeId" /></th>
+                        <th pSortableColumn="RequiredMode" style="width:140px">Required mode <p-sortIcon field="RequiredMode" /></th>
+                        <th pSortableColumn="MinCount" style="width:110px">Min <p-sortIcon field="MinCount" /></th>
+                        <th pSortableColumn="MaxCount" style="width:110px">Max <p-sortIcon field="MaxCount" /></th>
+                        <th pSortableColumn="IsActive" style="width:110px">Active <p-sortIcon field="IsActive" /></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td pFrozenColumn><p-button [label]="obj.Id.toString()" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td>{{ obj.DocumentRequirementId }}</td>
+                        <td>{{ obj.OwnerType }}</td>
+                        <td>{{ obj.Code }}</td>
+                        <td>{{ obj.DisplayName }}</td>
+                        <td>{{ getDocumentTypeLabel(obj.DocumentTypeId) }}</td>
+                        <td>{{ obj.RequiredMode }}</td>
+                        <td>{{ obj.MinCount }}</td>
+                        <td>{{ obj.MaxCount }}</td>
+                        <td>{{ obj.IsActive | yesNo }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="10">
+                            <div class="list-empty">
+                                <i class="pi pi-list"></i><strong>No document requirements found</strong>
+                                <span>Try changing or clearing the filters.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords"
+                [rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="pageChanged($event)">
+            </p-paginator>
+        </div>
+    </div>
+</div>

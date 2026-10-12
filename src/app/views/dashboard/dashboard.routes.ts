@@ -176,6 +176,12 @@ const routes: Routes = [
         loadChildren: () => import('@/views/documents/documentType/documentType.module').then(c => c.DocumentTypeModule),
       },
       {
+        path: 'document-requirements',
+        data: { breadcrumb: 'Document Requirements' },
+        loadChildren: () => import('@/views/documents/documentRequirement/documentRequirement.module').then(c => c.DocumentRequirementModule),
+      },
+
+      {
         path: 'document-versions',
         data: { breadcrumb: 'Document Versions' },
         loadChildren: () => import('@/views/documents/documentVersion/documentVersion.module').then(c => c.DocumentVersionModule),
