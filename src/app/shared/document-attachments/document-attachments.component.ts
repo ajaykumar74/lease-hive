@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } fro
 import {
     DocumentAttachmentService,
     IDocumentAttachment,
-    IDocumentAttachmentType
+    IDocumentAttachmentRequirement
 } from './document-attachment.service';
 
 @Component({
@@ -13,35 +13,56 @@ import {
     styleUrls: ['./document-attachments.component.scss']
 })
 export class DocumentAttachmentsComponent implements OnChanges {
-    @Input() ownerType = 'PartyGSTRegistration';
+    @Input() ownerType = '';
     @Input() ownerId = 0;
+    @Input() documentRequirement: IDocumentAttachmentRequirement | null = null;
     @Input() allowUpload = true;
     @Input() allowRemove = true;
 
     @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
 
     documents: IDocumentAttachment[] = [];
-    documentTypes: IDocumentAttachmentType[] = [];
-    selectedDocumentTypeId: number | null = null;
     title = '';
     selectedFile: File | null = null;
     isLoading = false;
-    isLoadingDocumentTypes = false;
     isUploading = false;
     uploadProgress = 0;
+    warningMessage = '';
     errorMessage = '';
 
     constructor(private documentAttachmentService: DocumentAttachmentService) {}
 
+    get documentTypeLabel(): string {
+        return this.documentRequirement?.DocumentTypeName || this.documentRequirement?.DocumentTypeCode || 'Not configured';
+    }
+
+    get maxFileSizeLabel(): string {
+        const bytes = this.documentRequirement?.MaxFileSizeBytes;
+        return bytes && bytes > 0 ? this.formatSize(bytes) : '25 MB';
+    }
+
+    get hasAvailableUploadSlot(): boolean {
+        return !this.documentRequirement || this.documentRequirement.MaxCount <= 0 || this.documents.length < this.documentRequirement.MaxCount;
+    }
+
+    get uploadCapacityLabel(): string {
+        if (!this.documentRequirement || this.documentRequirement.MaxCount <= 0) {
+            return `${this.documents.length} attached`;
+        }
+
+        return `${this.documents.length} of ${this.documentRequirement.MaxCount} attached`;
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
-        if ((changes['ownerId'] || changes['ownerType']) && this.ownerId > 0) {
-            this.load();
+        if ((changes['ownerId'] || changes['ownerType'] || changes['documentRequirement']) && this.isReady()) {
+            this.loadDocuments();
         }
     }
 
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         this.selectedFile = input.files?.item(0) ?? null;
+        this.warningMessage = '';
         this.errorMessage = '';
         if (this.selectedFile && !this.title) {
             this.title = this.selectedFile.name.replace(/\.[^/.]+$/, '');
@@ -49,20 +70,29 @@ export class DocumentAttachmentsComponent implements OnChanges {
     }
 
     upload(): void {
-        if (!this.selectedFile) {
-            this.errorMessage = 'Select a PDF, JPG, JPEG, or PNG file.';
+        if (!this.documentRequirement) {
+            this.warningMessage = 'This upload slot does not have a document requirement.';
             return;
         }
-        if (!this.selectedDocumentTypeId) {
-            this.errorMessage = 'Select a document type.';
+        if (!this.selectedFile) {
+            this.warningMessage = 'Select a PDF, JPG, JPEG, or PNG file.';
+            return;
+        }
+        if (!this.hasAvailableUploadSlot) {
+            this.warningMessage = `This document requirement already has its maximum of ${this.documentRequirement.MaxCount} attachment(s).`;
+            return;
+        }
+        if (this.documentRequirement.MaxFileSizeBytes > 0 && this.selectedFile.size > this.documentRequirement.MaxFileSizeBytes) {
+            this.warningMessage = `The file exceeds this requirement's ${this.maxFileSizeLabel} size limit.`;
             return;
         }
 
         this.isUploading = true;
         this.uploadProgress = 0;
+        this.warningMessage = '';
         this.errorMessage = '';
         this.documentAttachmentService
-            .upload(this.ownerType, this.ownerId, this.selectedFile, this.selectedDocumentTypeId, this.title)
+            .upload(this.ownerType, this.ownerId, this.selectedFile, this.documentRequirement.Id, this.title)
             .subscribe({
                 next: (event) => {
                     if (event.type === HttpEventType.UploadProgress && event.total) {
@@ -84,6 +114,7 @@ export class DocumentAttachmentsComponent implements OnChanges {
     }
 
     download(attachment: IDocumentAttachment): void {
+        this.warningMessage = '';
         this.errorMessage = '';
         this.documentAttachmentService.download(this.ownerType, this.ownerId, attachment.DocumentId).subscribe({
             next: (file) => {
@@ -99,10 +130,11 @@ export class DocumentAttachmentsComponent implements OnChanges {
     }
 
     remove(document: IDocumentAttachment): void {
-        if (!confirm(`Remove '${document.OriginalFileName}' from this GST registration?`)) {
+        if (!confirm(`Remove '${document.OriginalFileName}' from this document requirement?`)) {
             return;
         }
 
+        this.warningMessage = '';
         this.errorMessage = '';
         this.documentAttachmentService.remove(this.ownerType, this.ownerId, document.LinkId).subscribe({
             next: () => this.loadDocuments(),
@@ -119,34 +151,27 @@ export class DocumentAttachmentsComponent implements OnChanges {
         return `${(bytes / Math.pow(1024, unitIndex)).toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
     }
 
-    private load(): void {
-        this.loadDocuments();
-        if (this.allowUpload) {
-            this.loadDocumentTypes();
-        }
+    private isReady(): boolean {
+        return this.ownerId > 0 && !!this.ownerType && !!this.documentRequirement?.Id;
     }
 
     private loadDocuments(): void {
+        if (!this.isReady() || !this.documentRequirement) {
+            this.documents = [];
+            return;
+        }
+
         this.isLoading = true;
-        this.documentAttachmentService.list(this.ownerType, this.ownerId).subscribe({
+        this.errorMessage = '';
+        this.documentAttachmentService.list(this.ownerType, this.ownerId, this.documentRequirement.Id).subscribe({
             next: (response) => (this.documents = response.data ?? []),
             error: (error) => (this.errorMessage = this.toErrorMessage(error)),
             complete: () => (this.isLoading = false)
         });
     }
 
-    private loadDocumentTypes(): void {
-        this.isLoadingDocumentTypes = true;
-        this.documentAttachmentService.getDocumentTypes(this.ownerType, this.ownerId).subscribe({
-            next: (response) => (this.documentTypes = response.data ?? []),
-            error: (error) => (this.errorMessage = this.toErrorMessage(error)),
-            complete: () => (this.isLoadingDocumentTypes = false)
-        });
-    }
-
     private resetUploadForm(): void {
         this.selectedFile = null;
-        this.selectedDocumentTypeId = null;
         this.title = '';
         this.uploadProgress = 0;
         if (this.fileInput) {

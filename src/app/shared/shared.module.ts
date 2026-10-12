@@ -60,6 +60,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyDropdownComponent } from './currency-dropdown.component';
 import { AppPermissionDirective } from './security/permission.directive';
 import { DocumentAttachmentsComponent } from './document-attachments/document-attachments.component';
+import { DocumentAttachmentRequirementsComponent } from './document-attachments/document-attachment-requirements.component';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -101,7 +102,8 @@ import { DocumentAttachmentsComponent } from './document-attachments/document-at
 		ValidationErrorsComponent,
 		CurrencyDropdownComponent,
 		AppPermissionDirective,
-		DocumentAttachmentsComponent
+		DocumentAttachmentsComponent,
+		DocumentAttachmentRequirementsComponent
 	],
 	exports: [
 		MessageComponent,
@@ -121,7 +123,8 @@ import { DocumentAttachmentsComponent } from './document-attachments/document-at
 		ValidationErrorsComponent,
 		CurrencyDropdownComponent,
 		AppPermissionDirective,
-		DocumentAttachmentsComponent
+		DocumentAttachmentsComponent,
+		DocumentAttachmentRequirementsComponent
 	]
 })
 export class MySharedModule { }

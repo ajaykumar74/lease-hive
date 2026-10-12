@@ -1,38 +1,31 @@
-<section class="document-attachments" aria-label="GST registration documents">
+<section class="document-attachments" [attr.aria-label]="documentRequirement?.DisplayName || 'Documents'">
     <div class="document-attachments__header">
         <div>
-            <h3>Documents</h3>
-            <p>Attach GST certificates and supporting records. PDF, JPG, JPEG, and PNG files up to 25 MB are accepted.</p>
+             <dl class="document-attachments__metadata">
+                <dt>Document type</dt>
+                <dd>{{ documentTypeLabel }}</dd>
+            </dl>
+            <p *ngIf="documentRequirement?.Description">{{ documentRequirement?.Description }}</p>
+          
         </div>
-        <span class="document-attachments__count">{{ documents.length }} attached</span>
+        <span class="document-attachments__count">{{ uploadCapacityLabel }}</span>
     </div>
 
+    <div *ngIf="warningMessage" class="document-attachments__warning" role="status">{{ warningMessage }}</div>
     <div *ngIf="errorMessage" class="document-attachments__error" role="alert">{{ errorMessage }}</div>
 
     <div *ngIf="allowUpload" class="document-attachments__upload">
         <div class="document-attachments__field">
-            <label for="gst-document-type">Document type</label>
-            <p-dropdown
-                inputId="gst-document-type"
-                [options]="documentTypes"
-                optionLabel="Name"
-                optionValue="Id"
-                [(ngModel)]="selectedDocumentTypeId"
-                [disabled]="isUploading"
-                placeholder="Select document type">
-            </p-dropdown>
-            <small *ngIf="!isLoadingDocumentTypes && !documentTypes.length">No active document types are available.</small>
-        </div>
-        <div class="document-attachments__field">
-            <label for="gst-document-title">Title</label>
-            <input id="gst-document-title" pInputText [(ngModel)]="title" [disabled]="isUploading" maxlength="250" placeholder="GST registration certificate" />
+            <label [attr.for]="'document-title-' + documentRequirement?.Id">Title</label>
+            <input [id]="'document-title-' + documentRequirement?.Id" pInputText [(ngModel)]="title" [disabled]="isUploading" maxlength="250" [placeholder]="documentRequirement?.DisplayName || 'Document title'" />
         </div>
         <div class="document-attachments__field document-attachments__file">
-            <label for="gst-document-file">File</label>
-            <input #fileInput id="gst-document-file" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" (change)="onFileSelected($event)" [disabled]="isUploading" />
+            <label [attr.for]="'document-file-' + documentRequirement?.Id">File</label>
+            <input #fileInput [id]="'document-file-' + documentRequirement?.Id" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" (change)="onFileSelected($event)" [disabled]="isUploading" />
             <small *ngIf="selectedFile">{{ selectedFile.name }} · {{ formatSize(selectedFile.size) }}</small>
+            <small *ngIf="!selectedFile">PDF, JPG, JPEG, or PNG up to {{ maxFileSizeLabel }}.</small>
         </div>
-        <button pButton type="button" icon="pi pi-upload" label="Upload document" (click)="upload()" [disabled]="isUploading || !selectedFile || !selectedDocumentTypeId"></button>
+        <button pButton type="button" icon="pi pi-upload" label="Upload document" (click)="upload()" [disabled]="isUploading || !selectedFile || !documentRequirement || !hasAvailableUploadSlot"></button>
     </div>
 
     <div *ngIf="isUploading" class="document-attachments__progress" aria-live="polite">
@@ -48,7 +41,7 @@
             <thead>
                 <tr>
                     <th>Document</th>
-                    <th>Type</th>
+                    <th>Document type</th>
                     <th>Uploaded</th>
                     <th>Size</th>
                     <th class="document-attachments__actions">Actions</th>

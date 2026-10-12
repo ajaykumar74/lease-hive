@@ -1,0 +1,21 @@
+<section class="document-attachment-requirements" aria-label="Documents">
+    <div class="document-attachment-requirements__header">
+        <h2>Documents</h2>
+        <p>Upload documents against the configured requirements for this record.</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="document-attachment-requirements__error" role="alert">{{ errorMessage }}</div>
+    <div *ngIf="isLoading" class="document-attachment-requirements__state">Loading document requirements…</div>
+    <div *ngIf="!isLoading && !errorMessage && !requirements.length" class="document-attachment-requirements__warning" role="status">
+        No active document requirements are configured for this record type.
+    </div>
+
+    <app-document-attachments
+        *ngFor="let requirement of requirements"
+        [ownerType]="ownerType"
+        [ownerId]="ownerId"
+        [documentRequirement]="requirement"
+        [allowUpload]="allowUpload"
+        [allowRemove]="allowRemove">
+    </app-document-attachments>
+</section>

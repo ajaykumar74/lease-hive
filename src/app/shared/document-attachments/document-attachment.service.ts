@@ -1,18 +1,32 @@
-import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 
-export interface IDocumentAttachmentType {
+export interface IDocumentAttachmentRequirement {
     Id: number;
     Code: string;
-    Name: string;
+    DisplayName: string;
+    Description: string;
+    DocumentTypeId: number;
+    DocumentTypeCode: string;
+    DocumentTypeName: string;
+    RequiredMode: number;
+    MinCount: number;
+    MaxCount: number;
+    AllowedContentTypesJson: string;
+    AllowedExtensionsJson: string;
+    MaxFileSizeBytes: number;
+    RequiresIssueDate: boolean;
+    RequiresExpiryDate: boolean;
+    ExpiryWarningDays: number;
 }
 
 export interface IDocumentAttachment {
     LinkId: number;
     DocumentId: number;
     DocumentVersionId: number;
+    DocumentRequirementId: number;
     DocumentTypeId: number;
     DocumentTypeCode: string;
     DocumentTypeName: string;
@@ -31,15 +45,25 @@ export class DocumentAttachmentService {
         private baseService: BaseService
     ) {}
 
-    list(ownerType: string, ownerId: number): Observable<{ data: IDocumentAttachment[] }> {
+    getRequirements(ownerType: string, ownerId: number): Observable<{ data: IDocumentAttachmentRequirement[] }> {
         return this.http
-            .get<{ data: IDocumentAttachment[] }>(this.ownerUrl(ownerType, ownerId), { headers: this.baseService.getHeaders() })
+            .get<{ data: IDocumentAttachmentRequirement[] }>(`${this.ownerUrl(ownerType, ownerId)}/requirements`, {
+                headers: this.baseService.getHeaders()
+            })
             .pipe(catchError(this.baseService.handleError));
     }
 
-    getDocumentTypes(ownerType: string, ownerId: number): Observable<{ data: IDocumentAttachmentType[] }> {
+    list(
+        ownerType: string,
+        ownerId: number,
+        documentRequirementId: number
+    ): Observable<{ data: IDocumentAttachment[] }> {
+        const params = new HttpParams().set('documentRequirementId', String(documentRequirementId));
         return this.http
-            .get<{ data: IDocumentAttachmentType[] }>(`${this.ownerUrl(ownerType, ownerId)}/document-types`, { headers: this.baseService.getHeaders() })
+            .get<{ data: IDocumentAttachment[] }>(this.ownerUrl(ownerType, ownerId), {
+                headers: this.baseService.getHeaders(),
+                params
+            })
             .pipe(catchError(this.baseService.handleError));
     }
 
@@ -47,12 +71,12 @@ export class DocumentAttachmentService {
         ownerType: string,
         ownerId: number,
         file: File,
-        documentTypeId: number,
+        documentRequirementId: number,
         title: string
     ): Observable<HttpEvent<{ data: IDocumentAttachment }>> {
         const formData = new FormData();
         formData.append('file', file, file.name);
-        formData.append('documentTypeId', String(documentTypeId));
+        formData.append('documentRequirementId', String(documentRequirementId));
         formData.append('title', title?.trim() ?? '');
 
         return this.http
@@ -75,16 +99,18 @@ export class DocumentAttachmentService {
 
     remove(ownerType: string, ownerId: number, linkId: number): Observable<{ success: boolean }> {
         return this.http
-            .delete<{ success: boolean }>(`${this.ownerUrl(ownerType, ownerId)}/${linkId}`, { headers: this.baseService.getHeaders() })
+            .delete<{ success: boolean }>(`${this.ownerUrl(ownerType, ownerId)}/${linkId}`, {
+                headers: this.baseService.getHeaders()
+            })
             .pipe(catchError(this.baseService.handleError));
     }
 
     private ownerUrl(ownerType: string, ownerId: number): string {
-        if (ownerType !== 'PartyGSTRegistration') {
-            throw new Error(`Document attachments are not configured for owner type '${ownerType}'.`);
+        if (!ownerType?.trim() || ownerId <= 0) {
+            throw new Error('A valid document owner is required.');
         }
 
-        return `${this.baseService.C_APP_URL}/party-gst-registrations/${ownerId}/documents`;
+        return `${this.baseService.C_APP_URL}/document-attachments/${encodeURIComponent(ownerType)}/${ownerId}`;
     }
 
     private multipartHeaders(): HttpHeaders {
