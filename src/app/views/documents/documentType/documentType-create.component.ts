@@ -58,7 +58,7 @@ Code: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Name: new FormControl('', [Validators.required, Validators.maxLength(200), ]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
 SensitivityLevel: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
-IsActive: new FormControl(false, [Validators.required]),
+IsActive: new FormControl(true, [Validators.required]),
 
     });
     this.Caption = 'Create DocumentType';

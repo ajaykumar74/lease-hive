@@ -59,8 +59,8 @@ export class Login {
   ngOnInit() {
     this.returnUrl = "/dashboard";
     if (environment.envName == 'dev') {
-      this.loginData.Password = 'Pass@1234',
-        this.loginData.Username = 'admin@fleethive.in'
+      this.loginData.Password = 'abc@123',
+        this.loginData.Username = 'dev.TenantAdmin@leasehive.com'
     }
   }
 

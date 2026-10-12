@@ -1,0 +1,71 @@
+<section class="document-attachments" aria-label="GST registration documents">
+    <div class="document-attachments__header">
+        <div>
+            <h3>Documents</h3>
+            <p>Attach GST certificates and supporting records. PDF, JPG, JPEG, and PNG files up to 25 MB are accepted.</p>
+        </div>
+        <span class="document-attachments__count">{{ documents.length }} attached</span>
+    </div>
+
+    <div *ngIf="errorMessage" class="document-attachments__error" role="alert">{{ errorMessage }}</div>
+
+    <div *ngIf="allowUpload" class="document-attachments__upload">
+        <div class="document-attachments__field">
+            <label for="gst-document-type">Document type</label>
+            <p-dropdown
+                inputId="gst-document-type"
+                [options]="documentTypes"
+                optionLabel="Name"
+                optionValue="Id"
+                [(ngModel)]="selectedDocumentTypeId"
+                [disabled]="isUploading"
+                placeholder="Select document type">
+            </p-dropdown>
+            <small *ngIf="!isLoadingDocumentTypes && !documentTypes.length">No active document types are available.</small>
+        </div>
+        <div class="document-attachments__field">
+            <label for="gst-document-title">Title</label>
+            <input id="gst-document-title" pInputText [(ngModel)]="title" [disabled]="isUploading" maxlength="250" placeholder="GST registration certificate" />
+        </div>
+        <div class="document-attachments__field document-attachments__file">
+            <label for="gst-document-file">File</label>
+            <input #fileInput id="gst-document-file" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" (change)="onFileSelected($event)" [disabled]="isUploading" />
+            <small *ngIf="selectedFile">{{ selectedFile.name }} · {{ formatSize(selectedFile.size) }}</small>
+        </div>
+        <button pButton type="button" icon="pi pi-upload" label="Upload document" (click)="upload()" [disabled]="isUploading || !selectedFile || !selectedDocumentTypeId"></button>
+    </div>
+
+    <div *ngIf="isUploading" class="document-attachments__progress" aria-live="polite">
+        Uploading {{ uploadProgress }}%
+        <div><span [style.width.%]="uploadProgress"></span></div>
+    </div>
+
+    <div *ngIf="isLoading" class="document-attachments__empty">Loading documents…</div>
+    <div *ngIf="!isLoading && !documents.length" class="document-attachments__empty">No documents have been attached.</div>
+
+    <div *ngIf="!isLoading && documents.length" class="document-attachments__table-wrap">
+        <table class="document-attachments__table">
+            <thead>
+                <tr>
+                    <th>Document</th>
+                    <th>Type</th>
+                    <th>Uploaded</th>
+                    <th>Size</th>
+                    <th class="document-attachments__actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let document of documents">
+                    <td><strong>{{ document.Title }}</strong><small>{{ document.OriginalFileName }}</small></td>
+                    <td>{{ document.DocumentTypeName || document.DocumentTypeCode }}</td>
+                    <td>{{ document.UploadedAtUtc | date: 'dd MMM yyyy, HH:mm' }}</td>
+                    <td>{{ formatSize(document.StoredSizeBytes) }}</td>
+                    <td class="document-attachments__actions">
+                        <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-download" label="Download" (click)="download(document)"></button>
+                        <button *ngIf="allowRemove" pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-times" label="Remove" (click)="remove(document)"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

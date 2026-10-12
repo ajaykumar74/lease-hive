@@ -224,9 +224,16 @@ IsDefault: formValues.IsDefault || false,
 	
 	  this.spinner.show(); 
     this.partyGSTRegistrationService.create(createdObj).subscribe({
-      next: data => {	   
-         // this.messageService.showSuccess(PartyGSTRegistration +  'Details Updated sucessfully.');
-		 this._location.back();     
+      next: data => {
+         const registrationId = Number(data?.Id);
+         if (registrationId > 0) {
+           const route = this.partyId
+             ? ['/business/parties/gst-registrations/party', this.partyId, 'edit', registrationId]
+             : ['/business/parties/gst-registrations/edit', registrationId];
+           this.router.navigate(route);
+           return;
+         }
+         this._location.back();
       },
       error: err => { 
 	   this.messageService.showError(err);

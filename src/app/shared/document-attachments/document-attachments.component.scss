@@ -1,0 +1,106 @@
+.document-attachments {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-border);
+}
+
+.document-attachments__header,
+.document-attachments__upload {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.document-attachments__header h3 {
+    margin: 0;
+}
+
+.document-attachments__header p,
+.document-attachments__field small,
+.document-attachments__table small {
+    display: block;
+    margin: .25rem 0 0;
+    color: var(--text-color-secondary);
+}
+
+.document-attachments__count {
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+}
+
+.document-attachments__upload {
+    align-items: end;
+    margin: 1.25rem 0;
+    padding: 1rem;
+    background: var(--surface-ground);
+    border-radius: 8px;
+}
+
+.document-attachments__field {
+    display: flex;
+    flex: 1 1 12rem;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.document-attachments__file {
+    flex-basis: 16rem;
+}
+
+.document-attachments__error {
+    margin-top: 1rem;
+    padding: .75rem 1rem;
+    color: var(--red-700);
+    background: var(--red-50);
+    border-radius: 6px;
+}
+
+.document-attachments__progress {
+    margin: .75rem 0;
+    color: var(--text-color-secondary);
+}
+
+.document-attachments__progress div {
+    height: .35rem;
+    margin-top: .4rem;
+    overflow: hidden;
+    background: var(--surface-border);
+    border-radius: .35rem;
+}
+
+.document-attachments__progress span {
+    display: block;
+    height: 100%;
+    background: var(--primary-color);
+    transition: width .2s ease;
+}
+
+.document-attachments__empty {
+    padding: 1.25rem;
+    color: var(--text-color-secondary);
+    text-align: center;
+    border: 1px dashed var(--surface-border);
+    border-radius: 8px;
+}
+
+.document-attachments__table-wrap {
+    overflow-x: auto;
+}
+
+.document-attachments__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.document-attachments__table th,
+.document-attachments__table td {
+    padding: .75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.document-attachments__actions {
+    white-space: nowrap;
+}
