@@ -35,6 +35,7 @@ fullnameOptions: ISelectItem[] = [];
 designationOptions: ISelectItem[] = [];
 emailOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+mobilecountrycodeOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IAssetUser = {} as IAssetUser;
@@ -68,7 +69,7 @@ EmployeeCode: new FormControl('', [Validators.required, Validators.maxLength(20)
 FullName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 Designation: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
+MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
 DrivingLicenceNumber: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DrivingLicenceExpiryDate: new FormControl(new Date(), [Validators.required]),
@@ -88,6 +89,7 @@ this.designationOptions.push({Text: 'CustContact2', Value: 'CustContact2' });
 this.emailOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
 this.emailOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -137,7 +139,7 @@ EmployeeCode: obj.EmployeeCode || '',
 FullName: obj.FullName || '',
 Designation: obj.Designation || 0,
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
 DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
@@ -183,7 +185,7 @@ EmployeeCode: obj.EmployeeCode || '',
 FullName: obj.FullName || '',
 Designation: obj.Designation || 0,
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
 DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),

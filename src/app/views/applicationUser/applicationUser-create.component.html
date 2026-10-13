@@ -49,8 +49,10 @@
 
 										<label for="MobileCountryCode">Mobile Country Code
 										</label>
-										<input pInputText id="MobileCountryCode" type="text" pSize="small"
-											formControlName="MobileCountryCode" />
+										<p-dropdown inputId="MobileCountryCode" [options]="mobilecountrycodeOptions"
+											optionLabel="Text" optionValue="Value" formControlName="MobileCountryCode"
+											placeholder="Select One" class="w-full">
+										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('MobileCountryCode')" label="Mobile Country Code">
 										</app-validation-errors>

@@ -88,8 +88,9 @@
 								<label for="Designation"
 									class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Designation</label>
 								<div class="col-span-12 md:col-span-10">
-									<input type="text" pSize="small" inputFormat="trim" pInputText name="Designation"
-										formControlName="Designation" class="w-full" />
+									<p-dropdown inputId="Designation" [options]="designationOptions" optionLabel="Text"
+										optionValue="Value" formControlName="Designation" placeholder="Select One" class="w-full">
+									</p-dropdown>
 									<small class="p-error block" *ngIf="
 							editForm.get('Designation')?.errors?.required && editForm.get('Designation')?.dirty ">
 										Designation is required field.</small>

@@ -34,6 +34,7 @@ partycontactidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 defaultorganisationunitidOptions: ISelectItem[] = [];
 timezoneidOptions: ISelectItem[] = [];
+mobilecountrycodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IApplicationUser = {} as IApplicationUser;
@@ -63,7 +64,7 @@ timezoneidOptions: ISelectItem[] = [];
 UserName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 DisplayName: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
+MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
 IdentityProvider: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 ExternalSubjectId: new FormControl('', [Validators.maxLength(30), ]), 
@@ -82,6 +83,7 @@ EffectiveTo: new FormControl(new Date(), []),
 this.identityproviderOptions = this.loggedInUserService.getPicklistOptions('IdentityProvider');
 this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
 this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
+this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
     this.loggedInUserService.getEntityLookupOptions('roles').subscribe({
       next: options => this.roleidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -122,7 +124,7 @@ this.timezoneidOptions = this.loggedInUserService.getPicklistOptions('TimeZone')
 	  UserName: obj.UserName || '',
 DisplayName: obj.DisplayName || '',
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 IdentityProvider: obj.IdentityProvider || '',
 ExternalSubjectId: obj.ExternalSubjectId || '',
@@ -164,7 +166,7 @@ FailedLoginCount: obj.FailedLoginCount || 0,
 	  UserName: obj.UserName || '',
 DisplayName: obj.DisplayName || '',
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 IdentityProvider: obj.IdentityProvider || '',
 ExternalSubjectId: obj.ExternalSubjectId || '',

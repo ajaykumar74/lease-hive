@@ -31,6 +31,9 @@ export class PartyContactEditComponent implements OnInit {
   partyidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 contacttypeOptions: ISelectItem[] = [];
+titleOptions: ISelectItem[] = [];
+designationOptions: ISelectItem[] = [];
+mobilecountrycodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -66,13 +69,16 @@ LastName: new FormControl('', [Validators.required, Validators.maxLength(30), ])
 Designation: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DepartmentName: new FormControl('', [Validators.maxLength(20), ]), 
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-MobileCountryCode: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
+MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 
     });
 this.contacttypeOptions = this.loggedInUserService.getPicklistOptions('ContactType');
+this.titleOptions = this.loggedInUserService.getPicklistOptions('Title');
+this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
+this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
@@ -128,7 +134,7 @@ LastName: obj.LastName || '',
 Designation: obj.Designation || '',
 DepartmentName: obj.DepartmentName || '',
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
@@ -169,7 +175,7 @@ LastName: obj.LastName || '',
 Designation: obj.Designation || '',
 DepartmentName: obj.DepartmentName || '',
 Email: obj.Email || '',
-MobileCountryCode: obj.MobileCountryCode || '',
+MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),

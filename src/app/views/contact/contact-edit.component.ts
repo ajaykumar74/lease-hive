@@ -71,7 +71,7 @@ export class ContactEditComponent implements OnInit {
 
     });
 
-    this.designationOptions.push({ Text: '', Value: '' });
+    this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
     this.departmentOptions.push({ Text: '', Value: '' });
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];

@@ -39,6 +39,18 @@ export class PartyEditComponent implements OnInit {
   editForm: any;
   objMaster: IParty = {} as IParty;
 
+  private readonly partyRelatedRoutes: Record<string, string> = {
+    Documents: 'documents',
+    Roles: 'roles',
+    GSTRegistrations: 'gst-registrations',
+    Locations: 'locations',
+    Contacts: 'contacts',
+    BankAccounts: 'bank-accounts',
+    CreditProfiles: 'credit-profiles',
+    CustomerProfile: 'customer-profiles',
+    SupplierProfile: 'supplier-profiles'
+  };
+
 
   constructor(
     private activatedRouter: ActivatedRoute,
@@ -116,18 +128,17 @@ export class PartyEditComponent implements OnInit {
   }
 
   
-  onCommandClicked(key: string) {    
-    if (key == "Documents") {
-      this.router.navigate(['/business/parties/documents/party', this.party.Id]);
+  onCommandClicked(key: string): void {
+    const relatedRoute = this.partyRelatedRoutes[key];
+    if (!relatedRoute || !this.party?.Id) {
+      return;
     }
-    else if (key == "Roles") this.router.navigate(['/business/parties/roles/party', this.party.Id]);
-    else if (key == "GSTRegistrations") this.router.navigate(['/business/parties/gst-registrations/party', this.party.Id]);
-    else if (key == "Locations") this.router.navigate(['/business/parties/locations/party', this.party.Id]);
-    else if (key == "Contacts") this.router.navigate(['/business/parties/contacts/party', this.party.Id]);
-    else if (key == "BankAccounts") this.router.navigate(['/business/parties/bank-accounts/party', this.party.Id]);
-    else if (key == "CreditProfiles") this.router.navigate(['/business/parties/credit-profiles/party', this.party.Id]);
-    else if (key == "CustomerProfile") this.router.navigate(['/business/parties/customer-profiles/party', this.party.Id]);
-    else if (key == "SupplierProfile") this.router.navigate(['/business/parties/supplier-profiles/party', this.party.Id]);
+
+    this.router.navigate(['/business/parties', relatedRoute, 'party', this.party.Id], {
+      // Keep the party id in the URL so a refresh or copied link preserves the filter.
+      // State provides the selected party's complete context to related screens when needed.
+      state: { party: this.party, partyId: this.party.Id }
+    });
   }
 
   loadUI(): void {

@@ -135,7 +135,7 @@ export class LoggedInUserService {
         for (const item of (response.data || [])) {
           const key = this.normalizePicklistCategory(item.Category);
           const options = this.picklistCache.get(key) || [];
-          options.push({ Id: item.Id, Value: item.ItemName, Text: item.ItemName });
+          options.push({ Id: item.Id, Value: item.ItemName, Text: item.Description || item.ItemName });
           this.picklistCache.set(key, options);
         }
         const tenant = this.loggedInUser?.Tenant;
@@ -172,7 +172,7 @@ export class LoggedInUserService {
       for (const item of (cached.items || [])) {
         const key = this.normalizePicklistCategory(item.Category);
         const options = this.picklistCache.get(key) || [];
-        options.push({ Id: item.Id, Value: item.ItemName, Text: item.ItemName });
+        options.push({ Id: item.Id, Value: item.ItemName, Text: item.Description || item.ItemName });
         this.picklistCache.set(key, options);
       }
     } catch {

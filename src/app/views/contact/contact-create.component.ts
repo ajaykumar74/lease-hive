@@ -56,16 +56,6 @@ export class ContactCreateComponent implements OnInit {
     var nState = this.router.lastSuccessfulNavigation?.extras.state;
     this.stateData = nState['stateData'] as IStateData;
     this.Caption = this.stateData.Name + ' Contacts'
-    this.designationList.push({ text: 'Managing Director', value: 'ManagingDirector' },
-      { text: 'Project Manager', value: 'ProjectManager' },
-      { text: 'Chartered Accountant', value: 'CharteredAccountant' },
-      { text: 'Legal Advisor', value: 'LegalAdvisor' },
-      { text: 'Office Manager', value: 'OfficeManager' },
-      { text: 'Sales Executive', value: 'SalesExecutive' },
-      { text: 'Recruitment Consultant', value: 'RecruitmentConsultant' },
-      { text: 'UX Designer', value: 'UXDesigner' },
-      { text: 'Intern', value: 'Intern' },
-      { text: 'Other', value: 'Other' });
     this.departmentList.push({ text: 'Human Resources', value: 'HR' },
       { text: 'Finance', value: 'FIN' },
       { text: 'Marketing', value: 'MKT' },
@@ -88,7 +78,7 @@ export class ContactCreateComponent implements OnInit {
       IsConfidential: new FormControl(false),
 
     });
-    this.designationOptions.push({ Text: '', Value: '' });
+    this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
     this.departmentOptions.push({ Text: '', Value: '' });
 
   }
