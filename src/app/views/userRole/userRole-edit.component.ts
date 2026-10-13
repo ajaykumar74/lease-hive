@@ -188,8 +188,8 @@ AssignedById:  formValues.AssignedById || 0,
 AssignedAt:  formValues.AssignedAt || null,
 IsDelegated:  formValues.IsDelegated || false,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IUserRole ;
 	

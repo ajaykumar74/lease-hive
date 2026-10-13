@@ -176,8 +176,8 @@ PowerRating:  formValues.PowerRating || 0,
 PowerUOMId:  formValues.PowerUOMId || 0,
 ManufactureDate:  formValues.ManufactureDate || null,
 SafetyClass:  formValues.SafetyClass || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IEquipmentAsset ;

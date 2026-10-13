@@ -207,8 +207,8 @@ DepartmentType:  formValues.DepartmentType || null,
 HeadUserId:  formValues.HeadUserId || 0,
 CostCentreCode:  formValues.CostCentreCode || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as IDepartment ;

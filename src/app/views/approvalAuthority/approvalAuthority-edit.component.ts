@@ -268,8 +268,8 @@ MaximumAmount:  formValues.MaximumAmount || 0,
 RequiredApproverCount:  formValues.RequiredApproverCount || 0,
 CanDelegate:  formValues.CanDelegate || false,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IApprovalAuthority ;
 	

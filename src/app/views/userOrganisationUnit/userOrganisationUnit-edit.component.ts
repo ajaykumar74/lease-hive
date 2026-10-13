@@ -179,8 +179,8 @@ CanViewChildUnits:  formValues.CanViewChildUnits || false,
 CanViewParentUnits:  formValues.CanViewParentUnits || false,
 IsDefault:  formValues.IsDefault || false,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IUserOrganisationUnit ;
 	

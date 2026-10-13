@@ -183,8 +183,8 @@ MeasureName:  formValues.MeasureName || null,
 UnitOfMeasureId:  formValues.UnitOfMeasureId || null,
 IsCumulative:  formValues.IsCumulative || false,
 IsRequired:  formValues.IsRequired || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetMeasureDefinition ;

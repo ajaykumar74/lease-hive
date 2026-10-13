@@ -205,8 +205,8 @@ MovementType:  formValues.MovementType || null,
 MovementDateTime:  formValues.MovementDateTime || null,
 ReferenceType:  formValues.ReferenceType || null,
 ReferenceId:  formValues.ReferenceId || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetLocationHistory ;

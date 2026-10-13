@@ -241,8 +241,8 @@ IsDefaultBillTo:  formValues.IsDefaultBillTo || false,
 IsDefaultShipTo:  formValues.IsDefaultShipTo || false,
 WorkingHours:  formValues.WorkingHours || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyLocation ;
 	

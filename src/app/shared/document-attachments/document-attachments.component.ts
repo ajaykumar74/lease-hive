@@ -19,7 +19,7 @@ export class DocumentAttachmentsComponent implements OnChanges {
     @Input() documentRequirement: IDocumentAttachmentRequirement | null = null;
     @Input() allowUpload = true;
     @Input() allowRemove = true;
-    @Input() usePrimeRemoveConfirmation = false;
+    @Input() usePrimeRemoveConfirmation = true;
 
     @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
     @ViewChild('removeConfirmation') removeConfirmation?: ConfirmationMessageComponent;

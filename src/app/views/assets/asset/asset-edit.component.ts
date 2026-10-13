@@ -464,8 +464,8 @@ export class AssetEditComponent implements OnInit {
       AssetStatusId: formValues.AssetStatusId || 0,
       ConditionGradeCode: formValues.ConditionGradeCode || null,
       IsLeaseable: formValues.IsLeaseable || false,
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
       RecordStatus: formValues.RecordStatus || null,
 
     } as IAsset;

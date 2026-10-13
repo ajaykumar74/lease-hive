@@ -186,8 +186,8 @@ TimeZoneId:  formValues.TimeZoneId || null,
 DayStartTime:  formValues.DayStartTime || null,
 DayEndTime:  formValues.DayEndTime || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IBusinessCalendar ;
 	

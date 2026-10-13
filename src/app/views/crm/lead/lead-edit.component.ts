@@ -227,8 +227,8 @@ CurrencyCode:  formValues.CurrencyCode || null,
 ExpectedCloseDate:  formValues.ExpectedCloseDate || null,
 DisqualificationReason:  formValues.DisqualificationReason || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as ILead ;

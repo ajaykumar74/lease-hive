@@ -179,8 +179,8 @@ OrganisationId:  formValues.OrganisationId || 0,
 OwnershipType:  formValues.OwnershipType || null,
 AcquisitionReference:  formValues.AcquisitionReference || null,
 Remarks:  formValues.Remarks || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetOwnershipHistory ;

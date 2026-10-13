@@ -188,8 +188,8 @@ MACAddress:  formValues.MACAddress || null,
 IMEI:  formValues.IMEI || null,
 WarrantyExpiryDate:  formValues.WarrantyExpiryDate || null,
 MDMDeviceId:  formValues.MDMDeviceId || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IITAsset ;

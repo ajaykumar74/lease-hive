@@ -177,8 +177,8 @@ export class LeadActivityEditComponent implements OnInit {
             Notes: formValues.Notes || null,
             CompletedOn: formValues.CompletedOn || null,
             RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             Description: formValues.Description || null
         } as ILeadActivity;
 

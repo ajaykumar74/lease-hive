@@ -155,8 +155,8 @@ RecordStatus: obj.RecordStatus || '',
      ReasonCode:  formValues.ReasonCode || null,
 ReasonName:  formValues.ReasonName || null,
 Description:  formValues.Description || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IEndOfLeaseReason ;

@@ -225,8 +225,8 @@ IsDefaultForRefunds:  formValues.IsDefaultForRefunds || false,
 VerificationStatus:  formValues.VerificationStatus || null,
 VerifiedAt:  formValues.VerifiedAt || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyBankAccount ;
 	

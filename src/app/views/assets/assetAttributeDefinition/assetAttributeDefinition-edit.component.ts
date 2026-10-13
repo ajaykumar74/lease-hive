@@ -188,8 +188,8 @@ DataTypeCode:  formValues.DataTypeCode || null,
 UnitMeasureType:  formValues.UnitMeasureType || null,
 IsRequired:  formValues.IsRequired || false,
 IsSearchable:  formValues.IsSearchable || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetAttributeDefinition ;

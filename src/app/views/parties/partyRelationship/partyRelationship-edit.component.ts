@@ -181,8 +181,8 @@ OwnershipPercentage:  formValues.OwnershipPercentage || 0,
 ControlType:  formValues.ControlType || null,
 RelationshipReference:  formValues.RelationshipReference || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyRelationship ;
 	

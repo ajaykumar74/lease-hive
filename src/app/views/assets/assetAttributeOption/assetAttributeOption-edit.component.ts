@@ -164,8 +164,8 @@ RecordStatus: obj.RecordStatus || '',
 OptionCode:  formValues.OptionCode || null,
 OptionLabel:  formValues.OptionLabel || null,
 SortOrder:  formValues.SortOrder || 0,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetAttributeOption ;

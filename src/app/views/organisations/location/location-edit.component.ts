@@ -203,8 +203,8 @@ GeoLocation:  formValues.GeoLocation || null,
 Email:  formValues.Email || null,
 ContactPhone:  formValues.ContactPhone || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as ILocation ;
 	

@@ -220,8 +220,8 @@ TimeZoneId:  formValues.TimeZoneId || null,
 LastLoginDateTime:  formValues.LastLoginDateTime || null,
 FailedLoginCount:  formValues.FailedLoginCount || 0,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IApplicationUser ;
 	

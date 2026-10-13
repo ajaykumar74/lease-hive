@@ -230,8 +230,8 @@ IsPrimary:  formValues.IsPrimary || false,
 AssignmentStatusId:  formValues.AssignmentStatusId || 0,
 ReferenceType:  formValues.ReferenceType || null,
 ReferenceId:  formValues.ReferenceId || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetAssignment ;

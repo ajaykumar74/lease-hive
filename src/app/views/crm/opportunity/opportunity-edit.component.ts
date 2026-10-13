@@ -193,8 +193,8 @@ export class OpportunityEditComponent implements OnInit {
             LostReasonCode: formValues.LostReasonCode || null,
             ClosedOn: formValues.ClosedOn || null,
             RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             Description: formValues.Description || null
         } as IOpportunity;
 

@@ -203,8 +203,8 @@ FinancialYearStartMonth:  formValues.FinancialYearStartMonth || 0,
 TaxSystem:  formValues.TaxSystem || null,
 Status:  formValues.Status || null,
 Description:  formValues.Description || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IOrganisation ;
 	

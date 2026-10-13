@@ -158,8 +158,8 @@ export class CreditLimitEditComponent implements OnInit {
             CreditDecisionId: formValues.CreditDecisionId || 0,
             CurrencyCode: formValues.CurrencyCode || null,
             LimitAmount: formValues.LimitAmount || 0,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null,
+            EffectiveFrom: new Date(),
+            EffectiveTo: null,
             LimitStatus: formValues.LimitStatus || null,
             Remarks: formValues.Remarks || null,
             RecordStatus: formValues.RecordStatus || null

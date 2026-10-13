@@ -179,8 +179,8 @@ AreaUOMId:  formValues.AreaUOMId || 0,
 FloorNo:  formValues.FloorNo || null,
 PossessionDate:  formValues.PossessionDate || null,
 TitleReference:  formValues.TitleReference || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IPropertyAsset ;

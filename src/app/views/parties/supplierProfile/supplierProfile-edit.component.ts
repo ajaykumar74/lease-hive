@@ -255,8 +255,8 @@ QualityAcceptancePercentage:  formValues.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  formValues.IsPurchaseBlocked || false,
 BlockReason:  formValues.BlockReason || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as ISupplierProfile ;

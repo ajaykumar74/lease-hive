@@ -166,8 +166,8 @@ RecordStatus: obj.RecordStatus || '',
 MakeName:  formValues.MakeName || null,
 AssetCategoryId:  formValues.AssetCategoryId || 0,
 CountryCode:  formValues.CountryCode || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetMake ;

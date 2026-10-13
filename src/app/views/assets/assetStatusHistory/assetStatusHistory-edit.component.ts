@@ -171,8 +171,8 @@ RecordStatus: obj.RecordStatus || '',
 ToStatusId:  formValues.ToStatusId || 0,
 ReasonCode:  formValues.ReasonCode || null,
 Remarks:  formValues.Remarks || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetStatusHistory ;

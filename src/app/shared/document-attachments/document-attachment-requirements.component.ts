@@ -15,7 +15,7 @@ export class DocumentAttachmentRequirementsComponent implements OnChanges {
     @Input() ownerId = 0;
     @Input() allowUpload = true;
     @Input() allowRemove = true;
-    @Input() usePrimeRemoveConfirmation = false;
+    @Input() usePrimeRemoveConfirmation = true;
 
     requirements: IDocumentAttachmentRequirement[] = [];
     isLoading = false;

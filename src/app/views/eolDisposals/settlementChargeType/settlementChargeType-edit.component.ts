@@ -161,8 +161,8 @@ RecordStatus: obj.RecordStatus || '',
 ChargeTypeName:  formValues.ChargeTypeName || null,
 DirectionCode:  formValues.DirectionCode || null,
 TaxableFlag:  formValues.TaxableFlag || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as ISettlementChargeType ;

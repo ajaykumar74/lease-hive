@@ -186,8 +186,8 @@ IssuingCountryCode:  formValues.IssuingCountryCode || null,
 IssuingStateCode:  formValues.IssuingStateCode || null,
 IsPrimary:  formValues.IsPrimary || false,
 IsVerified:  formValues.IsVerified || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetIdentifier ;

@@ -209,8 +209,8 @@ PaymentTermsDays:  formValues.PaymentTermsDays || 0,
 ReviewFrequencyMonths:  formValues.ReviewFrequencyMonths || 0,
 NextReviewDate:  formValues.NextReviewDate || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyCreditProfile ;
 	

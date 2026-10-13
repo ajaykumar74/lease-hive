@@ -159,8 +159,8 @@ RecordStatus: obj.RecordStatus || '',
 DispositionMethodName:  formValues.DispositionMethodName || null,
 RequiresBuyerFlag:  formValues.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  formValues.RequiresApprovalFlag || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IDispositionMethod ;

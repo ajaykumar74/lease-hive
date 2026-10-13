@@ -164,8 +164,8 @@ IsPrimary:  obj.IsPrimary || false,
 ReferenceTypeCode:  formValues.ReferenceTypeCode || null,
 ReferenceValue:  formValues.ReferenceValue || null,
 ProviderCode:  formValues.ProviderCode || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 IsPrimary:  formValues.IsPrimary || false,
 
     } as IContractExternalReference ;

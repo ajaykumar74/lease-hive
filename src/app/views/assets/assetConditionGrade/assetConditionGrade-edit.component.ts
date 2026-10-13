@@ -163,8 +163,8 @@ GradeName:  formValues.GradeName || null,
 ScoreFrom:  formValues.ScoreFrom || 0,
 ScoreTo:  formValues.ScoreTo || 0,
 IsLeaseable:  formValues.IsLeaseable || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetConditionGrade ;

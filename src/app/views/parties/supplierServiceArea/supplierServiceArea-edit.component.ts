@@ -240,8 +240,8 @@ CanRecover:  formValues.CanRecover || false,
 CanDispose:  formValues.CanDispose || false,
 StandardLeadTimeDays:  formValues.StandardLeadTimeDays || 0,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as ISupplierServiceArea ;

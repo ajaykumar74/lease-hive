@@ -176,8 +176,8 @@ DayType:  formValues.DayType || null,
 StartTime:  formValues.StartTime || null,
 EndTime:  formValues.EndTime || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as IBusinessCalendarHoliday ;

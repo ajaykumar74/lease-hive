@@ -229,8 +229,8 @@ EndDateTime:  formValues.EndDateTime || null,
 Reason:  formValues.Reason || null,
 ApprovedById:  formValues.ApprovedById || 0,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IUserDelegation ;
 	

@@ -165,8 +165,8 @@ CategoryName:  formValues.CategoryName || null,
 SupportsRegistration:  formValues.SupportsRegistration || false,
 SupportsMeasure:  formValues.SupportsMeasure || false,
 ExtensionTypeCode:  formValues.ExtensionTypeCode || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetCategory ;

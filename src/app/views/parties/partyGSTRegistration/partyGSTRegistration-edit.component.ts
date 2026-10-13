@@ -215,8 +215,8 @@ VerificationStatus:  formValues.VerificationStatus || null,
 VerifiedAt:  formValues.VerifiedAt || null,
 CancellationDate:  formValues.CancellationDate || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 IsDefault:  formValues.IsDefault || false,
 
     } as IPartyGSTRegistration ;

@@ -159,8 +159,8 @@ RecordStatus: obj.RecordStatus || '',
 StatusName:  formValues.StatusName || null,
 IsTerminal:  formValues.IsTerminal || false,
 SortOrder:  formValues.SortOrder || 0,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IGoodsReceiptStatus ;

@@ -159,8 +159,8 @@ RecordStatus: obj.RecordStatus || '',
 MaintenanceTypeName:  formValues.MaintenanceTypeName || null,
 Description:  formValues.Description || null,
 IsPlanned:  formValues.IsPlanned || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IMaintenanceType ;

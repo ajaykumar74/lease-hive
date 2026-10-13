@@ -245,8 +245,8 @@ PreferredBillingFrequency:  formValues.PreferredBillingFrequency || null,
 PurchaseOrderRequired:  formValues.PurchaseOrderRequired || false,
 CustomerSinceDate:  formValues.CustomerSinceDate || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 Description:  formValues.Description || null,
 
     } as ICustomerProfile ;

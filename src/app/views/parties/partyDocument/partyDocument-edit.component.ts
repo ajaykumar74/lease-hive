@@ -208,8 +208,8 @@ VerifiedBy:  formValues.VerifiedBy || null,
 VerifiedAt:  formValues.VerifiedAt || null,
 RejectionReason:  formValues.RejectionReason || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyDocument ;
 	

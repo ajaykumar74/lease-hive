@@ -176,8 +176,8 @@ DefaultUsefulLifeMonths:  formValues.DefaultUsefulLifeMonths || 0,
 DefaultResidualPercent:  formValues.DefaultResidualPercent || 0,
 RequiresSerialNo:  formValues.RequiresSerialNo || false,
 RequiresRegistrationNo:  formValues.RequiresRegistrationNo || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetType ;

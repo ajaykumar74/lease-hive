@@ -191,8 +191,8 @@ AccessLevel:  formValues.AccessLevel || null,
 PartyLocationId:  formValues.PartyLocationId || 0,
 CustomerDepartmentId:  formValues.CustomerDepartmentId || 0,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IUserPartyAccess ;
 	

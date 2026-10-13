@@ -182,8 +182,8 @@ StringValue:  formValues.StringValue || null,
 NumberValue:  formValues.NumberValue || 0,
 DateValue:  formValues.DateValue || null,
 BooleanValue:  formValues.BooleanValue || false,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetAttributeValue ;

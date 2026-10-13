@@ -200,8 +200,8 @@ ApprovedBy:  formValues.ApprovedBy || null,
 ApprovedById:  formValues.ApprovedById || 0,
 ApprovedAt:  formValues.ApprovedAt || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IPartyRole ;
 	

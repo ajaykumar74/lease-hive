@@ -214,8 +214,8 @@ MeasureDefinitionId:  formValues.MeasureDefinitionId || 0,
 IntervalMeasureValue:  formValues.IntervalMeasureValue || 0,
 LeadDays:  formValues.LeadDays || 0,
 LeadMeasureValue:  formValues.LeadMeasureValue || 0,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IMaintenancePlan ;

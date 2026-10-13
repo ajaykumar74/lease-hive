@@ -186,8 +186,8 @@ export class CreditApplicationEditComponent implements OnInit {
             SubmittedOn: formValues.SubmittedOn || null,
             DecisionOn: formValues.DecisionOn || null,
             RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as ICreditApplication;
 
         this.spinner.show();

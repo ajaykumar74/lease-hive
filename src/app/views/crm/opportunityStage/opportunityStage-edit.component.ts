@@ -168,8 +168,8 @@ IsWon:  formValues.IsWon || false,
 IsLost:  formValues.IsLost || false,
 SortOrder:  formValues.SortOrder || 0,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IOpportunityStage ;
 	

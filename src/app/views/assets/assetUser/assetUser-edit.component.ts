@@ -229,8 +229,8 @@ NationalIdMasked:  formValues.NationalIdMasked || null,
 EmergencyContactName:  formValues.EmergencyContactName || null,
 EmergencyContactMobile:  formValues.EmergencyContactMobile || null,
 RecordStatus:  formValues.RecordStatus || null,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 
     } as IAssetUser ;
 	

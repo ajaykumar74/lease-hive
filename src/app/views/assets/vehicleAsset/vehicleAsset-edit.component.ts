@@ -196,8 +196,8 @@ FuelTypeCode:  formValues.FuelTypeCode || null,
 EmissionNormCode:  formValues.EmissionNormCode || null,
 SeatingCapacity:  formValues.SeatingCapacity || 0,
 GrossVehicleWeightKg:  formValues.GrossVehicleWeightKg || 0,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IVehicleAsset ;

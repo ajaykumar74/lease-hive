@@ -260,8 +260,8 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
       Description: formValues.Description || null,
       IsSensitive: formValues.IsSensitive || false,
       RecordStatus: formValues.RecordStatus || null,
-      EffectiveFrom: formValues.EffectiveFrom || null,
-      EffectiveTo: formValues.EffectiveTo || null,
+      EffectiveFrom: new Date(),
+      EffectiveTo: null,
 
     } as IAppPermission;
 

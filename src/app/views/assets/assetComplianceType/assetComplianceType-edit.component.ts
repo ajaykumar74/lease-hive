@@ -166,8 +166,8 @@ ComplianceName: formValues.ComplianceName ?? null,
 RequiresExpiry: formValues.RequiresExpiry ?? false,
 RequiresDocument: formValues.RequiresDocument ?? false,
 ReminderDaysBefore: formValues.ReminderDaysBefore ?? 0,
-EffectiveFrom: formValues.EffectiveFrom ?? null,
-EffectiveTo: formValues.EffectiveTo ?? null,
+EffectiveFrom: new Date(),
+EffectiveTo: null,
 RecordStatus: 'Active',
 
     } as IAssetComplianceType ;

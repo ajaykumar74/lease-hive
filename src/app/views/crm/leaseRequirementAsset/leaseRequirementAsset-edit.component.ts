@@ -198,8 +198,8 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
             ServicePackageCode: formValues.ServicePackageCode || null,
             Remarks: formValues.Remarks || null,
             RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as ILeaseRequirementAsset;
 
         this.spinner.show();

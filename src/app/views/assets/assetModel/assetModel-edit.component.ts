@@ -180,8 +180,8 @@ ModelName:  formValues.ModelName || null,
 VariantName:  formValues.VariantName || null,
 ModelYearFrom:  formValues.ModelYearFrom || 0,
 ModelYearTo:  formValues.ModelYearTo || 0,
-EffectiveFrom:  formValues.EffectiveFrom || null,
-EffectiveTo:  formValues.EffectiveTo || null,
+EffectiveFrom:  new Date(),
+EffectiveTo:  null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetModel ;

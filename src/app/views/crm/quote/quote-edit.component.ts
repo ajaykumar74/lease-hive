@@ -223,8 +223,8 @@ export class QuoteEditComponent implements OnInit {
             SupersedesQuoteId: formValues.SupersedesQuoteId || 0,
             Remarks: formValues.Remarks || null,
             RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: formValues.EffectiveFrom || null,
-            EffectiveTo: formValues.EffectiveTo || null
+            EffectiveFrom: new Date(),
+            EffectiveTo: null
         } as IQuote;
 
         this.spinner.show();
