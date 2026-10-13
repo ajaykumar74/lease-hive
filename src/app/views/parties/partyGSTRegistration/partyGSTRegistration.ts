@@ -18,5 +18,6 @@ RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date | null;
 IsDefault : boolean;
+DocumentAlertStatus : string | null;
 
 }

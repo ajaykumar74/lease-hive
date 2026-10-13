@@ -16,6 +16,7 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
+						<th style="width:130px">Alert</th>
 						 <th style="width:200px">Party ID <p-sortIcon field="PartyId" /> </th>
 <th style="width:200px">GSTIN <p-sortIcon field="GSTIN" /> </th>
 <th style="width:200px">Trade Name As Per GST <p-sortIcon field="TradeNameAsPerGST" /> </th>
@@ -28,6 +29,17 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                        <td style="width:130px">
+                            <span *ngIf="obj.DocumentAlertStatus"
+                               class="gst-document-alert-badge"
+                               [ngClass]="documentAlertClass(obj.DocumentAlertStatus)"
+                               [pTooltip]="documentAlertTooltip(obj.DocumentAlertStatus)"
+                               tooltipPosition="top"
+                               [attr.aria-label]="documentAlertTooltip(obj.DocumentAlertStatus)">
+                                <i [class]="documentAlertIcon(obj.DocumentAlertStatus)" aria-hidden="true"></i>
+                                {{ documentAlertLabel(obj.DocumentAlertStatus) }}
+                            </span>
+                        </td>
                          <td style="width:200px">{{obj.PartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.GSTIN}}</td>
  <td style="width:200px">{{obj.TradeNameAsPerGST}}</td>

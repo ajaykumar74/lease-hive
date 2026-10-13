@@ -12,7 +12,8 @@ import { PageEvent } from '@/shared/IBase';
 @Component({
   selector: 'app-customer-list',
   standalone: false,
-  templateUrl: './partyGSTRegistration-list.component.html'
+  templateUrl: './partyGSTRegistration-list.component.html',
+  styleUrls: ['./partyGSTRegistration-list.component.scss']
 })
 export class PartyGSTRegistrationListComponent implements OnInit {
 
@@ -162,6 +163,42 @@ export class PartyGSTRegistrationListComponent implements OnInit {
     }
     else if (key == "Cancel") {
     }    
+  }
+
+  documentAlertLabel(status: string | null): string {
+    switch (status) {
+      case 'Rejected': return 'Rejected';
+      case 'NeedsReview': return 'Needs review';
+      case 'PendingUpload': return 'Pending upload';
+      default: return '';
+    }
+  }
+
+  documentAlertTooltip(status: string | null): string {
+    switch (status) {
+      case 'Rejected': return 'Uploaded GST registration certificate was rejected.';
+      case 'NeedsReview': return 'Required GST registration certificate needs review.';
+      case 'PendingUpload': return 'Required GST registration certificate has not been uploaded.';
+      default: return '';
+    }
+  }
+
+  documentAlertClass(status: string | null): string {
+    switch (status) {
+      case 'Rejected': return 'gst-document-alert-badge--rejected';
+      case 'NeedsReview': return 'gst-document-alert-badge--needs-review';
+      case 'PendingUpload': return 'gst-document-alert-badge--pending-upload';
+      default: return '';
+    }
+  }
+
+  documentAlertIcon(status: string | null): string {
+    switch (status) {
+      case 'Rejected': return 'pi pi-times-circle';
+      case 'NeedsReview': return 'pi pi-exclamation-triangle';
+      case 'PendingUpload': return 'pi pi-upload';
+      default: return '';
+    }
   }
 
   private get contextKey(): string { return this.partyId ? `party:${this.partyId}` : 'all'; }

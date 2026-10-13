@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { PartyGSTRegistrationListComponent } from './partyGSTRegistration-list.component';
 import { PartyGSTRegistrationCreateComponent } from './partyGSTRegistration-create.component';
@@ -42,6 +43,7 @@ import { PartyGSTRegistrationRoutingModule } from './partyGSTRegistration-routin
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		TooltipModule,
 		PartyGSTRegistrationRoutingModule,
 	],
 	declarations: [
