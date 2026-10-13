@@ -1,4 +1,16 @@
 <section class="document-attachments" [attr.aria-label]="documentRequirement?.DisplayName || 'Documents'">
+    <app-confirmation-message
+        #removeConfirmation
+        [key]="removeConfirmationKey"
+        [message]="removeConfirmationMessage"
+        header="Remove document"
+        acceptLabel="Remove"
+        rejectLabel="Cancel"
+        acceptButtonStyleClass="p-button-danger"
+        (confirmed)="confirmRemove()"
+        (cancelled)="cancelRemove()">
+    </app-confirmation-message>
+
     <div class="document-attachments__header">
         <div>
              <dl class="document-attachments__metadata">

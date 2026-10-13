@@ -21,6 +21,12 @@
         color: #92400e;
     }
 
+    &--verified {
+        border: 1px solid #bbf7d0;
+        background: #f0fdf4;
+        color: #15803d;
+    }
+
     &--rejected {
         border: 1px solid #fecaca;
         background: #fef2f2;

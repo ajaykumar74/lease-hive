@@ -169,6 +169,7 @@ export class PartyGSTRegistrationListComponent implements OnInit {
     switch (status) {
       case 'Rejected': return 'Rejected';
       case 'NeedsReview': return 'Needs review';
+      case 'Verified': return 'Verified';
       case 'PendingUpload': return 'Pending upload';
       default: return '';
     }
@@ -178,6 +179,7 @@ export class PartyGSTRegistrationListComponent implements OnInit {
     switch (status) {
       case 'Rejected': return 'Uploaded GST registration certificate was rejected.';
       case 'NeedsReview': return 'Required GST registration certificate needs review.';
+      case 'Verified': return 'GST registration certificate matches the GSTIN and legal name.';
       case 'PendingUpload': return 'Required GST registration certificate has not been uploaded.';
       default: return '';
     }
@@ -187,6 +189,7 @@ export class PartyGSTRegistrationListComponent implements OnInit {
     switch (status) {
       case 'Rejected': return 'gst-document-alert-badge--rejected';
       case 'NeedsReview': return 'gst-document-alert-badge--needs-review';
+      case 'Verified': return 'gst-document-alert-badge--verified';
       case 'PendingUpload': return 'gst-document-alert-badge--pending-upload';
       default: return '';
     }
@@ -196,6 +199,7 @@ export class PartyGSTRegistrationListComponent implements OnInit {
     switch (status) {
       case 'Rejected': return 'pi pi-times-circle';
       case 'NeedsReview': return 'pi pi-exclamation-triangle';
+      case 'Verified': return 'pi pi-check-circle';
       case 'PendingUpload': return 'pi pi-upload';
       default: return '';
     }

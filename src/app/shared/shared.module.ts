@@ -61,6 +61,7 @@ import { CurrencyDropdownComponent } from './currency-dropdown.component';
 import { AppPermissionDirective } from './security/permission.directive';
 import { DocumentAttachmentsComponent } from './document-attachments/document-attachments.component';
 import { DocumentAttachmentRequirementsComponent } from './document-attachments/document-attachment-requirements.component';
+import { ConfirmationMessageComponent } from './confirmation-message.component';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -103,7 +104,8 @@ import { DocumentAttachmentRequirementsComponent } from './document-attachments/
 		CurrencyDropdownComponent,
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
-		DocumentAttachmentRequirementsComponent
+		DocumentAttachmentRequirementsComponent,
+		ConfirmationMessageComponent
 	],
 	exports: [
 		MessageComponent,
@@ -124,7 +126,8 @@ import { DocumentAttachmentRequirementsComponent } from './document-attachments/
 		CurrencyDropdownComponent,
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
-		DocumentAttachmentRequirementsComponent
+		DocumentAttachmentRequirementsComponent,
+		ConfirmationMessageComponent
 	]
 })
 export class MySharedModule { }

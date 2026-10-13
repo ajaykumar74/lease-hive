@@ -5,6 +5,7 @@ import {
     IDocumentAttachment,
     IDocumentAttachmentRequirement
 } from './document-attachment.service';
+import { ConfirmationMessageComponent } from '../confirmation-message.component';
 
 @Component({
     selector: 'app-document-attachments',
@@ -18,8 +19,10 @@ export class DocumentAttachmentsComponent implements OnChanges {
     @Input() documentRequirement: IDocumentAttachmentRequirement | null = null;
     @Input() allowUpload = true;
     @Input() allowRemove = true;
+    @Input() usePrimeRemoveConfirmation = false;
 
     @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
+    @ViewChild('removeConfirmation') removeConfirmation?: ConfirmationMessageComponent;
 
     documents: IDocumentAttachment[] = [];
     title = '';
@@ -29,6 +32,8 @@ export class DocumentAttachmentsComponent implements OnChanges {
     uploadProgress = 0;
     warningMessage = '';
     errorMessage = '';
+    removeConfirmationMessage = 'Are you sure you want to remove this document?';
+    private pendingRemoval: IDocumentAttachment | null = null;
 
     constructor(private documentAttachmentService: DocumentAttachmentService) {}
 
@@ -130,10 +135,39 @@ export class DocumentAttachmentsComponent implements OnChanges {
     }
 
     remove(document: IDocumentAttachment): void {
+        if (this.usePrimeRemoveConfirmation) {
+            this.pendingRemoval = document;
+            this.removeConfirmationMessage = `Remove '${document.OriginalFileName}' from this document requirement?`;
+            this.removeConfirmation?.show(this.removeConfirmationMessage);
+            return;
+        }
+
         if (!confirm(`Remove '${document.OriginalFileName}' from this document requirement?`)) {
             return;
         }
 
+        this.removeConfirmed(document);
+    }
+
+    confirmRemove(): void {
+        if (!this.pendingRemoval) {
+            return;
+        }
+
+        const document = this.pendingRemoval;
+        this.pendingRemoval = null;
+        this.removeConfirmed(document);
+    }
+
+    cancelRemove(): void {
+        this.pendingRemoval = null;
+    }
+
+    get removeConfirmationKey(): string {
+        return `document-removal-${this.ownerType}-${this.ownerId}-${this.documentRequirement?.Id ?? 'unconfigured'}`;
+    }
+
+    private removeConfirmed(document: IDocumentAttachment): void {
         this.warningMessage = '';
         this.errorMessage = '';
         this.documentAttachmentService.remove(this.ownerType, this.ownerId, document.LinkId).subscribe({
