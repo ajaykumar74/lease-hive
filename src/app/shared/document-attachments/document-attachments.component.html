@@ -42,6 +42,7 @@
                 <tr>
                     <th>Document</th>
                     <th>Document type</th>
+                    <th>Validation</th>
                     <th>Uploaded</th>
                     <th>Size</th>
                     <th class="document-attachments__actions">Actions</th>
@@ -51,6 +52,12 @@
                 <tr *ngFor="let document of documents">
                     <td><strong>{{ document.Title }}</strong><small>{{ document.OriginalFileName }}</small></td>
                     <td>{{ document.DocumentTypeName || document.DocumentTypeCode }}</td>
+                    <td>
+                        <span class="document-attachments__validation" [ngClass]="validationStatusClass(document)">
+                            {{ validationStatusLabel(document) }}
+                        </span>
+                        <small *ngIf="document.ValidationMessage">{{ document.ValidationMessage }}</small>
+                    </td>
                     <td>{{ document.UploadedAtUtc | date: 'dd MMM yyyy, HH:mm' }}</td>
                     <td>{{ formatSize(document.StoredSizeBytes) }}</td>
                     <td class="document-attachments__actions">

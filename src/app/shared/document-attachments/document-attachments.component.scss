@@ -59,6 +59,22 @@
 .document-attachments__progress div { height: .35rem; margin-top: .4rem; overflow: hidden; background: var(--surface-border); border-radius: .35rem; }
 .document-attachments__progress span { display: block; height: 100%; background: var(--primary-color); transition: width .2s ease; }
 
+.document-attachments__validation {
+    display: inline-block;
+    padding: .2rem .45rem;
+    border-radius: 999px;
+    color: #334155;
+    background: #e2e8f0;
+    font-size: .75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.document-attachments__validation--pending,
+.document-attachments__validation--processing { color: #1d4ed8; background: #dbeafe; }
+.document-attachments__validation--documentmatched { color: #166534; background: #dcfce7; }
+.document-attachments__validation--needsreview { color: #9a3412; background: #ffedd5; }
+.document-attachments__validation--rejected { color: #b91c1c; background: #fee2e2; }
+
 .document-attachments__empty {
     padding: 1.25rem;
     color: var(--text-color-secondary);

@@ -151,6 +151,26 @@ export class DocumentAttachmentsComponent implements OnChanges {
         return `${(bytes / Math.pow(1024, unitIndex)).toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
     }
 
+    validationStatusLabel(document: IDocumentAttachment): string {
+        switch (document.ValidationStatus) {
+            case 'Pending':
+            case 'Processing':
+                return 'Validating';
+            case 'DocumentMatched':
+                return 'Document matched';
+            case 'NeedsReview':
+                return 'Needs review';
+            case 'Rejected':
+                return 'Rejected';
+            default:
+                return 'Not validated';
+        }
+    }
+
+    validationStatusClass(document: IDocumentAttachment): string {
+        return `document-attachments__validation--${(document.ValidationStatus || 'not-validated').toLowerCase()}`;
+    }
+
     private isReady(): boolean {
         return this.ownerId > 0 && !!this.ownerType && !!this.documentRequirement?.Id;
     }

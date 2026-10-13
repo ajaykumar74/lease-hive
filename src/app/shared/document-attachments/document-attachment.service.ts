@@ -36,6 +36,10 @@ export interface IDocumentAttachment {
     StoredSizeBytes: number;
     UploadedAtUtc: string;
     IsPrimary: boolean;
+    ValidationStatus: string | null;
+    ValidationConfidenceScore: number | null;
+    ValidationMessage: string | null;
+    ValidatedAtUtc: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
