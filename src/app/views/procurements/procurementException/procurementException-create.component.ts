@@ -22,7 +22,7 @@ import { ProcurementExceptionService } from './procurementException.service';
 export class ProcurementExceptionCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -36,7 +36,7 @@ assignedtouseridOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IProcurementException = {} as IProcurementException;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -46,14 +46,14 @@ assignedtouseridOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private procurementExceptionService: ProcurementExceptionService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.procurementException };
 
@@ -80,7 +80,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssignedToUserId', 'ap
       this.entityLookupDestroyRef);
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.procurementExceptionService.getById(this.selectedId).subscribe({
@@ -108,12 +108,12 @@ StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
 ResolvedOn:  obj.ResolvedOn || new Date(),
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/exceptions/create']);
@@ -144,20 +144,21 @@ StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
 ResolvedOn:  obj.ResolvedOn || new Date(),
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -174,7 +175,7 @@ Resolution: formValues.Resolution || null,
 ResolvedOn: formValues.ResolvedOn || null,
 
     } as IProcurementException ; 
-	
+
 	  this.spinner.show(); 
     this.procurementExceptionService.create(createdObj).subscribe({
       next: data => {	   

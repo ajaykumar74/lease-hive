@@ -22,7 +22,7 @@ import { SupplierQuotationLineService } from './supplierQuotationLine.service';
 export class SupplierQuotationLineCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -34,7 +34,7 @@ compliancecodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierQuotationLine = {} as ISupplierQuotationLine;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -44,21 +44,21 @@ compliancecodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private supplierQuotationLineService: SupplierQuotationLineService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.supplierQuotationLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-SupplierQuotationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-RFQLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierQuotationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+RFQLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 Quantity: new FormControl(0, [Validators.required]),
 UnitPrice: new FormControl(0, [Validators.required]),
 DiscountAmount: new FormControl(0, [Validators.required]),
@@ -79,7 +79,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 
 this.compliancecodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationLineComplianceCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.supplierQuotationLineService.getById(this.selectedId).subscribe({
@@ -108,12 +108,12 @@ LineTotal: obj.LineTotal || 0,
 DeliveryDate:  obj.DeliveryDate || new Date(),
 ComplianceCode: obj.ComplianceCode || '',
 DeviationNotes: obj.DeviationNotes || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/supplier-quotations/lines/create']);
@@ -145,20 +145,21 @@ LineTotal: obj.LineTotal || 0,
 DeliveryDate:  obj.DeliveryDate || new Date(),
 ComplianceCode: obj.ComplianceCode || '',
 DeviationNotes: obj.DeviationNotes || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -176,7 +177,7 @@ ComplianceCode: formValues.ComplianceCode || null,
 DeviationNotes: formValues.DeviationNotes || null,
 
     } as ISupplierQuotationLine ; 
-	
+
 	  this.spinner.show(); 
     this.supplierQuotationLineService.create(createdObj).subscribe({
       next: data => {	   

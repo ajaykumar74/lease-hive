@@ -58,8 +58,8 @@ referencedocumentidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ValuationTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ValuationTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ValuationDate: new FormControl(new Date(), [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ValuationAmount: new FormControl(0, [Validators.required]),
@@ -156,7 +156,8 @@ Remarks: obj.Remarks || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

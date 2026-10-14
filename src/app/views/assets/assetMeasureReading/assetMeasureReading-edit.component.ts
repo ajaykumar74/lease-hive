@@ -57,11 +57,11 @@ recordedbyOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetMeasureDefinitionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetMeasureDefinitionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ReadingValue: new FormControl(0, [Validators.required]),
 ReadingDateTime: new FormControl(new Date(), [Validators.required]),
-ReadingSourceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ReadingSourceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SourceReference: new FormControl('', [Validators.maxLength(120), ]), 
 IsVerified: new FormControl(false, [Validators.required]),
 RecordedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -118,7 +118,7 @@ RecordedBy: obj.RecordedBy || 0,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetMeasureReading/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/measures/readings/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -149,7 +149,8 @@ RecordedBy: obj.RecordedBy || 0,
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

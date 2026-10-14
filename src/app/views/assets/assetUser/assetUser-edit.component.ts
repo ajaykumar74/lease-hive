@@ -59,9 +59,9 @@ mobilecountrycodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 UserType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EmployeeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 FullName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
@@ -151,7 +151,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetUser/create', { id: -1 }]);
+      this.router.navigate(['/dashboard/assetUsers/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -192,7 +192,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

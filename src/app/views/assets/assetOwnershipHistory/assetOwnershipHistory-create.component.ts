@@ -62,8 +62,8 @@ ownershiptypeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 OwnershipType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AcquisitionReference: new FormControl('', [Validators.maxLength(50), ]), 
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
@@ -142,7 +142,7 @@ Remarks: obj.Remarks || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetOwnershipHistorys/create']);
+      this.router.navigate(['/business/assets/ownership-history/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -173,7 +173,8 @@ Remarks: obj.Remarks || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

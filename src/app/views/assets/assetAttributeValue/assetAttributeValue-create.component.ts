@@ -62,8 +62,8 @@ assetattributedefinitionidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetAttributeDefinitionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetAttributeDefinitionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 StringValue: new FormControl('', [Validators.required, Validators.maxLength(256), ]),
 DateValue: new FormControl(new Date(), []),
 BooleanValue: new FormControl(false, []),
@@ -144,7 +144,7 @@ BooleanValue:  obj.BooleanValue || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAttributeValues/create']);
+      this.router.navigate(['/business/assets/classification/attribute-values/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -175,7 +175,8 @@ BooleanValue:  obj.BooleanValue || false,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

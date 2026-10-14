@@ -101,7 +101,7 @@ CountryCode: obj.CountryCode || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetMakes/create']);
+      this.router.navigate(['/business/assets/classification/makes/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -127,7 +127,8 @@ CountryCode: obj.CountryCode || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

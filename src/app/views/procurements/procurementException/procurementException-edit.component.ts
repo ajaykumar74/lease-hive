@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -47,11 +47,11 @@ assignedtouseridOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.procurementException };
@@ -115,10 +115,10 @@ StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
 ResolvedOn:  obj.ResolvedOn || new Date(),
- 
+
       }
     );
-   
+
 	 this.Caption = "ProcurementException Details #" + obj.Id;
   } 
 
@@ -152,22 +152,24 @@ StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
 ResolvedOn:  obj.ResolvedOn || new Date(),
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -183,7 +185,7 @@ Resolution:  formValues.Resolution || null,
 ResolvedOn:  formValues.ResolvedOn || null,
 
     } as IProcurementException ;
-	
+
 	this.spinner.show();  	   
     this.procurementExceptionService.update(this.procurementException.Id, updatedObj).subscribe({
       next: data => {

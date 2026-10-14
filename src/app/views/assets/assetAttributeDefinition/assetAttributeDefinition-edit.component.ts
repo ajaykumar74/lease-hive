@@ -58,8 +58,8 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AttributeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AttributeName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 DataTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -77,7 +77,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, { AssetCategoryId: 'AssetCategoryId' });
 this.datatypecodeOptions.push({Text: '', Value: '' });
 this.unitmeasuretypeOptions.push({Text: '', Value: '' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
@@ -130,7 +130,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAttributeDefinition/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/classification/attribute-definitions/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -164,7 +164,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

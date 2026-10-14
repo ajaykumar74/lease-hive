@@ -62,11 +62,11 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AssignmentType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AssignedFrom: new FormControl(new Date(), [Validators.required]),
 AssignedTo: new FormControl(new Date(), [Validators.required]),
@@ -202,7 +202,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

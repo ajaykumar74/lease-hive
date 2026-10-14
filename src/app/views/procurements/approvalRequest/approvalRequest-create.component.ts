@@ -22,7 +22,7 @@ import { ApprovalRequestService } from './approvalRequest.service';
 export class ApprovalRequestCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -35,7 +35,7 @@ requestedbyOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IApprovalRequest = {} as IApprovalRequest;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -45,14 +45,14 @@ requestedbyOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private approvalRequestService: ApprovalRequestService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.approvalRequest };
 
@@ -62,7 +62,7 @@ ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(30
 ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 WorkflowDefinitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovalStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RequestedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RequestedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RequestedOn: new FormControl(new Date(), [Validators.required]),
 CompletedOn: new FormControl(new Date(), []),
 
@@ -78,7 +78,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'WorkflowDefinitionId',
 this.approvalstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalStatusCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.approvalRequestService.getById(this.selectedId).subscribe({
@@ -104,12 +104,12 @@ ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
 RequestedOn:  obj.RequestedOn || new Date(),
 CompletedOn:  obj.CompletedOn || new Date(),
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/approvals/pending/create']);
@@ -138,20 +138,21 @@ ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
 RequestedOn:  obj.RequestedOn || new Date(),
 CompletedOn:  obj.CompletedOn || new Date(),
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -166,7 +167,7 @@ RequestedOn: formValues.RequestedOn || null,
 CompletedOn: formValues.CompletedOn || null,
 
     } as IApprovalRequest ; 
-	
+
 	  this.spinner.show(); 
     this.approvalRequestService.create(createdObj).subscribe({
       next: data => {	   

@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -46,18 +46,18 @@ changedbyOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderAmendment };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AmendmentNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 AmendmentDate: new FormControl(new Date(), [Validators.required]),
 ReasonCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -65,7 +65,7 @@ Reason: new FormControl('', [Validators.maxLength(100), ]),
 PreviousVersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 NewVersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-ChangedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ChangedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ChangedOn: new FormControl(new Date(), [Validators.required]),
 
     });
@@ -118,10 +118,10 @@ NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
 ChangedOn:  obj.ChangedOn || new Date(),
- 
+
       }
     );
-   
+
 	 this.Caption = "PurchaseOrderAmendment Details #" + obj.Id;
   } 
 
@@ -156,22 +156,24 @@ NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
 ChangedOn:  obj.ChangedOn || new Date(),
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -188,7 +190,7 @@ ChangedBy:  formValues.ChangedBy || 0,
 ChangedOn:  formValues.ChangedOn || null,
 
     } as IPurchaseOrderAmendment ;
-	
+
 	this.spinner.show();  	   
     this.purchaseOrderAmendmentService.update(this.purchaseOrderAmendment.Id, updatedObj).subscribe({
       next: data => {

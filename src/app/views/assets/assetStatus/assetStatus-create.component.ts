@@ -96,7 +96,7 @@ SortOrder: obj.SortOrder || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetStatuss/create']);
+      this.router.navigate(['/business/assets/classification/statuses/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -123,7 +123,8 @@ SortOrder: obj.SortOrder || 0,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

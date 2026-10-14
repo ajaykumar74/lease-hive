@@ -22,7 +22,7 @@ import { RFQLineService } from './rFQLine.service';
 export class RFQLineCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -34,7 +34,7 @@ uomidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IRFQLine = {} as IRFQLine;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -44,25 +44,25 @@ uomidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private rFQLineService: RFQLineService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.rFQLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-RFQId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RFQId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PurchaseRequisitionLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 Quantity: new FormControl(0, [Validators.required]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SpecificationsJson: new FormControl('', [Validators.maxLength(8000), ]), 
 RequiredByDate: new FormControl(new Date(), []),
 
@@ -79,7 +79,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measu
       this.entityLookupDestroyRef);
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.rFQLineService.getById(this.selectedId).subscribe({
@@ -106,12 +106,12 @@ Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
 RequiredByDate:  obj.RequiredByDate || new Date(),
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/rfqs/lines/create']);
@@ -141,20 +141,21 @@ Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
 RequiredByDate:  obj.RequiredByDate || new Date(),
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -170,7 +171,7 @@ SpecificationsJson: formValues.SpecificationsJson || null,
 RequiredByDate: formValues.RequiredByDate || null,
 
     } as IRFQLine ; 
-	
+
 	  this.spinner.show(); 
     this.rFQLineService.create(createdObj).subscribe({
       next: data => {	   

@@ -60,10 +60,10 @@ topartylocationidOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 EventTypeId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EventDateTime: new FormControl(new Date(), [Validators.required]),
-FromAssetUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToAssetUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-FromPartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToPartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+FromAssetUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToAssetUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+FromPartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToPartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 
     });
@@ -129,7 +129,7 @@ Remarks: obj.Remarks || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAssignmentHistory/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/assignments/history/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -159,7 +159,8 @@ Remarks: obj.Remarks || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

@@ -63,7 +63,7 @@ issuingstatecodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 IdentifierTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IdentifierValue: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 IssuingCountryCode: new FormControl('', [Validators.maxLength(20), ]), 
@@ -146,7 +146,7 @@ IsVerified:  obj.IsVerified || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetIdentifiers/create']);
+      this.router.navigate(['/business/assets/classification/identifiers/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -179,7 +179,8 @@ IsVerified:  obj.IsVerified || false,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

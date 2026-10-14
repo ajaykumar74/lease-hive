@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -51,11 +51,11 @@ uomidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseRequisition };
@@ -63,10 +63,10 @@ uomidOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 PRNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
-BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RequestingOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RequestedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PurchaseRequisitionStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RequestedByUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PurchaseRequisitionStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RequisitionDate: new FormControl(new Date(), [Validators.required]),
 RequiredByDate: new FormControl(new Date(), []),
 SourceReferenceType: new FormControl('', [Validators.maxLength(30), ]), 
@@ -135,11 +135,11 @@ CurrencyCode: obj.CurrencyCode || '',
 EstimatedTotal: obj.EstimatedTotal || 0,
 Justification: obj.Justification || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
     this.setLineItems(obj.LineItems || []);
-   
+
 	 this.Caption = "PurchaseRequisition Details #" + obj.Id;
   } 
 
@@ -229,22 +229,22 @@ CurrencyCode: obj.CurrencyCode || '',
 EstimatedTotal: obj.EstimatedTotal || 0,
 Justification: obj.Justification || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
+
     this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -265,7 +265,7 @@ LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, PurchaseR
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IPurchaseRequisition ;
-	
+
 	this.spinner.show();  	   
     this.purchaseRequisitionService.update(this.purchaseRequisition.Id, updatedObj).subscribe({
       next: data => {

@@ -96,7 +96,7 @@ IsLeaseable:  obj.IsLeaseable || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetConditionGrades/create']);
+      this.router.navigate(['/business/assets/condition-grades/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -123,7 +123,8 @@ IsLeaseable:  obj.IsLeaseable || false,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

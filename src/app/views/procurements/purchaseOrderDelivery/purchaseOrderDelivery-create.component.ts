@@ -22,7 +22,7 @@ import { PurchaseOrderDeliveryService } from './purchaseOrderDelivery.service';
 export class PurchaseOrderDeliveryCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -34,7 +34,7 @@ receivingorganisationunitidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOrderDelivery = {} as IPurchaseOrderDelivery;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -44,22 +44,22 @@ receivingorganisationunitidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private purchaseOrderDeliveryService: PurchaseOrderDeliveryService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderDelivery };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PurchaseOrderLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ScheduleNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
-DeliveryLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+DeliveryLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ScheduledQuantity: new FormControl(0, [Validators.required]),
 PromisedDate: new FormControl(new Date(), []),
 ReceivingOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -78,7 +78,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationU
       this.entityLookupDestroyRef);
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.purchaseOrderDeliveryService.getById(this.selectedId).subscribe({
@@ -104,12 +104,12 @@ ScheduledQuantity: obj.ScheduledQuantity || 0,
 PromisedDate:  obj.PromisedDate || new Date(),
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 Instructions: obj.Instructions || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/purchase-orders/acknowledgements/create']);
@@ -138,20 +138,21 @@ ScheduledQuantity: obj.ScheduledQuantity || 0,
 PromisedDate:  obj.PromisedDate || new Date(),
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 Instructions: obj.Instructions || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -166,7 +167,7 @@ ReceivingOrganisationUnitId: formValues.ReceivingOrganisationUnitId || 0,
 Instructions: formValues.Instructions || null,
 
     } as IPurchaseOrderDelivery ; 
-	
+
 	  this.spinner.show(); 
     this.purchaseOrderDeliveryService.create(createdObj).subscribe({
       next: data => {	   

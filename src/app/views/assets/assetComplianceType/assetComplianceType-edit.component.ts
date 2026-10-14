@@ -144,7 +144,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

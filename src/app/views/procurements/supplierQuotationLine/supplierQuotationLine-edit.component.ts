@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -45,19 +45,19 @@ compliancecodeOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.supplierQuotationLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-SupplierQuotationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-RFQLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierQuotationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+RFQLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 Quantity: new FormControl(0, [Validators.required]),
 UnitPrice: new FormControl(0, [Validators.required]),
 DiscountAmount: new FormControl(0, [Validators.required]),
@@ -114,10 +114,10 @@ LineTotal: obj.LineTotal || 0,
 DeliveryDate:  obj.DeliveryDate || new Date(),
 ComplianceCode: obj.ComplianceCode || '',
 DeviationNotes: obj.DeviationNotes || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "SupplierQuotationLine Details #" + obj.Id;
   } 
 
@@ -152,22 +152,24 @@ LineTotal: obj.LineTotal || 0,
 DeliveryDate:  obj.DeliveryDate || new Date(),
 ComplianceCode: obj.ComplianceCode || '',
 DeviationNotes: obj.DeviationNotes || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -184,7 +186,7 @@ ComplianceCode:  formValues.ComplianceCode || null,
 DeviationNotes:  formValues.DeviationNotes || null,
 
     } as ISupplierQuotationLine ;
-	
+
 	this.spinner.show();  	   
     this.supplierQuotationLineService.update(this.supplierQuotationLine.Id, updatedObj).subscribe({
       next: data => {

@@ -22,7 +22,7 @@ import { PurchaseOrderAmendmentService } from './purchaseOrderAmendment.service'
 export class PurchaseOrderAmendmentCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -35,7 +35,7 @@ changedbyOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOrderAmendment = {} as IPurchaseOrderAmendment;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -45,20 +45,20 @@ changedbyOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private purchaseOrderAmendmentService: PurchaseOrderAmendmentService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderAmendment };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AmendmentNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 AmendmentDate: new FormControl(new Date(), [Validators.required]),
 ReasonCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -66,7 +66,7 @@ Reason: new FormControl('', [Validators.maxLength(100), ]),
 PreviousVersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 NewVersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-ChangedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ChangedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ChangedOn: new FormControl(new Date(), [Validators.required]),
 
     });
@@ -83,7 +83,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'pur
 this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOrderAmendmentReasonCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.purchaseOrderAmendmentService.getById(this.selectedId).subscribe({
@@ -112,12 +112,12 @@ NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
 ChangedOn:  obj.ChangedOn || new Date(),
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/purchase-orders/amendments/create']);
@@ -149,20 +149,21 @@ NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
 ChangedOn:  obj.ChangedOn || new Date(),
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -180,7 +181,7 @@ ChangedBy: formValues.ChangedBy || 0,
 ChangedOn: formValues.ChangedOn || null,
 
     } as IPurchaseOrderAmendment ; 
-	
+
 	  this.spinner.show(); 
     this.purchaseOrderAmendmentService.create(createdObj).subscribe({
       next: data => {	   

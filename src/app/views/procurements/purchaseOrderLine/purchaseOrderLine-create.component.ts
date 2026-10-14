@@ -22,7 +22,7 @@ import { PurchaseOrderLineService } from './purchaseOrderLine.service';
 export class PurchaseOrderLineCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -38,7 +38,7 @@ uomidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPurchaseOrderLine = {} as IPurchaseOrderLine;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -48,20 +48,20 @@ uomidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private purchaseOrderLineService: PurchaseOrderLineService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 PurchaseRequisitionLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 SupplierQuotationLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -70,7 +70,7 @@ AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 OrderedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 UnitPrice: new FormControl(0, [Validators.required]),
 DiscountAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
@@ -85,7 +85,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'ass
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -101,7 +101,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measu
 this.linetypecodeOptions = this.loggedInUserService.getPicklistOptions('LineTypeCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.purchaseOrderLineService.getById(this.selectedId).subscribe({
@@ -136,12 +136,12 @@ TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
 RequiredByDate:  obj.RequiredByDate || new Date(),
 SpecificationsJson: obj.SpecificationsJson || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/purchase-orders/lines/create']);
@@ -179,20 +179,21 @@ TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
 RequiredByDate:  obj.RequiredByDate || new Date(),
 SpecificationsJson: obj.SpecificationsJson || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -216,7 +217,7 @@ RequiredByDate: formValues.RequiredByDate || null,
 SpecificationsJson: formValues.SpecificationsJson || null,
 
     } as IPurchaseOrderLine ; 
-	
+
 	  this.spinner.show(); 
     this.purchaseOrderLineService.create(createdObj).subscribe({
       next: data => {	   

@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -49,18 +49,18 @@ uomidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 PurchaseRequisitionLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 SupplierQuotationLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -69,7 +69,7 @@ AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 OrderedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 UnitPrice: new FormControl(0, [Validators.required]),
 DiscountAmount: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
@@ -83,7 +83,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'ass
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -142,10 +142,10 @@ TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
 RequiredByDate:  obj.RequiredByDate || new Date(),
 SpecificationsJson: obj.SpecificationsJson || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "PurchaseOrderLine Details #" + obj.Id;
   } 
 
@@ -186,22 +186,24 @@ TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
 RequiredByDate:  obj.RequiredByDate || new Date(),
 SpecificationsJson: obj.SpecificationsJson || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -224,7 +226,7 @@ RequiredByDate:  formValues.RequiredByDate || null,
 SpecificationsJson:  formValues.SpecificationsJson || null,
 
     } as IPurchaseOrderLine ;
-	
+
 	this.spinner.show();  	   
     this.purchaseOrderLineService.update(this.purchaseOrderLine.Id, updatedObj).subscribe({
       next: data => {

@@ -97,7 +97,7 @@ ExtensionTypeCode: obj.ExtensionTypeCode || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetCategorys/create']);
+      this.router.navigate(['/business/assets/classification/categories/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -124,7 +124,8 @@ ExtensionTypeCode: obj.ExtensionTypeCode || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

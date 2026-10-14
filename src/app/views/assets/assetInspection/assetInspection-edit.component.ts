@@ -60,7 +60,7 @@ inspectionstatusidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 InspectionTypeId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 InspectionNo: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
 InspectionDateTime: new FormControl(new Date(), [Validators.required]),
@@ -151,7 +151,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetInspection/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/inspections/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -186,7 +186,8 @@ CompletedOn:  obj.CompletedOn || new Date(),
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

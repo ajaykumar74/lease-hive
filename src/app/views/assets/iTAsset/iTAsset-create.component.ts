@@ -55,7 +55,7 @@ export class ITAssetCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DeviceSerialNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 Processor: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 RAMGB: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
@@ -111,7 +111,7 @@ MDMDeviceId: obj.MDMDeviceId || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/iTAssets/create']);
+      this.router.navigate(['/business/assets/specialised/it/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -143,7 +143,8 @@ MDMDeviceId: obj.MDMDeviceId || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

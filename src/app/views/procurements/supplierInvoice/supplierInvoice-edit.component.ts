@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -52,19 +52,19 @@ goodsreceiptlineidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.supplierInvoice };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierInvoiceNo: new FormControl('', [Validators.required, Validators.maxLength(80), ]),
 InvoiceDate: new FormControl(new Date(), [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -75,7 +75,7 @@ MatchStatusCode: new FormControl('', [Validators.required, Validators.maxLength(
 InvoiceDocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 APReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CapturedOn: new FormControl(new Date(), [Validators.required]),
-CapturedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+CapturedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 LineItems: this.fb.array([], Validators.required),
 
@@ -89,7 +89,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'CapturedBy', 'applicat
 this.loggedInUserService.bindEntityLookup(this.editForm, 'InvoiceDocumentId', 'documents',
       options => this.invoicedocumentidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.matchstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierInvoiceMatchStatusCode');
@@ -138,11 +138,11 @@ APReferenceId: obj.APReferenceId || 0,
 CapturedOn:  obj.CapturedOn || new Date(),
 CapturedBy: obj.CapturedBy || 0,
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
     this.setLineItems(obj.LineItems || []);
-   
+
 	 this.Caption = "SupplierInvoice Details #" + obj.Id;
   } 
 
@@ -223,22 +223,22 @@ APReferenceId: obj.APReferenceId || 0,
 CapturedOn:  obj.CapturedOn || new Date(),
 CapturedBy: obj.CapturedBy || 0,
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
+
     this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -260,7 +260,7 @@ LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, SupplierI
 RecordStatus:  formValues.RecordStatus || null,
 
     } as ISupplierInvoice ;
-	
+
 	this.spinner.show();  	   
     this.supplierInvoiceService.update(this.supplierInvoice.Id, updatedObj).subscribe({
       next: data => {

@@ -22,7 +22,7 @@ import { ReceiptInspectionService } from './receiptInspection.service';
 export class ReceiptInspectionCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -36,7 +36,7 @@ documentidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IReceiptInspection = {} as IReceiptInspection;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -46,23 +46,23 @@ documentidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private receiptInspectionService: ReceiptInspectionService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.receiptInspection };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 GoodsReceiptSerialId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 InspectionDateTime: new FormControl(new Date(), [Validators.required]),
-InspectorUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+InspectorUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ResultCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ChecklistJson: new FormControl('', [Validators.maxLength(8000), ]), 
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
@@ -85,7 +85,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'app
 this.resultcodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptInspectionResultCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.receiptInspectionService.getById(this.selectedId).subscribe({
@@ -112,12 +112,12 @@ ResultCode: obj.ResultCode || '',
 ChecklistJson: obj.ChecklistJson || '',
 Remarks: obj.Remarks || '',
 DocumentId: obj.DocumentId || 0,
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/inspections/create']);
@@ -147,20 +147,21 @@ ResultCode: obj.ResultCode || '',
 ChecklistJson: obj.ChecklistJson || '',
 Remarks: obj.Remarks || '',
 DocumentId: obj.DocumentId || 0,
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -176,7 +177,7 @@ Remarks: formValues.Remarks || null,
 DocumentId: formValues.DocumentId || 0,
 
     } as IReceiptInspection ; 
-	
+
 	  this.spinner.show(); 
     this.receiptInspectionService.create(createdObj).subscribe({
       next: data => {	   

@@ -55,7 +55,7 @@ export class VehicleAssetCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 VIN: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 RegistrationNo: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 RegistrationDate: new FormControl(new Date(), [Validators.required]),
@@ -121,7 +121,7 @@ GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/vehicleAssets/create']);
+      this.router.navigate(['/business/assets/specialised/vehicles/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -154,7 +154,8 @@ GrossVehicleWeightKg: obj.GrossVehicleWeightKg || 0,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

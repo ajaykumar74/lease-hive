@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -49,11 +49,11 @@ recordstatusOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.goodsReceipt };
@@ -61,14 +61,14 @@ recordstatusOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 GRNNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
-PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ReceivingOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ReceiptLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-GoodsReceiptStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ReceiptDateTime: new FormControl(new Date(), [Validators.required]),
 SupplierDeliveryNoteNo: new FormControl('', [Validators.maxLength(80), ]), 
-ReceivedByUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ReceivedByUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
@@ -88,7 +88,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivedByUserId', 'ap
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationUnitId', 'organisation-units',
       options => this.receivingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
@@ -132,10 +132,10 @@ SupplierDeliveryNoteNo: obj.SupplierDeliveryNoteNo || '',
 ReceivedByUserId: obj.ReceivedByUserId || 0,
 Remarks: obj.Remarks || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "GoodsReceipt Details #" + obj.Id;
   } 
 
@@ -171,22 +171,24 @@ SupplierDeliveryNoteNo: obj.SupplierDeliveryNoteNo || '',
 ReceivedByUserId: obj.ReceivedByUserId || 0,
 Remarks: obj.Remarks || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -204,7 +206,7 @@ Remarks:  formValues.Remarks || null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IGoodsReceipt ;
-	
+
 	this.spinner.show();  	   
     this.goodsReceiptService.update(this.goodsReceipt.Id, updatedObj).subscribe({
       next: data => {

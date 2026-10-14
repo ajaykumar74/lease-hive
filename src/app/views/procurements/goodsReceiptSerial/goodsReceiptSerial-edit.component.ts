@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -46,18 +46,18 @@ conditioncodeOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.goodsReceiptSerial };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SerialNo: new FormControl('', [Validators.required, Validators.maxLength(120), ]),
 ManufacturerSerialNo: new FormControl('', [Validators.maxLength(120), ]), 
 IMEIOrIdentifier: new FormControl('', [Validators.maxLength(120), ]), 
@@ -110,10 +110,10 @@ IMEIOrIdentifier: obj.IMEIOrIdentifier || '',
 AssetId: obj.AssetId || 0,
 AcceptanceCode: obj.AcceptanceCode || '',
 ConditionCode: obj.ConditionCode || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "GoodsReceiptSerial Details #" + obj.Id;
   } 
 
@@ -145,22 +145,24 @@ IMEIOrIdentifier: obj.IMEIOrIdentifier || '',
 AssetId: obj.AssetId || 0,
 AcceptanceCode: obj.AcceptanceCode || '',
 ConditionCode: obj.ConditionCode || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -174,7 +176,7 @@ AcceptanceCode:  formValues.AcceptanceCode || null,
 ConditionCode:  formValues.ConditionCode || null,
 
     } as IGoodsReceiptSerial ;
-	
+
 	this.spinner.show();  	   
     this.goodsReceiptSerialService.update(this.goodsReceiptSerial.Id, updatedObj).subscribe({
       next: data => {

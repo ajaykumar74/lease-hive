@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -48,23 +48,23 @@ matchresultcodeOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.invoiceMatch };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PurchaseOrderId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 GoodsReceiptId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MatchTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 MatchedOn: new FormControl(new Date(), [Validators.required]),
-MatchedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+MatchedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 QuantityVariance: new FormControl(0, [Validators.required]),
 AmountVariance: new FormControl(0, [Validators.required]),
 TolerancePassed: new FormControl(false, [Validators.required]),
@@ -73,13 +73,13 @@ MatchResultCode: new FormControl('', [Validators.required, Validators.maxLength(
     });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptId', 'goods-receipts',
       options => this.goodsreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'PurchaseOrderId': 'PurchaseOrderId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedBy', 'application-users',
       options => this.matchedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'SupplierInvoiceId': 'SupplierInvoiceId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierInvoiceId', 'supplier-invoices',
       options => this.supplierinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -124,10 +124,10 @@ QuantityVariance: obj.QuantityVariance || 0,
 AmountVariance: obj.AmountVariance || 0,
 TolerancePassed:  obj.TolerancePassed || false,
 MatchResultCode: obj.MatchResultCode || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "InvoiceMatch Details #" + obj.Id;
   } 
 
@@ -162,22 +162,24 @@ QuantityVariance: obj.QuantityVariance || 0,
 AmountVariance: obj.AmountVariance || 0,
 TolerancePassed:  obj.TolerancePassed || false,
 MatchResultCode: obj.MatchResultCode || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -194,7 +196,7 @@ TolerancePassed:  formValues.TolerancePassed || false,
 MatchResultCode:  formValues.MatchResultCode || null,
 
     } as IInvoiceMatch ;
-	
+
 	this.spinner.show();  	   
     this.invoiceMatchService.update(this.invoiceMatch.Id, updatedObj).subscribe({
       next: data => {

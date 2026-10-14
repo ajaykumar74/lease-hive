@@ -21,7 +21,7 @@ import { GoodsReceiptStatusService } from './goodsReceiptStatus.service';
 })
 export class GoodsReceiptStatusCreateComponent implements OnInit {
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -30,7 +30,7 @@ export class GoodsReceiptStatusCreateComponent implements OnInit {
 
   editForm: any; 
   objMaster : IGoodsReceiptStatus = {} as IGoodsReceiptStatus;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -40,14 +40,14 @@ export class GoodsReceiptStatusCreateComponent implements OnInit {
 	private _location: Location, 
 	private goodsReceiptStatusService: GoodsReceiptStatusService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.goodsReceiptStatus };
 
@@ -64,7 +64,7 @@ EffectiveTo: new FormControl(new Date(), []),
     this.Caption = 'Create GoodsReceiptStatus';
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.goodsReceiptStatusService.getById(this.selectedId).subscribe({
@@ -87,12 +87,12 @@ EffectiveTo: new FormControl(new Date(), []),
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/config/receipt-statuses/create']);
@@ -118,20 +118,21 @@ SortOrder: obj.SortOrder || 0,
 StatusName: obj.StatusName || '',
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -145,7 +146,7 @@ EffectiveFrom: new Date(),
 EffectiveTo: null,
 RecordStatus: 'Active',
     } as IGoodsReceiptStatus ; 
-	
+
 	  this.spinner.show(); 
     this.goodsReceiptStatusService.create(createdObj).subscribe({
       next: data => {	   

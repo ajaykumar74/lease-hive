@@ -74,12 +74,12 @@ export class AssetEditComponent implements OnInit {
     this.editForm = this.fb.group({
       Id: new FormControl(0, [Validators.required]),
       AssetNo: new FormControl('', [Validators.required, Validators.maxLength(20),]),
-      AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-      AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-      AssetMakeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+      AssetTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+      AssetMakeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       AssetModelId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-      OwningOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-      ResponsibleOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      OwningOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+      ResponsibleOrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       CurrentLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       CurrentPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       CurrentPartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -87,7 +87,7 @@ export class AssetEditComponent implements OnInit {
       AcquisitionDate: new FormControl(new Date(), [Validators.required]),
       InServiceDate: new FormControl(new Date(), []),
       AcquisitionCurrencyCode: new FormControl('', [Validators.maxLength(20),]),
-      AssetStatusId: new FormControl(0, [Validators.required]),
+      AssetStatusId: new FormControl(0, [Validators.required, Validators.min(1)]),
       ConditionGradeCode: new FormControl('', [Validators.maxLength(20),]),
       IsLeaseable: new FormControl(false, [Validators.required]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -386,7 +386,7 @@ export class AssetEditComponent implements OnInit {
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/asset/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -426,10 +426,12 @@ export class AssetEditComponent implements OnInit {
         EffectiveTo: obj.EffectiveTo || new Date(),
         RecordStatus: obj.RecordStatus || '',
 
-      }
+      },
+      { emitEvent: false }
     );
-
-    this.editForm.reset();
+    this.hydrateAssetHierarchy(obj);
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 
@@ -474,7 +476,6 @@ export class AssetEditComponent implements OnInit {
     this.assetService.update(this.asset.Id, updatedObj).subscribe({
       next: data => {
         //this.messageService.showSuccess(Asset +  'Details Updated sucessfully.');
-        //this.editForm.reset();
         this._location.back();
       },
       error: err => {

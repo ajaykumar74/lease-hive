@@ -59,15 +59,15 @@ warrantystatusidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 WarrantyProviderPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-WarrantyTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+WarrantyTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 WarrantyNo: new FormControl('', [Validators.maxLength(100), ]), 
 StartDate: new FormControl(new Date(), [Validators.required]),
 EndDate: new FormControl(new Date(), []),
 CoverageSummary: new FormControl('', [Validators.maxLength(1000), ]), 
 DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-WarrantyStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+WarrantyStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 
     });
 
@@ -155,7 +155,8 @@ WarrantyStatusId: obj.WarrantyStatusId || 0,
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

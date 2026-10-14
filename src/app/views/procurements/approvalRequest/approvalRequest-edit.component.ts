@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -46,11 +46,11 @@ requestedbyOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.approvalRequest };
@@ -61,7 +61,7 @@ ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(30
 ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 WorkflowDefinitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ApprovalStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-RequestedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RequestedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RequestedOn: new FormControl(new Date(), [Validators.required]),
 CompletedOn: new FormControl(new Date(), []),
 
@@ -111,10 +111,10 @@ ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
 RequestedOn:  obj.RequestedOn || new Date(),
 CompletedOn:  obj.CompletedOn || new Date(),
- 
+
       }
     );
-   
+
 	 this.Caption = "ApprovalRequest Details #" + obj.Id;
   } 
 
@@ -146,22 +146,24 @@ ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
 RequestedOn:  obj.RequestedOn || new Date(),
 CompletedOn:  obj.CompletedOn || new Date(),
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -175,7 +177,7 @@ RequestedOn:  formValues.RequestedOn || null,
 CompletedOn:  formValues.CompletedOn || null,
 
     } as IApprovalRequest ;
-	
+
 	this.spinner.show();  	   
     this.approvalRequestService.update(this.approvalRequest.Id, updatedObj).subscribe({
       next: data => {

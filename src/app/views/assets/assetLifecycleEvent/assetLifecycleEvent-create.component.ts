@@ -60,8 +60,8 @@ locationidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-EventTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+EventTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 EventDateTime: new FormControl(new Date(), [Validators.required]),
 OrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 PartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -146,7 +146,8 @@ Summary: obj.Summary || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

@@ -57,8 +57,8 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetAttributeDefinitionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetAttributeDefinitionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 StringValue: new FormControl('', [Validators.required, Validators.maxLength(256), ]),
 DateValue: new FormControl(new Date(), []),
 BooleanValue: new FormControl(false), 
@@ -129,7 +129,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetAttributeValue/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/classification/attribute-values/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -160,7 +160,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

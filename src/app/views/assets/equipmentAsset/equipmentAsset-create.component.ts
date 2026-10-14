@@ -56,10 +56,10 @@ safetyclassOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 EquipmentSerialNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-CapacityUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
-PowerUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+CapacityUOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(32767)]),
+PowerUOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(32767)]),
 ManufactureDate: new FormControl(new Date(), [Validators.required]),
 SafetyClass: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -105,7 +105,7 @@ SafetyClass: obj.SafetyClass || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/equipmentAssets/create']);
+      this.router.navigate(['/business/assets/specialised/equipment/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -133,7 +133,8 @@ SafetyClass: obj.SafetyClass || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

@@ -56,10 +56,10 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 EquipmentSerialNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-CapacityUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
-PowerUOMId: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
+CapacityUOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(32767)]),
+PowerUOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(32767)]),
 ManufactureDate: new FormControl(new Date(), [Validators.required]),
 SafetyClass: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -120,7 +120,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/equipmentAsset/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/specialised/equipment/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -152,7 +152,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

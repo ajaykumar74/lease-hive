@@ -57,7 +57,7 @@ export class AssetAcquisitionCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, []),
-      AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       SupplierPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       SupplierPartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       PurchaseOrderReference: new FormControl('', [Validators.maxLength(60),]),
@@ -75,7 +75,7 @@ export class AssetAcquisitionCreateComponent implements OnInit {
     });
     this.Caption = 'Create AssetAcquisition';
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets', options => this.assetidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties', options => this.supplierpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties', options => this.supplierpartyidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef);
     this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyLocationId', 'party-locations', options => this.supplierpartylocationidOptions = options, error => this.messageService.showError(error), this.entityLookupDestroyRef, { PartyId: 'SupplierPartyId' });
   }
 
@@ -155,7 +155,8 @@ export class AssetAcquisitionCreateComponent implements OnInit {
 
       }
     );
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
   Save(): void {

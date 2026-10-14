@@ -22,7 +22,7 @@ import { GoodsReceiptLineService } from './goodsReceiptLine.service';
 export class GoodsReceiptLineCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -35,7 +35,7 @@ inspectionstatuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IGoodsReceiptLine = {} as IGoodsReceiptLine;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -45,26 +45,26 @@ inspectionstatuscodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private goodsReceiptLineService: GoodsReceiptLineService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.goodsReceiptLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-GoodsReceiptId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PurchaseOrderLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PurchaseOrderLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 ReceivedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 AcceptedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 RejectedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 InspectionRequired: new FormControl(false, [Validators.required]),
 InspectionStatusCode: new FormControl('', [Validators.maxLength(20), ]), 
 RejectionReason: new FormControl('', [Validators.maxLength(100), ]), 
@@ -83,7 +83,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measu
 this.inspectionstatuscodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptLineInspectionStatusCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.goodsReceiptLineService.getById(this.selectedId).subscribe({
@@ -112,12 +112,12 @@ UOMId: obj.UOMId || 0,
 InspectionRequired:  obj.InspectionRequired || false,
 InspectionStatusCode: obj.InspectionStatusCode || '',
 RejectionReason: obj.RejectionReason || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/goods-receipts/lines/create']);
@@ -149,20 +149,21 @@ UOMId: obj.UOMId || 0,
 InspectionRequired:  obj.InspectionRequired || false,
 InspectionStatusCode: obj.InspectionStatusCode || '',
 RejectionReason: obj.RejectionReason || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -180,7 +181,7 @@ InspectionStatusCode: formValues.InspectionStatusCode || null,
 RejectionReason: formValues.RejectionReason || null,
 
     } as IGoodsReceiptLine ; 
-	
+
 	  this.spinner.show(); 
     this.goodsReceiptLineService.create(createdObj).subscribe({
       next: data => {	   

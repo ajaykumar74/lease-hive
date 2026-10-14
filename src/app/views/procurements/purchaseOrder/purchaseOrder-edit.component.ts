@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -52,11 +52,11 @@ uomidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrder };
@@ -65,10 +65,10 @@ uomidOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 PONo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
 VersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
-BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierAwardId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-PurchaseOrderStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseOrderStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PODate: new FormControl(new Date(), [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Subtotal: new FormControl(0, [Validators.required]),
@@ -99,8 +99,8 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderStatusId'
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierAwardId', 'supplier-awards',
       options => this.supplierawardidOptions = options, error => this.showLookupError(error),
-      this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+      this.entityLookupDestroyRef, {'SupplierPartyId': 'SupplierPartyId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties',
       options => this.supplierpartyidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loadLineItemOptions();
@@ -153,11 +153,11 @@ SupplierTaxSnapshot: obj.SupplierTaxSnapshot || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 IssuedOn:  obj.IssuedOn || new Date(),
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
     this.setLineItems(obj.LineItems || []);
-   
+
 	 this.Caption = "PurchaseOrder Details #" + obj.Id;
   } 
 
@@ -289,22 +289,22 @@ SupplierTaxSnapshot: obj.SupplierTaxSnapshot || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 IssuedOn:  obj.IssuedOn || new Date(),
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
+
     this.setLineItems(this.objMaster.LineItems || []);
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -332,7 +332,7 @@ RecordStatus:  formValues.RecordStatus || null,
 LineItems: this.lineItems.getRawValue().map((line: any) => ({ ...line, PurchaseOrderId: this.purchaseOrder.Id })),
 
     } as IPurchaseOrder ;
-	
+
 	this.spinner.show();  	   
     this.purchaseOrderService.update(this.purchaseOrder.Id, updatedObj).subscribe({
       next: data => {

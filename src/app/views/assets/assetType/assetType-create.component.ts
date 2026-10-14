@@ -105,7 +105,7 @@ RequiresRegistrationNo:  obj.RequiresRegistrationNo || false,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetTypes/create']);
+      this.router.navigate(['/business/assets/classification/types/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -134,7 +134,8 @@ RequiresRegistrationNo:  obj.RequiresRegistrationNo || false,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

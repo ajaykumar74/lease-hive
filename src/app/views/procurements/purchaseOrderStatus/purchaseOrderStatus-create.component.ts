@@ -21,7 +21,7 @@ import { PurchaseOrderStatusService } from './purchaseOrderStatus.service';
 })
 export class PurchaseOrderStatusCreateComponent implements OnInit {
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -30,7 +30,7 @@ export class PurchaseOrderStatusCreateComponent implements OnInit {
 
   editForm: any; 
   objMaster : IPurchaseOrderStatus = {} as IPurchaseOrderStatus;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -40,14 +40,14 @@ export class PurchaseOrderStatusCreateComponent implements OnInit {
 	private _location: Location, 
 	private purchaseOrderStatusService: PurchaseOrderStatusService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.purchaseOrderStatus };
 
@@ -65,7 +65,7 @@ EffectiveTo: new FormControl(new Date(), []),
     this.Caption = 'Create PurchaseOrderStatus';
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.purchaseOrderStatusService.getById(this.selectedId).subscribe({
@@ -89,12 +89,12 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/config/po-statuses/create']);
@@ -121,20 +121,21 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -149,7 +150,7 @@ EffectiveFrom: new Date(),
 EffectiveTo: null,
 RecordStatus: 'Active',
     } as IPurchaseOrderStatus ; 
-	
+
 	  this.spinner.show(); 
     this.purchaseOrderStatusService.create(createdObj).subscribe({
       next: data => {	   

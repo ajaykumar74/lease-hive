@@ -66,9 +66,9 @@ referencetypeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-FromLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+FromLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MovementType: new FormControl('', [Validators.maxLength(20), ]), 
 MovementDateTime: new FormControl(new Date(), []),
@@ -162,7 +162,7 @@ ReferenceId: obj.ReferenceId || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetLocationHistorys/create']);
+      this.router.navigate(['/business/assets/location-history/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -196,7 +196,8 @@ ReferenceId: obj.ReferenceId || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

@@ -22,7 +22,7 @@ import { RFQSupplierService } from './rFQSupplier.service';
 export class RFQSupplierCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -36,7 +36,7 @@ suppliercontactidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IRFQSupplier = {} as IRFQSupplier;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -46,21 +46,21 @@ suppliercontactidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private rFQSupplierService: RFQSupplierService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.rFQSupplier };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-RFQId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RFQId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierServiceAreaId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 InvitationStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 InvitedOn: new FormControl(new Date(), [Validators.required]),
@@ -75,7 +75,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierContactId', 'party-contacts',
       options => this.suppliercontactidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {'PartyId':'SupplierPartyId'});
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierServiceAreaId', 'supplier-service-areas',
@@ -84,7 +84,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierServiceAreaId'
 this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQSupplierInvitationStatusCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.rFQSupplierService.getById(this.selectedId).subscribe({
@@ -110,12 +110,12 @@ InvitationStatusCode: obj.InvitationStatusCode || '',
 InvitedOn:  obj.InvitedOn || new Date(),
 RespondedOn:  obj.RespondedOn || new Date(),
 SupplierContactId: obj.SupplierContactId || 0,
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/rfqs/suppliers/create']);
@@ -144,20 +144,21 @@ InvitationStatusCode: obj.InvitationStatusCode || '',
 InvitedOn:  obj.InvitedOn || new Date(),
 RespondedOn:  obj.RespondedOn || new Date(),
 SupplierContactId: obj.SupplierContactId || 0,
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -172,7 +173,7 @@ RespondedOn: formValues.RespondedOn || null,
 SupplierContactId: formValues.SupplierContactId || 0,
 
     } as IRFQSupplier ; 
-	
+
 	  this.spinner.show(); 
     this.rFQSupplierService.create(createdObj).subscribe({
       next: data => {	   

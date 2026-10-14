@@ -55,7 +55,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DeviceSerialNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 Processor: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 RAMGB: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
@@ -126,7 +126,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/iTAsset/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/specialised/it/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -162,7 +162,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

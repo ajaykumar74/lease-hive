@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -44,11 +44,11 @@ handoffstatuscodeOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.procurementHandoff };
@@ -104,10 +104,10 @@ HandoffStatusCode: obj.HandoffStatusCode || '',
 HandoffDateTime:  obj.HandoffDateTime || new Date(),
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "ProcurementHandoff Details #" + obj.Id;
   } 
 
@@ -139,22 +139,24 @@ HandoffStatusCode: obj.HandoffStatusCode || '',
 HandoffDateTime:  obj.HandoffDateTime || new Date(),
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -168,7 +170,7 @@ TargetReferenceId:  formValues.TargetReferenceId || 0,
 ValidationJson:  formValues.ValidationJson || null,
 
     } as IProcurementHandoff ;
-	
+
 	this.spinner.show();  	   
     this.procurementHandoffService.update(this.procurementHandoff.Id, updatedObj).subscribe({
       next: data => {

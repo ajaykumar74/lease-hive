@@ -58,9 +58,9 @@ verifiedbyOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-DocumentPurposeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+DocumentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+DocumentPurposeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 IsPrimary: new FormControl(false, [Validators.required]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
@@ -150,7 +150,8 @@ VerifiedBy: obj.VerifiedBy || 0,
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

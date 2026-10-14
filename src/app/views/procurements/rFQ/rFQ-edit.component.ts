@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -46,11 +46,11 @@ recordstatusOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.rFQ };
@@ -59,7 +59,7 @@ recordstatusOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 RFQNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
 PurchaseRequisitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RFQStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IssueDateTime: new FormControl(new Date(), []),
 ResponseDueDateTime: new FormControl(new Date(), [Validators.required]),
@@ -114,10 +114,10 @@ ResponseDueDateTime:  obj.ResponseDueDateTime || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 CommercialTerms: obj.CommercialTerms || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
+
 	 this.Caption = "RFQ Details #" + obj.Id;
   } 
 
@@ -151,22 +151,24 @@ ResponseDueDateTime:  obj.ResponseDueDateTime || new Date(),
 CurrencyCode: obj.CurrencyCode || '',
 CommercialTerms: obj.CommercialTerms || '',
 RecordStatus: obj.RecordStatus || '',
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -182,7 +184,7 @@ CommercialTerms:  formValues.CommercialTerms || null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IRFQ ;
-	
+
 	this.spinner.show();  	   
     this.rFQService.update(this.rFQ.Id, updatedObj).subscribe({
       next: data => {

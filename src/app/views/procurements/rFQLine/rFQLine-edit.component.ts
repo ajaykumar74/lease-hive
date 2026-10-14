@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -45,23 +45,23 @@ uomidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.rFQLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-RFQId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RFQId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PurchaseRequisitionLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 Quantity: new FormControl(0, [Validators.required]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SpecificationsJson: new FormControl('', [Validators.maxLength(8000), ]), 
 RequiredByDate: new FormControl(new Date(), []),
 
@@ -112,10 +112,10 @@ Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
 RequiredByDate:  obj.RequiredByDate || new Date(),
- 
+
       }
     );
-   
+
 	 this.Caption = "RFQLine Details #" + obj.Id;
   } 
 
@@ -148,22 +148,24 @@ Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
 RequiredByDate:  obj.RequiredByDate || new Date(),
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -178,7 +180,7 @@ SpecificationsJson:  formValues.SpecificationsJson || null,
 RequiredByDate:  formValues.RequiredByDate || null,
 
     } as IRFQLine ;
-	
+
 	this.spinner.show();  	   
     this.rFQLineService.update(this.rFQLine.Id, updatedObj).subscribe({
       next: data => {

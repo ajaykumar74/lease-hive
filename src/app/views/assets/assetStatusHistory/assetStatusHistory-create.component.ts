@@ -57,8 +57,8 @@ reasoncodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-FromStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+FromStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ReasonCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Remarks: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -106,7 +106,7 @@ Remarks: obj.Remarks || '',
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetStatusHistorys/create']);
+      this.router.navigate(['/business/assets/status-history/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -132,7 +132,8 @@ Remarks: obj.Remarks || '',
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

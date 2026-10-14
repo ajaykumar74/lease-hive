@@ -61,9 +61,9 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-FromLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+FromLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MovementType: new FormControl('', [Validators.maxLength(20), ]), 
 MovementDateTime: new FormControl(new Date(), []),
@@ -147,7 +147,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetLocationHistory/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/location-history/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -181,7 +181,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

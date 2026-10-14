@@ -131,7 +131,8 @@ ReminderDaysBefore: obj.ReminderDaysBefore || 0,
  
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    

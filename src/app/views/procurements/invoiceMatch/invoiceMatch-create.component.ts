@@ -22,7 +22,7 @@ import { InvoiceMatchService } from './invoiceMatch.service';
 export class InvoiceMatchCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -37,7 +37,7 @@ matchresultcodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IInvoiceMatch = {} as IInvoiceMatch;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -47,25 +47,25 @@ matchresultcodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private invoiceMatchService: InvoiceMatchService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.invoiceMatch };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PurchaseOrderId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 GoodsReceiptId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MatchTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 MatchedOn: new FormControl(new Date(), [Validators.required]),
-MatchedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+MatchedBy: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 QuantityVariance: new FormControl(0, [Validators.required]),
 AmountVariance: new FormControl(0, [Validators.required]),
 TolerancePassed: new FormControl(false, [Validators.required]),
@@ -75,13 +75,13 @@ MatchResultCode: new FormControl('', [Validators.required, Validators.maxLength(
     this.Caption = 'Create InvoiceMatch';
 this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptId', 'goods-receipts',
       options => this.goodsreceiptidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'PurchaseOrderId': 'PurchaseOrderId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MatchedBy', 'application-users',
       options => this.matchedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {'SupplierInvoiceId': 'SupplierInvoiceId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierInvoiceId', 'supplier-invoices',
       options => this.supplierinvoiceidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -89,7 +89,7 @@ this.matchtypecodeOptions = this.loggedInUserService.getPicklistOptions('Invoice
 this.matchresultcodeOptions = this.loggedInUserService.getPicklistOptions('InvoiceMatchMatchResultCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.invoiceMatchService.getById(this.selectedId).subscribe({
@@ -118,12 +118,12 @@ QuantityVariance: obj.QuantityVariance || 0,
 AmountVariance: obj.AmountVariance || 0,
 TolerancePassed:  obj.TolerancePassed || false,
 MatchResultCode: obj.MatchResultCode || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/invoice-matching/create']);
@@ -155,20 +155,21 @@ QuantityVariance: obj.QuantityVariance || 0,
 AmountVariance: obj.AmountVariance || 0,
 TolerancePassed:  obj.TolerancePassed || false,
 MatchResultCode: obj.MatchResultCode || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -186,7 +187,7 @@ TolerancePassed: formValues.TolerancePassed || false,
 MatchResultCode: formValues.MatchResultCode || null,
 
     } as IInvoiceMatch ; 
-	
+
 	  this.spinner.show(); 
     this.invoiceMatchService.create(createdObj).subscribe({
       next: data => {	   

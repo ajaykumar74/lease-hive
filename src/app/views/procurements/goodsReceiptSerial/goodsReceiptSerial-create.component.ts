@@ -22,7 +22,7 @@ import { GoodsReceiptSerialService } from './goodsReceiptSerial.service';
 export class GoodsReceiptSerialCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -35,7 +35,7 @@ conditioncodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IGoodsReceiptSerial = {} as IGoodsReceiptSerial;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -45,20 +45,20 @@ conditioncodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private goodsReceiptSerialService: GoodsReceiptSerialService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.goodsReceiptSerial };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SerialNo: new FormControl('', [Validators.required, Validators.maxLength(120), ]),
 ManufacturerSerialNo: new FormControl('', [Validators.maxLength(120), ]), 
 IMEIOrIdentifier: new FormControl('', [Validators.maxLength(120), ]), 
@@ -78,7 +78,7 @@ this.acceptancecodeOptions = this.loggedInUserService.getPicklistOptions('GoodsR
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialConditionCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.goodsReceiptSerialService.getById(this.selectedId).subscribe({
@@ -104,12 +104,12 @@ IMEIOrIdentifier: obj.IMEIOrIdentifier || '',
 AssetId: obj.AssetId || 0,
 AcceptanceCode: obj.AcceptanceCode || '',
 ConditionCode: obj.ConditionCode || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/goods-receipts/serials/create']);
@@ -138,20 +138,21 @@ IMEIOrIdentifier: obj.IMEIOrIdentifier || '',
 AssetId: obj.AssetId || 0,
 AcceptanceCode: obj.AcceptanceCode || '',
 ConditionCode: obj.ConditionCode || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -166,7 +167,7 @@ AcceptanceCode: formValues.AcceptanceCode || null,
 ConditionCode: formValues.ConditionCode || null,
 
     } as IGoodsReceiptSerial ; 
-	
+
 	  this.spinner.show(); 
     this.goodsReceiptSerialService.create(createdObj).subscribe({
       next: data => {	   

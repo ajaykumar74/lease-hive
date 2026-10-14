@@ -111,7 +111,7 @@ RecordStatus: obj.RecordStatus || '',
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/assetStatus/create', { id: -1 }]);
+      this.router.navigate(['/business/assets/classification/statuses/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -142,7 +142,8 @@ RecordStatus: obj.RecordStatus || '',
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

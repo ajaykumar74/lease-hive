@@ -60,15 +60,15 @@ verifiedbyOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-AssetComplianceTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetComplianceTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 CertificateNo: new FormControl('', [Validators.maxLength(100), ]), 
 IssuedByPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IssueDate: new FormControl(new Date(), []),
 ValidFrom: new FormControl(new Date(), []),
 ValidTo: new FormControl(new Date(), []),
 DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-VerificationStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+VerificationStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 VerifiedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 VerifiedOn: new FormControl(new Date(), []),
 
@@ -163,7 +163,8 @@ VerifiedOn:  obj.VerifiedOn || new Date(),
       }
     );
    
-    this.editForm.reset();
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 

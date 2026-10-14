@@ -22,7 +22,7 @@ import { SupplierInvoiceLineService } from './supplierInvoiceLine.service';
 export class SupplierInvoiceLineCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -35,7 +35,7 @@ uomidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierInvoiceLine = {} as ISupplierInvoiceLine;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -45,26 +45,26 @@ uomidOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private supplierInvoiceLineService: SupplierInvoiceLineService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.supplierInvoiceLine };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+SupplierInvoiceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 PurchaseOrderLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 GoodsReceiptLineId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 InvoicedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-UOMId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 UnitPrice: new FormControl(0, [Validators.required]),
 TaxAmount: new FormControl(0, [Validators.required]),
 LineTotal: new FormControl(0, [Validators.required]),
@@ -85,7 +85,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'UOMId', 'unit-of-measu
       this.entityLookupDestroyRef);
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.supplierInvoiceLineService.getById(this.selectedId).subscribe({
@@ -114,12 +114,12 @@ UOMId: obj.UOMId || 0,
 UnitPrice: obj.UnitPrice || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/supplier-invoices/lines/create']);
@@ -151,20 +151,21 @@ UOMId: obj.UOMId || 0,
 UnitPrice: obj.UnitPrice || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -182,7 +183,7 @@ TaxAmount: formValues.TaxAmount || 0,
 LineTotal: formValues.LineTotal || 0,
 
     } as ISupplierInvoiceLine ; 
-	
+
 	  this.spinner.show(); 
     this.supplierInvoiceLineService.create(createdObj).subscribe({
       next: data => {	   

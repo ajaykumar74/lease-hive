@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -45,11 +45,11 @@ documentpurposecodeOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.procurementDocumentLink };
@@ -58,7 +58,7 @@ documentpurposecodeOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+DocumentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DocumentPurposeCode: new FormControl('', [Validators.maxLength(20), ]), 
 IsPrimary: new FormControl(false, [Validators.required]),
 
@@ -103,10 +103,10 @@ ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentPurposeCode: obj.DocumentPurposeCode || '',
 IsPrimary:  obj.IsPrimary || false,
- 
+
       }
     );
-   
+
 	 this.Caption = "ProcurementDocumentLink Details #" + obj.Id;
   } 
 
@@ -136,22 +136,24 @@ ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentPurposeCode: obj.DocumentPurposeCode || '',
 IsPrimary:  obj.IsPrimary || false,
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -163,7 +165,7 @@ DocumentPurposeCode:  formValues.DocumentPurposeCode || null,
 IsPrimary:  formValues.IsPrimary || false,
 
     } as IProcurementDocumentLink ;
-	
+
 	this.spinner.show();  	   
     this.procurementDocumentLinkService.update(this.procurementDocumentLink.Id, updatedObj).subscribe({
       next: data => {

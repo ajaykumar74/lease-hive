@@ -22,7 +22,7 @@ import { SupplierQuotationService } from './supplierQuotation.service';
 export class SupplierQuotationCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -34,7 +34,7 @@ quotationstatuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ISupplierQuotation = {} as ISupplierQuotation;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -44,21 +44,21 @@ quotationstatuscodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private supplierQuotationService: SupplierQuotationService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.supplierQuotation };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-RFQId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+RFQId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierQuoteNo: new FormControl('', [Validators.maxLength(80), ]), 
 VersionNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 QuoteDate: new FormControl(new Date(), [Validators.required]),
@@ -76,13 +76,13 @@ QuotationStatusCode: new FormControl('', [Validators.required, Validators.maxLen
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
       options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'parties',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'supplier-parties',
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.supplierQuotationService.getById(this.selectedId).subscribe({
@@ -114,12 +114,12 @@ TotalAmount: obj.TotalAmount || 0,
 PaymentTermCode: obj.PaymentTermCode || '',
 DeliveryDays: obj.DeliveryDays || 0,
 QuotationStatusCode: obj.QuotationStatusCode || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/supplier-quotations/create']);
@@ -154,20 +154,21 @@ TotalAmount: obj.TotalAmount || 0,
 PaymentTermCode: obj.PaymentTermCode || '',
 DeliveryDays: obj.DeliveryDays || 0,
 QuotationStatusCode: obj.QuotationStatusCode || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -188,7 +189,7 @@ DeliveryDays: formValues.DeliveryDays || 0,
 QuotationStatusCode: formValues.QuotationStatusCode || null,
 RecordStatus: 'Active',
     } as ISupplierQuotation ; 
-	
+
 	  this.spinner.show(); 
     this.supplierQuotationService.create(createdObj).subscribe({
       next: data => {	   

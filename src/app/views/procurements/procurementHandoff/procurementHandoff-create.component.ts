@@ -21,7 +21,7 @@ import { ProcurementHandoffService } from './procurementHandoff.service';
 })
 export class ProcurementHandoffCreateComponent implements OnInit {
 
-   
+
   selectedId: number; 
   isLoading : boolean = false;
   permission = {} as IPermission;
@@ -33,7 +33,7 @@ handoffstatuscodeOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IProcurementHandoff = {} as IProcurementHandoff;
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
@@ -43,14 +43,14 @@ handoffstatuscodeOptions: ISelectItem[] = [];
 	private _location: Location, 
 	private procurementHandoffService: ProcurementHandoffService,
 	private loggedInUserService : LoggedInUserService
-	
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
    this.objMaster = { ...this.procurementHandoff };
 
@@ -71,7 +71,7 @@ this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('Proc
 this.handoffstatuscodeOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
 
   }
- 
+
  loadUI(): void {
     this.isLoading = true;    
     this.procurementHandoffService.getById(this.selectedId).subscribe({
@@ -97,12 +97,12 @@ HandoffStatusCode: obj.HandoffStatusCode || '',
 HandoffDateTime:  obj.HandoffDateTime || new Date(),
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
- 
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/business/procurement/handoffs/create']);
@@ -131,20 +131,21 @@ HandoffStatusCode: obj.HandoffStatusCode || '',
 HandoffDateTime:  obj.HandoffDateTime || new Date(),
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
- 
+
       }
     );
-    this.editForm.reset(); 
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   } 
 
   Save(): void {    
-   
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
-  
-  
+
+
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
       Id: this.objMaster.Id,
@@ -159,7 +160,7 @@ TargetReferenceId: formValues.TargetReferenceId || 0,
 ValidationJson: formValues.ValidationJson || null,
 
     } as IProcurementHandoff ; 
-	
+
 	  this.spinner.show(); 
     this.procurementHandoffService.create(createdObj).subscribe({
       next: data => {	   

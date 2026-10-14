@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angula
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
- 
- 
+
+
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
@@ -47,21 +47,21 @@ documentidOptions: ISelectItem[] = [];
 	private loggedInUserService : LoggedInUserService
 	) {
   }
-  
+
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
 
- 
+
 
   ngOnInit(): void {
    this.objMaster = { ...this.receiptInspection };
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+GoodsReceiptLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 GoodsReceiptSerialId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 InspectionDateTime: new FormControl(new Date(), [Validators.required]),
-InspectorUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+InspectorUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ResultCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ChecklistJson: new FormControl('', [Validators.maxLength(8000), ]), 
 Remarks: new FormControl('', [Validators.maxLength(100), ]), 
@@ -118,10 +118,10 @@ ResultCode: obj.ResultCode || '',
 ChecklistJson: obj.ChecklistJson || '',
 Remarks: obj.Remarks || '',
 DocumentId: obj.DocumentId || 0,
- 
+
       }
     );
-   
+
 	 this.Caption = "ReceiptInspection Details #" + obj.Id;
   } 
 
@@ -154,22 +154,24 @@ ResultCode: obj.ResultCode || '',
 ChecklistJson: obj.ChecklistJson || '',
 Remarks: obj.Remarks || '',
 DocumentId: obj.DocumentId || 0,
- 
+
       }
     );
-   
-    this.editForm.reset();
+
+    this.editForm.markAsPristine();
+
+    this.editForm.markAsUntouched();
   }
 
 
 
   Save(): void {
-  
+
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
-	
+
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
@@ -184,7 +186,7 @@ Remarks:  formValues.Remarks || null,
 DocumentId:  formValues.DocumentId || 0,
 
     } as IReceiptInspection ;
-	
+
 	this.spinner.show();  	   
     this.receiptInspectionService.update(this.receiptInspection.Id, updatedObj).subscribe({
       next: data => {
