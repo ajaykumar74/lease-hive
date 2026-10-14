@@ -31,9 +31,7 @@ export class AssetUserEditComponent implements OnInit {
 partylocationidOptions: ISelectItem[] = [];
 customerdepartmentidOptions: ISelectItem[] = [];
 usertypeOptions: ISelectItem[] = [];
-fullnameOptions: ISelectItem[] = [];
 designationOptions: ISelectItem[] = [];
-emailOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 mobilecountrycodeOptions: ISelectItem[] = [];
 
@@ -67,7 +65,7 @@ CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(-2
 UserType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EmployeeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 FullName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-Designation: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+Designation: new FormControl('', [Validators.maxLength(20)]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
@@ -82,12 +80,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
-this.fullnameOptions.push({Text: 'CostCenter1', Value: 'CostCenter1' });
-this.fullnameOptions.push({Text: 'CostCenter2', Value: 'CostCenter2' });
-this.designationOptions.push({Text: 'CustContact1', Value: 'CustContact1' });
-this.designationOptions.push({Text: 'CustContact2', Value: 'CustContact2' });
-this.emailOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
-this.emailOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
+this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
 
@@ -137,7 +130,7 @@ CustomerDepartmentId: obj.CustomerDepartmentId || 0,
 UserType: obj.UserType || '',
 EmployeeCode: obj.EmployeeCode || '',
 FullName: obj.FullName || '',
-Designation: obj.Designation || 0,
+Designation: obj.Designation || '',
 Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
@@ -183,7 +176,7 @@ CustomerDepartmentId: obj.CustomerDepartmentId || 0,
 UserType: obj.UserType || '',
 EmployeeCode: obj.EmployeeCode || '',
 FullName: obj.FullName || '',
-Designation: obj.Designation || 0,
+Designation: obj.Designation || '',
 Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
@@ -221,7 +214,7 @@ CustomerDepartmentId:  formValues.CustomerDepartmentId || 0,
 UserType:  formValues.UserType || null,
 EmployeeCode:  formValues.EmployeeCode || null,
 FullName:  formValues.FullName || null,
-Designation:  formValues.Designation || 0,
+Designation:  formValues.Designation || null,
 Email:  formValues.Email || null,
 MobileCountryCode:  formValues.MobileCountryCode || null,
 MobileNumber:  formValues.MobileNumber || null,

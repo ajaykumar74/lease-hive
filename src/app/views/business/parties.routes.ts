@@ -5,6 +5,7 @@ export const PARTY_ROUTES: Routes = [
     { path: 'parties/dashboard', component: PartyDashboardComponent, data: { title: 'Party Dashboard', breadcrumb: 'Party Dashboard' } },
     { path: 'parties/roles', loadChildren: () => import('@/views/parties/partyRole/partyRole.module').then(m => m.PartyRoleModule), data: { title: 'Party Roles', breadcrumb: 'Party Roles' } },
     { path: 'parties/relationships', loadChildren: () => import('@/views/parties/partyRelationship/partyRelationship.module').then(m => m.PartyRelationshipModule), data: { title: 'Party Relationships', breadcrumb: 'Party Relationships' } },
+    { path: 'parties/partyDepartments', loadChildren: () => import('@/views/parties/customerDepartment/customerDepartment.module').then(m => m.CustomerDepartmentModule), data: { title: 'Party Departments', breadcrumb: 'Party Departments' } },
     { path: 'parties/gst-registrations', loadChildren: () => import('@/views/parties/partyGSTRegistration/partyGSTRegistration.module').then(m => m.PartyGSTRegistrationModule), data: { title: 'GST Registrations', breadcrumb: 'GST Registrations' } },
     { path: 'parties/tax-profiles', redirectTo: 'parties/gst-registrations', pathMatch: 'full' },
     { path: 'parties/locations', loadChildren: () => import('@/views/parties/partyLocation/partyLocation.module').then(m => m.PartyLocationModule), data: { title: 'Party Locations', breadcrumb: 'Party Locations' } },

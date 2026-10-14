@@ -326,6 +326,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                     routerLink: ['/business/parties/contacts']
                                 },
                                 {
+                                    label: 'Party departments',
+                                    icon: 'pi pi-fw pi-question',
+                                    routerLink: ['/business/parties/partyDepartments']
+                                },
+                                {
                                     label: 'Tax & Banking',
                                     icon: 'pi pi-fw pi-wallet',
                                     items: [

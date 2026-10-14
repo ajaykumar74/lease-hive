@@ -204,8 +204,26 @@ export class LoggedInUserService {
       expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
       reduce((items, result) => [...items, ...result.rows], [] as any[]),
       map(items => this.sortSelectItems([...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
-        Id: item.Id, Value: valueMode === 'reference' ? item.ReferenceValue : item.Id, Text: item.DisplayText, ParentId: item.ParentId
+        Id: item.Id, Value: valueMode === 'reference' ? item.ReferenceValue : item.Id, Text: item.DisplayText, Category: item.Code, ParentId: item.ParentId
       }))))
+    );
+  }
+
+  getAssetOptionsForCategory(categoryName: string, selectedId?: number): Observable<ISelectItem[]> {
+    const normalizedCategoryName = (categoryName || '').trim().toLocaleLowerCase();
+    return this.getEntityLookupOptions('asset-categories').pipe(
+      map(categories => {
+        const category = categories.find(option =>
+          (option.Category || '').trim().toLocaleLowerCase() === normalizedCategoryName ||
+          (option.Text || '').split(' - ').pop()?.trim().toLocaleLowerCase() === normalizedCategoryName);
+
+        if (!category?.Id) {
+          throw new Error(`Asset category '${categoryName}' is not configured for this tenant.`);
+        }
+
+        return category.Id;
+      }),
+      switchMap(assetCategoryId => this.getEntityLookupOptions('assets', selectedId, { AssetCategoryId: assetCategoryId }))
     );
   }
 

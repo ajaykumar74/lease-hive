@@ -69,16 +69,8 @@
 							<app-validation-errors [type]="'text'" [control]="editForm.get('EmployeeCode')"
 											label="Employee Code">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Full Name" class="mb-1">FullName</label>
-        <p-dropdown
-            inputId="FullName" 
-            [options]="fullnameOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="FullName"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+						 </div><div class="flex flex-col w-full"> <label for="FullName" class="mb-1">Full Name</label>
+							<input pInputText id="FullName" type="text" pSize="small" formControlName="FullName" />
       <app-validation-errors [type]="'text'" [control]="editForm.get('FullName')"
 											label="Full Name">
 										</app-validation-errors></div></div>
@@ -95,15 +87,7 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('Designation')"
 											label="Designation">
 										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Email" class="mb-1">Email</label>
-        <p-dropdown
-            inputId="Email" 
-            [options]="emailOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="Email"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+							<input pInputText id="Email" type="email" pSize="small" formControlName="Email" />
       <app-validation-errors [type]="'text'" [control]="editForm.get('Email')"
 											label="Email">
 										</app-validation-errors></div></div>

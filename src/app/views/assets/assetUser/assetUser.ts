@@ -10,7 +10,7 @@ CustomerDepartmentId :number;
 UserType :string;
 EmployeeCode :string;
 FullName :string;
-Designation :number;
+Designation :string;
 Email :string;
 MobileCountryCode :string;
 MobileNumber :string;

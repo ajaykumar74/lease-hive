@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { CustomerProfileService } from './customerProfile.service';
   providers: [ MessageService]
 })
 export class CustomerProfileEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -86,6 +87,15 @@ this.customersegmentOptions = this.loggedInUserService.getPicklistOptions('Custo
 this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('CustomerCategory');
 this.preferredbillingfrequencyOptions = this.loggedInUserService.getPicklistOptions('PreferredBillingFrequency');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultGSTRegistrationId', 'party-gst-registrations',
+      options => this.defaultgstregistrationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultBillingLocationId', 'party-locations',
+      options => this.defaultbillinglocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultDeliveryLocationId', 'party-locations',
+      options => this.defaultdeliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -120,18 +130,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ICustomerProfile): void {
-    this.loggedInUserService.getLookupOptions('party-locations', obj.DefaultBillingLocationId).subscribe({
-      next: options => this.defaultbillinglocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-locations', obj.DefaultDeliveryLocationId).subscribe({
-      next: options => this.defaultdeliverylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-gst-registrations', obj.DefaultGSTRegistrationId).subscribe({
-      next: options => this.defaultgstregistrationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
     this.loggedInUserService.getLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
       next: options => this.owningorganisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))

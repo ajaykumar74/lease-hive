@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -22,6 +22,7 @@ import { IParty } from '@/views/parties/party/party';
    providers: [ MessageService]
 })
 export class CustomerProfileCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -100,18 +101,15 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 this.customersegmentOptions = this.loggedInUserService.getPicklistOptions('CustomerSegment');
 this.customercategoryOptions = this.loggedInUserService.getPicklistOptions('CustomerCategory');
 this.preferredbillingfrequencyOptions = this.loggedInUserService.getPicklistOptions('PreferredBillingFrequency');
-    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
-      next: options => this.defaultbillinglocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
-      next: options => this.defaultdeliverylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-gst-registrations').subscribe({
-      next: options => this.defaultgstregistrationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultGSTRegistrationId', 'party-gst-registrations',
+      options => this.defaultgstregistrationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultBillingLocationId', 'party-locations',
+      options => this.defaultbillinglocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultDeliveryLocationId', 'party-locations',
+      options => this.defaultdeliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
     this.loggedInUserService.getLookupOptions('organisation-units').subscribe({
       next: options => this.owningorganisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))

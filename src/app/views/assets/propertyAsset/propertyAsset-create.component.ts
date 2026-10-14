@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,8 +20,6 @@ import { PropertyAssetService } from './propertyAsset.service';
    providers: [ MessageService]
 })
 export class PropertyAssetCreateComponent implements OnInit {
-  private readonly entityLookupDestroyRef = inject(DestroyRef);
-
    
   selectedId: number; 
   isLoading : boolean = false;
@@ -67,11 +65,16 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
-      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+    this.loadAssetOptions();
 this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('PropertyType');
 
+  }
+
+  private loadAssetOptions(selectedId?: number): void {
+    this.loggedInUserService.getAssetOptionsForCategory('Property', selectedId).subscribe({
+      next: options => this.assetidOptions = options,
+      error: error => setTimeout(() => this.messageService?.showError(error))
+    });
   }
  
  loadUI(): void {
@@ -89,6 +92,7 @@ this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('Property
 
 
   populateUI(obj: IPropertyAsset): void {
+     this.loadAssetOptions(obj.AssetId);
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

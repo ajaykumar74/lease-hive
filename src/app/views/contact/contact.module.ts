@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar"; 
+import { DropdownModule } from "primeng/dropdown";
 import { InputNumberModule } from "primeng/inputnumber"; 
 import {TextareaModule} from 'primeng/textarea';
 import { InputTextModule } from "primeng/inputtext"; 
@@ -34,6 +35,7 @@ import { PaginatorModule } from 'primeng/paginator';
 		ReactiveFormsModule, 
 		AutoCompleteModule, 
 		CalendarModule, 
+		DropdownModule,
 		TableModule,
 		InputNumberModule, 
 		TextareaModule,

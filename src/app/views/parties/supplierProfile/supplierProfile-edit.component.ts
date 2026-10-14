@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { SupplierProfileService } from './supplierProfile.service';
   providers: [ MessageService]
 })
 export class SupplierProfileEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -87,6 +88,12 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 this.suppliertierOptions = this.loggedInUserService.getPicklistOptions('SupplierTier');
 this.suppliercategoryOptions = this.loggedInUserService.getPicklistOptions('SupplierCategory');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultGSTRegistrationId', 'party-gst-registrations',
+      options => this.defaultgstregistrationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultRemittanceBankAccountId', 'party-bank-accounts',
+      options => this.defaultremittancebankaccountidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -121,14 +128,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ISupplierProfile): void {
-    this.loggedInUserService.getLookupOptions('party-gst-registrations', obj.DefaultGSTRegistrationId).subscribe({
-      next: options => this.defaultgstregistrationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-bank-accounts', obj.DefaultRemittanceBankAccountId).subscribe({
-      next: options => this.defaultremittancebankaccountidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
     this.loggedInUserService.getLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
       next: options => this.owningorganisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
