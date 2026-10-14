@@ -50,7 +50,7 @@ export class ApprovalRequestCreateComponent implements OnInit {
             Id: new FormControl(0, []),
             FeatureCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            ReferenceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             WorkflowDefinitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedOn: new FormControl(new Date(), [Validators.required]),
@@ -99,7 +99,7 @@ export class ApprovalRequestCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/approvalRequests/create']);
+            this.router.navigate(['/business/origination/credit/approvals/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { QuotePartySnapshotService } from './quotePartySnapshot.service';
     providers: [MessageService]
 })
 export class QuotePartySnapshotEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     quotePartySnapshot: IQuotePartySnapshot = null;
@@ -46,8 +47,8 @@ export class QuotePartySnapshotEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            QuoteId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            QuoteId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             LegalName: new FormControl('', [Validators.required, Validators.maxLength(150)]),
             TaxRegistrationNo: new FormControl('', [Validators.maxLength(20)]),
             BillingAddress: new FormControl('', [Validators.maxLength(150)]),
@@ -57,8 +58,8 @@ export class QuotePartySnapshotEditComponent implements OnInit {
             SnapshotOn: new FormControl(new Date(), [Validators.required]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
-        this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { QuoteId: 'QuoteId' });
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }
 
@@ -87,7 +88,6 @@ export class QuotePartySnapshotEditComponent implements OnInit {
     }
 
     populateUI(obj: IQuotePartySnapshot): void {
-        this.loggedInUserService.getLookupOptions('quotes', obj.QuoteId).subscribe((options) => (this.quoteidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             QuoteId: obj.QuoteId || 0,
@@ -107,7 +107,7 @@ export class QuotePartySnapshotEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/quotePartySnapshot/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/quotes/snapshot/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

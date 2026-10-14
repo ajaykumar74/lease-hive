@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditLimitService } from './creditLimit.service';
     providers: [MessageService]
 })
 export class CreditLimitEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     creditLimit: ICreditLimit = null;
@@ -50,9 +51,9 @@ export class CreditLimitEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             LimitAmount: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -61,9 +62,9 @@ export class CreditLimitEditComponent implements OnInit {
             Remarks: new FormControl('', [Validators.maxLength(100)]),
             RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditDecisionId', 'credit-decisions', options => this.creditdecisionidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditDecisionId: 'CreditDecisionId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations', options => this.organisationidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditDecisionId: 'CreditDecisionId' });
         this.limitstatusOptions = this.loggedInUserService.getPicklistOptions('LimitStatus');
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
@@ -95,7 +96,6 @@ export class CreditLimitEditComponent implements OnInit {
     }
 
     populateUI(obj: ICreditLimit): void {
-        this.loggedInUserService.getLookupOptions('credit-decisions', obj.CreditDecisionId).subscribe((options) => (this.creditdecisionidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             PartyId: obj.PartyId || 0,

@@ -50,7 +50,7 @@ export class LeadActivityEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            LeadId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OpportunityId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             ActivityType: new FormControl('', [Validators.maxLength(20)]),
             Subject: new FormControl('', [Validators.maxLength(256)]),

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -40,7 +40,8 @@ export class LeaseRequirementCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private leaseRequirementService: LeaseRequirementService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -48,8 +49,8 @@ export class LeaseRequirementCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            OpportunityId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OpportunityId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             RequirementDate: new FormControl(new Date(), [Validators.required]),
             PreferredStartDate: new FormControl(new Date(), []),
@@ -62,8 +63,8 @@ export class LeaseRequirementCreateComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), [])
         });
         this.Caption = 'Create LeaseRequirement';
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OpportunityId: 'OpportunityId' });
         this.editForm.get('PartyId').valueChanges.subscribe((partyId: number) => {
             this.editForm.get('PartyLocationId').setValue(null, { emitEvent: false });
             this.loadPartyLocations(partyId);

@@ -94,7 +94,7 @@ SortOrder: obj.SortOrder || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/creditApplicationStatuss/create']);
+      this.router.navigate(['/business/origination/config/credit-statuses/create']);
     }
     else if (key == "Save") {
       this.Save();

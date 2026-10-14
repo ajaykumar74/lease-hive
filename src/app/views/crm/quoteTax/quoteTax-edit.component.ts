@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { QuoteTaxService } from './quoteTax.service';
     providers: [MessageService]
 })
 export class QuoteTaxEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     quoteTax: IQuoteTax = null;
@@ -49,7 +50,7 @@ export class QuoteTaxEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            QuoteId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            QuoteId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             QuoteAssetId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             QuoteChargeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             TaxType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -59,9 +60,9 @@ export class QuoteTaxEditComponent implements OnInit {
             JurisdictionId: new FormControl(false),
             TaxRegistrationSnapshot: new FormControl('', [Validators.maxLength(100)])
         });
-        this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
-        this.loggedInUserService.getLookupOptions('quote-assets').subscribe((options) => (this.quoteassetidOptions = options));
-        this.loggedInUserService.getLookupOptions('quote-charges').subscribe((options) => (this.quotechargeidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteAssetId', 'quote-assets', options => this.quoteassetidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { QuoteId: 'QuoteId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteChargeId', 'quote-charges', options => this.quotechargeidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { QuoteId: 'QuoteId' });
         this.taxtypeOptions = this.loggedInUserService.getPicklistOptions('TaxType');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
@@ -92,9 +93,6 @@ export class QuoteTaxEditComponent implements OnInit {
     }
 
     populateUI(obj: IQuoteTax): void {
-        this.loggedInUserService.getLookupOptions('quote-charges', obj.QuoteChargeId).subscribe((options) => (this.quotechargeidOptions = options));
-        this.loggedInUserService.getLookupOptions('quote-assets', obj.QuoteAssetId).subscribe((options) => (this.quoteassetidOptions = options));
-        this.loggedInUserService.getLookupOptions('quotes', obj.QuoteId).subscribe((options) => (this.quoteidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             QuoteId: obj.QuoteId || 0,
@@ -113,7 +111,7 @@ export class QuoteTaxEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/quoteTax/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/quotes/taxes/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

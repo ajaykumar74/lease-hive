@@ -1,5 +1,5 @@
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -34,6 +34,7 @@ owneruseridOptions: ISelectItem[] = [];
 leadsourceidOptions: ISelectItem[] = [];
 leadstatusidOptions: ISelectItem[] = [];
 interestedassetcategoryidOptions: ISelectItem[] = [];
+qualifiedpartyidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -47,7 +48,8 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private leadService: LeadService, 
-	private leadFormService: LeadFormService
+	private leadFormService: LeadFormService,
+    private destroyRef: DestroyRef
 	) {
   }
   
@@ -61,11 +63,11 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 OwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 LeadSourceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-LeadStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+LeadStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ProspectName: new FormControl('', [Validators.required, Validators.maxLength(150), ]),
 ContactName: new FormControl('', [Validators.maxLength(100), ]), 
 Email: new FormControl('', [Validators.maxLength(100), ]), 
@@ -74,6 +76,8 @@ CountryCode: new FormControl('', [Validators.maxLength(20), ]),
 InterestedAssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
 ExpectedCloseDate: new FormControl(new Date(), []),
+QualifiedPartyId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+QualifiedOn: new FormControl(null, []),
 DisqualificationReason: new FormControl('', [Validators.maxLength(100), ]), 
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -82,23 +86,23 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.loadLookups();
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
 
   private loadLookups(): void {
-    this.loggedInUserService.getOrganisationOptions()
-      .subscribe(options => this.originatingorganisationidOptions = options);
-    this.loggedInUserService.getLookupOptions('organisation-units')
-      .subscribe(options => this.ownerorganisationunitidOptions = options);
-    this.loggedInUserService.getApplicationUserOptions()
-      .subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OriginatingOrganisationId', 'organisations', options => this.originatingorganisationidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
     this.loggedInUserService.getLookupOptions('lead-sources')
       .subscribe(options => this.leadsourceidOptions = options);
     this.loggedInUserService.getLookupOptions('lead-statuses')
       .subscribe(options => this.leadstatusidOptions = options);
     this.loggedInUserService.getLookupOptions('asset-categories')
       .subscribe(options => this.interestedassetcategoryidOptions = options);
+    this.loggedInUserService.getPartyOptions()
+      .subscribe(options => this.qualifiedpartyidOptions = options);
   }
 
   ngAfterViewInit(): void {
@@ -123,7 +127,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ILead): void {  
-    this.loadLookups( );
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
@@ -140,6 +143,8 @@ CountryCode: obj.CountryCode || '',
 InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ExpectedCloseDate:  obj.ExpectedCloseDate || new Date(),
+QualifiedPartyId: obj.QualifiedPartyId || 0,
+QualifiedOn: obj.QualifiedOn || null,
 DisqualificationReason: obj.DisqualificationReason || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
@@ -186,6 +191,8 @@ CountryCode: obj.CountryCode || '',
 InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
 CurrencyCode: obj.CurrencyCode || '',
 ExpectedCloseDate:  obj.ExpectedCloseDate || new Date(),
+QualifiedPartyId: obj.QualifiedPartyId || 0,
+QualifiedOn: obj.QualifiedOn || null,
 DisqualificationReason: obj.DisqualificationReason || '',
 RecordStatus: obj.RecordStatus || '',
 EffectiveFrom:  obj.EffectiveFrom || new Date(),
@@ -225,6 +232,8 @@ InterestedAssetCategoryId:  formValues.InterestedAssetCategoryId || 0,
 EstimatedValue:  formValues.EstimatedValue || 0,
 CurrencyCode:  formValues.CurrencyCode || null,
 ExpectedCloseDate:  formValues.ExpectedCloseDate || null,
+QualifiedPartyId: formValues.QualifiedPartyId || 0,
+QualifiedOn: formValues.QualifiedOn || null,
 DisqualificationReason:  formValues.DisqualificationReason || null,
 RecordStatus:  formValues.RecordStatus || null,
 EffectiveFrom:  new Date(),

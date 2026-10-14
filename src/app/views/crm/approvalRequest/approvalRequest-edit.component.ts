@@ -51,7 +51,7 @@ export class ApprovalRequestEditComponent implements OnInit {
             Id: new FormControl(0, [Validators.required]),
             FeatureCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            ReferenceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             WorkflowDefinitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedOn: new FormControl(new Date(), [Validators.required]),

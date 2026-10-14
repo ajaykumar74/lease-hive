@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -46,7 +46,8 @@ taxcodeOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private quoteAssetService: QuoteAssetService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+  private destroyRef: DestroyRef
 	) {
   }
   
@@ -60,10 +61,10 @@ taxcodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-QuoteId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-LeaseRequirementAssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+QuoteId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+LeaseRequirementAssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LineNo: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
-AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssetMakeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssetModelId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -81,12 +82,12 @@ LineSubtotal: new FormControl(0, [Validators.required, Validators.min(-214748364
 
     });
 
-    this.loggedInUserService.getLookupOptions('quotes').subscribe(options => this.quoteidOptions = options);
-    this.loggedInUserService.getLookupOptions('lease-requirement-assets').subscribe(options => this.leaserequirementassetidOptions = options);
-    this.loggedInUserService.getLookupOptions('asset-categories').subscribe(options => this.assetcategoryidOptions = options);
-    this.loggedInUserService.getLookupOptions('asset-types').subscribe(options => this.assettypeidOptions = options);
-    this.loggedInUserService.getLookupOptions('asset-makes').subscribe(options => this.assetmakeidOptions = options);
-    this.loggedInUserService.getLookupOptions('asset-models').subscribe(options => this.assetmodelidOptions = options);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService.showError(error), this.destroyRef);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementAssetId', 'lease-requirement-assets', options => this.leaserequirementassetidOptions = options, error => this.messageService.showError(error), this.destroyRef, { QuoteId: 'QuoteId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService.showError(error), this.destroyRef);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types', options => this.assettypeidOptions = options, error => this.messageService.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes', options => this.assetmakeidOptions = options, error => this.messageService.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models', options => this.assetmodelidOptions = options, error => this.messageService.showError(error), this.destroyRef, { AssetMakeId: 'AssetMakeId' });
     this.billingfrequencyOptions = this.loggedInUserService.getPicklistOptions('BillingFrequency');
     this.taxcodeOptions = this.loggedInUserService.getPicklistOptions('TaxCode');
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditApplicationService } from './creditApplication.service';
     providers: [MessageService]
 })
 export class CreditApplicationEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     creditApplication: ICreditApplication = null;
@@ -52,10 +53,10 @@ export class CreditApplicationEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            OpportunityId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditApplicationStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OpportunityId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditApplicationStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ApplicationDate: new FormControl(new Date(), [Validators.required]),
             RequestedLimitAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -68,11 +69,11 @@ export class CreditApplicationEditComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-application-statuses').subscribe((options) => (this.creditapplicationstatusidOptions = options));
-        this.risksegmentcodeOptions.push({ Text: '', Value: '' });
+        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
@@ -105,7 +106,6 @@ export class CreditApplicationEditComponent implements OnInit {
 
     populateUI(obj: ICreditApplication): void {
         this.loggedInUserService.getLookupOptions('credit-application-statuses', obj.CreditApplicationStatusId).subscribe((options) => (this.creditapplicationstatusidOptions = options));
-        this.loggedInUserService.getLookupOptions('opportunities', obj.OpportunityId).subscribe((options) => (this.opportunityidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             OpportunityId: obj.OpportunityId || 0,

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditDecisionService } from './creditDecision.service';
     providers: [MessageService]
 })
 export class CreditDecisionEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     creditDecision: ICreditDecision = null;
@@ -52,8 +53,8 @@ export class CreditDecisionEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             DecisionCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             DecisionDateTime: new FormControl(new Date(), [Validators.required]),
             ApprovedLimitAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -66,8 +67,8 @@ export class CreditDecisionEditComponent implements OnInit {
             ApprovalRequestId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             DecidedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)])
         });
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-assessments').subscribe((options) => (this.creditassessmentidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditAssessmentId', 'credit-assessments', options => this.creditassessmentidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('CreditDecisionDecisionCode');
         this.riskratingcodeOptions = this.loggedInUserService.getPicklistOptions('RiskRatingCode');
         this.decisionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('DecisionReasonCode');
@@ -102,8 +103,6 @@ export class CreditDecisionEditComponent implements OnInit {
 
     populateUI(obj: ICreditDecision): void {
         this.loggedInUserService.getLookupOptions('approval-requests', obj.ApprovalRequestId).subscribe((options) => (this.approvalrequestidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-assessments', obj.CreditAssessmentId).subscribe((options) => (this.creditassessmentidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-applications', obj.CreditApplicationId).subscribe((options) => (this.creditapplicationidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             CreditApplicationId: obj.CreditApplicationId || 0,

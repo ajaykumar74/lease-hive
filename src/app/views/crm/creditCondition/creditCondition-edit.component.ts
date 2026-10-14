@@ -49,7 +49,7 @@ export class CreditConditionEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ConditionType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             ConditionText: new FormControl('', [Validators.required, Validators.maxLength(100)]),
             IsPrecedent: new FormControl(false, [Validators.required]),

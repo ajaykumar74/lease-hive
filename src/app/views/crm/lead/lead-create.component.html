@@ -113,6 +113,19 @@
                                         <app-validation-errors [type]="'date'" [control]="editForm.get('ExpectedCloseDate')" label="Expected Close Date"> </app-validation-errors>
                                     </div>
                                 </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="QualifiedPartyId" class="mb-1">Qualified Party</label>
+                                        <p-dropdown inputId="QualifiedPartyId" [options]="qualifiedpartyidOptions" optionLabel="Text" optionValue="Id" formControlName="QualifiedPartyId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select One" class="w-full">
+                                        </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('QualifiedPartyId')" label="Qualified Party"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="QualifiedOn">Qualified On</label>
+                                        <p-calendar id="QualifiedOn" size="small" dateFormat="dd-MM-yy" [showIcon]="true" formControlName="QualifiedOn"></p-calendar>
+                                        <app-validation-errors [type]="'date'" [control]="editForm.get('QualifiedOn')" label="Qualified On"> </app-validation-errors>
+                                    </div>
+                                </div>
                                  
                                 <div class="flex flex-col md:flex-row gap-4">
                                     

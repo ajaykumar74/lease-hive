@@ -55,8 +55,8 @@ documentpurposecodeOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-ReferenceId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+ReferenceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+DocumentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DocumentPurposeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IsPrimary: new FormControl(false, [Validators.required]),
 
@@ -107,7 +107,7 @@ IsPrimary:  obj.IsPrimary || false,
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/originationDocumentLink/create', { id: -1 }]);
+      this.router.navigate(['/business/origination/documents/create', { id: -1 }]);
     }
     else if (key == "Save") {
       this.Save();

@@ -52,9 +52,9 @@ export class OriginationHandoffEditComponent implements OnInit {
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
             OpportunityId: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            QuoteId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            QuoteId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             HandoffStatusId: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             HandoffDateTime: new FormControl(new Date(), [Validators.required]),
             TargetModuleCode: new FormControl('', [Validators.maxLength(20)]),
@@ -64,10 +64,7 @@ export class OriginationHandoffEditComponent implements OnInit {
         this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
         this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
         this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.handoffstatusidOptions.push({ Text: 'Ready', Value: 'Ready' });
-        this.handoffstatusidOptions.push({ Text: 'Sent', Value: 'Sent' });
-        this.handoffstatusidOptions.push({ Text: 'Accepted', Value: 'Accepted' });
-        this.handoffstatusidOptions.push({ Text: 'Failed', Value: 'Failed' });
+        this.handoffstatusidOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
         this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('OriginationHandoffTargetModuleCode');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];

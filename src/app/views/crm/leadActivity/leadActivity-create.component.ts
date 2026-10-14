@@ -49,7 +49,7 @@ export class LeadActivityCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            LeadId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OpportunityId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             ActivityType: new FormControl('', [Validators.maxLength(20)]),
             Subject: new FormControl('', [Validators.maxLength(256)]),
@@ -107,7 +107,7 @@ export class LeadActivityCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/leadActivitys/create']);
+            this.router.navigate(['/business/crm/activities/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

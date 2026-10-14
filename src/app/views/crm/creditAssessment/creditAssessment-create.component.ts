@@ -25,7 +25,6 @@ export class CreditAssessmentCreateComponent implements OnInit {
     Caption: string = 'Loading...';
     creditAssessment: ICreditAssessment = null;
     creditapplicationidOptions: ISelectItem[] = [];
-    assessmentversionOptions: ISelectItem[] = [];
     assessmenttypecodeOptions: ISelectItem[] = [];
     assessedbyuseridOptions: ISelectItem[] = [];
     editForm: any;
@@ -47,7 +46,7 @@ export class CreditAssessmentCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             AssessmentVersion: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             AssessmentTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             AssessedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -60,8 +59,6 @@ export class CreditAssessmentCreateComponent implements OnInit {
         });
         this.Caption = 'Create CreditAssessment';
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.assessmentversionOptions.push({ Text: 'Party1', Value: 'Party1' });
-        this.assessmentversionOptions.push({ Text: 'Party2', Value: 'Party2' });
         this.assessmenttypecodeOptions = this.loggedInUserService.getPicklistOptions('AssessmentTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assessedbyuseridOptions = options));
     }
@@ -101,7 +98,7 @@ export class CreditAssessmentCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditAssessments/create']);
+            this.router.navigate(['/business/origination/credit/assessment/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

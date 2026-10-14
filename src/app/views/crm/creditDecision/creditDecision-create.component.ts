@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -43,7 +43,8 @@ export class CreditDecisionCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditDecisionService: CreditDecisionService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -51,8 +52,8 @@ export class CreditDecisionCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             DecisionCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             DecisionDateTime: new FormControl(new Date(), [Validators.required]),
             ApprovedLimitAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -66,8 +67,8 @@ export class CreditDecisionCreateComponent implements OnInit {
             DecidedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)])
         });
         this.Caption = 'Create CreditDecision';
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-assessments').subscribe((options) => (this.creditassessmentidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditAssessmentId', 'credit-assessments', options => this.creditassessmentidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('CreditDecisionDecisionCode');
         this.riskratingcodeOptions = this.loggedInUserService.getPicklistOptions('RiskRatingCode');
         this.decisionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('DecisionReasonCode');

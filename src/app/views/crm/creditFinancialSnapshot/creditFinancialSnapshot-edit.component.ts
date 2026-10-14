@@ -47,7 +47,7 @@ export class CreditFinancialSnapshotEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             FinancialPeriodEnd: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
             CurrencyId: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             RevenueAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -113,7 +113,7 @@ export class CreditFinancialSnapshotEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['origination/credit/snapshot/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/credit/snapshot/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

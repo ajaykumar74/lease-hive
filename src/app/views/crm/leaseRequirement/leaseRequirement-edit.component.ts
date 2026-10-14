@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { LeaseRequirementService } from './leaseRequirement.service';
     providers: [MessageService]
 })
 export class LeaseRequirementEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     leaseRequirement: ILeaseRequirement = null;
@@ -50,8 +51,8 @@ export class LeaseRequirementEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            OpportunityId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OpportunityId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             RequirementDate: new FormControl(new Date(), [Validators.required]),
             PreferredStartDate: new FormControl(new Date(), []),
@@ -64,8 +65,8 @@ export class LeaseRequirementEditComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.editForm.get('PartyId').valueChanges.subscribe((partyId: number) => {
             if (partyId !== this.objMaster?.PartyId) {
                 this.editForm.get('PartyLocationId').setValue(null, { emitEvent: false });
@@ -103,8 +104,6 @@ export class LeaseRequirementEditComponent implements OnInit {
     }
 
     populateUI(obj: ILeaseRequirement): void {
-        this.loggedInUserService.getLookupOptions('opportunities', obj.OpportunityId).subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe((options) => (this.partyidOptions = options));
         this.loadPartyLocations(obj.PartyId, obj.PartyLocationId);
         this.editForm.patchValue({
             Id: obj.Id || 0,

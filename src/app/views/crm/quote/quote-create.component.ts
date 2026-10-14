@@ -53,11 +53,11 @@ export class QuoteCreateComponent implements OnInit {
             Id: new FormControl(0, []),
             QuoteGroupNo: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
             VersionNo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
-            OpportunityId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OpportunityId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             LeaseRequirementId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             PartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            QuoteStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            QuoteStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             QuoteDate: new FormControl(new Date(), [Validators.required]),
             ValidUntil: new FormControl(new Date(), [Validators.required]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -76,9 +76,9 @@ export class QuoteCreateComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), [])
         });
         this.Caption = 'Create Quote';
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getLookupOptions('lease-requirements').subscribe((options) => (this.leaserequirementidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(
             this.editForm,
@@ -137,7 +137,7 @@ export class QuoteCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/quotes/create']);
+            this.router.navigate(['/business/origination/quotes/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

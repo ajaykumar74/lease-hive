@@ -96,7 +96,7 @@ SortOrder: obj.SortOrder || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/quoteStatuss/create']);
+      this.router.navigate(['/business/origination/config/quote-statuses/create']);
     }
     else if (key == "Save") {
       this.Save();

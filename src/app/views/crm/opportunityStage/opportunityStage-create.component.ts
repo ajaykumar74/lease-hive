@@ -98,7 +98,7 @@ SortOrder: obj.SortOrder || 0,
  
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/opportunityStages/create']);
+      this.router.navigate(['/business/crm/config/opportunity-stages/create']);
     }
     else if (key == "Save") {
       this.Save();

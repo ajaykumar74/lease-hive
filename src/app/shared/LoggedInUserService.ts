@@ -271,27 +271,11 @@ export class LoggedInUserService {
     selectedId?: number,
     filters?: { partyId?: number; organisationId?: number; organisationUnitId?: number }
   ): Observable<ISelectItem[]> {
-    const tenant = this.loggedInUser?.Tenant;
-    const tenantId = tenant?.Id ?? tenant?.TenantId;
-
-    if (!tenantId) {
-      return throwError(() => 'Tenant information is not available for the logged-in user.');
-    }
-
-    const params = new URLSearchParams({ tenantId: String(tenantId), pageSize: '100' });
-    if (selectedId && selectedId > 0) params.set('selectedId', String(selectedId));
-    if (filters?.partyId && filters.partyId > 0) params.set('partyId', String(filters.partyId));
-    if (filters?.organisationId && filters.organisationId > 0) params.set('organisationId', String(filters.organisationId));
-    if (filters?.organisationUnitId && filters.organisationUnitId > 0) params.set('organisationUnitId', String(filters.organisationUnitId));
-
-    const url = `${this.baseService.C_APP_URL}/Lookups/${lookupType}?${params.toString()}`;
-    return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => this.sortSelectItems((response.data || []).map(item => ({
-        Id: item.Id,
-        Value: item.Id,
-        Text: item.DisplayText
-      }))))
-    );
+    const entityFilters: Record<string, number> = {};
+    if (filters?.partyId) entityFilters['PartyId'] = filters.partyId;
+    if (filters?.organisationId) entityFilters['OrganisationId'] = filters.organisationId;
+    if (filters?.organisationUnitId) entityFilters['DefaultOrganisationUnitId'] = filters.organisationUnitId;
+    return this.getEntityLookupOptions(lookupType, selectedId, entityFilters);
   }
 
   getPartyOptions(selectedId?: number): Observable<ISelectItem[]> {
@@ -299,49 +283,14 @@ export class LoggedInUserService {
   }
 
   getOrganisationOptions(selectedId?: number): Observable<ISelectItem[]> {
-    const tenant = this.loggedInUser?.Tenant;
-    const tenantId = tenant?.Id ?? tenant?.TenantId;
-
-    if (!tenantId) {
-      return throwError(() => 'Tenant information is not available for the logged-in user.');
-    }
-
-    const selectedIdQuery = selectedId && selectedId > 0
-      ? `&selectedId=${selectedId}`
-      : '';
-    const url = `${this.baseService.C_APP_URL}/Lookups/organisations?tenantId=${tenantId}&pageSize=100${selectedIdQuery}`;
-
-    return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => this.sortSelectItems((response.data || []).map(item => ({
-        Id: item.Id,
-        Value: item.Id,
-        Text: item.DisplayText
-      }))))
-    );
+    return this.getEntityLookupOptions('organisations', selectedId);
   }
 
   getApplicationUserOptions(selectedId?: number, organisationUnitId?: number): Observable<ISelectItem[]> {
-    const tenant = this.loggedInUser?.Tenant;
-    const tenantId = tenant?.Id ?? tenant?.TenantId;
-
-    if (!tenantId) {
-      return throwError(() => 'Tenant information is not available for the logged-in user.');
-    }
-
-    const selectedIdQuery = selectedId && selectedId > 0
-      ? `&selectedId=${selectedId}`
-      : '';
-    const organisationUnitQuery = organisationUnitId && organisationUnitId > 0
-      ? `&organisationUnitId=${organisationUnitId}`
-      : '';
-    const url = `${this.baseService.C_APP_URL}/Lookups/application-users?tenantId=${tenantId}&pageSize=100${selectedIdQuery}${organisationUnitQuery}`;
-
-    return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => this.sortSelectItems((response.data || []).map(item => ({
-        Id: item.Id,
-        Value: item.Id,
-        Text: item.DisplayText
-      }))))
+    return this.getEntityLookupOptions(
+      'application-users',
+      selectedId,
+      organisationUnitId ? { DefaultOrganisationUnitId: organisationUnitId } : {}
     );
   }
 

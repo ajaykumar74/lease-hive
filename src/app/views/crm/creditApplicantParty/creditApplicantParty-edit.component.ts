@@ -48,15 +48,15 @@ export class CreditApplicantPartyEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditPartyRoleId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditPartyRoleId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             IsPrimary: new FormControl(false),
             GuaranteeAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditPartyRoleId', 'party-roles',
       options => this.creditpartyroleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"PartyId":"PartyId"});
@@ -88,7 +88,6 @@ export class CreditApplicantPartyEditComponent implements OnInit {
     }
 
     populateUI(obj: ICreditApplicantParty): void {
-        this.loggedInUserService.getLookupOptions('credit-applications', obj.CreditApplicationId).subscribe((options) => (this.creditapplicationidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             CreditApplicationId: obj.CreditApplicationId || 0,

@@ -1,5 +1,5 @@
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -33,6 +33,7 @@ export class LeadCreateComponent implements OnInit {
   leadsourceidOptions: ISelectItem[] = [];
   leadstatusidOptions: ISelectItem[] = [];
   interestedassetcategoryidOptions: ISelectItem[] = [];
+  qualifiedpartyidOptions: ISelectItem[] = [];
   editForm: any;
   objMaster: ILead = {} as ILead;
 
@@ -44,7 +45,8 @@ export class LeadCreateComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _location: Location,
-    private leadService: LeadService
+    private leadService: LeadService,
+    private destroyRef: DestroyRef
 
   ) {
   }
@@ -58,11 +60,11 @@ export class LeadCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, []),
-      OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       OwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       LeadSourceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-      LeadStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      LeadStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       ProspectName: new FormControl('', [Validators.required, Validators.maxLength(150),]),
       ContactName: new FormControl('', [Validators.maxLength(100),]),
       Email: new FormControl('', [Validators.maxLength(100),]),
@@ -71,6 +73,8 @@ export class LeadCreateComponent implements OnInit {
       InterestedAssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       CurrencyCode: new FormControl('', [Validators.maxLength(20),]),
       ExpectedCloseDate: new FormControl(new Date(), []),
+      QualifiedPartyId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+      QualifiedOn: new FormControl(null, []),
       DisqualificationReason: new FormControl('', [Validators.maxLength(100),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
       Description: new FormControl('', [Validators.maxLength(100),]),
@@ -82,18 +86,17 @@ export class LeadCreateComponent implements OnInit {
   }
 
   private loadLookups(): void {
-    this.loggedInUserService.getOrganisationOptions()
-      .subscribe(options => this.originatingorganisationidOptions = options);
-    this.loggedInUserService.getLookupOptions('organisation-units')
-      .subscribe(options => this.ownerorganisationunitidOptions = options);
-    this.loggedInUserService.getApplicationUserOptions()
-      .subscribe(options => this.owneruseridOptions = options);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OriginatingOrganisationId', 'organisations', options => this.originatingorganisationidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
     this.loggedInUserService.getLookupOptions('lead-sources')
       .subscribe(options => this.leadsourceidOptions = options);
     this.loggedInUserService.getLookupOptions('lead-statuses')
       .subscribe(options => this.leadstatusidOptions = options);
     this.loggedInUserService.getLookupOptions('asset-categories')
       .subscribe(options => this.interestedassetcategoryidOptions = options);
+    this.loggedInUserService.getPartyOptions()
+      .subscribe(options => this.qualifiedpartyidOptions = options);
   }
 
   loadUI(): void {
@@ -127,6 +130,8 @@ export class LeadCreateComponent implements OnInit {
         InterestedAssetCategoryId: obj.InterestedAssetCategoryId || 0,
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
+        QualifiedPartyId: obj.QualifiedPartyId || 0,
+        QualifiedOn: obj.QualifiedOn || null,
         DisqualificationReason: obj.DisqualificationReason || '',
         Description: obj.Description || '',
 
@@ -137,7 +142,7 @@ export class LeadCreateComponent implements OnInit {
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/leads/create']);
+      this.router.navigate(['/business/crm/leads/create']);
     }
     else if (key == "Save") {
       this.Save();
@@ -170,6 +175,8 @@ export class LeadCreateComponent implements OnInit {
         EstimatedValue: obj.EstimatedValue || 0,
         CurrencyCode: obj.CurrencyCode || '',
         ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
+        QualifiedPartyId: obj.QualifiedPartyId || 0,
+        QualifiedOn: obj.QualifiedOn || null,
         DisqualificationReason: obj.DisqualificationReason || '',
         Description: obj.Description || '',
 
@@ -205,6 +212,8 @@ export class LeadCreateComponent implements OnInit {
       EstimatedValue: formValues.EstimatedValue || 0,
       CurrencyCode: formValues.CurrencyCode || null,
       ExpectedCloseDate: formValues.ExpectedCloseDate || null,
+      QualifiedPartyId: formValues.QualifiedPartyId || 0,
+      QualifiedOn: formValues.QualifiedOn || null,
       DisqualificationReason: formValues.DisqualificationReason || null,
       RecordStatus: 'Active',
       EffectiveFrom: new Date(),

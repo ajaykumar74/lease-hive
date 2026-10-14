@@ -46,7 +46,7 @@ describe('Entity lookups', () => {
       { Id: 1, Value: 'z', Text: 'Zulu' },
       { Id: 2, Value: 'a10', Text: 'Alpha 10' },
       { Id: 3, Value: 'a2', Text: 'alpha 2' }
-    ]]);
+    ]]]);
     expect(service.getPicklistOptions('Status').map(item => item.Text)).toEqual(['alpha 2', 'Alpha 10', 'Zulu']);
 
     get.and.returnValue(of({ data: [

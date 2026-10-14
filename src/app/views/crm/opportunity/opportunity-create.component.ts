@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -42,7 +42,8 @@ export class OpportunityCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private opportunityService: OpportunityService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -50,11 +51,11 @@ export class OpportunityCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            LeadId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-            OwnerUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OwnerUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OpportunityStageId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OpportunityName: new FormControl('', [Validators.required, Validators.maxLength(256)]),
             EstimatedAmount: new FormControl(0, [Validators.min(0)]),
@@ -68,11 +69,11 @@ export class OpportunityCreateComponent implements OnInit {
             Description: new FormControl('', [Validators.maxLength(100)])
         });
         this.Caption = 'Create Opportunity';
-        this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeadId', 'leads', options => this.leadidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { LeadId: 'LeadId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('organisation-units').subscribe((options) => (this.ownerorganisationunitidOptions = options));
-        this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.owneruseridOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
         this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
     }
 

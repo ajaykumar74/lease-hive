@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditBureauResultService } from './creditBureauResult.service';
     providers: [MessageService]
 })
 export class CreditBureauResultEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     creditBureauResult: ICreditBureauResult = null;
@@ -49,8 +50,8 @@ export class CreditBureauResultEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ProviderCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             RequestReference: new FormControl('', [Validators.maxLength(100)]),
             RequestedOn: new FormControl(new Date(), [Validators.required]),
@@ -61,8 +62,8 @@ export class CreditBureauResultEditComponent implements OnInit {
             RawDocumentId: new FormControl('', [Validators.required, Validators.maxLength(10)]),
             ResultStatusCode: new FormControl('', [Validators.maxLength(20)])
         });
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.providercodeOptions = this.loggedInUserService.getPicklistOptions('ProviderCode');
         this.resultstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ResultStatusCode');
 
@@ -94,7 +95,6 @@ export class CreditBureauResultEditComponent implements OnInit {
     }
 
     populateUI(obj: ICreditBureauResult): void {
-        this.loggedInUserService.getLookupOptions('credit-applications', obj.CreditApplicationId).subscribe((options) => (this.creditapplicationidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             CreditApplicationId: obj.CreditApplicationId || 0,
@@ -115,7 +115,7 @@ export class CreditBureauResultEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['origination/credit/CreditBureauResult/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/credit/CreditBureauResult/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

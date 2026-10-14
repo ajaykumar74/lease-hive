@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { OpportunityService } from './opportunity.service';
     providers: [MessageService]
 })
 export class OpportunityEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     opportunity: IOpportunity = null;
@@ -52,11 +53,11 @@ export class OpportunityEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            LeadId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-            OwnerUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            OwnerUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OpportunityStageId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OpportunityName: new FormControl('', [Validators.required, Validators.maxLength(256)]),
             EstimatedAmount: new FormControl(0, [Validators.min(0)]),
@@ -70,11 +71,11 @@ export class OpportunityEditComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
         });
-        this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeadId', 'leads', options => this.leadidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { LeadId: 'LeadId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('organisation-units').subscribe((options) => (this.ownerorganisationunitidOptions = options));
-        this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.owneruseridOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OrganisationId: 'OriginatingOrganisationId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
         this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
@@ -106,8 +107,6 @@ export class OpportunityEditComponent implements OnInit {
     }
 
     populateUI(obj: IOpportunity): void {
-        this.loggedInUserService.getLookupOptions('opportunity-stages', obj.OpportunityStageId).subscribe((options) => (this.opportunitystageidOptions = options));
-        this.loggedInUserService.getLookupOptions('leads', obj.LeadId).subscribe((options) => (this.leadidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             LeadId: obj.LeadId || 0,

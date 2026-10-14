@@ -49,9 +49,9 @@ export class ApprovalActionEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            ApprovalRequestId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            ApprovalRequestId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             StepNo: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
-            ApproverUserId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            ApproverUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ActionCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             ActionDateTime: new FormControl(new Date(), [Validators.required]),
             Comments: new FormControl('', [Validators.maxLength(100)]),
@@ -111,7 +111,7 @@ export class ApprovalActionEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/approvalAction/create', { id: -1 }]);
+            this.router.navigate(['/business/crm/approval-actions/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

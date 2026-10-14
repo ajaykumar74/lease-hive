@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -43,7 +43,8 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private leaseRequirementAssetService: LeaseRequirementAssetService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -51,12 +52,12 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            LeaseRequirementId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            LeaseRequirementId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             LineNo: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),
             AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-            AssetTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            AssetTypeId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             AssetMakeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-            AssetModelId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            AssetModelId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             Quantity: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
             NewUsedCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             EstimatedUnitCost: new FormControl(0, [Validators.min(0)]),
@@ -69,11 +70,11 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), [])
         });
         this.Caption = 'Create LeaseRequirementAsset';
-        this.loggedInUserService.getLookupOptions('lease-requirements').subscribe((options) => (this.leaserequirementidOptions = options));
-        this.loggedInUserService.getLookupOptions('asset-categories').subscribe((options) => (this.assetcategoryidOptions = options));
-        this.loggedInUserService.getLookupOptions('asset-types').subscribe((options) => (this.assettypeidOptions = options));
-        this.loggedInUserService.getLookupOptions('asset-makes').subscribe((options) => (this.assetmakeidOptions = options));
-        this.loggedInUserService.getLookupOptions('asset-models').subscribe((options) => (this.assetmodelidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types', options => this.assettypeidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes', options => this.assetmakeidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId', AssetTypeId: 'AssetTypeId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models', options => this.assetmodelidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetMakeId: 'AssetMakeId' });
         this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
         this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
     }
@@ -117,7 +118,7 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/leaseRequirementAssets/create']);
+            this.router.navigate(['/business/crm/leaseRequirementAssets/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

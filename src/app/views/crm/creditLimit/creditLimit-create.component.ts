@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -40,7 +40,8 @@ export class CreditLimitCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditLimitService: CreditLimitService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -48,9 +49,9 @@ export class CreditLimitCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditDecisionId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             LimitAmount: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -59,9 +60,9 @@ export class CreditLimitCreateComponent implements OnInit {
             Remarks: new FormControl('', [Validators.maxLength(100)]),
         });
         this.Caption = 'Create CreditLimit';
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditDecisionId', 'credit-decisions', options => this.creditdecisionidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditDecisionId: 'CreditDecisionId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations', options => this.organisationidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditDecisionId: 'CreditDecisionId' });
         this.limitstatusOptions = this.loggedInUserService.getPicklistOptions('LimitStatus');
     }
 
@@ -97,7 +98,7 @@ export class CreditLimitCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditLimits/create']);
+            this.router.navigate(['/business/origination/credit/limits/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

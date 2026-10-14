@@ -47,16 +47,16 @@ export class CreditApplicantPartyCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            CreditPartyRoleId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            CreditPartyRoleId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             IsPrimary: new FormControl(false, []),
             GuaranteeAmount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)])
         });
         this.Caption = 'Create CreditApplicantParty';
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditPartyRoleId', 'party-roles',
       options => this.creditpartyroleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {"PartyId":"PartyId"});
@@ -93,7 +93,7 @@ export class CreditApplicantPartyCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditApplicantPartys/create']);
+            this.router.navigate(['/business/origination/credit/ApplicantPartys/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

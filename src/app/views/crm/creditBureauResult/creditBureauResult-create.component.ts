@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -40,7 +40,8 @@ export class CreditBureauResultCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditBureauResultService: CreditBureauResultService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -48,8 +49,8 @@ export class CreditBureauResultCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ProviderCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             RequestReference: new FormControl('', [Validators.maxLength(100)]),
             RequestedOn: new FormControl(new Date(), [Validators.required]),
@@ -61,8 +62,8 @@ export class CreditBureauResultCreateComponent implements OnInit {
             ResultStatusCode: new FormControl('', [Validators.maxLength(20)])
         });
         this.Caption = 'Create CreditBureauResult';
-        this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditApplicationId', 'credit-applications', options => this.creditapplicationidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.providercodeOptions = this.loggedInUserService.getPicklistOptions('ProviderCode');
         this.resultstatuscodeOptions = this.loggedInUserService.getPicklistOptions('ResultStatusCode');
     }
@@ -103,7 +104,7 @@ export class CreditBureauResultCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditBureauResults/create']);
+            this.router.navigate(['/business/origination/credit/CreditBureauResult/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -40,7 +40,8 @@ export class QuoteDiscountCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private quoteDiscountService: QuoteDiscountService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -48,19 +49,19 @@ export class QuoteDiscountCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            QuoteId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            QuoteId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             QuoteAssetId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             DiscountTypeCode: new FormControl('', [Validators.maxLength(20)]),
             DiscountValue: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
             DiscountAmount: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             ReasonCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            ApprovalRequestId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            ApprovalRequestId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ApprovedBy: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             ApprovedOn: new FormControl(new Date(), [])
         });
         this.Caption = 'Create QuoteDiscount';
-        this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
-        this.loggedInUserService.getLookupOptions('quote-assets').subscribe((options) => (this.quoteassetidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteAssetId', 'quote-assets', options => this.quoteassetidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { QuoteId: 'QuoteId' });
         this.discounttypecodeOptions = this.loggedInUserService.getPicklistOptions('DiscountTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.approvedbyOptions = options));
     }
@@ -99,7 +100,7 @@ export class QuoteDiscountCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/quoteDiscounts/create']);
+            this.router.navigate(['/business/origination/quotes/discount/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

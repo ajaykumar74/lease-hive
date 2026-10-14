@@ -49,7 +49,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
-            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditApplicationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             DocumentType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             IsRequired: new FormControl(false, [Validators.required]),
             DocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -58,8 +58,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
             VerifiedOn: new FormControl(new Date(), [])
         });
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
-        this.documenttypeOptions.push({ Text: 'DocType1', Value: 'DocType1' });
-        this.documenttypeOptions.push({ Text: 'DocType2', Value: 'DocType2' });
+        this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
         this.checkliststatusOptions = this.loggedInUserService.getPicklistOptions('ChecklistStatus');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.verifiedbyOptions = options));
         this.selectedId = this.activatedRouter.snapshot.params['id'];
@@ -107,7 +106,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['origination/credit/document/create', { id: -1 }]);
+            this.router.navigate(['/business/origination/credit/document/create', { id: -1 }]);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {

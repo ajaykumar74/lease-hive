@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -39,7 +39,8 @@ export class CreditExposureCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditExposureService: CreditExposureService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -47,9 +48,9 @@ export class CreditExposureCreateComponent implements OnInit {
 
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
-            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-            OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            CreditAssessmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             ExposureType: new FormControl('', [Validators.required, Validators.maxLength(100)]),
             CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             PrincipalOutstanding: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -59,9 +60,9 @@ export class CreditExposureCreateComponent implements OnInit {
             AsOfDate: new FormControl(new Date(), [Validators.required])
         });
         this.Caption = 'Create CreditExposure';
-        this.loggedInUserService.getLookupOptions('credit-assessments').subscribe((options) => (this.creditassessmentidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
-        this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.organisationidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditAssessmentId', 'credit-assessments', options => this.creditassessmentidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditAssessmentId: 'CreditAssessmentId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations', options => this.organisationidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditAssessmentId: 'CreditAssessmentId' });
         this.exposuretypeOptions = this.loggedInUserService.getPicklistOptions('ExposureType');
     }
 
@@ -100,7 +101,7 @@ export class CreditExposureCreateComponent implements OnInit {
 
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
-            this.router.navigate(['/creditExposures/create']);
+            this.router.navigate(['/business/origination/credit/exposure/create']);
         } else if (key == 'Save') {
             this.Save();
         } else if (key == 'Cancel') {
