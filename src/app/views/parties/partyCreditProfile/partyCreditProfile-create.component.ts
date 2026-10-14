@@ -63,7 +63,7 @@ reviewfrequencymonthsOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 CreditPolicyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RiskGrade: new FormControl('', [Validators.required, Validators.maxLength(5), ]),
 ExternalCreditScore: new FormControl(0, []),

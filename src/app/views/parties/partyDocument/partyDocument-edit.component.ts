@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PartyDocumentService } from './partyDocument.service';
   providers: [ MessageService]
 })
 export class PartyDocumentEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -58,7 +59,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DocumentType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DocumentNumber: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 FileDocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -67,6 +68,7 @@ IssueDate: new FormControl(new Date(), []),
 ExpiryDate: new FormControl(new Date(), []),
 VerificationStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 VerifiedBy: new FormControl('', [Validators.maxLength(30), ]), 
+VerifiedById: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 VerifiedAt: new FormControl(new Date(), []),
 RejectionReason: new FormControl('', [Validators.maxLength(20), ]), 
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -76,9 +78,10 @@ EffectiveTo: new FormControl(new Date(), []),
     });
 this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
 this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
-this.verifiedbyOptions.push({Text: 'Emp1', Value: 'Emp1' });
-this.verifiedbyOptions.push({Text: 'Emp2', Value: 'Emp2' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedById', 'application-users',
+      options => this.verifiedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -129,6 +132,7 @@ IssueDate:  obj.IssueDate || new Date(),
 ExpiryDate:  obj.ExpiryDate || new Date(),
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedBy: obj.VerifiedBy || '',
+VerifiedById: obj.VerifiedById || 0,
 VerifiedAt:  obj.VerifiedAt || new Date(),
 RejectionReason: obj.RejectionReason || '',
 RecordStatus: obj.RecordStatus || '',
@@ -171,6 +175,7 @@ IssueDate:  obj.IssueDate || new Date(),
 ExpiryDate:  obj.ExpiryDate || new Date(),
 VerificationStatus: obj.VerificationStatus || '',
 VerifiedBy: obj.VerifiedBy || '',
+VerifiedById: obj.VerifiedById || 0,
 VerifiedAt:  obj.VerifiedAt || new Date(),
 RejectionReason: obj.RejectionReason || '',
 RecordStatus: obj.RecordStatus || '',
@@ -193,6 +198,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
         }
 	
      const formValues = this.editForm.value; 
+	 const verifiedBy = this.verifiedbyOptions.find(option => Number(option.Id) === Number(formValues.VerifiedById));
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
@@ -204,7 +210,8 @@ IssuedBy:  formValues.IssuedBy || null,
 IssueDate:  formValues.IssueDate || null,
 ExpiryDate:  formValues.ExpiryDate || null,
 VerificationStatus:  formValues.VerificationStatus || null,
-VerifiedBy:  formValues.VerifiedBy || null,
+VerifiedBy:  verifiedBy?.Text || formValues.VerifiedBy || null,
+VerifiedById: formValues.VerifiedById || 0,
 VerifiedAt:  formValues.VerifiedAt || null,
 RejectionReason:  formValues.RejectionReason || null,
 RecordStatus:  formValues.RecordStatus || null,

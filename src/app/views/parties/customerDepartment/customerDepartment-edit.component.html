@@ -77,16 +77,8 @@
 											label="Department Name">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CostCentre Code" class="mb-1">CostCentreCode</label>
-        <p-dropdown
-            inputId="CostCentreCode" 
-            [options]="costcentrecodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CostCentreCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CostCentreCode" class="mb-1">Cost Centre Code</label>
+        <input pInputText id="CostCentreCode" type="text" formControlName="CostCentreCode" />
       <app-validation-errors [type]="'text'" [control]="editForm.get('CostCentreCode')"
 											label="CostCentre Code">
 										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Department Head ContactId" class="mb-1">DepartmentHeadContactId</label>
@@ -102,16 +94,8 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('DepartmentHeadContactId')"
 											label="Department Head ContactId">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Billing Reference" class="mb-1">BillingReference</label>
-        <p-dropdown
-            inputId="BillingReference" 
-            [options]="billingreferenceOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="BillingReference"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="BillingReference" class="mb-1">Billing Reference</label>
+        <input pInputText id="BillingReference" type="text" formControlName="BillingReference" />
       <app-validation-errors [type]="'text'" [control]="editForm.get('BillingReference')"
 											label="Billing Reference">
 										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>

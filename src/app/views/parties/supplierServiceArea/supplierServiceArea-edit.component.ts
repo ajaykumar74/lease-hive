@@ -37,6 +37,13 @@ cityOptions: ISelectItem[] = [];
 assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+  private allStateProvinceCodeOptions: ISelectItem[] = [];
+  private allCityOptions: ISelectItem[] = [];
+  private readonly citiesByCountryAndState: Record<string, Record<string, string[]>> = {
+    IN: { DL: ['New Delhi'], HR: ['Gurugram'], MH: ['Mumbai'] },
+    UK: { ENG: ['London'] },
+    US: { CA: ['San Francisco'], NY: ['New York'] }
+  };
 
    editForm: any; 
   objMaster : ISupplierServiceArea = {} as ISupplierServiceArea;
@@ -62,14 +69,14 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-SupplierProfileId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierProfileId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 CountryCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 StateProvinceCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 City: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 PostalCodePattern: new FormControl('', [Validators.maxLength(7), ]), 
-AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetCategoryId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 CanSupply: new FormControl(false), 
 CanInstall: new FormControl(false), 
@@ -85,17 +92,50 @@ Description: new FormControl('', [Validators.maxLength(100), ]),
 
     });
 this.countrycodeOptions = this.loggedInUserService.getPicklistOptions('CountryCode');
-this.stateprovincecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
-this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
+this.allStateProvinceCodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
+this.allCityOptions = this.loggedInUserService.getPicklistOptions('City');
+this.updateGeographyOptions();
+this.editForm.get('CountryCode')?.valueChanges.subscribe(() => this.updateGeographyOptions());
+this.editForm.get('StateProvinceCode')?.valueChanges.subscribe(() => this.updateGeographyOptions());
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
       options => this.assetcategoryidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, { AssetCategoryId: 'AssetCategoryId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierProfileId', 'supplier-profiles',
+      options => this.supplierprofileidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  private updateGeographyOptions(): void {
+    const country = this.editForm?.get('CountryCode')?.value;
+    const state = this.editForm?.get('StateProvinceCode')?.value;
+    const citiesByState = this.citiesByCountryAndState[country];
+    if (!citiesByState) {
+      this.stateprovincecodeOptions = this.allStateProvinceCodeOptions;
+      this.cityOptions = this.allCityOptions;
+      return;
+    }
+
+    const validStates = Object.keys(citiesByState);
+    this.stateprovincecodeOptions = this.allStateProvinceCodeOptions
+      .filter(option => validStates.includes(String(option.Value)));
+    if (state && !validStates.includes(state)) {
+      this.editForm.get('StateProvinceCode')?.setValue('');
+      return;
+    }
+
+    const validCities = state ? citiesByState[state] || [] : [];
+    this.cityOptions = this.allCityOptions.filter(option => validCities.includes(String(option.Value)));
+    const city = this.editForm.get('City')?.value;
+    if (city && !validCities.includes(city)) this.editForm.get('City')?.setValue('');
   }
 
   ngAfterViewInit(): void {
@@ -120,15 +160,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ISupplierServiceArea): void {
-    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
-      next: options => this.partylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('supplier-profiles', obj.SupplierProfileId).subscribe({
-      next: options => this.supplierprofileidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
-    this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
+    this.loggedInUserService.getEntityLookupOptions('supplier-parties', obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)
     });

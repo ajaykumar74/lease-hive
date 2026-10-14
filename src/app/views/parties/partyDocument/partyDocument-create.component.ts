@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,6 +22,7 @@ import { IParty } from '@/views/parties/party/party';
   providers: [MessageService]
 })
 export class PartyDocumentCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
 
   selectedId: number;
@@ -63,7 +64,7 @@ export class PartyDocumentCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, []),
-      PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       DocumentType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       DocumentNumber: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       FileDocumentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -72,6 +73,7 @@ export class PartyDocumentCreateComponent implements OnInit {
       ExpiryDate: new FormControl(new Date(), []),
       VerificationStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       VerifiedBy: new FormControl('', [Validators.maxLength(30),]),
+      VerifiedById: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
       VerifiedAt: new FormControl(new Date(), []),
       RejectionReason: new FormControl('', [Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -82,6 +84,7 @@ export class PartyDocumentCreateComponent implements OnInit {
     this.partyId = routePartyId > 0 ? routePartyId : null;
     if (this.partyId) {
       this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
       this.loadParty(this.partyId);
     }
     else {
@@ -89,8 +92,9 @@ export class PartyDocumentCreateComponent implements OnInit {
     }
     this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
     this.verificationstatusOptions = this.loggedInUserService.getPicklistOptions('VerificationStatus');
-    this.verifiedbyOptions.push({ Text: 'Emp1', Value: 'Emp1' });
-    this.verifiedbyOptions.push({ Text: 'Emp2', Value: 'Emp2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedById', 'application-users',
+      options => this.verifiedbyOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef);
     this.Caption = 'Create Party Document';
   }
 
@@ -138,6 +142,7 @@ export class PartyDocumentCreateComponent implements OnInit {
         ExpiryDate: obj.ExpiryDate || new Date(),
         VerificationStatus: obj.VerificationStatus || '',
         VerifiedBy: obj.VerifiedBy || '',
+        VerifiedById: obj.VerifiedById || 0,
         VerifiedAt: obj.VerifiedAt || new Date(),
         RejectionReason: obj.RejectionReason || '',
 
@@ -180,6 +185,7 @@ export class PartyDocumentCreateComponent implements OnInit {
         ExpiryDate: obj.ExpiryDate || new Date(),
         VerificationStatus: obj.VerificationStatus || '',
         VerifiedBy: obj.VerifiedBy || '',
+        VerifiedById: obj.VerifiedById || 0,
         VerifiedAt: obj.VerifiedAt || new Date(),
         RejectionReason: obj.RejectionReason || '',
 
@@ -198,6 +204,7 @@ export class PartyDocumentCreateComponent implements OnInit {
 
     const formValues = this.editForm.value;
     const selectedPartyId = this.partyId ?? Number(formValues.PartyId);
+    const verifiedBy = this.verifiedbyOptions.find(option => Number(option.Id) === Number(formValues.VerifiedById));
     var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
@@ -210,7 +217,8 @@ export class PartyDocumentCreateComponent implements OnInit {
       IssueDate: formValues.IssueDate || null,
       ExpiryDate: formValues.ExpiryDate || null,
       VerificationStatus: formValues.VerificationStatus || null,
-      VerifiedBy: formValues.VerifiedBy || null,
+      VerifiedBy: verifiedBy?.Text || formValues.VerifiedBy || null,
+      VerifiedById: formValues.VerifiedById || 0,
       VerifiedAt: formValues.VerifiedAt || null,
       RejectionReason: formValues.RejectionReason || null,
       RecordStatus: 'Active',

@@ -31,6 +31,7 @@ export class PartyRelationshipCreateComponent implements OnInit {
 topartyidOptions: ISelectItem[] = [];
 relationshiptypeOptions: ISelectItem[] = [];
 controltypeOptions: ISelectItem[] = [];
+  private partyOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPartyRelationship = {} as IPartyRelationship;
@@ -57,8 +58,8 @@ controltypeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-FromPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+FromPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RelationshipType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 OwnershipPercentage: new FormControl(0, [Validators.required]),
 ControlType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -69,14 +70,24 @@ EffectiveTo: new FormControl(new Date(), []),
     });
     this.loggedInUserService.getPartyOptions().subscribe({
       next: options => {
+        this.partyOptions = options;
         this.frompartyidOptions = options;
-        this.topartyidOptions = [...options];
+        this.updateToPartyOptions();
       },
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 this.relationshiptypeOptions = this.loggedInUserService.getPicklistOptions('RelationshipType');
 this.controltypeOptions = this.loggedInUserService.getPicklistOptions('ControlType');
+this.editForm.get('FromPartyId')?.valueChanges.subscribe(() => this.updateToPartyOptions());
 
+  }
+
+  private updateToPartyOptions(): void {
+    const fromPartyId = Number(this.editForm?.get('FromPartyId')?.value) || 0;
+    this.topartyidOptions = this.partyOptions.filter(option => option.Id !== fromPartyId);
+    if (fromPartyId && Number(this.editForm?.get('ToPartyId')?.value) === fromPartyId) {
+      this.editForm.get('ToPartyId')?.setValue(0);
+    }
   }
  
  loadUI(): void {

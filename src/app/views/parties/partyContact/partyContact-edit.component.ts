@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { PartyContactService } from './partyContact.service';
   providers: [ MessageService]
 })
 export class PartyContactEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   partyId: number | null = null;
@@ -60,7 +61,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ContactType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 Title: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -80,6 +81,9 @@ this.titleOptions = this.loggedInUserService.getPicklistOptions('Title');
 this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
 this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -114,10 +118,6 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: IPartyContact): void {
-    this.loggedInUserService.getLookupOptions('party-locations', obj.PartyLocationId).subscribe({
-      next: options => this.partylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

@@ -248,6 +248,12 @@ export class LoggedInUserService {
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
       switchMap(({ selectedId, filters }) => {
         assign([]);
+        // A dependent dropdown must stay empty until all of its parent records are selected.
+        // Otherwise a child record from another party can briefly be displayed and selected.
+        if (Object.keys(parentFields).length > 0 && Object.values(filters).some(value => value <= 0)) {
+          if (selectedId) form.get(field)?.setValue(null, { emitEvent: false });
+          return EMPTY;
+        }
         return this.getEntityLookupOptions(lookupType, selectedId, filters, valueMode).pipe(
           map(options => {
             assign(options);
@@ -289,25 +295,7 @@ export class LoggedInUserService {
   }
 
   getPartyOptions(selectedId?: number): Observable<ISelectItem[]> {
-    const tenant = this.loggedInUser?.Tenant;
-    const tenantId = tenant?.Id ?? tenant?.TenantId;
-
-    if (!tenantId) {
-      return throwError(() => 'Tenant information is not available for the logged-in user.');
-    }
-
-    const selectedIdQuery = selectedId && selectedId > 0
-      ? `&selectedId=${selectedId}`
-      : '';
-    const url = `${this.baseService.C_APP_URL}/Lookups/parties?tenantId=${tenantId}&pageSize=100${selectedIdQuery}`;
-
-    return this.http.get<any>(url, { headers: this.headers }).pipe(
-      map(response => this.sortSelectItems((response.data || []).map(item => ({
-        Id: item.Id,
-        Value: item.Id,
-        Text: item.DisplayText
-      }))))
-    );
+    return this.getEntityLookupOptions('parties', selectedId);
   }
 
   getOrganisationOptions(selectedId?: number): Observable<ISelectItem[]> {

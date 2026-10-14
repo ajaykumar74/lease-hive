@@ -66,9 +66,9 @@ statecodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 LocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyGSTRegistrationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyGSTRegistrationId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 LocationCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 LocationName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 LocationType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -104,7 +104,7 @@ EffectiveTo: new FormControl(new Date(), []),
 this.locationtypeOptions = this.loggedInUserService.getPicklistOptions('LocationType');
 this.cityOptions = this.loggedInUserService.getPicklistOptions('City');
 this.statecodeOptions = this.loggedInUserService.getPicklistOptions('StateCode');
-    this.loggedInUserService.getLookupOptions('locations').subscribe({
+    this.loggedInUserService.getEntityLookupOptions('locations').subscribe({
       next: options => this.locationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });

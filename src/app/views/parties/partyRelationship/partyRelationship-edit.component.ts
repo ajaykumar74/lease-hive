@@ -32,6 +32,7 @@ topartyidOptions: ISelectItem[] = [];
 relationshiptypeOptions: ISelectItem[] = [];
 controltypeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+  private partyOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IPartyRelationship = {} as IPartyRelationship;
@@ -57,8 +58,8 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-FromPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-ToPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+FromPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ToPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RelationshipType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 OwnershipPercentage: new FormControl(0, [Validators.required]),
 ControlType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -71,6 +72,7 @@ EffectiveTo: new FormControl(new Date(), []),
 this.relationshiptypeOptions = this.loggedInUserService.getPicklistOptions('RelationshipType');
 this.controltypeOptions = this.loggedInUserService.getPicklistOptions('ControlType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+this.editForm.get('FromPartyId')?.valueChanges.subscribe(() => this.updateToPartyOptions());
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -97,12 +99,12 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: IPartyRelationship): void {  
-    this.loggedInUserService.getPartyOptions(obj.FromPartyId).subscribe({
-      next: options => this.frompartyidOptions = options,
-      error: err => this.messageService?.showError(err)
-    });
-    this.loggedInUserService.getPartyOptions(obj.ToPartyId).subscribe({
-      next: options => this.topartyidOptions = options,
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => {
+        this.partyOptions = options;
+        this.frompartyidOptions = options;
+        this.updateToPartyOptions();
+      },
       error: err => this.messageService?.showError(err)
     });
     this.editForm.patchValue(
@@ -123,6 +125,14 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
    
 	 this.Caption = "PartyRelationship Details #" + obj.Id;
   } 
+
+  private updateToPartyOptions(): void {
+    const fromPartyId = Number(this.editForm?.get('FromPartyId')?.value) || 0;
+    this.topartyidOptions = this.partyOptions.filter(option => option.Id !== fromPartyId);
+    if (fromPartyId && Number(this.editForm?.get('ToPartyId')?.value) === fromPartyId) {
+      this.editForm.get('ToPartyId')?.setValue(0);
+    }
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

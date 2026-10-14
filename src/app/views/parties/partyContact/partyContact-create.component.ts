@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,6 +22,7 @@ import { IParty } from '@/views/parties/party/party';
   providers: [MessageService]
 })
 export class PartyContactCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
 
   selectedId: number;
@@ -65,7 +66,7 @@ export class PartyContactCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, []),
-      PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
       ContactType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       Title: new FormControl('', [Validators.required, Validators.maxLength(20),]),
@@ -94,10 +95,9 @@ export class PartyContactCreateComponent implements OnInit {
     this.titleOptions = this.loggedInUserService.getPicklistOptions('Title');
     this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
     this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
-    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
-      next: options => this.partylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
 
   }
 

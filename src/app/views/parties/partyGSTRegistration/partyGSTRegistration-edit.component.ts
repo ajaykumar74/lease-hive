@@ -60,14 +60,14 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 GSTIN: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 LegalNameAsPerGST: new FormControl('', [Validators.required, Validators.maxLength(150), ]),
 TradeNameAsPerGST: new FormControl('', [Validators.required, Validators.maxLength(150), ]),
 StateCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RegistrationType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RegistrationDate: new FormControl(new Date(), [Validators.required]),
-PrincipalLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PrincipalLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 VerificationStatus: new FormControl('', [Validators.maxLength(20), ]), 
 VerifiedAt: new FormControl(new Date(), []),
 CancellationDate: new FormControl(new Date(), []),

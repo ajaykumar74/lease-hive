@@ -62,7 +62,7 @@ approvedbyOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 RoleType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RoleCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RoleStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 OnboardingReference: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ApprovedBy: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
@@ -113,7 +113,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedById', 'applic
   } 
 
   populateUI(obj: IPartyRole): void {  
-    this.loggedInUserService.getOrganisationOptions(obj.OrganisationId).subscribe({
+    this.loggedInUserService.getEntityLookupOptions('organisations', obj.OrganisationId).subscribe({
       next: options => this.organisationidOptions = options,
       error: err => this.messageService?.showError(err)
     });
@@ -187,6 +187,7 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
         }
 	
      const formValues = this.editForm.value; 
+	 const approvedBy = this.approvedbyOptions.find(option => Number(option.Id) === Number(formValues.ApprovedById));
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
@@ -196,7 +197,7 @@ RoleCode:  formValues.RoleCode || null,
 OrganisationId:  formValues.OrganisationId || 0,
 RoleStatus:  formValues.RoleStatus || null,
 OnboardingReference:  formValues.OnboardingReference || null,
-ApprovedBy:  formValues.ApprovedBy || null,
+ApprovedBy:  approvedBy?.Text || formValues.ApprovedBy || null,
 ApprovedById:  formValues.ApprovedById || 0,
 ApprovedAt:  formValues.ApprovedAt || null,
 RecordStatus:  formValues.RecordStatus || null,

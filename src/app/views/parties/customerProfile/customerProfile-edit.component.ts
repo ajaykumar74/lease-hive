@@ -64,7 +64,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 CustomerCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 CustomerSegment: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 CustomerCategory: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -90,12 +90,15 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultGSTRegistrationId', 'party-gst-registrations',
       options => this.defaultgstregistrationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, { PartyId: 'PartyId' });
-this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultBillingLocationId', 'party-locations',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultBillingLocationId', 'party-billing-locations',
       options => this.defaultbillinglocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, { PartyId: 'PartyId' });
-this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultDeliveryLocationId', 'party-locations',
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultDeliveryLocationId', 'party-delivery-locations',
       options => this.defaultdeliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'RelationshipManagerUserId', 'application-users',
+      options => this.relationshipmanageruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { DefaultOrganisationUnitId: 'OwningOrganisationUnitId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -130,14 +133,10 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultDeliveryLocatio
   } 
 
   populateUI(obj: ICustomerProfile): void {
-    this.loggedInUserService.getLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
+    this.loggedInUserService.getEntityLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
       next: options => this.owningorganisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-    this.loggedInUserService.getLookupOptions('application-users', obj.RelationshipManagerUserId).subscribe({
-      next: options => this.relationshipmanageruseridOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

@@ -62,13 +62,13 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 SupplierTier: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 SupplierCategory: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ProcurementOwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-OwningOrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-DefaultGSTRegistrationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+OwningOrganisationUnitId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+DefaultGSTRegistrationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DefaultRemittanceBankAccountId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 LeadTimeDays: new FormControl(0, [Validators.min(0), Validators.max(255)]),
 MinimumOrderValue: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -94,6 +94,9 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultGSTRegistration
 this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultRemittanceBankAccountId', 'party-bank-accounts',
       options => this.defaultremittancebankaccountidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ProcurementOwnerUserId', 'application-users',
+      options => this.procurementowneruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { DefaultOrganisationUnitId: 'OwningOrganisationUnitId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
      const routePartyId = Number(this.activatedRouter.snapshot.paramMap.get('partyId'));
@@ -128,14 +131,10 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DefaultRemittanceBankA
   } 
 
   populateUI(obj: ISupplierProfile): void {
-    this.loggedInUserService.getLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
+    this.loggedInUserService.getEntityLookupOptions('organisation-units', obj.OwningOrganisationUnitId).subscribe({
       next: options => this.owningorganisationunitidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-    this.loggedInUserService.getLookupOptions('application-users', obj.ProcurementOwnerUserId).subscribe({
-      next: options => this.procurementowneruseridOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });  
     this.loggedInUserService.getPartyOptions(obj.PartyId).subscribe({
       next: options => this.partyidOptions = options,
       error: err => this.messageService?.showError(err)

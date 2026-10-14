@@ -553,7 +553,6 @@ export class AppMenu implements OnInit, OnDestroy {
                         }
                     ]
                 },
-
                 {
                     label: 'Business',
                     icon: 'pi pi-th-large',
@@ -2352,37 +2351,7 @@ export class AppMenu implements OnInit, OnDestroy {
                             items: []
                         }
                     ]
-                },
-                /* {
-                    label: 'Administration',
-                    icon: 'pi pi-fw pi-user',
-                    items: [
-                        {
-                            label: 'Configurations',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'Integrations',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'Audit and Logs',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'Reports',
-                            icon: 'pi pi-fw pi-address-book',
-                            routerLink: ['/dashboard/customers/list/'],
-                            tooltip: ''
-                        }
-                    ]
-                } */
+                }                
             ];
         } else {
             this.model = [

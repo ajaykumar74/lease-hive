@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -20,6 +20,7 @@ import { CustomerDepartmentService } from './customerDepartment.service';
    providers: [ MessageService]
 })
 export class CustomerDepartmentCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -60,9 +61,9 @@ billingreferenceOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PartyLocationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ParentCustomerDepartmentId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 DepartmentCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 DepartmentName: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
@@ -73,30 +74,23 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loggedInUserService.getPartyOptions().subscribe({
+    this.loggedInUserService.getEntityLookupOptions('customer-parties').subscribe({
       next: options => this.partyidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
-this.costcentrecodeOptions.push({Text: 'CostCenter1', Value: 'CostCenter1' });
-this.costcentrecodeOptions.push({Text: 'CostCenter2', Value: 'CostCenter2' });
-this.billingreferenceOptions.push({Text: 'AssetCat1', Value: 'AssetCat1' });
-this.billingreferenceOptions.push({Text: 'AssetCat2', Value: 'AssetCat2' });
-    this.loggedInUserService.getLookupOptions('customer-profiles').subscribe({
-      next: options => this.customerprofileidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-contacts').subscribe({
-      next: options => this.departmentheadcontactidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('customer-departments').subscribe({
-      next: options => this.parentcustomerdepartmentidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
-    this.loggedInUserService.getLookupOptions('party-locations').subscribe({
-      next: options => this.partylocationidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerProfileId', 'customer-profiles',
+      options => this.customerprofileidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyLocationId', 'party-locations',
+      options => this.partylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'DepartmentHeadContactId', 'party-contacts',
+      options => this.departmentheadcontactidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { PartyId: 'PartyId' });
+this.loggedInUserService.bindEntityLookup(this.editForm, 'ParentCustomerDepartmentId', 'customer-departments',
+      options => this.parentcustomerdepartmentidOptions = options.filter(option => option.Id !== Number(this.editForm.get('Id')?.value)),
+      error => setTimeout(() => this.messageService?.showError(error)), this.entityLookupDestroyRef,
+      { PartyId: 'PartyId', CustomerProfileId: 'CustomerProfileId' });
 
   }
  

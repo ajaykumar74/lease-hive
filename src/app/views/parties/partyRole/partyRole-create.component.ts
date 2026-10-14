@@ -32,6 +32,7 @@ export class PartyRoleCreateComponent implements OnInit {
   partyRole: IPartyRole = null;
   partyId: number | null = null;
   party: IParty | null = null;
+  partyidOptions: ISelectItem[] = [];
   roletypeOptions: ISelectItem[] = [];
   rolecodeOptions: ISelectItem[] = [];
   organisationidOptions: ISelectItem[] = [];
@@ -64,9 +65,10 @@ export class PartyRoleCreateComponent implements OnInit {
 
     this.editForm = this.fb.group({
       Id: new FormControl(0, []),
+      PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       RoleType: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       RoleCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
-      OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      OrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       RoleStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       OnboardingReference: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       ApprovedBy: new FormControl('', [  Validators.maxLength(20),]),
@@ -79,13 +81,21 @@ export class PartyRoleCreateComponent implements OnInit {
 this.roletypeOptions = this.loggedInUserService.getPicklistOptions('RoleType');
     this.rolecodeOptions.push({ Text: '', Value: '' });
 
-    this.loggedInUserService.getOrganisationOptions().subscribe({
+    this.loggedInUserService.getPartyOptions().subscribe({
+      next: options => this.partyidOptions = options,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
+    this.loggedInUserService.getEntityLookupOptions('organisations').subscribe({
       next: options => this.organisationidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
     const routePartyId = Number(this.activatedRoute.snapshot.paramMap.get('partyId'));
     this.partyId = routePartyId > 0 ? routePartyId : null;
-    if (this.partyId) this.loadParty(this.partyId);
+    if (this.partyId) {
+      this.editForm.patchValue({ PartyId: this.partyId });
+      this.editForm.controls.PartyId.disable();
+      this.loadParty(this.partyId);
+    }
 this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus');
 
     this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedById', 'application-users',
@@ -123,6 +133,7 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
       {
         TenantId: this.loggedInUserService.loggedInUser.Tenant.Id || 0,
         Id: obj.Id || 0,
+        PartyId: obj.PartyId || 0,
         RoleType: obj.RoleType || '',
         RoleCode: obj.RoleCode || '',
         OrganisationId: obj.OrganisationId || 0,
@@ -162,6 +173,7 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
     this.editForm.patchValue(
       {
         Id: obj.Id || 0,
+        PartyId: obj.PartyId || 0,
         RoleType: obj.RoleType || '',
         RoleCode: obj.RoleCode || '',
         OrganisationId: obj.OrganisationId || 0,
@@ -185,17 +197,18 @@ this.rolestatusOptions = this.loggedInUserService.getPicklistOptions('RoleStatus
 
 
     const formValues = this.editForm.value;
+    const approvedBy = this.approvedbyOptions.find(option => Number(option.Id) === Number(formValues.ApprovedById));
     var createdObj = {
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
-      PartyId: this.partyId || 0,
+      PartyId: this.partyId ?? Number(formValues.PartyId),
        TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       RoleType: formValues.RoleType || null,
       RoleCode: formValues.RoleCode || null,
       OrganisationId: formValues.OrganisationId || 0,
       RoleStatus: formValues.RoleStatus || null,
       OnboardingReference: formValues.OnboardingReference || null,
-      ApprovedBy: formValues.ApprovedBy || null,
+      ApprovedBy: approvedBy?.Text || formValues.ApprovedBy || null,
       ApprovedById: formValues.ApprovedById || 0,
       ApprovedAt: formValues.ApprovedAt || null,
       RecordStatus: 'Active',

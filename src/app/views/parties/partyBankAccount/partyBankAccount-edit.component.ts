@@ -57,7 +57,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-PartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 BankName: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 BranchName: new FormControl('', [Validators.required, Validators.maxLength(30), ]),
 AccountHolderName: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
