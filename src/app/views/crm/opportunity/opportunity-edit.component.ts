@@ -54,7 +54,7 @@ export class OpportunityEditComponent implements OnInit {
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
             LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OwnerUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
@@ -76,7 +76,7 @@ export class OpportunityEditComponent implements OnInit {
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OrganisationId: 'OriginatingOrganisationId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
-        this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityStageId', 'opportunity-stages', options => this.opportunitystageidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
@@ -165,7 +165,8 @@ export class OpportunityEditComponent implements OnInit {
             Description: obj.Description || ''
         });
 
-        this.editForm.reset();
+        this.editForm.markAsPristine();
+        this.editForm.markAsUntouched();
     }
 
     Save(): void {

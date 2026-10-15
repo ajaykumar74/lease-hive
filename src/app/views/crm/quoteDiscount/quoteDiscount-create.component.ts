@@ -27,6 +27,7 @@ export class QuoteDiscountCreateComponent implements OnInit {
     quoteidOptions: ISelectItem[] = [];
     quoteassetidOptions: ISelectItem[] = [];
     discounttypecodeOptions: ISelectItem[] = [];
+    approvalrequestidOptions: ISelectItem[] = [];
     approvedbyOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -62,6 +63,7 @@ export class QuoteDiscountCreateComponent implements OnInit {
         this.Caption = 'Create QuoteDiscount';
         this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteAssetId', 'quote-assets', options => this.quoteassetidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { QuoteId: 'QuoteId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests', options => this.approvalrequestidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { QuoteId: 'QuoteId' });
         this.discounttypecodeOptions = this.loggedInUserService.getPicklistOptions('DiscountTypeCode');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.approvedbyOptions = options));
     }

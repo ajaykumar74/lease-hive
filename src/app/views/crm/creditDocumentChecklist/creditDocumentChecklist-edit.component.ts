@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { CreditDocumentChecklistService } from './creditDocumentChecklist.servic
     providers: [MessageService]
 })
 export class CreditDocumentChecklistEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     creditDocumentChecklist: ICreditDocumentChecklist = null;
@@ -26,6 +27,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
     Caption: string = 'Loading...';
     creditapplicationidOptions: ISelectItem[] = [];
     documenttypeOptions: ISelectItem[] = [];
+    documentidOptions: ISelectItem[] = [];
     checkliststatusOptions: ISelectItem[] = [];
     verifiedbyOptions: ISelectItem[] = [];
 
@@ -58,6 +60,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
             VerifiedOn: new FormControl(new Date(), [])
         });
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
         this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
         this.checkliststatusOptions = this.loggedInUserService.getPicklistOptions('ChecklistStatus');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.verifiedbyOptions = options));

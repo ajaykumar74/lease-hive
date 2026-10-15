@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,12 +19,15 @@ import { ApprovalRequestService } from './approvalRequest.service';
     providers: [MessageService]
 })
 export class ApprovalRequestEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     approvalRequest: IApprovalRequest = null;
     permission = {} as IPermission;
     Caption: string = 'Loading...';
     featurecodeOptions: ISelectItem[] = [];
+    referencetypeOptions: ISelectItem[] = [];
+    referenceidOptions: ISelectItem[] = [];
     requestedbyOptions: ISelectItem[] = [];
     currencyidOptions: ISelectItem[] = [];
     approvalstatusOptions: ISelectItem[] = [];
@@ -51,7 +54,7 @@ export class ApprovalRequestEditComponent implements OnInit {
             Id: new FormControl(0, [Validators.required]),
             FeatureCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            ReferenceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            ReferenceId: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             WorkflowDefinitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedBy: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
             RequestedOn: new FormControl(new Date(), [Validators.required]),
@@ -61,6 +64,10 @@ export class ApprovalRequestEditComponent implements OnInit {
         });
 
         this.featurecodeOptions = this.loggedInUserService.getPicklistOptions('FeatureCode');
+        this.referencetypeOptions = this.featurecodeOptions;
+        this.loggedInUserService.bindReferenceTypeLookup(this.editForm, 'ReferenceType', 'ReferenceId', options => this.referenceidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, {
+            LEAD: 'leads', QUOTE: 'quotes', CREDIT: 'credit-applications'
+        });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.requestedbyOptions = options));
         this.currencyidOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
         this.approvalstatusOptions = this.loggedInUserService.getPicklistOptions('ApprovalRequestApprovalStatus');

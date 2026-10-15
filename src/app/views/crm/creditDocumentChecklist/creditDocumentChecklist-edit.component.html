@@ -43,10 +43,16 @@
 											</p-checkbox>
 											<label for="IsRequired">IsRequired</label>
 										</div>
-										<div class="validation-space"></div></div><div class="flex flex-col w-full">							<label for="DocumentId">DocumentId 
-							</label> 
-							<p-inputNumber id="DocumentId"  pSize="small"	formControlName="DocumentId"  >
-</p-inputNumber>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full">							<label for="DocumentId" class="mb-1">DocumentId</label>
+        <p-dropdown
+            inputId="DocumentId"
+            [options]="documentidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DocumentId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
 <app-validation-errors [type]="'number'" [control]="editForm.get('DocumentId')"
 											label="DocumentId">
 										</app-validation-errors>
@@ -84,7 +90,7 @@
 	<app-validation-errors [type]="'date'" [control]="editForm.get('VerifiedOn')"
 											label="VerifiedOn">
 										</app-validation-errors>
-						 </div></div>
+						 </div></div>
 
 					<app-audit-details [model]="creditDocumentChecklist"></app-audit-details>
 					</div>

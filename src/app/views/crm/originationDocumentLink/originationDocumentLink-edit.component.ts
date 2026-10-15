@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -21,6 +21,7 @@ import { OriginationDocumentLinkService } from './originationDocumentLink.servic
   providers: [ MessageService]
 })
 export class OriginationDocumentLinkEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -28,6 +29,8 @@ export class OriginationDocumentLinkEditComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   referencetypeOptions: ISelectItem[] = [];
+  referenceidOptions: ISelectItem[] = [];
+  documentidOptions: ISelectItem[] = [];
 documentpurposecodeOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -55,14 +58,18 @@ documentpurposecodeOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-ReferenceId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-DocumentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+ReferenceId: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+DocumentId: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 DocumentPurposeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IsPrimary: new FormControl(false, [Validators.required]),
 
     });
 
    this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('OriginationDocumentLinkReferenceType');
+   this.loggedInUserService.bindReferenceTypeLookup(this.editForm, 'ReferenceType', 'ReferenceId', options => this.referenceidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, {
+     LEAD: 'leads', OPPORTUNITY: 'opportunities', REQUIREMENT: 'lease-requirements', QUOTE: 'quotes', CREDIT: 'credit-applications'
+   });
+   this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
 this.documentpurposecodeOptions = this.loggedInUserService.getPicklistOptions('OriginationDocumentLinkDocumentPurposeCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];

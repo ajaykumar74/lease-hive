@@ -72,7 +72,7 @@ export class CreditDecisionEditComponent implements OnInit {
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('CreditDecisionDecisionCode');
         this.riskratingcodeOptions = this.loggedInUserService.getPicklistOptions('RiskRatingCode');
         this.decisionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('DecisionReasonCode');
-        this.loggedInUserService.getLookupOptions('approval-requests').subscribe((options) => (this.approvalrequestidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests', options => this.approvalrequestidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.decidedbyOptions = options));
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }
@@ -102,7 +102,6 @@ export class CreditDecisionEditComponent implements OnInit {
     }
 
     populateUI(obj: ICreditDecision): void {
-        this.loggedInUserService.getLookupOptions('approval-requests', obj.ApprovalRequestId).subscribe((options) => (this.approvalrequestidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             CreditApplicationId: obj.CreditApplicationId || 0,

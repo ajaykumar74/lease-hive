@@ -266,6 +266,44 @@ export class LoggedInUserService {
     ).subscribe();
   }
 
+  /** Bind an ID selector to the record type chosen in a companion reference-type control. */
+  bindReferenceTypeLookup(
+    form: FormGroup,
+    referenceTypeField: string,
+    referenceIdField: string,
+    assign: (options: ISelectItem[]) => void,
+    onError: (error: any) => void,
+    destroyRef: DestroyRef,
+    lookupTypes: Record<string, string>
+  ): void {
+    form.valueChanges.pipe(
+      startWith(null),
+      auditTime(0),
+      map(() => ({
+        referenceType: String(form.get(referenceTypeField)?.value || '').trim().toUpperCase(),
+        selectedId: Number(form.get(referenceIdField)?.value) || undefined
+      })),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      switchMap(({ referenceType, selectedId }) => {
+        const lookupType = lookupTypes[referenceType];
+        assign([]);
+        if (!lookupType) {
+          if (selectedId) form.get(referenceIdField)?.setValue(null, { emitEvent: false });
+          return EMPTY;
+        }
+
+        return this.getEntityLookupOptions(lookupType, selectedId).pipe(
+          map(options => {
+            assign(options);
+            if (selectedId && !options.some(option => option.Id === selectedId)) form.get(referenceIdField)?.setValue(null);
+          }),
+          catchError(error => { onError(error); return EMPTY; })
+        );
+      }),
+      takeUntilDestroyed(destroyRef)
+    ).subscribe();
+  }
+
   getLookupOptions(
     lookupType: string,
     selectedId?: number,

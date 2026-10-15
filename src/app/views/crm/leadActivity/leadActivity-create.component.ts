@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -41,7 +41,8 @@ export class LeadActivityCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private leadActivityService: LeadActivityService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -59,13 +60,11 @@ export class LeadActivityCreateComponent implements OnInit {
             OutcomeCode: new FormControl('', [Validators.maxLength(20)]),
             Notes: new FormControl('', [Validators.maxLength(100)]),
             CompletedOn: new FormControl(new Date(), []),
-            EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-            EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
         });
         this.Caption = 'Create LeadActivity';
-        this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeadId', 'leads', options => this.leadidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { LeadId: 'LeadId' });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assigneduseridOptions = options));
         this.activitytypeOptions = this.loggedInUserService.getPicklistOptions('ActivityType');
         this.outcomecodeOptions = this.loggedInUserService.getPicklistOptions('OutcomeCode');

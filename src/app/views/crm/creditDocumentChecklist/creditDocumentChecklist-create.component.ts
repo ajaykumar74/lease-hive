@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -26,6 +26,7 @@ export class CreditDocumentChecklistCreateComponent implements OnInit {
     creditDocumentChecklist: ICreditDocumentChecklist = null;
     creditapplicationidOptions: ISelectItem[] = [];
     documenttypeOptions: ISelectItem[] = [];
+    documentidOptions: ISelectItem[] = [];
     checkliststatusOptions: ISelectItem[] = [];
     verifiedbyOptions: ISelectItem[] = [];
 
@@ -40,7 +41,8 @@ export class CreditDocumentChecklistCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditDocumentChecklistService: CreditDocumentChecklistService,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private destroyRef: DestroyRef
     ) {}
 
     ngOnInit(): void {
@@ -58,6 +60,7 @@ export class CreditDocumentChecklistCreateComponent implements OnInit {
         });
         this.Caption = 'Create CreditDocumentChecklist';
         this.loggedInUserService.getLookupOptions('credit-applications').subscribe((options) => (this.creditapplicationidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.documenttypeOptions = this.loggedInUserService.getPicklistOptions('DocumentType');
         this.checkliststatusOptions = this.loggedInUserService.getPicklistOptions('ChecklistStatus');
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.verifiedbyOptions = options));

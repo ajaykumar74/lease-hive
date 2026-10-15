@@ -52,7 +52,7 @@ export class OpportunityCreateComponent implements OnInit {
         this.editForm = this.fb.group({
             Id: new FormControl(0, []),
             LeadId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OriginatingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             OwnerOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
             OwnerUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
@@ -62,8 +62,6 @@ export class OpportunityCreateComponent implements OnInit {
             CurrencyCode: new FormControl('', [Validators.maxLength(20)]),
             ProbabilityPct: new FormControl(0, [Validators.min(0), Validators.max(255)]),
             ExpectedCloseDate: new FormControl(new Date(), []),
-            LostReasonCode: new FormControl('', [Validators.maxLength(100)]),
-            ClosedOn: new FormControl(new Date(), []),
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
@@ -74,7 +72,7 @@ export class OpportunityCreateComponent implements OnInit {
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
-        this.loggedInUserService.getLookupOptions('opportunity-stages').subscribe((options) => (this.opportunitystageidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityStageId', 'opportunity-stages', options => this.opportunitystageidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
     }
 
     loadUI(): void {
@@ -108,8 +106,6 @@ export class OpportunityCreateComponent implements OnInit {
             CurrencyCode: obj.CurrencyCode || '',
             ProbabilityPct: obj.ProbabilityPct || 0,
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
-            LostReasonCode: obj.LostReasonCode || '',
-            ClosedOn: obj.ClosedOn || new Date(),
             Description: obj.Description || ''
         });
     }
@@ -142,11 +138,10 @@ export class OpportunityCreateComponent implements OnInit {
             CurrencyCode: obj.CurrencyCode || '',
             ProbabilityPct: obj.ProbabilityPct || 0,
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
-            LostReasonCode: obj.LostReasonCode || '',
-            ClosedOn: obj.ClosedOn || new Date(),
             Description: obj.Description || ''
         });
-        this.editForm.reset();
+        this.editForm.markAsPristine();
+        this.editForm.markAsUntouched();
     }
 
     Save(): void {
@@ -171,8 +166,6 @@ export class OpportunityCreateComponent implements OnInit {
             CurrencyCode: formValues.CurrencyCode || null,
             ProbabilityPct: formValues.ProbabilityPct || 0,
             ExpectedCloseDate: formValues.ExpectedCloseDate || null,
-            LostReasonCode: formValues.LostReasonCode || null,
-            ClosedOn: formValues.ClosedOn || null,
             RecordStatus: 'Active',
             EffectiveFrom: new Date(),
             EffectiveTo: null,

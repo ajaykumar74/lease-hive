@@ -27,6 +27,7 @@ export class QuoteAcceptanceCreateComponent implements OnInit {
     quoteidOptions: ISelectItem[] = [];
     decisioncodeOptions: ISelectItem[] = [];
     acceptedbypartycontactidOptions: ISelectItem[] = [];
+    documentidOptions: ISelectItem[] = [];
     acceptancemethodcodeOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -55,13 +56,14 @@ export class QuoteAcceptanceCreateComponent implements OnInit {
             AcceptedByName: new FormControl('', [Validators.required, Validators.maxLength(30)]),
             AcceptedByPartyContactId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             AcceptanceMethodCode: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            DocumentId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+            DocumentId: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
             Remarks: new FormControl('', [Validators.maxLength(100)])
         });
         this.Caption = 'Create QuoteAcceptance';
         this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('QuoteAcceptanceDecisionCode');
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AcceptedByPartyContactId', 'party-contacts', options => this.acceptedbypartycontactidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { QuoteId: 'QuoteId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'DocumentId', 'documents', options => this.documentidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.acceptancemethodcodeOptions = this.loggedInUserService.getPicklistOptions('AcceptanceMethodCode');
     }
 

@@ -128,24 +128,6 @@
 	<app-validation-errors [type]="'date'" [control]="editForm.get('ExpectedCloseDate')"
 											label="Expected Close Date">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">                 <label for="address">Lost Reason Code</label>
-                    <textarea size="small" pTextarea placeholder="Type Lost Reason Code" [autoResize]="true" rows="3" class="w-full"
-										cols="30" formControlName="LostReasonCode"
-										[ngClass]="{'is-invalid': (editForm.get('LostReasonCode').touched || editForm.get('LostReasonCode').dirty) && !editForm.get('LostReasonCode').valid }"></textarea>
-<app-validation-errors [type]="'text'" [control]="editForm.get('LostReasonCode')"
-											label="Lost Reason Code">
-										</app-validation-errors>
-
-
-               </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
-							<label for="ClosedOn">ClosedOn 
-							</label> 
-							<p-calendar id="ClosedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="ClosedOn"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('ClosedOn')"
-											label="ClosedOn">
-										</app-validation-errors>
 						 </div></div>
 <div class="flex flex-wrap" > <div class="flex flex-col w-full">                 <label for="address">Description</label>
                     <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
@@ -156,7 +138,7 @@
 										</app-validation-errors>
 
 
-               </div></div>
+               </div></div>
 
 					</div>
 				</div>

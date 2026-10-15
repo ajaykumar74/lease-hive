@@ -78,7 +78,7 @@
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="AssignedUserId">Assigned UserId 
 							</label> 
-							<input pInputText id="AssignedUserId" type="text" pSize="small"	formControlName="AssignedUserId"  />
+							<p-dropdown inputId="AssignedUserId" [options]="assigneduseridOptions" optionLabel="Text" optionValue="Id" formControlName="AssignedUserId" placeholder="Select One" class="w-full"></p-dropdown>
 							<app-validation-errors [type]="'text'" [control]="editForm.get('AssignedUserId')"
 											label="Assigned UserId">
 										</app-validation-errors>
@@ -113,36 +113,9 @@
 											label="Completed On">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
-        <p-dropdown
-            inputId="RecordStatus" 
-            [options]="recordstatusOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RecordStatus"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
-											label="Record Status">
-										</app-validation-errors></div><div class="flex flex-col w-full">			
-							<label for="EffectiveFrom">Effective From 
-							</label> 
-							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="EffectiveFrom"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
-											label="Effective From">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
-							<label for="EffectiveTo">Effective To 
-							</label> 
-							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="EffectiveTo"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
-											label="Effective To">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">                 <label for="address">Description</label>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+                 <label for="address">Description</label>
                     <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
 										cols="30" formControlName="Description"
 										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>

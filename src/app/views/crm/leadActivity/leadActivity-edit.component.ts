@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { LeadActivityService } from './leadActivity.service';
     providers: [MessageService]
 })
 export class LeadActivityEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     leadActivity: ILeadActivity = null;
@@ -26,9 +27,9 @@ export class LeadActivityEditComponent implements OnInit {
     Caption: string = 'Loading...';
     leadidOptions: ISelectItem[] = [];
     opportunityidOptions: ISelectItem[] = [];
+    assigneduseridOptions: ISelectItem[] = [];
     activitytypeOptions: ISelectItem[] = [];
     outcomecodeOptions: ISelectItem[] = [];
-    recordstatusOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: ILeadActivity = {} as ILeadActivity;
@@ -60,16 +61,13 @@ export class LeadActivityEditComponent implements OnInit {
             OutcomeCode: new FormControl('', [Validators.maxLength(20)]),
             Notes: new FormControl('', [Validators.maxLength(100)]),
             CompletedOn: new FormControl(new Date(), []),
-            RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-            EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-            EffectiveTo: new FormControl(new Date(), []),
             Description: new FormControl('', [Validators.maxLength(100)])
         });
-        this.loggedInUserService.getLookupOptions('leads').subscribe((options) => (this.leadidOptions = options));
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'LeadId', 'leads', options => this.leadidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { LeadId: 'LeadId' });
+        this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assigneduseridOptions = options));
         this.activitytypeOptions = this.loggedInUserService.getPicklistOptions('ActivityType');
         this.outcomecodeOptions = this.loggedInUserService.getPicklistOptions('OutcomeCode');
-        this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }
@@ -99,8 +97,6 @@ export class LeadActivityEditComponent implements OnInit {
     }
 
     populateUI(obj: ILeadActivity): void {
-        this.loggedInUserService.getLookupOptions('opportunities', obj.OpportunityId).subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getLookupOptions('leads', obj.LeadId).subscribe((options) => (this.leadidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             LeadId: obj.LeadId || 0,
@@ -113,9 +109,6 @@ export class LeadActivityEditComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
 
@@ -147,9 +140,6 @@ export class LeadActivityEditComponent implements OnInit {
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
             CompletedOn: obj.CompletedOn || new Date(),
-            RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
             Description: obj.Description || ''
         });
 
@@ -164,6 +154,7 @@ export class LeadActivityEditComponent implements OnInit {
 
         const formValues = this.editForm.value;
         var updatedObj = {
+            TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,
             RowVersionStr: this.objMaster.RowVersionStr,
             LeadId: formValues.LeadId || 0,
@@ -176,9 +167,9 @@ export class LeadActivityEditComponent implements OnInit {
             OutcomeCode: formValues.OutcomeCode || null,
             Notes: formValues.Notes || null,
             CompletedOn: formValues.CompletedOn || null,
-            RecordStatus: formValues.RecordStatus || null,
-            EffectiveFrom: new Date(),
-            EffectiveTo: null,
+            RecordStatus: 'Active',
+            EffectiveFrom: this.objMaster.EffectiveFrom ?? new Date(),
+            EffectiveTo: this.objMaster.EffectiveTo ?? null,
             Description: formValues.Description || null
         } as ILeadActivity;
 

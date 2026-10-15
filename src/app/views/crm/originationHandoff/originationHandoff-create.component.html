@@ -95,10 +95,16 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('TargetModuleCode')"
 											label="Target Module Code">
-										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="TargetReferenceId">Target ReferenceId 
-							</label> 
-							<p-inputNumber id="TargetReferenceId"  pSize="small"	formControlName="TargetReferenceId"  >
-</p-inputNumber>
+										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="TargetReferenceId" class="mb-1">Target ReferenceId</label>
+        <p-dropdown
+            inputId="TargetReferenceId"
+            [options]="targetreferenceidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="TargetReferenceId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
 <app-validation-errors [type]="'number'" [control]="editForm.get('TargetReferenceId')"
 											label="Target ReferenceId">
 										</app-validation-errors>

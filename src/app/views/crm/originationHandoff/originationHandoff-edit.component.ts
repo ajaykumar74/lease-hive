@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,6 +19,7 @@ import { OriginationHandoffService } from './originationHandoff.service';
     providers: [MessageService]
 })
 export class OriginationHandoffEditComponent implements OnInit {
+    private readonly entityLookupDestroyRef = inject(DestroyRef);
     selectedId: number;
     isLoading: boolean = false;
     originationHandoff: IOriginationHandoff = null;
@@ -30,6 +31,7 @@ export class OriginationHandoffEditComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     handoffstatusidOptions: ISelectItem[] = [];
     targetmodulecodeOptions: ISelectItem[] = [];
+    targetreferenceidOptions: ISelectItem[] = [];
 
     editForm: any;
     objMaster: IOriginationHandoff = {} as IOriginationHandoff;
@@ -60,12 +62,13 @@ export class OriginationHandoffEditComponent implements OnInit {
             TargetModuleCode: new FormControl('', [Validators.maxLength(20)]),
             TargetReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)])
         });
-        this.loggedInUserService.getLookupOptions('opportunities').subscribe((options) => (this.opportunityidOptions = options));
-        this.loggedInUserService.getLookupOptions('quotes').subscribe((options) => (this.quoteidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-decisions').subscribe((options) => (this.creditdecisionidOptions = options));
-        this.loggedInUserService.getPartyOptions().subscribe((options) => (this.partyidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'QuoteId', 'quotes', options => this.quoteidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'CreditDecisionId', 'credit-decisions', options => this.creditdecisionidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.handoffstatusidOptions = this.loggedInUserService.getPicklistOptions('HandoffStatusCode');
         this.targetmodulecodeOptions = this.loggedInUserService.getPicklistOptions('OriginationHandoffTargetModuleCode');
+        this.loggedInUserService.bindReferenceTypeLookup(this.editForm, 'TargetModuleCode', 'TargetReferenceId', options => this.targetreferenceidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { CONTACT: 'party-contacts' });
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
     }
@@ -95,9 +98,6 @@ export class OriginationHandoffEditComponent implements OnInit {
     }
 
     populateUI(obj: IOriginationHandoff): void {
-        this.loggedInUserService.getLookupOptions('quotes', obj.QuoteId).subscribe((options) => (this.quoteidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-decisions', obj.CreditDecisionId).subscribe((options) => (this.creditdecisionidOptions = options));
-        this.loggedInUserService.getLookupOptions('opportunities', Number(obj.OpportunityId)).subscribe((options) => (this.opportunityidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             OpportunityId: obj.OpportunityId || '',

@@ -30,6 +30,7 @@ export class QuoteCreateComponent implements OnInit {
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
     quotestatusidOptions: ISelectItem[] = [];
+    supersedesquoteidOptions: ISelectItem[] = [];
     billingfrequencyOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -79,6 +80,7 @@ export class QuoteCreateComponent implements OnInit {
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'SupersedesQuoteId', 'quotes', options => this.supersedesquoteidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(
             this.editForm,
@@ -184,6 +186,10 @@ export class QuoteCreateComponent implements OnInit {
         }
 
         const formValues = this.editForm.value;
+        if (Number(formValues.SupersedesQuoteId) > 0 && Number(formValues.SupersedesQuoteId) === Number(this.objMaster.Id)) {
+            this.messageService.showError('A quote cannot supersede itself.');
+            return;
+        }
         var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,

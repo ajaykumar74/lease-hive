@@ -72,7 +72,7 @@ export class CreditDecisionCreateComponent implements OnInit {
         this.decisioncodeOptions = this.loggedInUserService.getPicklistOptions('CreditDecisionDecisionCode');
         this.riskratingcodeOptions = this.loggedInUserService.getPicklistOptions('RiskRatingCode');
         this.decisionreasoncodeOptions = this.loggedInUserService.getPicklistOptions('DecisionReasonCode');
-        this.loggedInUserService.getLookupOptions('approval-requests').subscribe((options) => (this.approvalrequestidOptions = options));
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovalRequestId', 'approval-requests', options => this.approvalrequestidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { CreditApplicationId: 'CreditApplicationId' });
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.decidedbyOptions = options));
     }
 
