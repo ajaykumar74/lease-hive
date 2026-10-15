@@ -35,7 +35,7 @@ const featureRoutes: Routes = [
     feature('configuration/disposition-methods', 'Disposition Methods', () => import('@/views/eolDisposals/dispositionMethod/dispositionMethod.module').then(m => m.DispositionMethodModule)),
     feature('configuration/settlement-charge-types', 'Settlement Charge Types', () => import('@/views/eolDisposals/settlementChargeType/settlementChargeType.module').then(m => m.SettlementChargeTypeModule)),
     feature('exceptions', 'End-of-Lease & Disposal Exceptions', () => import('@/views/eolDisposals/endOfLeaseDisposalException/endOfLeaseDisposalException.module').then(m => m.EndOfLeaseDisposalExceptionModule)),
-    feature('documents', 'End-of-Lease & Disposal Documents', () => import('@/views/eolDisposals/endOfLeaseDisposalDocumentLink/endOfLeaseDisposalDocumentLink.module').then(m => m.EndOfLeaseDisposalDocumentLinkModule)),
+    { path: 'documents', redirectTo: 'cases', pathMatch: 'full' as const },
     feature('handoffs', 'End-of-Lease & Disposal Handoffs', () => import('@/views/eolDisposals/endOfLeaseDisposalHandoff/endOfLeaseDisposalHandoff.module').then(m => m.EndOfLeaseDisposalHandoffModule)),
     {
         path: 'dashboard',

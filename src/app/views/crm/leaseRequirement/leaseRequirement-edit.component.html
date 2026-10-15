@@ -18,14 +18,14 @@
                                     </div>
                                     <div class="flex flex-col w-full">
                                 <label for="Party Id" class="mb-1">Party</label>
-                                        <p-dropdown inputId="PartyId" [options]="partyidOptions" optionLabel="Text" optionValue="Value" formControlName="PartyId" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <p-dropdown inputId="PartyId" [options]="partyidOptions" optionLabel="Text" optionValue="Value" formControlName="PartyId" placeholder="Select One" [showClear]="true" class="w-full"> </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')" label="Party Id"> </app-validation-errors>
                                     </div>
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
                                 <label for="Party LocationId" class="mb-1">Party Location</label>
-                                        <p-dropdown inputId="PartyLocationId" [options]="partylocationidOptions" optionLabel="Text" optionValue="Value" formControlName="PartyLocationId" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <p-dropdown inputId="PartyLocationId" [options]="partylocationidOptions" optionLabel="Text" optionValue="Value" formControlName="PartyLocationId" placeholder="Select One" [showClear]="true" class="w-full"> </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('PartyLocationId')" label="Party LocationId"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">

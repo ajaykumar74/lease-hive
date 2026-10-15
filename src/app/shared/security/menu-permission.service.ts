@@ -50,7 +50,6 @@ export class MenuPermissionService {
         { route: '/business/parties/customer-profiles', resource: 'party.customerprofile' },
         { route: '/business/parties/supplier-profiles', resource: 'party.supplierprofile' },
         { route: '/business/parties/contacts', resource: 'party.contact' },
-        { route: '/business/parties/documents', resource: 'document.document' },
         { route: '/business/parties', resource: 'party.party' },
         { route: '/dashboard/picklistitems', resource: 'configuration.picklistitem' },
         { route: '/dashboard/numbersequences', resource: 'configuration.numbersequence' },

@@ -201,11 +201,7 @@ export const PROCUREMENT_ROUTES: Routes = [
     placeholderRoute('procurement/reports/match-exceptions', 'Invoice Match Exceptions', 'pi pi-exclamation-triangle'),
     placeholderRoute('procurement/config/policies', 'Procurement Policies', 'pi pi-sliders-h'),
 
-    moduleRoute(
-        'procurement/documents',
-        'Procurement Documents',
-        () => import('@/views/procurements/procurementDocumentLink/procurementDocumentLink.module').then(m => m.ProcurementDocumentLinkModule)
-    ),
+    { path: 'procurement/documents', redirectTo: 'procurement/requisitions', pathMatch: 'full' },
     moduleRoute(
         'procurement/exceptions',
         'Procurement Exceptions',

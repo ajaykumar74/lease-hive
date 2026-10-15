@@ -52,8 +52,8 @@ export class LeaseRequirementEditComponent implements OnInit {
         this.editForm = this.fb.group({
             Id: new FormControl(0, [Validators.required]),
             OpportunityId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-            PartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-            PartyLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+            PartyId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+            PartyLocationId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
             RequirementDate: new FormControl(new Date(), [Validators.required]),
             PreferredStartDate: new FormControl(new Date(), []),
             RequestedTermMonths: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(255)]),

@@ -79,7 +79,7 @@ const moduleRoutes: Routes = [
     route('control/approval-actions', 'Finance Approval Actions', () => import('@/views/billings/financeApprovalAction/financeApprovalAction.module').then(m => m.FinanceApprovalActionModule)),
     route('control/approvals', 'Finance Approvals', () => import('@/views/billings/financeApprovalRequest/financeApprovalRequest.module').then(m => m.FinanceApprovalRequestModule)),
     route('control/exceptions', 'Finance Exceptions', () => import('@/views/billings/financeException/financeException.module').then(m => m.FinanceExceptionModule)),
-    route('control/documents', 'Finance Documents', () => import('@/views/billings/financeDocumentLink/financeDocumentLink.module').then(m => m.FinanceDocumentLinkModule)),
+    { path: 'control/documents', redirectTo: 'invoices', pathMatch: 'full' },
     route('control/handoffs', 'Finance Handoffs', () => import('@/views/billings/financeHandoff/financeHandoff.module').then(m => m.FinanceHandoffModule)),
     route('configuration/billing-run-statuses', 'Billing Run Statuses', () => import('@/views/billings/billingRunStatus/billingRunStatus.module').then(m => m.BillingRunStatusModule)),
     route('configuration/invoice-statuses', 'Invoice Statuses', () => import('@/views/billings/invoiceStatus/invoiceStatus.module').then(m => m.InvoiceStatusModule)),

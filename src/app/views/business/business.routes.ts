@@ -36,7 +36,6 @@ const pages: BusinessPage[] = [
     { path: 'origination/quotes/charges', title: 'Quote Charges', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/discount', title: 'Quote Discounts', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/quotes/taxes', title: 'Quote Taxes', area: 'Origination', icon: 'pi pi-percentage' },
-    { path: 'origination/documents', title: 'Origination Documents', area: 'Origination', icon: 'pi pi-folder' },
     { path: 'origination/quotes/acceptances', title: 'Quote Acceptances', area: 'Origination', icon: 'pi pi-send' },
     { path: 'origination/credit/applications', title: 'Credit Applications', area: 'Origination', icon: 'pi pi-list' },
     { path: 'origination/credit/ApplicantPartys', title: 'Credit Applicant Partys', area: 'Origination', icon: 'pi pi-list' },
@@ -192,8 +191,8 @@ export const BUSINESS_ROUTES: Routes = [
             },
             {
                 path: 'origination/documents',
-                data: { title: 'Origination Documents', breadcrumb: 'Origination Documents' },
-                loadChildren: () => import('@/views/crm/originationDocumentLink/originationDocumentLink.module').then((m) => m.OriginationDocumentLinkModule)
+                redirectTo: 'crm/leaseRequirements',
+                pathMatch: 'full'
             },
             {
                 path: 'origination/quotes',

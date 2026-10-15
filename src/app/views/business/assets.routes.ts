@@ -137,8 +137,8 @@ export const ASSET_ROUTES: Routes = [
     },
     {
         path: 'assets/documents',
-        data: { title: 'Asset Documents', breadcrumb: 'Documents' },
-        loadChildren: () => import('@/views/assets/assetDocumentLink/assetDocumentLink.module').then(m => m.AssetDocumentLinkModule)
+        redirectTo: 'assets',
+        pathMatch: 'full'
     },
     {
         path: 'assets/valuations',

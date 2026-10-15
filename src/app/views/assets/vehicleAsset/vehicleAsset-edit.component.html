@@ -143,6 +143,10 @@
  			</p-fluid> 	
                      </form>			 
 
+				<app-document-attachment-requirements [ownerType]="'VehicleAsset'"
+					[ownerId]="vehicleAsset?.Id" [allowUpload]="true" [allowRemove]="true">
+				</app-document-attachment-requirements>
+
 			</div>
 		</div>
 	</div>

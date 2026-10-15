@@ -32,7 +32,7 @@ const featureRoutes: Routes = [
     feature('insurance/configuration/policy-statuses', 'Policy Statuses', () => import('@/views/maintenanceInsurances/insurancePolicyStatus/insurancePolicyStatus.module').then(m => m.InsurancePolicyStatusModule)),
     feature('insurance/configuration/claim-statuses', 'Claim Statuses', () => import('@/views/maintenanceInsurances/insuranceClaimStatus/insuranceClaimStatus.module').then(m => m.InsuranceClaimStatusModule)),
     feature('exceptions', 'Maintenance & Insurance Exceptions', () => import('@/views/maintenanceInsurances/maintenanceInsuranceException/maintenanceInsuranceException.module').then(m => m.MaintenanceInsuranceExceptionModule)),
-    feature('documents', 'Maintenance & Insurance Documents', () => import('@/views/maintenanceInsurances/maintenanceInsuranceDocumentLink/maintenanceInsuranceDocumentLink.module').then(m => m.MaintenanceInsuranceDocumentLinkModule)),
+    { path: 'documents', redirectTo: 'maintenance/requests', pathMatch: 'full' as const },
     feature('handoffs', 'Maintenance & Insurance Handoffs', () => import('@/views/maintenanceInsurances/maintenanceInsuranceHandoff/maintenanceInsuranceHandoff.module').then(m => m.MaintenanceInsuranceHandoffModule)),
     {
         path: 'dashboard',

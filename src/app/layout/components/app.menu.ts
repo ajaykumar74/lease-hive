@@ -364,9 +364,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/parties/credit-profiles']
                                         },
                                         {
-                                            label: 'KYC documents',
+                                            label: 'Customer documents',
                                             icon: 'pi pi-fw pi-id-card',
-                                            routerLink: ['/business/parties/documents']
+                                            routerLink: ['/business/parties'],
+                                            requiredPermission: 'document.document.view',
+                                            tooltip: 'Open a saved party, then use its Documents section to upload against active document requirements.'
                                         },
                                         {
                                             label: 'Verification status',
@@ -558,7 +560,7 @@ export class AppMenu implements OnInit, OnDestroy {
                     icon: 'pi pi-th-large',
                     items: [
                         {
-                            label: 'CRM & Origination',
+                            label: 'Leasing CRM',
                             icon: 'pi pi-fw pi-users',
                             items: [
                                 {
@@ -566,9 +568,9 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/business/crm/dashboard']
                                 },
-
+                               
                                 {
-                                    label: 'Leads',
+                                    label: 'Leads & Activities',
                                     icon: 'pi pi-fw pi-user-plus',
                                     items: [
                                         {
@@ -595,7 +597,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                 },
 
                                 {
-                                    label: 'Opportunities',
+                                    label: 'Opportunities & Requirements',
                                     icon: 'pi pi-fw pi-briefcase',
                                     items: [
                                         {
@@ -612,77 +614,52 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'New Opportunity',
                                             icon: 'pi pi-fw pi-plus',
                                             routerLink: ['/business/crm/opportunities/create']
-                                        }
-                                    ]
-                                },
-
-                                {
-                                    label: 'Lease Requirements',
-                                    icon: 'pi pi-fw pi-file-edit',
-                                    items: [
+                                        },
                                         {
-                                            label: 'All Requirements',
-                                            icon: 'pi pi-fw pi-list',
+                                            label: 'Lease Requirements',
+                                            icon: 'pi pi-fw pi-file-edit',
                                             routerLink: ['/business/crm/leaseRequirements']
                                         },
                                         {
-                                            label: 'New Requirement',
+                                            label: 'New Lease Requirement',
                                             icon: 'pi pi-fw pi-plus',
                                             routerLink: ['/business/crm/leaseRequirements/create']
                                         },
                                         {
                                             label: 'Requirement Assets',
-                                            icon: 'pi pi-fw pi-list',
+                                            icon: 'pi pi-fw pi-box',
                                             routerLink: ['/business/crm/leaseRequirementAssets']
-                                        },
-                                        {
-                                            label: 'New Requirement Asset',
-                                            icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/crm/leaseRequirementAssets/create']
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Quotes',
-                                    icon: 'pi pi-fw pi-file',
+                                    label: 'Customer & KYC',
+                                    icon: 'pi pi-fw pi-id-card',
                                     items: [
                                         {
-                                            label: 'All Quotes',
-                                            icon: 'pi pi-fw pi-list',
-                                            routerLink: ['/business/origination/quotes']
+                                            label: 'Customers (Parties)',
+                                            icon: 'pi pi-fw pi-users',
+                                            routerLink: ['/business/parties']
                                         },
                                         {
-                                            label: 'Quotes for Approval',
-                                            icon: 'pi pi-fw pi-check-square',
-                                            routerLink: ['/business/origination/credit/approvals']
+                                            label: 'New Customer',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/parties/create']
                                         },
                                         {
-                                            label: 'Issued Quotes',
-                                            icon: 'pi pi-fw pi-send',
-                                            routerLink: ['/business/origination/quotes']
+                                            label: 'Authorised Contacts',
+                                            icon: 'pi pi-fw pi-user-edit',
+                                            routerLink: ['/business/parties/contacts']
                                         },
                                         {
-                                            label: 'Quote Assets',
-                                            icon: 'pi pi-fw pi-box',
-                                            routerLink: ['/business/origination/quotes/assets']
-                                        },
-                                        {
-                                            label: 'Quote Acceptances',
-                                            icon: 'pi pi-fw pi-check-circle',
-                                            routerLink: ['/business/origination/quotes/acceptances']
-                                        }
+                                            label: 'Add Authorised Contact',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/parties/contacts/create']
+                                        } 
                                     ]
                                 },
-
                                 {
-                                    label: 'Security Deposits',
-                                    icon: 'pi pi-fw pi-shield',
-                                    routerLink: ['/contracts/deposits']
-                                },
-
-                                {
-                                    label: 'Credit',
+                                    label: 'Credit Assessment & Approval',
                                     icon: 'pi pi-fw pi-credit-card',
                                     items: [
                                         {
@@ -691,77 +668,112 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/origination/credit/applications']
                                         },
                                         {
-                                            label: 'Credit Review',
-                                            icon: 'pi pi-fw pi-search',
-                                            routerLink: ['/business/origination/credit/review']
-                                        },
-                                        {
                                             label: 'Credit Assessment',
                                             icon: 'pi pi-fw pi-file-check',
                                             routerLink: ['/business/origination/credit/assessment']
                                         },
                                         {
-                                            label: 'Credit Approvals',
-                                            icon: 'pi pi-fw pi-check-circle',
-                                            routerLink: ['/business/origination/credit/approvals']
+                                            label: 'Credit Decisions',
+                                            icon: 'pi pi-fw pi-check-square',
+                                            routerLink: ['/business/origination/credit/decision']
                                         },
                                         {
-                                            label: 'Credit Limits',
-                                            icon: 'pi pi-fw pi-wallet',
-                                            routerLink: ['/business/origination/credit/limits']
+                                            label: 'Approval Requests',
+                                            icon: 'pi pi-fw pi-verified',
+                                            routerLink: ['/business/origination/credit/approvals']
                                         },
                                         {
                                             label: 'Credit Conditions',
                                             icon: 'pi pi-fw pi-list-check',
                                             routerLink: ['/business/origination/credit/Conditions']
-                                        },
-                                        {
-                                            label: 'Credit Decisions',
-                                            icon: 'pi pi-fw pi-check-square',
-                                            routerLink: ['/business/origination/credit/decision']
                                         }
                                     ]
                                 },
-
                                 {
-                                    label: 'Approvals',
-                                    icon: 'pi pi-fw pi-verified',
-                                    routerLink: ['/business/origination/approvals']
+                                    label: 'Quotes & Acceptance',
+                                    icon: 'pi pi-fw pi-file',
+                                    items: [
+                                        {
+                                            label: 'All Quotes',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/business/origination/quotes']
+                                        },
+                                        {
+                                            label: 'New Quote',
+                                            icon: 'pi pi-fw pi-plus',
+                                            routerLink: ['/business/origination/quotes/create']
+                                        },
+                                        {
+                                            label: 'Quote Items (Vehicles & Pricing)',
+                                            icon: 'pi pi-fw pi-box',
+                                            routerLink: ['/business/origination/quotes/assets']
+                                        },
+                                        {
+                                            label: 'Quote Acceptances',
+                                            icon: 'pi pi-fw pi-check-circle',
+                                            routerLink: ['/business/origination/quotes/acceptances']
+                                        },
+                                        {
+                                            label: 'Quote Statuses',
+                                            icon: 'pi pi-fw pi-cog',
+                                            routerLink: ['/business/origination/config/quote-statuses']
+                                        }
+                                    ]
                                 },
-
                                 {
-                                    label: 'Contract Handoffs',
-                                    icon: 'pi pi-fw pi-arrow-right-arrow-left',
-                                    routerLink: ['/business/origination/handoffs']
+                                    label: 'Win & Contract',
+                                    icon: 'pi pi-fw pi-file-check',
+                                    items: [
+                                        {
+                                            label: 'Mark Opportunity Won',
+                                            icon: 'pi pi-fw pi-trophy',
+                                            routerLink: ['/business/crm/opportunities'],
+                                            tooltip: 'Open the accepted opportunity and set its stage to Won.'
+                                        },
+                                        {
+                                            label: 'Contract Handoffs',
+                                            icon: 'pi pi-fw pi-arrow-right-arrow-left',
+                                            routerLink: ['/business/origination/handoffs']
+                                        },
+                                        {
+                                            label: 'Create Lease Contract',
+                                            icon: 'pi pi-fw pi-plus-circle',
+                                            routerLink: ['/contracts/create']
+                                        },
+                                        {
+                                            label: 'All Lease Contracts',
+                                            icon: 'pi pi-fw pi-list',
+                                            routerLink: ['/contracts']
+                                        }
+                                    ]
                                 },
-
-                                {
-                                    separator: true
-                                },
-
+                                
                                 {
                                     label: 'Configuration',
                                     icon: 'pi pi-fw pi-cog',
                                     items: [
                                         {
+                                            label: 'Credit Statuses',
+                                            routerLink: ['/business/origination/config/credit-statuses']
+                                        },
+                                        {
+                                            label: 'Credit Limits',
+                                            routerLink: ['/business/origination/credit/limits']
+                                        },
+                                        {
                                             label: 'Lead Sources',
+                                            icon: 'pi pi-fw pi-tags',
                                             routerLink: ['/business/crm/config/lead-sources']
                                         },
                                         {
                                             label: 'Lead Statuses',
+                                            icon: 'pi pi-fw pi-list-check',
                                             routerLink: ['/business/crm/config/lead-statuses']
                                         },
                                         {
                                             label: 'Opportunity Stages',
+                                            icon: 'pi pi-fw pi-chart-line',
                                             routerLink: ['/business/crm/config/opportunity-stages']
-                                        },
-                                        {
-                                            label: 'Quote Statuses',
-                                            routerLink: ['/business/origination/config/quote-statuses']
-                                        },
-                                        {
-                                            label: 'Credit Statuses',
-                                            routerLink: ['/business/origination/config/credit-statuses']
                                         }
                                     ]
                                 }
@@ -979,14 +991,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                     ]
                                 },
                                 {
-                                    label: 'Documents',
+                                    label: 'Asset documents',
                                     icon: 'pi pi-fw pi-folder',
-                                    items: [
-                                        {
-                                            label: 'Asset Documents',
-                                            routerLink: ['/business/assets/documents']
-                                        }
-                                    ]
+                                    routerLink: ['/business/assets'],
+                                    requiredPermission: 'document.document.view',
+                                    tooltip: 'Open an asset and use its Documents section to upload against active document requirements.'
                                 },
                                 {
                                     label: 'Valuations',
@@ -2106,9 +2115,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/billing-finance/control/exceptions']
                                         },
                                         {
-                                            label: 'Documents',
+                                            label: 'Documents on finance records',
                                             icon: 'pi pi-fw pi-folder',
-                                            routerLink: ['/billing-finance/control/documents']
+                                            routerLink: ['/billing-finance/invoices'],
+                                            requiredPermission: 'document.document.view',
+                                            tooltip: 'Open an invoice, receipt, note, receivable, or bank statement and use its Documents section.'
                                         },
                                         {
                                             label: 'Finance Handoffs',
@@ -2271,7 +2282,6 @@ export class AppMenu implements OnInit, OnDestroy {
                                     ]
                                 },
                                 { label: 'Exceptions', icon: 'pi pi-exclamation-triangle', routerLink: ['/maintenance-insurance/exceptions'] },
-                                { label: 'Documents', icon: 'pi pi-folder', routerLink: ['/maintenance-insurance/documents'] },
                                 { label: 'Handoffs', icon: 'pi pi-directions-alt', routerLink: ['/maintenance-insurance/handoffs'] }
                             ]
                         },
@@ -2341,7 +2351,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                     ]
                                 },
                                 { label: 'Exceptions', icon: 'pi pi-exclamation-triangle', routerLink: ['/eol-disposal/exceptions'] },
-                                { label: 'Documents', icon: 'pi pi-folder', routerLink: ['/eol-disposal/documents'] },
+                                {
+                                    label: 'Documents on cases',
+                                    icon: 'pi pi-folder',
+                                    routerLink: ['/eol-disposal/cases'],
+                                    requiredPermission: 'document.document.view',
+                                    tooltip: 'Open an end-of-lease case, settlement, or disposal case and use its Documents section.'
+                                },
                                 { label: 'Handoffs', icon: 'pi pi-directions-alt', routerLink: ['/eol-disposal/handoffs'] }
                             ]
                         },

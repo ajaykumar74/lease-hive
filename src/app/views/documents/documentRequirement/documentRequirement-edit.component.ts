@@ -12,6 +12,10 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IDocumentRequirement } from './documentRequirement';
 import { DocumentRequirementService } from './documentRequirement.service';
+import { IDocumentType } from '../documentType/documentType';
+import { DocumentTypeService } from '../documentType/documentType.service';
+import { IDocumentRetentionPolicy } from '../documentRetentionPolicy/documentRetentionPolicy';
+import { DocumentRetentionPolicyService } from '../documentRetentionPolicy/documentRetentionPolicy.service';
 
 
 @Component({
@@ -41,6 +45,8 @@ requiredmodeOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private documentRequirementService: DocumentRequirementService, 
+	private documentTypeService: DocumentTypeService,
+	private documentRetentionPolicyService: DocumentRetentionPolicyService,
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -55,13 +61,13 @@ requiredmodeOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
-OwnerType: new FormControl('', [Validators.maxLength(100), ]), 
-Code: new FormControl('', [Validators.maxLength(20), ]), 
-DisplayName: new FormControl('', [Validators.maxLength(200), ]), 
+OwnerType: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+Code: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+DisplayName: new FormControl('', [Validators.required, Validators.maxLength(200)]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
-DocumentTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-DocumentRetentionPolicyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RequiredMode: new FormControl(0, [Validators.min(0), Validators.max(255)]),
+DocumentTypeId: new FormControl<string | null>(null, [Validators.required]),
+DocumentRetentionPolicyId: new FormControl('0'),
+RequiredMode: new FormControl('0', [Validators.required]),
 ConditionCode: new FormControl('', [Validators.maxLength(20), ]), 
 MinCount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 MaxCount: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -75,13 +81,13 @@ IsActive: new FormControl(false),
 
     });
 
-   this.documenttypeidOptions.push({Text: 'DocumentTypeId1', Value: 'DocumentTypeId1' });
-this.documenttypeidOptions.push({Text: 'DocumentTypeId2', Value: 'DocumentTypeId2' });
-this.documentretentionpolicyidOptions.push({Text: 'DocumentRetentionPolicyId1', Value: 'DocumentRetentionPolicyId1' });
-this.documentretentionpolicyidOptions.push({Text: 'DocumentRetentionPolicyId2', Value: 'DocumentRetentionPolicyId2' });
-this.requiredmodeOptions.push({Text: 'Optional', Value: 'Optional' });
-this.requiredmodeOptions.push({Text: 'Required', Value: 'Required' });
-this.requiredmodeOptions.push({Text: 'ConditionallyRequired', Value: 'ConditionallyRequired' });
+   this.requiredmodeOptions = [
+      { Text: 'Optional', Value: '0' },
+      { Text: 'Required', Value: '1' },
+      { Text: 'Conditionally required', Value: '2' }
+    ];
+    this.loadDocumentTypeOptions();
+    this.loadRetentionPolicyOptions();
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }
@@ -115,9 +121,9 @@ this.requiredmodeOptions.push({Text: 'ConditionallyRequired', Value: 'Conditiona
 Code: obj.Code || '',
 DisplayName: obj.DisplayName || '',
 Description: obj.Description || '',
-DocumentTypeId: obj.DocumentTypeId || 0,
-DocumentRetentionPolicyId: obj.DocumentRetentionPolicyId || 0,
-RequiredMode: obj.RequiredMode || 0,
+DocumentTypeId: obj.DocumentTypeId ? obj.DocumentTypeId.toString() : null,
+DocumentRetentionPolicyId: (obj.DocumentRetentionPolicyId || 0).toString(),
+RequiredMode: (obj.RequiredMode || 0).toString(),
 ConditionCode: obj.ConditionCode || '',
 MinCount: obj.MinCount || 0,
 MaxCount: obj.MaxCount || 0,
@@ -160,9 +166,9 @@ IsActive:  obj.IsActive || false,
 Code: obj.Code || '',
 DisplayName: obj.DisplayName || '',
 Description: obj.Description || '',
-DocumentTypeId: obj.DocumentTypeId || 0,
-DocumentRetentionPolicyId: obj.DocumentRetentionPolicyId || 0,
-RequiredMode: obj.RequiredMode || 0,
+DocumentTypeId: obj.DocumentTypeId ? obj.DocumentTypeId.toString() : null,
+DocumentRetentionPolicyId: (obj.DocumentRetentionPolicyId || 0).toString(),
+RequiredMode: (obj.RequiredMode || 0).toString(),
 ConditionCode: obj.ConditionCode || '',
 MinCount: obj.MinCount || 0,
 MaxCount: obj.MaxCount || 0,
@@ -197,19 +203,19 @@ IsActive:  obj.IsActive || false,
 Code:  formValues.Code || null,
 DisplayName:  formValues.DisplayName || null,
 Description:  formValues.Description || null,
-DocumentTypeId:  formValues.DocumentTypeId || null,
-DocumentRetentionPolicyId:  formValues.DocumentRetentionPolicyId || null,
-RequiredMode:  formValues.RequiredMode || null,
+DocumentTypeId:  Number(formValues.DocumentTypeId),
+DocumentRetentionPolicyId:  Number(formValues.DocumentRetentionPolicyId || 0),
+RequiredMode:  Number(formValues.RequiredMode),
 ConditionCode:  formValues.ConditionCode || null,
 MinCount:  formValues.MinCount || null,
 MaxCount:  formValues.MaxCount || null,
 AllowedContentTypesJson:  formValues.AllowedContentTypesJson || null,
 AllowedExtensionsJson:  formValues.AllowedExtensionsJson || null,
 MaxFileSizeBytes:  formValues.MaxFileSizeBytes || null,
-RequiresIssueDate:  formValues.RequiresIssueDate || null,
-RequiresExpiryDate:  formValues.RequiresExpiryDate || null,
-ExpiryWarningDays:  formValues.ExpiryWarningDays || null,
-IsActive:  formValues.IsActive || null,
+RequiresIssueDate:  formValues.RequiresIssueDate,
+RequiresExpiryDate:  formValues.RequiresExpiryDate,
+ExpiryWarningDays:  formValues.ExpiryWarningDays || 0,
+IsActive:  formValues.IsActive,
 
     } as IDocumentRequirement ;
 	
@@ -225,6 +231,39 @@ IsActive:  formValues.IsActive || null,
        this.spinner.hide(); 
 	  },
       complete: () => { this.spinner.hide();}
+    });
+  }
+
+  private loadDocumentTypeOptions(): void {
+    this.documentTypeService.getAll().subscribe({
+      next: (response: any) => {
+        const documentTypes: IDocumentType[] = response?.data ?? response ?? [];
+        this.documenttypeidOptions = documentTypes
+          .map(documentType => ({
+            Text: `${documentType.Code} — ${documentType.Name}${documentType.IsActive ? '' : ' (Inactive)'}`,
+            Value: documentType.Id.toString()
+          }))
+          .sort((left, right) => left.Text.localeCompare(right.Text));
+      },
+      error: err => this.messageService?.showError(err)
+    });
+  }
+
+  private loadRetentionPolicyOptions(): void {
+    this.documentRetentionPolicyService.getAll().subscribe({
+      next: (response: any) => {
+        const retentionPolicies: IDocumentRetentionPolicy[] = response?.data ?? response ?? [];
+        this.documentretentionpolicyidOptions = [
+          { Text: 'No retention policy', Value: '0' },
+          ...retentionPolicies
+            .map(policy => ({
+              Text: `${policy.Code} — ${policy.Name}${policy.IsActive ? '' : ' (Inactive)'}`,
+              Value: policy.Id.toString()
+            }))
+            .sort((left, right) => left.Text.localeCompare(right.Text))
+        ];
+      },
+      error: err => this.messageService?.showError(err)
     });
   }
 }

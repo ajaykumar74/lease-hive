@@ -36,7 +36,6 @@ const placeholderPages: LeaseContractPage[] = [
     { path: 'conditions/waivers', title: 'Waiver Requests', icon: 'pi pi-exclamation-triangle' },
     { path: 'activation-readiness', title: 'Activation Readiness', icon: 'pi pi-check-circle' },
     { path: 'document-packs', title: 'Document Packs', icon: 'pi pi-folder' },
-    { path: 'documents', title: 'Contract Documents', icon: 'pi pi-file-pdf' },
     { path: 'documents/generate', title: 'Generate Agreement', icon: 'pi pi-file-export' },
     { path: 'execution/send', title: 'Send for Signature', icon: 'pi pi-send' },
     { path: 'execution', title: 'Execution Tracker', icon: 'pi pi-file-signature' },
@@ -143,8 +142,8 @@ const moduleRoutes: Routes = [
     },
     {
         path: 'documents',
-        data: { title: 'Contract Documents', breadcrumb: 'Contract Documents' },
-        loadChildren: () => import('@/views/leaseContracts/leaseContractDocumentLink/leaseContractDocumentLink.module').then(m => m.LeaseContractDocumentLinkModule)
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
     },
     {
         path: 'execution/parties',
