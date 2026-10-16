@@ -49,6 +49,9 @@
 					<app-document-attachment-requirements [ownerType]="'Party'"
 					    [ownerId]="party?.Id" [allowUpload]="false" [allowRemove]="false">
 					</app-document-attachment-requirements>
+					<div class="mt-4 flex justify-content-end">
+						<a class="p-button p-component" [routerLink]="['/customer-portal/invite']" [queryParams]="{ partyId: party?.Id }">Invite customer user</a>
+					</div>
 			</div>
 		</div>
 	</div>

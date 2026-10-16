@@ -47,6 +47,17 @@ export class LoggedInUserService {
   public get IsBrandPartner(): boolean {
     return this.loggedInUser.Role.toLowerCase().includes("partnerowner");
   }
+
+  /** Identity roles are the source for selecting the customer-facing shell. */
+  public get isCustomerPortalUser(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /(^|[,\s])(customer_portal_admin|customer_portal_user|customerportaladmin|customerportaluser)(?=$|[,\s])/i.test(role);
+  }
+
+  public get isCustomerPortalAdmin(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /(^|[,\s])(customer_portal_admin|customerportaladmin)(?=$|[,\s])/i.test(role);
+  }
   
   public get getRecordId(): number {
     if (this.loggedInUser.AccountType == 'Customer') {

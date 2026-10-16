@@ -6,6 +6,7 @@ import { AppMenuitem } from './app.menuitem';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { AppMenuItem, MenuPermissionService } from '@/shared/security/menu-permission.service';
 import { PermissionService } from '@/shared/security/permission.service';
+import { buildCustomerPortalMenu } from '@/views/customerPortal/customer-portal.menu';
 
 @Component({
     selector: 'app-menu',
@@ -29,7 +30,10 @@ export class AppMenu implements OnInit, OnDestroy {
         private readonly permissionService: PermissionService
     ) {}
     ngOnInit() {
-        if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
+        const isCustomerPortalUser = this.loggedInUserService.isCustomerPortalUser;
+        if (isCustomerPortalUser) {
+            this.model = buildCustomerPortalMenu(this.loggedInUserService.isCustomerPortalAdmin);
+        } else if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
                 {
                     label: 'Dashboards',
@@ -2423,7 +2427,9 @@ export class AppMenu implements OnInit, OnDestroy {
             ];
         }
 
-        this.addDocumentConfigurationMenuForNonTenantAccounts();
+        if (!isCustomerPortalUser) {
+            this.addDocumentConfigurationMenuForNonTenantAccounts();
+        }
 
         //this.flattenLeaseContractMenu();
         this.sourceModel = this.model;

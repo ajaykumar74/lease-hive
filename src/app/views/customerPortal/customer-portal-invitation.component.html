@@ -1,0 +1,24 @@
+<section class="invite-page">
+    <div class="invite-heading">
+        <div><p class="eyebrow">Customer Portal</p><h1>Invite customer user</h1><p>Select an existing party and authorised contact. They will set their own password from a one-time activation link.</p></div>
+        <a routerLink="/business/parties">Back to parties</a>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="invite-form">
+        <label>Party
+            <select formControlName="PartyId"><option [ngValue]="null">Select party</option><option *ngFor="let party of partyOptions" [value]="party.Id">{{ party.Text }}</option></select>
+            <small *ngIf="form.controls.PartyId.touched && form.controls.PartyId.invalid">Party is required.</small>
+        </label>
+        <label>Authorised contact
+            <select formControlName="PartyContactId" [disabled]="!form.controls.PartyId.value"><option [ngValue]="null">Select contact</option><option *ngFor="let contact of contactOptions" [value]="contact.Id">{{ contact.Text }}</option></select>
+            <small *ngIf="form.controls.PartyContactId.touched && form.controls.PartyContactId.invalid">Contact is required.</small>
+        </label>
+        <label>Portal role
+            <select formControlName="PortalRole"><option value="CUSTOMER_PORTAL_ADMIN">Customer administrator</option><option value="CUSTOMER_PORTAL_USER">Customer user</option></select>
+            <span>Administrators can manage their party contacts and customer users.</span>
+        </label>
+        <p class="info"><i class="pi pi-shield"></i> The account receives explicit access only to this party. No password is shown or emailed.</p>
+        <p *ngIf="message" class="success">{{ message }}</p><p *ngIf="error" class="error">{{ error }}</p>
+        <div class="actions"><button type="button" (click)="cancel()">Cancel</button><button type="submit" [disabled]="submitting">{{ submitting ? 'Sending…' : 'Send activation invite' }}</button></div>
+    </form>
+</section>

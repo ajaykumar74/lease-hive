@@ -125,6 +125,7 @@ export class Login {
           user.Username = response.Username;
           user.RecordId = response.RecordId;
           user.Role = response.Role;
+          user.Name = response.Name;
           this.baseService.updateJwtToken(response.Token);
           localStorage.setItem("jwt", response.Token);
           localStorage.setItem("refreshToken", response.RefreshToken);
@@ -135,6 +136,15 @@ export class Login {
           }
 
           });
+
+          if (this.isCustomerPortalRole(user.Role)) {
+            // Customer portal AppUsers do not have the legacy PortalUser/
+            // BrandPartner relationship used by the internal login flow.
+            user.AccountType = 'CustomerPortal';
+            this.loggedInUserService.updateloggedInUser(user);
+            this.router.navigate(['/customer-portal/dashboard']);
+            return;
+          }
 
           this.getCustomerAndPartner(user);
 
@@ -195,6 +205,10 @@ export class Login {
       error: err => { },
       complete: () => { }
     });
+  }
+
+  private isCustomerPortalRole(role: string | undefined): boolean {
+    return /(^|[,\s])(customer_portal_admin|customer_portal_user|customerportaladmin|customerportaluser)(?=$|[,\s])/i.test(role || '');
   }
 
   onRegister() {

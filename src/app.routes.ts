@@ -74,6 +74,12 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard, PermissionGuard]
     },
+    {
+        path: 'customer-portal',
+        loadChildren: () => import('./app/views/customerPortal/customer-portal.routes').then(m => m.CUSTOMER_PORTAL_ROUTES),
+        data: { breadcrumb: 'Customer Portal' },
+        canActivate: [AuthGuard]
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 

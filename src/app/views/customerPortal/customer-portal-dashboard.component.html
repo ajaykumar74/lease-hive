@@ -1,0 +1,31 @@
+<section class="portal-dashboard">
+    <div class="portal-hero">
+        <div>
+            <p class="eyebrow">Customer Portal</p>
+            <h1>Welcome back, {{ name }}</h1>
+            <p>Everything shown here is limited to the party access assigned to your account.</p>
+        </div>
+        <a class="portal-action" routerLink="/customer-portal/documents">Open my documents</a>
+    </div>
+
+    <div class="portal-grid">
+        <a class="portal-card" routerLink="/customer-portal/contracts">
+            <i class="pi pi-file"></i><span>Contracts</span><small>Review your active lease agreements.</small>
+        </a>
+        <a class="portal-card" routerLink="/customer-portal/assets">
+            <i class="pi pi-car"></i><span>Assets</span><small>See assets linked to your leases.</small>
+        </a>
+        <a class="portal-card" routerLink="/customer-portal/invoices">
+            <i class="pi pi-wallet"></i><span>Invoices & payments</span><small>Track balances and payment history.</small>
+        </a>
+        <a class="portal-card" routerLink="/customer-portal/service-requests">
+            <i class="pi pi-wrench"></i><span>Service requests</span><small>Raise and follow maintenance requests.</small>
+        </a>
+    </div>
+
+    <div *ngIf="isAdmin" class="admin-note">
+        <i class="pi pi-shield"></i>
+        <div><strong>Customer administrator</strong><br />You can also manage your authorised contacts and customer users.</div>
+        <a routerLink="/customer-portal/users">Manage users</a>
+    </div>
+</section>
