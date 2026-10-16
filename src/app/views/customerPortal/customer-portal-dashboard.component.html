@@ -8,6 +8,13 @@
         <a class="portal-action" routerLink="/customer-portal/documents">Open my documents</a>
     </div>
 
+    <div class="portal-metrics" *ngIf="summary">
+        <div><small>Active contracts</small><strong>{{ summary.ActiveContractCount }}</strong></div>
+        <div><small>Leased assets</small><strong>{{ summary.LeasedAssetCount }}</strong></div>
+        <div><small>Open invoices</small><strong>{{ summary.OpenInvoiceCount }}</strong></div>
+        <div><small>Outstanding balance</small><strong>{{ summary.OutstandingBalance | currency:(summary.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</strong></div>
+    </div>
+
     <div class="portal-grid">
         <a class="portal-card" routerLink="/customer-portal/contracts">
             <i class="pi pi-file"></i><span>Contracts</span><small>Review your active lease agreements.</small>
@@ -18,7 +25,10 @@
         <a class="portal-card" routerLink="/customer-portal/invoices">
             <i class="pi pi-wallet"></i><span>Invoices & payments</span><small>Track balances and payment history.</small>
         </a>
-        <a class="portal-card" routerLink="/customer-portal/service-requests">
+        <a class="portal-card" routerLink="/customer-portal/documents">
+            <i class="pi pi-folder"></i><span>Documents</span><small>{{ summary?.OutstandingDocumentRequirementCount || 0 }} required party document{{ summary?.OutstandingDocumentRequirementCount === 1 ? '' : 's' }} outstanding.</small>
+        </a>
+        <a class="portal-card" routerLink="/customer-portal/maintenance">
             <i class="pi pi-wrench"></i><span>Service requests</span><small>Raise and follow maintenance requests.</small>
         </a>
     </div>

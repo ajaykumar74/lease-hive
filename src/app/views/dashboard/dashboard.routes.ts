@@ -138,12 +138,7 @@ const routes: Routes = [
         path: 'prospects',
         data: { breadcrumb: 'Prospects' },
         loadChildren: () => import('@/views/prospect/prospect.module').then(c => c.ProspectModule),
-      },
-      {
-        path: 'supportTickets',
-        data: { breadcrumb: 'Support Tickets' },
-        loadChildren: () => import('@/views/supportTicket/supportTicket.module').then(c => c.SupportTicketModule),
-      },
+      }, 
       {
         path: 'portalUsers',
         data: { breadcrumb: 'Portal Users' },

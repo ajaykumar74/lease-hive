@@ -21,5 +21,6 @@ RequiresIssueDate : boolean;
 RequiresExpiryDate : boolean;
 ExpiryWarningDays :number;
 IsActive : boolean;
+CustomerPortalAccess : 'Internal' | 'View' | 'Upload';
 
 }

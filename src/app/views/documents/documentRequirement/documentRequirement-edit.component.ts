@@ -34,6 +34,7 @@ export class DocumentRequirementEditComponent implements OnInit {
   documenttypeidOptions: ISelectItem[] = [];
 documentretentionpolicyidOptions: ISelectItem[] = [];
 requiredmodeOptions: ISelectItem[] = [];
+customerPortalAccessOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IDocumentRequirement = {} as IDocumentRequirement;
@@ -78,6 +79,7 @@ RequiresIssueDate: new FormControl(false),
 RequiresExpiryDate: new FormControl(false), 
 ExpiryWarningDays: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IsActive: new FormControl(false), 
+CustomerPortalAccess: new FormControl<'Internal' | 'View' | 'Upload'>('Internal', [Validators.required]),
 
     });
 
@@ -85,6 +87,11 @@ IsActive: new FormControl(false),
       { Text: 'Optional', Value: '0' },
       { Text: 'Required', Value: '1' },
       { Text: 'Conditionally required', Value: '2' }
+    ];
+    this.customerPortalAccessOptions = [
+      { Text: 'Internal only', Value: 'Internal' },
+      { Text: 'Customer can view', Value: 'View' },
+      { Text: 'Customer administrator can upload', Value: 'Upload' }
     ];
     this.loadDocumentTypeOptions();
     this.loadRetentionPolicyOptions();
@@ -134,6 +141,7 @@ RequiresIssueDate:  obj.RequiresIssueDate || false,
 RequiresExpiryDate:  obj.RequiresExpiryDate || false,
 ExpiryWarningDays: obj.ExpiryWarningDays || 0,
 IsActive:  obj.IsActive || false,
+CustomerPortalAccess: obj.CustomerPortalAccess || 'Internal',
  
       }
     );
@@ -179,6 +187,7 @@ RequiresIssueDate:  obj.RequiresIssueDate || false,
 RequiresExpiryDate:  obj.RequiresExpiryDate || false,
 ExpiryWarningDays: obj.ExpiryWarningDays || 0,
 IsActive:  obj.IsActive || false,
+CustomerPortalAccess: obj.CustomerPortalAccess || 'Internal',
  
       }
     );
@@ -216,6 +225,7 @@ RequiresIssueDate:  formValues.RequiresIssueDate,
 RequiresExpiryDate:  formValues.RequiresExpiryDate,
 ExpiryWarningDays:  formValues.ExpiryWarningDays || 0,
 IsActive:  formValues.IsActive,
+CustomerPortalAccess: formValues.CustomerPortalAccess || 'Internal',
 
     } as IDocumentRequirement ;
 	

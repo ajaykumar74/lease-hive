@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { TagSeverity } from './supportTicket';
+import { ISupportTicket } from './supportTicket';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -22,29 +22,19 @@ export class SupportTicketService extends BaseCrudService<any> {
       this.CacheData = {} as ICacheData;
     });
   }
-  
-  setCache(result: any, permission: any, objsearch: any, pgEvent: any): void {
+
+  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.pgEvent = pgEvent;
+    this.CacheData.IsLoaded = (result.TotalRecords > 0);
+    this.CacheData.CurrentPage = curPage;
     this.CacheData.objSearch = objsearch;
-    this.CacheData.IsLoaded = result.Records.length > 0;
-  }
-
-  search(searchParam: any): Observable<any> {
+  } 
+ 
+ search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;
     return this.http.post<any>(url, searchParam, { headers: this.headers })
-      .pipe(
-        tap(data => this.baseService.onTapData(data)),
-        catchError(this.baseService.handleError)
-      );
-  }
-
-
-  getTicketHistory(ticketId: number): Observable<any> {
-    const url = `${this.baseUrl + '/GetTicketHistory'}/${ticketId}`;
-    return this.http.get(url, { headers: this.headers })
       .pipe(
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)
@@ -54,7 +44,6 @@ export class SupportTicketService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
-
 }
 
 

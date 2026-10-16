@@ -14,7 +14,9 @@ export function buildCustomerPortalMenu(isAdmin: boolean): AppMenuItem[] {
                 visible({ label: 'Assets', icon: 'pi pi-car', routerLink: ['/customer-portal/assets'] }),
                 visible({ label: 'My Documents', icon: 'pi pi-folder', routerLink: ['/customer-portal/documents'] }),
                 visible({ label: 'Invoices & Payments', icon: 'pi pi-wallet', routerLink: ['/customer-portal/invoices'] }),
-                visible({ label: 'Service Requests', icon: 'pi pi-wrench', routerLink: ['/customer-portal/service-requests'] }),
+                visible({ label: 'Maintenance', icon: 'pi pi-wrench', routerLink: ['/customer-portal/maintenance'] }),
+                visible({ label: 'End of Lease', icon: 'pi pi-flag', routerLink: ['/customer-portal/end-of-lease'] }),
+                visible({ label: 'Support & Contacts', icon: 'pi pi-comments', routerLink: ['/customer-portal/support'] }),
                 visible({ label: 'Profile', icon: 'pi pi-user', routerLink: ['/customer-portal/profile'] })
             ]
         })
