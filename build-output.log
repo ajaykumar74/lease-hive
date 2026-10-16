@@ -1,0 +1,34 @@
+
+> apollo-ng@19.0.0 build
+> ng build
+
+> Building...
+√ Building...
+Application bundle generation failed. [303.398 seconds]
+
+X [ERROR] TS2729: Property 'fb' is used before its initialization. [plugin angular-compiler]
+
+    src/app/views/parties/supportTicket/supportTicket-create.component.ts:12:16:
+      12 │     form = this.fb.group({ PartyId: [null as number | null, Valida...
+         ╵                 ~~
+
+  'fb' is declared here.
+
+    src/app/views/parties/supportTicket/supportTicket-create.component.ts:15:16:
+      15 │     constructor(private readonly fb: FormBuilder, private readonly...
+         ╵                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+X [ERROR] TS2729: Property 'fb' is used before its initialization. [plugin angular-compiler]
+
+    src/app/views/parties/supportTicket/supportTicket-edit.component.ts:12:14:
+      12 │     form=this.fb.group({ PartyId:[null as number|null,Validators.r...
+         ╵               ~~
+
+  'fb' is declared here.
+
+    src/app/views/parties/supportTicket/supportTicket-edit.component.ts:14:16:
+      14 │     constructor(private readonly fb:FormBuilder,private readonly r...
+         ╵                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+

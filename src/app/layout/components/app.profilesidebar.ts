@@ -76,7 +76,7 @@ export class AppProfileSidebar implements OnInit {
     onSupportClick() {
         this.onDrawerHide();
 
-        this.router.navigate(['/dashboard/supportTickets']);
+        this.router.navigate(['/business/support/tickets']);
 
     }
 

@@ -1,32 +1,55 @@
-import { IBase } from "@/shared/IBase";
+export interface ISupportTicketMessage {
+    Id: number;
+    SenderName: string;
+    SenderTypeCode: string;
+    Message: string;
+    IsInternalNote: boolean;
+    CreatedDateTime: string;
+}
 
-export interface ISupportTicket extends IBase {
-	Id :number;
-SupportTicketId :string;
-TenantId :number;
-PartyId :number;
-PartyLocationId :number;
-CustomerProfileId :number;
-LeaseContractId :number;
-AssetId :number;
-AssetUserId :number;
-RequesterApplicationUserId :number;
-RequesterPartyContactId :number;
-AssignedToApplicationUserId :number;
-SourceCode :string;
-TicketTypeCode :string;
-CategoryCode :string;
-PriorityCode :string;
-StatusCode :string;
-Subject :string;
-Description :string;
-RaisedAtUtc :Date;
-AcknowledgedAtUtc :Date;
-FirstResponseAtUtc :Date;
-ResolvedAtUtc :Date;
-ClosedAtUtc :Date;
-LastActivityAtUtc :Date;
-ResolutionSummary :string;
-RecordStatus :string;
+export interface ISupportTicket {
+    Id: number;
+    TicketId: string;
+    PartyId: number;
+    PartyName: string;
+    CategoryCode: string;
+    TicketTypeCode: string;
+    PriorityCode: string;
+    StatusCode: string;
+    Subject: string;
+    RequesterName: string;
+    AssignedToName: string;
+    RaisedAtUtc: string;
+    LastActivityAtUtc: string;
+    SourceCode?: string;
+    PartyLocationId?: number;
+    CustomerProfileId?: number;
+    LeaseContractId?: number;
+    AssetId?: number;
+    AssetUserId?: number;
+    RequesterPartyContactId?: number;
+    AssignedToApplicationUserId?: number;
+    Description?: string;
+    ResolutionSummary?: string;
+    RowVersionStr?: string;
+    Messages?: ISupportTicketMessage[];
+}
 
+export interface ISupportTicketInput {
+    PartyId: number;
+    PartyLocationId?: number | null;
+    CustomerProfileId?: number | null;
+    LeaseContractId?: number | null;
+    AssetId?: number | null;
+    AssetUserId?: number | null;
+    RequesterPartyContactId?: number | null;
+    AssignedToApplicationUserId?: number | null;
+    TicketTypeCode: string;
+    CategoryCode: string;
+    PriorityCode: string;
+    StatusCode: string;
+    Subject: string;
+    Description: string;
+    ResolutionSummary?: string | null;
+    RowVersionStr?: string;
 }

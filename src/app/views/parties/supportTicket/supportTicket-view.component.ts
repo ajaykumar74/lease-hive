@@ -1,86 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-
-
-import { IPermission } from '@/shared/IPermission';
-import { SpinnerComponent } from '@/shared/spinner.component';
-import { MessageService } from 'primeng/api';
-import { MessageComponent } from '@/shared/message.component';
-
-import { LoggedInUserService } from '@/shared/LoggedInUserService'
-import { SupportTicketService } from './supportTicket.service';
 import { ISupportTicket } from './supportTicket';
+import { SupportTicketService } from './supportTicket.service';
 
-@Component({
-    templateUrl: './supportTicket-view.component.html', 
-standalone: false,
-    providers: [MessageService]
-})
+@Component({ selector: 'app-support-ticket-view', standalone: false, templateUrl: './supportTicket-view.component.html' })
 export class SupportTicketViewComponent implements OnInit {
-    selectedId: number;
-    isLoading: boolean = false;
-    permission = { CanCreate: true } as IPermission;
-    supportTicket: ISupportTicket = {} as ISupportTicket;
-    Caption: string = 'Loading...';
-    
-
-    constructor( 
-        private router: Router,
-        private activatedRouter: ActivatedRoute,
-        private supportTicketService: SupportTicketService, 
-        private _location: Location,
-        private loggedInUserService: LoggedInUserService
-    ) {
-
-    }
-
-    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent; 
-
-       
-
-    ngOnInit(): void { 
-        this.selectedId = this.activatedRouter.snapshot.params['id']; 
-    }
-
-    ngAfterViewInit(): void {
-        setTimeout(() => {
-            this.loadUI();
-        }, 1000);
-    }
-
-    loadUI(): void {
-        this.isLoading = true;
-        this.spinner.show();
-        this.supportTicketService.getById(this.selectedId).subscribe({
-            next: data => {
-                this.supportTicket = data.data;
-                this.permission = data.permission; 
-                this.populateUI(this.supportTicket);
-            },
-            error: err => { },
-            complete: () => { this.spinner.hide(); this.isLoading = false; }
-        });
-    }
-
-    populateUI(obj: ISupportTicket): void { 
-        this.Caption = "SupportTicket Details #" + obj.Id;
-    }
-
-    onOptionItemClicked(key: string): void {
-        if (key == "Refresh") {             
-            this.router.navigate(['/supportTicket/create']);
-        }        
-        else if (key == "Refresh") {
-            this.loadUI();
-        }
-    }
-
-     
-
-    
-
+    ticket?: ISupportTicket; error='';
+    constructor(private readonly route:ActivatedRoute,private readonly router:Router,private readonly service:SupportTicketService){}
+    ngOnInit():void{const id=Number(this.route.snapshot.paramMap.get('id'));this.service.getById(id).subscribe({next:ticket=>this.ticket=ticket,error:()=>this.error='Unable to load the support ticket.'});}
+    changed(ticket:ISupportTicket):void{this.ticket=ticket;} back():void{this.router.navigate(['/business/support/tickets']);}
 }
-

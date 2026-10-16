@@ -10,6 +10,9 @@ import { CustomerPortalContractDetailComponent } from './customer-portal-contrac
 import { CustomerPortalAssetsComponent } from './customer-portal-assets.component';
 import { CustomerPortalInvoicesComponent } from './customer-portal-invoices.component';
 import { CustomerPortalDocumentsComponent } from './customer-portal-documents.component';
+import { CustomerPortalSupportComponent } from './customer-portal-support.component';
+import { CustomerPortalSupportCreateComponent } from './customer-portal-support-create.component';
+import { CustomerPortalSupportDetailComponent } from './customer-portal-support-detail.component';
 
 const workspace = (title: string, description: string) => ({
     component: CustomerPortalWorkspaceComponent,
@@ -32,7 +35,9 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
             { path: 'invoices', component: CustomerPortalInvoicesComponent, canActivate: [CustomerPortalGuard], data: { title: 'Invoices & payments' } },
             { path: 'maintenance', ...workspace('Maintenance', 'Maintenance schedules and service requests will be connected in the next portal phase.') },
             { path: 'end-of-lease', ...workspace('End of Lease', 'Return instructions, inspections, and settlement steps will be connected in the next portal phase.') },
-            { path: 'support', ...workspace('Support & Contacts', 'Support contacts, service escalation, and contact-directory design will be added once that workflow is agreed.') },
+            { path: 'support', component: CustomerPortalSupportComponent, canActivate: [CustomerPortalGuard], data: { title: 'Support Tickets' } },
+            { path: 'support/create', component: CustomerPortalSupportCreateComponent, canActivate: [CustomerPortalGuard], data: { title: 'Create Support Ticket' } },
+            { path: 'support/:id', component: CustomerPortalSupportDetailComponent, canActivate: [CustomerPortalGuard], data: { title: 'Support Ticket' } },
             { path: 'contacts', ...workspace('Party Contacts', 'Manage authorised contacts for your party here.') },
             { path: 'users', ...workspace('Customer Users', 'Manage customer users for your party here.') },
             { path: 'profile', ...workspace('Profile', 'Review your portal profile and contact preferences here.') },

@@ -2369,6 +2369,15 @@ export class AppMenu implements OnInit, OnDestroy {
                             label: 'Operations',
                             icon: 'pi pi-fw pi-cog',
                             items: []
+                        },
+                        {
+                            label: 'Support Tickets',
+                            icon: 'pi pi-fw pi-headphones',
+                            items: [
+                                { label: 'Tickets', icon: 'pi pi-fw pi-inbox', routerLink: ['/business/support/tickets'], requiredPermission: 'support.supportticket.view' },
+                                { label: 'Create Ticket', icon: 'pi pi-fw pi-plus', routerLink: ['/business/support/tickets/create'], requiredPermission: 'support.supportticket.create' },
+                                { label: 'Support Contacts', icon: 'pi pi-fw pi-users', routerLink: ['/business/support/contacts'], requiredPermission: 'party.partytenantcontact.view' }
+                            ]
                         }
                     ]
                 }                

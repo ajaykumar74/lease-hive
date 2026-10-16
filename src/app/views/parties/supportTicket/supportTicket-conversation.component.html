@@ -1,0 +1,11 @@
+<section class="mt-5 pt-4 border-top-1 surface-border">
+  <h4 class="mt-0">Conversation</h4>
+  <div *ngIf="!(ticket.Messages?.length)" class="text-500 mb-3">No messages yet.</div>
+  <div *ngFor="let message of ticket.Messages" class="mb-3 p-3 border-round" [ngClass]="message.IsInternalNote ? 'surface-200' : 'surface-50'">
+    <div class="flex justify-content-between gap-2"><strong>{{message.SenderName}}</strong><small>{{message.CreatedDateTime | date:'dd-MMM-yyyy, HH:mm'}}</small></div>
+    <small *ngIf="message.IsInternalNote" class="text-orange-600">Internal note</small><div class="white-space-pre-line mt-2">{{message.Message}}</div>
+  </div>
+  <div class="mt-3"><textarea pInputTextarea class="w-full" rows="3" [(ngModel)]="message" placeholder="Write a reply or internal note"></textarea></div>
+  <div class="flex align-items-center justify-content-between mt-2"><p-checkbox [(ngModel)]="internalNote" [binary]="true" inputId="internalNote" label="Internal note (not visible to customer)"></p-checkbox><button pButton label="Post message" icon="pi pi-send" [loading]="saving" (click)="post()"></button></div>
+  <small *ngIf="error" class="text-red-500">{{error}}</small>
+</section>

@@ -69,15 +69,10 @@ EffectiveTo: new FormControl(new Date(), []),
 
     });
 
-   this.partyidOptions.push({Text: 'PartyId1', Value: 'PartyId1' });
-this.partyidOptions.push({Text: 'PartyId2', Value: 'PartyId2' });
-this.applicationuseridOptions.push({Text: 'ApplicationUserId1', Value: 'ApplicationUserId1' });
-this.applicationuseridOptions.push({Text: 'ApplicationUserId2', Value: 'ApplicationUserId2' });
-this.contactrolecodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.loggedInUserService.getPartyOptions().subscribe(options => this.partyidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions().subscribe(options => this.applicationuseridOptions = options);
+    this.contactrolecodeOptions = this.loggedInUserService.getPicklistOptions('PartyTenantContactRole');
+    this.recordstatusOptions = [{ Text: 'Active', Value: 'Active' }, { Text: 'Inactive', Value: 'Inactive' }];
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
   }

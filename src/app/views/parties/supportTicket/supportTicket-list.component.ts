@@ -1,162 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
-
-import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
-import { SpinnerComponent } from '@/shared/spinner.component';
-import { MessageComponent } from '@/shared/message.component';
+import { Router } from '@angular/router';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { SupportTicketService } from './supportTicket.service';
 import { ISupportTicket } from './supportTicket';
-import { PageEvent } from '@/shared/IBase';
+import { IPermission } from '@/shared/IPermission';
+import { SpinnerComponent } from '@/shared/spinner.component';
+import { MessageComponent } from '@/shared/message.component';
 
-@Component({
-  selector: 'app-customer-list',
-  standalone: false,
-  templateUrl: './supportTicket-list.component.html'
-})
+@Component({ selector: 'app-support-ticket-list', standalone: false, templateUrl: './supportTicket-list.component.html' })
 export class SupportTicketListComponent implements OnInit {
-
-  constructor(
-    private supportTicketService: SupportTicketService,
-    private router: Router, 
-    private loggedInUserService: LoggedInUserService
-  ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: ISupportTicket[]; 
-  sortBy: string = 'Id';
-  IsDescending: boolean;
-  totalNoOfRecords = 0; 
-  currentPage: number = 1;
-  isAdvanceView: boolean = true;
-  isLoading: boolean = false;
-  maxPageCount: number = 10;
-  permission = {} as IPermission;
-  objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
-
-  @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-  @ViewChild(MessageComponent) messageService: MessageComponent;
-
-  ngOnInit(): void {
-     if (this.supportTicketService.CacheData.IsLoaded) {
-      this.currentPage = this.supportTicketService.CacheData.CurrentPage;
-      this.objSearch = this.supportTicketService.CacheData.objSearch;
-      this.permission = this.supportTicketService.CacheData.permission;
-    }  
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.searchData(this.pgEvent, !this.supportTicketService.CacheData.IsLoaded);
-    }, 500);
-  }
-
-  onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
-    this.search();
-  }
-
-  onHideAdvSearch(): void {
-    this.isAdvanceView = !this.isAdvanceView;
-  }
-
-
-  search(): void {
-    this.searchData(this.pgEvent, true);
-  }
-
-  clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
-    this.searchData(this.pgEvent, true);
-  }
-
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
-  }
-
-	searchData(pgEvent: PageEvent, isReload: boolean): void { 
-
-    if (isReload || this.supportTicketService.CacheData.CurrentPage != pgEvent.page) {
-
-      var searchParam = {
-        Skip: pgEvent.first,
-        Take: pgEvent.rows,
-        SortBy: this.sortBy,
-        IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
-      }
-      this.isLoading = true;
-      this.supportTicketService.search(searchParam).subscribe({
-        next: res => {
-          this.permission = res.permission; 
-          this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.supportTicketService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
-        },
-        error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
-        complete: () => { this.isLoading = false; }
-      });
+    tickets: ISupportTicket[] = []; partyOptions: ISelectItem[] = []; categoryOptions: ISelectItem[] = [];
+    priorityOptions: ISelectItem[] = []; statusOptions: ISelectItem[] = [];
+    filters = { TicketId: '', PartyId: null as number | null, CategoryCode: '' }; loading = false;
+    Caption = 'Support Ticket List';
+    permission = { CanCreate: true, CanUpdate: true, CanDelete: false } as IPermission;
+    @ViewChild(SpinnerComponent) spinner?: SpinnerComponent;
+    @ViewChild(MessageComponent) messageService?: MessageComponent;
+    constructor(private readonly ticketsService: SupportTicketService, private readonly router: Router, private readonly users: LoggedInUserService) { }
+    ngOnInit(): void {
+        this.users.getPartyOptions().subscribe(options => this.partyOptions = options);
+        this.categoryOptions = this.users.getPicklistOptions('SupportTicketCategory');
+        this.priorityOptions = this.users.getPicklistOptions('SupportTicketPriority');
+        this.statusOptions = this.users.getPicklistOptions('SupportTicketStatus');
+        this.search();
     }
-    else {
-      this.SetListData(this.supportTicketService.CacheData.Data, this.supportTicketService.CacheData.TotalRecords);
-    }
-  }
-
-   
-
-  SetListData(data: any, totalrecords: number): void {
-    this.lstMain = data;
-    this.totalNoOfRecords = totalrecords; 
-  }
-
-  getSearchParams() {
-    var Items = [];
-    Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
-     
-    ];
-
-
-    var auditCriteria = null;
-    
-
-    if (this.objSearch.AuditType == 'Created') {
-      auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    else if (this.objSearch.AuditType == 'Modified') {
-      auditCriteria = 'ModifiedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    if (auditCriteria != null) {
-      Items.push({ DBName: 'Records', Value: auditCriteria, DataType: DataType.Text, Operator: Operator.EqualTo })
-    }
-
-    return Items;
-
-  }
-
-  onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['dashboard/supportTickets/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['dashboard/supportTickets/view/' + obj.Id]);
-    } 
-  
-  };
-
-  onOptionItemClicked(key: string): void {
-    if (key == "Create") {
-      this.router.navigate(['dashboard/supportTickets/create']);
-    } 
-    else if (key == "Refresh") {
-      this.search();
-    }
-    else if (key == "Cancel") {
-    }    
-  }
+    search(): void { this.loading = true; this.ticketsService.search({ ...this.filters, Skip: 0, Take: 100 }).subscribe({ next: result => this.tickets = result.Records, error: error => { this.tickets = []; this.messageService?.showError(error); }, complete: () => this.loading = false }); }
+    clear(): void { this.filters = { TicketId: '', PartyId: null, CategoryCode: '' }; this.search(); }
+    getLabel(options: ISelectItem[], value: string): string { return options.find(option => option.Value === value)?.Text || value || '-'; }
+    open(ticket: ISupportTicket): void { this.router.navigate(['/business/support/tickets/edit', ticket.Id]); }
+    create(): void { this.router.navigate(['/business/support/tickets/create']); }
+    onOptionItemClicked(action: string): void { if (action === 'Create') this.create(); else if (action === 'Refresh') this.search(); }
 }
-
-
-
-

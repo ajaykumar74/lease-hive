@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { PartyDashboardComponent } from './party-dashboard.component';
 
 export const PARTY_ROUTES: Routes = [
+    { path: 'support/tickets', loadChildren: () => import('@/views/parties/supportTicket/supportTicket.module').then(m => m.SupportTicketModule), data: { title: 'Support Tickets', breadcrumb: 'Support Tickets' } },
+    { path: 'support/contacts', loadChildren: () => import('@/views/parties/partyTenantContact/partyTenantContact.module').then(m => m.PartyTenantContactModule), data: { title: 'Support Contacts', breadcrumb: 'Support Contacts' } },
     { path: 'parties/dashboard', component: PartyDashboardComponent, data: { title: 'Party Dashboard', breadcrumb: 'Party Dashboard' } },
     { path: 'parties/roles', loadChildren: () => import('@/views/parties/partyRole/partyRole.module').then(m => m.PartyRoleModule), data: { title: 'Party Roles', breadcrumb: 'Party Roles' } },
     { path: 'parties/relationships', loadChildren: () => import('@/views/parties/partyRelationship/partyRelationship.module').then(m => m.PartyRelationshipModule), data: { title: 'Party Relationships', breadcrumb: 'Party Relationships' } },

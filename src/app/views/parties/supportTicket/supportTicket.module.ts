@@ -20,6 +20,7 @@ import { SupportTicketListComponent } from './supportTicket-list.component';
 import { SupportTicketCreateComponent } from './supportTicket-create.component';
 import { SupportTicketEditComponent } from './supportTicket-edit.component';
 import { SupportTicketViewComponent } from './supportTicket-view.component';
+import { SupportTicketConversationComponent } from './supportTicket-conversation.component';
 import { SupportTicketRoutingModule } from './supportTicket-routing.module';
 
 
@@ -48,7 +49,8 @@ import { SupportTicketRoutingModule } from './supportTicket-routing.module';
 		SupportTicketCreateComponent,
 		SupportTicketListComponent,
 		SupportTicketEditComponent,
-		SupportTicketViewComponent
+		SupportTicketViewComponent,
+		SupportTicketConversationComponent
 	]
 })
 export class SupportTicketModule { }

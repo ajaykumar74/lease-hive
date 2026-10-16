@@ -64,21 +64,16 @@ IsPrimary: new FormControl(false, [Validators.required]),
 ReceivesSupportTickets: new FormControl(false, [Validators.required]),
 ReceivesEscalations: new FormControl(false, [Validators.required]),
 DisplayOrder: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+RecordStatus: new FormControl('Active', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), []),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create PartyTenantContact';
-    this.partyidOptions.push({Text: 'PartyId1', Value: 'PartyId1' });
-this.partyidOptions.push({Text: 'PartyId2', Value: 'PartyId2' });
-this.applicationuseridOptions.push({Text: 'ApplicationUserId1', Value: 'ApplicationUserId1' });
-this.applicationuseridOptions.push({Text: 'ApplicationUserId2', Value: 'ApplicationUserId2' });
-this.contactrolecodeOptions.push({Text: '', Value: '' });
-this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
-this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
-this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });
-this.recordstatusOptions.push({Text: 'Archived', Value: 'Archived' });
+    this.loggedInUserService.getPartyOptions().subscribe(options => this.partyidOptions = options);
+    this.loggedInUserService.getApplicationUserOptions().subscribe(options => this.applicationuseridOptions = options);
+    this.contactrolecodeOptions = this.loggedInUserService.getPicklistOptions('PartyTenantContactRole');
+    this.recordstatusOptions = [{ Text: 'Active', Value: 'Active' }];
 
   }
  
