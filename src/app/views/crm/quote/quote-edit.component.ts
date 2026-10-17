@@ -111,6 +111,10 @@ export class QuoteEditComponent implements OnInit {
             next: (data) => {
                 this.quote = data.data;
                 this.permission = data.permission;
+                if (!this.quote?.IsEditable) {
+                    this.router.navigate(['/business/origination/quotes/view/' + this.selectedId], { replaceUrl: true });
+                    return;
+                }
                 this.objMaster = { ...this.quote };
                 this.populateUI(this.quote);
             },
@@ -201,6 +205,10 @@ export class QuoteEditComponent implements OnInit {
     }
 
     Save(): void {
+        if (!this.quote?.IsEditable) {
+            this.router.navigate(['/business/origination/quotes/view/' + this.selectedId], { replaceUrl: true });
+            return;
+        }
         this.recalculateTotalAmount();
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');

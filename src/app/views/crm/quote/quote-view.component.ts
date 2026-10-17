@@ -78,6 +78,25 @@ export class QuoteViewComponent implements OnInit {
         }
     }
 
+    createRevision(): void {
+        if (this.quote?.StatusCode?.toUpperCase() !== 'ACCEPTED') {
+            return;
+        }
+
+        this.isLoading = true;
+        this.spinner.show();
+        this.quoteService.createRevision(this.quote.Id).subscribe({
+            next: response => {
+                this.router.navigate(['/business/origination/quotes/edit/' + response.Id]);
+            },
+            error: err => this.messageService.showError(err),
+            complete: () => {
+                this.spinner.hide();
+                this.isLoading = false;
+            }
+        });
+    }
+
      
 
     

@@ -14,6 +14,7 @@ import { LeadService } from '@/views/crm/lead/lead.service';
 import { LeadActivityService } from '@/views/crm/leadActivity/leadActivity.service';
 import { OpportunityService } from '@/views/crm/opportunity/opportunity.service';
 import { OpportunityStageService } from '@/views/crm/opportunityStage/opportunityStage.service';
+import { QuoteService } from '@/views/crm/quote/quote.service';
 import { LoggedInUserService, DataType, Operator } from '@/shared/LoggedInUserService';
 
 interface DashboardOpportunity {
@@ -37,6 +38,19 @@ interface DashboardActivity {
     overdue: boolean;
 }
 
+interface DashboardQuote {
+    id: number;
+    quoteNo: string;
+    customer: string;
+    opportunity: string;
+    status: string;
+    statusCode: string;
+    totalAmount: number;
+    currencyCode: string;
+    validUntil: Date | null;
+    assetCount: number;
+}
+
 @Component({
     selector: 'app-crm-dashboard',
     standalone: true,
@@ -49,6 +63,7 @@ export class CrmDashboardComponent implements OnInit {
     private readonly activityService = inject(LeadActivityService);
     private readonly opportunityService = inject(OpportunityService);
     private readonly stageService = inject(OpportunityStageService);
+    private readonly quoteService = inject(QuoteService);
     private readonly loggedInUserService = inject(LoggedInUserService);
     private readonly router = inject(Router);
 
@@ -64,6 +79,7 @@ export class CrmDashboardComponent implements OnInit {
     leads: any[] = [];
     opportunities: DashboardOpportunity[] = [];
     activities: DashboardActivity[] = [];
+    quotes: DashboardQuote[] = [];
     stages: any[] = [];
     pipelineData: any;
     pipelineOptions: any;
@@ -100,6 +116,27 @@ export class CrmDashboardComponent implements OnInit {
         return this.activities.filter(item => item.overdue).length;
     }
 
+    get quotesAwaitingDecision(): DashboardQuote[] {
+        return this.quotes.filter(item => this.isIssuedQuote(item) && (!item.validUntil || item.validUntil >= this.startOfToday()));
+    }
+
+    get quotesExpiringSoon(): DashboardQuote[] {
+        const limit = this.startOfToday();
+        limit.setDate(limit.getDate() + 7);
+        return this.quotesAwaitingDecision.filter(item => item.validUntil && item.validUntil <= limit);
+    }
+
+    get recentQuotes(): DashboardQuote[] {
+        const awaitingDecision = [...this.quotesAwaitingDecision]
+            .sort((a, b) => this.timeOf(a.validUntil) - this.timeOf(b.validUntil));
+        const remainingQuotes = this.quotes
+            .filter(item => !awaitingDecision.includes(item))
+            .sort((a, b) => this.timeOf(a.validUntil) - this.timeOf(b.validUntil));
+
+        return [...awaitingDecision, ...remainingQuotes]
+            .slice(0, 5);
+    }
+
     get opportunitiesNeedingAttention(): DashboardOpportunity[] {
         const attentionDate = new Date();
         attentionDate.setDate(attentionDate.getDate() + 30);
@@ -128,11 +165,13 @@ export class CrmDashboardComponent implements OnInit {
         this.isLoading = true;
         this.hasLoadError = false;
         const searchParam = this.createSearchParam();
+        const quoteSearchParam = this.createQuoteSearchParam();
 
         forkJoin({
             leads: this.leadService.GetAll(false).pipe(catchError(() => this.failedFeed())),
             opportunities: this.opportunityService.search(searchParam).pipe(catchError(() => this.failedFeed())),
             activities: this.activityService.search(searchParam).pipe(catchError(() => this.failedFeed())),
+            quotes: this.quoteService.search(quoteSearchParam).pipe(catchError(() => this.failedFeed())),
             stages: this.stageService.GetAll(false).pipe(catchError(() => this.failedFeed()))
         })
             .pipe(finalize(() => (this.isLoading = false)))
@@ -141,6 +180,7 @@ export class CrmDashboardComponent implements OnInit {
                 this.leads = this.recordsOf(result.leads);
                 this.opportunities = this.recordsOf(result.opportunities).map(item => this.mapOpportunity(item));
                 this.activities = this.recordsOf(result.activities).map(item => this.mapActivity(item));
+                this.quotes = this.recordsOf(result.quotes).map(item => this.mapQuote(item));
                 this.buildPipelineChart();
             });
     }
@@ -155,6 +195,10 @@ export class CrmDashboardComponent implements OnInit {
 
     openLead(item: any): void {
         this.router.navigate(['/business/crm/leads/view', item.Id]);
+    }
+
+    openQuote(item: DashboardQuote): void {
+        this.router.navigate(['/business/origination/quotes/view', item.id]);
     }
 
     getActivityIcon(type: string): string {
@@ -186,6 +230,17 @@ export class CrmDashboardComponent implements OnInit {
             Operator: Operator.GreaterThanEqualTo
         });
         return { Skip: 0, Take: 500, SortBy: 'Id', IsDescending: true, Conditions: conditions };
+    }
+
+    private createQuoteSearchParam(): any {
+        const tenantId = this.loggedInUserService.loggedInUser?.Tenant?.Id;
+        const conditions: any[] = [
+            { DBName: 'RecordStatus', Value: 'Active', DataType: DataType.Text, Operator: Operator.EqualTo }
+        ];
+        if (tenantId) {
+            conditions.unshift({ DBName: 'TenantId', Value: tenantId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+        }
+        return { Skip: 0, Take: 500, SortBy: 'ValidUntil', IsDescending: false, Conditions: conditions };
     }
 
     private periodStart(): Date {
@@ -238,6 +293,21 @@ export class CrmDashboardComponent implements OnInit {
         };
     }
 
+    private mapQuote(item: any): DashboardQuote {
+        return {
+            id: Number(item.Id ?? 0),
+            quoteNo: item.QuoteId || `Quote ${item.Id ?? ''}`,
+            customer: item.PartyDisplayName || 'Customer not assigned',
+            opportunity: item.OpportunityDisplayName || 'Opportunity not assigned',
+            status: item.StatusName || item.StatusCode || 'Unassigned',
+            statusCode: item.StatusCode || '',
+            totalAmount: Number(item.TotalAmount ?? 0),
+            currencyCode: item.CurrencyCode || 'GBP',
+            validUntil: this.asDate(item.ValidUntil),
+            assetCount: Number(item.AssetCount ?? 0)
+        };
+    }
+
     private buildPipelineChart(): void {
         const configuredStages = [...this.stages].sort((a, b) => Number(a.SortOrder ?? 0) - Number(b.SortOrder ?? 0));
         const groups = configuredStages.length
@@ -285,6 +355,11 @@ export class CrmDashboardComponent implements OnInit {
         return normalized.includes('won') || normalized.includes('lost') || normalized.includes('closed');
     }
 
+    private isIssuedQuote(item: DashboardQuote): boolean {
+        const status = `${item.statusCode} ${item.status}`.toLowerCase();
+        return status.includes('issued') || status.includes('sent');
+    }
+
     private nextStepFor(stage: string): string {
         const normalized = stage.toLowerCase();
         if (normalized.includes('credit')) return 'Complete credit review';
@@ -316,5 +391,11 @@ export class CrmDashboardComponent implements OnInit {
 
     private timeOf(value: Date | null): number {
         return value?.getTime() ?? Number.MAX_SAFE_INTEGER;
+    }
+
+    private startOfToday(): Date {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today;
     }
 }

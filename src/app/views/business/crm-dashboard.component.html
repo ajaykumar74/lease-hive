@@ -27,7 +27,7 @@
 
     <div class="kpi-grid">
         @if (isLoading) {
-            @for (item of [1, 2, 3, 4]; track item) {
+            @for (item of [1, 2, 3, 4, 5]; track item) {
                 <div class="card kpi-card"><p-skeleton width="45%" height="1rem" /><p-skeleton width="35%" height="2rem" styleClass="mt-3" /><p-skeleton width="55%" height="0.75rem" styleClass="mt-3" /></div>
             }
         } @else {
@@ -54,6 +54,12 @@
                 <strong class="kpi-value">{{ dueActivities.length | number }}</strong>
                 <span class="kpi-context" [class.overdue]="overdueActivityCount > 0">{{ overdueActivityCount | number }} overdue</span>
                 <span class="kpi-icon orange"><i class="pi pi-clock" aria-hidden="true"></i></span>
+            </div>
+            <div class="card kpi-card">
+                <span class="kpi-label">Quotes awaiting decision</span>
+                <strong class="kpi-value">{{ quotesAwaitingDecision.length | number }}</strong>
+                <span class="kpi-context" [class.overdue]="quotesExpiringSoon.length > 0">{{ quotesExpiringSoon.length | number }} expire within 7 days</span>
+                <span class="kpi-icon blue"><i class="pi pi-file-edit" aria-hidden="true"></i></span>
             </div>
         }
     </div>
@@ -100,6 +106,18 @@
             <ng-template pTemplate="header"><tr><th>Prospect</th><th>Contact</th><th>Status</th><th>Expected close</th><th class="text-right">Estimated value</th></tr></ng-template>
             <ng-template pTemplate="body" let-item><tr class="clickable-row" (click)="openLead(item)"><td><strong>{{ item.ProspectName }}</strong><small>{{ item.Email || item.Phone || 'No contact details' }}</small></td><td>{{ item.ContactName || 'Not assigned' }}</td><td><p-tag [value]="item.RecordStatus || 'Active'" [severity]="item.RecordStatus === 'Active' ? 'success' : 'secondary'" /></td><td>{{ item.ExpectedCloseDate ? (item.ExpectedCloseDate | date:'dd MMM y') : 'Not set' }}</td><td class="text-right whitespace-nowrap">{{ item.EstimatedValue | currency:(item.CurrencyCode || 'GBP'):'symbol':'1.0-0' }}</td></tr></ng-template>
             <ng-template pTemplate="emptymessage"><tr><td colspan="5"><div class="table-empty">No leads were created during this period.</div></td></tr></ng-template>
+        </p-table>
+    </section>
+
+    <section class="card attention-panel">
+        <div class="panel-heading">
+            <div><h2>Quote worklist</h2><span>All active quotes, prioritising those awaiting the customer’s decision</span></div>
+            <p-button label="All quotes" [text]="true" size="small" routerLink="/business/origination/quotes" />
+        </div>
+        <p-table [value]="recentQuotes" [loading]="isLoading" responsiveLayout="scroll" styleClass="p-datatable-sm">
+            <ng-template pTemplate="header"><tr><th>Quote</th><th>Customer</th><th>Opportunity</th><th>Status</th><th>Valid until</th><th class="text-right">Value</th></tr></ng-template>
+            <ng-template pTemplate="body" let-item><tr class="clickable-row" (click)="openQuote(item)"><td><strong>{{ item.quoteNo }}</strong><small>{{ item.assetCount }} asset{{ item.assetCount === 1 ? '' : 's' }}</small></td><td>{{ item.customer }}</td><td>{{ item.opportunity }}</td><td><p-tag [value]="item.status" [severity]="getStageSeverity(item.status)" /></td><td [class.overdue]="quotesExpiringSoon.includes(item)">{{ item.validUntil ? (item.validUntil | date:'dd MMM y') : 'Not set' }}</td><td class="text-right whitespace-nowrap">{{ item.totalAmount | currency:item.currencyCode:'symbol':'1.0-0' }}</td></tr></ng-template>
+            <ng-template pTemplate="emptymessage"><tr><td colspan="6"><div class="table-empty">No quotes were created during this period.</div></td></tr></ng-template>
         </p-table>
     </section>
 

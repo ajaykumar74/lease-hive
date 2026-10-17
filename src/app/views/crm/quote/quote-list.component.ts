@@ -6,7 +6,7 @@ import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserS
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { QuoteService } from './quote.service';
-import { IQuote } from './quote';
+import { IQuote, IQuoteList } from './quote';
 import { PageEvent } from '@/shared/IBase';
 
 @Component({
@@ -22,7 +22,7 @@ export class QuoteListComponent implements OnInit {
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: IQuote[]; 
+  lstMain: IQuoteList[];
   sortBy: string = 'Id';
   IsDescending: boolean;
   totalNoOfRecords = 0; 
@@ -112,6 +112,7 @@ export class QuoteListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
+       { DBName: 'QuoteId', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 
@@ -134,14 +135,26 @@ export class QuoteListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/origination/quotes/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['/business/origination/quotes/view/' + obj.Id]);
-    } 
-  
+    this.quoteService.getById(obj.Id).subscribe({
+      next: data => {
+        const quote = data.data as IQuote;
+        if (quote?.IsEditable && (this.permission.CanCreate || this.permission.CanUpdate)) {
+          this.router.navigate(['/business/origination/quotes/edit/' + obj.Id]);
+        } else {
+          this.router.navigate(['/business/origination/quotes/view/' + obj.Id]);
+        }
+      },
+      error: err => this.messageService.showError(err)
+    });
   };
+
+  getStatusClass(status: string): string {
+    const value = (status || '').toLowerCase();
+    if (value.includes('accepted')) return 'status-active';
+    if (value.includes('issued') || value.includes('draft')) return 'status-pending';
+    if (value.includes('rejected') || value.includes('expired') || value.includes('withdrawn') || value.includes('superseded')) return 'status-closed';
+    return 'status-pending';
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

@@ -44,6 +44,15 @@ export class QuoteService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  createRevision(id: number): Observable<any> {
+    const url = `${this.baseUrl}/${id}/revision`;
+    return this.http.post<any>(url, {}, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
 }
 
 

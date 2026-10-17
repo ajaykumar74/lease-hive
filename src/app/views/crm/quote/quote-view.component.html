@@ -5,6 +5,10 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+				<div class="flex justify-content-end mb-3" *ngIf="quote?.StatusCode?.toUpperCase() === 'ACCEPTED' && permission?.CanCreate">
+					<button type="button" pButton label="Create revision" icon="pi pi-copy"
+						(click)="createRevision()" [disabled]="isLoading"></button>
+				</div>
 					<app-spinner></app-spinner>
 					<form> 
 				<p-fluid>

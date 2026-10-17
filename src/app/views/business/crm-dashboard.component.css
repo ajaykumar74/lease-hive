@@ -5,7 +5,7 @@
 .dashboard-actions { justify-content: flex-end; flex-wrap: wrap; }
 .load-warning { justify-content: flex-start; padding: .75rem 1rem; border-radius: var(--p-content-border-radius); background: var(--p-yellow-50); color: var(--p-yellow-800); border: 1px solid var(--p-yellow-200); }
 .load-warning .p-button { margin-left: auto; }
-.kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
 .kpi-card { position: relative; min-height: 8.25rem; margin: 0; }
 .kpi-label, .kpi-context, .panel-heading span, .activity-item small { color: var(--p-text-muted-color); }
 .kpi-label, .kpi-context { display: block; }
