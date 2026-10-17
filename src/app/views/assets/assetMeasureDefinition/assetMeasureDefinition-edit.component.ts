@@ -115,8 +115,8 @@ MeasureName: obj.MeasureName || '',
 UnitOfMeasureId: obj.UnitOfMeasureId || '',
 IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -153,8 +153,8 @@ MeasureName: obj.MeasureName || '',
 UnitOfMeasureId: obj.UnitOfMeasureId || '',
 IsCumulative:  obj.IsCumulative || false,
 IsRequired:  obj.IsRequired || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

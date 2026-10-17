@@ -119,12 +119,12 @@ export class OpportunityEditComponent implements OnInit {
             EstimatedAmount: obj.EstimatedAmount ?? 0,
             CurrencyCode: obj.CurrencyCode || '',
             ProbabilityPct: obj.ProbabilityPct || 0,
-            ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
+            ExpectedCloseDate: obj.ExpectedCloseDate || null,
             LostReasonCode: obj.LostReasonCode || '',
-            ClosedOn: obj.ClosedOn || new Date(),
+            ClosedOn: obj.ClosedOn || null,
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null,
             Description: obj.Description || ''
         });
 
@@ -156,12 +156,12 @@ export class OpportunityEditComponent implements OnInit {
             EstimatedAmount: obj.EstimatedAmount ?? 0,
             CurrencyCode: obj.CurrencyCode || '',
             ProbabilityPct: obj.ProbabilityPct || 0,
-            ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
+            ExpectedCloseDate: obj.ExpectedCloseDate || null,
             LostReasonCode: obj.LostReasonCode || '',
-            ClosedOn: obj.ClosedOn || new Date(),
+            ClosedOn: obj.ClosedOn || null,
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null,
             Description: obj.Description || ''
         });
 

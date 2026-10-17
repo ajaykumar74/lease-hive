@@ -102,8 +102,8 @@ ComplianceName: obj.ComplianceName || '',
 RequiresExpiry:  obj.RequiresExpiry || false,
 RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -138,8 +138,8 @@ ComplianceName: obj.ComplianceName || '',
 RequiresExpiry:  obj.RequiresExpiry || false,
 RequiresDocument:  obj.RequiresDocument || false,
 ReminderDaysBefore: obj.ReminderDaysBefore || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

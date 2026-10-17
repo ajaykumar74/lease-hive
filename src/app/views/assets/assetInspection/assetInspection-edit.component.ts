@@ -133,7 +133,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectionStatusId', '
 	  AssetId: obj.AssetId || 0,
 InspectionTypeId: obj.InspectionTypeId || '',
 InspectionNo: obj.InspectionNo || '',
-InspectionDateTime:  obj.InspectionDateTime || new Date(),
+InspectionDateTime:  obj.InspectionDateTime || null,
 LocationId: obj.LocationId || 0,
 PartyId: obj.PartyId || 0,
 InspectorUserId: obj.InspectorUserId || 0,
@@ -141,7 +141,7 @@ ConditionGradeId: obj.ConditionGradeId || 0,
 OverallScore: obj.OverallScore || 0,
 InspectionStatusId: obj.InspectionStatusId || 0,
 Remarks: obj.Remarks || '',
-CompletedOn:  obj.CompletedOn || new Date(),
+CompletedOn:  obj.CompletedOn || null,
  
       }
     );
@@ -173,7 +173,7 @@ CompletedOn:  obj.CompletedOn || new Date(),
 	  AssetId: obj.AssetId || 0,
 InspectionTypeId: obj.InspectionTypeId || '',
 InspectionNo: obj.InspectionNo || '',
-InspectionDateTime:  obj.InspectionDateTime || new Date(),
+InspectionDateTime:  obj.InspectionDateTime || null,
 LocationId: obj.LocationId || 0,
 PartyId: obj.PartyId || 0,
 InspectorUserId: obj.InspectorUserId || 0,
@@ -181,7 +181,7 @@ ConditionGradeId: obj.ConditionGradeId || 0,
 OverallScore: obj.OverallScore || 0,
 InspectionStatusId: obj.InspectionStatusId || 0,
 Remarks: obj.Remarks || '',
-CompletedOn:  obj.CompletedOn || new Date(),
+CompletedOn:  obj.CompletedOn || null,
  
       }
     );

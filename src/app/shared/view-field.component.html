@@ -36,7 +36,7 @@
       <ng-container *ngSwitchCase="'datetime'">
         {{
           dateValue !== null
-            ? (dateValue | date: 'dd-MMM-yyyy hh:mm a')
+            ? (dateValue | date: dateTimeFormat)
             : emptyText
         }}
       </ng-container>

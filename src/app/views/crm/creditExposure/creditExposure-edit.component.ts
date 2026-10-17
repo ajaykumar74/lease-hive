@@ -103,7 +103,7 @@ export class CreditExposureEditComponent implements OnInit {
             UndrawnCommitment: obj.UndrawnCommitment || 0,
             ProposedExposure: obj.ProposedExposure || 0,
             TotalExposure: obj.TotalExposure || 0,
-            AsOfDate: obj.AsOfDate || new Date()
+            AsOfDate: obj.AsOfDate || null
         });
 
         this.Caption = 'CreditExposure Details #' + obj.Id;
@@ -133,7 +133,7 @@ export class CreditExposureEditComponent implements OnInit {
             UndrawnCommitment: obj.UndrawnCommitment || 0,
             ProposedExposure: obj.ProposedExposure || 0,
             TotalExposure: obj.TotalExposure || 0,
-            AsOfDate: obj.AsOfDate || new Date()
+            AsOfDate: obj.AsOfDate || null
         });
 
         this.editForm.reset();

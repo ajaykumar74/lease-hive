@@ -113,8 +113,8 @@ CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -150,8 +150,8 @@ CanViewChildUnits:  obj.CanViewChildUnits || false,
 CanViewParentUnits:  obj.CanViewParentUnits || false,
 IsDefault:  obj.IsDefault || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

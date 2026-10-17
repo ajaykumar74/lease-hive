@@ -138,8 +138,8 @@ MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       },
       { emitEvent: false }
@@ -235,8 +235,8 @@ MaximumAmount: obj.MaximumAmount || 0,
 RequiredApproverCount: obj.RequiredApproverCount || 0,
 CanDelegate:  obj.CanDelegate || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       },
       { emitEvent: false }

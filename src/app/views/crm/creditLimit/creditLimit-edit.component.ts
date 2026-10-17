@@ -103,8 +103,8 @@ export class CreditLimitEditComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             CurrencyCode: obj.CurrencyCode || '',
             LimitAmount: obj.LimitAmount || 0,
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null,
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || ''
@@ -133,8 +133,8 @@ export class CreditLimitEditComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             CurrencyCode: obj.CurrencyCode || '',
             LimitAmount: obj.LimitAmount || 0,
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date(),
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null,
             LimitStatus: obj.LimitStatus || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || ''

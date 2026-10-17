@@ -122,8 +122,8 @@ ParentProfitCentreId: obj.ParentProfitCentreId || 0,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 ExternalLedgerCode: obj.ExternalLedgerCode || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }
@@ -159,8 +159,8 @@ ParentProfitCentreId: obj.ParentProfitCentreId || 0,
 OrganisationUnitId: obj.OrganisationUnitId || 0,
 ExternalLedgerCode: obj.ExternalLedgerCode || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }

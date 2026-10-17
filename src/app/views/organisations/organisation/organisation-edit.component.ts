@@ -125,8 +125,8 @@ FinancialYearStartMonth: obj.FinancialYearStartMonth || 0,
 TaxSystem: obj.TaxSystem || '',
 Status: obj.Status || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -168,8 +168,8 @@ FinancialYearStartMonth: obj.FinancialYearStartMonth || 0,
 TaxSystem: obj.TaxSystem || '',
 Status: obj.Status || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

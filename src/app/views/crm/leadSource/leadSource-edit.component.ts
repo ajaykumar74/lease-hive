@@ -98,8 +98,8 @@ SourceName: obj.SourceName || '',
 IsDigital:  obj.IsDigital || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -133,8 +133,8 @@ SourceName: obj.SourceName || '',
 IsDigital:  obj.IsDigital || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

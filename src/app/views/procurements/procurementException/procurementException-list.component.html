@@ -35,7 +35,7 @@
  <td style="width:200px">{{obj.ReferenceId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ExceptionTypeCode}}</td>
  <td style="width:200px">{{obj.SeverityCode}}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.AssignedToUserId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ResolvedOn | date:'dd-MMM-yyyy' }}</td>
 

@@ -28,8 +28,8 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.SupportTicketId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PreviousStatusCode}}</td>
- <td style="width:200px">{{obj.NewStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.PreviousStatusCode"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.NewStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.ChangedByApplicationUserId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ChangeNote}}</td>
  

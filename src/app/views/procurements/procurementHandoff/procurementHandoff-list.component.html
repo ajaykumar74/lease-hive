@@ -33,7 +33,7 @@
  <td style="width:200px">{{obj.ReferenceType}}</td>
  <td style="width:200px">{{obj.ReferenceId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TargetModuleCode}}</td>
- <td style="width:200px">{{obj.HandoffStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.HandoffStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.HandoffDateTime | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.TargetReferenceId | number:'1.0':'en-US' }}</td>
 

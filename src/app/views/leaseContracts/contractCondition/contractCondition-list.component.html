@@ -41,7 +41,7 @@
  <td style="width:200px">{{obj.DueDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.MandatoryFlag | yesNo }}</td>
  <td style="width:200px">{{obj.WaiverAllowedFlag | yesNo }}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.SatisfiedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.SatisfiedBy | number:'1.0':'en-US' }}</td>
 

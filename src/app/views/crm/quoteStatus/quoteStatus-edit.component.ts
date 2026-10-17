@@ -100,8 +100,8 @@ IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -136,8 +136,8 @@ IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

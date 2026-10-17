@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { deserializeApiDate } from './api-date.util';
 
 type ViewFieldValue = string | number | boolean | Date | null | undefined;
 
@@ -10,6 +11,8 @@ type ViewFieldValue = string | number | boolean | Date | null | undefined;
   styleUrls: ['./view-field.component.scss']
 })
 export class ViewFieldComponent {
+  constructor(private readonly datePipe: DatePipe) {}
+
   @Input() label = '';
   @Input() value: ViewFieldValue = null;
   @Input() emptyText = '-';
@@ -33,11 +36,16 @@ export class ViewFieldComponent {
   }
 
   get dateValue(): string | number | Date | null {
-    if (
-      typeof this.value === 'string' ||
-      typeof this.value === 'number' ||
-      this.value instanceof Date
-    ) {
+    if (this.value instanceof Date) {
+      return Number.isNaN(this.value.getTime()) ? null : this.value;
+    }
+
+    const parsedDate = deserializeApiDate(this.value);
+    if (parsedDate !== undefined) {
+      return parsedDate;
+    }
+
+    if (typeof this.value === 'number') {
       return this.value;
     }
 
@@ -68,10 +76,28 @@ export class ViewFieldComponent {
       return this.emptyText;
     }
 
-    if (this.value instanceof Date) {
-      return this.value.toString();
+    const parsedDate = deserializeApiDate(this.value);
+    if (parsedDate === null) {
+      return this.emptyText;
+    }
+
+    const date = this.dateValue;
+    if (date instanceof Date) {
+      const format = this.isMidnight(date) ? this.dateFormat : 'dd-MMM-yyyy HH:mm';
+      return this.datePipe.transform(date, format) ?? this.emptyText;
     }
 
     return String(this.value);
+  }
+
+  get dateTimeFormat(): string {
+    return 'dd-MMM-yyyy HH:mm';
+  }
+
+  private isMidnight(date: Date): boolean {
+    return date.getHours() === 0 &&
+      date.getMinutes() === 0 &&
+      date.getSeconds() === 0 &&
+      date.getMilliseconds() === 0;
   }
 }

@@ -109,8 +109,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 ToStatusId: obj.ToStatusId || 0,
 ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -144,8 +144,8 @@ RecordStatus: obj.RecordStatus || '',
 ToStatusId: obj.ToStatusId || 0,
 ReasonCode: obj.ReasonCode || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

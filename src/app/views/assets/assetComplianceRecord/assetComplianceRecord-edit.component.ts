@@ -113,13 +113,13 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'VerifiedBy', 'applicat
 AssetComplianceTypeId: obj.AssetComplianceTypeId || 0,
 CertificateNo: obj.CertificateNo || '',
 IssuedByPartyId: obj.IssuedByPartyId || 0,
-IssueDate:  obj.IssueDate || new Date(),
-ValidFrom:  obj.ValidFrom || new Date(),
-ValidTo:  obj.ValidTo || new Date(),
+IssueDate:  obj.IssueDate || null,
+ValidFrom:  obj.ValidFrom || null,
+ValidTo:  obj.ValidTo || null,
 DocumentId: obj.DocumentId || 0,
 VerificationStatusId: obj.VerificationStatusId || 0,
 VerifiedBy: obj.VerifiedBy || 0,
-VerifiedOn:  obj.VerifiedOn || new Date(),
+VerifiedOn:  obj.VerifiedOn || null,
  
       }
     );
@@ -152,13 +152,13 @@ VerifiedOn:  obj.VerifiedOn || new Date(),
 AssetComplianceTypeId: obj.AssetComplianceTypeId || 0,
 CertificateNo: obj.CertificateNo || '',
 IssuedByPartyId: obj.IssuedByPartyId || 0,
-IssueDate:  obj.IssueDate || new Date(),
-ValidFrom:  obj.ValidFrom || new Date(),
-ValidTo:  obj.ValidTo || new Date(),
+IssueDate:  obj.IssueDate || null,
+ValidFrom:  obj.ValidFrom || null,
+ValidTo:  obj.ValidTo || null,
 DocumentId: obj.DocumentId || 0,
 VerificationStatusId: obj.VerificationStatusId || 0,
 VerifiedBy: obj.VerifiedBy || 0,
-VerifiedOn:  obj.VerifiedOn || new Date(),
+VerifiedOn:  obj.VerifiedOn || null,
  
       }
     );

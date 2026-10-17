@@ -115,8 +115,8 @@ OrganisationId: obj.OrganisationId || 0,
 OwnershipType: obj.OwnershipType || '',
 AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -151,8 +151,8 @@ OrganisationId: obj.OrganisationId || 0,
 OwnershipType: obj.OwnershipType || '',
 AcquisitionReference: obj.AcquisitionReference || '',
 Remarks: obj.Remarks || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

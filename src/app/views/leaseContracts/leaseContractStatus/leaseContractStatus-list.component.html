@@ -32,14 +32,14 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.LeaseContractStatusId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.LeaseContractStatusId}}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
- <td style="width:200px">{{obj.StatusName}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusName"></app-status-pill></td>
  <td style="width:200px">{{obj.IsEditable | yesNo }}</td>
  <td style="width:200px">{{obj.IsTerminal | yesNo }}</td>
  <td style="width:200px">{{obj.SortOrder | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

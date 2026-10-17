@@ -113,8 +113,8 @@ this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('
 SupplierPartyId: obj.SupplierPartyId || 0,
 SupplierServiceAreaId: obj.SupplierServiceAreaId || 0,
 InvitationStatusCode: obj.InvitationStatusCode || '',
-InvitedOn:  obj.InvitedOn || new Date(),
-RespondedOn:  obj.RespondedOn || new Date(),
+InvitedOn:  obj.InvitedOn || null,
+RespondedOn:  obj.RespondedOn || null,
 SupplierContactId: obj.SupplierContactId || 0,
 
       }
@@ -148,8 +148,8 @@ SupplierContactId: obj.SupplierContactId || 0,
 SupplierPartyId: obj.SupplierPartyId || 0,
 SupplierServiceAreaId: obj.SupplierServiceAreaId || 0,
 InvitationStatusCode: obj.InvitationStatusCode || '',
-InvitedOn:  obj.InvitedOn || new Date(),
-RespondedOn:  obj.RespondedOn || new Date(),
+InvitedOn:  obj.InvitedOn || null,
+RespondedOn:  obj.RespondedOn || null,
 SupplierContactId: obj.SupplierContactId || 0,
 
       }

@@ -118,8 +118,8 @@ IssuingCountryCode: obj.IssuingCountryCode || '',
 IssuingStateCode: obj.IssuingStateCode || '',
 IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -156,8 +156,8 @@ IssuingCountryCode: obj.IssuingCountryCode || '',
 IssuingStateCode: obj.IssuingStateCode || '',
 IsPrimary:  obj.IsPrimary || false,
 IsVerified:  obj.IsVerified || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

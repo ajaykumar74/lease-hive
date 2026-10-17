@@ -30,7 +30,7 @@
 
               <div class="grid grid-cols-12 gap-2">
                 <label class="col-span-12 md:col-span-2 font-semibold">CreatedDateTime</label>
-                <div class="col-span-12 md:col-span-10">: {{ExceptionLog?.CreatedDateTime}}</div>
+                <div class="col-span-12 md:col-span-10">: {{ ExceptionLog?.CreatedDateTime | date:'dd-MMM-yyyy HH:mm' }}</div>
               </div>
 
               <div class="grid grid-cols-12 gap-2">

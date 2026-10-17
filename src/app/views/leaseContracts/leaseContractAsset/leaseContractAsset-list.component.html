@@ -46,7 +46,7 @@
  <td style="width:200px">{{obj.SourcePurchaseOrderLineId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.Quantity | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.UOMId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AllocationStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.AllocationStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.SerialSnapshot}}</td>

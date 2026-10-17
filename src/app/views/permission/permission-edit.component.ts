@@ -191,8 +191,8 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
         Description: obj.Description || '',
         IsSensitive: obj.IsSensitive || false,
         RecordStatus: obj.RecordStatus || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
+        EffectiveFrom: obj.EffectiveFrom || null,
+        EffectiveTo: obj.EffectiveTo || null,
 
       }
     );
@@ -231,8 +231,8 @@ export class PermissionEditComponent implements OnInit, OnDestroy {
         Description: obj.Description || '',
         IsSensitive: obj.IsSensitive || false,
         RecordStatus: obj.RecordStatus || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date()
+        EffectiveFrom: obj.EffectiveFrom || null,
+        EffectiveTo: obj.EffectiveTo || null
       }
     );
 

@@ -129,7 +129,7 @@ UOMId: obj.UOMId || 0,
 EstimatedUnitCost: obj.EstimatedUnitCost || 0,
 CurrencyCode: obj.CurrencyCode || '',
 SpecificationsJson: obj.SpecificationsJson || '',
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 DeliveryLocationId: obj.DeliveryLocationId || 0,
 
       }
@@ -170,7 +170,7 @@ UOMId: obj.UOMId || 0,
 EstimatedUnitCost: obj.EstimatedUnitCost || 0,
 CurrencyCode: obj.CurrencyCode || '',
 SpecificationsJson: obj.SpecificationsJson || '',
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 DeliveryLocationId: obj.DeliveryLocationId || 0,
 
       }

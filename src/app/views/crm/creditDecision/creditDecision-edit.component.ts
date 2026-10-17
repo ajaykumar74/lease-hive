@@ -107,14 +107,14 @@ export class CreditDecisionEditComponent implements OnInit {
             CreditApplicationId: obj.CreditApplicationId || 0,
             CreditAssessmentId: obj.CreditAssessmentId || 0,
             DecisionCode: obj.DecisionCode || '',
-            DecisionDateTime: obj.DecisionDateTime || new Date(),
+            DecisionDateTime: obj.DecisionDateTime || null,
             ApprovedLimitAmount: obj.ApprovedLimitAmount || 0,
             CurrencyCode: obj.CurrencyCode || '',
             ApprovedTermMonths: obj.ApprovedTermMonths || 0,
             RiskRatingCode: obj.RiskRatingCode || '',
             DecisionReasonCode: obj.DecisionReasonCode || '',
             DecisionSummary: obj.DecisionSummary || '',
-            ValidUntil: obj.ValidUntil || new Date(),
+            ValidUntil: obj.ValidUntil || null,
             ApprovalRequestId: obj.ApprovalRequestId || 0,
             DecidedBy: obj.DecidedBy || 0
         });
@@ -140,14 +140,14 @@ export class CreditDecisionEditComponent implements OnInit {
             CreditApplicationId: obj.CreditApplicationId || 0,
             CreditAssessmentId: obj.CreditAssessmentId || 0,
             DecisionCode: obj.DecisionCode || '',
-            DecisionDateTime: obj.DecisionDateTime || new Date(),
+            DecisionDateTime: obj.DecisionDateTime || null,
             ApprovedLimitAmount: obj.ApprovedLimitAmount || 0,
             CurrencyCode: obj.CurrencyCode || '',
             ApprovedTermMonths: obj.ApprovedTermMonths || 0,
             RiskRatingCode: obj.RiskRatingCode || '',
             DecisionReasonCode: obj.DecisionReasonCode || '',
             DecisionSummary: obj.DecisionSummary || '',
-            ValidUntil: obj.ValidUntil || new Date(),
+            ValidUntil: obj.ValidUntil || null,
             ApprovalRequestId: obj.ApprovalRequestId || 0,
             DecidedBy: obj.DecidedBy || 0
         });

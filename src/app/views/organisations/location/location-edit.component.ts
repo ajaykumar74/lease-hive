@@ -123,8 +123,8 @@ GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -167,8 +167,8 @@ GeoLocation: obj.GeoLocation || '',
 Email: obj.Email || '',
 ContactPhone: obj.ContactPhone || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

@@ -97,8 +97,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 DispositionMethodName: obj.DispositionMethodName || '',
 RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -132,8 +132,8 @@ RecordStatus: obj.RecordStatus || '',
 DispositionMethodName: obj.DispositionMethodName || '',
 RequiresBuyerFlag:  obj.RequiresBuyerFlag || false,
 RequiresApprovalFlag:  obj.RequiresApprovalFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

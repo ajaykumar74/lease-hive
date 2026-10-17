@@ -117,11 +117,11 @@ ApplicationUserId: obj.ApplicationUserId || 0,
 ScopeType: obj.ScopeType || '',
 ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
-AssignedAt:  obj.AssignedAt || new Date(),
+AssignedAt:  obj.AssignedAt || null,
 IsDelegated:  obj.IsDelegated || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -155,11 +155,11 @@ ApplicationUserId: obj.ApplicationUserId || 0,
 ScopeType: obj.ScopeType || '',
 ScopeReferenceId: obj.ScopeReferenceId || 0,
 AssignedById: obj.AssignedById || 0,
-AssignedAt:  obj.AssignedAt || new Date(),
+AssignedAt:  obj.AssignedAt || null,
 IsDelegated:  obj.IsDelegated || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

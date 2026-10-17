@@ -26,7 +26,7 @@
                         <td style="width: 240px">{{ obj.ApplicationUserName }}</td>
                         <td style="width: 160px">{{ obj.AccessLevel }}</td>
                         <td style="width: 160px">{{ obj.IsDefault ? 'Yes' : 'No' }}</td>
-                        <td style="width: 130px">{{ obj.RecordStatus }}</td>
+                        <td style="width: 130px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
                     </tr>
                 </ng-template>
             </p-table>

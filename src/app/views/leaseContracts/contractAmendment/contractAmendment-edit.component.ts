@@ -113,12 +113,12 @@ AmendmentNo: obj.AmendmentNo || '',
 FromVersionNo: obj.FromVersionNo || 0,
 ToVersionNo: obj.ToVersionNo || 0,
 AmendmentTypeCode: obj.AmendmentTypeCode || '',
-RequestedDate:  obj.RequestedDate || new Date(),
-EffectiveDate:  obj.EffectiveDate || new Date(),
+RequestedDate:  obj.RequestedDate || null,
+EffectiveDate:  obj.EffectiveDate || null,
 Reason: obj.Reason || '',
 AmendmentStatusCode: obj.AmendmentStatusCode || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
-ExecutedOn:  obj.ExecutedOn || new Date(),
+ExecutedOn:  obj.ExecutedOn || null,
  
       }
     );
@@ -152,12 +152,12 @@ AmendmentNo: obj.AmendmentNo || '',
 FromVersionNo: obj.FromVersionNo || 0,
 ToVersionNo: obj.ToVersionNo || 0,
 AmendmentTypeCode: obj.AmendmentTypeCode || '',
-RequestedDate:  obj.RequestedDate || new Date(),
-EffectiveDate:  obj.EffectiveDate || new Date(),
+RequestedDate:  obj.RequestedDate || null,
+EffectiveDate:  obj.EffectiveDate || null,
 Reason: obj.Reason || '',
 AmendmentStatusCode: obj.AmendmentStatusCode || '',
 ApprovalRequestId: obj.ApprovalRequestId || 0,
-ExecutedOn:  obj.ExecutedOn || new Date(),
+ExecutedOn:  obj.ExecutedOn || null,
  
       }
     );

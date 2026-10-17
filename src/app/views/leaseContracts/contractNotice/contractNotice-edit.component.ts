@@ -113,13 +113,13 @@ this.deliverystatuscodeOptions = this.loggedInUserService.getPicklistOptions('De
 	   Id: obj.Id || 0,
 	  LeaseContractId: obj.LeaseContractId || 0,
 NoticeTypeCode: obj.NoticeTypeCode || '',
-NoticeDate:  obj.NoticeDate || new Date(),
-EffectiveDate:  obj.EffectiveDate || new Date(),
+NoticeDate:  obj.NoticeDate || null,
+EffectiveDate:  obj.EffectiveDate || null,
 RecipientPartyId: obj.RecipientPartyId || 0,
 DeliveryMethodCode: obj.DeliveryMethodCode || '',
 DocumentId: obj.DocumentId || 0,
 DeliveryStatusCode: obj.DeliveryStatusCode || '',
-SentOn:  obj.SentOn || new Date(),
+SentOn:  obj.SentOn || null,
  
       }
     );
@@ -150,13 +150,13 @@ SentOn:  obj.SentOn || new Date(),
 	   Id: obj.Id || 0,
 	  LeaseContractId: obj.LeaseContractId || 0,
 NoticeTypeCode: obj.NoticeTypeCode || '',
-NoticeDate:  obj.NoticeDate || new Date(),
-EffectiveDate:  obj.EffectiveDate || new Date(),
+NoticeDate:  obj.NoticeDate || null,
+EffectiveDate:  obj.EffectiveDate || null,
 RecipientPartyId: obj.RecipientPartyId || 0,
 DeliveryMethodCode: obj.DeliveryMethodCode || '',
 DocumentId: obj.DocumentId || 0,
 DeliveryStatusCode: obj.DeliveryStatusCode || '',
-SentOn:  obj.SentOn || new Date(),
+SentOn:  obj.SentOn || null,
  
       }
     );

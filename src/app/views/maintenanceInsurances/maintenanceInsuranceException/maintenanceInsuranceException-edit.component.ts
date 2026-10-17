@@ -121,7 +121,7 @@ SeverityCode: obj.SeverityCode || '',
 Reason: obj.Reason || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
-ResolvedAt:  obj.ResolvedAt || new Date(),
+ResolvedAt:  obj.ResolvedAt || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -160,7 +160,7 @@ SeverityCode: obj.SeverityCode || '',
 Reason: obj.Reason || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 StatusCode: obj.StatusCode || '',
-ResolvedAt:  obj.ResolvedAt || new Date(),
+ResolvedAt:  obj.ResolvedAt || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

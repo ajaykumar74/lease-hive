@@ -47,7 +47,7 @@
                         <td style="width:200px">{{ obj.ChargeAmount | number:'1.2-2':'en-US' }}</td>
                         <td style="width:200px">{{ obj.TotalDueAmount | number:'1.2-2':'en-US' }}</td>
                         <td style="width:200px">{{ obj.ClosingPrincipal | number:'1.2-2':'en-US' }}</td>
-                        <td style="width:200px">{{ obj.BillingStatusCode }}</td>
+                        <td style="width:200px"><app-status-pill [value]="obj.BillingStatusCode"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

@@ -109,7 +109,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
-LinkedAt:  obj.LinkedAt || new Date(),
+LinkedAt:  obj.LinkedAt || null,
 LinkedByUserId: obj.LinkedByUserId || 0,
 RecordStatus: obj.RecordStatus || '',
  
@@ -144,7 +144,7 @@ RecordStatus: obj.RecordStatus || '',
 ReferenceId: obj.ReferenceId || 0,
 DocumentId: obj.DocumentId || 0,
 DocumentRoleCode: obj.DocumentRoleCode || '',
-LinkedAt:  obj.LinkedAt || new Date(),
+LinkedAt:  obj.LinkedAt || null,
 LinkedByUserId: obj.LinkedByUserId || 0,
 RecordStatus: obj.RecordStatus || '',
  

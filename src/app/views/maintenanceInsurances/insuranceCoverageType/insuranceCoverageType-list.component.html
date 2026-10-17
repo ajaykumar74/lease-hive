@@ -27,7 +27,7 @@
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.CoverageTypeCode}}</td>
  <td style="width:200px">{{obj.CoverageTypeName}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

@@ -40,7 +40,7 @@
  <td style="width:200px">{{obj.RefundableFlag | yesNo }}</td>
  <td style="width:200px">{{obj.InterestBearingFlag | yesNo }}</td>
  <td style="width:200px">{{obj.FinanceReferenceId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

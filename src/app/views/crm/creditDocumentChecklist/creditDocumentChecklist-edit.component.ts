@@ -101,7 +101,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
             DocumentId: obj.DocumentId || 0,
             ChecklistStatus: obj.ChecklistStatus || '',
             VerifiedBy: obj.VerifiedBy || 0,
-            VerifiedOn: obj.VerifiedOn || new Date()
+            VerifiedOn: obj.VerifiedOn || null
         });
 
         this.Caption = 'CreditDocumentChecklist Details #' + obj.Id;
@@ -128,7 +128,7 @@ export class CreditDocumentChecklistEditComponent implements OnInit {
             DocumentId: obj.DocumentId || 0,
             ChecklistStatus: obj.ChecklistStatus || '',
             VerifiedBy: obj.VerifiedBy || 0,
-            VerifiedOn: obj.VerifiedOn || new Date()
+            VerifiedOn: obj.VerifiedOn || null
         });
 
         this.editForm.reset();

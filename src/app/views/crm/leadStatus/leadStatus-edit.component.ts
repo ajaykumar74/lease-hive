@@ -100,8 +100,8 @@ IsQualified:  obj.IsQualified || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -136,8 +136,8 @@ IsQualified:  obj.IsQualified || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

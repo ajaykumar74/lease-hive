@@ -99,8 +99,8 @@ GradeName: obj.GradeName || '',
 ScoreFrom: obj.ScoreFrom || 0,
 ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -135,8 +135,8 @@ GradeName: obj.GradeName || '',
 ScoreFrom: obj.ScoreFrom || 0,
 ScoreTo: obj.ScoreTo || 0,
 IsLeaseable:  obj.IsLeaseable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

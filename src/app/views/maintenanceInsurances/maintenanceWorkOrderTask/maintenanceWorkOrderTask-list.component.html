@@ -34,10 +34,10 @@
  <td style="width:200px">{{obj.LineNo | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TaskCode}}</td>
  <td style="width:200px">{{obj.MandatoryFlag | yesNo }}</td>
- <td style="width:200px">{{obj.TaskStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.TaskStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.CompletedAt | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.CompletedByUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

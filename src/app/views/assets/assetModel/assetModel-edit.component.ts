@@ -112,8 +112,8 @@ ModelName: obj.ModelName || '',
 VariantName: obj.VariantName || '',
 ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -150,8 +150,8 @@ ModelName: obj.ModelName || '',
 VariantName: obj.VariantName || '',
 ModelYearFrom: obj.ModelYearFrom || 0,
 ModelYearTo: obj.ModelYearTo || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

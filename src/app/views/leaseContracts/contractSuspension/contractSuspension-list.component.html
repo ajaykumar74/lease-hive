@@ -35,7 +35,7 @@
  <td style="width:200px">{{obj.SuspensionReasonCode}}</td>
  <td style="width:200px">{{obj.SuspendedFrom | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.SuspendedTo | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.ApprovalRequestId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.Notes}}</td>
 

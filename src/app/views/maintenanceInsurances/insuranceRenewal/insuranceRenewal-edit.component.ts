@@ -116,7 +116,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       {
 	   Id: obj.Id || 0,
 	  InsurancePolicyId: obj.InsurancePolicyId || 0,
-RenewalDueDate:  obj.RenewalDueDate || new Date(),
+RenewalDueDate:  obj.RenewalDueDate || null,
 RenewalStatusCode: obj.RenewalStatusCode || '',
 ProposedInsurerPartyId: obj.ProposedInsurerPartyId || 0,
 ProposedPremiumAmount: obj.ProposedPremiumAmount || 0,
@@ -154,7 +154,7 @@ RecordStatus: obj.RecordStatus || '',
       {
 	   Id: obj.Id || 0,
 	  InsurancePolicyId: obj.InsurancePolicyId || 0,
-RenewalDueDate:  obj.RenewalDueDate || new Date(),
+RenewalDueDate:  obj.RenewalDueDate || null,
 RenewalStatusCode: obj.RenewalStatusCode || '',
 ProposedInsurerPartyId: obj.ProposedInsurerPartyId || 0,
 ProposedPremiumAmount: obj.ProposedPremiumAmount || 0,

@@ -108,11 +108,11 @@ CountryCode: obj.CountryCode || '',
 StateProvinceCode: obj.StateProvinceCode || '',
 WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
-DayStartTime:  obj.DayStartTime || new Date(),
-DayEndTime:  obj.DayEndTime || new Date(),
+DayStartTime:  obj.DayStartTime || null,
+DayEndTime:  obj.DayEndTime || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -152,11 +152,11 @@ CountryCode: obj.CountryCode || '',
 StateProvinceCode: obj.StateProvinceCode || '',
 WeekendPattern: obj.WeekendPattern || '',
 TimeZoneId: obj.TimeZoneId || '',
-DayStartTime:  obj.DayStartTime || new Date(),
-DayEndTime:  obj.DayEndTime || new Date(),
+DayStartTime:  obj.DayStartTime || null,
+DayEndTime:  obj.DayEndTime || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

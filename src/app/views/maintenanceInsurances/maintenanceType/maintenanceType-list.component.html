@@ -29,7 +29,7 @@
                          <td style="width:200px">{{obj.MaintenanceTypeCode}}</td>
  <td style="width:200px">{{obj.MaintenanceTypeName}}</td>
  <td style="width:200px">{{obj.IsPlanned | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

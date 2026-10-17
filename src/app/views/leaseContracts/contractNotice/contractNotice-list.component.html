@@ -40,7 +40,7 @@
  <td style="width:200px">{{obj.RecipientPartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.DeliveryMethodCode}}</td>
  <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.DeliveryStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.DeliveryStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.SentOn | date:'dd-MMM-yyyy' }}</td>
 
 					</tr>

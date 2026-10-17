@@ -107,7 +107,7 @@ export class ApprovalRequestEditComponent implements OnInit {
             ReferenceId: obj.ReferenceId || 0,
             WorkflowDefinitionId: obj.WorkflowDefinitionId || 0,
             RequestedBy: obj.RequestedBy || 0,
-            RequestedOn: obj.RequestedOn || new Date(),
+            RequestedOn: obj.RequestedOn || null,
             RequestedAmount: obj.RequestedAmount || 0,
             CurrencyId: obj.CurrencyId || '',
             ApprovalStatus: obj.ApprovalStatus || ''
@@ -136,7 +136,7 @@ export class ApprovalRequestEditComponent implements OnInit {
             ReferenceId: obj.ReferenceId || 0,
             WorkflowDefinitionId: obj.WorkflowDefinitionId || 0,
             RequestedBy: obj.RequestedBy || 0,
-            RequestedOn: obj.RequestedOn || new Date(),
+            RequestedOn: obj.RequestedOn || null,
             RequestedAmount: obj.RequestedAmount || 0,
             CurrencyId: obj.CurrencyId || '',
             ApprovalStatus: obj.ApprovalStatus || ''

@@ -106,10 +106,10 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 EquipmentSerialNo: obj.EquipmentSerialNo || '',
 CapacityUOMId: obj.CapacityUOMId || 0,
 PowerUOMId: obj.PowerUOMId || 0,
-ManufactureDate:  obj.ManufactureDate || new Date(),
+ManufactureDate:  obj.ManufactureDate || null,
 SafetyClass: obj.SafetyClass || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -143,10 +143,10 @@ RecordStatus: obj.RecordStatus || '',
 EquipmentSerialNo: obj.EquipmentSerialNo || '',
 CapacityUOMId: obj.CapacityUOMId || 0,
 PowerUOMId: obj.PowerUOMId || 0,
-ManufactureDate:  obj.ManufactureDate || new Date(),
+ManufactureDate:  obj.ManufactureDate || null,
 SafetyClass: obj.SafetyClass || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

@@ -37,7 +37,7 @@
  <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.DocumentVersionId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ExpiresAtUtc | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.Status | number:'1.0':'en-US' }}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.Status"></app-status-pill></td>
  <td style="width:200px">{{obj.ObjectETag}}</td>
  <td style="width:200px">{{obj.ServerVerifiedAtUtc | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.CompletedAtUtc | date:'dd-MMM-yyyy' }}</td>

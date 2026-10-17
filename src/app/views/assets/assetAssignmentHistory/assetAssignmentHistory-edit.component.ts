@@ -114,7 +114,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ToPartyLocationId', 'p
       {
 	   Id: obj.Id || 0,
 	  EventTypeId: obj.EventTypeId || '',
-EventDateTime:  obj.EventDateTime || new Date(),
+EventDateTime:  obj.EventDateTime || null,
 FromAssetUserId: obj.FromAssetUserId || 0,
 ToAssetUserId: obj.ToAssetUserId || 0,
 FromPartyLocationId: obj.FromPartyLocationId || 0,
@@ -149,7 +149,7 @@ Remarks: obj.Remarks || '',
       {
 	   Id: obj.Id || 0,
 	  EventTypeId: obj.EventTypeId || '',
-EventDateTime:  obj.EventDateTime || new Date(),
+EventDateTime:  obj.EventDateTime || null,
 FromAssetUserId: obj.FromAssetUserId || 0,
 ToAssetUserId: obj.ToAssetUserId || 0,
 FromPartyLocationId: obj.FromPartyLocationId || 0,

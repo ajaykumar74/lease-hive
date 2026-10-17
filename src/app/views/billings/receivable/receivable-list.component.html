@@ -53,9 +53,9 @@
  <td style="width:200px">{{obj.CreditAppliedAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.WriteOffAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.OutstandingAmount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ReceivableStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.ReceivableStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.DisputeHoldFlag | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

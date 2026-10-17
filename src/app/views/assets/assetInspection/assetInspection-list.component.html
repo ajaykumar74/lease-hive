@@ -41,7 +41,7 @@
  <td style="width:200px">{{obj.PartyDisplayName}}</td>
  <td style="width:200px">{{obj.InspectorUserDisplayName}}</td>
  <td style="width:200px">{{obj.ConditionGradeDisplayName}}</td>
-<td style="width:200px">{{obj.InspectionStatusDisplayName}}</td>
+<td style="width:200px"><app-status-pill [value]="obj.InspectionStatusDisplayName"></app-status-pill></td>
  <td><div class="list-actions"><button type="button" class="list-action view" title="View" aria-label="View record" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit" aria-label="Edit record" (click)="onDetailsClick(obj)"><i class="pi pi-pencil"></i></button></div></td>
  
 					</tr>

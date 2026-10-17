@@ -37,7 +37,7 @@
  <td style="width:200px">{{obj.ReturnedQuantity | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ConditionCode}}</td>
  <td style="width:200px">{{obj.ChargeableFlag | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

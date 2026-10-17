@@ -137,8 +137,8 @@ export class QuoteEditComponent implements OnInit {
             PartyId: obj.PartyId || 0,
             OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
             QuoteStatusId: obj.QuoteStatusId || 0,
-            QuoteDate: obj.QuoteDate || new Date(),
-            ValidUntil: obj.ValidUntil || new Date(),
+            QuoteDate: obj.QuoteDate || null,
+            ValidUntil: obj.ValidUntil || null,
             CurrencyCode: obj.CurrencyCode || '',
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             BillingFrequency: obj.BillingFrequency || '',
@@ -146,14 +146,14 @@ export class QuoteEditComponent implements OnInit {
             TaxAmount: obj.TaxAmount || 0,
             TotalAmount: obj.TotalAmount || 0,
             SecurityDepositAmount: obj.SecurityDepositAmount || 0,
-            PricingDateTime: obj.PricingDateTime || new Date(),
-            IssuedOn: obj.IssuedOn || new Date(),
-            AcceptedOn: obj.AcceptedOn || new Date(),
+            PricingDateTime: obj.PricingDateTime || null,
+            IssuedOn: obj.IssuedOn || null,
+            AcceptedOn: obj.AcceptedOn || null,
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
         this.recalculateTotalAmount();
 
@@ -182,8 +182,8 @@ export class QuoteEditComponent implements OnInit {
             PartyId: obj.PartyId || 0,
             OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
             QuoteStatusId: obj.QuoteStatusId || 0,
-            QuoteDate: obj.QuoteDate || new Date(),
-            ValidUntil: obj.ValidUntil || new Date(),
+            QuoteDate: obj.QuoteDate || null,
+            ValidUntil: obj.ValidUntil || null,
             CurrencyCode: obj.CurrencyCode || '',
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             BillingFrequency: obj.BillingFrequency || '',
@@ -191,14 +191,14 @@ export class QuoteEditComponent implements OnInit {
             TaxAmount: obj.TaxAmount || 0,
             TotalAmount: obj.TotalAmount || 0,
             SecurityDepositAmount: obj.SecurityDepositAmount || 0,
-            PricingDateTime: obj.PricingDateTime || new Date(),
-            IssuedOn: obj.IssuedOn || new Date(),
-            AcceptedOn: obj.AcceptedOn || new Date(),
+            PricingDateTime: obj.PricingDateTime || null,
+            IssuedOn: obj.IssuedOn || null,
+            AcceptedOn: obj.AcceptedOn || null,
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.editForm.reset();

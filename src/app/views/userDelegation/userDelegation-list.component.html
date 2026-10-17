@@ -41,7 +41,7 @@
                         <td style="width: 260px">{{ obj.OrganisationUnitDisplayName }}</td>
                         <td style="width: 180px">{{ obj.StartDateTime | date:'medium' }}</td>
                         <td style="width: 180px">{{ obj.EndDateTime | date:'medium' }}</td>
-                        <td style="width: 140px">{{ obj.RecordStatus }}</td>
+                        <td style="width: 140px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
                     </tr>
                 </ng-template>
             </p-table>

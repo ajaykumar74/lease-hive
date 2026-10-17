@@ -137,7 +137,7 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
  
       }
     );
@@ -178,7 +178,7 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
  
       }
     );

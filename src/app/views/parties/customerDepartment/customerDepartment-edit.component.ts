@@ -132,8 +132,8 @@ CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -172,8 +172,8 @@ CostCentreCode: obj.CostCentreCode || '',
 DepartmentHeadContactId: obj.DepartmentHeadContactId || 0,
 BillingReference: obj.BillingReference || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

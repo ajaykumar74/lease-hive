@@ -30,10 +30,10 @@
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.RoleType}}</td>
  <td style="width:200px">{{obj.RoleCode}}</td>
- <td style="width:200px">{{obj.RoleStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RoleStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.ApprovedBy}}</td>
  <td style="width:200px">{{obj.ApprovedAt | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

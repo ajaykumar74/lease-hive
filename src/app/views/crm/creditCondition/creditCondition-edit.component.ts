@@ -98,9 +98,9 @@ export class CreditConditionEditComponent implements OnInit {
             ConditionType: obj.ConditionType || '',
             ConditionText: obj.ConditionText || '',
             IsPrecedent: obj.IsPrecedent || false,
-            DueDate: obj.DueDate || new Date(),
+            DueDate: obj.DueDate || null,
             ConditionStatus: obj.ConditionStatus || '',
-            SatisfiedOn: obj.SatisfiedOn || new Date(),
+            SatisfiedOn: obj.SatisfiedOn || null,
             EvidenceDocumentId: obj.EvidenceDocumentId || '',
             VerifiedBy: obj.VerifiedBy || 0
         });
@@ -127,9 +127,9 @@ export class CreditConditionEditComponent implements OnInit {
             ConditionType: obj.ConditionType || '',
             ConditionText: obj.ConditionText || '',
             IsPrecedent: obj.IsPrecedent || false,
-            DueDate: obj.DueDate || new Date(),
+            DueDate: obj.DueDate || null,
             ConditionStatus: obj.ConditionStatus || '',
-            SatisfiedOn: obj.SatisfiedOn || new Date(),
+            SatisfiedOn: obj.SatisfiedOn || null,
             EvidenceDocumentId: obj.EvidenceDocumentId || '',
             VerifiedBy: obj.VerifiedBy || 0
         });

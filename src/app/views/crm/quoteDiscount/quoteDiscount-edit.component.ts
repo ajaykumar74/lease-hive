@@ -104,7 +104,7 @@ export class QuoteDiscountEditComponent implements OnInit {
             ReasonCode: obj.ReasonCode || '',
             ApprovalRequestId: obj.ApprovalRequestId || 0,
             ApprovedBy: obj.ApprovedBy || 0,
-            ApprovedOn: obj.ApprovedOn || new Date()
+            ApprovedOn: obj.ApprovedOn || null
         });
 
         this.Caption = 'QuoteDiscount Details #' + obj.Id;
@@ -133,7 +133,7 @@ export class QuoteDiscountEditComponent implements OnInit {
             ReasonCode: obj.ReasonCode || '',
             ApprovalRequestId: obj.ApprovalRequestId || 0,
             ApprovedBy: obj.ApprovedBy || 0,
-            ApprovedOn: obj.ApprovedOn || new Date()
+            ApprovedOn: obj.ApprovedOn || null
         });
 
         this.editForm.reset();

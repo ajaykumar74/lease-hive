@@ -1,0 +1,26 @@
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 100%;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-pill__dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-pill--success { background: #dcfce7; color: #15803d; }
+.status-pill--info { background: #dbeafe; color: #1d4ed8; }
+.status-pill--warning { background: #fef3c7; color: #a16207; }
+.status-pill--danger { background: #fee2e2; color: #b91c1c; }
+.status-pill--neutral { background: var(--surface-100); color: var(--text-color-secondary); }

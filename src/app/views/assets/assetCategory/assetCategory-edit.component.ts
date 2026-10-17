@@ -101,8 +101,8 @@ CategoryName: obj.CategoryName || '',
 SupportsRegistration:  obj.SupportsRegistration || false,
 SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -137,8 +137,8 @@ CategoryName: obj.CategoryName || '',
 SupportsRegistration:  obj.SupportsRegistration || false,
 SupportsMeasure:  obj.SupportsMeasure || false,
 ExtensionTypeCode: obj.ExtensionTypeCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

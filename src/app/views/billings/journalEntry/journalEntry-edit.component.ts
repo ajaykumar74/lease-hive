@@ -107,7 +107,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       {
 	   Id: obj.Id || 0,
 	  OrganisationId: obj.OrganisationId || 0,
-JournalDate:  obj.JournalDate || new Date(),
+JournalDate:  obj.JournalDate || null,
 PeriodCode: obj.PeriodCode || '',
 SourceModule: obj.SourceModule || '',
 CurrencyCode: obj.CurrencyCode || '',
@@ -115,7 +115,7 @@ TotalDebit: obj.TotalDebit || 0,
 TotalCredit: obj.TotalCredit || 0,
 PostingStatus: obj.PostingStatus || '',
 ExternalJournalRef: obj.ExternalJournalRef || '',
-PostedAtUtc:  obj.PostedAtUtc || new Date(),
+PostedAtUtc:  obj.PostedAtUtc || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -146,7 +146,7 @@ RecordStatus: obj.RecordStatus || '',
       {
 	   Id: obj.Id || 0,
 	  OrganisationId: obj.OrganisationId || 0,
-JournalDate:  obj.JournalDate || new Date(),
+JournalDate:  obj.JournalDate || null,
 PeriodCode: obj.PeriodCode || '',
 SourceModule: obj.SourceModule || '',
 CurrencyCode: obj.CurrencyCode || '',
@@ -154,7 +154,7 @@ TotalDebit: obj.TotalDebit || 0,
 TotalCredit: obj.TotalCredit || 0,
 PostingStatus: obj.PostingStatus || '',
 ExternalJournalRef: obj.ExternalJournalRef || '',
-PostedAtUtc:  obj.PostedAtUtc || new Date(),
+PostedAtUtc:  obj.PostedAtUtc || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

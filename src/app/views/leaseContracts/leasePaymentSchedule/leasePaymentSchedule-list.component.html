@@ -38,7 +38,7 @@
                          <td style="width:200px">{{obj.LeasePaymentScheduleId}}</td>
  <td style="width:200px">{{obj.LeaseContractId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ScheduleVersionNo | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ScheduleStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.ScheduleStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.CalculationMethodCode}}</td>
  <td style="width:200px">{{obj.StartDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.EndDate | date:'dd-MMM-yyyy' }}</td>

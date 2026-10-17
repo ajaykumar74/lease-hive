@@ -126,8 +126,8 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.Caption = 'LeaseRequirementAsset Details #' + obj.Id;
@@ -163,8 +163,8 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
             ServicePackageCode: obj.ServicePackageCode || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.editForm.reset();

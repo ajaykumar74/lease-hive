@@ -99,15 +99,15 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
       {
 	   Id: obj.Id || 0,
 	  BusinessCalendarId: obj.BusinessCalendarId || 0,
-HolidayDate:  obj.HolidayDate || new Date(),
+HolidayDate:  obj.HolidayDate || null,
 HolidayName: obj.HolidayName || '',
 DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }
@@ -138,15 +138,15 @@ Description: obj.Description || '',
       {
 	   Id: obj.Id || 0,
 	  BusinessCalendarId: obj.BusinessCalendarId || 0,
-HolidayDate:  obj.HolidayDate || new Date(),
+HolidayDate:  obj.HolidayDate || null,
 HolidayName: obj.HolidayName || '',
 DayCounts: obj.DayCounts || 0,
 DayType: obj.DayType || '',
 StartTime: obj.StartTime || '',
 EndTime: obj.EndTime || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }

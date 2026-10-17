@@ -55,7 +55,7 @@
  <td style="width:200px">{{obj.ExpectedSizeBytes | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.StoredSizeBytes | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.Sha256}}</td>
- <td style="width:200px">{{obj.FileStatus | number:'1.0':'en-US' }}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.FileStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.ScanEngine}}</td>
  <td style="width:200px">{{obj.ScanResult}}</td>
  <td style="width:200px">{{obj.ScannedAtUtc | date:'dd-MMM-yyyy' }}</td>

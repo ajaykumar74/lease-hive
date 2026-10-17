@@ -31,7 +31,7 @@
  <td style="width:200px">{{obj.ChargeTypeName}}</td>
  <td style="width:200px">{{obj.DirectionCode}}</td>
  <td style="width:200px">{{obj.TaxableFlag | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

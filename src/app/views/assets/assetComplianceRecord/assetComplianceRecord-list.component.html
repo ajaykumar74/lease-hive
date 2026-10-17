@@ -43,7 +43,7 @@
  <td style="width:200px">{{obj.ValidFrom | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ValidTo | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.DocumentDisplayName}}</td>
- <td style="width:200px">{{obj.VerificationStatusDisplayName}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.VerificationStatusDisplayName"></app-status-pill></td>
  <td style="width:200px">{{obj.VerifiedByDisplayName}}</td>
  <td style="width:200px">{{obj.VerifiedOn | date:'dd-MMM-yyyy' }}</td>
 

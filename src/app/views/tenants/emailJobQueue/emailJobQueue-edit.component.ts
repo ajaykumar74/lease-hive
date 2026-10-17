@@ -110,7 +110,7 @@ Subject: obj.Subject || '',
 HtmlBody: obj.HtmlBody || '',
 AttachmentsJson: obj.AttachmentsJson || '',
 Priority: obj.Priority || 0,
-ScheduledAtUtc:  obj.ScheduledAtUtc || new Date(),
+ScheduledAtUtc:  obj.ScheduledAtUtc || null,
 MaxAttempts: obj.MaxAttempts || 0,
  
       }
@@ -151,7 +151,7 @@ Subject: obj.Subject || '',
 HtmlBody: obj.HtmlBody || '',
 AttachmentsJson: obj.AttachmentsJson || '',
 Priority: obj.Priority || 0,
-ScheduledAtUtc:  obj.ScheduledAtUtc || new Date(),
+ScheduledAtUtc:  obj.ScheduledAtUtc || null,
 MaxAttempts: obj.MaxAttempts || 0,
  
       }

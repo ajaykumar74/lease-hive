@@ -109,8 +109,8 @@ PermissionId: obj.PermissionId || 0,
 GrantType: obj.GrantType || '',
 ConstraintJson: obj.ConstraintJson || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -144,8 +144,8 @@ PermissionId: obj.PermissionId || 0,
 GrantType: obj.GrantType || '',
 ConstraintJson: obj.ConstraintJson || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

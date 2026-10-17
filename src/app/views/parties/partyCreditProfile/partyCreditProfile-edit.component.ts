@@ -131,10 +131,10 @@ CurrentExposure: obj.CurrentExposure || 0,
 AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
-NextReviewDate:  obj.NextReviewDate || new Date(),
+NextReviewDate:  obj.NextReviewDate || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -173,10 +173,10 @@ CurrentExposure: obj.CurrentExposure || 0,
 AvailableExposure: obj.AvailableExposure || 0,
 PaymentTermsDays: obj.PaymentTermsDays || 0,
 ReviewFrequencyMonths: obj.ReviewFrequencyMonths || 0,
-NextReviewDate:  obj.NextReviewDate || new Date(),
+NextReviewDate:  obj.NextReviewDate || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

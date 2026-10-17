@@ -48,8 +48,8 @@
  <td style="width:200px">{{obj.RefundedAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ForfeitedAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.AvailableBalance | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.DepositStatus}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.DepositStatus"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

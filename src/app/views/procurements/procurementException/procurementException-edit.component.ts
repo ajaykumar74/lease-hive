@@ -114,7 +114,7 @@ Description: obj.Description || '',
 StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
-ResolvedOn:  obj.ResolvedOn || new Date(),
+ResolvedOn:  obj.ResolvedOn || null,
 
       }
     );
@@ -151,7 +151,7 @@ Description: obj.Description || '',
 StatusCode: obj.StatusCode || '',
 AssignedToUserId: obj.AssignedToUserId || 0,
 Resolution: obj.Resolution || '',
-ResolvedOn:  obj.ResolvedOn || new Date(),
+ResolvedOn:  obj.ResolvedOn || null,
 
       }
     );

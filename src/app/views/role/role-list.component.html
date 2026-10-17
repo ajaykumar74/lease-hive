@@ -28,7 +28,7 @@
                         <td style="width: 160px">{{ obj.RoleType }}</td>
                         <td style="width: 160px">{{ obj.ScopeType }}</td>
                         <td style="width: 280px">{{ obj.Description }}</td>
-                        <td style="width: 130px">{{ obj.RecordStatus }}</td>
+                        <td style="width: 130px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
                     </tr>
                 </ng-template>
             </p-table>

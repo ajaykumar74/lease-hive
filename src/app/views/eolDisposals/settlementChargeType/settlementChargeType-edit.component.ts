@@ -99,8 +99,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 ChargeTypeName: obj.ChargeTypeName || '',
 DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -134,8 +134,8 @@ RecordStatus: obj.RecordStatus || '',
 ChargeTypeName: obj.ChargeTypeName || '',
 DirectionCode: obj.DirectionCode || '',
 TaxableFlag:  obj.TaxableFlag || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

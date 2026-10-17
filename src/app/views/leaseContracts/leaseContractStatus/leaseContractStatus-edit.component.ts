@@ -99,8 +99,8 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -135,8 +135,8 @@ StatusName: obj.StatusName || '',
 IsEditable:  obj.IsEditable || false,
 IsTerminal:  obj.IsTerminal || false,
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

@@ -40,8 +40,8 @@
  <td style="width:200px">{{obj.ClosingBalance | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ImportSource}}</td>
  <td style="width:200px">{{obj.ImportBatchRef}}</td>
- <td style="width:200px">{{obj.ReconciliationStatus}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.ReconciliationStatus"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

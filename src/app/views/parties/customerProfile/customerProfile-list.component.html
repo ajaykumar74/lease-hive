@@ -32,7 +32,7 @@
  <td style="width:200px">{{obj.CustomerCode}}</td>
  <td style="width:200px">{{obj.CustomerSegment}}</td>
  <td style="width:200px">{{obj.CustomerCategory}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

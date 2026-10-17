@@ -106,10 +106,10 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	   Id: obj.Id || 0,
 	  EndOfLeaseSettlementId: obj.EndOfLeaseSettlementId || 0,
 ResponseCode: obj.ResponseCode || '',
-RespondedAt:  obj.RespondedAt || new Date(),
+RespondedAt:  obj.RespondedAt || null,
 RespondedByPartyId: obj.RespondedByPartyId || 0,
 DisputeReason: obj.DisputeReason || '',
-ResolvedAt:  obj.ResolvedAt || new Date(),
+ResolvedAt:  obj.ResolvedAt || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -141,10 +141,10 @@ RecordStatus: obj.RecordStatus || '',
 	   Id: obj.Id || 0,
 	  EndOfLeaseSettlementId: obj.EndOfLeaseSettlementId || 0,
 ResponseCode: obj.ResponseCode || '',
-RespondedAt:  obj.RespondedAt || new Date(),
+RespondedAt:  obj.RespondedAt || null,
 RespondedByPartyId: obj.RespondedByPartyId || 0,
 DisputeReason: obj.DisputeReason || '',
-ResolvedAt:  obj.ResolvedAt || new Date(),
+ResolvedAt:  obj.ResolvedAt || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

@@ -31,7 +31,7 @@
 						<td title="RequestMethod : {{obj.RequestMethod}}">{{obj.RequestPath}}</td>
 						<td>{{obj.ExceptionType}}</td>
 						<td title="{{obj.StackTrace}}">{{obj.Message}}</td>
-						<td>{{obj.StatusCode}}</td>
+						<td><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
 				</ng-template>
 			</p-table>
 			<div class="flex justify-content-center">

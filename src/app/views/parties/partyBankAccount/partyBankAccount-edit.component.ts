@@ -139,10 +139,10 @@ CurrencyCode: obj.CurrencyCode || '',
 IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
-VerifiedAt:  obj.VerifiedAt || new Date(),
+VerifiedAt:  obj.VerifiedAt || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -185,10 +185,10 @@ CurrencyCode: obj.CurrencyCode || '',
 IsDefaultForPayments:  obj.IsDefaultForPayments || false,
 IsDefaultForRefunds:  obj.IsDefaultForRefunds || false,
 VerificationStatus: obj.VerificationStatus || '',
-VerifiedAt:  obj.VerifiedAt || new Date(),
+VerifiedAt:  obj.VerifiedAt || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

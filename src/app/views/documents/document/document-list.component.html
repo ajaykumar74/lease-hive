@@ -41,7 +41,7 @@
  <td style="width:200px">{{obj.ExpiresOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ExternalReferenceNumber}}</td>
  <td style="width:200px">{{obj.CurrentDocumentVersionId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.Status | number:'1.0':'en-US' }}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.Status"></app-status-pill></td>
  <td style="width:200px">{{obj.DeletedAtUtc | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.DeletedByUserId | number:'1.0':'en-US' }}</td>
 

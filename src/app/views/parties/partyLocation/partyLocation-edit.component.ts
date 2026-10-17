@@ -153,8 +153,8 @@ IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -201,8 +201,8 @@ IsDefaultBillTo:  obj.IsDefaultBillTo || false,
 IsDefaultShipTo:  obj.IsDefaultShipTo || false,
 WorkingHours: obj.WorkingHours || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

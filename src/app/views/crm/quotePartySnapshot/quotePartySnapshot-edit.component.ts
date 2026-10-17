@@ -98,7 +98,7 @@ export class QuotePartySnapshotEditComponent implements OnInit {
             ContactName: obj.ContactName || '',
             ContactEmail: obj.ContactEmail || '',
             ContactPhone: obj.ContactPhone || '',
-            SnapshotOn: obj.SnapshotOn || new Date(),
+            SnapshotOn: obj.SnapshotOn || null,
             CurrencyCode: obj.CurrencyCode || ''
         });
 
@@ -128,7 +128,7 @@ export class QuotePartySnapshotEditComponent implements OnInit {
             ContactName: obj.ContactName || '',
             ContactEmail: obj.ContactEmail || '',
             ContactPhone: obj.ContactPhone || '',
-            SnapshotOn: obj.SnapshotOn || new Date(),
+            SnapshotOn: obj.SnapshotOn || null,
             CurrencyCode: obj.CurrencyCode || ''
         });
 

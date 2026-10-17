@@ -62,6 +62,7 @@ import { AppPermissionDirective } from './security/permission.directive';
 import { DocumentAttachmentsComponent } from './document-attachments/document-attachments.component';
 import { DocumentAttachmentRequirementsComponent } from './document-attachments/document-attachment-requirements.component';
 import { ConfirmationMessageComponent } from './confirmation-message.component';
+import { StatusPillComponent } from './status-pill.component';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -105,7 +106,8 @@ import { ConfirmationMessageComponent } from './confirmation-message.component';
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
 		DocumentAttachmentRequirementsComponent,
-		ConfirmationMessageComponent
+		ConfirmationMessageComponent,
+		StatusPillComponent
 	],
 	exports: [
 		MessageComponent,
@@ -127,7 +129,8 @@ import { ConfirmationMessageComponent } from './confirmation-message.component';
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
 		DocumentAttachmentRequirementsComponent,
-		ConfirmationMessageComponent
+		ConfirmationMessageComponent,
+		StatusPillComponent
 	]
 })
 export class MySharedModule { }

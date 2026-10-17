@@ -39,7 +39,7 @@
  <td style="width:200px">{{obj.StartDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.EndDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.DocumentDisplayName}}</td>
- <td style="width:200px">{{obj.WarrantyStatusDisplayName}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.WarrantyStatusDisplayName"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

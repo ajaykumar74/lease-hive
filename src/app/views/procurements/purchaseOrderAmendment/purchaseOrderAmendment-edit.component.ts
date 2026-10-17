@@ -110,14 +110,14 @@ this.reasoncodeOptions = this.loggedInUserService.getPicklistOptions('PurchaseOr
 	   Id: obj.Id || 0,
 	  PurchaseOrderId: obj.PurchaseOrderId || 0,
 AmendmentNo: obj.AmendmentNo || 0,
-AmendmentDate:  obj.AmendmentDate || new Date(),
+AmendmentDate:  obj.AmendmentDate || null,
 ReasonCode: obj.ReasonCode || '',
 Reason: obj.Reason || '',
 PreviousVersionNo: obj.PreviousVersionNo || 0,
 NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
-ChangedOn:  obj.ChangedOn || new Date(),
+ChangedOn:  obj.ChangedOn || null,
 
       }
     );
@@ -148,14 +148,14 @@ ChangedOn:  obj.ChangedOn || new Date(),
 	   Id: obj.Id || 0,
 	  PurchaseOrderId: obj.PurchaseOrderId || 0,
 AmendmentNo: obj.AmendmentNo || 0,
-AmendmentDate:  obj.AmendmentDate || new Date(),
+AmendmentDate:  obj.AmendmentDate || null,
 ReasonCode: obj.ReasonCode || '',
 Reason: obj.Reason || '',
 PreviousVersionNo: obj.PreviousVersionNo || 0,
 NewVersionNo: obj.NewVersionNo || 0,
 ApprovalRequestId: obj.ApprovalRequestId || 0,
 ChangedBy: obj.ChangedBy || 0,
-ChangedOn:  obj.ChangedOn || new Date(),
+ChangedOn:  obj.ChangedOn || null,
 
       }
     );

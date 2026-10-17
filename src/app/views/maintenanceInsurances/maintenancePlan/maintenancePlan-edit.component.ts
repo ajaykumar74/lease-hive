@@ -136,8 +136,8 @@ MeasureDefinitionId: obj.MeasureDefinitionId || 0,
 IntervalMeasureValue: obj.IntervalMeasureValue || 0,
 LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -179,8 +179,8 @@ MeasureDefinitionId: obj.MeasureDefinitionId || 0,
 IntervalMeasureValue: obj.IntervalMeasureValue || 0,
 LeadDays: obj.LeadDays || 0,
 LeadMeasureValue: obj.LeadMeasureValue || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

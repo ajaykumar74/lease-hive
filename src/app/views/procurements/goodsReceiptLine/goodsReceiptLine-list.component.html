@@ -41,7 +41,7 @@
  <td style="width:200px">{{obj.RejectedQuantity | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.UOMId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.InspectionRequired | yesNo }}</td>
- <td style="width:200px">{{obj.InspectionStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.InspectionStatusCode"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

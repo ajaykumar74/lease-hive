@@ -110,8 +110,8 @@ ReceivesSupportTickets:  obj.ReceivesSupportTickets || false,
 ReceivesEscalations:  obj.ReceivesEscalations || false,
 DisplayOrder: obj.DisplayOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -148,8 +148,8 @@ ReceivesSupportTickets:  obj.ReceivesSupportTickets || false,
 ReceivesEscalations:  obj.ReceivesEscalations || false,
 DisplayOrder: obj.DisplayOrder || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

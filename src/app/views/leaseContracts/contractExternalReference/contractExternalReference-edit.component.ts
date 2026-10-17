@@ -102,8 +102,8 @@ this.referencetypecodeOptions = this.loggedInUserService.getPicklistOptions('Con
 ReferenceTypeCode: obj.ReferenceTypeCode || '',
 ReferenceValue: obj.ReferenceValue || '',
 ProviderCode: obj.ProviderCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 IsPrimary:  obj.IsPrimary || false,
  
       }
@@ -137,8 +137,8 @@ IsPrimary:  obj.IsPrimary || false,
 ReferenceTypeCode: obj.ReferenceTypeCode || '',
 ReferenceValue: obj.ReferenceValue || '',
 ProviderCode: obj.ProviderCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 IsPrimary:  obj.IsPrimary || false,
  
       }

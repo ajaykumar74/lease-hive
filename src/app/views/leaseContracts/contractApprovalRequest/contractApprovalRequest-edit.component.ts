@@ -106,8 +106,8 @@ ReferenceId: obj.ReferenceId || 0,
 WorkflowDefinitionId: obj.WorkflowDefinitionId || 0,
 ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
-RequestedOn:  obj.RequestedOn || new Date(),
-CompletedOn:  obj.CompletedOn || new Date(),
+RequestedOn:  obj.RequestedOn || null,
+CompletedOn:  obj.CompletedOn || null,
  
       }
     );
@@ -141,8 +141,8 @@ ReferenceId: obj.ReferenceId || 0,
 WorkflowDefinitionId: obj.WorkflowDefinitionId || 0,
 ApprovalStatusCode: obj.ApprovalStatusCode || '',
 RequestedBy: obj.RequestedBy || 0,
-RequestedOn:  obj.RequestedOn || new Date(),
-CompletedOn:  obj.CompletedOn || new Date(),
+RequestedOn:  obj.RequestedOn || null,
+CompletedOn:  obj.CompletedOn || null,
  
       }
     );

@@ -95,8 +95,8 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 	  ReasonCode: obj.ReasonCode || '',
 ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -129,8 +129,8 @@ RecordStatus: obj.RecordStatus || '',
 	  ReasonCode: obj.ReasonCode || '',
 ReasonName: obj.ReasonName || '',
 Description: obj.Description || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

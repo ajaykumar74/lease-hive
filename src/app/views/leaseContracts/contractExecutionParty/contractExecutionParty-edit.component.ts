@@ -115,7 +115,7 @@ SignerNameSnapshot: obj.SignerNameSnapshot || '',
 SignerEmailSnapshot: obj.SignerEmailSnapshot || '',
 SigningOrder: obj.SigningOrder || 0,
 SignatureStatusCode: obj.SignatureStatusCode || '',
-SignedOn:  obj.SignedOn || new Date(),
+SignedOn:  obj.SignedOn || null,
 ExternalSignerId: obj.ExternalSignerId || '',
  
       }
@@ -152,7 +152,7 @@ SignerNameSnapshot: obj.SignerNameSnapshot || '',
 SignerEmailSnapshot: obj.SignerEmailSnapshot || '',
 SigningOrder: obj.SigningOrder || 0,
 SignatureStatusCode: obj.SignatureStatusCode || '',
-SignedOn:  obj.SignedOn || new Date(),
+SignedOn:  obj.SignedOn || null,
 ExternalSignerId: obj.ExternalSignerId || '',
  
       }

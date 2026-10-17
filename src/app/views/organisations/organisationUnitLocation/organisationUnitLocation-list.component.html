@@ -31,7 +31,7 @@
                          <td style="width:200px">{{obj.LocationId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.PurposeType}}</td>
  <td style="width:200px">{{obj.IsPrimary | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
 
 					</tr>

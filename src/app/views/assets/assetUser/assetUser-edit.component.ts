@@ -135,13 +135,13 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
-DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
+DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -181,13 +181,13 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
-DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
+DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

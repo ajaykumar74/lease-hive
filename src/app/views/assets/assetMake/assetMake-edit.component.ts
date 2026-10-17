@@ -104,8 +104,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 MakeName: obj.MakeName || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -139,8 +139,8 @@ RecordStatus: obj.RecordStatus || '',
 MakeName: obj.MakeName || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 CountryCode: obj.CountryCode || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

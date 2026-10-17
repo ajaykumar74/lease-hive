@@ -35,7 +35,7 @@
  <td style="width:200px">{{obj.RequestedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.Score | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.RiskBand | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ResultStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.ResultStatusCode"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

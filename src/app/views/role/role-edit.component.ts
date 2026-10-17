@@ -107,8 +107,8 @@ Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -144,8 +144,8 @@ Description: obj.Description || '',
 IsSystemRole:  obj.IsSystemRole || false,
 ScopeType: obj.ScopeType || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

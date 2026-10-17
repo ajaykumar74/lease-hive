@@ -40,7 +40,7 @@
 						<td>{{ obj.To || '-' }}</td>
 						<td>{{ obj.Subject || '-' }}</td>
 						<td>{{ obj.SubmittedAt || '-' }}</td>
-						<td>{{ obj.Status || '-' }}</td>
+						<td><app-status-pill [value]="obj.Status || '-'"></app-status-pill></td>
 						<td>{{ obj.RecordByType || '-' }}</td>
 						<td>{{ obj.CustomerId || '-' }}</td>
 					</tr>

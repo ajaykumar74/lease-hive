@@ -33,7 +33,7 @@
  <td style="width:200px">{{obj.DocumentType}}</td>
  <td style="width:200px">{{obj.IsRequired | yesNo }}</td>
  <td style="width:200px">{{obj.DocumentId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ChecklistStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.ChecklistStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.VerifiedBy | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.VerifiedOn | date:'dd-MMM-yyyy' }}</td>
 

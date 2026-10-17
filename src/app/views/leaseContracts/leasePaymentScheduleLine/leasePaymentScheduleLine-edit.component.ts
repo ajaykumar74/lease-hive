@@ -97,7 +97,7 @@ this.billingstatuscodeOptions = this.loggedInUserService.getPicklistOptions('Bil
 	   Id: obj.Id || 0,
 	  LeasePaymentScheduleId: obj.LeasePaymentScheduleId || 0,
 InstallmentNo: obj.InstallmentNo || 0,
-DueDate:  obj.DueDate || new Date(),
+DueDate:  obj.DueDate || null,
 BillingStatusCode: obj.BillingStatusCode || '',
  
       }
@@ -129,7 +129,7 @@ BillingStatusCode: obj.BillingStatusCode || '',
 	   Id: obj.Id || 0,
 	  LeasePaymentScheduleId: obj.LeasePaymentScheduleId || 0,
 InstallmentNo: obj.InstallmentNo || 0,
-DueDate:  obj.DueDate || new Date(),
+DueDate:  obj.DueDate || null,
 BillingStatusCode: obj.BillingStatusCode || '',
  
       }

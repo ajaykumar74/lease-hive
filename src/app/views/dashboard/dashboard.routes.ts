@@ -40,8 +40,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: CrmHelpDocumentComponent,
         data: {
-          title: 'CRM Documentation',
-          breadcrumb: 'CRM Documentation'
+          title: 'LeaseHive Documentation',
+          breadcrumb: 'LeaseHive Documentation'
         }
       },
       {

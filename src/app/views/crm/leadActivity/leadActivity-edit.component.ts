@@ -103,12 +103,12 @@ export class LeadActivityEditComponent implements OnInit {
             OpportunityId: obj.OpportunityId || 0,
             ActivityType: obj.ActivityType || '',
             Subject: obj.Subject || '',
-            ActivityDateTime: obj.ActivityDateTime || new Date(),
-            DueDateTime: obj.DueDateTime || new Date(),
+            ActivityDateTime: obj.ActivityDateTime || null,
+            DueDateTime: obj.DueDateTime || null,
             AssignedUserId: obj.AssignedUserId || 0,
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
-            CompletedOn: obj.CompletedOn || new Date(),
+            CompletedOn: obj.CompletedOn || null,
             Description: obj.Description || ''
         });
 
@@ -134,12 +134,12 @@ export class LeadActivityEditComponent implements OnInit {
             OpportunityId: obj.OpportunityId || 0,
             ActivityType: obj.ActivityType || '',
             Subject: obj.Subject || '',
-            ActivityDateTime: obj.ActivityDateTime || new Date(),
-            DueDateTime: obj.DueDateTime || new Date(),
+            ActivityDateTime: obj.ActivityDateTime || null,
+            DueDateTime: obj.DueDateTime || null,
             AssignedUserId: obj.AssignedUserId || 0,
             OutcomeCode: obj.OutcomeCode || '',
             Notes: obj.Notes || '',
-            CompletedOn: obj.CompletedOn || new Date(),
+            CompletedOn: obj.CompletedOn || null,
             Description: obj.Description || ''
         });
 

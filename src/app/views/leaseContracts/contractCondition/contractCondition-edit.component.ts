@@ -113,11 +113,11 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SatisfiedBy', 'applica
 ConditionTypeCode: obj.ConditionTypeCode || '',
 ConditionDescription: obj.ConditionDescription || '',
 RequiredForEventCode: obj.RequiredForEventCode || '',
-DueDate:  obj.DueDate || new Date(),
+DueDate:  obj.DueDate || null,
 MandatoryFlag:  obj.MandatoryFlag || false,
 WaiverAllowedFlag:  obj.WaiverAllowedFlag || false,
 StatusCode: obj.StatusCode || '',
-SatisfiedOn:  obj.SatisfiedOn || new Date(),
+SatisfiedOn:  obj.SatisfiedOn || null,
 SatisfiedBy: obj.SatisfiedBy || 0,
  
       }
@@ -151,11 +151,11 @@ SatisfiedBy: obj.SatisfiedBy || 0,
 ConditionTypeCode: obj.ConditionTypeCode || '',
 ConditionDescription: obj.ConditionDescription || '',
 RequiredForEventCode: obj.RequiredForEventCode || '',
-DueDate:  obj.DueDate || new Date(),
+DueDate:  obj.DueDate || null,
 MandatoryFlag:  obj.MandatoryFlag || false,
 WaiverAllowedFlag:  obj.WaiverAllowedFlag || false,
 StatusCode: obj.StatusCode || '',
-SatisfiedOn:  obj.SatisfiedOn || new Date(),
+SatisfiedOn:  obj.SatisfiedOn || null,
 SatisfiedBy: obj.SatisfiedBy || 0,
  
       }

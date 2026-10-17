@@ -42,7 +42,7 @@
  <td style="width:200px">{{obj.ActualTerminationDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ReasonCode}}</td>
  <td style="width:200px">{{obj.Reason}}</td>
- <td style="width:200px">{{obj.TerminationStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.TerminationStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.ApprovalRequestId | number:'1.0':'en-US' }}</td>
 
 					</tr>

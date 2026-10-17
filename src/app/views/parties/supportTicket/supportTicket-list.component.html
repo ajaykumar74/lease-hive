@@ -67,7 +67,7 @@
                             <td>{{ ticket.RequesterName || '-' }}</td>
                             <td>{{ ticket.AssignedToName || '-' }}</td>
                             <td>{{ getLabel(priorityOptions, ticket.PriorityCode) }}</td>
-                            <td>{{ getLabel(statusOptions, ticket.StatusCode) }}</td>
+                            <td><app-status-pill [value]="getLabel(statusOptions, ticket.StatusCode)"></app-status-pill></td>
                             <td>{{ ticket.LastActivityAtUtc | date:'dd-MMM-yyyy, h:mm a' }}</td>
                         </tr>
                     </ng-template>

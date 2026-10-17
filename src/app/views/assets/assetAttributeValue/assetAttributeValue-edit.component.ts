@@ -115,10 +115,10 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  AssetId: obj.AssetId || 0,
 AssetAttributeDefinitionId: obj.AssetAttributeDefinitionId || 0,
 StringValue: obj.StringValue || '',
-DateValue:  obj.DateValue || new Date(),
+DateValue:  obj.DateValue || null,
 BooleanValue:  obj.BooleanValue || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -151,10 +151,10 @@ RecordStatus: obj.RecordStatus || '',
 	  AssetId: obj.AssetId || 0,
 AssetAttributeDefinitionId: obj.AssetAttributeDefinitionId || 0,
 StringValue: obj.StringValue || '',
-DateValue:  obj.DateValue || new Date(),
+DateValue:  obj.DateValue || null,
 BooleanValue:  obj.BooleanValue || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

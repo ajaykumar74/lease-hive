@@ -40,7 +40,7 @@
  <td style="width:200px">{{obj.NoticeDays | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.CurrencyCode}}</td>
  <td style="width:200px">{{obj.TermsJson}}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

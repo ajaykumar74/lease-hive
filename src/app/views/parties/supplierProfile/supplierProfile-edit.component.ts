@@ -160,8 +160,8 @@ QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }
@@ -212,8 +212,8 @@ QualityAcceptancePercentage: obj.QualityAcceptancePercentage || 0,
 IsPurchaseBlocked:  obj.IsPurchaseBlocked || false,
 BlockReason: obj.BlockReason || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }

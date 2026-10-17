@@ -111,7 +111,7 @@ DocumentId: obj.DocumentId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || 0,
 EvidenceNotes: obj.EvidenceNotes || '',
-CapturedOn:  obj.CapturedOn || new Date(),
+CapturedOn:  obj.CapturedOn || null,
 CapturedBy: obj.CapturedBy || 0,
  
       }
@@ -147,7 +147,7 @@ DocumentId: obj.DocumentId || 0,
 ReferenceType: obj.ReferenceType || '',
 ReferenceId: obj.ReferenceId || 0,
 EvidenceNotes: obj.EvidenceNotes || '',
-CapturedOn:  obj.CapturedOn || new Date(),
+CapturedOn:  obj.CapturedOn || null,
 CapturedBy: obj.CapturedBy || 0,
  
       }

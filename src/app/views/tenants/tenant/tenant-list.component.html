@@ -36,7 +36,7 @@
 						<td style="width:200px">{{obj.LegalName}}</td>
 						<td style="width:200px">{{obj.BaseCountry}}</td>
 						<td style="width:200px">{{obj.DefaultCurrency}}</td>
-						<td style="width:200px">{{obj.Status}}</td>
+						<td style="width:200px"><app-status-pill [value]="obj.Status"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

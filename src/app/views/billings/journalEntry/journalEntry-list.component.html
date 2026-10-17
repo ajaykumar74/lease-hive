@@ -42,10 +42,10 @@
  <td style="width:200px">{{obj.CurrencyCode}}</td>
  <td style="width:200px">{{obj.TotalDebit | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TotalCredit | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PostingStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.PostingStatus"></app-status-pill></td>
  <td style="width:200px">{{obj.ExternalJournalRef}}</td>
  <td style="width:200px">{{obj.PostedAtUtc | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

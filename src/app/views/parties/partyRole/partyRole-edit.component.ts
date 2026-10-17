@@ -127,10 +127,10 @@ RoleStatus: obj.RoleStatus || '',
 OnboardingReference: obj.OnboardingReference || '',
 ApprovedBy: obj.ApprovedBy || '',
 ApprovedById: obj.ApprovedById || 0,
-ApprovedAt:  obj.ApprovedAt || new Date(),
+ApprovedAt:  obj.ApprovedAt || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -166,10 +166,10 @@ RoleStatus: obj.RoleStatus || '',
 OnboardingReference: obj.OnboardingReference || '',
 ApprovedBy: obj.ApprovedBy || '',
 ApprovedById: obj.ApprovedById || 0,
-ApprovedAt:  obj.ApprovedAt || new Date(),
+ApprovedAt:  obj.ApprovedAt || null,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

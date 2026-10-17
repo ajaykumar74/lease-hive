@@ -184,8 +184,8 @@ CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }
@@ -232,8 +232,8 @@ CanRecover:  obj.CanRecover || false,
 CanDispose:  obj.CanDispose || false,
 StandardLeadTimeDays: obj.StandardLeadTimeDays || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }

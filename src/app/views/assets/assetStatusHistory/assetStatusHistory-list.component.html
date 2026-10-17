@@ -31,8 +31,8 @@
 					<tr>
 						<td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-history"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{obj.ReasonCode || "Status change"}}</button><span class="list-secondary">{{obj.AssetStatusHistoryId || ("#" + obj.Id)}}</span></div></div></td>
                          <td style="width:200px">{{obj.AssetDisplayName}}</td>
- <td style="width:200px">{{obj.FromStatusDisplayName}}</td>
- <td style="width:200px">{{obj.ToStatusDisplayName}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.FromStatusDisplayName"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.ToStatusDisplayName"></app-status-pill></td>
  <td style="width:200px">{{obj.ReasonCode}}</td>
  <td style="width:200px">{{obj.Remarks}}</td>
 <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>

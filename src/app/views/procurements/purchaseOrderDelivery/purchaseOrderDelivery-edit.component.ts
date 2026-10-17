@@ -107,7 +107,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceivingOrganisationU
 ScheduleNo: obj.ScheduleNo || 0,
 DeliveryLocationId: obj.DeliveryLocationId || 0,
 ScheduledQuantity: obj.ScheduledQuantity || 0,
-PromisedDate:  obj.PromisedDate || new Date(),
+PromisedDate:  obj.PromisedDate || null,
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 Instructions: obj.Instructions || '',
 
@@ -142,7 +142,7 @@ Instructions: obj.Instructions || '',
 ScheduleNo: obj.ScheduleNo || 0,
 DeliveryLocationId: obj.DeliveryLocationId || 0,
 ScheduledQuantity: obj.ScheduledQuantity || 0,
-PromisedDate:  obj.PromisedDate || new Date(),
+PromisedDate:  obj.PromisedDate || null,
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 Instructions: obj.Instructions || '',
 

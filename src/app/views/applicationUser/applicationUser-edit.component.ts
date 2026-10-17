@@ -137,11 +137,11 @@ PartyContactId: obj.PartyContactId || 0,
 AssetUserId: obj.AssetUserId || 0,
 DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
-LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
+LastLoginDateTime:  obj.LastLoginDateTime || null,
 FailedLoginCount: obj.FailedLoginCount || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -182,11 +182,11 @@ PartyContactId: obj.PartyContactId || 0,
 AssetUserId: obj.AssetUserId || 0,
 DefaultOrganisationUnitId: obj.DefaultOrganisationUnitId || 0,
 TimeZoneId: obj.TimeZoneId || '',
-LastLoginDateTime:  obj.LastLoginDateTime || new Date(),
+LastLoginDateTime:  obj.LastLoginDateTime || null,
 FailedLoginCount: obj.FailedLoginCount || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

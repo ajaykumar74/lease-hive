@@ -140,7 +140,7 @@ UnitPrice: obj.UnitPrice || 0,
 DiscountAmount: obj.DiscountAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 SpecificationsJson: obj.SpecificationsJson || '',
 
       }
@@ -184,7 +184,7 @@ UnitPrice: obj.UnitPrice || 0,
 DiscountAmount: obj.DiscountAmount || 0,
 TaxAmount: obj.TaxAmount || 0,
 LineTotal: obj.LineTotal || 0,
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 SpecificationsJson: obj.SpecificationsJson || '',
 
       }

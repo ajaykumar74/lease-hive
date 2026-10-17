@@ -28,7 +28,7 @@
 							SubmittedAt:
 						</label>
 						<div class="col-span-12 md:col-span-10 flex items-center">
-							{{notification.SubmittedAt}}
+							{{ notification.SubmittedAt | date:'dd-MMM-yyyy HH:mm' }}
 						</div>
 					</div>
 					<div class="grid grid-cols-12 gap-2">

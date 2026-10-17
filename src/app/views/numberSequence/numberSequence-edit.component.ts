@@ -120,11 +120,11 @@ PrefixPattern: obj.PrefixPattern || '',
 CurrentNumber: obj.CurrentNumber || 0,
 NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
-LastResetDate:  obj.LastResetDate || new Date(),
+LastResetDate:  obj.LastResetDate || null,
 ExampleNumber: obj.ExampleNumber || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -161,11 +161,11 @@ PrefixPattern: obj.PrefixPattern || '',
 CurrentNumber: obj.CurrentNumber || 0,
 NumberLength: obj.NumberLength || 0,
 ResetFrequency: obj.ResetFrequency || '',
-LastResetDate:  obj.LastResetDate || new Date(),
+LastResetDate:  obj.LastResetDate || null,
 ExampleNumber: obj.ExampleNumber || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

@@ -112,17 +112,17 @@ export class CreditApplicationEditComponent implements OnInit {
             PartyId: obj.PartyId || 0,
             OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
             CreditApplicationStatusId: obj.CreditApplicationStatusId || 0,
-            ApplicationDate: obj.ApplicationDate || new Date(),
+            ApplicationDate: obj.ApplicationDate || null,
             RequestedLimitAmount: obj.RequestedLimitAmount || 0,
             CurrencyCode: obj.CurrencyCode || '',
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             RiskSegmentCode: obj.RiskSegmentCode || '',
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
-            SubmittedOn: obj.SubmittedOn || new Date(),
-            DecisionOn: obj.DecisionOn || new Date(),
+            SubmittedOn: obj.SubmittedOn || null,
+            DecisionOn: obj.DecisionOn || null,
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.Caption = 'CreditApplication Details #' + obj.Id;
@@ -147,17 +147,17 @@ export class CreditApplicationEditComponent implements OnInit {
             PartyId: obj.PartyId || 0,
             OriginatingOrganisationId: obj.OriginatingOrganisationId || 0,
             CreditApplicationStatusId: obj.CreditApplicationStatusId || 0,
-            ApplicationDate: obj.ApplicationDate || new Date(),
+            ApplicationDate: obj.ApplicationDate || null,
             RequestedLimitAmount: obj.RequestedLimitAmount || 0,
             CurrencyCode: obj.CurrencyCode || '',
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             RiskSegmentCode: obj.RiskSegmentCode || '',
             AssignedAnalystUserId: obj.AssignedAnalystUserId || 0,
-            SubmittedOn: obj.SubmittedOn || new Date(),
-            DecisionOn: obj.DecisionOn || new Date(),
+            SubmittedOn: obj.SubmittedOn || null,
+            DecisionOn: obj.DecisionOn || null,
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.editForm.reset();

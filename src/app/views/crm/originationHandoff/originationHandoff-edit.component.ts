@@ -105,7 +105,7 @@ export class OriginationHandoffEditComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             PartyId: obj.PartyId || 0,
             HandoffStatusId: obj.HandoffStatusId || '',
-            HandoffDateTime: obj.HandoffDateTime || new Date(),
+            HandoffDateTime: obj.HandoffDateTime || null,
             TargetModuleCode: obj.TargetModuleCode || '',
             TargetReferenceId: obj.TargetReferenceId || 0
         });
@@ -133,7 +133,7 @@ export class OriginationHandoffEditComponent implements OnInit {
             CreditDecisionId: obj.CreditDecisionId || 0,
             PartyId: obj.PartyId || 0,
             HandoffStatusId: obj.HandoffStatusId || '',
-            HandoffDateTime: obj.HandoffDateTime || new Date(),
+            HandoffDateTime: obj.HandoffDateTime || null,
             TargetModuleCode: obj.TargetModuleCode || '',
             TargetReferenceId: obj.TargetReferenceId || 0
         });

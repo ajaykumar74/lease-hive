@@ -115,8 +115,8 @@ RegistrationNoSnapshot: obj.RegistrationNoSnapshot || '',
 TaxIdSnapshot: obj.TaxIdSnapshot || '',
 AddressSnapshotJson: obj.AddressSnapshotJson || '',
 ContactSnapshotJson: obj.ContactSnapshotJson || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -154,8 +154,8 @@ RegistrationNoSnapshot: obj.RegistrationNoSnapshot || '',
 TaxIdSnapshot: obj.TaxIdSnapshot || '',
 AddressSnapshotJson: obj.AddressSnapshotJson || '',
 ContactSnapshotJson: obj.ContactSnapshotJson || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

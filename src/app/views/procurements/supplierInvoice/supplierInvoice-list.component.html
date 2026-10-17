@@ -46,12 +46,12 @@
  <td style="width:200px">{{obj.Subtotal | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TaxAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.TotalAmount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.MatchStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.MatchStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.InvoiceDocumentId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.APReferenceId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.CapturedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.CapturedBy | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

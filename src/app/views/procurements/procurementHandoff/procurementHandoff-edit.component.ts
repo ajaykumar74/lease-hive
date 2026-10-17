@@ -101,7 +101,7 @@ this.handoffstatuscodeOptions = this.loggedInUserService.getPicklistOptions('Han
 ReferenceId: obj.ReferenceId || 0,
 TargetModuleCode: obj.TargetModuleCode || '',
 HandoffStatusCode: obj.HandoffStatusCode || '',
-HandoffDateTime:  obj.HandoffDateTime || new Date(),
+HandoffDateTime:  obj.HandoffDateTime || null,
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
 
@@ -136,7 +136,7 @@ ValidationJson: obj.ValidationJson || '',
 ReferenceId: obj.ReferenceId || 0,
 TargetModuleCode: obj.TargetModuleCode || '',
 HandoffStatusCode: obj.HandoffStatusCode || '',
-HandoffDateTime:  obj.HandoffDateTime || new Date(),
+HandoffDateTime:  obj.HandoffDateTime || null,
 TargetReferenceId: obj.TargetReferenceId || 0,
 ValidationJson: obj.ValidationJson || '',
 

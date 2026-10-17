@@ -34,7 +34,7 @@
  <td style="width:200px">{{obj.RFQId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.SupplierPartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.SupplierServiceAreaId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.InvitationStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.InvitationStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.InvitedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.RespondedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.SupplierContactId | number:'1.0':'en-US' }}</td>

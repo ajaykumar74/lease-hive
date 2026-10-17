@@ -118,8 +118,8 @@ DataTypeCode: obj.DataTypeCode || '',
 UnitMeasureType: obj.UnitMeasureType || '',
 IsRequired:  obj.IsRequired || false,
 IsSearchable:  obj.IsSearchable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -157,8 +157,8 @@ DataTypeCode: obj.DataTypeCode || '',
 UnitMeasureType: obj.UnitMeasureType || '',
 IsRequired:  obj.IsRequired || false,
 IsSearchable:  obj.IsSearchable || false,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

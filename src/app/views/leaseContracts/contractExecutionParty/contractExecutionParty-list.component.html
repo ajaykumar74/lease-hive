@@ -39,7 +39,7 @@
  <td style="width:200px">{{obj.SignerNameSnapshot}}</td>
  <td style="width:200px">{{obj.SignerEmailSnapshot}}</td>
  <td style="width:200px">{{obj.SigningOrder | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.SignatureStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.SignatureStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.SignedOn | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.ExternalSignerId}}</td>
 

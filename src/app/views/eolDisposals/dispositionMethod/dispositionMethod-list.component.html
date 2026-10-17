@@ -31,7 +31,7 @@
  <td style="width:200px">{{obj.DispositionMethodName}}</td>
  <td style="width:200px">{{obj.RequiresBuyerFlag | yesNo }}</td>
  <td style="width:200px">{{obj.RequiresApprovalFlag | yesNo }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

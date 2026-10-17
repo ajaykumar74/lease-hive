@@ -41,9 +41,9 @@
  <td style="width:200px">{{obj.OpenedAt | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.TargetCompletionDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.AssignedToUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.StatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.ClosedAt | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

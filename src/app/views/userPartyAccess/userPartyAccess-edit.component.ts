@@ -125,8 +125,8 @@ AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -162,8 +162,8 @@ AccessLevel: obj.AccessLevel || '',
 PartyLocationId: obj.PartyLocationId || 0,
 CustomerDepartmentId: obj.CustomerDepartmentId || 0,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

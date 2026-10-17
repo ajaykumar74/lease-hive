@@ -110,16 +110,16 @@ export class LeaseRequirementEditComponent implements OnInit {
             OpportunityId: obj.OpportunityId || 0,
             PartyId: obj.PartyId || 0,
             PartyLocationId: obj.PartyLocationId || 0,
-            RequirementDate: obj.RequirementDate || new Date(),
-            PreferredStartDate: obj.PreferredStartDate || new Date(),
+            RequirementDate: obj.RequirementDate || null,
+            PreferredStartDate: obj.PreferredStartDate || null,
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             CurrencyCode: obj.CurrencyCode || '',
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.Caption = 'LeaseRequirement Details #' + obj.Id;
@@ -153,16 +153,16 @@ export class LeaseRequirementEditComponent implements OnInit {
             OpportunityId: obj.OpportunityId || 0,
             PartyId: obj.PartyId || 0,
             PartyLocationId: obj.PartyLocationId || 0,
-            RequirementDate: obj.RequirementDate || new Date(),
-            PreferredStartDate: obj.PreferredStartDate || new Date(),
+            RequirementDate: obj.RequirementDate || null,
+            PreferredStartDate: obj.PreferredStartDate || null,
             RequestedTermMonths: obj.RequestedTermMonths || 0,
             CurrencyCode: obj.CurrencyCode || '',
             RequirementStatusCode: obj.RequirementStatusCode || '',
             CustomerReference: obj.CustomerReference || '',
             Remarks: obj.Remarks || '',
             RecordStatus: obj.RecordStatus || '',
-            EffectiveFrom: obj.EffectiveFrom || new Date(),
-            EffectiveTo: obj.EffectiveTo || new Date()
+            EffectiveFrom: obj.EffectiveFrom || null,
+            EffectiveTo: obj.EffectiveTo || null
         });
 
         this.editForm.reset();

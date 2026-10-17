@@ -111,7 +111,7 @@ Description: obj.Description || '',
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 
       }
     );
@@ -147,7 +147,7 @@ Description: obj.Description || '',
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
 SpecificationsJson: obj.SpecificationsJson || '',
-RequiredByDate:  obj.RequiredByDate || new Date(),
+RequiredByDate:  obj.RequiredByDate || null,
 
       }
     );

@@ -117,8 +117,8 @@ OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -162,8 +162,8 @@ OwnershipPercentage: obj.OwnershipPercentage || 0,
 ControlType: obj.ControlType || '',
 RelationshipReference: obj.RelationshipReference || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

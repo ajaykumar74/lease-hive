@@ -102,8 +102,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 OptionCode: obj.OptionCode || '',
 OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }
@@ -137,8 +137,8 @@ RecordStatus: obj.RecordStatus || '',
 OptionCode: obj.OptionCode || '',
 OptionLabel: obj.OptionLabel || '',
 SortOrder: obj.SortOrder || 0,
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 RecordStatus: obj.RecordStatus || '',
  
       }

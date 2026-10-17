@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { reviveApiDates } from './api-date.util';
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +144,7 @@ export class BaseService {
 
 
   onTapData(res: any) {
+    reviveApiDates(res);
   }
 
   private async tryRefreshingTokens(token: string): Promise<boolean> {

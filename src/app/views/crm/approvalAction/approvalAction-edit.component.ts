@@ -95,7 +95,7 @@ export class ApprovalActionEditComponent implements OnInit {
             StepNo: obj.StepNo || 0,
             ApproverUserId: obj.ApproverUserId || 0,
             ActionCode: obj.ActionCode || '',
-            ActionDateTime: obj.ActionDateTime || new Date(),
+            ActionDateTime: obj.ActionDateTime || null,
             Comments: obj.Comments || '',
             DelegatedFromUserId: obj.DelegatedFromUserId || 0
         });
@@ -128,7 +128,7 @@ export class ApprovalActionEditComponent implements OnInit {
             StepNo: obj.StepNo || 0,
             ApproverUserId: obj.ApproverUserId || 0,
             ActionCode: obj.ActionCode || '',
-            ActionDateTime: obj.ActionDateTime || new Date(),
+            ActionDateTime: obj.ActionDateTime || null,
             Comments: obj.Comments || '',
             DelegatedFromUserId: obj.DelegatedFromUserId || 0
         });

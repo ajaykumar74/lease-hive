@@ -33,13 +33,13 @@
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
                          <td style="width:200px">{{obj.InsurancePolicyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.RenewalDueDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RenewalStatusCode}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RenewalStatusCode"></app-status-pill></td>
  <td style="width:200px">{{obj.ProposedInsurerPartyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ProposedPremiumAmount | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.CurrencyCode}}</td>
  <td style="width:200px">{{obj.NewInsurancePolicyId | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.AssignedToUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

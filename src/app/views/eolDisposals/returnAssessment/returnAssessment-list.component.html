@@ -42,8 +42,8 @@
  <td style="width:200px">{{obj.ActualUsageValue | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ExcessUsageValue | number:'1.0':'en-US' }}</td>
  <td style="width:200px">{{obj.ReturnInspectionId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssessmentStatusCode}}</td>
- <td style="width:200px">{{obj.RecordStatus}}</td>
+ <td style="width:200px"><app-status-pill [value]="obj.AssessmentStatusCode"></app-status-pill></td>
+ <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 
 					</tr>
 				</ng-template>

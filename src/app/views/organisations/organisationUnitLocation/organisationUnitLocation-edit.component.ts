@@ -111,8 +111,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );
@@ -145,8 +145,8 @@ EffectiveTo:  obj.EffectiveTo || new Date(),
 PurposeType: obj.PurposeType || '',
 IsPrimary:  obj.IsPrimary || false,
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
  
       }
     );

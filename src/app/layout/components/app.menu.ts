@@ -2370,10 +2370,10 @@ export class AppMenu implements OnInit, OnDestroy {
                     icon: 'pi pi-server',
                     items: [
                         {
-                            label: 'Documentation',
+                            label: 'Help & Documentation',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/CRMHelpDoc/'],
-                            tooltip: 'help documentation'
+                            tooltip: 'Open LeaseHive module help documentation'
                         }  
                     ]
                 },

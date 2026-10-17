@@ -137,8 +137,8 @@ DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }
@@ -176,8 +176,8 @@ DepartmentType: obj.DepartmentType || '',
 HeadUserId: obj.HeadUserId || 0,
 CostCentreCode: obj.CostCentreCode || '',
 RecordStatus: obj.RecordStatus || '',
-EffectiveFrom:  obj.EffectiveFrom || new Date(),
-EffectiveTo:  obj.EffectiveTo || new Date(),
+EffectiveFrom:  obj.EffectiveFrom || null,
+EffectiveTo:  obj.EffectiveTo || null,
 Description: obj.Description || '',
  
       }

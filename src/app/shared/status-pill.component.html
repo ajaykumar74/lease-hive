@@ -1,0 +1,10 @@
+<span class="status-pill"
+  [class.status-pill--success]="tone === 'success'"
+  [class.status-pill--info]="tone === 'info'"
+  [class.status-pill--warning]="tone === 'warning'"
+  [class.status-pill--danger]="tone === 'danger'"
+  [class.status-pill--neutral]="tone === 'neutral'"
+  [attr.aria-label]="displayValue">
+  <span class="status-pill__dot" aria-hidden="true"></span>
+  {{ displayValue }}
+</span>
