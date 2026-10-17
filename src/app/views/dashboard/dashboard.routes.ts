@@ -6,6 +6,7 @@ import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { AdminDashboardComponent } from './dashboardAdmin-component';
 import { NotificationModule } from '@/views/notification/notification.module';
+import { CrmHelpDocumentComponent } from './crm-help-document.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,15 @@ const routes: Routes = [
           title: 'Admin Dashboard',
           breadcrumb: 'Dashboard'
         },
+      },
+      {
+        path: 'CRMHelpDoc',
+        canActivate: [AuthGuard],
+        component: CrmHelpDocumentComponent,
+        data: {
+          title: 'CRM Documentation',
+          breadcrumb: 'CRM Documentation'
+        }
       },
       {
         path: 'users',

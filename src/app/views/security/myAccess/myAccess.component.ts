@@ -14,6 +14,7 @@ export class MyAccessComponent implements OnInit {
     access: IMyAccessSnapshot | null = null;
     isLoading = false;
     errorMessage = '';
+    effectivePermissionsExpanded = true;
 
     constructor(private readonly myAccessService: MyAccessService) {
     }

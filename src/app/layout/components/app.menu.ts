@@ -195,31 +195,7 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/mydashboard/'],
                             tooltip: 'see your dashboard here'
-                        } /* ,
-                        {
-                            label: 'Approvals',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/admin/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'tenants',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/tenants/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'Subscription Plans',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/subscriptionPlans/'],
-                            tooltip: 'See your fleet/ actions and costs here'
-                        },
-                        {
-                            label: 'Customers',
-                            icon: 'pi pi-fw pi-address-book',
-                            routerLink: ['/dashboard/customers/list/'],
-                            tooltip: ''
-                        } */
+                        }  
                     ]
                 },
                 {
@@ -785,6 +761,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Opportunity Stages',
                                             icon: 'pi pi-fw pi-chart-line',
                                             routerLink: ['/business/crm/config/opportunity-stages']
+                                        },
+                                          {
+                                            label: 'Quote Statuses',
+                                            icon: 'pi pi-fw pi-chart-line',
+                                            routerLink: ['/business/origination/config/quote-statuses']
                                         }
                                     ]
                                 }
@@ -2383,11 +2364,25 @@ export class AppMenu implements OnInit, OnDestroy {
                             items: [
                                 { label: 'Tickets', icon: 'pi pi-fw pi-inbox', routerLink: ['/business/support/tickets'], requiredPermission: 'support.supportticket.view' },
                                 { label: 'Create Ticket', icon: 'pi pi-fw pi-plus', routerLink: ['/business/support/tickets/create'], requiredPermission: 'support.supportticket.create' },
-                                { label: 'Support Contacts', icon: 'pi pi-fw pi-users', routerLink: ['/business/support/contacts'], requiredPermission: 'party.partytenantcontact.view' }
-                            ]
-                        }
+                                { label: 'Support Contacts', icon: 'pi pi-fw pi-users', routerLink: ['/business/support/contacts'], requiredPermission: 'party.partytenantcontact.view' },
+                            {
+                    label: 'Documentation',
+                    icon: 'pi pi-server',
+                    items: [
+                        {
+                            label: 'Documentation',
+                            icon: 'pi pi-fw pi-home',
+                            routerLink: ['/dashboard/CRMHelpDoc/'],
+                            tooltip: 'help documentation'
+                        }  
                     ]
-                }                
+                },
+                            ]
+
+                        },
+                        
+                    ]
+                }   
             ];
         } else {
             this.model = [

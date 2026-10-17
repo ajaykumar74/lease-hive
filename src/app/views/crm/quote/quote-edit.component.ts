@@ -1,4 +1,5 @@
 import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -79,6 +80,13 @@ export class QuoteEditComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
+        this.editForm.get('SubtotalAmount')?.valueChanges
+            .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+            .subscribe(() => this.recalculateTotalAmount());
+        this.editForm.get('TaxAmount')?.valueChanges
+            .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+            .subscribe(() => this.recalculateTotalAmount());
+        this.recalculateTotalAmount();
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
@@ -143,6 +151,7 @@ export class QuoteEditComponent implements OnInit {
             EffectiveFrom: obj.EffectiveFrom || new Date(),
             EffectiveTo: obj.EffectiveTo || new Date()
         });
+        this.recalculateTotalAmount();
 
         this.Caption = 'Quote Details #' + obj.Id;
     }
@@ -192,6 +201,7 @@ export class QuoteEditComponent implements OnInit {
     }
 
     Save(): void {
+        this.recalculateTotalAmount();
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
@@ -246,5 +256,12 @@ export class QuoteEditComponent implements OnInit {
                 this.spinner.hide();
             }
         });
+    }
+
+    private recalculateTotalAmount(): void {
+        const rentalAmount = Number(this.editForm?.get('SubtotalAmount')?.value) || 0;
+        const taxAmount = Number(this.editForm?.get('TaxAmount')?.value) || 0;
+
+        this.editForm?.get('TotalAmount')?.setValue(rentalAmount + taxAmount, { emitEvent: false });
     }
 }

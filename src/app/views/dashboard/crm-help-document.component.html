@@ -1,0 +1,54 @@
+<section class="documentation-page" aria-labelledby="documentation-title">
+    <header class="documentation-header">
+        <div>
+            <span class="eyebrow">Help centre</span>
+            <h1 id="documentation-title">CRM Documentation</h1>
+            <p>Browse product guides without leaving the LeaseHive workspace.</p>
+        </div>
+
+        <a
+            class="open-document"
+            [href]="selectedDocument.assetUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="'Open ' + selectedDocument.title + ' in a new tab'">
+            <i class="pi pi-external-link" aria-hidden="true"></i>
+            Open PDF
+        </a>
+    </header>
+
+    <div class="documentation-layout">
+        <aside class="document-list" aria-label="Available help documents">
+            <h2>Documents</h2>
+            <button
+                *ngFor="let document of documents; trackBy: trackByDocumentId"
+                type="button"
+                class="document-link"
+                [class.is-active]="document.id === selectedDocument.id"
+                [attr.aria-pressed]="document.id === selectedDocument.id"
+                (click)="selectDocument(document)">
+                <i class="pi pi-file-pdf" aria-hidden="true"></i>
+                <span>
+                    <strong>{{ document.title }}</strong>
+                    <small>{{ document.description }}</small>
+                </span>
+            </button>
+        </aside>
+
+        <main class="viewer-card">
+            <div class="viewer-heading">
+                <div>
+                    <h2>{{ selectedDocument.title }}</h2>
+                    <p>{{ selectedDocument.description }}</p>
+                </div>
+                <i class="pi pi-file-pdf" aria-hidden="true"></i>
+            </div>
+
+            <iframe
+                class="pdf-viewer"
+                [src]="selectedDocumentUrl"
+                [title]="selectedDocument.title + ' PDF document'">
+            </iframe>
+        </main>
+    </div>
+</section>

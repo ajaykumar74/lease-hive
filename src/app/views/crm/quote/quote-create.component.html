@@ -131,12 +131,12 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('BillingFrequency')"
 											label="Billing Frequency">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="SubtotalAmount">Subtotal Amount 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="SubtotalAmount">Rental Amount 
 							</label> 
 							<p-inputNumber id="SubtotalAmount"  pSize="small"	formControlName="SubtotalAmount"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('SubtotalAmount')"
-											label="Subtotal Amount">
+											label="Rental Amount">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full">							<label for="TaxAmount">Tax Amount 
 							</label> 
@@ -146,12 +146,12 @@
 											label="Tax Amount">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TotalAmount">Total Amount 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TotalAmount">Monthly Total Amount 
 							</label> 
-							<p-inputNumber id="TotalAmount"  pSize="small"	formControlName="TotalAmount"  >
+							<p-inputNumber id="TotalAmount"  pSize="small"	formControlName="TotalAmount" [readonly]="true"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('TotalAmount')"
-											label="Total Amount">
+											label="Monthly Total Amount">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full">							<label for="SecurityDepositAmount">Security Deposit Amount 
 							</label> 

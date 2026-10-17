@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 
 export interface CustomerPortalDashboard {
@@ -52,6 +52,32 @@ export interface CustomerPortalInvoice {
     CurrencyCode: string;
     GrossAmount: number;
     OutstandingAmount: number;
+}
+
+export interface CustomerPortalQuote {
+    QuoteId: number;
+    QuoteNumber: string;
+    VersionNo: string;
+    StatusCode: string;
+    StatusName: string;
+    QuoteDate: string;
+    ValidUntil: string;
+    CurrencyCode: string;
+    RequestedTermMonths: number;
+    BillingFrequency: string;
+    TotalAmount: number;
+    SecurityDepositAmount: number;
+    CanRespond: boolean;
+    DecisionCode?: string;
+    DecisionDateTime?: string;
+    DecisionRemarks?: string;
+}
+
+export interface CustomerPortalQuoteDecisionResult {
+    QuoteId: number;
+    StatusCode: string;
+    StatusName: string;
+    DecisionDateTime: string;
 }
 
 export interface CustomerPortalDocumentOwner {
@@ -142,6 +168,18 @@ export class CustomerPortalWorkspaceService {
     contract(id: number): Observable<CustomerPortalContract> { return this.get<CustomerPortalContract>(`contracts/${id}`); }
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
+    quotes(): Observable<CustomerPortalQuote[]> { return this.get<CustomerPortalQuote[]>('quotes'); }
+    decideQuote(quoteId: number, decisionCode: 'ACCEPTED' | 'REJECTED', remarks: string): Observable<CustomerPortalQuoteDecisionResult> {
+        return this.http.post<{ data: CustomerPortalQuoteDecisionResult }>(`${this.endpoint}/quotes/${quoteId}/decision`, {
+            DecisionCode: decisionCode,
+            Remarks: remarks
+        }, { headers: this.baseService.getHeaders() }).pipe(
+            map(response => response.data),
+            // Keep the API's error detail for the decision panel rather than
+            // reducing a 403 or 400 to the shared service's generic message.
+            catchError(error => throwError(() => error))
+        );
+    }
     supportParties(): Observable<CustomerPortalSupportParty[]> { return this.get<CustomerPortalSupportParty[]>('support/parties'); }
     supportContacts(): Observable<CustomerPortalSupportContact[]> { return this.get<CustomerPortalSupportContact[]>('support/contacts'); }
     supportTicketLookups(partyId: number, assetId?: number | null): Observable<CustomerPortalSupportTicketLookups> {

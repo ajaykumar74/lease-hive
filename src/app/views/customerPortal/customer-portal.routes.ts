@@ -4,6 +4,7 @@ import { AuthGuard } from '@/shared/auth-guard.service';
 import { PermissionGuard } from '@/shared/security/permission.guard';
 import { CustomerPortalGuard } from './customer-portal.guard';
 import { CustomerPortalDashboardComponent } from './customer-portal-dashboard.component';
+import { CustomerPortalQuotesComponent } from './customer-portal-quotes.component';
 import { CustomerPortalWorkspaceComponent } from './customer-portal-workspace.component';
 import { CustomerPortalInvitationComponent } from './customer-portal-invitation.component';
 import { CustomerPortalContractsComponent } from './customer-portal-contracts.component';
@@ -29,6 +30,7 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: CustomerPortalDashboardComponent, canActivate: [CustomerPortalGuard], data: { title: 'Customer Portal Dashboard' } },
+            { path: 'quotes', component: CustomerPortalQuotesComponent, canActivate: [CustomerPortalGuard], data: { title: 'Quotations' } },
             { path: 'contracts', component: CustomerPortalContractsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Contracts' } },
             { path: 'contracts/:id', component: CustomerPortalContractDetailComponent, canActivate: [CustomerPortalGuard], data: { title: 'Contract' } },
             { path: 'assets', component: CustomerPortalAssetsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Leased assets' } },

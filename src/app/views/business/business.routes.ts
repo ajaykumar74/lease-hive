@@ -52,8 +52,8 @@ const pages: BusinessPage[] = [
     { path: 'origination/approvals', title: 'Approvals', area: 'Origination', icon: 'pi pi-verified' },
     { path: 'origination/handoffs', title: 'Contract Handoffs', area: 'Origination', icon: 'pi pi-arrow-right-arrow-left' },
     { path: 'crm/config/lead-statuses', title: 'Lead Statuses', area: 'CRM', icon: 'pi pi-cog' },
-    { path: 'crm/config/opportunity-stages', title: 'Opportunity Stages', area: 'CRM', icon: 'pi pi-cog' },
     { path: 'origination/config/quote-statuses', title: 'Quote Statuses', area: 'Origination', icon: 'pi pi-cog' },
+    { path: 'crm/config/opportunity-stages', title: 'Opportunity Stages', area: 'CRM', icon: 'pi pi-cog' },
     { path: 'origination/config/credit-statuses', title: 'Credit Statuses', area: 'Origination', icon: 'pi pi-cog' }
 ];
 ///business/crm/config/lead-sources

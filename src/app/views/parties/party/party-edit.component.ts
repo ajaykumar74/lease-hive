@@ -22,6 +22,7 @@ import { PartyService } from './party.service';
 })
 export class PartyEditComponent implements OnInit {
 
+  readonly sqlDateMin = new Date(1753, 0, 1);
   selectedId: number;
   isLoading: boolean = false;
   party: IParty = null;
@@ -89,7 +90,7 @@ export class PartyEditComponent implements OnInit {
       OnboardingStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20),]),
       EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-      EffectiveTo: new FormControl(new Date(), []),
+      EffectiveTo: new FormControl(null),
       Description: new FormControl('', [Validators.maxLength(100),]),
 
     });
@@ -169,7 +170,7 @@ export class PartyEditComponent implements OnInit {
         TradeName: obj.TradeName || '',
         PAN: obj.PAN || '',
         RegistrationNumber: obj.RegistrationNumber || '',
-        IncorporationDate: obj.IncorporationDate || new Date(),
+        IncorporationDate: this.toSqlDateOrNull(obj.IncorporationDate) ?? new Date(),
         CountryOfRegistration: obj.CountryOfRegistration || '',
         IndustryCode: obj.IndustryCode || '',
         WebsiteUrl: obj.WebsiteUrl || '',
@@ -179,8 +180,8 @@ export class PartyEditComponent implements OnInit {
         RiskClassification: obj.RiskClassification || '',
         OnboardingStatus: obj.OnboardingStatus || '',
         RecordStatus: obj.RecordStatus || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
+        EffectiveFrom: this.toSqlDateOrNull(obj.EffectiveFrom) ?? new Date(),
+        EffectiveTo: this.toSqlDateOrNull(obj.EffectiveTo),
         Description: obj.Description || '',
 
       }
@@ -206,34 +207,9 @@ export class PartyEditComponent implements OnInit {
 
   onCancel(): void {
     this.party = { ...this.objMaster };
-    var obj = this.party;
-    this.editForm.patchValue(
-      {
-        Id: obj.Id || 0,
-        PartyCode: obj.PartyCode || '',
-        PartyKind: obj.PartyKind || '',
-        LegalName: obj.LegalName || '',
-        TradeName: obj.TradeName || '',
-        PAN: obj.PAN || '',
-        RegistrationNumber: obj.RegistrationNumber || '',
-        IncorporationDate: obj.IncorporationDate || new Date(),
-        CountryOfRegistration: obj.CountryOfRegistration || '',
-        IndustryCode: obj.IndustryCode || '',
-        WebsiteUrl: obj.WebsiteUrl || '',
-        PreferredCurrencyCode: obj.PreferredCurrencyCode || '',
-        TaxResidencyCountryCode: obj.TaxResidencyCountryCode || '',
-        IsRelatedParty: obj.IsRelatedParty || false,
-        RiskClassification: obj.RiskClassification || '',
-        OnboardingStatus: obj.OnboardingStatus || '',
-        RecordStatus: obj.RecordStatus || '',
-        EffectiveFrom: obj.EffectiveFrom || new Date(),
-        EffectiveTo: obj.EffectiveTo || new Date(),
-        Description: obj.Description || '',
-
-      }
-    );
-
-    this.editForm.reset();
+    this.populateUI(this.party);
+    this.editForm.markAsPristine();
+    this.editForm.markAsUntouched();
   }
 
 
@@ -246,6 +222,19 @@ export class PartyEditComponent implements OnInit {
     }
 
     const formValues = this.editForm.value;
+    const effectiveFrom = this.toSqlDateOrNull(formValues.EffectiveFrom);
+    const effectiveTo = this.toSqlDateOrNull(formValues.EffectiveTo);
+
+    if (!effectiveFrom) {
+      this.messageService.showError('Effective From must be on or after 01-01-1753.');
+      return;
+    }
+
+    if (effectiveTo && effectiveTo < effectiveFrom) {
+      this.messageService.showError('Effective To must be on or after Effective From.');
+      return;
+    }
+
     var updatedObj = {
       Id: this.objMaster.Id,
       RowVersionStr: this.objMaster.RowVersionStr,
@@ -265,8 +254,8 @@ export class PartyEditComponent implements OnInit {
       RiskClassification: formValues.RiskClassification || null,
       OnboardingStatus: formValues.OnboardingStatus || null,
       RecordStatus: formValues.RecordStatus || null,
-      EffectiveFrom: new Date(),
-      EffectiveTo: null,
+      EffectiveFrom: effectiveFrom,
+      EffectiveTo: effectiveTo,
       Description: formValues.Description || null,
 
     } as IParty;
@@ -284,5 +273,14 @@ export class PartyEditComponent implements OnInit {
       },
       complete: () => { this.spinner.hide(); }
     });
+  }
+
+  private toSqlDateOrNull(value: Date | string | null | undefined): Date | null {
+    if (!value) {
+      return null;
+    }
+
+    const date = value instanceof Date ? value : new Date(value);
+    return Number.isNaN(date.getTime()) || date < this.sqlDateMin ? null : date;
   }
 }

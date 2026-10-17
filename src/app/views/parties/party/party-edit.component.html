@@ -201,7 +201,7 @@
 										<label for="EffectiveFrom">EffectiveFrom
 										</label>
 										<p-calendar id="EffectiveFrom" size="small" dateFormat="dd-MM-yy"
-											[showIcon]="true" formControlName="EffectiveFrom"></p-calendar>
+											[showIcon]="true" [minDate]="sqlDateMin" formControlName="EffectiveFrom"></p-calendar>
 										<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
 											label="EffectiveFrom">
 										</app-validation-errors>
@@ -211,7 +211,7 @@
 										<label for="EffectiveTo">EffectiveTo
 										</label>
 										<p-calendar id="EffectiveTo" size="small" dateFormat="dd-MM-yy"
-											[showIcon]="true" formControlName="EffectiveTo"></p-calendar>
+											[showIcon]="true" [minDate]="sqlDateMin" formControlName="EffectiveTo"></p-calendar>
 										<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
 											label="EffectiveTo">
 										</app-validation-errors>

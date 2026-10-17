@@ -10,6 +10,7 @@ export function buildCustomerPortalMenu(isAdmin: boolean): AppMenuItem[] {
             icon: 'pi pi-building',
             items: [
                 visible({ label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/customer-portal/dashboard'] }),
+                visible({ label: 'Quotations', icon: 'pi pi-file-edit', routerLink: ['/customer-portal/quotes'] }),
                 visible({ label: 'Contracts', icon: 'pi pi-file', routerLink: ['/customer-portal/contracts'] }),
                 visible({ label: 'Assets', icon: 'pi pi-car', routerLink: ['/customer-portal/assets'] }),
                 visible({ label: 'My Documents', icon: 'pi pi-folder', routerLink: ['/customer-portal/documents'] }),

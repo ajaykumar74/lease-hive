@@ -39,6 +39,7 @@ import { UIChart } from "primeng/chart";
 import { AdminDashboardComponent } from './dashboardAdmin-component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CrmHelpDocumentComponent } from './crm-help-document.component';
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     UserComponent,
     DriverComponent,
     StatsWidget,  
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    CrmHelpDocumentComponent
   ],
   providers: [
     JwtHelperService,

@@ -38,7 +38,9 @@ export class MenuPermissionService {
 
     private readonly publicRoutes = [
         '/dashboard/mydashboard',
-        '/dashboard/admin'
+        '/dashboard/admin',
+        // Product help requires an authenticated session, but no resource permission.
+        '/dashboard/crmhelpdoc'
     ];
 
     private readonly resourceRoutes: ResourceRoute[] = [
@@ -84,6 +86,9 @@ export class MenuPermissionService {
         { route: '/business/crm/leaserequirementassets', resource: 'crm.leaserequirementasset' },
         { route: '/business/crm/opportunities', resource: 'crm.opportunity' },
         { route: '/business/crm/leaserequirements', resource: 'crm.leaserequirement' },
+        // Quote-status configuration is part of the quote workflow. It must use
+        // the quote permission rather than a derived, unseeded QuoteStatus resource.
+        { route: '/business/origination/config/quote-statuses', resource: 'origination.quote' },
         { route: '/business/origination/quotes', resource: 'origination.quote' },
         { route: '/business/origination/credit', resource: 'credit.creditapplication' },
         { route: '/business/assets/acquisitions', resource: 'asset.assetacquisition' },

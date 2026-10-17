@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -76,6 +77,13 @@ export class QuoteCreateComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
+        this.editForm.get('SubtotalAmount')?.valueChanges
+            .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+            .subscribe(() => this.recalculateTotalAmount());
+        this.editForm.get('TaxAmount')?.valueChanges
+            .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+            .subscribe(() => this.recalculateTotalAmount());
+        this.recalculateTotalAmount();
         this.Caption = 'Create Quote';
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
@@ -135,6 +143,7 @@ export class QuoteCreateComponent implements OnInit {
             SupersedesQuoteId: obj.SupersedesQuoteId || 0,
             Remarks: obj.Remarks || '',
         });
+        this.recalculateTotalAmount();
     }
 
     onOptionItemClicked(key: string): void {
@@ -180,6 +189,7 @@ export class QuoteCreateComponent implements OnInit {
     }
 
     Save(): void {
+        this.recalculateTotalAmount();
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
@@ -234,5 +244,12 @@ export class QuoteCreateComponent implements OnInit {
                 this.spinner.hide();
             }
         });
+    }
+
+    private recalculateTotalAmount(): void {
+        const rentalAmount = Number(this.editForm?.get('SubtotalAmount')?.value) || 0;
+        const taxAmount = Number(this.editForm?.get('TaxAmount')?.value) || 0;
+
+        this.editForm?.get('TotalAmount')?.setValue(rentalAmount + taxAmount, { emitEvent: false });
     }
 }
