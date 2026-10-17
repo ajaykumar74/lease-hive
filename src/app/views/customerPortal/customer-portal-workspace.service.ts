@@ -68,6 +68,7 @@ export interface CustomerPortalDocumentRequirement {
     DisplayName: string;
     Description: string;
     CustomerPortalAccess: 'Internal' | 'View' | 'Upload';
+    ValidationMode: 'None' | 'Automatic' | 'ManualReview';
     RequiredMode: number;
     MinCount: number;
     MaxCount: number;
@@ -112,6 +113,21 @@ export interface CustomerPortalSupportTicket {
     PartyLocationName?: string; CustomerProfileName?: string; ContractNo?: string; AssetNo?: string; ResolutionSummary?: string;
     Description?: string; Messages?: CustomerPortalSupportMessage[];
 }
+export interface CustomerPortalSupportAttachmentRequirement {
+    Id: number; Code: string; DisplayName: string; Description: string;
+    DocumentTypeCode: string; DocumentTypeName: string; MaxCount: number;
+    MaxFileSizeBytes: number; CustomerPortalAccess: 'Internal' | 'View' | 'Upload';
+    ValidationMode: 'None' | 'Automatic' | 'ManualReview';
+}
+export interface CustomerPortalSupportAttachment {
+    LinkId: number; DocumentId: number; DocumentRequirementId: number; Title: string;
+    OriginalFileName: string; ContentType: string; StoredSizeBytes: number; UploadedAtUtc: string;
+    DocumentTypeCode: string; DocumentTypeName: string; ValidationStatus?: string; ValidationMessage?: string;
+}
+export interface CustomerPortalSupportTicketAttachments {
+    Requirements: CustomerPortalSupportAttachmentRequirement[];
+    Documents: CustomerPortalSupportAttachment[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class CustomerPortalWorkspaceService {
@@ -134,10 +150,31 @@ export class CustomerPortalWorkspaceService {
         return this.get<CustomerPortalSupportTicketLookups>(`support/ticket-lookups?${params}`);
     }
     supportTicketPicklists(): Observable<CustomerPortalSupportTicketPicklists> { return this.get<CustomerPortalSupportTicketPicklists>('support/ticket-picklists'); }
+    supportTicketAttachmentRequirements(): Observable<CustomerPortalSupportAttachmentRequirement[]> {
+        return this.get<CustomerPortalSupportAttachmentRequirement[]>('support/ticket-attachment-requirements');
+    }
     supportTickets(): Observable<CustomerPortalSupportTicket[]> { return this.get<{ Records: CustomerPortalSupportTicket[] }>('support/tickets').pipe(map(result => result?.Records || [])); }
     supportTicket(id: number): Observable<CustomerPortalSupportTicket> { return this.get<CustomerPortalSupportTicket>(`support/tickets/${id}`); }
     createSupportTicket(payload: any): Observable<CustomerPortalSupportTicket> { return this.post<CustomerPortalSupportTicket>('support/tickets', payload); }
     postSupportMessage(id: number, message: string): Observable<CustomerPortalSupportMessage> { return this.post<CustomerPortalSupportMessage>(`support/tickets/${id}/messages`, { Message: message, IsInternalNote: false }); }
+    supportTicketAttachments(id: number): Observable<CustomerPortalSupportTicketAttachments> {
+        return this.get<CustomerPortalSupportTicketAttachments>(`support/tickets/${id}/attachments`);
+    }
+    uploadSupportTicketAttachment(id: number, documentRequirementId: number, file: File, title?: string): Observable<CustomerPortalSupportAttachment> {
+        const form = new FormData();
+        form.append('file', file, file.name);
+        form.append('documentRequirementId', String(documentRequirementId));
+        form.append('title', title || file.name.replace(/\.[^/.]+$/, ''));
+        return this.http.post<{ data: CustomerPortalSupportAttachment }>(`${this.endpoint}/support/tickets/${id}/attachments`, form, {
+            headers: this.baseService.getHeaders().delete('Content-Type')
+        }).pipe(map(response => response.data), catchError(this.baseService.handleError));
+    }
+    downloadSupportTicketAttachment(id: number, documentId: number): Observable<Blob> {
+        return this.http.get(`${this.endpoint}/support/tickets/${id}/attachments/${documentId}/download`, {
+            headers: this.baseService.getHeaders(),
+            responseType: 'blob'
+        }).pipe(catchError(this.baseService.handleError));
+    }
     documentOwners(): Observable<CustomerPortalDocumentOwner[]> { return this.get<CustomerPortalDocumentOwner[]>('documents/owners'); }
     documentRequirements(owner: CustomerPortalDocumentOwner): Observable<CustomerPortalDocumentRequirement[]> {
         return this.get<CustomerPortalDocumentRequirement[]>(`documents/${encodeURIComponent(owner.OwnerType)}/${owner.OwnerId}/requirements`);

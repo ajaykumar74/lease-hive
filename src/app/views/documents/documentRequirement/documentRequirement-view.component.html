@@ -6,10 +6,10 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
-					<form> 
+					<form>
 				<p-fluid>
 		      			<div class="flex mt-8">
-						<div class="card flex flex-col gap-4 w-full"> 
+						<div class="card flex flex-col gap-4 w-full">
  						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Owner Type" [value]="documentRequirement.OwnerType">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Code" [value]="documentRequirement.Code">
 								</app-view-field></div></div>
@@ -20,7 +20,13 @@
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Document Retention Policy" [value]="documentRequirement.DocumentRetentionPolicyId">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Required Mode" [value]="documentRequirement.RequiredMode">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Condition Code" [value]="documentRequirement.ConditionCode">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Validation" [value]="documentRequirement.ValidationMode || 'None'">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">
+<app-view-field label="Customer Portal Access" [value]="documentRequirement.CustomerPortalAccess">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Condition Code" [value]="documentRequirement.ConditionCode">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Minimum Count" [value]="documentRequirement.MinCount">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Maximum Count" [value]="documentRequirement.MaxCount">
@@ -38,7 +44,7 @@
 						<app-audit-details [model]="documentRequirement"></app-audit-details>
 						</div>
 					</div>
- 				</p-fluid> 	
+ 				</p-fluid>
 
 
 					</form>

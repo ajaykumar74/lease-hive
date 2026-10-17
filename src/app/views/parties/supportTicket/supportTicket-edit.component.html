@@ -112,6 +112,15 @@
         </form>
 
         <app-support-ticket-conversation *ngIf="ticket" [ticket]="ticket" (ticketChanged)="onTicketChanged($event)"></app-support-ticket-conversation>
+
+        <div class="mt-5" *ngIf="ticket">
+          <app-document-attachment-requirements
+            ownerType="SupportTicket"
+            [ownerId]="ticket.Id"
+            [allowUpload]="false"
+            [allowRemove]="false">
+          </app-document-attachment-requirements>
+        </div>
       </div>
     </div>
   </div>

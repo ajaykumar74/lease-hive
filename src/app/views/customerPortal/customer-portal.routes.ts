@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
+import { PermissionGuard } from '@/shared/security/permission.guard';
 import { CustomerPortalGuard } from './customer-portal.guard';
 import { CustomerPortalDashboardComponent } from './customer-portal-dashboard.component';
 import { CustomerPortalWorkspaceComponent } from './customer-portal-workspace.component';
@@ -41,8 +42,8 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
             { path: 'contacts', ...workspace('Party Contacts', 'Manage authorised contacts for your party here.') },
             { path: 'users', ...workspace('Customer Users', 'Manage customer users for your party here.') },
             { path: 'profile', ...workspace('Profile', 'Review your portal profile and contact preferences here.') },
-            // This route is intentionally staff-authenticated, not customer-role guarded.
-            { path: 'invite', component: CustomerPortalInvitationComponent, data: { title: 'Invite customer user' } }
+            // This staff-only route is further restricted to tenant administrators.
+            { path: 'invite', component: CustomerPortalInvitationComponent, canActivate: [PermissionGuard], data: { title: 'Invite customer user' } }
         ]
     }
 ];

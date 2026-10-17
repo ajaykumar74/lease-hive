@@ -58,6 +58,11 @@ export class DocumentAttachmentsComponent implements OnChanges {
         return `${this.documents.length} of ${this.documentRequirement.MaxCount} attached`;
     }
 
+    get showsValidation(): boolean {
+        return this.documentRequirement?.ValidationMode === 'Automatic'
+            || this.documentRequirement?.ValidationMode === 'ManualReview';
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         if ((changes['ownerId'] || changes['ownerType'] || changes['documentRequirement']) && this.isReady()) {
             this.loadDocuments();

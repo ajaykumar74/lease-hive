@@ -25,7 +25,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
           <aside><h2>Requirements</h2><button *ngFor="let requirement of requirements" type="button" [class.selected]="selectedRequirement?.Id===requirement.Id" (click)="selectRequirement(requirement)"><strong>{{ requirement.DisplayName }}</strong><small>{{ requirement.DocumentCount ? requirement.DocumentCount + ' file(s)' : (requirement.MinCount > 0 ? 'Required' : 'Optional') }}</small></button><p *ngIf="requirementsLoading" class="state">Loading requirements…</p><p *ngIf="!requirementsLoading&&!requirements.length" class="state">No customer-visible requirements have been configured for this item.</p></aside>
           <main *ngIf="selectedRequirement"><div class="requirement-heading"><div><h2>{{ selectedRequirement.DisplayName }}</h2><p>{{ selectedRequirement.Description || 'No additional description.' }}</p></div><span class="status">{{ selectedRequirement.CustomerPortalAccess === 'Upload' ? 'Customer upload enabled' : 'View only' }}</span></div>
             <label class="upload" *ngIf="selectedRequirement.CanUpload"><input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="upload($event)" [disabled]="uploading"/><span>{{ uploading ? 'Uploading…' : 'Upload PDF, JPG, or PNG' }}</span></label>
-            <p *ngIf="documentsLoading" class="state">Loading files…</p><div class="table-card" *ngIf="!documentsLoading"><table *ngIf="documents.length;else noFiles"><thead><tr><th>Document</th><th>Uploaded</th><th>Validation</th><th></th></tr></thead><tbody><tr *ngFor="let document of documents"><td><strong>{{ document.Title }}</strong><br><small>{{ document.OriginalFileName }}</small></td><td>{{ document.UploadedAtUtc | date:'medium' }}</td><td>{{ document.ValidationStatus || 'Pending' }}<br><small *ngIf="document.ValidationMessage">{{ document.ValidationMessage }}</small></td><td><button type="button" class="link-button" (click)="download(document)">Download</button></td></tr></tbody></table><ng-template #noFiles><p class="state">No documents have been uploaded for this requirement.</p></ng-template></div>
+            <p *ngIf="documentsLoading" class="state">Loading files…</p><div class="table-card" *ngIf="!documentsLoading"><table *ngIf="documents.length;else noFiles"><thead><tr><th>Document</th><th>Uploaded</th><th *ngIf="showsValidation">Validation</th><th></th></tr></thead><tbody><tr *ngFor="let document of documents"><td><strong>{{ document.Title }}</strong><br><small>{{ document.OriginalFileName }}</small></td><td>{{ document.UploadedAtUtc | date:'medium' }}</td><td *ngIf="showsValidation">{{ document.ValidationStatus || 'Pending' }}<br><small *ngIf="document.ValidationMessage">{{ document.ValidationMessage }}</small></td><td><button type="button" class="link-button" (click)="download(document)">Download</button></td></tr></tbody></table><ng-template #noFiles><p class="state">No documents have been uploaded for this requirement.</p></ng-template></div>
           </main>
           <main *ngIf="!selectedRequirement" class="state">Select a document requirement to see its files.</main>
         </div>
@@ -49,6 +49,10 @@ export class CustomerPortalDocumentsComponent implements OnInit {
     constructor(private readonly workspace: CustomerPortalWorkspaceService) {}
 
     get selectedOwnerKey(): string { return this.selectedOwner ? this.ownerKey(this.selectedOwner) : ''; }
+    get showsValidation(): boolean {
+        return this.selectedRequirement?.ValidationMode === 'Automatic'
+            || this.selectedRequirement?.ValidationMode === 'ManualReview';
+    }
 
     ngOnInit(): void {
         this.workspace.documentOwners().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

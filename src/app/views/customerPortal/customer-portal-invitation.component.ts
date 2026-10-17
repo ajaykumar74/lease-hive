@@ -8,7 +8,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { CustomerPortalInvitationService } from './customer-portal-invitation.service';
 
-/** Staff-only form, reached from a Party detail after the party/contact records exist. */
+/** Tenant-admin-only form for granting party-scoped customer portal access. */
 @Component({
     selector: 'app-customer-portal-invitation',
     standalone: true,

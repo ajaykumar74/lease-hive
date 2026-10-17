@@ -20,6 +20,7 @@ export interface IDocumentAttachmentRequirement {
     RequiresIssueDate: boolean;
     RequiresExpiryDate: boolean;
     ExpiryWarningDays: number;
+    ValidationMode: 'None' | 'Automatic' | 'ManualReview';
 }
 
 export interface IDocumentAttachment {

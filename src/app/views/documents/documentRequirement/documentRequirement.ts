@@ -22,5 +22,6 @@ RequiresExpiryDate : boolean;
 ExpiryWarningDays :number;
 IsActive : boolean;
 CustomerPortalAccess : 'Internal' | 'View' | 'Upload';
+ValidationMode : 'None' | 'Automatic' | 'ManualReview';
 
 }

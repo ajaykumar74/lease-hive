@@ -20,6 +20,8 @@ interface ResourceRoute {
 
 @Injectable({ providedIn: 'root' })
 export class MenuPermissionService {
+    private readonly customerPortalInvitationPermission = 'customerportal.invitation.create';
+
     private readonly peopleAndAccessRoutes = [
         '/dashboard/my-access',
         '/dashboard/applicationusers',
@@ -122,6 +124,10 @@ export class MenuPermissionService {
 
     getRequiredPermission(routerLink: string | string[] | undefined): string | null {
         const route = this.normalizeRoute(routerLink);
+        if (route === '/customer-portal/invite') {
+            return this.customerPortalInvitationPermission;
+        }
+
         if (!route || this.isPeopleAndAccessRoute(route) || this.isPublicRoute(route)) {
             return null;
         }
@@ -151,9 +157,11 @@ export class MenuPermissionService {
             return null;
         }
 
-        const requiredPermission = bypassPermissions
-            ? null
-            : item.requiredPermission ?? this.getRequiredPermission(item.routerLink);
+        // Explicit permissions are intentional exceptions to the otherwise
+        // broadly visible People & Access section (for example, party-scoped
+        // customer portal invitations).
+        const requiredPermission = item.requiredPermission
+            ?? (bypassPermissions ? null : this.getRequiredPermission(item.routerLink));
 
         if (requiredPermission && !this.permissionService.hasPermission(requiredPermission)) {
             return null;

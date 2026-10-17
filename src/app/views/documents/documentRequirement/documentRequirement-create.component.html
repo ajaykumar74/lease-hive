@@ -5,31 +5,31 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
-				</app-toolbar-buttons> 
+				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
-				
+
 		      <form [formGroup]="editForm" (ngSubmit)="Save()">
   			<p-fluid>
 		      		<div class="flex mt-8">
-					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
-							<label for="OwnerType">Owner Type 
-							</label> 
+					<div class="card flex flex-col gap-4 w-full">
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">
+							<label for="OwnerType">Owner Type
+							</label>
 							<input pInputText id="OwnerType" type="text" pSize="small"	formControlName="OwnerType"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('OwnerType')"
 											label="Owner Type">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">					
-							<label for="Code">Code 
-							</label> 
+						 </div><div class="flex flex-col w-full">
+							<label for="Code">Code
+							</label>
 							<input pInputText id="Code" type="text" pSize="small"	formControlName="Code"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('Code')"
 											label="Code">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
-							<label for="DisplayName">Display Name 
-							</label> 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">
+							<label for="DisplayName">Display Name
+							</label>
 							<input pInputText id="DisplayName" type="text" pSize="small"	formControlName="DisplayName"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('DisplayName')"
 											label="Display Name">
@@ -46,7 +46,7 @@
                </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="DocumentTypeId" class="mb-1">Document type</label>
         <p-dropdown
-            inputId="DocumentTypeId" 
+            inputId="DocumentTypeId"
             [options]="documenttypeidOptions"
             optionLabel="Text"
 	    optionValue="Value"
@@ -61,7 +61,7 @@
 											label="Document Type">
 										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="DocumentRetentionPolicyId" class="mb-1">Document retention policy</label>
         <p-dropdown
-            inputId="DocumentRetentionPolicyId" 
+            inputId="DocumentRetentionPolicyId"
             [options]="documentretentionpolicyidOptions"
             optionLabel="Text"
 	    optionValue="Value"
@@ -76,7 +76,7 @@
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="RequiredMode" class="mb-1">Required mode</label>
         <p-dropdown
-            inputId="RequiredMode" 
+            inputId="RequiredMode"
             [options]="requiredmodeOptions"
             optionLabel="Text"
 	    optionValue="Value"
@@ -86,25 +86,29 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('RequiredMode')"
 											label="Required Mode">
-										</app-validation-errors></div><div class="flex flex-col w-full">					
+										</app-validation-errors></div><div class="flex flex-col w-full">
 <label for="CustomerPortalAccess" class="mb-1">Customer portal access</label>
 <p-dropdown inputId="CustomerPortalAccess" [options]="customerPortalAccessOptions" optionLabel="Text" optionValue="Value" formControlName="CustomerPortalAccess" class="w-full"></p-dropdown>
-							<label for="ConditionCode">Condition Code 
-							</label> 
+							<app-validation-errors [type]="'text'" [control]="editForm.get('CustomerPortalAccess')" label="Customer Portal Access"></app-validation-errors>
+							<label for="ValidationMode" class="mb-1">Validation</label>
+							<p-dropdown inputId="ValidationMode" [options]="validationModeOptions" optionLabel="Text" optionValue="Value" formControlName="ValidationMode" class="w-full"></p-dropdown>
+							<small>Use automatic validation only when a validator has been configured for this document type.</small>
+							<label for="ConditionCode">Condition Code
+							</label>
 							<input pInputText id="ConditionCode" type="text" pSize="small"	formControlName="ConditionCode"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('ConditionCode')"
 											label="Condition Code">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MinCount">Minimum Count 
-							</label> 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MinCount">Minimum Count
+							</label>
 							<p-inputNumber id="MinCount"  pSize="small"	formControlName="MinCount"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('MinCount')"
 											label="Minimum Count">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="MaxCount">Maximum Count 
-							</label> 
+						 </div><div class="flex flex-col w-full">							<label for="MaxCount">Maximum Count
+							</label>
 							<p-inputNumber id="MaxCount"  pSize="small"	formControlName="MaxCount"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('MaxCount')"
@@ -130,8 +134,8 @@
 
 
                </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MaxFileSizeBytes">Maximum File Size Bytes 
-							</label> 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MaxFileSizeBytes">Maximum File Size Bytes
+							</label>
 							<p-inputNumber id="MaxFileSizeBytes"  pSize="small"	formControlName="MaxFileSizeBytes"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('MaxFileSizeBytes')"
@@ -150,8 +154,8 @@
 											</p-checkbox>
 											<label for="RequiresExpiryDate">Requires Expiry Date</label>
 										</div>
-										<div class="validation-space"></div></div><div class="flex flex-col w-full">							<label for="ExpiryWarningDays">Expiry Warning Days 
-							</label> 
+										<div class="validation-space"></div></div><div class="flex flex-col w-full">							<label for="ExpiryWarningDays">Expiry Warning Days
+							</label>
 							<p-inputNumber id="ExpiryWarningDays"  pSize="small"	formControlName="ExpiryWarningDays"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('ExpiryWarningDays')"
@@ -168,8 +172,8 @@
 
 					</div>
 				</div>
- 			</p-fluid> 				 
-                     </form>				 
+ 			</p-fluid>
+                     </form>
 
 			</div>
 		</div>

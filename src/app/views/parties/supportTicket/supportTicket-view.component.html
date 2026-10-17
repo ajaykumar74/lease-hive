@@ -1,1 +1,27 @@
-<div class="card" *ngIf="ticket; else pending"><div class="flex justify-content-between"><div><h3 class="m-0">{{ticket.TicketId}} — {{ticket.Subject}}</h3><p class="mb-1">{{ticket.PartyName}}</p><small>{{ticket.CategoryCode}} · {{ticket.PriorityCode}} · {{ticket.StatusCode}}</small></div><button pButton label="Back" class="p-button-outlined" (click)="back()"></button></div><div class="mt-4 white-space-pre-line">{{ticket.Description}}</div><p *ngIf="ticket.ResolutionSummary"><strong>Resolution:</strong> {{ticket.ResolutionSummary}}</p><app-support-ticket-conversation [ticket]="ticket" (ticketChanged)="changed($event)"></app-support-ticket-conversation></div><ng-template #pending><div class="card">{{error || 'Loading support ticket…'}}</div></ng-template>
+<div class="card" *ngIf="ticket; else pending">
+  <div class="flex justify-content-between">
+    <div>
+      <h3 class="m-0">{{ ticket.TicketId }} — {{ ticket.Subject }}</h3>
+      <p class="mb-1">{{ ticket.PartyName }}</p>
+      <small>{{ ticket.CategoryCode }} · {{ ticket.PriorityCode }} · {{ ticket.StatusCode }}</small>
+    </div>
+    <button pButton label="Back" class="p-button-outlined" (click)="back()"></button>
+  </div>
+
+  <div class="mt-4 white-space-pre-line">{{ ticket.Description }}</div>
+  <p *ngIf="ticket.ResolutionSummary"><strong>Resolution:</strong> {{ ticket.ResolutionSummary }}</p>
+  <app-support-ticket-conversation [ticket]="ticket" (ticketChanged)="changed($event)"></app-support-ticket-conversation>
+
+  <div class="mt-5">
+    <app-document-attachment-requirements
+      ownerType="SupportTicket"
+      [ownerId]="ticket.Id"
+      [allowUpload]="false"
+      [allowRemove]="false">
+    </app-document-attachment-requirements>
+  </div>
+</div>
+
+<ng-template #pending>
+  <div class="card">{{ error || 'Loading support ticket…' }}</div>
+</ng-template>

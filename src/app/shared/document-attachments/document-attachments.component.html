@@ -54,7 +54,7 @@
                 <tr>
                     <th>Document</th>
                     <th>Document type</th>
-                    <th>Validation</th>
+                    <th *ngIf="showsValidation">Validation</th>
                     <th>Uploaded</th>
                     <th>Size</th>
                     <th class="document-attachments__actions">Actions</th>
@@ -64,7 +64,7 @@
                 <tr *ngFor="let document of documents">
                     <td><strong>{{ document.Title }}</strong><small>{{ document.OriginalFileName }}</small></td>
                     <td>{{ document.DocumentTypeName || document.DocumentTypeCode }}</td>
-                    <td>
+                    <td *ngIf="showsValidation">
                         <span class="document-attachments__validation" [ngClass]="validationStatusClass(document)">
                             {{ validationStatusLabel(document) }}
                         </span>

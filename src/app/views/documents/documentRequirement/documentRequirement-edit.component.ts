@@ -35,6 +35,7 @@ export class DocumentRequirementEditComponent implements OnInit {
 documentretentionpolicyidOptions: ISelectItem[] = [];
 requiredmodeOptions: ISelectItem[] = [];
 customerPortalAccessOptions: ISelectItem[] = [];
+validationModeOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IDocumentRequirement = {} as IDocumentRequirement;
@@ -80,6 +81,7 @@ RequiresExpiryDate: new FormControl(false),
 ExpiryWarningDays: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 IsActive: new FormControl(false), 
 CustomerPortalAccess: new FormControl<'Internal' | 'View' | 'Upload'>('Internal', [Validators.required]),
+ValidationMode: new FormControl<'None' | 'Automatic' | 'ManualReview'>('None', [Validators.required]),
 
     });
 
@@ -92,6 +94,11 @@ CustomerPortalAccess: new FormControl<'Internal' | 'View' | 'Upload'>('Internal'
       { Text: 'Internal only', Value: 'Internal' },
       { Text: 'Customer can view', Value: 'View' },
       { Text: 'Customer administrator can upload', Value: 'Upload' }
+    ];
+    this.validationModeOptions = [
+      { Text: 'No validation', Value: 'None' },
+      { Text: 'Automatic validation', Value: 'Automatic' },
+      { Text: 'Manual review', Value: 'ManualReview' }
     ];
     this.loadDocumentTypeOptions();
     this.loadRetentionPolicyOptions();
@@ -142,6 +149,7 @@ RequiresExpiryDate:  obj.RequiresExpiryDate || false,
 ExpiryWarningDays: obj.ExpiryWarningDays || 0,
 IsActive:  obj.IsActive || false,
 CustomerPortalAccess: obj.CustomerPortalAccess || 'Internal',
+ValidationMode: obj.ValidationMode || 'None',
  
       }
     );
@@ -188,6 +196,7 @@ RequiresExpiryDate:  obj.RequiresExpiryDate || false,
 ExpiryWarningDays: obj.ExpiryWarningDays || 0,
 IsActive:  obj.IsActive || false,
 CustomerPortalAccess: obj.CustomerPortalAccess || 'Internal',
+ValidationMode: obj.ValidationMode || 'None',
  
       }
     );
@@ -226,6 +235,7 @@ RequiresExpiryDate:  formValues.RequiresExpiryDate,
 ExpiryWarningDays:  formValues.ExpiryWarningDays || 0,
 IsActive:  formValues.IsActive,
 CustomerPortalAccess: formValues.CustomerPortalAccess || 'Internal',
+ValidationMode: formValues.ValidationMode || 'None',
 
     } as IDocumentRequirement ;
 	

@@ -407,6 +407,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
+                                    label: 'Invite customer user',
+                                    icon: 'pi pi-fw pi-user-plus',
+                                    routerLink: ['/customer-portal/invite'],
+                                    requiredPermission: 'customerportal.invitation.create',
+                                    tooltip: 'Invite an authorised party contact to the customer portal'
+                                },
+                                {
                                     label: 'Roles and permissions',
                                     icon: 'pi pi-fw pi-home',
                                     items: [
