@@ -7,6 +7,7 @@ import { AuthGuard } from '@/shared/auth-guard.service';
 import { AdminDashboardComponent } from './dashboardAdmin-component';
 import { NotificationModule } from '@/views/notification/notification.module';
 import { CrmHelpDocumentComponent } from './crm-help-document.component';
+import { AiUsageDashboardComponent } from '@/views/aiUsageDashboard/ai-usage-dashboard.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,15 @@ const routes: Routes = [
           title: 'Dashboard',
           breadcrumb: 'Dashboard'
         },
+      },
+      {
+        path: 'ai-usage',
+        canActivate: [AuthGuard],
+        component: AiUsageDashboardComponent,
+        data: {
+          title: 'AI Usage and Governance',
+          breadcrumb: 'AI Usage'
+        }
       },
       {
         path: 'admin',

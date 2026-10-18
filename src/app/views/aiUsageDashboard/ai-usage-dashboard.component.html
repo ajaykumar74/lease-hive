@@ -1,0 +1,86 @@
+<div class="ai-usage-dashboard">
+    <header class="dashboard-heading">
+        <div>
+            <span class="eyebrow">Tenant administration</span>
+            <h1>AI usage and governance</h1>
+            <p>Monitor adoption, cost, limits, performance, and outcomes. Activity contains operational metadata only.</p>
+        </div>
+    </header>
+
+    @if (!hasPermission) {
+        <section class="card access-state" role="alert">
+            <i class="pi pi-lock"></i>
+            <h2>AI administration access is required</h2>
+            <p>You need the AI usage administration permission to view tenant AI measurements.</p>
+        </section>
+    } @else {
+        <form class="card range-form" [formGroup]="form" (ngSubmit)="applyRange()">
+            <label>From <input type="date" formControlName="fromUtc" /></label>
+            <label>To (exclusive) <input type="date" formControlName="toExclusiveUtc" /></label>
+            <p-button type="submit" label="Apply range" icon="pi pi-refresh" [loading]="isLoading" />
+            <span>Up to 366 days; all timestamps are UTC.</span>
+        </form>
+
+        @if (errorMessage) {
+            <div class="load-warning" role="alert"><i class="pi pi-info-circle"></i><span>{{ errorMessage }}</span></div>
+        }
+
+        <section class="kpi-grid" aria-label="Current period AI usage">
+            @if (isLoading && !dashboard) {
+                @for (item of [1,2,3,4,5,6]; track item) { <div class="card kpi-card"><p-skeleton width="55%" height="1rem" /><p-skeleton width="45%" height="2rem" styleClass="mt-3" /></div> }
+            } @else {
+                <div class="card kpi-card"><span>Requests</span><strong>{{ dashboard?.CurrentPeriod?.RequestCount || 0 | number }}</strong><small>{{ dashboard?.CurrentPeriod?.TotalTokenCount || 0 | number }} total tokens</small><i class="pi pi-send"></i></div>
+                <div class="card kpi-card"><span>Estimated cost</span><strong class="cost">{{ formatCosts(dashboard?.EstimatedCosts) }}</strong><small>Pricing-versioned estimate</small><i class="pi pi-wallet"></i></div>
+                <div class="card kpi-card"><span>p50 end-to-end</span><strong>{{ dashboard?.Timing?.P50EndToEndMilliseconds || 0 | number:'1.0-0' }} ms</strong><small>p95: {{ dashboard?.Timing?.P95EndToEndMilliseconds || 0 | number:'1.0-0' }} ms</small><i class="pi pi-clock"></i></div>
+                <div class="card kpi-card"><span>Error rate</span><strong>{{ dashboard?.CurrentPeriod?.ErrorRatePercent || 0 | number:'1.0-2' }}%</strong><small>Failed and timed-out requests</small><i class="pi pi-exclamation-triangle"></i></div>
+                <div class="card kpi-card"><span>Denial rate</span><strong>{{ dashboard?.CurrentPeriod?.DenialRatePercent || 0 | number:'1.0-2' }}%</strong><small>{{ dashboard?.CurrentPeriod?.DeniedRequestCount || 0 | number }} quota or policy denials</small><i class="pi pi-ban"></i></div>
+                <div class="card kpi-card"><span>Cached responses</span><strong>{{ dashboard?.CurrentPeriod?.CachedRequestCount || 0 | number }}</strong><small>{{ dashboard?.CurrentPeriod?.SucceededRequestCount || 0 | number }} succeeded requests</small><i class="pi pi-database"></i></div>
+            }
+        </section>
+
+        <section class="primary-grid">
+            <article class="card limit-card">
+                <div class="panel-heading"><div><h2>Current monthly limits</h2><span>Effective tenant policy and live reservations</span></div><p-tag [value]="dashboard?.Limits?.HardLimitEnabled ? 'Hard stops on' : 'Hard stops off'" [severity]="dashboard?.Limits?.HardLimitEnabled ? 'success' : 'warn'" /></div>
+                @if (dashboard?.Limits?.HasEffectivePolicy) {
+                    <div class="limit-row"><div><strong>Tokens</strong><small>{{ dashboard?.Limits?.CurrentMonthConsumedTokenCount || 0 | number }} consumed · {{ dashboard?.Limits?.CurrentMonthReservedTokenCount || 0 | number }} reserved</small></div><b>{{ dashboard?.Limits?.MonthlyTokenLimit || 0 | number }}</b></div>
+                    <div class="metric-track"><span [style.width.%]="tokenUtilisation()"></span></div>
+                    <div class="limit-row"><div><strong>Budget</strong><small>{{ (dashboard?.Limits?.CurrentMonthCurrencyCode || dashboard?.Limits?.MonthlySpendCurrencyCode) }} {{ dashboard?.Limits?.CurrentMonthConsumedSpendAmount || 0 | number:'1.2-4' }} consumed</small></div><b>{{ dashboard?.Limits?.MonthlySpendCurrencyCode }} {{ dashboard?.Limits?.MonthlySpendLimit || 0 | number:'1.2-4' }}</b></div>
+                    <div class="metric-track"><span [style.width.%]="spendUtilisation()"></span></div>
+                    <div class="limit-grid"><span>Rate <b>{{ dashboard?.Limits?.RequestsPerMinuteLimit || 'Not set' }}/min</b></span><span>Concurrent <b>{{ dashboard?.Limits?.ActiveRequestCount || 0 }}/{{ dashboard?.Limits?.MaxConcurrentRequests || 'Not set' }}</b></span><span>Response cap <b>{{ dashboard?.Limits?.MaxResponseTokens || 'Not set' }}</b></span><span>Warning <b>{{ dashboard?.Limits?.SoftLimitWarningThresholdPercent || 0 }}%</b></span></div>
+                } @else { <div class="empty-state"><i class="pi pi-shield"></i><span>No effective tenant AI policy is configured.</span></div> }
+            </article>
+
+            <article class="card outcome-card">
+                <div class="panel-heading"><div><h2>Outcomes</h2><span>Selected reporting period</span></div></div>
+                <div class="outcome-list">
+                    <button type="button" (click)="setStatus('SUCCEEDED')"><span><i class="pi pi-check-circle success"></i>Succeeded</span><b>{{ dashboard?.CurrentPeriod?.SucceededRequestCount || 0 | number }}</b></button>
+                    <button type="button" (click)="setStatus('DENIED')"><span><i class="pi pi-ban warning"></i>Denied</span><b>{{ dashboard?.CurrentPeriod?.DeniedRequestCount || 0 | number }}</b></button>
+                    <button type="button" (click)="setStatus('TIMED_OUT')"><span><i class="pi pi-clock danger"></i>Timed out</span><b>{{ dashboard?.CurrentPeriod?.TimedOutRequestCount || 0 | number }}</b></button>
+                    <button type="button" (click)="setStatus('FAILED')"><span><i class="pi pi-times-circle danger"></i>Failed</span><b>{{ dashboard?.CurrentPeriod?.FailedRequestCount || 0 | number }}</b></button>
+                    <button type="button" (click)="setStatus('CANCELLED')"><span><i class="pi pi-stop-circle muted"></i>Cancelled</span><b>{{ dashboard?.CurrentPeriod?.CancelledRequestCount || 0 | number }}</b></button>
+                    <button type="button" (click)="setStatus('')"><span><i class="pi pi-list"></i>All activity</span><b>{{ dashboard?.CurrentPeriod?.RequestCount || 0 | number }}</b></button>
+                </div>
+            </article>
+        </section>
+
+        <section class="card" aria-labelledby="feature-breakdown">
+            <div class="panel-heading"><div><h2 id="feature-breakdown">Feature breakdown</h2><span>Usage and measured cost by approved AI feature</span></div></div>
+            <p-table [value]="dashboard?.Features || []" [loading]="isLoading" responsiveLayout="scroll">
+                <ng-template #header><tr><th>Feature</th><th>Requests</th><th>Tokens</th><th>Estimated cost</th><th>Error / denial</th><th><span class="sr-only">Activity</span></th></tr></ng-template>
+                <ng-template #body let-feature><tr><td><strong>{{ feature.FeatureCode }}</strong></td><td>{{ feature.Usage.RequestCount | number }}</td><td>{{ feature.Usage.TotalTokenCount | number }}</td><td>{{ featureCost(feature) }}</td><td>{{ feature.Usage.ErrorRatePercent | number:'1.0-2' }}% / {{ feature.Usage.DenialRatePercent | number:'1.0-2' }}%</td><td><a [routerLink]="['/dashboard/ai-usage']" [queryParams]="{ feature: feature.FeatureCode, page: 1 }" fragment="activity">View metadata</a></td></tr></ng-template>
+                <ng-template #emptymessage><tr><td colspan="6" class="table-empty">No AI activity was recorded in this period.</td></tr></ng-template>
+            </p-table>
+        </section>
+
+        <section id="activity" class="card activity-card" aria-labelledby="activity-heading">
+            <div class="panel-heading"><div><h2 id="activity-heading">Activity metadata</h2><span>Prompts, answers, document content, conversation IDs, and user identity are not included.</span></div><p-button label="Clear filters" [text]="true" size="small" (onClick)="clearActivityFilters()" /></div>
+            <div class="active-filter">Feature: <b>{{ selectedFeature || 'All features' }}</b> · Outcome: <b>{{ selectedStatus || 'All outcomes' }}</b></div>
+            <p-table [value]="activity?.Entries || []" [loading]="isActivityLoading" responsiveLayout="scroll">
+                <ng-template #header><tr><th>Occurred (UTC)</th><th>Feature</th><th>Outcome</th><th>Tokens</th><th>Cost</th><th>End-to-end</th><th>Correlation</th></tr></ng-template>
+                <ng-template #body let-entry><tr><td>{{ entry.OccurredAtUtc | date:'dd MMM y, HH:mm' }}</td><td>{{ entry.FeatureCode }}</td><td><p-tag [value]="entry.StatusCode" [severity]="statusSeverity(entry.StatusCode)" /><small *ngIf="entry.FailureCode" class="failure-code">{{ entry.FailureCode }}</small></td><td>{{ entry.TotalTokenCount | number }}</td><td>{{ entry.CurrencyCode }} {{ entry.CostAmount | number:'1.2-4' }}</td><td>{{ entry.EndToEndDurationMilliseconds | number }} ms</td><td><code>{{ entry.CorrelationId }}</code></td></tr></ng-template>
+                <ng-template #emptymessage><tr><td colspan="7" class="table-empty">No metadata matches the selected activity filter.</td></tr></ng-template>
+            </p-table>
+            <p-paginator *ngIf="activity && activity.TotalCount > activity.PageSize" [first]="(currentPage - 1) * activity.PageSize" [rows]="activity.PageSize" [totalRecords]="activity.TotalCount" [rowsPerPageOptions]="[25]" (onPageChange)="onPageChange($event)" />
+        </section>
+    }
+</div>

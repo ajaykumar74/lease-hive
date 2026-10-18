@@ -445,6 +445,13 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-user',
                             items: [
                                 {
+                                    label: 'AI usage and governance',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    routerLink: ['/dashboard/ai-usage'],
+                                    requiredPermission: 'ai.usageadministration.view',
+                                    tooltip: 'Review tenant AI usage, cost, performance, outcomes, and quota state'
+                                },
+                                {
                                     label: 'Audit log',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/auditLogs/list/'],
