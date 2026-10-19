@@ -22,6 +22,7 @@ interface ResourceRoute {
 export class MenuPermissionService {
     private readonly customerPortalInvitationPermission = 'customerportal.invitation.create';
     private readonly aiAssistantPermission = 'ai.aiassistant.ask';
+    private readonly aiUsagePermission = 'ai.aiusage.view';
 
     private readonly peopleAndAccessRoutes = [
         '/dashboard/my-access',
@@ -137,6 +138,10 @@ export class MenuPermissionService {
 
         if (route === '/dashboard/ai-assistant') {
             return this.aiAssistantPermission;
+        }
+
+        if (route === '/dashboard/ai-usage') {
+            return this.aiUsagePermission;
         }
 
         if (!route || this.isPeopleAndAccessRoute(route) || this.isPublicRoute(route)) {

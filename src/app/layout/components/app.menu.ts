@@ -540,6 +540,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                     requiredPermission: 'ai.aiassistant.ask'
                                 },
                                 {
+                                    label: 'AI Usage',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/dashboard/ai-usage'],
+                                    tooltip: 'Review tenant AI usage and request operations',
+                                    requiredPermission: 'ai.aiusage.view'
+                                },
+                                {
                                     label: 'Recipient Rules',
                                     icon: 'pi pi-fw pi-users',
                                     routerLink: ['/dashboard/notificationRecipientRules/'],

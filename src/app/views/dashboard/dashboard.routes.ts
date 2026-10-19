@@ -252,6 +252,12 @@ const routes: Routes = [
         data: { breadcrumb: 'AI assistant' },
         loadComponent: () => import('@/views/ai/ai-assistant.component').then(c => c.AiAssistantComponent),
       },
+      {
+        path: 'ai-usage',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'AI usage' },
+        loadComponent: () => import('@/views/ai/ai-usage-dashboard.component').then(c => c.AiUsageDashboardComponent),
+      },
 
        {
         path: 'notificationRecipientRules',
