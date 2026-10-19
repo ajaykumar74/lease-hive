@@ -21,6 +21,7 @@ interface ResourceRoute {
 @Injectable({ providedIn: 'root' })
 export class MenuPermissionService {
     private readonly customerPortalInvitationPermission = 'customerportal.invitation.create';
+    private readonly aiAssistantPermission = 'ai.aiassistant.ask';
 
     private readonly peopleAndAccessRoutes = [
         '/dashboard/my-access',
@@ -73,6 +74,7 @@ export class MenuPermissionService {
         { route: '/dashboard/upload-sessions', resource: 'document.uploadsession' },
         { route: '/dashboard/tenantnotifications', resource: 'notification.tenantnotification' },
         { route: '/dashboard/emailprofiles', resource: 'notification.tenantemailprofile' },
+        { route: '/dashboard/ai-settings', resource: 'ai.aitenantsettings' },
         { route: '/dashboard/notificationrecipientrules', resource: 'notification.tenantnotificationrecipentrule' },
         { route: '/dashboard/emailjobqueues', resource: 'notification.emailjobqueue' },
         { route: '/dashboard/auditlogs', resource: 'audit.auditlog' },
@@ -131,6 +133,10 @@ export class MenuPermissionService {
         const route = this.normalizeRoute(routerLink);
         if (route === '/customer-portal/invite') {
             return this.customerPortalInvitationPermission;
+        }
+
+        if (route === '/dashboard/ai-assistant') {
+            return this.aiAssistantPermission;
         }
 
         if (!route || this.isPeopleAndAccessRoute(route) || this.isPublicRoute(route)) {

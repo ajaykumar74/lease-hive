@@ -527,6 +527,19 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'Manage tenant email profiles'
                                 },
                                 {
+                                    label: 'AI settings',
+                                    icon: 'pi pi-fw pi-sparkles',
+                                    routerLink: ['/dashboard/ai-settings'],
+                                    tooltip: 'Configure approved AI models and tenant limits'
+                                },
+                                {
+                                    label: 'AI Assistant',
+                                    icon: 'pi pi-fw pi-comments',
+                                    routerLink: ['/dashboard/ai-assistant'],
+                                    tooltip: 'Ask read-only questions with the AI assistant',
+                                    requiredPermission: 'ai.aiassistant.ask'
+                                },
+                                {
                                     label: 'Recipient Rules',
                                     icon: 'pi pi-fw pi-users',
                                     routerLink: ['/dashboard/notificationRecipientRules/'],

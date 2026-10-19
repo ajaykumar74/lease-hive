@@ -1,0 +1,84 @@
+<section class="container" aria-labelledby="ai-assistant-title">
+    <div class="grid">
+        <div class="col-12 lg:col-9 xl:col-8">
+            <div class="card p-fluid">
+                <div class="flex justify-content-between align-items-start gap-3 mb-4">
+                    <div>
+                        <h1 id="ai-assistant-title" class="mb-2">AI Assistant</h1>
+                        <p class="m-0 text-color-secondary">Ask read-only questions. Conversations are not saved in this MVP.</p>
+                    </div>
+                    <button pButton type="button" class="p-button-secondary" label="New conversation" (click)="newConversation()" [disabled]="asking"></button>
+                </div>
+
+                <p *ngIf="error" class="text-red-600" role="alert">{{ error }}</p>
+
+                <form [formGroup]="form" (ngSubmit)="ask()" class="flex flex-col gap-4">
+                    <div class="grid">
+                        <div class="col-12 md:col-6 flex flex-col gap-2">
+                            <label for="aiMode">Question mode</label>
+                            <p-dropdown
+                                inputId="aiMode"
+                                [options]="modeOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                formControlName="Mode"
+                                (onChange)="onModeChange()"></p-dropdown>
+                        </div>
+                        <div *ngIf="mode === 'DOCUMENT' || mode === 'AUTO'" class="col-12 md:col-6 flex flex-col gap-2">
+                            <label for="documentId">Document selector (optional)</label>
+                            <p-inputNumber inputId="documentId" formControlName="DocumentId" [min]="1" [useGrouping]="false" placeholder="Document ID"></p-inputNumber>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="question">Question</label>
+                        <textarea
+                            pTextarea
+                            id="question"
+                            rows="6"
+                            formControlName="Question"
+                            [maxlength]="maxQuestionLength"
+                            placeholder="Ask a read-only question"></textarea>
+                        <small class="text-color-secondary text-right">{{ questionLength }} / {{ maxQuestionLength }}</small>
+                        <small *ngIf="form.get('Question')?.invalid && form.get('Question')?.touched" class="text-red-600">Enter a question of up to {{ maxQuestionLength }} characters.</small>
+                    </div>
+
+                    <div class="flex justify-content-end gap-2">
+                        <button pButton type="submit" label="Ask Assistant" icon="pi pi-send" [loading]="asking" [disabled]="asking || form.invalid || !canAsk"></button>
+                    </div>
+                    <small *ngIf="!canAsk" class="text-color-secondary">You do not have permission to use the AI assistant.</small>
+                    <small class="text-color-secondary">Database mode answers approved read-only questions. Document mode and document-related Auto questions use indexed, authorized passages and page citations.</small>
+                </form>
+            </div>
+
+            <div *ngIf="response" class="card mt-4" aria-live="polite">
+                <div class="flex justify-content-between align-items-center gap-3 mb-3">
+                    <h2 class="text-xl m-0">Assistant response</h2>
+                    <span class="text-color-secondary text-sm">{{ response.Status }}</span>
+                </div>
+                <p *ngIf="response.Status !== 'COMPLETED'" class="text-orange-600 m-0">{{ response.ErrorMessage || 'The AI assistant is unavailable.' }}</p>
+                <p *ngIf="response.Status === 'COMPLETED'" class="white-space-pre-line m-0">{{ response.Answer }}</p>
+
+                <div *ngIf="response.Sources.length" class="mt-4">
+                    <h3 class="text-lg mb-2">Sources</h3>
+                    <ul class="m-0 pl-4">
+                        <li *ngFor="let source of response.Sources">
+                            <button *ngIf="isDocumentSource(source)" type="button" class="p-link text-left" (click)="downloadDocumentSource(source)">{{ source.Title }}</button>
+                            <a *ngIf="!isDocumentSource(source) && source.Url" [routerLink]="source.Url">{{ source.Title }}</a>
+                            <ng-container *ngIf="!isDocumentSource(source) && !source.Url">{{ source.Title }}</ng-container>
+                            <span class="text-color-secondary">({{ source.SourceType }})</span>
+                        </li>
+                    </ul>
+                    <small *ngIf="sourceError" class="text-red-600 block mt-2" role="alert">{{ sourceError }}</small>
+                </div>
+
+                <div *ngIf="response.AppliedFilters?.length" class="mt-4">
+                    <h3 class="text-lg mb-2">Applied filters</h3>
+                    <ul class="m-0 pl-4">
+                        <li *ngFor="let filter of response.AppliedFilters"><span class="font-medium">{{ filter.Name }}:</span> {{ filter.Value }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
