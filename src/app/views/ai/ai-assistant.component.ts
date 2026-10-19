@@ -90,7 +90,10 @@ export class AiAssistantComponent {
         this.sourceError = '';
         this.response = null;
         this.aiAssistantService.ask(request).subscribe({
-            next: response => this.response = response,
+            next: response => {
+                this.response = response;
+                this.conversationId = response.ConversationId ?? this.conversationId;
+            },
             error: error => {
                 this.error = typeof error === 'string' ? error : 'The AI assistant could not process this question.';
                 this.asking = false;

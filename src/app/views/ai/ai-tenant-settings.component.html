@@ -16,6 +16,12 @@
                     </div>
                     <small class="text-color-secondary">AI is disabled by default. Enabling this setting does not expose provider credentials or bypass server-side authorization.</small>
 
+                    <div class="flex items-center gap-2">
+                        <p-checkbox inputId="storeConversationContent" binary="true" formControlName="StoreConversationContent"></p-checkbox>
+                        <label for="storeConversationContent">Store encrypted AI conversation content</label>
+                    </div>
+                    <small class="text-color-secondary">When disabled, LeaseHive retains only approved tool IDs and filters for follow-up business questions; prompt and response text is not retained.</small>
+
                     <div class="grid">
                         <div class="col-12 md:col-6 flex flex-col gap-2">
                             <label for="providerCode">Provider</label>

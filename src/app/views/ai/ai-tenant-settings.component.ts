@@ -47,6 +47,7 @@ export class AiTenantSettingsComponent implements OnInit {
             MonthlyTokenLimit: [null as number | null, [Validators.min(0)]],
             MonthlyBudgetUsd: [null as number | null, [Validators.min(0)]],
             MaxOutputTokens: [1024, [Validators.required, Validators.min(1), Validators.max(4096)]],
+            StoreConversationContent: [false],
             EffectiveFrom: [null as string | null],
             EffectiveTo: [null as string | null]
         });
@@ -87,6 +88,7 @@ export class AiTenantSettingsComponent implements OnInit {
                     MonthlyTokenLimit: settings.MonthlyTokenLimit,
                     MonthlyBudgetUsd: settings.MonthlyBudgetUsd,
                     MaxOutputTokens: settings.MaxOutputTokens,
+                    StoreConversationContent: settings.StoreConversationContent,
                     EffectiveFrom: settings.EffectiveFrom,
                     EffectiveTo: settings.EffectiveTo
                 });

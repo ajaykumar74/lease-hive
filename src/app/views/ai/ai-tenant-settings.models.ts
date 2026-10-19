@@ -7,6 +7,7 @@ export interface AiTenantSettings {
     MonthlyTokenLimit: number | null;
     MonthlyBudgetUsd: number | null;
     MaxOutputTokens: number;
+    StoreConversationContent: boolean;
     EffectiveFrom: string | null;
     EffectiveTo: string | null;
     RowVersionStr: string | null;
@@ -24,6 +25,7 @@ export interface UpdateAiTenantSettings {
     MonthlyTokenLimit: number | null;
     MonthlyBudgetUsd: number | null;
     MaxOutputTokens: number;
+    StoreConversationContent: boolean;
     EffectiveFrom: string | null;
     EffectiveTo: string | null;
     RowVersionStr: string | null;
