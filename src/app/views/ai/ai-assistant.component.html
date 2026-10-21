@@ -1,0 +1,146 @@
+<section class="container" aria-labelledby="ai-assistant-title">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card p-0 overflow-hidden">
+                <div class="flex justify-content-between align-items-start gap-3 p-4 md:p-5 border-bottom-1 surface-border">
+                    <div>
+                        <h1 id="ai-assistant-title" class="text-3xl mb-2">AI Assistant</h1>
+                        <p class="m-0 text-color-secondary">Ask read-only questions. Conversations are not saved.</p>
+                    </div>
+                    <button
+                        pButton
+                        type="button"
+                        icon="pi pi-plus"
+                        rounded
+                        severity="contrast"
+                        class="ml-auto"
+                        aria-label="New conversation"
+                        pTooltip="New conversation"
+                        tooltipPosition="left"
+                        (click)="newConversation()"
+                        [disabled]="asking"></button>
+                </div>
+
+                <div *ngIf="conversationTurns.length; else emptyConversation" class="flex flex-col gap-4 p-4 md:p-5" aria-live="polite">
+                    <article *ngFor="let turn of conversationTurns; trackBy: trackByTurn" class="flex flex-col gap-3">
+                        <div class="flex justify-content-end p-5">
+                            <div class="w-full md:w-9 bg-primary text-primary-contrast border-round text-white p-4">
+                                <div class="flex justify-content-between align-items-center gap-3 mb-2 text-sm opacity-80">
+                                    <span>You</span>
+                                    <span>{{ modeLabel(turn.mode) }}</span>
+                                </div>
+                                <p class="white-space-pre-line text-lg m-0">{{ turn.question }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-content-start">
+                            <div class="w-full md:w-10 surface-card border-1 surface-border border-round p-3">
+                                <div class="flex align-items-center gap-2 mb-3">
+                                    <i class="pi pi-sparkles text-primary" aria-hidden="true"></i>
+                                    <span class="font-medium">Leasora AI</span>
+                                    <span *ngIf="turn.response" class="text-color-secondary text-sm">{{ turn.response.Status }}</span>
+                                </div>
+
+                                <div *ngIf="!turn.response && !turn.error" class="flex align-items-center gap-2 text-color-secondary">
+                                    <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+                                    <span>Thinking…</span>
+                                </div>
+
+                                <p *ngIf="turn.error" class="text-red-600 m-0" role="alert">{{ turn.error }}</p>
+                                <p *ngIf="turn.response && turn.response.Status !== 'COMPLETED'" class="text-orange-600 m-0" role="alert">{{ turn.response.ErrorMessage || 'The AI assistant is unavailable.' }}</p>
+                                <p *ngIf="turn.response?.Status === 'COMPLETED'" class="text-lg line-height-3 m-0" style="white-space: pre-line">{{ formatAnswer(turn.response?.Answer) }}</p>
+
+                                <div *ngIf="turn.response" class="flex justify-content-end mt-3 pt-2 border-top-1 surface-border">
+                                    <button
+                                        pButton
+                                        type="button"
+                                        icon="pi pi-info-circle"
+                                        outlined
+                                        severity="secondary"
+                                        rounded
+                                        aria-label="View sources and applied filters"
+                                        pTooltip="Sources and applied filters"
+                                        tooltipPosition="left"
+                                        (click)="responseDetails.toggle($event)"></button>
+
+                                    <p-popover #responseDetails styleClass="w-full sm:w-30rem">
+                                        <ng-template #content>
+                                            <div class="flex flex-col gap-4">
+                                                <div>
+                                                    <h3 class="text-base m-0 mb-2">Sources</h3>
+                                                    <ul *ngIf="turn.response?.Sources?.length; else noSources" class="m-0 pl-4">
+                                                        <li *ngFor="let source of turn.response?.Sources">
+                                                            <button *ngIf="isDocumentSource(source)" type="button" class="p-link text-left" (click)="downloadDocumentSource(turn, source)">{{ source.Title }}</button>
+                                                            <a *ngIf="!isDocumentSource(source) && source.Url" [routerLink]="source.Url">{{ source.Title }}</a>
+                                                            <ng-container *ngIf="!isDocumentSource(source) && !source.Url">{{ source.Title }}</ng-container>
+                                                            <span class="text-color-secondary"> ({{ source.SourceType }})</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ng-template #noSources><p class="m-0 text-color-secondary">No sources were returned for this response.</p></ng-template>
+                                                    <small *ngIf="turn.sourceError" class="text-red-600 block mt-2" role="alert">{{ turn.sourceError }}</small>
+                                                </div>
+
+                                                <div>
+                                                    <h3 class="text-base m-0 mb-2">Applied filters</h3>
+                                                    <ul *ngIf="turn.response?.AppliedFilters?.length; else noFilters" class="m-0 pl-4">
+                                                        <li *ngFor="let filter of turn.response?.AppliedFilters"><span class="font-medium">{{ filter.Name }}:</span> {{ filter.Value }}</li>
+                                                    </ul>
+                                                    <ng-template #noFilters><p class="m-0 text-color-secondary">No filters were applied.</p></ng-template>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-popover>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <ng-template #emptyConversation>
+                    <div class="p-4 md:p-5 text-center text-color-secondary">
+                        <i class="pi pi-comments text-3xl mb-3" aria-hidden="true"></i>
+                        <p class="m-0">Start a conversation by asking Leasora AI a read-only question.</p>
+                    </div>
+                </ng-template>
+
+                <form [formGroup]="form" (ngSubmit)="ask()" class="flex flex-col gap-4 p-4 md:p-5 border-top-1 surface-border">
+                    <div class="grid">
+                        <div class="col-12 md:col-6 flex flex-col gap-2">
+                            <label for="aiMode">Question mode</label>
+                            <p-dropdown
+                                inputId="aiMode"
+                                [options]="modeOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                formControlName="Mode"
+                                (onChange)="onModeChange()"></p-dropdown>
+                        </div>
+                        <div *ngIf="isDocumentMode" class="col-12 md:col-6 flex flex-col gap-2">
+                            <label for="documentId">Document selector (optional)</label>
+                            <p-inputNumber inputId="documentId" formControlName="DocumentId" [min]="1" [useGrouping]="false" placeholder="Document ID"></p-inputNumber>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="question">Question</label>
+                        <textarea
+                            pTextarea
+                            id="question"
+                            rows="4"
+                            formControlName="Question"
+                            [maxlength]="maxQuestionLength"
+                            placeholder="Ask a read-only question"></textarea>
+                        <small class="text-color-secondary text-right">{{ questionLength }} / {{ maxQuestionLength }}</small>
+                        <small *ngIf="form.get('Question')?.invalid && form.get('Question')?.touched" class="text-red-600">Enter a question of up to {{ maxQuestionLength }} characters.</small>
+                    </div>
+
+                    <div class="flex justify-content-end gap-2">
+                        <button pButton type="submit" label="Ask Assistant" icon="pi pi-send" [loading]="asking" [disabled]="asking || form.invalid || !canAsk"></button>
+                    </div>
+                    <small *ngIf="!canAsk" class="text-color-secondary">You do not have permission to use the AI assistant.</small>
+                    <small class="text-color-secondary">Database mode answers approved read-only questions. Document mode and document-related Auto questions use indexed, authorized passages and page citations.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

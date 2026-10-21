@@ -7,6 +7,7 @@ import { AuthGuard } from '@/shared/auth-guard.service';
 import { AdminDashboardComponent } from './dashboardAdmin-component';
 import { NotificationModule } from '@/views/notification/notification.module';
 import { CrmHelpDocumentComponent } from './crm-help-document.component';
+import { PermissionGuard } from '@/shared/security/permission.guard';
 
 
 const routes: Routes = [
@@ -40,8 +41,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: CrmHelpDocumentComponent,
         data: {
-          title: 'LeaseHive Documentation',
-          breadcrumb: 'LeaseHive Documentation'
+          title: 'Leasora Documentation',
+          breadcrumb: 'Leasora Documentation'
         }
       },
       {
@@ -238,6 +239,24 @@ const routes: Routes = [
         path: 'emailProfiles',
         data: { breadcrumb: 'Email Profiles' },
         loadChildren: () => import('@/views/tenants/tenantEmailProfile/tenantEmailProfile.module').then(c => c.TenantEmailProfileModule),
+      },
+      {
+        path: 'ai-settings',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'AI tenant settings' },
+        loadComponent: () => import('@/views/ai/ai-tenant-settings.component').then(c => c.AiTenantSettingsComponent),
+      },
+      {
+        path: 'ai-assistant',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'AI assistant' },
+        loadComponent: () => import('@/views/ai/ai-assistant.component').then(c => c.AiAssistantComponent),
+      },
+      {
+        path: 'ai-usage',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'AI usage' },
+        loadComponent: () => import('@/views/ai/ai-usage-dashboard.component').then(c => c.AiUsageDashboardComponent),
       },
 
        {

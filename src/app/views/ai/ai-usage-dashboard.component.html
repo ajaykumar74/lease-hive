@@ -1,0 +1,124 @@
+<section class="container" aria-labelledby="ai-usage-title">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-start gap-3 mb-4">
+                    <div>
+                        <h1 id="ai-usage-title" class="mb-2 text-3xl">AI usage</h1>
+                        <p class="m-0 text-color-secondary">Tenant-level request, provider, quota, and failure metrics. Prompts and answers are never shown here.</p>
+                    </div>
+                    <div class="flex flex-wrap align-items-end gap-2">
+                        <label class="flex flex-column gap-1">From
+                            <input type="date" [(ngModel)]="fromDate" [disabled]="loading" />
+                        </label>
+                        <label class="flex flex-column gap-1">To
+                            <input type="date" [(ngModel)]="toDate" [disabled]="loading" />
+                        </label>
+                        <button pButton type="button" label="Apply" icon="pi pi-refresh" (click)="load()" [loading]="loading" [disabled]="loading || !canView"></button>
+                    </div>
+                </div>
+
+                <p *ngIf="error" class="text-red-600" role="alert">{{ error }}</p>
+                <p *ngIf="!canView" class="text-color-secondary">You do not have permission to view AI usage.</p>
+
+                <ng-container *ngIf="dashboard as data">
+                    <div class="grid mb-2">
+                        <div class="col-12 sm:col-6 xl:col-3">
+                            <div class="surface-100 border-round p-3 h-full">
+                                <span class="text-color-secondary">Logical requests</span>
+                                <div class="text-3xl font-semibold mt-2">{{ data.Summary.LogicalRequestCount | number }}</div>
+                                <small>{{ data.Summary.CompletedRequestCount | number }} completed · {{ data.Summary.FailedRequestCount | number }} failed · {{ data.Summary.DeniedRequestCount | number }} denied</small>
+                            </div>
+                        </div>
+                        <div class="col-12 sm:col-6 xl:col-3">
+                            <div class="surface-100 border-round p-3 h-full">
+                                <span class="text-color-secondary">Provider calls</span>
+                                <div class="text-3xl font-semibold mt-2">{{ data.Summary.ProviderCallCount | number }}</div>
+                                <small *ngIf="data.Summary.AverageProviderDurationMs !== null">Average {{ data.Summary.AverageProviderDurationMs | number }} ms</small>
+                                <small *ngIf="data.Summary.AverageProviderDurationMs === null">No provider timing reported</small>
+                            </div>
+                        </div>
+                        <div class="col-12 sm:col-6 xl:col-3">
+                            <div class="surface-100 border-round p-3 h-full">
+                                <span class="text-color-secondary">Reported tokens</span>
+                                <div class="text-3xl font-semibold mt-2">{{ data.Summary.TotalTokenCount | number }}</div>
+                                <small>Input {{ data.Summary.InputTokenCount | number }} · output {{ data.Summary.OutputTokenCount | number }} · cached {{ data.Summary.CachedInputTokenCount | number }}</small>
+                                <small *ngIf="data.Summary.UnknownTokenCallCount" class="block text-orange-600">Unknown for {{ data.Summary.UnknownTokenCallCount | number }} provider call(s)</small>
+                            </div>
+                        </div>
+                        <div class="col-12 sm:col-6 xl:col-3">
+                            <div class="surface-100 border-round p-3 h-full">
+                                <span class="text-color-secondary">Estimated provider cost</span>
+                                <div class="text-3xl font-semibold mt-2">{{ data.Summary.EstimatedCostUsd === null ? 'Unknown' : (data.Summary.EstimatedCostUsd | currency:'USD') }}</div>
+                                <small *ngIf="data.Summary.UnknownCostCallCount" class="text-orange-600">Unknown for {{ data.Summary.UnknownCostCallCount | number }} provider call(s)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid mt-2">
+                        <div class="col-12 xl:col-5">
+                            <div class="border-1 surface-border border-round p-3 h-full">
+                                <h2 class="text-xl mt-0">Current month quota</h2>
+                                <p-tag [value]="data.CurrentMonthQuota.IsEnabled ? 'AI enabled' : 'AI disabled'" [severity]="data.CurrentMonthQuota.IsEnabled ? 'success' : 'warn'"></p-tag>
+                                <table class="w-full mt-3">
+                                    <thead><tr><th class="text-left">Limit</th><th class="text-right">Used</th><th class="text-right">Remaining</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Requests</td><td class="text-right">{{ data.CurrentMonthQuota.RequestCount | number }}</td><td class="text-right">{{ data.CurrentMonthQuota.RemainingRequestCount === null ? 'No limit' : (data.CurrentMonthQuota.RemainingRequestCount | number) }}</td></tr>
+                                        <tr><td>Tokens</td><td class="text-right">{{ data.CurrentMonthQuota.TokenCount | number }}</td><td class="text-right">{{ data.CurrentMonthQuota.RemainingTokenCount === null ? 'No limit' : (data.CurrentMonthQuota.RemainingTokenCount | number) }}</td></tr>
+                                        <tr><td>Budget</td><td class="text-right">{{ data.CurrentMonthQuota.CostUsd === null ? 'Unknown' : (data.CurrentMonthQuota.CostUsd | currency:'USD') }}</td><td class="text-right">{{ data.CurrentMonthQuota.RemainingBudgetUsd === null ? (data.CurrentMonthQuota.MonthlyBudgetUsd === null ? 'No limit' : 'Unknown') : (data.CurrentMonthQuota.RemainingBudgetUsd | currency:'USD') }}</td></tr>
+                                    </tbody>
+                                </table>
+                                <small *ngIf="data.CurrentMonthQuota.UnknownCostCount" class="block mt-2 text-orange-600">Cost is unknown for {{ data.CurrentMonthQuota.UnknownCostCount | number }} quota record(s).</small>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-3">
+                            <div class="border-1 surface-border border-round p-3 h-full">
+                                <h2 class="text-xl mt-0">Request modes</h2>
+                                <ul *ngIf="data.Summary.RequestTypeBreakdown.length; else noRequestTypes" class="list-none p-0 m-0 flex flex-column gap-2">
+                                    <li *ngFor="let item of data.Summary.RequestTypeBreakdown" class="flex justify-content-between"><span>{{ item.Name }}</span><strong>{{ item.Count | number }}</strong></li>
+                                </ul>
+                                <ng-template #noRequestTypes><span class="text-color-secondary">No requests in this period.</span></ng-template>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-4">
+                            <div class="border-1 surface-border border-round p-3 h-full">
+                                <h2 class="text-xl mt-0">Failures and denials</h2>
+                                <ul *ngIf="data.Summary.Failures.length; else noFailures" class="list-none p-0 m-0 flex flex-column gap-2">
+                                    <li *ngFor="let failure of data.Summary.Failures" class="flex justify-content-between gap-2"><code>{{ failure.ErrorCode }}</code><strong>{{ failure.Count | number }}</strong></li>
+                                </ul>
+                                <ng-template #noFailures><span class="text-color-secondary">No error codes in this period.</span></ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <h2 class="text-xl">Daily usage</h2>
+                        <p-table [value]="data.Summary.DailyUsage" [tableStyle]="{ 'min-width': '48rem' }">
+                            <ng-template pTemplate="header"><tr><th>Date (UTC)</th><th class="text-right">Requests</th><th class="text-right">Provider calls</th><th class="text-right">Tokens</th><th class="text-right">Cost</th><th class="text-right">Failures</th><th class="text-right">Denied</th></tr></ng-template>
+                            <ng-template pTemplate="body" let-day><tr><td>{{ day.UsageDateUtc | date:'mediumDate':'UTC' }}</td><td class="text-right">{{ day.LogicalRequestCount | number }}</td><td class="text-right">{{ day.ProviderCallCount | number }}</td><td class="text-right">{{ day.TotalTokenCount | number }}</td><td class="text-right">{{ day.EstimatedCostUsd === null ? 'Unknown' : (day.EstimatedCostUsd | currency:'USD') }}</td><td class="text-right">{{ day.FailedCallCount | number }}</td><td class="text-right">{{ day.DeniedRequestCount | number }}</td></tr></ng-template>
+                            <ng-template pTemplate="emptymessage"><tr><td colspan="7">No AI usage in this period.</td></tr></ng-template>
+                        </p-table>
+                    </div>
+                </ng-container>
+
+                <div class="mt-5">
+                    <div class="flex justify-content-between align-items-center gap-3 mb-2">
+                        <div><h2 class="text-xl m-0">Request drill-down</h2><small class="text-color-secondary">One row per logical request; provider calls are aggregated under its request ID.</small></div>
+                        <span *ngIf="requestPage" class="text-color-secondary">{{ requestPage.TotalCount | number }} request(s)</span>
+                    </div>
+                    <p *ngIf="requestError" class="text-red-600" role="alert">{{ requestError }}</p>
+                    <p-table [value]="requestPage?.Items ?? []" [loading]="loadingRequests" [tableStyle]="{ 'min-width': '72rem' }">
+                        <ng-template pTemplate="header"><tr><th>When (UTC)</th><th>Request</th><th>Mode</th><th>Status</th><th class="text-right">Calls</th><th class="text-right">Tokens</th><th class="text-right">Cost</th><th>Error code</th></tr></ng-template>
+                        <ng-template pTemplate="body" let-request><tr><td>{{ request.RequestedAtUtc | date:'medium':'UTC' }}</td><td><code [title]="request.RequestId">{{ shortRequestId(request) }}</code></td><td>{{ request.RequestType }}</td><td><p-tag [value]="request.OutcomeStatus" [severity]="statusSeverity(request.OutcomeStatus)"></p-tag></td><td class="text-right">{{ request.ProviderCallCount | number }}</td><td class="text-right">{{ request.TotalTokenCount | number }}<small *ngIf="request.UnknownTokenCallCount" class="block text-orange-600">{{ request.UnknownTokenCallCount | number }} unknown</small></td><td class="text-right">{{ request.EstimatedCostUsd === null ? 'Unknown' : (request.EstimatedCostUsd | currency:'USD') }}<small *ngIf="request.UnknownCostCallCount" class="block text-orange-600">{{ request.UnknownCostCallCount | number }} unknown</small></td><td><code *ngIf="request.ErrorCode">{{ request.ErrorCode }}</code><span *ngIf="!request.ErrorCode">—</span></td></tr></ng-template>
+                        <ng-template pTemplate="emptymessage"><tr><td colspan="8">No logical AI requests in this period.</td></tr></ng-template>
+                    </p-table>
+                    <div *ngIf="requestPage && requestPage.TotalCount > requestPage.PageSize" class="flex justify-content-end align-items-center gap-2 mt-3">
+                        <button pButton type="button" class="p-button-text" label="Previous" (click)="changePage(pageNumber - 1)" [disabled]="pageNumber <= 1 || loadingRequests"></button>
+                        <span>Page {{ pageNumber }} of {{ totalPages }}</span>
+                        <button pButton type="button" class="p-button-text" label="Next" (click)="changePage(pageNumber + 1)" [disabled]="pageNumber >= totalPages || loadingRequests"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

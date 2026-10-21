@@ -78,7 +78,7 @@ export class AppMenu implements OnInit, OnDestroy {
                         {
                             label: 'Service Booking',
                             icon: 'pi pi-fw pi-sort-down-fill',
-                            tooltip: 'See all payments/ accounts processed via FleetHive',
+                            tooltip: 'See all payments/ accounts processed via Leasora',
                             items: [
                                 {
                                     label: 'Book a Service',
@@ -115,10 +115,10 @@ export class AppMenu implements OnInit, OnDestroy {
                         {
                             label: 'Accounts',
                             icon: 'pi pi-fw pi-sort-down-fill',
-                            tooltip: 'See all payments/ accounts processed via FleetHive',
+                            tooltip: 'See all payments/ accounts processed via Leasora',
                             items: [
                                 {
-                                    label: 'FleetHive Invoices',
+                                    label: 'Leasora Invoices',
                                     icon: 'pi pi-fw pi-server',
                                     routerLink: ['/dashboard/invoices/list'],
                                     tooltip: ''
@@ -195,7 +195,14 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/mydashboard/'],
                             tooltip: 'see your dashboard here'
-                        }  
+                        }  ,
+                         {
+                                    label: 'AI Assistant',
+                                    icon: 'pi pi-fw pi-comments',
+                                    routerLink: ['/dashboard/ai-assistant'],
+                                    tooltip: 'Ask read-only questions with the AI assistant',
+                                    requiredPermission: 'ai.aiassistant.ask'
+                                }
                     ]
                 },
                 {
@@ -525,6 +532,19 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-fw pi-send',
                                     routerLink: ['/dashboard', 'emailProfiles'],
                                     tooltip: 'Manage tenant email profiles'
+                                },
+                                {
+                                    label: 'AI settings',
+                                    icon: 'pi pi-fw pi-sparkles',
+                                    routerLink: ['/dashboard/ai-settings'],
+                                    tooltip: 'Configure approved AI models and tenant limits'
+                                }, 
+                                {
+                                    label: 'AI Usage',
+                                    icon: 'pi pi-fw pi-chart-bar',
+                                    routerLink: ['/dashboard/ai-usage'],
+                                    tooltip: 'Review tenant AI usage and request operations',
+                                    requiredPermission: 'ai.aiusage.view'
                                 },
                                 {
                                     label: 'Recipient Rules',
@@ -2373,7 +2393,7 @@ export class AppMenu implements OnInit, OnDestroy {
                             label: 'Help & Documentation',
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/CRMHelpDoc/'],
-                            tooltip: 'Open LeaseHive module help documentation'
+                            tooltip: 'Open Leasora module help documentation'
                         }  
                     ]
                 },
