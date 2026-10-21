@@ -60,7 +60,7 @@ export class Login {
     this.returnUrl = "/dashboard";
     if (environment.envName == 'dev') {
       this.loginData.Password = 'abc@123',
-        this.loginData.Username = 'dev.TenantAdmin@leasehive.com'
+        this.loginData.Username = 'dev.TenantAdmin@Leasora.com'
     }
   }
 

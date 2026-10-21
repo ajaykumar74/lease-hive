@@ -15,7 +15,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
         <div>
           <p class="eyebrow">Customer Portal</p>
           <h1>Support Tickets</h1>
-          <p>Track requests and replies from the LeaseHive support team.</p>
+          <p>Track requests and replies from the Leasora support team.</p>
         </div>
         <a class="primary-action" routerLink="/customer-portal/support/create">Create Ticket</a>
       </div>
