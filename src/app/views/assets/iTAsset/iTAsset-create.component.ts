@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -20,8 +20,6 @@ import { ITAssetService } from './iTAsset.service';
    providers: [ MessageService]
 })
 export class ITAssetCreateComponent implements OnInit {
-  private readonly entityLookupDestroyRef = inject(DestroyRef);
-
    
   selectedId: number; 
   isLoading : boolean = false;
@@ -38,6 +36,7 @@ export class ITAssetCreateComponent implements OnInit {
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private iTAssetService: ITAssetService,
@@ -69,10 +68,17 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
-      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+    const assetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.loadAssetOptions(assetId > 0 ? assetId : undefined);
+    if (assetId > 0) this.editForm.patchValue({ AssetId: assetId });
 
+  }
+
+  private loadAssetOptions(selectedId?: number): void {
+    this.loggedInUserService.getAssetOptionsForCategory('IT', selectedId).subscribe({
+      next: options => this.assetidOptions = options,
+      error: error => setTimeout(() => this.messageService?.showError(error))
+    });
   }
  
  loadUI(): void {
@@ -90,6 +96,7 @@ EffectiveTo: new FormControl(new Date(), []),
 
 
   populateUI(obj: IITAsset): void {
+     this.loadAssetOptions(obj.AssetId);
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

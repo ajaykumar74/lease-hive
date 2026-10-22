@@ -9,6 +9,7 @@ import {TextareaModule} from 'primeng/textarea';
 import { InputTextModule } from "primeng/inputtext"; 
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button'; 
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { RadioButtonModule } from 'primeng/radiobutton'; 
 import { InputGroupModule } from 'primeng/inputgroup';
 import { TooltipModule } from 'primeng/tooltip';
@@ -40,6 +41,7 @@ import { VehicleAssetRoutingModule } from './vehicleAsset-routing.module';
 		InputTextModule, 
 		CheckboxModule,
 		ButtonModule,
+		SplitButtonModule,
 		InputGroupModule, 
 		TooltipModule,
 		MySharedModule, 

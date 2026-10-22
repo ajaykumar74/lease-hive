@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,6 +18,7 @@ export class AssetStatusHistoryListComponent implements OnInit {
 
   constructor(
     private assetStatusHistoryService: AssetStatusHistoryService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
     private loggedInUserService: LoggedInUserService
   ) { }
@@ -31,12 +32,15 @@ export class AssetStatusHistoryListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  assetId: number | null = null;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
      if (this.assetStatusHistoryService.CacheData.IsLoaded) {
       this.currentPage = this.assetStatusHistoryService.CacheData.CurrentPage;
       this.objSearch = this.assetStatusHistoryService.CacheData.objSearch;
@@ -46,7 +50,7 @@ export class AssetStatusHistoryListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetStatusHistoryService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, this.assetId !== null || !this.assetStatusHistoryService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -112,9 +116,13 @@ export class AssetStatusHistoryListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo }, 
-      { DBName: 'ReasonCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'ReasonCode', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
+
+    if (this.assetId) {
+      Items.push({ DBName: 'AssetId', Value: this.assetId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;

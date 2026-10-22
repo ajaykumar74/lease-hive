@@ -1,3 +1,12 @@
 .layout-content-wrapper {
     padding: 2rem;
 }
+
+// Detail and create screens use Tailwind's `container` utility. Its xl breakpoint
+// caps content at 1280px, leaving a large unused area beside forms on desktop.
+// The application shell already supplies the page gutter, so route content should
+// consume the remaining viewport width.
+.layout-content .container {
+    width: 100%;
+    max-width: none;
+}

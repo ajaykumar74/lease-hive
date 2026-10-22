@@ -4,7 +4,8 @@
 			<div class="card p-fluid">
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
+					[PageType]="'Details'" [form]="editForm" [saveAccessPermission]="'asset.equipmentasset.update'">
+					<p-splitbutton size="small" label="Options" [model]="menuItems"></p-splitbutton>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				
@@ -39,12 +40,12 @@
 <app-validation-errors [type]="'number'" [control]="editForm.get('CapacityValue')"
 											label="Capacity Value">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="CapacityUOMId">CapacityUOMId 
-							</label> 
-							<p-inputNumber id="CapacityUOMId"  pSize="small"	formControlName="CapacityUOMId"  >
-</p-inputNumber>
+						 </div><div class="flex flex-col w-full">							<label for="CapacityUOMId">Capacity UOM</label>
+							<p-dropdown inputId="CapacityUOMId" [options]="capacityuomidOptions" optionLabel="Text"
+								optionValue="Value" formControlName="CapacityUOMId" placeholder="Select one" class="w-full">
+							</p-dropdown>
 <app-validation-errors [type]="'number'" [control]="editForm.get('CapacityUOMId')"
-											label="CapacityUOMId">
+											label="Capacity UOM">
 										</app-validation-errors>
 						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="PowerRating">Power Rating 
@@ -54,12 +55,12 @@
 <app-validation-errors [type]="'number'" [control]="editForm.get('PowerRating')"
 											label="Power Rating">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="PowerUOMId">PowerUOMId 
-							</label> 
-							<p-inputNumber id="PowerUOMId"  pSize="small"	formControlName="PowerUOMId"  >
-</p-inputNumber>
+						 </div><div class="flex flex-col w-full">							<label for="PowerUOMId">Power UOM</label>
+							<p-dropdown inputId="PowerUOMId" [options]="poweruomidOptions" optionLabel="Text"
+								optionValue="Value" formControlName="PowerUOMId" placeholder="Select one" class="w-full">
+							</p-dropdown>
 <app-validation-errors [type]="'number'" [control]="editForm.get('PowerUOMId')"
-											label="PowerUOMId">
+											label="Power UOM">
 										</app-validation-errors>
 						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			

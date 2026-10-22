@@ -14,6 +14,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAsset } from './asset';
 import { AssetService } from './asset.service';
+import { createAssetQuickOptions } from './asset-quick-options';
 
 
 @Component({
@@ -121,18 +122,10 @@ export class AssetEditComponent implements OnInit {
     this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
     this.selectedId = this.activatedRouter.snapshot.params['id'];
 
-    this.menuItems = [
-      {
-        label: 'Asset Assignments',
-        icon: 'pi pi-pencil',
-        command: () => this.onCommandClicked('Assignment')
-      },
-      { label: 'Inspections', icon: 'pi pi-search', command: () => this.onCommandClicked('Inspection') },
-      { label: 'Identifiers', icon: 'pi pi-id-card', command: () => this.onCommandClicked('Identifier') },
-      { label: 'Attribute Values', icon: 'pi pi-list', command: () => this.onCommandClicked('AttributeValue') },
-      { label: 'Location History', icon: 'pi pi-map-marker', command: () => this.onCommandClicked('LocationHistory') },
-      { label: 'Ownership History', icon: 'pi pi-users', command: () => this.onCommandClicked('OwnershipHistory') }
-    ]; 
+    this.menuItems = createAssetQuickOptions(
+      () => this.asset?.Id,
+      commands => this.router.navigate(commands)
+    );
 
   }
 
@@ -312,30 +305,6 @@ export class AssetEditComponent implements OnInit {
       this.loadUI();
     }, 500);
   }
-
-
-  onCommandClicked(key: string) {
-    if (key == "Assignment") {
-      this.router.navigate(['/dashboard/assetAssignments/asset', this.asset.Id]);
-    }
-    else if (key == "Inspection") {
-      this.router.navigate(['/dashboard/assetInspections/asset', this.asset.Id]);
-    }
-    else if (key == "Identifier") {
-      this.router.navigate(['/dashboard/assetIdentifiers/asset', this.asset.Id]);
-    }
-    else if (key == "AttributeValue") {
-      this.router.navigate(['/dashboard/assetAttributeValues/asset', this.asset.Id]);
-    }
-    else if (key == "LocationHistory") {
-      this.router.navigate(['/dashboard/assetLocationHistorys/asset', this.asset.Id]);
-    }
-    else if (key == "OwnershipHistory") {
-      this.router.navigate(['/dashboard/assetOwnershipHistorys/asset', this.asset.Id]);
-    }
-    
-  }
-
 
   loadUI(): void {
     this.isLoading = true;

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -8,9 +8,10 @@ import { MessageComponent } from '@/shared/message.component';
 import { AssetWarrantyService } from './assetWarranty.service';
 import { IAssetWarranty } from './assetWarranty';
 import { PageEvent } from '@/shared/IBase';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-assetwarranty-list',
   standalone: false,
   templateUrl: './assetWarranty-list.component.html'
 })
@@ -18,8 +19,10 @@ export class AssetWarrantyListComponent implements OnInit {
 
   constructor(
     private assetWarrantyService: AssetWarrantyService,
+    private activatedRoute: ActivatedRoute,
     private router: Router, 
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private readonly permissionService: PermissionService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: IAssetWarranty[]; 
@@ -31,12 +34,15 @@ export class AssetWarrantyListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
-  objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  assetId: number | null = null;
+  objSearch: any = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = routeAssetId > 0 ? routeAssetId : null;
      if (this.assetWarrantyService.CacheData.IsLoaded) {
       this.currentPage = this.assetWarrantyService.CacheData.CurrentPage;
       this.objSearch = this.assetWarrantyService.CacheData.objSearch;
@@ -46,7 +52,7 @@ export class AssetWarrantyListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.assetWarrantyService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, this.assetId !== null || !this.assetWarrantyService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -65,7 +71,7 @@ export class AssetWarrantyListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -110,12 +116,13 @@ export class AssetWarrantyListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'WarrantyNo', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
+
+    if (this.assetId) {
+      Items.push({ DBName: 'AssetId', Value: this.assetId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;
@@ -136,7 +143,7 @@ export class AssetWarrantyListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
+    if (this.permissionService.hasPermission('asset.assetwarranty.update')) {
         this.router.navigate(['/business/assets/warranties/edit', obj.Id]);
     }
     else {

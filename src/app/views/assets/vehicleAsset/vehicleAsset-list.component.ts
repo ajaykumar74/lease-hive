@@ -8,19 +8,20 @@ import { MessageComponent } from '@/shared/message.component';
 import { VehicleAssetService } from './vehicleAsset.service';
 import { IVehicleAsset } from './vehicleAsset';
 import { PageEvent } from '@/shared/IBase';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-vehicleasset-list',
   standalone: false,
-  templateUrl: './vehicleAsset-list.component.html',
-  styleUrl: './vehicleAsset-list.component.css'
+  templateUrl: './vehicleAsset-list.component.html'
 })
 export class VehicleAssetListComponent implements OnInit {
 
   constructor(
     private vehicleAssetService: VehicleAssetService,
     private router: Router, 
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private readonly permissionService: PermissionService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: IVehicleAsset[]; 
@@ -136,7 +137,7 @@ export class VehicleAssetListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
+    if (this.permissionService.hasPermission('asset.vehicleasset.update')) {
         this.router.navigate(['/business/assets/specialised/vehicles/edit/' + obj.Id]);
     }
     else {
@@ -154,20 +155,6 @@ export class VehicleAssetListComponent implements OnInit {
     }
     else if (key == "Cancel") {
     }    
-  }
-
-  getStatusClass(status: string): string {
-    const value = (status || '').toLowerCase();
-
-    if (value.includes('active') || value.includes('available') || value.includes('in service')) {
-      return 'status-active';
-    }
-
-    if (value.includes('inactive') || value.includes('disposed') || value.includes('retired')) {
-      return 'status-closed';
-    }
-
-    return 'status-pending';
   }
 }
 

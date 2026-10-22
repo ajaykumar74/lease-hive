@@ -32,6 +32,12 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset/:assetId',
+        canActivate: [AuthGuard],
+        component: AssetDocumentLinkListComponent,
+        data: { title: 'List' }
+      },
+      {
         path: 'create',
         canActivate: [AuthGuard],
         component: AssetDocumentLinkCreateComponent,

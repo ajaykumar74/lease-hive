@@ -9,6 +9,7 @@ import {TextareaModule} from 'primeng/textarea';
 import { InputTextModule } from "primeng/inputtext"; 
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button'; 
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { RadioButtonModule } from 'primeng/radiobutton'; 
 import { InputGroupModule } from 'primeng/inputgroup';
 import { ReactiveFormsModule } from '@angular/forms'; 
@@ -39,6 +40,7 @@ import { PropertyAssetRoutingModule } from './propertyAsset-routing.module';
 		InputTextModule, 
 		CheckboxModule,
 		ButtonModule,
+		SplitButtonModule,
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,

@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
  
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IITAsset } from './iTAsset';
 import { ITAssetService } from './iTAsset.service';
+import { createAssetQuickOptions } from '../asset/asset-quick-options';
 
 
 @Component({
@@ -21,8 +22,6 @@ import { ITAssetService } from './iTAsset.service';
   providers: [ MessageService]
 })
 export class ITAssetEditComponent implements OnInit {
-  private readonly entityLookupDestroyRef = inject(DestroyRef);
-
   selectedId: number;
   isLoading: boolean = false;
   iTAsset: IITAsset = null;
@@ -33,6 +32,7 @@ recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IITAsset = {} as IITAsset;
+  menuItems: MenuItem[] = [];
 
 
   constructor( 
@@ -71,12 +71,22 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
 
-   this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
-      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+   this.loadAssetOptions();
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     this.menuItems = createAssetQuickOptions(
+       () => this.iTAsset?.AssetId,
+       commands => this.router.navigate(commands),
+       true
+     );
+  }
+
+  private loadAssetOptions(selectedId?: number): void {
+    this.loggedInUserService.getAssetOptionsForCategory('IT', selectedId).subscribe({
+      next: options => this.assetidOptions = options,
+      error: error => setTimeout(() => this.messageService?.showError(error))
+    });
   }
 
   ngAfterViewInit(): void {
@@ -101,6 +111,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: IITAsset): void {  
+    this.loadAssetOptions(obj.AssetId);
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,

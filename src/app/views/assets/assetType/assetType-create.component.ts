@@ -148,7 +148,7 @@ RequiresRegistrationNo:  obj.RequiresRegistrationNo || false,
   
 	const formValues  = this.editForm.value ;
 	var createdObj = { 
-      TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
+	  TenantId: String(this.loggedInUserService.loggedInUser.Tenant.Id),
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
      AssetCategoryId: formValues.AssetCategoryId || null,

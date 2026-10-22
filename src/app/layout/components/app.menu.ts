@@ -827,6 +827,16 @@ export class AppMenu implements OnInit, OnDestroy {
                                     routerLink: ['/business/assets/specialised/vehicles']
                                 },
                                 {
+                                    label: 'IT Assets',
+                                    icon: 'pi pi-fw pi-desktop',
+                                    routerLink: ['/business/assets/specialised/it']
+                                },
+                                {
+                                    label: 'Equipment Assets',
+                                    icon: 'pi pi-fw pi-cog',
+                                    routerLink: ['/business/assets/specialised/equipment']
+                                },
+                                {
                                     label: 'Property Assets',
                                     icon: 'pi pi-fw pi-building',
                                     routerLink: ['/business/assets/specialised/property']
@@ -854,6 +864,10 @@ export class AppMenu implements OnInit, OnDestroy {
                                         {
                                             label: 'Asset identifiers',
                                             routerLink: ['/business/assets/classification/identifiers']
+                                        },
+                                         {
+                                            label: 'Asset Warranties',
+                                            routerLink: ['/business/assets/warranties']
                                         },
 
                                         {
@@ -1023,10 +1037,6 @@ export class AppMenu implements OnInit, OnDestroy {
                                     label: 'Warranty & Insurance',
                                     icon: 'pi pi-fw pi-shield',
                                     items: [
-                                        {
-                                            label: 'Warranties',
-                                            routerLink: ['/business/assets/warranties']
-                                        },
                                         {
                                             label: 'Insurance',
                                             routerLink: ['/business/assets/insurance']

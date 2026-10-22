@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -38,6 +38,7 @@ export class VehicleAssetCreateComponent implements OnInit {
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private vehicleAssetService: VehicleAssetService,
@@ -70,7 +71,9 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loadAssetOptions();
+    const assetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.loadAssetOptions(assetId > 0 ? assetId : undefined);
+    if (assetId > 0) this.editForm.patchValue({ AssetId: assetId });
     this.fueltypecodeOptions = this.loggedInUserService.getPicklistOptions('FuelTypeCode');
     this.emissionnormcodeOptions = this.loggedInUserService.getPicklistOptions('EmissionNormCode');
 

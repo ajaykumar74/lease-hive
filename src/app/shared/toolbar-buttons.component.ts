@@ -20,6 +20,7 @@ export class ToolbarButtonsComponent implements OnInit {
     @Input() buttons: any[] = [];
     @Input() permission: IPermission;
     @Input() createAccessPermission: string = '';
+    @Input() saveAccessPermission: string = '';
     @Input() IsHideCreate: boolean = false;
     @Input() IsShowDelete: boolean;
     @Input() IsHideBack: boolean;
@@ -43,13 +44,19 @@ export class ToolbarButtonsComponent implements OnInit {
     }
 
     IsSaveDisabled(): boolean {
-        return this.form == null || !this.form.dirty || !this.form.valid;
+        return this.form == null || !this.form.dirty || !this.form.valid || !this.canSave();
     }
 
     canCreate(): boolean {
         return this.createAccessPermission
             ? this.permissionService.hasPermission(this.createAccessPermission)
             : this.permission?.CanCreate === true;
+    }
+
+    canSave(): boolean {
+        return this.saveAccessPermission
+            ? this.permissionService.hasPermission(this.saveAccessPermission)
+            : true;
     }
 
     confirmSave() {

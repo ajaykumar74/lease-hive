@@ -169,7 +169,9 @@ RecordStatus: obj.RecordStatus || '',
      const formValues = this.editForm.value; 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
+      AssetTypeId: this.objMaster.AssetTypeId,
       RowVersionStr : this.objMaster.RowVersionStr,
+      TenantId: this.objMaster.TenantId,
      AssetCategoryId:  formValues.AssetCategoryId || null,
 AssetTypeCode:  formValues.AssetTypeCode || null,
 AssetTypeName:  formValues.AssetTypeName || null,
@@ -177,8 +179,8 @@ DefaultUsefulLifeMonths:  formValues.DefaultUsefulLifeMonths || 0,
 DefaultResidualPercent:  formValues.DefaultResidualPercent || 0,
 RequiresSerialNo:  formValues.RequiresSerialNo || false,
 RequiresRegistrationNo:  formValues.RequiresRegistrationNo || false,
-EffectiveFrom:  new Date(),
-EffectiveTo:  null,
+EffectiveFrom: formValues.EffectiveFrom,
+EffectiveTo: formValues.EffectiveTo || null,
 RecordStatus:  formValues.RecordStatus || null,
 
     } as IAssetType ;
