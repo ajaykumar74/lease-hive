@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { CurrencyDefaultService } from '@/shared/currency-default.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseRequisition } from './purchaseRequisition';
 import { PurchaseRequisitionService } from './purchaseRequisition.service';
@@ -48,7 +49,8 @@ uomidOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private purchaseRequisitionService: PurchaseRequisitionService,
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+  private currencyDefaultService: CurrencyDefaultService
 
   ) {
   }
@@ -146,7 +148,7 @@ Justification: obj.Justification || '',
       Quantity: new FormControl(lineItem?.Quantity || 1, [Validators.required, Validators.min(1)]),
       UOMId: new FormControl(lineItem?.UOMId || 1, [Validators.min(1)]),
       EstimatedUnitCost: new FormControl(lineItem?.EstimatedUnitCost || 0, [Validators.required, Validators.min(0)]),
-      CurrencyCode: new FormControl(lineItem?.CurrencyCode || this.editForm.get('CurrencyCode')?.value || ''),
+      CurrencyCode: new FormControl(lineItem?.CurrencyCode || this.currencyDefaultService.getDefaultCurrencyCode(this.editForm.get('CurrencyCode')?.value)),
       SpecificationsJson: new FormControl(lineItem?.SpecificationsJson || ''),
       RequiredByDate: new FormControl(lineItem?.RequiredByDate ? new Date(lineItem.RequiredByDate) : null),
       DeliveryLocationId: new FormControl(lineItem?.DeliveryLocationId || 0),

@@ -9,5 +9,6 @@ export class loggedInUser {
 	BrandPartner:any ; // details of BrandPartner, required for locale formats
 	AccountType : string;
 	Tenant  : any; //TenantId in PortalUser
+	OrganisationData: any; //optional default organisation data included with login
 	
 }
