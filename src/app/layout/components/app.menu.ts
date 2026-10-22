@@ -28,7 +28,7 @@ export class AppMenu implements OnInit, OnDestroy {
         private readonly loggedInUserService: LoggedInUserService,
         private readonly menuPermissionService: MenuPermissionService,
         private readonly permissionService: PermissionService
-    ) {}
+    ) { }
     ngOnInit() {
         const isCustomerPortalUser = this.loggedInUserService.isCustomerPortalUser;
         if (isCustomerPortalUser) {
@@ -195,14 +195,14 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-home',
                             routerLink: ['/dashboard/mydashboard/'],
                             tooltip: 'see your dashboard here'
-                        }  ,
-                         {
-                                    label: 'AI Assistant',
-                                    icon: 'pi pi-fw pi-comments',
-                                    routerLink: ['/dashboard/ai-assistant'],
-                                    tooltip: 'Ask read-only questions with the AI assistant',
-                                    requiredPermission: 'ai.aiassistant.ask'
-                                }
+                        },
+                        {
+                            label: 'AI Assistant',
+                            icon: 'pi pi-fw pi-comments',
+                            routerLink: ['/dashboard/ai-assistant'],
+                            tooltip: 'Ask read-only questions with the AI assistant',
+                            requiredPermission: 'ai.aiassistant.ask'
+                        }
                     ]
                 },
                 {
@@ -432,7 +432,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         }
                                     ]
                                 },
-                              
+
                                 {
                                     label: 'Approval authority',
                                     icon: 'pi pi-fw pi-address-book',
@@ -514,31 +514,20 @@ export class AppMenu implements OnInit, OnDestroy {
                                     routerLink: ['/dashboard/picklistItems/list'],
                                     tooltip: 'Manage PickList item categories and values'
                                 },
-                                  
+
                                 {
                                     label: 'Number sequences',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/numberSequences/'],
                                     tooltip: 'See your fleet/ actions and costs here'
                                 },
-                                {
-                                    label: 'Email templates',
-                                    icon: 'pi pi-fw pi-envelope',
-                                    routerLink: ['/dashboard/tenantNotifications/'],
-                                    tooltip: 'Manage tenant email templates'
-                                },
-                                {
-                                    label: 'Email Profiles',
-                                    icon: 'pi pi-fw pi-send',
-                                    routerLink: ['/dashboard', 'emailProfiles'],
-                                    tooltip: 'Manage tenant email profiles'
-                                },
+
                                 {
                                     label: 'AI settings',
                                     icon: 'pi pi-fw pi-sparkles',
                                     routerLink: ['/dashboard/ai-settings'],
                                     tooltip: 'Configure approved AI models and tenant limits'
-                                }, 
+                                },
                                 {
                                     label: 'AI Usage',
                                     icon: 'pi pi-fw pi-chart-bar',
@@ -546,18 +535,37 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'Review tenant AI usage and request operations',
                                     requiredPermission: 'ai.aiusage.view'
                                 },
+
                                 {
-                                    label: 'Recipient Rules',
-                                    icon: 'pi pi-fw pi-users',
-                                    routerLink: ['/dashboard/notificationRecipientRules/'],
-                                    tooltip: 'Manage recipient resolution rules'
+                                    label: 'Notifications',
+                                    icon: 'pi pi-fw pi-send',
+                                    items: [
+                                         {
+                                            label: 'Email Job Queues',
+                                            icon: 'pi pi-fw pi-inbox',
+                                            routerLink: ['/dashboard/emailJobQueues/'],
+                                            tooltip: 'Manage email job queues'
+                                        },
+                                        {
+                                            label: 'Recipient Rules',
+                                            icon: 'pi pi-fw pi-users',
+                                            routerLink: ['/dashboard/notificationRecipientRules/'],
+                                            tooltip: 'Manage recipient resolution rules'
+                                        },                                       
+                                        {
+                                            label: 'Email templates',
+                                            icon: 'pi pi-fw pi-envelope',
+                                            routerLink: ['/dashboard/tenantNotifications/'],
+                                            tooltip: 'Manage tenant email templates'
+                                        },
+                                        {
+                                            label: 'Email Profiles',
+                                            icon: 'pi pi-fw pi-send',
+                                            routerLink: ['/dashboard', 'emailProfiles'],
+                                            tooltip: 'Manage tenant email profiles'
+                                        },
+                                    ]
                                 },
-                                {
-                                    label: 'Email Job Queues',
-                                    icon: 'pi pi-fw pi-inbox',
-                                    routerLink: ['/dashboard/emailJobQueues/'],
-                                    tooltip: 'Manage email job queues'
-                                }
                             ]
                         }
                     ]
@@ -575,7 +583,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/business/crm/dashboard']
                                 },
-                               
+
                                 {
                                     label: 'Leads & Activities',
                                     icon: 'pi pi-fw pi-user-plus',
@@ -662,7 +670,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Add Authorised Contact',
                                             icon: 'pi pi-fw pi-plus',
                                             routerLink: ['/business/parties/contacts/create']
-                                        } 
+                                        }
                                     ]
                                 },
                                 {
@@ -754,7 +762,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         }
                                     ]
                                 },
-                                
+
                                 {
                                     label: 'Configuration',
                                     icon: 'pi pi-fw pi-cog',
@@ -782,7 +790,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-fw pi-chart-line',
                                             routerLink: ['/business/crm/config/opportunity-stages']
                                         },
-                                          {
+                                        {
                                             label: 'Quote Statuses',
                                             icon: 'pi pi-fw pi-chart-line',
                                             routerLink: ['/business/origination/config/quote-statuses']
@@ -865,7 +873,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Asset identifiers',
                                             routerLink: ['/business/assets/classification/identifiers']
                                         },
-                                         {
+                                        {
                                             label: 'Asset Warranties',
                                             routerLink: ['/business/assets/warranties']
                                         },
@@ -2395,24 +2403,24 @@ export class AppMenu implements OnInit, OnDestroy {
                                 { label: 'Tickets', icon: 'pi pi-fw pi-inbox', routerLink: ['/business/support/tickets'], requiredPermission: 'support.supportticket.view' },
                                 { label: 'Create Ticket', icon: 'pi pi-fw pi-plus', routerLink: ['/business/support/tickets/create'], requiredPermission: 'support.supportticket.create' },
                                 { label: 'Support Contacts', icon: 'pi pi-fw pi-users', routerLink: ['/business/support/contacts'], requiredPermission: 'party.partytenantcontact.view' },
-                            {
-                    label: 'Documentation',
-                    icon: 'pi pi-server',
-                    items: [
-                        {
-                            label: 'Help & Documentation',
-                            icon: 'pi pi-fw pi-home',
-                            routerLink: ['/dashboard/CRMHelpDoc/'],
-                            tooltip: 'Open Leasora module help documentation'
-                        }  
-                    ]
-                },
+                                {
+                                    label: 'Documentation',
+                                    icon: 'pi pi-server',
+                                    items: [
+                                        {
+                                            label: 'Help & Documentation',
+                                            icon: 'pi pi-fw pi-home',
+                                            routerLink: ['/dashboard/CRMHelpDoc/'],
+                                            tooltip: 'Open Leasora module help documentation'
+                                        }
+                                    ]
+                                },
                             ]
 
                         },
-                        
+
                     ]
-                }   
+                }
             ];
         } else {
             this.model = [

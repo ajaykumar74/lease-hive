@@ -1,4 +1,5 @@
-.list-card { padding: 0; overflow: hidden; border: 1px solid var(--surface-border); box-shadow: 0 12px 32px rgba(15, 23, 42, .06); }
+.list-page > [class~='col-12'] { display: flex; }
+.list-card { width: 100%; min-height: var(--visible-page-height); padding: 0; overflow: hidden; border: 1px solid var(--surface-border); box-shadow: 0 12px 32px rgba(15, 23, 42, .06); }
 .list-card app-toolbar-buttons { display: block; padding: 1rem 1.5rem 0; }
 .list-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 1.5rem 1rem; }
 .list-heading .eyebrow { color: var(--primary-color); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
