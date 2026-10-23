@@ -5,6 +5,7 @@ import { UserComponent } from './user-component';
 import { AppLayout } from '@/layout/components/app.layout';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { AdminDashboardComponent } from './dashboardAdmin-component';
+import { PlatformAdminDashboardComponent } from './platform-admin-dashboard.component';
 import { NotificationModule } from '@/views/notification/notification.module';
 import { CrmHelpDocumentComponent } from './crm-help-document.component';
 import { PermissionGuard } from '@/shared/security/permission.guard';
@@ -35,6 +36,15 @@ const routes: Routes = [
           title: 'Admin Dashboard',
           breadcrumb: 'Dashboard'
         },
+      },
+      {
+        path: 'platform-admin',
+        canActivate: [AuthGuard],
+        component: PlatformAdminDashboardComponent,
+        data: {
+          title: 'Platform Administration',
+          breadcrumb: 'Platform Administration'
+        }
       },
       {
         path: 'CRMHelpDoc',
@@ -74,6 +84,36 @@ const routes: Routes = [
         path: 'subscriptionPlans',
         data: { breadcrumb: 'Subscription Plans' },
         loadChildren: () => import('@/views/tenants/subscriptionPlan/subscriptionPlan.module').then(c => c.SubscriptionPlanModule),
+      },
+      {
+        path: 'featureDefinitions',
+        data: { breadcrumb: 'Feature Definitions' },
+        loadChildren: () => import('@/views/tenants/feature/feature.module').then(c => c.FeatureModule),
+      },
+      {
+        path: 'tenantFeatures',
+        data: { breadcrumb: 'Tenant Features' },
+        loadChildren: () => import('@/views/tenants/tenantFeature/tenantFeature.module').then(c => c.TenantFeatureModule),
+      },
+      {
+        path: 'tenantSubscriptions',
+        data: { breadcrumb: 'Tenant Subscriptions' },
+        loadChildren: () => import('@/views/tenants/tenantSubscription/tenantSubscription.module').then(c => c.TenantSubscriptionModule),
+      },
+      {
+        path: 'tenantSecurityPolicys',
+        data: { breadcrumb: 'Tenant Security Policies' },
+        loadChildren: () => import('@/views/tenants/tenantSecurityPolicy/tenantSecurityPolicy.module').then(c => c.TenantSecurityPolicyModule),
+      },
+      {
+        path: 'tenantUsages',
+        data: { breadcrumb: 'Tenant Usage' },
+        loadChildren: () => import('@/views/tenants/tenantUsage/tenantUsage.module').then(c => c.TenantUsageModule),
+      },
+      {
+        path: 'tenantInvitations',
+        data: { breadcrumb: 'Tenant Invitations' },
+        loadChildren: () => import('@/views/tenants/tenantInvitation/tenantInvitation.module').then(c => c.TenantInvitationModule),
       },
       {
         path: 'assetUsers',

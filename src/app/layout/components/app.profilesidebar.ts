@@ -52,11 +52,20 @@ export class AppProfileSidebar implements OnInit {
 
     onProfileClick() {
         this.onDrawerHide();
-        if (this.loggedInUserService.loggedInUser.AccountType == 'BrandPartner') {
-            this.router.navigate(['dashboard/brandPartners/view/' + this.loggedInUserService.loggedInUser.BrandPartner.Id]);
+        const user = this.loggedInUserService.loggedInUser;
+
+        if (this.loggedInUserService.isPlatformAdmin || user?.AccountType === 'Platform') {
+            this.router.navigateByUrl('/dashboard/platform-admin');
+            return;
         }
-        else {
-            this.router.navigate(['dashboard/customers/view/' + this.loggedInUserService.loggedInUser.Customer.Id]);
+
+        if (user?.AccountType === 'BrandPartner' && user.BrandPartner?.Id) {
+            this.router.navigate(['dashboard/brandPartners/view/' + user.BrandPartner.Id]);
+            return;
+        }
+
+        if (user?.Customer?.Id) {
+            this.router.navigate(['dashboard/customers/view/' + user.Customer.Id]);
         }
 
     }

@@ -37,6 +37,7 @@ import { KnobModule } from 'primeng/knob';
 import { PaginatorModule } from 'primeng/paginator'; 
 import { UIChart } from "primeng/chart"; 
 import { AdminDashboardComponent } from './dashboardAdmin-component';
+import { PlatformAdminDashboardComponent } from './platform-admin-dashboard.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CrmHelpDocumentComponent } from './crm-help-document.component';
@@ -83,6 +84,7 @@ import { CrmHelpDocumentComponent } from './crm-help-document.component';
     DriverComponent,
     StatsWidget,  
     AdminDashboardComponent,
+    PlatformAdminDashboardComponent,
     CrmHelpDocumentComponent
   ],
   providers: [

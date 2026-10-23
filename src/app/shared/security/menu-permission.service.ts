@@ -41,6 +41,9 @@ export class MenuPermissionService {
     private readonly publicRoutes = [
         '/dashboard/mydashboard',
         '/dashboard/admin',
+        // The platform landing page is a navigation shell. Its child screens
+        // are still guarded by their own configuration resource permissions.
+        '/dashboard/platform-admin',
         // Product help requires an authenticated session, but no resource permission.
         '/dashboard/crmhelpdoc'
     ];
@@ -61,6 +64,12 @@ export class MenuPermissionService {
         { route: '/dashboard/numbersequences', resource: 'configuration.numbersequence' },
         { route: '/dashboard/tenants', resource: 'configuration.tenant' },
         { route: '/dashboard/subscriptionplans', resource: 'configuration.subscriptionplan' },
+        { route: '/dashboard/featuredefinitions', resource: 'configuration.featuredefinition' },
+        { route: '/dashboard/tenantfeatures', resource: 'configuration.tenantfeature' },
+        { route: '/dashboard/tenantsubscriptions', resource: 'configuration.tenantsubscription' },
+        { route: '/dashboard/tenantsecuritypolicys', resource: 'configuration.tenantsecuritypolicy' },
+        { route: '/dashboard/tenantusages', resource: 'configuration.tenantusage' },
+        { route: '/dashboard/tenantinvitations', resource: 'configuration.tenantinvitation' },
         { route: '/dashboard/customers', resource: 'party.customerprofile' },
         { route: '/dashboard/brandpartners', resource: 'party.supplierprofile' },
         { route: '/dashboard/contacts', resource: 'party.contact' },

@@ -1,0 +1,7 @@
+<div class="container"><div class="grid"><div class="col-12"><div class="card p-fluid"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"></app-toolbar-buttons><app-spinner></app-spinner><form [formGroup]="editForm" (ngSubmit)="save()"><div class="grid mt-4">
+  <div class="col-12 md:col-6"><label for="TenantId">Tenant</label><p-dropdown inputId="TenantId" [options]="tenantIdOptions" optionLabel="Text" optionValue="Value" formControlName="TenantId" placeholder="Select tenant"></p-dropdown></div>
+  <div class="col-12 md:col-6"><label for="LastCalculatedAt">Calculated at</label><p-calendar inputId="LastCalculatedAt" [showTime]="true" [showIcon]="true" formControlName="LastCalculatedAt"></p-calendar></div>
+  <div class="col-12 md:col-4"><label for="ActiveUsers">Active users</label><p-inputNumber inputId="ActiveUsers" formControlName="ActiveUsers"></p-inputNumber></div>
+  <div class="col-12 md:col-4"><label for="ActiveAssets">Active assets</label><p-inputNumber inputId="ActiveAssets" formControlName="ActiveAssets"></p-inputNumber></div>
+  <div class="col-12 md:col-4"><label for="AiRequestsThisMonth">AI requests this month</label><p-inputNumber inputId="AiRequestsThisMonth" formControlName="AiRequestsThisMonth"></p-inputNumber></div>
+</div></form></div></div></div></div>
