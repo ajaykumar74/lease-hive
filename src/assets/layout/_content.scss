@@ -1,3 +1,41 @@
 .layout-content-wrapper {
     padding: 2rem;
 }
+
+// Route components do not have a common page component, but generated details and
+// list screens consistently render a `.container` or `.list-page` as their root.
+// Keep that area at least as tall as the usable viewport so short records do not
+// leave a truncated card beneath the application chrome.
+.layout-content {
+    --visible-page-height: calc(100dvh - 9.75rem);
+}
+
+.layout-content .list-page,
+.layout-content > :not(router-outlet) > .container {
+    min-height: var(--visible-page-height);
+}
+
+.layout-content > :not(router-outlet) > .container > .grid,
+.layout-content > :not(router-outlet) > .container > .grid > [class~='col-12'] {
+    min-height: inherit;
+}
+
+.layout-content > :not(router-outlet) > .container > .grid > [class~='col-12'] > .card {
+    min-height: inherit;
+}
+
+// Mobile chrome has smaller page gutters than desktop.
+@media screen and (max-width: 991px) {
+    .layout-content {
+        --visible-page-height: calc(100dvh - 7.25rem);
+    }
+}
+
+// Detail and create screens use Tailwind's `container` utility. Its xl breakpoint
+// caps content at 1280px, leaving a large unused area beside forms on desktop.
+// The application shell already supplies the page gutter, so route content should
+// consume the remaining viewport width.
+.layout-content .container {
+    width: 100%;
+    max-width: none;
+}

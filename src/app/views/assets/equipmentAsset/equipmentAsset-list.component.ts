@@ -8,9 +8,10 @@ import { MessageComponent } from '@/shared/message.component';
 import { EquipmentAssetService } from './equipmentAsset.service';
 import { IEquipmentAsset } from './equipmentAsset';
 import { PageEvent } from '@/shared/IBase';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-equipmentasset-list',
   standalone: false,
   templateUrl: './equipmentAsset-list.component.html'
 })
@@ -19,7 +20,8 @@ export class EquipmentAssetListComponent implements OnInit {
   constructor(
     private equipmentAssetService: EquipmentAssetService,
     private router: Router, 
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private readonly permissionService: PermissionService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: IEquipmentAsset[]; 
@@ -112,8 +114,7 @@ export class EquipmentAssetListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'AssetId', Value: this.objSearch.AssetId, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'EquipmentSerialNo', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'EquipmentSerialNo', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 
@@ -136,7 +137,7 @@ export class EquipmentAssetListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
+    if (this.permissionService.hasPermission('asset.equipmentasset.update')) {
         this.router.navigate(['/business/assets/specialised/equipment/edit/' + obj.Id]);
     }
     else {

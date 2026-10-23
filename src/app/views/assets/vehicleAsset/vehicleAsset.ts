@@ -4,6 +4,7 @@ export interface IVehicleAsset extends IBase {
 	Id :number;
 TenantId :number;
 AssetId :number;
+AssetDisplayName?: string;
 VIN :string;
 RegistrationNo :string;
 RegistrationDate :Date;

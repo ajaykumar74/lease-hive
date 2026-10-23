@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     data: {
-      title: 'AssetWarrantys'
+      title: 'Asset Warranties'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: AssetWarrantyListComponent,      
         data: {
-          title: 'List'
+          title: 'Asset Warranties'
         }
       },
       {
@@ -28,26 +28,38 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: AssetWarrantyListComponent,      
         data: {
-          title: 'List'
+          title: 'Asset Warranties'
         }
+      },
+      {
+        path: 'asset/:assetId',
+        canActivate: [AuthGuard],
+        component: AssetWarrantyListComponent,
+        data: { title: 'Asset Warranties' }
       },
       {
         path: 'create',
         canActivate: [AuthGuard],
         component: AssetWarrantyCreateComponent,
         data: {
-          title: 'Create'
+          title: 'Create Asset Warranty'
         }
       },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],
-        component: AssetWarrantyEditComponent 
+        component: AssetWarrantyEditComponent,
+        data: {
+          title: 'Edit Asset Warranty'
+        }
       },
 	  {
         path: 'view/:id',
         canActivate: [AuthGuard],
-        component: AssetWarrantyViewComponent 
+        component: AssetWarrantyViewComponent,
+        data: {
+          title: 'View Asset Warranty'
+        }
       }
     ]
   }
@@ -61,5 +73,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AssetWarrantyRoutingModule { } 
- 
+export class AssetWarrantyRoutingModule { }

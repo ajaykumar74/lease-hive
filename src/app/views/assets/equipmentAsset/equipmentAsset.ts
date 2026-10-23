@@ -4,6 +4,7 @@ export interface IEquipmentAsset extends IBase {
 	Id :number;
 TenantId :number;
 AssetId :number;
+AssetDisplayName?: string;
 EquipmentSerialNo :string;
 CapacityValue :number;
 CapacityUOMId :number;

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -28,6 +28,7 @@ export class PropertyAssetCreateComponent implements OnInit {
   propertyAsset: IPropertyAsset = null;
   assetidOptions: ISelectItem[] = [];
 propertytypeOptions: ISelectItem[] = [];
+areauomidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPropertyAsset = {} as IPropertyAsset;
@@ -37,6 +38,7 @@ propertytypeOptions: ISelectItem[] = [];
 
   constructor(
 	private fb: FormBuilder,
+	private activatedRoute: ActivatedRoute,
 	private router: Router, 	
 	private _location: Location, 
 	private propertyAssetService: PropertyAssetService,
@@ -57,6 +59,7 @@ propertytypeOptions: ISelectItem[] = [];
 AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PropertyType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 SurveyNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
+BuiltUpArea: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 AreaUOMId: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 FloorNo: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 PossessionDate: new FormControl(new Date(), [Validators.required]),
@@ -65,8 +68,11 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-    this.loadAssetOptions();
+    const assetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.loadAssetOptions(assetId > 0 ? assetId : undefined);
+    if (assetId > 0) this.editForm.patchValue({ AssetId: assetId });
 this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('PropertyType');
+this.areauomidOptions = this.loggedInUserService.getPicklistOptions('UnitOfMeasure');
 
   }
 
@@ -99,6 +105,7 @@ this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('Property
 	  AssetId: obj.AssetId || 0,
 PropertyType: obj.PropertyType || '',
 SurveyNo: obj.SurveyNo || '',
+BuiltUpArea: obj.BuiltUpArea || 0,
 AreaUOMId: obj.AreaUOMId || 0,
 FloorNo: obj.FloorNo || '',
 PossessionDate:  obj.PossessionDate || new Date(),
@@ -133,6 +140,7 @@ TitleReference: obj.TitleReference || '',
 	  AssetId: obj.AssetId || 0,
 PropertyType: obj.PropertyType || '',
 SurveyNo: obj.SurveyNo || '',
+BuiltUpArea: obj.BuiltUpArea || 0,
 AreaUOMId: obj.AreaUOMId || 0,
 FloorNo: obj.FloorNo || '',
 PossessionDate:  obj.PossessionDate || new Date(),

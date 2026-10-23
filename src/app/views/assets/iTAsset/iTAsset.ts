@@ -4,6 +4,7 @@ export interface IITAsset extends IBase {
 	Id :number;
 TenantId :number;
 AssetId :number;
+AssetDisplayName?: string;
 DeviceSerialNo :string;
 Processor :string;
 RAMGB :number;

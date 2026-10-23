@@ -422,7 +422,17 @@ export class AssetCreateComponent implements OnInit {
     this.spinner.show();
     this.assetService.create(createdObj).subscribe({
       next: data => {
-        // this.messageService.showSuccess(Asset +  'Details Updated sucessfully.');
+        const assetId = Number((data as any)?.Id ?? (data as any)?.id);
+        const route = this.getSpecialisedAssetCreateRoute(
+          this.getLookupId(formValues.AssetCategoryId),
+          assetId
+        );
+
+        if (route) {
+          this.router.navigate(route);
+          return;
+        }
+
         this._location.back();
       },
       error: err => {
@@ -431,6 +441,24 @@ export class AssetCreateComponent implements OnInit {
       },
       complete: () => { this.spinner.hide(); }
     });
+  }
+
+  private getSpecialisedAssetCreateRoute(assetCategoryId: number, assetId: number): any[] | null {
+    if (assetId <= 0) return null;
+
+    const category = this.assetcategoryidOptions.find(option => this.getLookupId(option.Id ?? option.Value) === assetCategoryId);
+    const categoryName = (category?.Category || category?.Text?.split(' - ').pop() || '').trim().toLowerCase();
+    const specialisedPathByCategory: Record<string, string> = {
+      it: 'it',
+      equipment: 'equipment',
+      property: 'property',
+      vehicle: 'vehicles'
+    };
+    const specialisedPath = specialisedPathByCategory[categoryName];
+
+    return specialisedPath
+      ? ['/business/assets/specialised', specialisedPath, 'asset', assetId, 'create']
+      : null;
   }
 
 }

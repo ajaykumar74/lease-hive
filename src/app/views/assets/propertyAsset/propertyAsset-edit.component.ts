@@ -4,7 +4,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
  
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPropertyAsset } from './propertyAsset';
 import { PropertyAssetService } from './propertyAsset.service';
+import { createAssetQuickOptions } from '../asset/asset-quick-options';
 
 
 @Component({
@@ -28,10 +29,12 @@ export class PropertyAssetEditComponent implements OnInit {
   Caption: string = 'Loading...';
   assetidOptions: ISelectItem[] = [];
 propertytypeOptions: ISelectItem[] = [];
+areauomidOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IPropertyAsset = {} as IPropertyAsset;
+  menuItems: MenuItem[] = [];
 
 
   constructor( 
@@ -57,6 +60,7 @@ recordstatusOptions: ISelectItem[] = [];
 AssetId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PropertyType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 SurveyNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
+BuiltUpArea: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 AreaUOMId: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
 FloorNo: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 PossessionDate: new FormControl(new Date(), [Validators.required]),
@@ -68,10 +72,16 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     });
 
    this.loadAssetOptions();
-this.propertytypeOptions.push({Text: '', Value: '' });
+this.propertytypeOptions = this.loggedInUserService.getPicklistOptions('PropertyType');
+this.areauomidOptions = this.loggedInUserService.getPicklistOptions('UnitOfMeasure');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     this.menuItems = createAssetQuickOptions(
+       () => this.propertyAsset?.AssetId,
+       commands => this.router.navigate(commands),
+       true
+     );
   }
 
   private loadAssetOptions(selectedId?: number): void {
@@ -110,6 +120,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  AssetId: obj.AssetId || 0,
 PropertyType: obj.PropertyType || '',
 SurveyNo: obj.SurveyNo || '',
+BuiltUpArea: obj.BuiltUpArea || 0,
 AreaUOMId: obj.AreaUOMId || 0,
 FloorNo: obj.FloorNo || '',
 PossessionDate:  obj.PossessionDate || null,
@@ -148,6 +159,7 @@ RecordStatus: obj.RecordStatus || '',
 	  AssetId: obj.AssetId || 0,
 PropertyType: obj.PropertyType || '',
 SurveyNo: obj.SurveyNo || '',
+BuiltUpArea: obj.BuiltUpArea || 0,
 AreaUOMId: obj.AreaUOMId || 0,
 FloorNo: obj.FloorNo || '',
 PossessionDate:  obj.PossessionDate || null,

@@ -1,11 +1,9 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, forwardRef } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, EMPTY, Subject, Subscription, catchError, defaultIfEmpty, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Optional, SimpleChanges, forwardRef } from '@angular/core';
+import { AbstractControl, ControlContainer, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subject, Subscription, auditTime, merge, of, startWith, switchMap, takeUntil } from 'rxjs';
 import { ISelectItem } from './ISelectItem';
 import { LoggedInUserService } from './LoggedInUserService';
-import { OrganisationService } from '@/views/organisations/organisation/organisation.service';
-import { OrganisationUnitService } from '@/views/organisations/organisationUnit/organisationUnit.service';
-import { ApplicationUserService } from '@/views/applicationUser/applicationUser.service';
+import { CurrencyDefaultService } from './currency-default.service';
 
 @Component({
   selector: 'app-currency-dropdown',
@@ -20,6 +18,9 @@ import { ApplicationUserService } from '@/views/applicationUser/applicationUser.
 export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @Input() organisationId: number | string | null = null;
   @Input() organisationControl: AbstractControl | null = null;
+  @Input() party: Record<string, unknown> | null = null;
+  @Input() parentTransaction: Record<string, unknown> | null = null;
+  @Input() organisation: Record<string, unknown> | null = null;
   @Input() inputId = 'CurrencyCode';
   @Input() placeholder = 'Select One';
 
@@ -27,35 +28,47 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
   value = '';
   disabled = false;
 
-  private organisationDefaultCurrency = '';
   private isManuallyOverridden = false;
-  private readonly organisationId$ = new BehaviorSubject<number>(0);
+  private savedCurrencyCode = '';
+  private automaticallyAppliedCurrency = '';
+  private readonly refreshDefault$ = new Subject<void>();
   private readonly destroy$ = new Subject<void>();
   private organisationControlSubscription?: Subscription;
+  private formContextSubscription?: Subscription;
+  private loggedInUserSubscription?: Subscription;
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor(
     private loggedInUserService: LoggedInUserService,
-    private organisationService: OrganisationService,
-    private organisationUnitService: OrganisationUnitService,
-    private applicationUserService: ApplicationUserService
+    private currencyDefaultService: CurrencyDefaultService,
+    @Optional() private controlContainer: ControlContainer
   ) {}
 
   ngOnInit(): void {
     this.currencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-
-    this.organisationId$.pipe(
-      filter(organisationId => organisationId > 0),
-      distinctUntilChanged(),
-      switchMap(organisationId => this.organisationService.getById(organisationId)),
-      takeUntil(this.destroy$)
-    ).subscribe(response => {
-      this.applyDefaultCurrency(response.data?.FunctionalCurrency || '', true);
-    });
-
     this.bindOrganisationControl();
-    this.loadLoggedInUserDefaultCurrency();
+    this.bindFormContext();
+
+    this.refreshDefault$.pipe(
+      startWith(void 0),
+      auditTime(0),
+      switchMap(() => this.isManuallyOverridden || this.savedCurrencyCode
+        ? of(null)
+        : this.currencyDefaultService.resolveDefaultCurrency(this.getDefaultContext())
+      ),
+      takeUntil(this.destroy$)
+    ).subscribe(currencyCode => this.applyDefaultCurrency(currencyCode || ''));
+
+    // The component can be constructed while the login request is still in
+    // flight. Re-evaluate an automatic fallback as soon as tenant data arrives
+    // so a temporary INR never remains instead of Tenant.DefaultCurrency.
+    this.loggedInUserSubscription = this.loggedInUserService.loggedInUserEvent$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.currencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
+        this.requestDefaultRefresh();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,14 +76,25 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
       this.bindOrganisationControl();
     }
 
-    if (changes['organisationId'] && !this.organisationControl) {
-      this.organisationId$.next(Number(this.organisationId) || 0);
+    if (changes['organisationId'] || changes['party'] || changes['parentTransaction'] || changes['organisation']) {
+      this.requestDefaultRefresh();
     }
   }
 
   writeValue(value: string | null): void {
-    this.value = value || '';
-    this.isManuallyOverridden = Boolean(this.value) && this.value !== this.organisationDefaultCurrency;
+    this.value = this.normalizeCurrency(value);
+    if (!this.value || this.value === this.automaticallyAppliedCurrency || this.isManuallyOverridden) return;
+
+    // A non-empty persisted value is the model value passed into the shared
+    // resolver for edit screens and must take precedence over every default.
+    if (this.isEditingExistingRecord()) {
+      this.savedCurrencyCode = this.value;
+      return;
+    }
+
+    // A caller may initialise a new form from a copied transaction. Treat it
+    // like a user-provided value instead of replacing it with a later lookup.
+    this.isManuallyOverridden = true;
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -86,8 +110,11 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
   }
 
   onCurrencyChange(value: string | null): void {
-    this.value = value || '';
-    this.isManuallyOverridden = this.value !== this.organisationDefaultCurrency;
+    if (this.isCurrencyReadOnly) return;
+
+    this.value = this.normalizeCurrency(value);
+    this.isManuallyOverridden = Boolean(this.value);
+    this.automaticallyAppliedCurrency = '';
     this.onChange(this.value);
     this.onTouched();
   }
@@ -103,51 +130,123 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
       return;
     }
 
-    this.organisationId$.next(Number(this.organisationControl.value) || 0);
     this.organisationControlSubscription = this.organisationControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(organisationId => this.organisationId$.next(Number(organisationId) || 0));
+      .subscribe(() => this.requestDefaultRefresh());
   }
 
-  private loadLoggedInUserDefaultCurrency(): void {
-    if (this.hasSelectedOrganisation()) {
+  private bindFormContext(): void {
+    const form = this.getParentForm();
+    if (!form) return;
+
+    const contextControls = this.getContextControlNames(form)
+      .map(controlName => form.get(controlName))
+      .filter((control): control is AbstractControl => control !== null);
+    if (!contextControls.length) return;
+
+    this.formContextSubscription?.unsubscribe();
+    this.formContextSubscription = merge(...contextControls.map(control => control.valueChanges))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.requestDefaultRefresh());
+  }
+
+  private getDefaultContext(): {
+    modelCurrencyCode: string;
+    party: Record<string, unknown> | null;
+    partyId: number | string | null;
+    parentTransaction: Record<string, unknown> | null;
+    parentTransactionId: number | string | null;
+    parentTransactionEndpoint: string | null;
+    organisation: Record<string, unknown> | null;
+    organisationId: number | string | null;
+  } {
+    const form = this.getParentForm();
+    const partyControlName = form ? this.findFirstControl(form, [
+      'CustomerPartyId', 'SupplierPartyId', 'InsurerPartyId', 'BuyerPartyId',
+      'LesseePartyId', 'LessorPartyId', 'PartyId', 'BrokerPartyId'
+    ]) : null;
+    const organisationControlName = form ? this.findFirstControl(form, [
+      'OrganisationId', 'BillingOrganisationId', 'LessorOrganisationId',
+      'BuyingOrganisationId', 'OriginatingOrganisationId', 'OwningOrganisationId'
+    ]) ?? Object.keys(form.controls).find(field => field.endsWith('OrganisationId')) ?? null : null;
+    const parentControlName = form ? Object.keys(form.controls)
+      .find(field => Boolean(this.currencyDefaultService.getParentTransactionEndpoint(field))) || null : null;
+    const referenceIdControlName = form ? this.findFirstControl(form, ['SourceReferenceId', 'ReferenceId']) : null;
+    const referenceTypeControlName = form ? this.findFirstControl(form, ['SourceReferenceType', 'ReferenceType']) : null;
+    const parentTransactionEndpoint = parentControlName
+      ? this.currencyDefaultService.getParentTransactionEndpoint(parentControlName)
+      : this.currencyDefaultService.getParentTransactionEndpointForReferenceType(
+        referenceTypeControlName ? form?.get(referenceTypeControlName)?.value : null
+      );
+
+    return {
+      modelCurrencyCode: this.savedCurrencyCode,
+      party: this.party,
+      partyId: partyControlName ? form?.get(partyControlName)?.value : null,
+      parentTransaction: this.parentTransaction,
+      parentTransactionId: parentControlName
+        ? form?.get(parentControlName)?.value
+        : referenceIdControlName ? form?.get(referenceIdControlName)?.value : null,
+      parentTransactionEndpoint,
+      organisation: this.organisation,
+      organisationId: this.organisationControl?.value ?? (organisationControlName
+        ? form?.get(organisationControlName)?.value
+        : this.organisationId)
+    };
+  }
+
+  private getContextControlNames(form: FormGroup): string[] {
+    return Object.keys(form.controls).filter(field =>
+      field.endsWith('PartyId') ||
+      field.endsWith('OrganisationId') ||
+      field === 'SourceReferenceId' ||
+      field === 'SourceReferenceType' ||
+      field === 'ReferenceId' ||
+      field === 'ReferenceType' ||
+      Boolean(this.currencyDefaultService.getParentTransactionEndpoint(field))
+    );
+  }
+
+  private findFirstControl(form: FormGroup, candidates: string[]): string | null {
+    return candidates.find(candidate => Boolean(form.get(candidate))) || null;
+  }
+
+  private applyDefaultCurrency(currencyCode: string): void {
+    if (this.isManuallyOverridden || this.savedCurrencyCode || !currencyCode) {
       return;
     }
 
-    this.applicationUserService.getCurrent().pipe(
-      map(response => response.data),
-      filter(applicationUser => Number(applicationUser?.DefaultOrganisationUnitId) > 0),
-      switchMap(applicationUser => this.organisationUnitService.getById(applicationUser.DefaultOrganisationUnitId)),
-      map(response => response.data),
-      filter(organisationUnit => Number(organisationUnit?.OrganisationId) > 0),
-      switchMap(organisationUnit => this.organisationService.getById(organisationUnit.OrganisationId)),
-      defaultIfEmpty(null),
-      catchError(() => {
-        this.applyDefaultCurrency(this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrency || '');
-        return EMPTY;
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe(response => {
-      this.applyDefaultCurrency(response?.data?.FunctionalCurrency || this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrency || '');
-    });
-  }
-
-  private applyDefaultCurrency(currencyCode: string, allowSelectedOrganisation = false): void {
-    if ((!allowSelectedOrganisation && this.hasSelectedOrganisation()) || this.isManuallyOverridden || !currencyCode) {
-      return;
-    }
-
-    this.organisationDefaultCurrency = currencyCode;
+    this.automaticallyAppliedCurrency = this.normalizeCurrency(currencyCode);
     this.value = currencyCode;
     this.onChange(this.value);
   }
 
-  private hasSelectedOrganisation(): boolean {
-    return Number(this.organisationControl?.value ?? this.organisationId) > 0;
+  private requestDefaultRefresh(): void {
+    this.refreshDefault$.next();
+  }
+
+  private getParentForm(): FormGroup | null {
+    const control = this.controlContainer?.control;
+    return control instanceof FormGroup ? control : null;
+  }
+
+  private isEditingExistingRecord(): boolean {
+    return Number(this.getParentForm()?.get('Id')?.value) > 0;
+  }
+
+  private normalizeCurrency(value: string | null | undefined): string {
+    return typeof value === 'string' ? value.trim() : '';
+  }
+
+  get isCurrencyReadOnly(): boolean {
+    const multiCurrencyEnabled = this.loggedInUserService.loggedInUser?.Tenant?.MultiCurrencyEnabled;
+    return multiCurrencyEnabled === false || multiCurrencyEnabled === 0 || String(multiCurrencyEnabled).toLowerCase() === 'false';
   }
 
   ngOnDestroy(): void {
     this.organisationControlSubscription?.unsubscribe();
+    this.formContextSubscription?.unsubscribe();
+    this.loggedInUserSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }

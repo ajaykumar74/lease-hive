@@ -8,9 +8,10 @@ import { MessageComponent } from '@/shared/message.component';
 import { ITAssetService } from './iTAsset.service';
 import { IITAsset } from './iTAsset';
 import { PageEvent } from '@/shared/IBase';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-itasset-list',
   standalone: false,
   templateUrl: './iTAsset-list.component.html'
 })
@@ -19,7 +20,8 @@ export class ITAssetListComponent implements OnInit {
   constructor(
     private iTAssetService: ITAssetService,
     private router: Router, 
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private readonly permissionService: PermissionService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: IITAsset[]; 
@@ -112,8 +114,8 @@ export class ITAssetListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'AssetId', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-     // { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'DeviceSerialNo', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      // { DBName: 'AssetCategoryId', Value: "3", DataType: DataType.Int, Operator: Operator.EqualTo },
      
     ];
 
@@ -136,7 +138,7 @@ export class ITAssetListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
+    if (this.permissionService.hasPermission('asset.itasset.update')) {
         this.router.navigate(['/business/assets/specialised/it/edit/' + obj.Id]);
     }
     else {

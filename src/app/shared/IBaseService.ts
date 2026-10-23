@@ -78,6 +78,17 @@ export class BaseService {
 
   }
 
+  /** Gets the active tenant from the same persisted session used by LoggedInUserService. */
+  public getLoggedInTenantId(): number | undefined {
+    try {
+      const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+      const tenantId = Number(user?.Tenant?.Id ?? user?.Tenant?.TenantId ?? user?.TenantId);
+      return Number.isInteger(tenantId) && tenantId > 0 ? tenantId : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
 
 
 

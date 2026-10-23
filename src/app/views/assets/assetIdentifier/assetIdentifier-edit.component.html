@@ -40,15 +40,8 @@
 											label="Identifier Value">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full"> <label for="Issuing CountryCode" class="mb-1">IssuingCountryCode</label>
-        <p-dropdown
-            inputId="IssuingCountryCode" 
-            [options]="issuingcountrycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="IssuingCountryCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+        <app-country-dropdown inputId="IssuingCountryCode"
+	    formControlName="IssuingCountryCode"></app-country-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('IssuingCountryCode')"
 											label="Issuing CountryCode">
 										</app-validation-errors></div></div>

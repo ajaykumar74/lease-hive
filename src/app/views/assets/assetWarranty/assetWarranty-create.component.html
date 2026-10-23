@@ -4,7 +4,7 @@
 			<div class="card p-fluid">
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
+					[PageType]="'Details'" [form]="editForm" [saveAccessPermission]="'asset.assetwarranty.create'">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				

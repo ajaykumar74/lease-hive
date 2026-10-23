@@ -1,0 +1,14 @@
+<p-dropdown
+  [inputId]="inputId"
+  [options]="countryOptions"
+  optionLabel="Text"
+  optionValue="Value"
+  [ngModel]="value"
+  [ngModelOptions]="{ standalone: true }"
+  [disabled]="disabled"
+  [readonly]="isCountryReadOnly"
+  [placeholder]="placeholder"
+  (onChange)="onCountryChange($event.value)"
+  (onBlur)="markAsTouched()"
+  class="w-full">
+</p-dropdown>

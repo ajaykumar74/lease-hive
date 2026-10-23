@@ -4,7 +4,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
  
  
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IVehicleAsset } from './vehicleAsset';
 import { VehicleAssetService } from './vehicleAsset.service';
+import { createAssetQuickOptions } from '../asset/asset-quick-options';
 
 
 @Component({
@@ -33,6 +34,7 @@ recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : IVehicleAsset = {} as IVehicleAsset;
+  menuItems: MenuItem[] = [];
 
 
   constructor( 
@@ -78,6 +80,11 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
     this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     this.menuItems = createAssetQuickOptions(
+       () => this.vehicleAsset?.AssetId,
+       commands => this.router.navigate(commands),
+       true
+     );
   }
 
   private loadAssetOptions(selectedId?: number): void {
