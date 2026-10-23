@@ -71,15 +71,8 @@
 											label="IncorporationDate">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full"> <label for="CountryOfRegistration" class="mb-1">CountryOfRegistration</label>
-        <p-dropdown
-            inputId="CountryOfRegistration" 
-            [options]="countryofregistrationOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CountryOfRegistration"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+        <app-country-dropdown inputId="CountryOfRegistration"
+	    formControlName="CountryOfRegistration"></app-country-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CountryOfRegistration')"
 											label="CountryOfRegistration">
 										</app-validation-errors></div></div>
@@ -104,27 +97,14 @@
 										</app-validation-errors>
 						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="PreferredCurrencyCode" class="mb-1">PreferredCurrencyCode</label>
-        <p-dropdown
-            inputId="PreferredCurrencyCode" 
-            [options]="preferredcurrencycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="PreferredCurrencyCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+		<app-currency-dropdown inputId="PreferredCurrencyCode"
+			formControlName="PreferredCurrencyCode"></app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('PreferredCurrencyCode')"
 											label="PreferredCurrencyCode">
 										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="TaxResidencyCountryCode" class="mb-1">TaxResidencyCountryCode</label>
-        <p-dropdown
-            inputId="TaxResidencyCountryCode" 
-            [options]="taxresidencycountrycodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="TaxResidencyCountryCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
+        <app-country-dropdown inputId="TaxResidencyCountryCode"
+	    optionSet="TaxResidencyCountryCode"
+	    formControlName="TaxResidencyCountryCode"></app-country-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('TaxResidencyCountryCode')"
 											label="TaxResidencyCountryCode">
 										</app-validation-errors></div></div>

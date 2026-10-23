@@ -19,6 +19,12 @@ export interface CurrencyDefaultContext {
   organisationId?: number | string | null;
 }
 
+export interface CountryDefaultContext {
+  modelCountryCode?: string | null;
+  organisation?: Record<string, unknown> | null;
+  organisationId?: number | string | null;
+}
+
 /**
  * Resolves the client-side transaction currency consistently for every form.
  * The existing model value is deliberately the first argument so edit forms
@@ -82,6 +88,23 @@ export class CurrencyDefaultService {
     );
   }
 
+  /**
+   * Resolve a country code for country dropdowns. An existing model value is
+   * retained so edit screens and manual selections are never replaced.
+   */
+  getDefaultCountryCode(
+    modelCountryCode?: string | null,
+    organisation?: Record<string, unknown> | null
+  ): string {
+    return this.firstCountry(
+      modelCountryCode,
+      this.loggedInUserService.loggedInUser?.Tenant?.BaseCountry,
+      organisation?.['CountryCode'],
+      organisation?.['BaseCountry'],
+      'IND'
+    );
+  }
+
   /** Resolve form-reference IDs before evaluating the shared priority. */
   resolveDefaultCurrency(context: CurrencyDefaultContext): Observable<string> {
     const party$ = context.party
@@ -100,6 +123,19 @@ export class CurrencyDefaultService {
       map(({ party, parentTransaction, organisation }) =>
         this.getDefaultCurrencyCode(context.modelCurrencyCode, party, parentTransaction, organisation)
       )
+    );
+  }
+
+  /** Resolve the selected/default organisation before applying country priority. */
+  resolveDefaultCountry(context: CountryDefaultContext): Observable<string> {
+    const organisation$ = context.organisation
+      ? of(context.organisation)
+      : context.organisationId
+        ? this.loadOrganisation(context.organisationId)
+        : this.loadLoggedInOrganisation();
+
+    return organisation$.pipe(
+      map(organisation => this.getDefaultCountryCode(context.modelCountryCode, organisation))
     );
   }
 
@@ -198,6 +234,13 @@ export class CurrencyDefaultService {
       if (typeof value === 'string' && value.trim()) return value.trim();
     }
     return 'INR';
+  }
+
+  private firstCountry(...values: unknown[]): string {
+    for (const value of values) {
+      if (typeof value === 'string' && value.trim()) return value.trim();
+    }
+    return 'IND';
   }
 
   private isRecordId(value: unknown): boolean {

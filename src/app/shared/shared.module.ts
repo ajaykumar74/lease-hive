@@ -58,6 +58,7 @@ import { ViewFieldComponent } from './view-field.component';
 import { ValidationErrorsComponent } from './uicontrols/app-validation-errors';
 import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyDropdownComponent } from './currency-dropdown.component';
+import { CountryDropdownComponent } from './country-dropdown.component';
 import { AppPermissionDirective } from './security/permission.directive';
 import { DocumentAttachmentsComponent } from './document-attachments/document-attachments.component';
 import { DocumentAttachmentRequirementsComponent } from './document-attachments/document-attachment-requirements.component';
@@ -103,6 +104,7 @@ import { StatusPillComponent } from './status-pill.component';
 		ViewFieldComponent, 
 		ValidationErrorsComponent,
 		CurrencyDropdownComponent,
+		CountryDropdownComponent,
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
 		DocumentAttachmentRequirementsComponent,
@@ -126,6 +128,7 @@ import { StatusPillComponent } from './status-pill.component';
 		ViewFieldComponent,
 		ValidationErrorsComponent,
 		CurrencyDropdownComponent,
+		CountryDropdownComponent,
 		AppPermissionDirective,
 		DocumentAttachmentsComponent,
 		DocumentAttachmentRequirementsComponent,
