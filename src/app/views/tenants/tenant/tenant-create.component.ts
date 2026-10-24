@@ -8,10 +8,10 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ITenant } from './tenant';
 import { TenantService } from './tenant.service';
+import { PlatformAdminLookupService } from '../platform-admin-lookup.service';
 
 @Component({
   selector: 'app-tenant-create',
@@ -46,7 +46,7 @@ basetaxsystemOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private tenantService: TenantService,
-	private loggedInUserService : LoggedInUserService
+	private platformAdminLookups: PlatformAdminLookupService
 	
   ) {
   }
@@ -78,14 +78,18 @@ MultiLanguageEnabled: new FormControl(false, []),
 Description: new FormControl('', [Validators.maxLength(256), ]), 
 
     });
-this.defaultcurrencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.defaulttimezoneOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
-this.dateformatOptions = this.loggedInUserService.getPicklistOptions('DateFormat');
-this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat');
-this.numberformatOptions = this.loggedInUserService.getPicklistOptions('NumberFormat');
-this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
-this.basetaxsystemOptions = this.loggedInUserService.getPicklistOptions('BaseTaxSystem');
+    this.loadSystemPicklistOptions();
 
+  }
+
+  private loadSystemPicklistOptions(): void {
+    this.platformAdminLookups.getSystemPicklistOptions('CurrencyCode').subscribe(options => this.defaultcurrencyOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('TimeZone').subscribe(options => this.defaulttimezoneOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('DateFormat').subscribe(options => this.dateformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('TimeFormat').subscribe(options => this.timeformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('NumberFormat').subscribe(options => this.numberformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('FinancialYearStartMonth').subscribe(options => this.financialyearstartmonthOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('BaseTaxSystem').subscribe(options => this.basetaxsystemOptions = options);
   }
  
  loadUI(): void {

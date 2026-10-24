@@ -81,7 +81,7 @@
 									<div class="flex flex-col w-full">
 										<label for="Currency" class="mb-1">DefaultCurrency</label>
 										<p-dropdown inputId="DefaultCurrency" [options]="defaultcurrencyOptions" [editable]="true"
-											optionLabel="Text" formControlName="DefaultCurrency"
+											optionLabel="Text" optionValue="Value" formControlName="DefaultCurrency"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -94,7 +94,7 @@
 									<div class="flex flex-col w-full">
 										<label for="TimeZone" class="mb-1">DefaultTimeZone</label>
 										<p-dropdown inputId="DefaultTimeZone" [options]="defaulttimezoneOptions" [editable]="true"
-											optionLabel="Text" formControlName="DefaultTimeZone"
+											optionLabel="Text" optionValue="Value" formControlName="DefaultTimeZone"
 											placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -109,7 +109,7 @@
 									<div class="flex flex-col w-full">
 										<label for="Date Format" class="mb-1">DateFormat</label>
 										<p-dropdown inputId="DateFormat" [options]="dateformatOptions" [editable]="true"
-											optionLabel="Text" formControlName="DateFormat" placeholder="Select One"
+											optionLabel="Text" optionValue="Value" formControlName="DateFormat" placeholder="Select One"
 											class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -122,7 +122,7 @@
 									<div class="flex flex-col w-full">
 										<label for="Time Format" class="mb-1">TimeFormat</label>
 										<p-dropdown inputId="TimeFormat" [options]="timeformatOptions" [editable]="true"
-											optionLabel="Text" formControlName="TimeFormat" placeholder="Select One"
+											optionLabel="Text" optionValue="Value" formControlName="TimeFormat" placeholder="Select One"
 											class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -137,7 +137,7 @@
 									<div class="flex flex-col w-full">
 										<label for="Number Format" class="mb-1">NumberFormat</label>
 										<p-dropdown inputId="NumberFormat" [options]="numberformatOptions" [editable]="true"
-											optionLabel="Text" formControlName="NumberFormat" placeholder="Select One"
+											optionLabel="Text" optionValue="Value" formControlName="NumberFormat" placeholder="Select One"
 											class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -151,7 +151,7 @@
 										<label for="Financial Year StartMonth"
 											class="mb-1">FinancialYearStartMonth</label>
 										<p-dropdown inputId="FinancialYearStartMonth" [editable]="true"
-											[options]="financialyearstartmonthOptions" optionLabel="Text"
+											[options]="financialyearstartmonthOptions" optionLabel="Text" optionValue="Value"
 											formControlName="FinancialYearStartMonth" placeholder="Select One"
 											class="w-full">
 										</p-dropdown>
@@ -167,7 +167,7 @@
 									<div class="flex flex-col w-full">
 										<label for="Tax System" class="mb-1">BaseTaxSystem</label>
 										<p-dropdown inputId="BaseTaxSystem" [options]="basetaxsystemOptions" [editable]="true"
-											optionLabel="Text" formControlName="BaseTaxSystem" placeholder="Select One"
+											optionLabel="Text" optionValue="Value" formControlName="BaseTaxSystem" placeholder="Select One"
 											class="w-full">
 										</p-dropdown>
 										<div class="validation-space">
@@ -223,7 +223,7 @@
 									</div>
 									<div class="flex flex-col w-full">
 										<label for="Status" class="mb-1">Status</label>
-										<p-dropdown inputId="Status" [options]="statusOptions" optionLabel="Text"
+										<p-dropdown inputId="Status" [options]="statusOptions" optionLabel="Text" optionValue="Value"
 											formControlName="Status" placeholder="Select One" class="w-full">
 										</p-dropdown>
 										<div class="validation-space">

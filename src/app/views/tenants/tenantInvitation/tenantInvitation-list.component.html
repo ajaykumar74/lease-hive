@@ -1,1 +1,50 @@
-<div class="grid"><div class="col-12"><div class="card"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" Caption="Tenant Invitations" PageType="List"></app-toolbar-buttons><app-spinner></app-spinner><div class="col-12 md:col-6 p-0 mb-3"><p-inputGroup><input pInputText class="p-inputtext-sm" placeholder="Search email" [(ngModel)]="objSearch.Name"><button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button></p-inputGroup></div><p-table [value]="lstMain" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th style="width:6rem">Id</th><th>Tenant</th><th>Email</th><th>Invitee</th><th>Status</th><th>Expires</th><th>Accepted</th></tr></ng-template><ng-template pTemplate="body" let-obj><tr><td><p-button [label]="obj.Id" [link]="true" (click)="onDetailsClick(obj)"></p-button></td><td>{{ obj.TenantName || obj.TenantId }}</td><td>{{ obj.Email }}</td><td>{{ obj.InvitedUserName }}</td><td>{{ obj.InvitationStatus }}</td><td>{{ obj.ExpiresAt | date:'dd-MMM-yyyy HH:mm' }}</td><td>{{ obj.AcceptedAt | date:'dd-MMM-yyyy HH:mm' }}</td></tr></ng-template></p-table></div></div></div>
+<div class="grid list-page generated-list-page">
+    <div class="col-12">
+        <div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                [Caption]="'Tenant Invitations'" [PageType]="'List'">
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="generated-list-search">
+                <input type="search" class="p-inputtext-sm generated-list-input" pInputText
+                    placeholder="Search invitation email..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()"
+                    aria-label="Search tenant invitations" />
+                <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()"
+                    aria-label="Search tenant invitations" title="Search"></button>
+                <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear"
+                    (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+                <div class="record-count-inline generated-list-count" aria-live="polite">
+                    <i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span>
+                </div>
+            </div>
+
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
+                styleClass="list-table generated-list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /></th>
+                        <th pSortableColumn="TenantName" style="width:200px">Tenant <p-sortIcon field="TenantName" /></th>
+                        <th pSortableColumn="Email" style="width:200px">Email <p-sortIcon field="Email" /></th>
+                        <th pSortableColumn="InvitedUserName" style="width:200px">Invitee <p-sortIcon field="InvitedUserName" /></th>
+                        <th pSortableColumn="InvitationStatus" style="width:200px">Status <p-sortIcon field="InvitationStatus" /></th>
+                        <th pSortableColumn="ExpiresAt" style="width:200px">Expires <p-sortIcon field="ExpiresAt" /></th>
+                        <th pSortableColumn="AcceptedAt" style="width:200px">Accepted <p-sortIcon field="AcceptedAt" /></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td pFrozenColumn style="width:200px"><p-button label="{{ obj.Id }}" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td style="width:200px">{{ obj.TenantName || obj.TenantId }}</td>
+                        <td style="width:200px">{{ obj.Email }}</td>
+                        <td style="width:200px">{{ obj.InvitedUserName }}</td>
+                        <td style="width:200px"><app-status-pill [value]="obj.InvitationStatus"></app-status-pill></td>
+                        <td style="width:200px">{{ obj.ExpiresAt | date:'dd-MMM-yyyy HH:mm' }}</td>
+                        <td style="width:200px">{{ obj.AcceptedAt | date:'dd-MMM-yyyy HH:mm' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

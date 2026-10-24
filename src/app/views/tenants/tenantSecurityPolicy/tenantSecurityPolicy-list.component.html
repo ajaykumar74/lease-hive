@@ -1,1 +1,46 @@
-<div class="grid"><div class="col-12"><div class="card"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" Caption="Tenant Security Policies" PageType="List"></app-toolbar-buttons><app-spinner></app-spinner><p-table [value]="lstMain" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th style="width:6rem">Id</th><th>Tenant</th><th style="width:10rem">MFA Required</th><th>Session Timeout</th><th>Status</th></tr></ng-template><ng-template pTemplate="body" let-obj><tr><td><p-button [label]="obj.Id" [link]="true" (click)="onDetailsClick(obj)"></p-button></td><td>{{ obj.TenantName || obj.TenantId }}</td><td>{{ obj.MFAEnabled | yesNo }}</td><td>{{ obj.SessionTimeoutMinutes }} minutes</td><td>{{ obj.RecordStatus }}</td></tr></ng-template></p-table></div></div></div>
+<div class="grid list-page generated-list-page">
+    <div class="col-12">
+        <div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                [Caption]="'Tenant Security Policies'" [PageType]="'List'">
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="generated-list-search">
+                <input type="search" class="p-inputtext-sm generated-list-input" pInputText
+                    placeholder="Search security policies..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()"
+                    aria-label="Search tenant security policies" />
+                <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()"
+                    aria-label="Search tenant security policies" title="Search"></button>
+                <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear"
+                    (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+                <div class="record-count-inline generated-list-count" aria-live="polite">
+                    <i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span>
+                </div>
+            </div>
+
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
+                styleClass="list-table generated-list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /></th>
+                        <th pSortableColumn="TenantName" style="width:200px">Tenant <p-sortIcon field="TenantName" /></th>
+                        <th pSortableColumn="MFAEnabled" style="width:200px">MFA Required <p-sortIcon field="MFAEnabled" /></th>
+                        <th pSortableColumn="SessionTimeoutMinutes" style="width:200px">Session Timeout <p-sortIcon field="SessionTimeoutMinutes" /></th>
+                        <th pSortableColumn="RecordStatus" style="width:200px">Status <p-sortIcon field="RecordStatus" /></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td pFrozenColumn style="width:200px"><p-button label="{{ obj.Id }}" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td style="width:200px">{{ obj.TenantName || obj.TenantId }}</td>
+                        <td style="width:200px">{{ obj.MFAEnabled | yesNo }}</td>
+                        <td style="width:200px">{{ obj.SessionTimeoutMinutes }} minutes</td>
+                        <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

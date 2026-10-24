@@ -15,7 +15,8 @@
  					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="FeatureCode">Feature Code 
 							</label> 
-							<input pInputText id="FeatureCode" type="text" pSize="small"	formControlName="FeatureCode"  />
+							<input pInputText id="FeatureCode" type="text" pSize="small" formControlName="FeatureCode" readonly aria-readonly="true" />
+							<small class="text-color-secondary">Feature Code cannot be changed after creation.</small>
 							<app-validation-errors [type]="'text'" [control]="editForm.get('FeatureCode')"
 											label="Feature Code">
 										</app-validation-errors>
@@ -39,7 +40,7 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
 											label="Record Status">
-										</app-validation-errors></div></div>
+										</app-validation-errors></div></div>
 
 					</div>
 				</div>

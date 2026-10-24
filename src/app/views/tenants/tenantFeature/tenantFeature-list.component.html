@@ -1,1 +1,48 @@
-<div class="grid"><div class="col-12"><div class="card"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" Caption="Tenant Features" PageType="List"></app-toolbar-buttons><app-spinner></app-spinner><div class="col-12 md:col-6 p-0 mb-3"><p-inputGroup><input pInputText class="p-inputtext-sm" placeholder="Search feature" [(ngModel)]="objSearch.Name"><button type="button" pButton label="Search" class="btn-sm" (click)="search()"></button></p-inputGroup></div><p-table [value]="lstMain" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll"><ng-template pTemplate="header"><tr><th style="width:6rem">Id</th><th>Tenant</th><th>Feature Definition</th><th style="width:9rem">Enabled</th><th style="width:10rem">Effective From</th><th style="width:10rem">Effective To</th></tr></ng-template><ng-template pTemplate="body" let-obj><tr><td><p-button [label]="obj.Id" [link]="true" (click)="onDetailsClick(obj)"></p-button></td><td>{{ obj.TenantName || obj.TenantId }}</td><td>{{ obj.FeatureName || obj.FeatureId }}</td><td>{{ obj.IsEnabled | yesNo }}</td><td>{{ obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td><td>{{ obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td></tr></ng-template></p-table></div></div></div>
+<div class="grid list-page generated-list-page">
+    <div class="col-12">
+        <div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                [Caption]="'Tenant Features'" [PageType]="'List'">
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="generated-list-search">
+                <input type="search" class="p-inputtext-sm generated-list-input" pInputText
+                    placeholder="Search tenant features..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()"
+                    aria-label="Search tenant features" />
+                <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()"
+                    aria-label="Search tenant features" title="Search"></button>
+                <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear"
+                    (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+                <div class="record-count-inline generated-list-count" aria-live="polite">
+                    <i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span>
+                </div>
+            </div>
+
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
+                styleClass="list-table generated-list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /></th>
+                        <th pSortableColumn="TenantName" style="width:200px">Tenant <p-sortIcon field="TenantName" /></th>
+                        <th pSortableColumn="FeatureName" style="width:200px">Feature Definition <p-sortIcon field="FeatureName" /></th>
+                        <th pSortableColumn="IsEnabled" style="width:200px">Enabled <p-sortIcon field="IsEnabled" /></th>
+                        <th pSortableColumn="EffectiveFrom" style="width:200px">Effective From <p-sortIcon field="EffectiveFrom" /></th>
+                        <th pSortableColumn="EffectiveTo" style="width:200px">Effective To <p-sortIcon field="EffectiveTo" /></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td pFrozenColumn style="width:200px"><p-button label="{{ obj.Id }}" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td style="width:200px">{{ obj.TenantName || obj.TenantId }}</td>
+                        <td style="width:200px">{{ obj.FeatureName || obj.FeatureId }}</td>
+                        <td style="width:200px">{{ obj.IsEnabled | yesNo }}</td>
+                        <td style="width:200px">{{ obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
+                        <td style="width:200px">{{ obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

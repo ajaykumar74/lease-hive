@@ -57,8 +57,6 @@ export class PicklistItemCreateComponent implements OnInit {
 Category: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 ItemName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
 Description: new FormControl('', [Validators.maxLength(100), ]), 
-IsSystem: new FormControl(false, []),
-TenantId: new FormControl(null, []),
 
     });
     this.loadCategoryOptions();
@@ -85,8 +83,6 @@ TenantId: new FormControl(null, []),
 	  Category: obj.Category || '',
 ItemName: obj.ItemName || '',
 Description: obj.Description || '',
-IsSystem:  obj.IsSystem || false,
-TenantId: obj.TenantId || 0,
  
       }
     );
@@ -117,8 +113,6 @@ TenantId: obj.TenantId || 0,
 	  Category: obj.Category || '',
 ItemName: obj.ItemName || '',
 Description: obj.Description || '',
-IsSystem:  obj.IsSystem || false,
-TenantId: obj.TenantId || 0,
  
       }
     );
@@ -140,8 +134,6 @@ TenantId: obj.TenantId || 0,
      Category: formValues.Category || null,
 ItemName: formValues.ItemName || null,
 Description: formValues.Description || null,
-IsSystem: false,
-TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
 
     } as IPicklistItem ; 
 	

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,10 +8,10 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISubscriptionPlan } from './subscriptionPlan';
 import { SubscriptionPlanService } from './subscriptionPlan.service';
+import { PlatformAdminLookupService } from '../platform-admin-lookup.service';
 
 @Component({
   selector: 'app-subscriptionPlan-create',
@@ -30,6 +30,8 @@ export class SubscriptionPlanCreateComponent implements OnInit {
 
   editForm: any;
   objMaster: ISubscriptionPlan = {} as ISubscriptionPlan;
+  featureCodeOptions: ISelectItem[] = [];
+  private selectedFeaturePicklistItemIds = new Set<number>();
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -39,7 +41,7 @@ export class SubscriptionPlanCreateComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private subscriptionPlanService: SubscriptionPlanService,
-    private loggedInUserService: LoggedInUserService
+    private platformAdminLookupService: PlatformAdminLookupService
 
   ) {
   }
@@ -62,6 +64,42 @@ export class SubscriptionPlanCreateComponent implements OnInit {
 
     });
 
+    this.loadFeatureCodes();
+
+  }
+
+  private loadFeatureCodes(): void {
+    this.platformAdminLookupService.getSystemPicklistOptions('FeatureCode').subscribe({
+      next: options => this.featureCodeOptions = options,
+      error: err => this.messageService.showError(err)
+    });
+  }
+
+  isFeatureSelected(feature: ISelectItem): boolean {
+    return this.selectedFeaturePicklistItemIds.has(Number(feature.Id));
+  }
+
+  onFeatureSelectionChanged(feature: ISelectItem, isSelected: boolean): void {
+    const featureId = Number(feature.Id);
+    if (isSelected) {
+      this.selectedFeaturePicklistItemIds.add(featureId);
+    } else {
+      this.selectedFeaturePicklistItemIds.delete(featureId);
+    }
+  }
+
+  selectAllFeatures(): void {
+    this.selectedFeaturePicklistItemIds = new Set(
+      this.featureCodeOptions.map(feature => Number(feature.Id)).filter(featureId => featureId > 0)
+    );
+  }
+
+  clearFeatures(): void {
+    this.selectedFeaturePicklistItemIds.clear();
+  }
+
+  private getSelectedFeaturePicklistItemIds(): number[] {
+    return Array.from(this.selectedFeaturePicklistItemIds).sort((left, right) => left - right);
   }
 
   loadUI(): void {
@@ -125,6 +163,7 @@ export class SubscriptionPlanCreateComponent implements OnInit {
       }
     );
     this.editForm.reset();
+    this.clearFeatures();
   }
 
   Save(): void {
@@ -145,6 +184,7 @@ export class SubscriptionPlanCreateComponent implements OnInit {
       MaxAssets: formValues.MaxAssets || 0,
       StorageGB: formValues.StorageGB || 0,
       Description: formValues.Description || null,
+      FeaturePicklistItemIds: this.getSelectedFeaturePicklistItemIds(),
 
     } as ISubscriptionPlan;
 

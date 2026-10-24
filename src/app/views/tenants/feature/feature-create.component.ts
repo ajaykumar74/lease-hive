@@ -11,6 +11,7 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IFeature } from './feature';
 import { FeatureService } from './feature.service';
+import { PlatformAdminLookupService } from '../platform-admin-lookup.service';
 
 @Component({
   selector: 'app-feature-create',
@@ -26,6 +27,7 @@ export class FeatureCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   feature: IFeature = null;
+  featurecodeOptions: ISelectItem[] = [];
   recordstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
@@ -38,7 +40,8 @@ export class FeatureCreateComponent implements OnInit {
 	private fb: FormBuilder,
 	private router: Router, 	
 	private _location: Location, 
-	private featureService: FeatureService
+	private featureService: FeatureService,
+	private platformAdminLookups: PlatformAdminLookupService
   ) {
   }
  
@@ -57,6 +60,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
 
     });
     this.Caption = 'Create Feature Definition';
+    this.platformAdminLookups.getSystemPicklistOptions('FeatureCode').subscribe(options => this.featurecodeOptions = options);
     this.recordstatusOptions.push({Text: 'Draft', Value: 'Draft' });
 this.recordstatusOptions.push({Text: 'Active', Value: 'Active' });
 this.recordstatusOptions.push({Text: 'Inactive', Value: 'Inactive' });

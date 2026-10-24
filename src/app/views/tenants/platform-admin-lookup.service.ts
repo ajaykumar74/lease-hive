@@ -34,7 +34,15 @@ export class PlatformAdminLookupService {
       .get<any>(`${this.baseService.C_APP_URL}/PicklistItems/GetByCategory/${encodeURIComponent(category)}?tenantId=${tenantId}`, {
         headers: this.baseService.getHeaders()
       })
-      .pipe(map(response => this.toOptions(response?.data || [], item => item.Description || item.ItemName)));
+      .pipe(map(response => this.toPicklistOptions(response?.data || [])));
+  }
+
+  getSystemPicklistOptions(category: string): Observable<ISelectItem[]> {
+    return this.http
+      .get<any>(`${this.baseService.C_APP_URL}/PicklistItems/system/${encodeURIComponent(category)}`, {
+        headers: this.baseService.getHeaders()
+      })
+      .pipe(map(response => this.toPicklistOptions(response?.data || [])));
   }
 
   private getOptions(path: string, selectedId: number | undefined, label: (item: any) => string): Observable<ISelectItem[]> {
@@ -51,6 +59,12 @@ export class PlatformAdminLookupService {
   private toOptions(items: any[], label: (item: any) => string): ISelectItem[] {
     return [...items]
       .map(item => ({ Id: Number(item.Id), Value: String(item.Id), Text: label(item) }))
+      .sort((left, right) => left.Text.localeCompare(right.Text, 'en', { numeric: true, sensitivity: 'base' }));
+  }
+
+  private toPicklistOptions(items: any[]): ISelectItem[] {
+    return [...items]
+      .map(item => ({ Id: Number(item.Id), Value: item.ItemName, Text: item.Description || item.ItemName }))
       .sort((left, right) => left.Text.localeCompare(right.Text, 'en', { numeric: true, sensitivity: 'base' }));
   }
 }

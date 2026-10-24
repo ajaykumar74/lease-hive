@@ -6,7 +6,6 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { ISelectItem } from '@/shared/ISelectItem';
-import { ITenantFeature } from './tenantFeature';
 import { TenantFeatureService } from './tenantFeature.service';
 import { PlatformAdminLookupService } from '../platform-admin-lookup.service';
 
@@ -37,9 +36,7 @@ export class TenantFeatureCreateComponent implements OnInit {
     this.editForm = this.fb.group({
       TenantId: new FormControl(null, [Validators.required]),
       FeatureId: new FormControl(null, [Validators.required]),
-      IsEnabled: new FormControl(true, [Validators.required]),
-      EffectiveFrom: new FormControl(new Date(), [Validators.required]),
-      EffectiveTo: new FormControl(null)
+      IsEnabled: new FormControl(true, [Validators.requiredTrue])
     });
     this.loadLookups();
   }
@@ -55,13 +52,11 @@ export class TenantFeatureCreateComponent implements OnInit {
       return;
     }
     const value = this.editForm.value;
-    const payload: ITenantFeature = {
+    const payload = {
       Id: 0,
       TenantId: Number(value.TenantId),
       FeatureId: Number(value.FeatureId),
-      IsEnabled: !!value.IsEnabled,
-      EffectiveFrom: this.toDate(value.EffectiveFrom),
-      EffectiveTo: this.toDate(value.EffectiveTo)
+      IsEnabled: true
     };
     this.spinner.show();
     this.tenantFeatureService.create(payload).subscribe({
@@ -74,11 +69,5 @@ export class TenantFeatureCreateComponent implements OnInit {
   private loadLookups(): void {
     this.lookups.getTenants().subscribe({ next: options => this.tenantIdOptions = options, error: error => this.messageService.showError(error) });
     this.lookups.getFeatureDefinitions().subscribe({ next: options => this.featureIdOptions = options, error: error => this.messageService.showError(error) });
-  }
-
-  private toDate(value: Date | string | null): string | null {
-    if (!value) return null;
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? null : date.toISOString().slice(0, 10);
   }
 }
