@@ -111,6 +111,16 @@ const routes: Routes = [
         loadChildren: () => import('@/views/tenants/tenantUsage/tenantUsage.module').then(c => c.TenantUsageModule),
       },
       {
+        path: 'tenantStatuss',
+        data: { breadcrumb: 'Tenant Statuses' },
+        loadChildren: () => import('@/views/tenants/tenantStatus/tenantStatus.module').then(c => c.TenantStatusModule),
+      },
+      {
+        path: 'tenantAssetCategories',
+        data: { breadcrumb: 'Tenant Asset Categories' },
+        loadChildren: () => import('@/views/tenants/tenantAssetCategory/tenant-asset-category.module').then(c => c.TenantAssetCategoryModule),
+      },
+      {
         path: 'tenantInvitations',
         data: { breadcrumb: 'Tenant Invitations' },
         loadChildren: () => import('@/views/tenants/tenantInvitation/tenantInvitation.module').then(c => c.TenantInvitationModule),

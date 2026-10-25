@@ -184,6 +184,12 @@ export class TenantEditComponent implements OnInit {
    
   }
 
+  onAssetCategoriesClicked(): void {
+    if (this.tenant?.Id > 0) {
+      this.router.navigate(['/dashboard/tenantAssetCategories', this.tenant.Id]);
+    }
+  }
+
   onCancel(): void {
     this.tenant = { ...this.objMaster };
     var obj = this.tenant;

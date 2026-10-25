@@ -21,6 +21,7 @@ export class PlatformAdminDashboardComponent {
     { label: 'Tenant subscriptions', detail: 'Assign plans and subscription dates.', icon: 'pi-calendar', route: '/dashboard/tenantSubscriptions' },
     { label: 'Security policies', detail: 'Set tenant MFA and session controls.', icon: 'pi-shield', route: '/dashboard/tenantSecurityPolicys' },
     { label: 'Usage', detail: 'Review tenant capacity and AI usage.', icon: 'pi-chart-bar', route: '/dashboard/tenantUsages' },
+    { label: 'Tenant statuses', detail: 'Maintain lifecycle statuses for each tenant.', icon: 'pi-flag', route: '/dashboard/tenantStatuss' },
     { label: 'Invitations', detail: 'Manage tenant invitation records.', icon: 'pi-send', route: '/dashboard/tenantInvitations' }
   ];
 

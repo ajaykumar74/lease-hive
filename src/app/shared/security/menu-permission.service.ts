@@ -69,6 +69,8 @@ export class MenuPermissionService {
         { route: '/dashboard/tenantsubscriptions', resource: 'configuration.tenantsubscription' },
         { route: '/dashboard/tenantsecuritypolicys', resource: 'configuration.tenantsecuritypolicy' },
         { route: '/dashboard/tenantusages', resource: 'configuration.tenantusage' },
+        { route: '/dashboard/tenantstatuss', resource: 'configuration.tenantstatus' },
+        { route: '/dashboard/tenantassetcategories', resource: 'configuration.tenantassetcategory' },
         { route: '/dashboard/tenantinvitations', resource: 'configuration.tenantinvitation' },
         { route: '/dashboard/customers', resource: 'party.customerprofile' },
         { route: '/dashboard/brandpartners', resource: 'party.supplierprofile' },

@@ -45,6 +45,7 @@ export class AppMenu implements OnInit, OnDestroy {
                         { label: 'Tenant Subscriptions', icon: 'pi pi-fw pi-calendar', routerLink: ['/dashboard/tenantSubscriptions'], alwaysVisible: true },
                         { label: 'Tenant Security Policies', icon: 'pi pi-fw pi-shield', routerLink: ['/dashboard/tenantSecurityPolicys'], alwaysVisible: true },
                         { label: 'Tenant Usage', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/dashboard/tenantUsages'], alwaysVisible: true },
+                        { label: 'Tenant Statuses', icon: 'pi pi-fw pi-flag', routerLink: ['/dashboard/tenantStatuss'], alwaysVisible: true },
                         { label: 'Tenant Invitations', icon: 'pi pi-fw pi-send', routerLink: ['/dashboard/tenantInvitations'], alwaysVisible: true }
                     ]
                 }

@@ -5,6 +5,8 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">					 
+						<p-button size="small" label="Asset Categories" icon="pi pi-tags" [disabled]="!tenant?.Id"
+							(onClick)="onAssetCategoriesClicked()"></p-button>
 						<p-splitbutton size="small" label="options" [model]="menuItems"></p-splitbutton> 
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
