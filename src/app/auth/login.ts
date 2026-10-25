@@ -148,20 +148,27 @@ export class Login {
 
           this.permissionService.loadPermissions(response.Token,"UTC").subscribe({
             next: (securityContext) => {
-              console.log(securityContext);
+              const tenant = securityContext.tenantContext;
+              if (!securityContext.isPlatformAdministrator && tenant && tenant.TenantStatus?.toLowerCase() !== 'active') {
+                localStorage.removeItem('jwt');
+                localStorage.removeItem('refreshToken');
+                this.permissionService.clear();
+                this.router.navigate(['/tenant-access-blocked'], {
+                  queryParams: { tenantName: tenant.TenantName, tenantStatus: tenant.TenantStatus }
+                });
+                return;
+              }
+
+              if (this.isCustomerPortalRole(user.Role)) {
+                user.AccountType = 'CustomerPortal';
+                this.loggedInUserService.updateloggedInUser(user);
+                this.router.navigate(['/customer-portal/dashboard']);
+                return;
+              }
+
+              this.getCustomerAndPartner(user);
             }
           });
-
-          if (this.isCustomerPortalRole(user.Role)) {
-            // Customer portal AppUsers do not have the legacy PortalUser/
-            // BrandPartner relationship used by the internal login flow.
-            user.AccountType = 'CustomerPortal';
-            this.loggedInUserService.updateloggedInUser(user);
-            this.router.navigate(['/customer-portal/dashboard']);
-            return;
-          }
-
-          this.getCustomerAndPartner(user);
 
         }
 

@@ -849,22 +849,26 @@ export class AppMenu implements OnInit, OnDestroy {
                                 {
                                     label: 'Vehicle Assets',
                                     icon: 'pi pi-fw pi-car',
-                                    routerLink: ['/business/assets/specialised/vehicles']
+                                    routerLink: ['/business/assets/specialised/vehicles'],
+                                    requiredAssetCategoryCode: 'VEHICLE'
                                 },
                                 {
                                     label: 'IT Assets',
                                     icon: 'pi pi-fw pi-desktop',
-                                    routerLink: ['/business/assets/specialised/it']
+                                    routerLink: ['/business/assets/specialised/it'],
+                                    requiredAssetCategoryCode: 'IT'
                                 },
                                 {
                                     label: 'Equipment Assets',
                                     icon: 'pi pi-fw pi-cog',
-                                    routerLink: ['/business/assets/specialised/equipment']
+                                    routerLink: ['/business/assets/specialised/equipment'],
+                                    requiredAssetCategoryCode: 'EQUIPMENT'
                                 },
                                 {
                                     label: 'Property Assets',
                                     icon: 'pi pi-fw pi-building',
-                                    routerLink: ['/business/assets/specialised/property']
+                                    routerLink: ['/business/assets/specialised/property'],
+                                    requiredAssetCategoryCode: 'PROPERTY'
                                 },
                                 {
                                     label: 'Classification',

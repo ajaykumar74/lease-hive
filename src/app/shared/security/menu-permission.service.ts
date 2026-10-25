@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PermissionService } from './permission.service';
+import { TenantContextService } from './tenant-context.service';
 
 export interface AppMenuItem {
     label?: string;
@@ -10,6 +11,7 @@ export interface AppMenuItem {
     visible?: boolean;
     alwaysVisible?: boolean;
     requiredPermission?: string;
+    requiredAssetCategoryCode?: string;
     [key: string]: unknown;
 }
 
@@ -137,7 +139,7 @@ export class MenuPermissionService {
         { route: '/eol-disposal', resource: 'endoflease.endofleasecase' }
     ].sort((left, right) => right.route.length - left.route.length);
 
-    constructor(private readonly permissionService: PermissionService) {
+    constructor(private readonly permissionService: PermissionService, private readonly tenantContextService: TenantContextService) {
     }
 
     filterMenu(items: AppMenuItem[]): AppMenuItem[] {
@@ -199,10 +201,18 @@ export class MenuPermissionService {
             return null;
         }
 
+        if (item.requiredAssetCategoryCode && !this.hasActiveAssetCategory(item.requiredAssetCategoryCode)) {
+            return null;
+        }
+
         return {
             ...item,
             ...(children ? { items: children } : {})
         };
+    }
+
+    hasActiveAssetCategory(categoryCode: string): boolean {
+        return this.tenantContextService.hasActiveAssetCategory(categoryCode);
     }
 
     private getAction(route: string): string {
