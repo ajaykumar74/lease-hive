@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Quote" [value]="quotePricingScenario.QuoteId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Scenario Name" [value]="quotePricingScenario.ScenarioName">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Pricing Mode" [value]="quotePricingScenario.PricingModeCode">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Payment Timing" [value]="quotePricingScenario.PaymentTimingCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Term Months" [value]="quotePricingScenario.TermMonths">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Annual Funding Rate" [value]="quotePricingScenario.AnnualFundingRate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Down Payment Amount" [value]="quotePricingScenario.DownPaymentAmount">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Bullet Payment Amount" [value]="quotePricingScenario.BulletPaymentAmount">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

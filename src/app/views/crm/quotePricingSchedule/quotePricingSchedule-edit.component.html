@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full">
+                        <div class="grid">
+                            <div class="col-12 md:col-6"><label for="QuotePricingScenarioId">Pricing Scenario</label><p-dropdown inputId="QuotePricingScenarioId" [options]="quotepricingscenarioidOptions" optionLabel="Text" optionValue="Value" formControlName="QuotePricingScenarioId" placeholder="Select a scenario" class="w-full"></p-dropdown></div>
+                            <div class="col-12 md:col-6"><label for="QuoteAssetId">Quote Asset</label><p-dropdown inputId="QuoteAssetId" [options]="quoteassetidOptions" optionLabel="Text" optionValue="Value" formControlName="QuoteAssetId" placeholder="Select an asset" class="w-full"></p-dropdown></div>
+                            <div class="col-12 md:col-4"><label for="PeriodNo">Period Number</label><p-inputNumber inputId="PeriodNo" formControlName="PeriodNo" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="PaymentDueDate">Payment Due Date</label><p-calendar inputId="PaymentDueDate" formControlName="PaymentDueDate" dateFormat="dd-M-yy" [showIcon]="true" class="w-full"></p-calendar></div>
+                            <div class="col-12 md:col-4"><label for="RecordStatus">Record Status</label><p-dropdown inputId="RecordStatus" [options]="recordstatusOptions" optionLabel="Text" optionValue="Value" formControlName="RecordStatus" class="w-full"></p-dropdown></div>
+                            <div class="col-12 md:col-4"><label for="OpeningBalance">Opening Balance</label><p-inputNumber inputId="OpeningBalance" formControlName="OpeningBalance" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="FinanceCharge">Finance Charge</label><p-inputNumber inputId="FinanceCharge" formControlName="FinanceCharge" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="PrincipalRecovery">Principal Recovery</label><p-inputNumber inputId="PrincipalRecovery" formControlName="PrincipalRecovery" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="BaseRentalAmount">Base Rental Amount</label><p-inputNumber inputId="BaseRentalAmount" formControlName="BaseRentalAmount" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="ServiceAmount">Service Amount</label><p-inputNumber inputId="ServiceAmount" formControlName="ServiceAmount" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="BulletAmount">Bullet Amount</label><p-inputNumber inputId="BulletAmount" formControlName="BulletAmount" mode="decimal" class="w-full"></p-inputNumber></div>
+                            <div class="col-12 md:col-4"><label for="ClosingBalance">Closing Balance</label><p-inputNumber inputId="ClosingBalance" formControlName="ClosingBalance" mode="decimal" class="w-full"></p-inputNumber></div>
+                        </div>
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

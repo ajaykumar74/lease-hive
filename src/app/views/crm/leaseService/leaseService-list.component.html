@@ -1,0 +1,54 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'LeaseService List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Search lease services" [(ngModel)]="objSearch.SearchTerm" (keyup.enter)="search()" />
+						<button type="button" pButton icon="pi pi-search" class="btn-sm" aria-label="Search" (click)="search()" ></button>
+                        <button type="button" pButton icon="pi pi-times" class="btn-sm" aria-label="Clear search" (click)="clearSearch()" ></button>
+                    </p-inputGroup>
+                    <small class="block mt-2 text-color-secondary">{{ totalNoOfRecords }} record{{ totalNoOfRecords === 1 ? '' : 's' }}</small>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Lease Service Id <p-sortIcon field="LeaseServiceId" /> </th> 
+<th style="width:200px">Service Code <p-sortIcon field="ServiceCode" /> </th> 
+<th style="width:200px">Service Name <p-sortIcon field="ServiceName" /> </th> 
+<th style="width:200px">Asset Category <p-sortIcon field="AssetCategoryId" /> </th> 
+<th style="width:200px">Default Charge Type <p-sortIcon field="DefaultChargeTypeCode" /> </th> 
+<th style="width:200px">Default Rate <p-sortIcon field="DefaultRate" /> </th> 
+<th style="width:200px">Currency <p-sortIcon field="CurrencyCode" /> </th> 
+<th style="width:200px">Effective From <p-sortIcon field="EffectiveFrom" /> </th> 
+<th style="width:200px">Effective To <p-sortIcon field="EffectiveTo" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.LeaseServiceId}}</td>
+ <td style="width:200px">{{obj.ServiceCode}}</td>
+ <td style="width:200px">{{obj.ServiceName}}</td>
+ <td style="width:200px">{{obj.AssetCategoryDisplayName}}</td>
+ <td style="width:200px">{{obj.DefaultChargeTypeCode}}</td>
+ <td style="width:200px">{{obj.DefaultRate | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.CurrencyCode}}</td>
+ <td style="width:200px">{{obj.EffectiveFrom | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.EffectiveTo | date:'dd-MMM-yyyy' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  
