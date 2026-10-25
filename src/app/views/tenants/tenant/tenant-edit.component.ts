@@ -8,10 +8,10 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ITenant } from './tenant';
 import { TenantService } from './tenant.service';
+import { PlatformAdminLookupService } from '../platform-admin-lookup.service';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class TenantEditComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private tenantService: TenantService,
-    private loggedInUserService: LoggedInUserService
+    private platformAdminLookups: PlatformAdminLookupService
   ) {
   }
 
@@ -94,16 +94,20 @@ export class TenantEditComponent implements OnInit {
         command: () => this.onCommandClicked('PlanFeature')
       }
     ];
-this.defaultcurrencyOptions = this.loggedInUserService.getPicklistOptions('CurrencyCode');
-this.defaulttimezoneOptions = this.loggedInUserService.getPicklistOptions('TimeZone');
-this.dateformatOptions = this.loggedInUserService.getPicklistOptions('DateFormat');
-this.timeformatOptions = this.loggedInUserService.getPicklistOptions('TimeFormat');
-this.numberformatOptions = this.loggedInUserService.getPicklistOptions('NumberFormat');
-this.financialyearstartmonthOptions = this.loggedInUserService.getPicklistOptions('FinancialYearStartMonth');
-this.basetaxsystemOptions = this.loggedInUserService.getPicklistOptions('BaseTaxSystem');
-this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
+    this.loadSystemPicklistOptions();
 
     this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  private loadSystemPicklistOptions(): void {
+    this.platformAdminLookups.getSystemPicklistOptions('CurrencyCode').subscribe(options => this.defaultcurrencyOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('TimeZone').subscribe(options => this.defaulttimezoneOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('DateFormat').subscribe(options => this.dateformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('TimeFormat').subscribe(options => this.timeformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('NumberFormat').subscribe(options => this.numberformatOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('FinancialYearStartMonth').subscribe(options => this.financialyearstartmonthOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('BaseTaxSystem').subscribe(options => this.basetaxsystemOptions = options);
+    this.platformAdminLookups.getSystemPicklistOptions('Status').subscribe(options => this.statusOptions = options);
   }
 
 
@@ -178,6 +182,12 @@ this.statusOptions = this.loggedInUserService.getPicklistOptions('Status');
       this.router.navigate(['/dashboard/planFeatures/list', { id: -1 }]);
     }
    
+  }
+
+  onAssetCategoriesClicked(): void {
+    if (this.tenant?.Id > 0) {
+      this.router.navigate(['/dashboard/tenantAssetCategories', this.tenant.Id]);
+    }
   }
 
   onCancel(): void {

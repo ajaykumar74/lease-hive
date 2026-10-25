@@ -3,7 +3,7 @@
 		<div class="card list-card generated-list-card">
 			<app-message [AlertType]="'message'"></app-message>
 			<p-confirmDialog></p-confirmDialog>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'PickList Items'" [PageType]="'List'">
+			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'PickList Items'" [PageType]="'List'" [IsHideCreate]="isSystemCatalogContext">
 			</app-toolbar-buttons>
 			<app-spinner></app-spinner>
 			<div class="generated-list-search">
@@ -24,6 +24,7 @@
 						<th style="width:200px" pSortableColumn="ItemName">Item Name <p-sortIcon field="ItemName" />
 						</th>
 						<th style="min-width:250px">Description </th>
+						<th style="width:140px">Scope</th>
 						<th style="width:120px">Actions</th>
 					</tr>
 				</ng-template>
@@ -35,13 +36,14 @@
 						<td>{{obj.Category}}</td>
 						<td>{{obj.ItemName}}</td>
 						<td>{{obj.Description}}</td>
+						<td>{{ isSystemItem(obj) ? 'System' : (obj.SourceSystemPicklistItemId ? 'Tenant override' : 'Tenant') }}</td>
 						<td>
-							<button *ngIf="permission.CanDelete" type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [loading]="deletingId === obj.Id" (click)="confirmDelete(obj)" aria-label="Delete PickList item" title="Delete"></button>
+							<button *ngIf="permission.CanDelete && !isSystemItem(obj)" type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [loading]="deletingId === obj.Id" (click)="confirmDelete(obj)" aria-label="Delete PickList item" title="Delete"></button>
 						</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="emptymessage">
-					<tr><td colspan="5"><div class="list-empty"><i class="pi pi-list"></i><strong>No PickList items found</strong><span>Try changing or clearing the category filter.</span></div></td></tr>
+					<tr><td colspan="6"><div class="list-empty"><i class="pi pi-list"></i><strong>No PickList items found</strong><span>Try changing or clearing the category filter.</span></div></td></tr>
 				</ng-template>
 			</p-table>
 			<p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 25, 50]" (onPageChange)="onPageChanged($event)"></p-paginator>

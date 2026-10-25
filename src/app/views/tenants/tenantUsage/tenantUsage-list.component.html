@@ -1,0 +1,48 @@
+<div class="grid list-page generated-list-page">
+    <div class="col-12">
+        <div class="card list-card generated-list-card">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+                [Caption]="'Tenant Usage'" [PageType]="'List'">
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="generated-list-search">
+                <input type="search" class="p-inputtext-sm generated-list-input" pInputText
+                    placeholder="Search tenant usage..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()"
+                    aria-label="Search tenant usage" />
+                <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()"
+                    aria-label="Search tenant usage" title="Search"></button>
+                <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear"
+                    (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
+                <div class="record-count-inline generated-list-count" aria-live="polite">
+                    <i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span>
+                </div>
+            </div>
+
+            <p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px"
+                styleClass="list-table generated-list-table" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /></th>
+                        <th pSortableColumn="TenantName" style="width:200px">Tenant <p-sortIcon field="TenantName" /></th>
+                        <th pSortableColumn="ActiveUsers" style="width:200px">Active Users <p-sortIcon field="ActiveUsers" /></th>
+                        <th pSortableColumn="ActiveAssets" style="width:200px">Active Assets <p-sortIcon field="ActiveAssets" /></th>
+                        <th pSortableColumn="AiRequestsThisMonth" style="width:200px">AI Requests <p-sortIcon field="AiRequestsThisMonth" /></th>
+                        <th pSortableColumn="LastCalculatedAt" style="width:200px">Calculated At <p-sortIcon field="LastCalculatedAt" /></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-obj>
+                    <tr>
+                        <td pFrozenColumn style="width:200px"><p-button label="{{ obj.Id }}" [link]="true" (click)="onDetailsClick(obj)" /></td>
+                        <td style="width:200px">{{ obj.TenantName || obj.TenantId }}</td>
+                        <td style="width:200px">{{ obj.ActiveUsers | number:'1.0':'en-US' }}</td>
+                        <td style="width:200px">{{ obj.ActiveAssets | number:'1.0':'en-US' }}</td>
+                        <td style="width:200px">{{ obj.AiRequestsThisMonth | number:'1.0':'en-US' }}</td>
+                        <td style="width:200px">{{ obj.LastCalculatedAt | date:'dd-MMM-yyyy HH:mm' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

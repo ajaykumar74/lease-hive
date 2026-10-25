@@ -36,15 +36,25 @@ export class ResetPassword {
   ) { }
 
   ngOnInit() {
-    this.activatedRouter.queryParams.subscribe(params => {
-      this.email = params['email'];
-      this.token = params['token'];
+    this.activatedRouter.queryParamMap.subscribe(params => {
+      // Activation links are generated with lowercase parameter names. Accept the
+      // PascalCase variants as well so links from older templates still work.
+      this.email = (params.get('email') ?? params.get('Email') ?? '').trim();
+      this.token = (params.get('token') ?? params.get('Token') ?? '').trim();
     });
   }
 
   ResetPassword(): void {
-    if (this.email == '' || this.token == '' || this.loginData.NewPassword == '' || this.loginData.ConfirmPassword == '') {
-      this.messageService.add({ severity: 'error', summary: '', detail: 'Invalid values. Please correct error to continue...' });
+    if (!this.email || !this.token) {
+      this.messageService.add({
+        severity: 'error',
+        detail: 'This password reset link is incomplete. Please open the invitation link again or request a new invitation.',
+      });
+      return;
+    }
+
+    if (!this.loginData.NewPassword || !this.loginData.ConfirmPassword) {
+      this.messageService.add({ severity: 'error', summary: '', detail: 'Enter and confirm your new password.' });
       return;
     }
 
@@ -65,11 +75,15 @@ export class ResetPassword {
       return;
     }
 
-    var obj = JSON.stringify({ Email: this.email, Token: this.token, NewPassword: this.loginData.ConfirmPassword });
+    const resetRequest = {
+      Email: this.email,
+      Token: this.token,
+      NewPassword: this.loginData.NewPassword,
+    };
 
     this.submitted = true;
     this.btnCaption = 'Please wait...';
-    this.accountService.resetPassword(obj).subscribe({
+    this.accountService.resetPassword(resetRequest).subscribe({
       next: data => {
         this.isSuccess = true;
         //this.router.navigate(["/auth/login"]);

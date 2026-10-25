@@ -58,6 +58,11 @@ export class LoggedInUserService {
     const role = this.loggedInUser?.Role || '';
     return /(^|[,\s])(customer_portal_admin|customerportaladmin)(?=$|[,\s])/i.test(role);
   }
+
+  public get isPlatformAdmin(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /platform[\s_-]*admin/i.test(role);
+  }
   
   public get getRecordId(): number {
     if (this.loggedInUser.AccountType == 'Customer') {

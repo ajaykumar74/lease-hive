@@ -27,6 +27,7 @@ export class PicklistItemEditComponent implements OnInit {
   picklistItem: IPicklistItem = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  isSystemItem = false;
 
   editForm: any;
   objMaster: IPicklistItem = {} as IPicklistItem;
@@ -55,8 +56,7 @@ export class PicklistItemEditComponent implements OnInit {
       Category: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       ItemName: new FormControl('', [Validators.required, Validators.maxLength(50),]),
       Description: new FormControl('', [Validators.maxLength(100),]),
-      IsSystem: new FormControl(false, []),
-      TenantId: new FormControl(null, [])
+      SourceSystemPicklistItemId: new FormControl(null, [])
     });
 
 
@@ -91,13 +91,15 @@ export class PicklistItemEditComponent implements OnInit {
         Category: obj.Category || '',
         ItemName: obj.ItemName || '',
         Description: obj.Description || '',
-        IsSystem: obj.IsSystem || false,
-        TenantId: obj.TenantId || 0,
+        SourceSystemPicklistItemId: obj.SourceSystemPicklistItemId ?? null,
 
       }
     );
 
-    this.Caption = "PicklistItem Details #" + obj.Id;
+    this.isSystemItem = obj.TenantId === -1 || obj.IsSystem === true;
+    this.Caption = this.isSystemItem
+      ? "Create tenant copy of Picklist Item #" + obj.Id
+      : "PicklistItem Details #" + obj.Id;
   }
 
   onOptionItemClicked(key: string): void {
@@ -140,8 +142,6 @@ export class PicklistItemEditComponent implements OnInit {
       Category: this.objMaster.Category,
       ItemName: formValues.ItemName || null,
       Description: formValues.Description || null,
-      IsSystem: this.objMaster.IsSystem,
-      TenantId: this.objMaster.TenantId || this.loggedInUserService.loggedInUser.Tenant.Id,
       ModifiedById: this.loggedInUserService.getRecordId,
 
     } as IPicklistItem;

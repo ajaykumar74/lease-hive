@@ -3,6 +3,7 @@ import { AppLayout } from '@/layout/components/app.layout';
 import { Landing } from '@/views/landing/landing-component';
 import { AuthGuard } from '@/shared/auth-guard.service';
 import { PermissionGuard } from '@/shared/security/permission.guard';
+import { TenantAccessBlocked } from './app/auth/tenant-access-blocked';
 
 export const appRoutes: Routes = [
     {
@@ -87,6 +88,7 @@ export const appRoutes: Routes = [
         path: 'auth',
         loadChildren: () => import('./app/auth/authentication.module').then(m => m.AuthenticationModule),
     },
+    { path: 'tenant-access-blocked', component: TenantAccessBlocked },
 
     { path: '**', redirectTo: '/notfound' },
 

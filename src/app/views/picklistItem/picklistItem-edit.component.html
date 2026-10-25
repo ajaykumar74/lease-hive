@@ -9,6 +9,9 @@
 				<app-spinner></app-spinner>
 
 				<form [formGroup]="editForm" (ngSubmit)="Save()">
+					<p class="text-color-secondary" *ngIf="isSystemItem">
+						This is a shared system item. Saving creates a tenant-specific copy and leaves the system item unchanged.
+					</p>
 					<div class="grid grid-cols-12 gap-2">
 						<label for="name3"
 							class="flex items-center col-span-12 mb-2 md:col-span-2 md:mb-0">Category</label>

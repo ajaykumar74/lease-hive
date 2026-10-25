@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12 md:col-12">
+      <div class="card p-fluid">
+        <app-message [AlertType]="'message'"></app-message>
+        <app-toolbar-buttons
+          (onItemClicked)="onOptionItemClicked($event)"
+          [permission]="permission"
+          [Caption]="Caption"
+          [PageType]="'Details'"
+          [form]="editForm">
+        </app-toolbar-buttons>
+        <app-spinner></app-spinner>
+
+        <form [formGroup]="editForm" (ngSubmit)="save()">
+          <p-fluid>
+            <div class="flex mt-8">
+              <div class="card flex flex-col gap-4 w-full">
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full md:w-6">
+                    <label for="TenantId">Tenant</label>
+                    <p-dropdown
+                      inputId="TenantId"
+                      [options]="tenantOptions"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      formControlName="TenantId"
+                      placeholder="Select tenant">
+                    </p-dropdown>
+                    <app-validation-errors
+                      [type]="'text'"
+                      [control]="editForm.get('TenantId')"
+                      label="Tenant">
+                    </app-validation-errors>
+                  </div>
+                </div>
+
+                <div formArrayName="CategorySelections">
+                  <p-table
+                    [value]="categories"
+                    [loading]="isLoading"
+                    [scrollable]="true"
+                    scrollHeight="400px"
+                    responsiveLayout="scroll"
+                    styleClass="list-table">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Category Name</th>
+                      <th>Extension Type</th>
+                      <th style="width: 10rem">Selected</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-category let-rowIndex="rowIndex">
+                    <tr>
+                      <td>
+                        <span [style.paddingLeft.px]="category.Depth * 24">
+                          <i class="pi" [ngClass]="category.Depth ? 'pi-angle-right' : 'pi-folder'" aria-hidden="true"></i>
+                          {{ category.CategoryName || category.CategoryCode }}
+                        </span>
+                      </td>
+                      <td>{{ category.ExtensionTypeCode || '—' }}</td>
+                      <td>
+                        <p-checkbox
+                          [binary]="true"
+                          [formControlName]="rowIndex"
+                          (onChange)="onCategorySelectionChanged(category, $event.checked)">
+                        </p-checkbox>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr><td colspan="3">Select a tenant to load its asset categories.</td></tr>
+                  </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </p-fluid>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

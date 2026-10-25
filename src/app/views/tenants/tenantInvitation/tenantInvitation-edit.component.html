@@ -1,0 +1,8 @@
+<div class="container"><div class="grid"><div class="col-12"><div class="card p-fluid"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"></app-toolbar-buttons><app-spinner></app-spinner><form [formGroup]="editForm" (ngSubmit)="save()"><div class="grid mt-4">
+  <div class="col-12 md:col-6"><label for="TenantId">Tenant</label><p-dropdown inputId="TenantId" [options]="tenantIdOptions" optionLabel="Text" optionValue="Value" formControlName="TenantId" placeholder="Select tenant"></p-dropdown></div>
+  <div class="col-12 md:col-6"><label for="Email">Email</label><input pInputText id="Email" formControlName="Email" type="email"></div>
+  <div class="col-12 md:col-6"><label for="InvitedUserName">Invited user name</label><input pInputText id="InvitedUserName" formControlName="InvitedUserName"></div>
+  <div class="col-12 md:col-6"><label for="InvitationStatus">Invitation status</label><p-dropdown inputId="InvitationStatus" [options]="invitationStatusOptions" optionLabel="Text" optionValue="Value" formControlName="InvitationStatus"></p-dropdown></div>
+  <div class="col-12 md:col-6"><label for="ExpiresAt">Expires at</label><p-calendar inputId="ExpiresAt" [showTime]="true" [showIcon]="true" formControlName="ExpiresAt"></p-calendar></div>
+  <div class="col-12 md:col-6"><label for="AcceptedAt">Accepted at</label><p-calendar inputId="AcceptedAt" [showTime]="true" [showIcon]="true" formControlName="AcceptedAt"></p-calendar></div>
+</div></form></div></div></div></div>

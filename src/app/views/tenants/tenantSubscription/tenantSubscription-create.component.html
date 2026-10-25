@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12 md:col-12">
+      <div class="card p-fluid">
+        <app-message [AlertType]="'message'"></app-message>
+        <app-toolbar-buttons
+          (onItemClicked)="onOptionItemClicked($event)"
+          [permission]="permission"
+          [Caption]="Caption"
+          [PageType]="'Details'"
+          [form]="editForm">
+        </app-toolbar-buttons>
+        <app-spinner></app-spinner>
+
+        <form [formGroup]="editForm" (ngSubmit)="save()">
+          <p-fluid>
+            <div class="flex mt-8">
+              <div class="card flex flex-col gap-4 w-full">
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full">
+                    <label for="TenantId">Tenant</label>
+                    <p-dropdown
+                      inputId="TenantId"
+                      [options]="tenantIdOptions"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      formControlName="TenantId"
+                      placeholder="Select tenant"
+                      (onChange)="loadStatuses()">
+                    </p-dropdown>
+                    <app-validation-errors
+                      [type]="'text'"
+                      [control]="editForm.get('TenantId')"
+                      label="Tenant">
+                    </app-validation-errors>
+                  </div>
+
+                  <div class="flex flex-col w-full">
+                    <label for="SubscriptionPlanId">Subscription plan</label>
+                    <p-dropdown
+                      inputId="SubscriptionPlanId"
+                      [options]="subscriptionPlanIdOptions"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      formControlName="SubscriptionPlanId"
+                      placeholder="Select plan">
+                    </p-dropdown>
+                    <app-validation-errors
+                      [type]="'text'"
+                      [control]="editForm.get('SubscriptionPlanId')"
+                      label="Subscription plan">
+                    </app-validation-errors>
+                  </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full">
+                    <label for="SubscriptionStatus">Subscription status</label>
+                    <p-dropdown
+                      inputId="SubscriptionStatus"
+                      [options]="subscriptionStatusOptions"
+                      optionLabel="Text"
+                      optionValue="Value"
+                      formControlName="SubscriptionStatus"
+                      placeholder="Select status">
+                    </p-dropdown>
+                    <app-validation-errors
+                      [type]="'text'"
+                      [control]="editForm.get('SubscriptionStatus')"
+                      label="Subscription status">
+                    </app-validation-errors>
+                  </div>
+
+                  <div class="flex flex-col w-full">
+                    <label for="StartDate">Start date</label>
+                    <p-calendar
+                      inputId="StartDate"
+                      dateFormat="dd-M-yy"
+                      [showIcon]="true"
+                      formControlName="StartDate">
+                    </p-calendar>
+                    <app-validation-errors
+                      [type]="'date'"
+                      [control]="editForm.get('StartDate')"
+                      label="Start date">
+                    </app-validation-errors>
+                  </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex flex-col w-full">
+                    <label for="EndDate">End date</label>
+                    <p-calendar
+                      inputId="EndDate"
+                      dateFormat="dd-M-yy"
+                      [showIcon]="true"
+                      formControlName="EndDate">
+                    </p-calendar>
+                  </div>
+                  <div class="w-full"></div>
+                </div>
+              </div>
+            </div>
+          </p-fluid>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

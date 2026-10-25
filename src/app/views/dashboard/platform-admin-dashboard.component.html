@@ -1,0 +1,24 @@
+<section class="platform-dashboard" aria-labelledby="platform-dashboard-title">
+  <header class="platform-dashboard__hero">
+    <p class="platform-dashboard__eyebrow">Platform workspace</p>
+    <h1 id="platform-dashboard-title">Platform Administration</h1>
+    <p>Manage platform tenants, entitlements, and operational controls.</p>
+  </header>
+
+  <div class="platform-dashboard__grid">
+    <button
+      *ngFor="let shortcut of shortcuts"
+      type="button"
+      class="platform-dashboard__card"
+      (click)="open(shortcut)">
+      <span class="platform-dashboard__icon" aria-hidden="true">
+        <i class="pi {{ shortcut.icon }}"></i>
+      </span>
+      <span class="platform-dashboard__content">
+        <span class="platform-dashboard__label">{{ shortcut.label }}</span>
+        <span class="platform-dashboard__detail">{{ shortcut.detail }}</span>
+      </span>
+      <i class="pi pi-arrow-up-right platform-dashboard__arrow" aria-hidden="true"></i>
+    </button>
+  </div>
+</section>

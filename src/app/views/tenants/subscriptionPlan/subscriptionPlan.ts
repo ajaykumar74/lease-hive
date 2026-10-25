@@ -10,5 +10,6 @@ MaxAssets :number;
 StorageGB :number;
 Description :string;
 IsDeleted : boolean;
+FeaturePicklistItemIds: number[];
 
 }
