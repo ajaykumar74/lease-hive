@@ -1,0 +1,256 @@
+<div class="grid quotation-workspace">
+  <div class="col-12">
+    <div class="card p-fluid">
+      <app-message [AlertType]="'message'"></app-message>
+      <app-spinner></app-spinner>
+
+      <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3 mb-4">
+        <div>
+          <h2 class="m-0">{{ quoteId ? 'Edit quotation' : 'Create quotation' }}</h2>
+          <div class="text-color-secondary mt-1">One draft saves every quotation tab together. Pricing calculations are validated by the LeaseHive pricing engine.</div>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button type="button" pButton icon="pi pi-eye" label="Preview" class="p-button-outlined" (click)="preview()"></button>
+          <button type="button" pButton icon="pi pi-save" label="Save draft" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button>
+          <button type="button" pButton icon="pi pi-times" label="Cancel" class="p-button-text" (click)="cancel()"></button>
+        </div>
+      </div>
+
+      <div *ngIf="readOnly" class="p-3 mb-3 border-round surface-warning text-900">
+        This quotation is {{ header.value.StatusName || header.value.StatusCode || 'not editable' }}. Use the existing revision workflow to create an editable successor.
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4" role="tablist" aria-label="Quotation sections">
+        <button *ngFor="let tab of tabs; let index = index" type="button" pButton [label]="(index + 1) + '. ' + tab"
+          [class.p-button-outlined]="activeTab !== index" [class.p-button-secondary]="activeTab !== index"
+          (click)="selectTab(index)" [attr.aria-selected]="activeTab === index"></button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="saveDraft()">
+        <section *ngIf="activeTab === 0" formGroupName="Quote" class="grid">
+          <div class="col-12"><h3 class="mt-0">Customer and quotation details</h3></div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="party">Customer *</label>
+            <p-dropdown inputId="party" [options]="partyOptions" optionLabel="Text" optionValue="Id" formControlName="PartyId" [filter]="true" filterBy="Text" placeholder="Select customer"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="opportunity">Opportunity *</label>
+            <p-dropdown inputId="opportunity" [options]="opportunityOptions" optionLabel="Text" optionValue="Id" formControlName="OpportunityId" [filter]="true" filterBy="Text" placeholder="Select opportunity"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="requirement">Lease requirement</label>
+            <p-dropdown inputId="requirement" [options]="requirementOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseRequirementId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Optional requirement"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="originatingOrganisation">Originating organisation *</label>
+            <p-dropdown inputId="originatingOrganisation" [options]="organisationOptions" optionLabel="Text" optionValue="Id" formControlName="OriginatingOrganisationId" [filter]="true" filterBy="Text" placeholder="Select organisation"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="quoteDate">Quote date *</label>
+            <p-calendar inputId="quoteDate" formControlName="QuoteDate" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="validUntil">Valid until *</label>
+            <p-calendar inputId="validUntil" formControlName="ValidUntil" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="currency">Currency *</label>
+            <input id="currency" pInputText formControlName="CurrencyCode" maxlength="20" />
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="term">Requested term (months) *</label>
+            <p-inputNumber inputId="term" formControlName="RequestedTermMonths" [min]="1" [max]="600"></p-inputNumber>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="billingFrequency">Billing frequency *</label>
+            <p-dropdown inputId="billingFrequency" [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Select frequency"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="leaseType">Lease type</label>
+            <p-dropdown inputId="leaseType" [options]="leaseTypeOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseTypeCode" [showClear]="true" placeholder="Select lease type"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="paymentTiming">Payment timing</label>
+            <p-dropdown inputId="paymentTiming" [options]="paymentTimingOptions" optionLabel="Text" optionValue="Value" formControlName="PaymentTimingCode" [showClear]="true" placeholder="Select timing"></p-dropdown>
+          </div>
+          <div class="col-12 md:col-6 lg:col-4">
+            <label for="deposit">Security deposit</label>
+            <p-inputNumber inputId="deposit" formControlName="SecurityDepositAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber>
+          </div>
+          <div class="col-12">
+            <label for="remarks">Internal remarks</label>
+            <textarea id="remarks" pTextarea formControlName="Remarks" rows="2" maxlength="100" [autoResize]="true"></textarea>
+          </div>
+        </section>
+
+        <section *ngIf="activeTab === 1">
+          <div class="flex align-items-center justify-content-between mb-3">
+            <div><h3 class="m-0">Assets</h3><span class="text-color-secondary">Select the assets and quantities included in the quotation.</span></div>
+            <button type="button" pButton icon="pi pi-plus" label="Add asset" [disabled]="readOnly" (click)="addAsset()"></button>
+          </div>
+          <div formArrayName="Assets" class="flex flex-column gap-3">
+            <article *ngFor="let asset of assets.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3">
+              <div class="flex align-items-center justify-content-between mb-3"><strong>Asset {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeAsset(index)"></button></div>
+              <div class="grid">
+                <div class="col-12 md:col-3"><label>Category *</label><p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" formControlName="AssetCategoryId" [filter]="true" filterBy="Text" placeholder="Select category"></p-dropdown></div>
+                <div class="col-12 md:col-3"><label>Type</label><p-dropdown [options]="assetTypeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetTypeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select type"></p-dropdown></div>
+                <div class="col-12 md:col-3"><label>Make</label><p-dropdown [options]="assetMakeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetMakeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select make"></p-dropdown></div>
+                <div class="col-12 md:col-3"><label>Model</label><p-dropdown [options]="assetModelOptions" optionLabel="Text" optionValue="Id" formControlName="AssetModelId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select model"></p-dropdown></div>
+                <div class="col-12 md:col-6"><label>Description</label><input pInputText formControlName="Description" maxlength="500" /></div>
+                <div class="col-6 md:col-2"><label>Quantity *</label><p-inputNumber formControlName="Quantity" [min]="1"></p-inputNumber></div>
+                <div class="col-6 md:col-4"><label>Unit asset cost</label><p-inputNumber formControlName="UnitAssetCost" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="col-6 md:col-3"><label>Term (months) *</label><p-inputNumber formControlName="TermMonths" [min]="1" [max]="600"></p-inputNumber></div>
+                <div class="col-6 md:col-3"><label>Billing frequency *</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Frequency"></p-dropdown></div>
+                <div class="col-12 md:col-3"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
+              </div>
+            </article>
+          </div>
+          <div *ngIf="assets.length === 0" class="surface-ground p-5 text-center border-round text-color-secondary">No assets have been added. Add an asset to enter its manual rental.</div>
+        </section>
+
+        <section *ngIf="activeTab === 2">
+          <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3 mb-3">
+            <div><h3 class="m-0">Lease pricing</h3><span class="text-color-secondary">Calculate a selected asset, save comparable scenarios, then apply the approved price without discarding other draft changes.</span></div>
+            <span class="font-semibold">{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} per month</span>
+          </div>
+          <div *ngIf="assets.length; else noPricingAssets" class="grid">
+            <div class="col-12 md:col-4">
+              <label for="pricingAsset">Asset line</label>
+              <p-dropdown inputId="pricingAsset" [options]="assetOptions()" optionLabel="Text" optionValue="Value" [(ngModel)]="selectedPricingAssetKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="selectPricingAsset($event)" placeholder="Select asset"></p-dropdown>
+              <div *ngIf="pricingAsset" class="mt-3 p-3 surface-ground border-round text-sm">
+                <strong>Line {{ pricingAsset.value.LineNo }} · {{ pricingAsset.value.Description || 'Asset' }}</strong>
+                <div class="text-color-secondary mt-1">{{ pricingAsset.value.Quantity || 0 }} unit(s) · {{ pricingAsset.value.TermMonths || 0 }} months · {{ pricingMethodLabel(pricingAsset.value) }}</div>
+                <div *ngIf="pricingAsset.value.PricingIsStale" class="mt-2 text-orange-700">Inputs changed after the last applied calculation. Recalculate and apply a matching scenario.</div>
+              </div>
+            </div>
+            <div class="col-12 md:col-8" *ngIf="pricingAsset" [formGroup]="pricingAsset">
+              <div class="grid surface-ground border-round p-3">
+                <div class="col-12 md:col-4"><label>Pricing mode</label><p-dropdown [options]="pricingMethodOptions" optionLabel="Text" optionValue="Value" formControlName="PricingMethodCode"></p-dropdown></div>
+                <div class="col-12 md:col-4"><label>Payment timing</label><div class="p-inputtext p-component w-full surface-100">{{ header.value.PaymentTimingCode || 'ARREARS' }}</div></div>
+                <div class="col-12 md:col-4"><label>Billing frequency</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency"></p-dropdown></div>
+
+                <ng-container *ngIf="(pricingAsset.value.PricingMethodCode || 'MANUAL').toUpperCase() === 'MANUAL'; else calculatedInputs">
+                  <div class="col-12 md:col-6"><label>Manual periodic rental *</label><p-inputNumber formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                  <div class="col-12 md:col-6 align-self-end text-color-secondary">Manual mode stays fully available and does not invoke a funding calculation.</div>
+                </ng-container>
+                <ng-template #calculatedInputs>
+                  <div class="col-12 md:col-4"><label>Annual funding rate (%)</label><p-inputNumber formControlName="AnnualFundingRate" suffix="%" [min]="0" [maxFractionDigits]="6"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Estimated residual value</label><p-inputNumber formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Non-refundable down payment</label><p-inputNumber formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Contractual bullet payment</label><p-inputNumber formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Usage allowance</label><p-inputNumber formControlName="UsageAllowance" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Expected usage</label><p-inputNumber formControlName="ExpectedUsage" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-4"><label>Excess usage rate</label><p-inputNumber formControlName="ExcessUsageRate" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                  <div class="col-12 md:col-8 align-self-end text-color-secondary">Refundable deposit: {{ (header.value.SecurityDepositAmount || 0) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}. It is reported separately and never reduces the finance amount.</div>
+                </ng-template>
+
+                <div class="col-12 flex flex-wrap gap-2 mt-2">
+                  <button type="button" pButton icon="pi pi-calculator" label="Calculate rental" [disabled]="readOnly || isCalculating" (click)="calculateRental()"></button>
+                  <input pInputText [(ngModel)]="scenarioName" [ngModelOptions]="{standalone: true}" maxlength="100" placeholder="Scenario name" class="w-14rem" [disabled]="readOnly" />
+                  <button type="button" pButton icon="pi pi-save" label="Save scenario" class="p-button-outlined" [disabled]="readOnly || isSavingScenario" (click)="saveScenario()"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <article *ngIf="calculationResult" class="surface-card border-1 border-200 border-round p-3 mt-3">
+            <div class="flex align-items-center justify-content-between gap-2 mb-3"><h4 class="m-0">Calculated result</h4><strong>{{ calculationResult.PeriodicCustomerPayment | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} monthly customer payment</strong></div>
+            <div class="grid text-sm"><div class="col-6 md:col-3"><span class="text-color-secondary">Base rental</span><div>{{ calculationResult.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Services / recurring</span><div>{{ (calculationResult.PeriodicServiceAmount + calculationResult.PeriodicRecurringChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Upfront reduction</span><div>{{ calculationResult.UpfrontReductionAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">End-of-term customer amount</span><div>{{ calculationResult.EndOfTermCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Estimated residual recovery</span><div>{{ calculationResult.EstimatedResidualValueAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Refundable deposit</span><div>{{ calculationResult.RefundableSecurityDepositAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Contractual payments</span><div>{{ calculationResult.TotalContractualPayments | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Cash outflow incl. deposit</span><div>{{ calculationResult.TotalCashOutflowIncludingRefundableDeposit | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div></div>
+            <ul *ngIf="calculationResult.Warnings?.length" class="mt-3 mb-0 text-orange-700"><li *ngFor="let warning of calculationResult.Warnings">{{ warning }}</li></ul>
+            <p-table [value]="calculationResult.Schedule" styleClass="p-datatable-sm" class="mt-3"><ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Base rental</th><th class="text-right">Services / charges</th><th class="text-right">Bullet / excess</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template><ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ServiceAmount + line.RecurringChargeAmount + line.UpfrontChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ContractualBulletAmount + line.ProjectedExcessUsageAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TotalCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
+          </article>
+
+          <article *ngIf="pricingAsset && quoteId" class="surface-card border-1 border-200 border-round p-3 mt-3">
+            <h4 class="mt-0">Saved scenarios</h4>
+            <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
+            <div *ngIf="scenarios.length === 0" class="text-color-secondary p-3">No saved scenarios for this asset yet.</div>
+          </article>
+          <ng-template #noPricingAssets><div class="surface-ground p-5 text-center border-round text-color-secondary">Add and save an asset before using the pricing engine.</div></ng-template>
+        </section>
+
+        <section *ngIf="activeTab === 3">
+          <div class="flex align-items-center justify-content-between mb-3"><div><h3 class="m-0">Services and charges</h3><span class="text-color-secondary">Services describe inclusions. Separately-chargeable services create their linked charge once.</span></div><div class="flex gap-2"><button type="button" pButton icon="pi pi-plus" label="Service" [disabled]="readOnly" (click)="addService()"></button><button type="button" pButton icon="pi pi-plus" label="Charge" class="p-button-outlined" [disabled]="readOnly" (click)="addCharge()"></button></div></div>
+          <h4>Services</h4>
+          <div formArrayName="Services" class="flex flex-column gap-3">
+            <article *ngFor="let service of services.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3"><div class="flex align-items-center justify-content-between mb-3"><strong>Service {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeService(index)"></button></div><div class="grid"><div class="col-12 md:col-4"><label>Lease service *</label><p-dropdown [options]="leaseServiceOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseServiceId" [filter]="true" filterBy="Text" placeholder="Select service"></p-dropdown></div><div class="col-12 md:col-4"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="service.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(service, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div><div class="col-6 md:col-2"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div><div class="col-6 md:col-2"><label>Quantity</label><p-inputNumber formControlName="Quantity" [min]="0.000001"></p-inputNumber></div><div class="col-12 md:col-4"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true"></p-dropdown></div><div class="col-6 md:col-2 flex align-items-end"><p-checkbox formControlName="IsIncluded" [binary]="true" inputId="included-{{index}}" label="Included"></p-checkbox></div><div class="col-6 md:col-3 flex align-items-end"><p-checkbox formControlName="IsSeparatelyChargeable" [binary]="true" inputId="chargeable-{{index}}" label="Separate charge"></p-checkbox></div><div class="col-12"><label>Service terms</label><textarea pTextarea formControlName="ServiceTerms" rows="2" maxlength="1000" [autoResize]="true"></textarea></div></div></article>
+          </div>
+          <h4 class="mt-5">Manual charges</h4>
+          <div formArrayName="Charges" class="flex flex-column gap-3">
+            <article *ngFor="let charge of charges.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3"><div class="flex align-items-center justify-content-between mb-3"><strong>Charge {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeCharge(index)"></button></div><div class="grid"><div class="col-12 md:col-3"><label>Charge type *</label><input pInputText formControlName="ChargeType" maxlength="50" /></div><div class="col-12 md:col-5"><label>Description *</label><input pInputText formControlName="ChargeDescription" maxlength="200" /></div><div class="col-12 md:col-4"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="charge.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(charge, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div><div class="col-12 md:col-3"><label>Amount *</label><p-inputNumber formControlName="RateOrAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div><div class="col-12 md:col-3"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true"></p-dropdown></div><div class="col-6 md:col-2 flex align-items-end"><p-checkbox formControlName="IsRecurring" [binary]="true" inputId="recurring-{{index}}" label="Recurring"></p-checkbox></div><div class="col-6 md:col-4"><label>Frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true"></p-dropdown></div></div></article>
+          </div>
+        </section>
+
+        <section *ngIf="activeTab === 4" formGroupName="Quote" class="grid">
+          <div class="col-12"><h3 class="mt-0">Terms and conditions</h3><p class="text-color-secondary mt-0">These terms are included in the quotation preview and draft record.</p></div>
+          <div class="col-12"><label for="terms">Commercial terms</label><textarea id="terms" pTextarea formControlName="TermsAndConditions" rows="6" [autoResize]="true"></textarea></div>
+          <div class="col-12 md:col-6"><label for="deliveryTerms">Delivery terms</label><textarea id="deliveryTerms" pTextarea formControlName="DeliveryTerms" rows="4" [autoResize]="true"></textarea></div>
+          <div class="col-12 md:col-6"><label for="returnTerms">Return terms</label><textarea id="returnTerms" pTextarea formControlName="ReturnTerms" rows="4" [autoResize]="true"></textarea></div>
+          <div class="col-12"><label for="serviceTerms">Service-level terms</label><textarea id="serviceTerms" pTextarea formControlName="ServiceLevelTerms" rows="4" [autoResize]="true"></textarea></div>
+        </section>
+
+        <section *ngIf="activeTab === 5" class="quotation-preview">
+          <div class="flex align-items-center justify-content-between mb-4"><div><h3 class="m-0">Quotation preview</h3><span class="text-color-secondary">Review before using the existing approval and issue workflow.</span></div><div class="flex gap-2"><button type="button" pButton icon="pi pi-print" label="Print preview" class="p-button-outlined" (click)="printPreview()"></button><button type="button" pButton icon="pi pi-save" label="Save draft" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button></div></div>
+          <article class="border-1 border-200 border-round p-4 surface-card">
+            <div class="flex justify-content-between align-items-start mb-4"><div><div class="text-xl font-bold">LEASE QUOTATION</div><div class="text-color-secondary">{{ header.value.QuoteId || 'Draft quotation' }} · Version {{ header.value.VersionNo || 'DRAFT' }}</div></div><div class="text-right"><strong>{{ header.value.StatusName || 'Draft' }}</strong><br><span class="text-color-secondary">Valid until {{ header.value.ValidUntil | date:'dd MMM yyyy' }}</span></div></div>
+            <div class="grid mb-3"><div class="col-12 md:col-6"><strong>Customer</strong><div>{{ partyDisplayName() }}</div></div><div class="col-12 md:col-6"><strong>Commercial terms</strong><div>{{ header.value.RequestedTermMonths }} months · {{ header.value.BillingFrequency || 'Frequency not selected' }}</div></div></div>
+            <p-table [value]="assets.getRawValue()" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Asset</th><th>Pricing</th><th class="text-right">Qty</th><th class="text-right">Monthly rental</th></tr></ng-template><ng-template pTemplate="body" let-asset><tr><td>{{ asset.Description || ('Asset line ' + asset.LineNo) }}</td><td>{{ pricingMethodLabel(asset) }}</td><td class="text-right">{{ asset.Quantity }}</td><td class="text-right">{{ rentalForAsset(asset) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
+            <div class="grid mt-3"><div class="col-12 md:col-7"><strong>Terms and conditions</strong><p class="white-space-pre-line">{{ header.value.TermsAndConditions || 'No commercial terms have been entered.' }}</p><strong *ngIf="header.value.DeliveryTerms">Delivery terms</strong><p *ngIf="header.value.DeliveryTerms" class="white-space-pre-line">{{ header.value.DeliveryTerms }}</p><strong *ngIf="header.value.ReturnTerms">Return terms</strong><p *ngIf="header.value.ReturnTerms" class="white-space-pre-line">{{ header.value.ReturnTerms }}</p><strong *ngIf="header.value.ServiceLevelTerms">Service-level terms</strong><p *ngIf="header.value.ServiceLevelTerms" class="white-space-pre-line">{{ header.value.ServiceLevelTerms }}</p></div><div class="col-12 md:col-5"><div class="flex justify-content-between"><span>Periodic rental</span><strong>{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div><div class="flex justify-content-between mt-2"><span>Upfront charges</span><strong>{{ totalOneOff() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div><div class="flex justify-content-between mt-3 pt-3 border-top-1 border-200 text-lg"><span>Estimated contract value</span><strong>{{ estimatedContractValue() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div></div></div>
+          </article>
+          <article *ngIf="commercialStatus" class="surface-card border-1 border-200 border-round p-4 mt-4">
+            <div class="flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+              <div><h4 class="m-0">Commercial controls</h4><span class="text-color-secondary">Status, policy compliance, approvals and the contractual payment view.</span></div>
+              <span class="font-semibold" [class.text-green-700]="commercialStatus.StatusCode === 'APPROVED' || commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" [class.text-orange-700]="commercialStatus.StatusCode === 'PENDING_APPROVAL'">{{ commercialStatus.StatusName }}</span>
+            </div>
+
+            <div *ngIf="commercialStatus.PolicyEvaluations?.length; else compliantPolicies" class="mb-4">
+              <h5 class="mt-0 mb-2">Policy compliance</h5>
+              <p-table [value]="commercialStatus.PolicyEvaluations" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header"><tr><th>Policy</th><th>Outcome</th><th>Detail</th></tr></ng-template>
+                <ng-template pTemplate="body" let-policy><tr><td>{{ policy.PolicyCode || 'Commercial policy' }}</td><td><span [class.text-red-600]="policy.SeverityCode === 'BLOCK'" [class.text-orange-700]="policy.SeverityCode === 'EXCEPTION' || policy.SeverityCode === 'APPROVAL_REQUIRED'">{{ policy.SeverityCode }}</span></td><td>{{ policy.Message }}</td></tr></ng-template>
+              </p-table>
+            </div>
+            <ng-template #compliantPolicies><div class="mb-4 p-3 surface-ground border-round text-green-700">No active commercial policy exceptions were found for the current quotation state.</div></ng-template>
+
+            <div class="mb-4">
+              <h5 class="mt-0 mb-2">Contractual payment schedule</h5>
+              <p-table [value]="commercialStatus.PaymentSchedule" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header"><tr><th>Payment</th><th>Due date</th><th>Description</th><th class="text-right">Net</th><th class="text-right">Tax</th><th class="text-right">Total</th></tr></ng-template>
+                <ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td>{{ line.DueDate | date:'dd MMM yyyy' }}</td><td>{{ line.Description }}</td><td class="text-right">{{ line.NetAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TaxAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ line.GrossAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="footer"><tr><td colspan="5" class="text-right font-semibold">Quotation total</td><td class="text-right font-semibold">{{ commercialStatus.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+              </p-table>
+            </div>
+
+            <div *ngIf="commercialStatus.ApprovalHistory?.length" class="mb-4">
+              <h5 class="mt-0 mb-2">Approval history</h5>
+              <p-table [value]="commercialStatus.ApprovalHistory" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Request</th><th>Step</th><th>Action</th><th>At</th><th>Comments</th></tr></ng-template><ng-template pTemplate="body" let-history><tr><td>{{ history.ApprovalRequestNumber }} · {{ history.ApprovalStatus }}</td><td>{{ history.StepNo || '-' }}</td><td>{{ history.ActionCode || 'Pending' }}</td><td>{{ history.ActionDateTime | date:'dd MMM yyyy HH:mm' }}</td><td>{{ history.Comments || '-' }}</td></tr></ng-template></p-table>
+            </div>
+
+            <div class="surface-ground border-round p-3">
+              <div class="flex flex-wrap gap-2 align-items-center">
+                <button *ngIf="commercialStatus.StatusCode === 'DRAFT'" type="button" pButton icon="pi pi-send" label="Submit for approval" [disabled]="isCommercialAction" (click)="submitForCommercialApproval()"></button>
+                <ng-container *ngIf="commercialStatus.StatusCode === 'PENDING_APPROVAL'">
+                  <textarea pTextarea [(ngModel)]="commercialComments" [ngModelOptions]="{standalone: true}" rows="2" maxlength="1000" class="w-20rem" placeholder="Approval comments"></textarea>
+                  <button type="button" pButton icon="pi pi-check" label="Approve" [disabled]="isCommercialAction" (click)="approveCommercial()"></button>
+                  <button type="button" pButton icon="pi pi-replay" label="Return" class="p-button-outlined" [disabled]="isCommercialAction" (click)="returnCommercial()"></button>
+                  <button type="button" pButton icon="pi pi-times" label="Reject" class="p-button-danger p-button-outlined" [disabled]="isCommercialAction" (click)="rejectCommercial()"></button>
+                </ng-container>
+                <button *ngIf="commercialStatus.StatusCode === 'APPROVED'" type="button" pButton icon="pi pi-file-check" label="Issue quotation" [disabled]="isCommercialAction" (click)="issueQuotation()"></button>
+                <button *ngIf="commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" type="button" pButton icon="pi pi-copy" label="Revise quotation" class="p-button-outlined" [disabled]="isCommercialAction" (click)="createRevision()"></button>
+              </div>
+
+              <div *ngIf="commercialStatus.StatusCode === 'ISSUED'" class="grid mt-2">
+                <div class="col-12"><h5 class="mb-2">Record customer acceptance</h5></div>
+                <div class="col-12 md:col-4"><label>Customer contact *</label><input pInputText [(ngModel)]="acceptedByName" [ngModelOptions]="{standalone: true}" maxlength="200" /></div>
+                <div class="col-12 md:col-3"><label>Acceptance method</label><input pInputText [(ngModel)]="acceptanceMethodCode" [ngModelOptions]="{standalone: true}" maxlength="20" /></div>
+                <div class="col-12 md:col-5"><label>Remarks</label><input pInputText [(ngModel)]="acceptanceRemarks" [ngModelOptions]="{standalone: true}" maxlength="1000" /></div>
+                <div class="col-12"><button type="button" pButton icon="pi pi-user-plus" label="Record acceptance" [disabled]="isCommercialAction" (click)="recordAcceptance()"></button></div>
+              </div>
+              <div *ngIf="commercialStatus.StatusCode === 'ACCEPTED'" class="mt-3"><button type="button" pButton icon="pi pi-briefcase" label="Create contract draft" [disabled]="isCommercialAction" (click)="createContractDraft()"></button></div>
+            </div>
+          </article>
+          <div class="mt-4 flex gap-2 flex-wrap"><button type="button" pButton icon="pi pi-sitemap" label="Open approval & issue workflow" [disabled]="!quoteId" (click)="openWorkflow()"></button><span *ngIf="!quoteId" class="align-self-center text-color-secondary">Save the draft to continue.</span></div>
+        </section>
+      </form>
+    </div>
+  </div>
+</div>

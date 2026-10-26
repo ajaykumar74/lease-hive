@@ -89,7 +89,22 @@
 <app-validation-errors [type]="'number'" [control]="editForm.get('MaximumResidualPct')"
 											label="Maximum Residual Percent">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Currency" class="mb-1">CurrencyCode</label>
+						 </div><div class="flex flex-col w-full">
+                            <label for="LeaseTypeCode">Lease type (blank = all)</label>
+                            <input pInputText id="LeaseTypeCode" type="text" pSize="small" formControlName="LeaseTypeCode" />
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="MaximumFundingRate">Maximum funding rate</label><p-inputNumber id="MaximumFundingRate" pSize="small" formControlName="MaximumFundingRate"></p-inputNumber></div>
+<div class="flex flex-col w-full"><label for="MaximumContractValue">Maximum contract value</label><p-inputNumber id="MaximumContractValue" pSize="small" formControlName="MaximumContractValue"></p-inputNumber></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="MaximumDiscountAmount">Maximum discount amount</label><p-inputNumber id="MaximumDiscountAmount" pSize="small" formControlName="MaximumDiscountAmount"></p-inputNumber></div>
+<div class="flex flex-col w-full"><label for="ApprovalThresholdAmount">Approval threshold amount</label><p-inputNumber id="ApprovalThresholdAmount" pSize="small" formControlName="ApprovalThresholdAmount"></p-inputNumber></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="ExceptionThresholdAmount">Exception threshold amount</label><p-inputNumber id="ExceptionThresholdAmount" pSize="small" formControlName="ExceptionThresholdAmount"></p-inputNumber></div>
+<div class="flex flex-col w-full justify-content-end gap-2"><p-checkbox inputId="RequireCommercialApproval" [binary]="true" formControlName="RequireCommercialApproval" label="Require commercial approval"></p-checkbox><p-checkbox inputId="BlockPolicyViolations" [binary]="true" formControlName="BlockPolicyViolations" label="Block policy violations"></p-checkbox></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Currency" class="mb-1">CurrencyCode</label>
         <p-dropdown
             inputId="CurrencyCode" 
             [options]="currencycodeOptions"
@@ -131,7 +146,7 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
 											label="Record Status">
-										</app-validation-errors></div></div>
+										</app-validation-errors></div></div>
 
 					</div>
 				</div>
