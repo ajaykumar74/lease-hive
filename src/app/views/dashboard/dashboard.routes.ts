@@ -186,6 +186,12 @@ const routes: Routes = [
         data: { breadcrumb: 'Document Requirements' },
         loadChildren: () => import('@/views/documents/documentRequirement/documentRequirement.module').then(c => c.DocumentRequirementModule),
       },
+      {
+        path: 'document-templates',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'Document Templates' },
+        loadComponent: () => import('@/views/documents/documentTemplate/document-template.component').then(c => c.DocumentTemplateComponent),
+      },
 
       {
         path: 'document-versions',

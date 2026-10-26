@@ -12,6 +12,9 @@ import { MessageComponent } from '@/shared/message.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { LeaseContractService } from './leaseContract.service';
 import { ILeaseContract } from './leaseContract';
+import { finalize } from 'rxjs';
+import { DocumentTemplateService } from '@/views/documents/documentTemplate/document-template.service';
+import { DocumentTemplate } from '@/views/documents/documentTemplate/document-template.models';
 
 @Component({
     templateUrl: './leaseContract-view.component.html', 
@@ -23,6 +26,9 @@ export class LeaseContractViewComponent implements OnInit {
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
     leaseContract: ILeaseContract = {} as ILeaseContract;
+    agreement: any = null;
+    templates: DocumentTemplate[] = [];
+    selectedTemplateId: number | null = null;
     Caption: string = 'Loading...';
     
 
@@ -31,7 +37,8 @@ export class LeaseContractViewComponent implements OnInit {
         private activatedRouter: ActivatedRoute,
         private leaseContractService: LeaseContractService, 
         private _location: Location,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private documentTemplateService: DocumentTemplateService
     ) {
 
     }
@@ -54,14 +61,18 @@ export class LeaseContractViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.leaseContractService.getById(this.selectedId).subscribe({
+        this.leaseContractService.getById(this.selectedId).pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+        })).subscribe({
             next: data => {
                 this.leaseContract = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.leaseContract);
+                this.loadAgreement();
+                this.loadTemplates();
             },
-            error: err => { },
-            complete: () => { this.spinner.hide(); this.isLoading = false; }
+            error: err => this.messageService.showError(err)
         });
     }
 
@@ -76,6 +87,72 @@ export class LeaseContractViewComponent implements OnInit {
         else if (key == "Refresh") {
             this.loadUI();
         }
+    }
+
+    previewAgreement(): void {
+        this.runPdfAction(this.leaseContractService.previewAgreement(this.leaseContract.Id, this.selectedTemplateId || undefined), 'Preview opened.');
+    }
+
+    generateAgreement(): void {
+        this.isLoading = true;
+        this.spinner.show();
+        this.leaseContractService.generateAgreement(this.leaseContract.Id).pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+        })).subscribe({
+            next: response => {
+                this.agreement = response.data;
+                this.messageService.showSuccess('The unsigned lease agreement has been generated.');
+            },
+            error: err => this.messageService.showError(err)
+        });
+    }
+
+    viewAgreement(): void {
+        this.runPdfAction(this.leaseContractService.downloadAgreement(this.leaseContract.Id), 'Lease agreement opened.');
+    }
+
+    sendForSignature(): void {
+        this.isLoading = true;
+        this.spinner.show();
+        this.leaseContractService.sendForSignature(this.leaseContract.Id).pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+        })).subscribe({
+            next: () => this.messageService.showSuccess('The lease agreement has been queued for signature delivery.'),
+            error: err => this.messageService.showError(err)
+        });
+    }
+
+    private loadAgreement(): void {
+        this.leaseContractService.getAgreement(this.selectedId).subscribe({
+            next: response => this.agreement = response.data,
+            error: () => this.agreement = null
+        });
+    }
+
+    private loadTemplates(): void {
+        this.documentTemplateService.list().subscribe({
+            next: templates => this.templates = templates.filter(template => template.TemplateTypeCode === 'LEASE_CONTRACT' && template.RecordStatus === 'Active'),
+            error: () => this.templates = []
+        });
+    }
+
+    private runPdfAction(request: any, successMessage: string): void {
+        this.isLoading = true;
+        this.spinner.show();
+        request.pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+        })).subscribe({
+            next: (blob: Blob) => {
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank', 'noopener');
+                window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+                this.messageService.showSuccess(successMessage);
+            },
+            error: (err: any) => this.messageService.showError(err)
+        });
     }
 
      

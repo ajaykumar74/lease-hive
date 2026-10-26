@@ -9,6 +9,17 @@
 					<button type="button" pButton label="Create revision" icon="pi pi-copy"
 						(click)="createRevision()" [disabled]="isLoading"></button>
 				</div>
+				<div class="flex flex-wrap gap-2 justify-content-end mb-3" *ngIf="quote?.Id">
+					<p-dropdown *ngIf="templates.length" [options]="templates" optionLabel="TemplateName" optionValue="Id"
+						[(ngModel)]="selectedTemplateId" [showClear]="true" placeholder="Default quotation template" [disabled]="isLoading"
+						[style]="{'min-width': '17rem'}"></p-dropdown>
+					<button type="button" pButton label="Preview document" icon="pi pi-eye" class="p-button-outlined"
+						(click)="previewDocument()" [disabled]="isLoading"></button>
+					<button type="button" pButton label="View issued PDF" icon="pi pi-file-pdf" class="p-button-outlined"
+						*ngIf="issuedDocument" (click)="viewIssuedDocument()" [disabled]="isLoading"></button>
+					<button type="button" pButton label="Send to customer" icon="pi pi-send"
+						*ngIf="issuedDocument && permission?.CanUpdate" (click)="sendToCustomer()" [disabled]="isLoading"></button>
+				</div>
 					<app-spinner></app-spinner>
 					<form> 
 				<p-fluid>

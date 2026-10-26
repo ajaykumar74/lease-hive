@@ -44,6 +44,36 @@ export class LeaseContractService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  previewAgreement(id: number, templateId?: number): Observable<Blob> {
+    const query = templateId ? `?templateId=${templateId}` : '';
+    return this.http.get(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/preview${query}`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  generateAgreement(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/generate-agreement`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  getAgreement(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/agreement`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  downloadAgreement(id: number): Observable<Blob> {
+    return this.http.get(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/agreement/download`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  sendForSignature(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/send-for-signature`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
 }
 
 
