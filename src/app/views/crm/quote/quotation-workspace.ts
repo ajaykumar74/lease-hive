@@ -289,7 +289,17 @@ export interface IQuotationCommercialActionResult {
     StatusCode: string;
     ApprovalRequestId?: number | null;
     PricingSnapshotId?: number | null;
+    DocumentId?: number | null;
     Message: string;
+}
+
+export interface IQuotationIssuedPdf {
+    DocumentId: number;
+    DocumentVersionId: number;
+    DocumentLinkId: number;
+    FileName: string;
+    ContentType: string;
+    IssuedAtUtc: Date | string;
 }
 
 export interface IQuoteContractHandoffResult {

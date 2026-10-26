@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize, switchMap } from 'rxjs';
 
 import { ISelectItem } from '@/shared/ISelectItem';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
@@ -15,6 +16,7 @@ import {
   ILeasePricingScenario,
   IQuotationCommercialActionResult,
   IQuotationCommercialStatus,
+  IQuotationIssuedPdf,
   IQuotationWorkspace,
   IQuotationWorkspaceAsset,
   IQuotationWorkspaceCharge,
@@ -29,7 +31,8 @@ import {
 })
 export class QuotationWorkspaceComponent implements OnInit {
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-  @ViewChild(MessageComponent) messageService: MessageComponent;
+  @ViewChild('messagePanel') messageService: MessageComponent;
+  @ViewChild('workflowToast') workflowToast?: MessageComponent;
 
   readonly tabs = [
     'Details', 'Assets', 'Lease Pricing', 'Services & Charges', 'Terms & Conditions', 'Review & Issue'
@@ -39,15 +42,19 @@ export class QuotationWorkspaceComponent implements OnInit {
   isSaving = false;
   isCalculating = false;
   isSavingScenario = false;
+  isSavingAndApplyingScenario = false;
   isApplyingScenario = false;
   isCommercialAction = false;
+  isPdfAction = false;
   quoteId = 0;
+  isReviewRoute = false;
   readOnly = false;
   selectedPricingAssetKey = '';
   scenarioName = '';
   calculationResult: ILeasePricingResult | null = null;
   scenarios: ILeasePricingScenario[] = [];
   commercialStatus: IQuotationCommercialStatus | null = null;
+  issuedPdf: IQuotationIssuedPdf | null = null;
   commercialComments = '';
   acceptedByName = '';
   acceptanceMethodCode = 'MANUAL';
@@ -84,7 +91,8 @@ export class QuotationWorkspaceComponent implements OnInit {
     private readonly router: Router,
     private readonly location: Location,
     private readonly quoteService: QuoteService,
-    private readonly loggedInUserService: LoggedInUserService
+    private readonly loggedInUserService: LoggedInUserService,
+    private readonly destroyRef: DestroyRef
   ) {
     this.form = this.fb.group({
       Quote: this.createHeader(),
@@ -101,6 +109,8 @@ export class QuotationWorkspaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteId = Number(this.route.snapshot.paramMap.get('id')) || 0;
+    this.isReviewRoute = this.route.snapshot.data['review'] === true;
+    if (this.isReviewRoute) this.activeTab = 5;
     this.loadLookupOptions();
     this.assets.valueChanges.subscribe(() => this.markCalculatedPricingStale());
     this.services.valueChanges.subscribe(() => this.markCalculatedPricingStale());
@@ -223,6 +233,12 @@ export class QuotationWorkspaceComponent implements OnInit {
     return asset?.PricingIsStale ? 'Calculated (stale)' : 'Calculated';
   }
 
+  hasUnappliedCalculatedPricing(): boolean {
+    return (this.assets.getRawValue() as IQuotationWorkspaceAsset[]).some(asset =>
+      String(asset.PricingMethodCode || '').toUpperCase() === 'CALCULATED'
+      && (!asset.AppliedPricingScenarioId || asset.PricingIsStale));
+  }
+
   partyDisplayName(): string {
     return this.partyOptions.find(option => option.Id === this.header.value.PartyId)?.Text || 'Not selected';
   }
@@ -250,7 +266,9 @@ export class QuotationWorkspaceComponent implements OnInit {
     };
     this.isSaving = true;
     this.spinner?.show();
-    this.quoteService.saveWorkspace(workspace).subscribe({
+    this.quoteService.saveWorkspace(workspace).pipe(
+      finalize(() => { this.isSaving = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => {
         this.hydrate(response.data as IQuotationWorkspace);
         this.quoteId = Number(response.data?.Quote?.Id) || this.quoteId;
@@ -260,8 +278,7 @@ export class QuotationWorkspaceComponent implements OnInit {
           this.router.navigate(['/business/origination/quotes/edit', this.quoteId], { replaceUrl: true });
         }
       },
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isSaving = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -286,13 +303,14 @@ export class QuotationWorkspaceComponent implements OnInit {
     if (!input) return;
     this.isCalculating = true;
     this.spinner?.show();
-    this.quoteService.calculateLeasePricing(input).subscribe({
+    this.quoteService.calculateLeasePricing(input).pipe(
+      finalize(() => { this.isCalculating = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => {
         this.calculationResult = response.data as ILeasePricingResult;
         this.messageService.showSuccess('Rental calculated by the pricing engine. Save a scenario or apply a matching scenario to use the price.');
       },
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isCalculating = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -305,15 +323,47 @@ export class QuotationWorkspaceComponent implements OnInit {
     }
     this.isSavingScenario = true;
     this.spinner?.show();
-    this.quoteService.saveLeasePricingScenario(this.scenarioName, input).subscribe({
+    this.quoteService.saveLeasePricingScenario(this.scenarioName, input).pipe(
+      finalize(() => { this.isSavingScenario = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => {
         this.calculationResult = response.data?.Result || this.calculationResult;
         this.scenarioName = '';
         this.messageService.showSuccess('Pricing scenario saved.');
         this.loadPricingScenarios();
       },
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isSavingScenario = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  saveAndApplyCalculatedPrice(): void {
+    const input = this.createPricingInput();
+    if (!input) return;
+    if (!this.calculationResult) {
+      this.messageService.showError('Calculate the rental before applying a price.');
+      return;
+    }
+    const scenarioName = this.scenarioName.trim();
+    if (!scenarioName) {
+      this.messageService.showError('Enter a scenario name before saving and applying the price.');
+      return;
+    }
+
+    this.isSavingAndApplyingScenario = true;
+    this.spinner?.show();
+    this.quoteService.saveLeasePricingScenario(scenarioName, input).pipe(
+      switchMap(response => {
+        const savedScenario = response?.data as ILeasePricingScenario;
+        if (!savedScenario?.Id) throw new Error('The pricing scenario could not be saved.');
+        return this.quoteService.applyLeasePricingScenario(this.quoteId, input.QuoteAssetId, savedScenario.Id, input);
+      }),
+      finalize(() => { this.isSavingAndApplyingScenario = false; this.spinner?.hide(); })
+    ).subscribe({
+      next: response => {
+        this.scenarioName = '';
+        this.applyPricingResult(response.data as IApplyLeasePricingResult);
+      },
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -322,10 +372,11 @@ export class QuotationWorkspaceComponent implements OnInit {
     if (!input) return;
     this.isApplyingScenario = true;
     this.spinner?.show();
-    this.quoteService.applyLeasePricingScenario(this.quoteId, input.QuoteAssetId, scenario.Id, input).subscribe({
+    this.quoteService.applyLeasePricingScenario(this.quoteId, input.QuoteAssetId, scenario.Id, input).pipe(
+      finalize(() => { this.isApplyingScenario = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => this.applyPricingResult(response.data as IApplyLeasePricingResult),
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isApplyingScenario = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -355,6 +406,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     this.calculationResult = applied.Result;
     this.messageService.showSuccess('Price applied to the selected asset. Save Draft to retain all other unsaved quotation changes together.');
     this.loadPricingScenarios();
+    this.loadCommercialStatus();
   }
 
   private loadPricingScenarios(): void {
@@ -422,12 +474,59 @@ export class QuotationWorkspaceComponent implements OnInit {
 
   private numberValue(value: unknown): number { return Number(value) || 0; }
 
-  preview(): void { this.activeTab = 5; }
+  preview(): void { this.activeTab = 5; this.previewPdf(); }
   printPreview(): void { window.print(); }
+  previewPdf(): void {
+    if (!this.quoteId) {
+      this.messageService.showError('Save the quotation draft before generating a PDF preview.');
+      return;
+    }
+    this.isPdfAction = true;
+    this.spinner?.show();
+    this.quoteService.previewQuotationPdf(this.quoteId).pipe(
+      finalize(() => { this.isPdfAction = false; this.spinner?.hide(); })
+    ).subscribe({
+      next: pdf => this.openPdf(pdf),
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  downloadIssuedPdf(): void {
+    if (!this.quoteId || !this.issuedPdf) return;
+    this.isPdfAction = true;
+    this.spinner?.show();
+    this.quoteService.downloadIssuedQuotationPdf(this.quoteId).pipe(
+      finalize(() => { this.isPdfAction = false; this.spinner?.hide(); })
+    ).subscribe({
+      next: pdf => this.openPdf(pdf),
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  sendToCustomer(): void {
+    if (!this.quoteId) return;
+    this.isPdfAction = true;
+    this.spinner?.show();
+    this.quoteService.sendQuotationToCustomer(this.quoteId).pipe(
+      finalize(() => { this.isPdfAction = false; this.spinner?.hide(); })
+    ).subscribe({
+      next: response => {
+        const queueId = response?.data?.EmailJobQueueId;
+        this.messageService.showSuccess(queueId ? `Quotation email queued (job ${queueId}).` : 'Quotation email was not queued because no active quotation email template is configured.');
+      },
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  private openPdf(pdf: Blob): void {
+    const url = URL.createObjectURL(pdf);
+    window.open(url, '_blank', 'noopener');
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }
   cancel(): void { this.location.back(); }
   openWorkflow(): void {
     if (!this.quoteId) { this.messageService.showError('Save the draft before starting the existing approval and issue workflow.'); return; }
-    this.router.navigate(['/business/origination/quotes/view', this.quoteId]);
+    this.router.navigate(['/business/origination/quotes/review', this.quoteId]);
   }
 
   loadCommercialStatus(): void {
@@ -447,6 +546,8 @@ export class QuotationWorkspaceComponent implements OnInit {
           this.readOnly = !this.commercialStatus.IsEditable;
           if (this.readOnly) this.form.disable({ emitEvent: false });
           else this.form.enable({ emitEvent: false });
+          if (this.commercialStatus.StatusCode === 'ISSUED' || this.commercialStatus.StatusCode === 'ACCEPTED') this.loadIssuedPdf();
+          else this.issuedPdf = null;
         }
       },
       error: error => this.messageService.showError(error)
@@ -492,14 +593,15 @@ export class QuotationWorkspaceComponent implements OnInit {
     if (!this.quoteId) return;
     this.isCommercialAction = true;
     this.spinner?.show();
-    this.quoteService.createRevision(this.quoteId).subscribe({
+    this.quoteService.createRevision(this.quoteId).pipe(
+      finalize(() => { this.isCommercialAction = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => {
         const revisionId = Number(response?.data?.QuoteId || response?.Id);
         if (revisionId > 0) this.router.navigate(['/business/origination/quotes/edit', revisionId]);
         else this.messageService.showSuccess('Quotation revision created.');
       },
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isCommercialAction = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -507,31 +609,53 @@ export class QuotationWorkspaceComponent implements OnInit {
     if (!this.quoteId) return;
     this.isCommercialAction = true;
     this.spinner?.show();
-    this.quoteService.createContractDraft(this.quoteId).subscribe({
+    this.quoteService.createContractDraft(this.quoteId).pipe(
+      finalize(() => { this.isCommercialAction = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => {
         const handoff = response.data;
-        this.messageService.showSuccess(handoff?.ReusedExistingDraft
+        this.showWorkflowSuccess(handoff?.ReusedExistingDraft
           ? `Existing contract draft ${handoff.ContractNumber} opened by reference.`
           : `Contract draft ${handoff?.ContractNumber || ''} created from the accepted quotation.`);
         this.loadCommercialStatus();
       },
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isCommercialAction = false; this.spinner?.hide(); }
+      error: error => this.showWorkflowError(error)
     });
   }
 
   private executeCommercialAction(request: any): void {
     this.isCommercialAction = true;
     this.spinner?.show();
-    request.subscribe({
+    request.pipe(
+      finalize(() => {
+        this.isCommercialAction = false;
+        this.spinner?.hide();
+      })
+    ).subscribe({
       next: (response: any) => {
         const result = response.data as IQuotationCommercialActionResult;
-        this.messageService.showSuccess(result?.Message || 'Commercial action completed.');
+        this.showWorkflowSuccess(result?.Message || 'Commercial action completed.');
         this.commercialComments = '';
         this.loadCommercialStatus();
       },
-      error: (error: any) => this.messageService.showError(error),
-      complete: () => { this.isCommercialAction = false; this.spinner?.hide(); }
+      error: (error: any) => this.showWorkflowError(error)
+    });
+  }
+
+  private showWorkflowSuccess(message: string): void {
+    this.messageService.showSuccess(message);
+    this.workflowToast?.showSuccess(message);
+  }
+
+  private showWorkflowError(error: unknown): void {
+    this.messageService.showError(error);
+    this.workflowToast?.showError(error);
+  }
+
+  private loadIssuedPdf(): void {
+    this.quoteService.getIssuedQuotationPdf(this.quoteId).subscribe({
+      next: response => this.issuedPdf = (response.data || null) as IQuotationIssuedPdf | null,
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -553,8 +677,24 @@ export class QuotationWorkspaceComponent implements OnInit {
 
   private loadLookupOptions(): void {
     this.loggedInUserService.getEntityLookupOptions('parties').subscribe(options => this.partyOptions = options);
-    this.loggedInUserService.getEntityLookupOptions('opportunities').subscribe(options => this.opportunityOptions = options);
-    this.loggedInUserService.getEntityLookupOptions('lease-requirements').subscribe(options => this.requirementOptions = options);
+    this.loggedInUserService.bindEntityLookup(
+      this.header,
+      'OpportunityId',
+      'opportunities',
+      options => this.opportunityOptions = options,
+      error => this.messageService?.showError(error),
+      this.destroyRef,
+      { PartyId: 'PartyId' }
+    );
+    this.loggedInUserService.bindEntityLookup(
+      this.header,
+      'LeaseRequirementId',
+      'lease-requirements',
+      options => this.requirementOptions = options,
+      error => this.messageService?.showError(error),
+      this.destroyRef,
+      { OpportunityId: 'OpportunityId' }
+    );
     this.loggedInUserService.getOrganisationOptions().subscribe(options => this.organisationOptions = options);
     this.loggedInUserService.getEntityLookupOptions('asset-categories').subscribe(options => this.assetCategoryOptions = options);
     this.loggedInUserService.getEntityLookupOptions('asset-types').subscribe(options => this.assetTypeOptions = options);
@@ -571,10 +711,11 @@ export class QuotationWorkspaceComponent implements OnInit {
   private loadWorkspace(): void {
     this.isLoading = true;
     this.spinner?.show();
-    this.quoteService.getWorkspace(this.quoteId).subscribe({
+    this.quoteService.getWorkspace(this.quoteId).pipe(
+      finalize(() => { this.isLoading = false; this.spinner?.hide(); })
+    ).subscribe({
       next: response => this.hydrate(response.data as IQuotationWorkspace),
-      error: error => this.messageService.showError(error),
-      complete: () => { this.isLoading = false; this.spinner?.hide(); }
+      error: error => this.messageService.showError(error)
     });
   }
 
@@ -595,6 +736,8 @@ export class QuotationWorkspaceComponent implements OnInit {
       this.removedAssetIds = []; this.removedServiceIds = []; this.removedChargeIds = [];
       this.selectedPricingAssetKey = this.assets.length ? this.assets.at(0).value.ClientKey : '';
       if (this.readOnly) this.form.disable({ emitEvent: false }); else this.form.enable({ emitEvent: false });
+      // Dependent lookup bindings load their selected rows after an existing draft is hydrated.
+      this.header.updateValueAndValidity({ emitEvent: true });
     } finally {
       this.isHydrating = false;
     }

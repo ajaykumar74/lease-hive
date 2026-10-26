@@ -126,6 +126,30 @@ export class QuoteService extends BaseCrudService<any> {
     return this.http.post<any>(url, {}, { headers: this.headers })
       .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }
+
+  previewQuotationPdf(quoteId: number): Observable<Blob> {
+    const url = `${this.baseService.C_APP_URL}/quotation-documents/${quoteId}/preview`;
+    return this.http.get(url, { headers: this.headers, responseType: 'blob' })
+      .pipe(catchError(this.baseService.handleError));
+  }
+
+  getIssuedQuotationPdf(quoteId: number): Observable<any> {
+    const url = `${this.baseService.C_APP_URL}/quotation-documents/${quoteId}/issued`;
+    return this.http.get<any>(url, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  downloadIssuedQuotationPdf(quoteId: number): Observable<Blob> {
+    const url = `${this.baseService.C_APP_URL}/quotation-documents/${quoteId}/issued/download`;
+    return this.http.get(url, { headers: this.headers, responseType: 'blob' })
+      .pipe(catchError(this.baseService.handleError));
+  }
+
+  sendQuotationToCustomer(quoteId: number): Observable<any> {
+    const url = `${this.baseService.C_APP_URL}/quotation-documents/${quoteId}/send-to-customer`;
+    return this.http.post<any>(url, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
 }
 
 

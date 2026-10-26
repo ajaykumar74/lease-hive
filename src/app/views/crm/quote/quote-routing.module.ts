@@ -46,6 +46,15 @@ const routes: Routes = [
         component: QuotationWorkspaceComponent
       },
 	  {
+        path: 'review/:id',
+        canActivate: [AuthGuard],
+        component: QuotationWorkspaceComponent,
+        data: {
+          title: 'Review & Issue',
+          review: true
+        }
+      },
+	  {
         path: 'view/:id',
         canActivate: [AuthGuard],
         component: QuoteViewComponent 

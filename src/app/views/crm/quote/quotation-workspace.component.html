@@ -1,18 +1,19 @@
 <div class="grid quotation-workspace">
   <div class="col-12">
     <div class="card p-fluid">
-      <app-message [AlertType]="'message'"></app-message>
+      <app-message #workflowToast [AlertType]="'toast'"></app-message>
+      <app-message #messagePanel [AlertType]="'message'"></app-message>
       <app-spinner></app-spinner>
 
-      <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3 mb-4">
-        <div>
-          <h2 class="m-0">{{ quoteId ? 'Edit quotation' : 'Create quotation' }}</h2>
-          <div class="text-color-secondary mt-1">One draft saves every quotation tab together. Pricing calculations are validated by the LeaseHive pricing engine.</div>
+      <div class="flex flex-column xl:flex-row xl:align-items-start xl:justify-content-between gap-4 mb-3">
+        <div class="min-w-0">
+          <h2 class="m-0 text-3xl font-semibold line-height-2">{{ quoteId ? (isReviewRoute ? 'Review & issue quotation' : 'Edit quotation') : 'Create quotation' }}</h2>
+          <div class="text-color-secondary mt-2">One draft saves every quotation tab together. Pricing calculations are validated by the LeaseHive pricing engine.</div>
         </div>
-        <div class="flex gap-2 flex-wrap">
-          <button type="button" pButton icon="pi pi-eye" label="Preview" class="p-button-outlined" (click)="preview()"></button>
-          <button type="button" pButton icon="pi pi-save" label="Save draft" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button>
-          <button type="button" pButton icon="pi pi-times" label="Cancel" class="p-button-text" (click)="cancel()"></button>
+        <div class="flex gap-2 flex-wrap xl:flex-nowrap xl:flex-shrink-0">
+          <button type="button" pButton icon="pi pi-eye" size="small" label="Preview PDF" class="p-button-sm p-button-outlined" [disabled]="isPdfAction" (click)="preview()"></button>
+          <button type="button" pButton icon="pi pi-save" size="small" label="Save draft" class="p-button-sm" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button>
+          <button type="button" pButton icon="pi pi-times" size="small" label="Cancel" class="p-button-sm p-button-text" (click)="cancel()"></button>
         </div>
       </div>
 
@@ -20,88 +21,93 @@
         This quotation is {{ header.value.StatusName || header.value.StatusCode || 'not editable' }}. Use the existing revision workflow to create an editable successor.
       </div>
 
-      <div class="flex flex-wrap gap-2 mb-4" role="tablist" aria-label="Quotation sections">
+      <div class="flex flex-wrap gap-2 mt-3 mb-5" role="tablist" aria-label="Quotation sections">
         <button *ngFor="let tab of tabs; let index = index" type="button" pButton [label]="(index + 1) + '. ' + tab"
           [class.p-button-outlined]="activeTab !== index" [class.p-button-secondary]="activeTab !== index"
           (click)="selectTab(index)" [attr.aria-selected]="activeTab === index"></button>
       </div>
 
       <form [formGroup]="form" (ngSubmit)="saveDraft()">
-        <section *ngIf="activeTab === 0" formGroupName="Quote" class="grid">
-          <div class="col-12"><h3 class="mt-0">Customer and quotation details</h3></div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="party">Customer *</label>
-            <p-dropdown inputId="party" [options]="partyOptions" optionLabel="Text" optionValue="Id" formControlName="PartyId" [filter]="true" filterBy="Text" placeholder="Select customer"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="opportunity">Opportunity *</label>
-            <p-dropdown inputId="opportunity" [options]="opportunityOptions" optionLabel="Text" optionValue="Id" formControlName="OpportunityId" [filter]="true" filterBy="Text" placeholder="Select opportunity"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="requirement">Lease requirement</label>
-            <p-dropdown inputId="requirement" [options]="requirementOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseRequirementId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Optional requirement"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="originatingOrganisation">Originating organisation *</label>
-            <p-dropdown inputId="originatingOrganisation" [options]="organisationOptions" optionLabel="Text" optionValue="Id" formControlName="OriginatingOrganisationId" [filter]="true" filterBy="Text" placeholder="Select organisation"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="quoteDate">Quote date *</label>
-            <p-calendar inputId="quoteDate" formControlName="QuoteDate" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="validUntil">Valid until *</label>
-            <p-calendar inputId="validUntil" formControlName="ValidUntil" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="currency">Currency *</label>
-            <input id="currency" pInputText formControlName="CurrencyCode" maxlength="20" />
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="term">Requested term (months) *</label>
-            <p-inputNumber inputId="term" formControlName="RequestedTermMonths" [min]="1" [max]="600"></p-inputNumber>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="billingFrequency">Billing frequency *</label>
-            <p-dropdown inputId="billingFrequency" [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Select frequency"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="leaseType">Lease type</label>
-            <p-dropdown inputId="leaseType" [options]="leaseTypeOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseTypeCode" [showClear]="true" placeholder="Select lease type"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="paymentTiming">Payment timing</label>
-            <p-dropdown inputId="paymentTiming" [options]="paymentTimingOptions" optionLabel="Text" optionValue="Value" formControlName="PaymentTimingCode" [showClear]="true" placeholder="Select timing"></p-dropdown>
-          </div>
-          <div class="col-12 md:col-6 lg:col-4">
-            <label for="deposit">Security deposit</label>
-            <p-inputNumber inputId="deposit" formControlName="SecurityDepositAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber>
-          </div>
-          <div class="col-12">
-            <label for="remarks">Internal remarks</label>
-            <textarea id="remarks" pTextarea formControlName="Remarks" rows="2" maxlength="100" [autoResize]="true"></textarea>
+        <section *ngIf="activeTab === 0" formGroupName="Quote">
+          <div class="mb-4"><h2 class="m-0">Customer and quotation details</h2></div>
+          <div class="quote-details-grid">
+            <div class="quote-details-field">
+              <label for="party" class="font-medium">Customer *</label>
+              <p-dropdown inputId="party" [options]="partyOptions" optionLabel="Text" optionValue="Id" formControlName="PartyId" [filter]="true" filterBy="Text" placeholder="Select customer"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="opportunity" class="font-medium">Opportunity *</label>
+              <p-dropdown inputId="opportunity" [options]="opportunityOptions" optionLabel="Text" optionValue="Id" formControlName="OpportunityId" [filter]="true" filterBy="Text" [disabled]="!header.value.PartyId" [placeholder]="header.value.PartyId ? 'Select opportunity' : 'Select customer first'"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="requirement" class="font-medium">Lease requirement</label>
+              <p-dropdown inputId="requirement" [options]="requirementOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseRequirementId" [filter]="true" filterBy="Text" [showClear]="true" [disabled]="!header.value.OpportunityId" [placeholder]="header.value.OpportunityId ? 'Optional requirement' : 'Select opportunity first'"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="originatingOrganisation" class="font-medium">Originating organisation *</label>
+              <p-dropdown inputId="originatingOrganisation" [options]="organisationOptions" optionLabel="Text" optionValue="Id" formControlName="OriginatingOrganisationId" [filter]="true" filterBy="Text" placeholder="Select organisation"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="quoteDate" class="font-medium">Quote date *</label>
+              <p-calendar inputId="quoteDate" formControlName="QuoteDate" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+            </div>
+            <div class="quote-details-field">
+              <label for="validUntil" class="font-medium">Valid until *</label>
+              <p-calendar inputId="validUntil" formControlName="ValidUntil" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+            </div>
+            <div class="quote-details-field">
+              <label for="currency" class="font-medium">Currency *</label>
+              <input id="currency" class="w-full" pInputText formControlName="CurrencyCode" maxlength="20" />
+            </div>
+            <div class="quote-details-field">
+              <label for="term" class="font-medium">Requested term (months) *</label>
+              <p-inputNumber inputId="term" formControlName="RequestedTermMonths" [min]="1" [max]="600"></p-inputNumber>
+            </div>
+            <div class="quote-details-field">
+              <label for="billingFrequency" class="font-medium">Billing frequency *</label>
+              <p-dropdown inputId="billingFrequency" [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Select frequency"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="leaseType" class="font-medium">Lease type</label>
+              <p-dropdown inputId="leaseType" [options]="leaseTypeOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseTypeCode" [showClear]="true" placeholder="Select lease type"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="paymentTiming" class="font-medium">Payment timing</label>
+              <p-dropdown inputId="paymentTiming" [options]="paymentTimingOptions" optionLabel="Text" optionValue="Value" formControlName="PaymentTimingCode" [showClear]="true" placeholder="Select timing"></p-dropdown>
+            </div>
+            <div class="quote-details-field">
+              <label for="deposit" class="font-medium">Security deposit</label>
+              <p-inputNumber inputId="deposit" formControlName="SecurityDepositAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber>
+            </div>
+            <div class="quote-details-field quote-details-field-wide">
+              <label for="remarks" class="font-medium">Internal remarks</label>
+              <textarea id="remarks" class="w-full" pTextarea formControlName="Remarks" rows="3" maxlength="100" [autoResize]="true"></textarea>
+            </div>
           </div>
         </section>
 
-        <section *ngIf="activeTab === 1">
-          <div class="flex align-items-center justify-content-between mb-3">
+        <section *ngIf="activeTab === 1" class="quote-assets-section">
+          <div class="quote-assets-toolbar">
             <div><h3 class="m-0">Assets</h3><span class="text-color-secondary">Select the assets and quantities included in the quotation.</span></div>
-            <button type="button" pButton icon="pi pi-plus" label="Add asset" [disabled]="readOnly" (click)="addAsset()"></button>
+            <button type="button" pButton icon="pi pi-plus" label="Add asset" class="p-button-sm quote-assets-add" [disabled]="readOnly" (click)="addAsset()"></button>
           </div>
-          <div formArrayName="Assets" class="flex flex-column gap-3">
-            <article *ngFor="let asset of assets.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3">
-              <div class="flex align-items-center justify-content-between mb-3"><strong>Asset {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeAsset(index)"></button></div>
-              <div class="grid">
-                <div class="col-12 md:col-3"><label>Category *</label><p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" formControlName="AssetCategoryId" [filter]="true" filterBy="Text" placeholder="Select category"></p-dropdown></div>
-                <div class="col-12 md:col-3"><label>Type</label><p-dropdown [options]="assetTypeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetTypeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select type"></p-dropdown></div>
-                <div class="col-12 md:col-3"><label>Make</label><p-dropdown [options]="assetMakeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetMakeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select make"></p-dropdown></div>
-                <div class="col-12 md:col-3"><label>Model</label><p-dropdown [options]="assetModelOptions" optionLabel="Text" optionValue="Id" formControlName="AssetModelId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select model"></p-dropdown></div>
-                <div class="col-12 md:col-6"><label>Description</label><input pInputText formControlName="Description" maxlength="500" /></div>
-                <div class="col-6 md:col-2"><label>Quantity *</label><p-inputNumber formControlName="Quantity" [min]="1"></p-inputNumber></div>
-                <div class="col-6 md:col-4"><label>Unit asset cost</label><p-inputNumber formControlName="UnitAssetCost" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
-                <div class="col-6 md:col-3"><label>Term (months) *</label><p-inputNumber formControlName="TermMonths" [min]="1" [max]="600"></p-inputNumber></div>
-                <div class="col-6 md:col-3"><label>Billing frequency *</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Frequency"></p-dropdown></div>
-                <div class="col-12 md:col-3"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
+          <div formArrayName="Assets" class="quote-assets-list">
+            <article *ngFor="let asset of assets.controls; let index = index" [formGroupName]="index" class="quote-asset-card">
+              <div class="quote-asset-card-header">
+                <h4 class="m-0">Asset {{ index + 1 }}</h4>
+                <button type="button" pButton icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" [disabled]="readOnly" (click)="removeAsset(index)" [attr.aria-label]="'Delete asset ' + (index + 1)"></button>
+              </div>
+              <div class="quote-asset-grid">
+                <div class="quote-asset-field"><label>Category *</label><p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" formControlName="AssetCategoryId" [filter]="true" filterBy="Text" placeholder="Select category"></p-dropdown></div>
+                <div class="quote-asset-field"><label>Type</label><p-dropdown [options]="assetTypeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetTypeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select type"></p-dropdown></div>
+                <div class="quote-asset-field"><label>Make</label><p-dropdown [options]="assetMakeOptions" optionLabel="Text" optionValue="Id" formControlName="AssetMakeId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select make"></p-dropdown></div>
+                <div class="quote-asset-field"><label>Model</label><p-dropdown [options]="assetModelOptions" optionLabel="Text" optionValue="Id" formControlName="AssetModelId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select model"></p-dropdown></div>
+                <div class="quote-asset-field"><label>Description</label><input class="w-full" pInputText formControlName="Description" maxlength="500" /></div>
+                <div class="quote-asset-field"><label>Quantity *</label><p-inputNumber formControlName="Quantity" [min]="1"></p-inputNumber></div>
+                <div class="quote-asset-field"><label>Unit asset cost</label><p-inputNumber formControlName="UnitAssetCost" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-asset-field"><label>Term (months) *</label><p-inputNumber formControlName="TermMonths" [min]="1" [max]="600"></p-inputNumber></div>
+                <div class="quote-asset-field"><label>Billing frequency *</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Select frequency"></p-dropdown></div>
+                <div class="quote-asset-field"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
               </div>
             </article>
           </div>
@@ -113,41 +119,51 @@
             <div><h3 class="m-0">Lease pricing</h3><span class="text-color-secondary">Calculate a selected asset, save comparable scenarios, then apply the approved price without discarding other draft changes.</span></div>
             <span class="font-semibold">{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} per month</span>
           </div>
-          <div *ngIf="assets.length; else noPricingAssets" class="grid">
-            <div class="col-12 md:col-4">
-              <label for="pricingAsset">Asset line</label>
-              <p-dropdown inputId="pricingAsset" [options]="assetOptions()" optionLabel="Text" optionValue="Value" [(ngModel)]="selectedPricingAssetKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="selectPricingAsset($event)" placeholder="Select asset"></p-dropdown>
-              <div *ngIf="pricingAsset" class="mt-3 p-3 surface-ground border-round text-sm">
-                <strong>Line {{ pricingAsset.value.LineNo }} · {{ pricingAsset.value.Description || 'Asset' }}</strong>
-                <div class="text-color-secondary mt-1">{{ pricingAsset.value.Quantity || 0 }} unit(s) · {{ pricingAsset.value.TermMonths || 0 }} months · {{ pricingMethodLabel(pricingAsset.value) }}</div>
-                <div *ngIf="pricingAsset.value.PricingIsStale" class="mt-2 text-orange-700">Inputs changed after the last applied calculation. Recalculate and apply a matching scenario.</div>
+          <div *ngIf="assets.length; else noPricingAssets" class="quote-pricing-layout">
+            <aside class="quote-pricing-asset-card">
+              <div class="quote-pricing-card-heading"><h4 class="m-0">Selected asset</h4><span class="text-color-secondary">Choose the line to price</span></div>
+              <div class="quote-pricing-field">
+                <label for="pricingAsset">Asset line</label>
+                <p-dropdown inputId="pricingAsset" [options]="assetOptions()" optionLabel="Text" optionValue="Value" [(ngModel)]="selectedPricingAssetKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="selectPricingAsset($event)" placeholder="Select asset"></p-dropdown>
               </div>
-            </div>
-            <div class="col-12 md:col-8" *ngIf="pricingAsset" [formGroup]="pricingAsset">
-              <div class="grid surface-ground border-round p-3">
-                <div class="col-12 md:col-4"><label>Pricing mode</label><p-dropdown [options]="pricingMethodOptions" optionLabel="Text" optionValue="Value" formControlName="PricingMethodCode"></p-dropdown></div>
-                <div class="col-12 md:col-4"><label>Payment timing</label><div class="p-inputtext p-component w-full surface-100">{{ header.value.PaymentTimingCode || 'ARREARS' }}</div></div>
-                <div class="col-12 md:col-4"><label>Billing frequency</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency"></p-dropdown></div>
+              <div *ngIf="pricingAsset" class="quote-pricing-asset-summary">
+                <strong>Line {{ pricingAsset.value.LineNo }} · {{ pricingAsset.value.Description || 'Asset' }}</strong>
+                <div>{{ pricingAsset.value.Quantity || 0 }} unit(s) · {{ pricingAsset.value.TermMonths || 0 }} months · {{ pricingMethodLabel(pricingAsset.value) }}</div>
+                <div *ngIf="pricingAsset.value.PricingIsStale" class="quote-pricing-stale">Inputs changed after the last applied calculation. Recalculate and apply a matching scenario.</div>
+              </div>
+            </aside>
 
-                <ng-container *ngIf="(pricingAsset.value.PricingMethodCode || 'MANUAL').toUpperCase() === 'MANUAL'; else calculatedInputs">
-                  <div class="col-12 md:col-6"><label>Manual periodic rental *</label><p-inputNumber formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
-                  <div class="col-12 md:col-6 align-self-end text-color-secondary">Manual mode stays fully available and does not invoke a funding calculation.</div>
-                </ng-container>
-                <ng-template #calculatedInputs>
-                  <div class="col-12 md:col-4"><label>Annual funding rate (%)</label><p-inputNumber formControlName="AnnualFundingRate" suffix="%" [min]="0" [maxFractionDigits]="6"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Estimated residual value</label><p-inputNumber formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Non-refundable down payment</label><p-inputNumber formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Contractual bullet payment</label><p-inputNumber formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Usage allowance</label><p-inputNumber formControlName="UsageAllowance" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Expected usage</label><p-inputNumber formControlName="ExpectedUsage" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-4"><label>Excess usage rate</label><p-inputNumber formControlName="ExcessUsageRate" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                  <div class="col-12 md:col-8 align-self-end text-color-secondary">Refundable deposit: {{ (header.value.SecurityDepositAmount || 0) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}. It is reported separately and never reduces the finance amount.</div>
-                </ng-template>
+            <div *ngIf="pricingAsset" [formGroup]="pricingAsset" class="quote-pricing-content">
+              <article class="quote-pricing-card">
+                <div class="quote-pricing-card-heading"><h4 class="m-0">Pricing assumptions</h4><span class="text-color-secondary">Enter or calculate the rental for this asset line.</span></div>
+                <div class="quote-pricing-grid">
+                  <div class="quote-pricing-field"><label>Pricing mode</label><p-dropdown [options]="pricingMethodOptions" optionLabel="Text" optionValue="Value" formControlName="PricingMethodCode"></p-dropdown></div>
+                  <div class="quote-pricing-field"><label>Payment timing</label><div class="quote-pricing-readonly">{{ header.value.PaymentTimingCode || 'ARREARS' }}</div></div>
+                  <div class="quote-pricing-field"><label>Billing frequency</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency"></p-dropdown></div>
 
-                <div class="col-12 flex flex-wrap gap-2 mt-2">
-                  <button type="button" pButton icon="pi pi-calculator" label="Calculate rental" [disabled]="readOnly || isCalculating" (click)="calculateRental()"></button>
-                  <input pInputText [(ngModel)]="scenarioName" [ngModelOptions]="{standalone: true}" maxlength="100" placeholder="Scenario name" class="w-14rem" [disabled]="readOnly" />
-                  <button type="button" pButton icon="pi pi-save" label="Save scenario" class="p-button-outlined" [disabled]="readOnly || isSavingScenario" (click)="saveScenario()"></button>
+                  <ng-container *ngIf="(pricingAsset.value.PricingMethodCode || 'MANUAL').toUpperCase() === 'MANUAL'; else calculatedInputs">
+                    <div class="quote-pricing-field"><label>Manual periodic rental *</label><p-inputNumber formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                    <div class="quote-pricing-note">Manual mode stays fully available and does not invoke a funding calculation.</div>
+                  </ng-container>
+                  <ng-template #calculatedInputs>
+                    <div class="quote-pricing-field"><label>Annual funding rate (%)</label><p-inputNumber formControlName="AnnualFundingRate" suffix="%" [min]="0" [maxFractionDigits]="6"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Estimated residual value</label><p-inputNumber formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Non-refundable down payment</label><p-inputNumber formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Contractual bullet payment</label><p-inputNumber formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Usage allowance</label><p-inputNumber formControlName="UsageAllowance" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Expected usage</label><p-inputNumber formControlName="ExpectedUsage" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Excess usage rate</label><p-inputNumber formControlName="ExcessUsageRate" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-note">Refundable deposit: {{ (header.value.SecurityDepositAmount || 0) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}. It is reported separately and never reduces the finance amount.</div>
+                  </ng-template>
+                </div>
+                <div class="quote-pricing-card-actions"><button type="button" pButton icon="pi pi-calculator" label="Calculate rental" [disabled]="readOnly || isCalculating || isSavingAndApplyingScenario || isApplyingScenario" (click)="calculateRental()"></button></div>
+              </article>
+
+              <div class="quote-scenario-controls">
+                <div class="quote-pricing-field"><label for="scenarioName">Scenario name</label><input id="scenarioName" class="w-full" pInputText [(ngModel)]="scenarioName" [ngModelOptions]="{standalone: true}" maxlength="100" placeholder="Name this pricing option" [disabled]="readOnly || isSavingAndApplyingScenario" /><small class="quote-scenario-help">A calculation is a preview. Apply a saved scenario to update the quotation, Review &amp; Issue totals and commercial payment schedule.</small></div>
+                <div class="quote-scenario-actions">
+                  <button type="button" pButton icon="pi pi-save" label="Save scenario" class="p-button-outlined" [disabled]="readOnly || isSavingScenario || isSavingAndApplyingScenario || isApplyingScenario" (click)="saveScenario()"></button>
+                  <button type="button" pButton icon="pi pi-check" label="Save &amp; apply price" [disabled]="readOnly || !calculationResult || isSavingScenario || isSavingAndApplyingScenario || isApplyingScenario" (click)="saveAndApplyCalculatedPrice()"></button>
                 </div>
               </div>
             </div>
@@ -162,44 +178,184 @@
 
           <article *ngIf="pricingAsset && quoteId" class="surface-card border-1 border-200 border-round p-3 mt-3">
             <h4 class="mt-0">Saved scenarios</h4>
-            <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
+            <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario || isSavingAndApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
             <div *ngIf="scenarios.length === 0" class="text-color-secondary p-3">No saved scenarios for this asset yet.</div>
           </article>
           <ng-template #noPricingAssets><div class="surface-ground p-5 text-center border-round text-color-secondary">Add and save an asset before using the pricing engine.</div></ng-template>
         </section>
 
-        <section *ngIf="activeTab === 3">
-          <div class="flex align-items-center justify-content-between mb-3"><div><h3 class="m-0">Services and charges</h3><span class="text-color-secondary">Services describe inclusions. Separately-chargeable services create their linked charge once.</span></div><div class="flex gap-2"><button type="button" pButton icon="pi pi-plus" label="Service" [disabled]="readOnly" (click)="addService()"></button><button type="button" pButton icon="pi pi-plus" label="Charge" class="p-button-outlined" [disabled]="readOnly" (click)="addCharge()"></button></div></div>
-          <h4>Services</h4>
-          <div formArrayName="Services" class="flex flex-column gap-3">
-            <article *ngFor="let service of services.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3"><div class="flex align-items-center justify-content-between mb-3"><strong>Service {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeService(index)"></button></div><div class="grid"><div class="col-12 md:col-4"><label>Lease service *</label><p-dropdown [options]="leaseServiceOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseServiceId" [filter]="true" filterBy="Text" placeholder="Select service"></p-dropdown></div><div class="col-12 md:col-4"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="service.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(service, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div><div class="col-6 md:col-2"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div><div class="col-6 md:col-2"><label>Quantity</label><p-inputNumber formControlName="Quantity" [min]="0.000001"></p-inputNumber></div><div class="col-12 md:col-4"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true"></p-dropdown></div><div class="col-6 md:col-2 flex align-items-end"><p-checkbox formControlName="IsIncluded" [binary]="true" inputId="included-{{index}}" label="Included"></p-checkbox></div><div class="col-6 md:col-3 flex align-items-end"><p-checkbox formControlName="IsSeparatelyChargeable" [binary]="true" inputId="chargeable-{{index}}" label="Separate charge"></p-checkbox></div><div class="col-12"><label>Service terms</label><textarea pTextarea formControlName="ServiceTerms" rows="2" maxlength="1000" [autoResize]="true"></textarea></div></div></article>
+        <section *ngIf="activeTab === 3" class="quote-services-section">
+          <div class="quote-services-toolbar">
+            <div><h3 class="m-0">Services and charges</h3><span class="text-color-secondary">Services describe inclusions. Separately-chargeable services create their linked charge once.</span></div>
+            <div class="quote-services-actions">
+              <button type="button" pButton icon="pi pi-plus" label="Service" class="p-button-sm" [disabled]="readOnly" (click)="addService()"></button>
+              <button type="button" pButton icon="pi pi-plus" label="Charge" class="p-button-sm p-button-outlined" [disabled]="readOnly" (click)="addCharge()"></button>
+            </div>
           </div>
-          <h4 class="mt-5">Manual charges</h4>
-          <div formArrayName="Charges" class="flex flex-column gap-3">
-            <article *ngFor="let charge of charges.controls; let index = index" [formGroupName]="index" class="surface-ground border-round p-3"><div class="flex align-items-center justify-content-between mb-3"><strong>Charge {{ index + 1 }}</strong><button type="button" pButton icon="pi pi-trash" class="p-button-text p-button-danger" [disabled]="readOnly" (click)="removeCharge(index)"></button></div><div class="grid"><div class="col-12 md:col-3"><label>Charge type *</label><input pInputText formControlName="ChargeType" maxlength="50" /></div><div class="col-12 md:col-5"><label>Description *</label><input pInputText formControlName="ChargeDescription" maxlength="200" /></div><div class="col-12 md:col-4"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="charge.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(charge, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div><div class="col-12 md:col-3"><label>Amount *</label><p-inputNumber formControlName="RateOrAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div><div class="col-12 md:col-3"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true"></p-dropdown></div><div class="col-6 md:col-2 flex align-items-end"><p-checkbox formControlName="IsRecurring" [binary]="true" inputId="recurring-{{index}}" label="Recurring"></p-checkbox></div><div class="col-6 md:col-4"><label>Frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true"></p-dropdown></div></div></article>
+
+          <div class="quote-section-heading"><h4 class="m-0">Services</h4><span class="text-color-secondary">Included or separately chargeable service lines.</span></div>
+          <div formArrayName="Services" class="quote-services-list">
+            <article *ngFor="let service of services.controls; let index = index" [formGroupName]="index" class="quote-service-card">
+              <div class="quote-line-card-header"><h4 class="m-0">Service {{ index + 1 }}</h4><button type="button" pButton icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" [disabled]="readOnly" (click)="removeService(index)" [attr.aria-label]="'Delete service ' + (index + 1)"></button></div>
+              <div class="quote-line-form-grid">
+                <div class="quote-line-field"><label>Lease service *</label><p-dropdown [options]="leaseServiceOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseServiceId" [filter]="true" filterBy="Text" placeholder="Select service"></p-dropdown></div>
+                <div class="quote-line-field"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="service.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(service, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div>
+                <div class="quote-line-field"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-line-field"><label>Quantity</label><p-inputNumber formControlName="Quantity" [min]="0.000001"></p-inputNumber></div>
+                <div class="quote-line-field"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true" placeholder="Select frequency"></p-dropdown></div>
+                <div class="quote-line-toggles"><p-checkbox formControlName="IsIncluded" [binary]="true" inputId="included-{{index}}" label="Included"></p-checkbox><p-checkbox formControlName="IsSeparatelyChargeable" [binary]="true" inputId="chargeable-{{index}}" label="Separate charge"></p-checkbox></div>
+                <div class="quote-line-field quote-line-field-wide"><label>Service terms</label><textarea class="w-full" pTextarea formControlName="ServiceTerms" rows="3" maxlength="1000" [autoResize]="true"></textarea></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="quote-section-heading quote-manual-charges-heading"><h4 class="m-0">Manual charges</h4><span class="text-color-secondary">One-off or recurring commercial charges.</span></div>
+          <div formArrayName="Charges" class="quote-services-list">
+            <article *ngFor="let charge of charges.controls; let index = index" [formGroupName]="index" class="quote-charge-card">
+              <div class="quote-line-card-header"><h4 class="m-0">Charge {{ index + 1 }}</h4><button type="button" pButton icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" [disabled]="readOnly" (click)="removeCharge(index)" [attr.aria-label]="'Delete charge ' + (index + 1)"></button></div>
+              <div class="quote-line-form-grid">
+                <div class="quote-line-field"><label>Charge type *</label><input class="w-full" pInputText formControlName="ChargeType" maxlength="50" /></div>
+                <div class="quote-line-field"><label>Description *</label><input class="w-full" pInputText formControlName="ChargeDescription" maxlength="200" /></div>
+                <div class="quote-line-field"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="charge.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(charge, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div>
+                <div class="quote-line-field"><label>Amount *</label><p-inputNumber formControlName="RateOrAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-line-field"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
+                <div class="quote-line-field"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true" placeholder="Select frequency"></p-dropdown></div>
+                <div class="quote-line-toggles quote-line-field-wide"><p-checkbox formControlName="IsRecurring" [binary]="true" inputId="recurring-{{index}}" label="Recurring charge"></p-checkbox></div>
+              </div>
+            </article>
           </div>
         </section>
 
-        <section *ngIf="activeTab === 4" formGroupName="Quote" class="grid">
-          <div class="col-12"><h3 class="mt-0">Terms and conditions</h3><p class="text-color-secondary mt-0">These terms are included in the quotation preview and draft record.</p></div>
-          <div class="col-12"><label for="terms">Commercial terms</label><textarea id="terms" pTextarea formControlName="TermsAndConditions" rows="6" [autoResize]="true"></textarea></div>
-          <div class="col-12 md:col-6"><label for="deliveryTerms">Delivery terms</label><textarea id="deliveryTerms" pTextarea formControlName="DeliveryTerms" rows="4" [autoResize]="true"></textarea></div>
-          <div class="col-12 md:col-6"><label for="returnTerms">Return terms</label><textarea id="returnTerms" pTextarea formControlName="ReturnTerms" rows="4" [autoResize]="true"></textarea></div>
-          <div class="col-12"><label for="serviceTerms">Service-level terms</label><textarea id="serviceTerms" pTextarea formControlName="ServiceLevelTerms" rows="4" [autoResize]="true"></textarea></div>
+        <section *ngIf="activeTab === 4" formGroupName="Quote" class="quote-terms-section">
+          <div class="quote-terms-section-heading">
+            <h3 class="m-0">Terms and conditions</h3>
+            <span class="text-color-secondary">These terms are included in the quotation preview and saved with the draft record.</span>
+          </div>
+
+          <div class="quote-terms-grid">
+            <article class="quote-terms-card quote-terms-card-wide">
+              <div class="quote-terms-card-heading">
+                <h4 class="m-0">Commercial terms</h4>
+                <span class="text-color-secondary">The primary commercial terms shown on the customer quotation.</span>
+              </div>
+              <div class="quote-terms-field">
+                <label for="terms">Commercial terms</label>
+                <textarea id="terms" class="w-full quote-terms-textarea" pTextarea formControlName="TermsAndConditions" rows="7" [autoResize]="true"></textarea>
+              </div>
+            </article>
+
+            <article class="quote-terms-card">
+              <div class="quote-terms-card-heading">
+                <h4 class="m-0">Delivery terms</h4>
+                <span class="text-color-secondary">Delivery, installation and handover arrangements.</span>
+              </div>
+              <div class="quote-terms-field">
+                <label for="deliveryTerms">Delivery terms</label>
+                <textarea id="deliveryTerms" class="w-full quote-terms-textarea" pTextarea formControlName="DeliveryTerms" rows="5" [autoResize]="true"></textarea>
+              </div>
+            </article>
+
+            <article class="quote-terms-card">
+              <div class="quote-terms-card-heading">
+                <h4 class="m-0">Return terms</h4>
+                <span class="text-color-secondary">Return condition, timing and end-of-term obligations.</span>
+              </div>
+              <div class="quote-terms-field">
+                <label for="returnTerms">Return terms</label>
+                <textarea id="returnTerms" class="w-full quote-terms-textarea" pTextarea formControlName="ReturnTerms" rows="5" [autoResize]="true"></textarea>
+              </div>
+            </article>
+
+            <article class="quote-terms-card quote-terms-card-wide">
+              <div class="quote-terms-card-heading">
+                <h4 class="m-0">Service-level terms</h4>
+                <span class="text-color-secondary">Service commitments, response expectations and exclusions.</span>
+              </div>
+              <div class="quote-terms-field">
+                <label for="serviceTerms">Service-level terms</label>
+                <textarea id="serviceTerms" class="w-full quote-terms-textarea" pTextarea formControlName="ServiceLevelTerms" rows="5" [autoResize]="true"></textarea>
+              </div>
+            </article>
+          </div>
         </section>
 
-        <section *ngIf="activeTab === 5" class="quotation-preview">
-          <div class="flex align-items-center justify-content-between mb-4"><div><h3 class="m-0">Quotation preview</h3><span class="text-color-secondary">Review before using the existing approval and issue workflow.</span></div><div class="flex gap-2"><button type="button" pButton icon="pi pi-print" label="Print preview" class="p-button-outlined" (click)="printPreview()"></button><button type="button" pButton icon="pi pi-save" label="Save draft" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button></div></div>
-          <article class="border-1 border-200 border-round p-4 surface-card">
-            <div class="flex justify-content-between align-items-start mb-4"><div><div class="text-xl font-bold">LEASE QUOTATION</div><div class="text-color-secondary">{{ header.value.QuoteId || 'Draft quotation' }} · Version {{ header.value.VersionNo || 'DRAFT' }}</div></div><div class="text-right"><strong>{{ header.value.StatusName || 'Draft' }}</strong><br><span class="text-color-secondary">Valid until {{ header.value.ValidUntil | date:'dd MMM yyyy' }}</span></div></div>
-            <div class="grid mb-3"><div class="col-12 md:col-6"><strong>Customer</strong><div>{{ partyDisplayName() }}</div></div><div class="col-12 md:col-6"><strong>Commercial terms</strong><div>{{ header.value.RequestedTermMonths }} months · {{ header.value.BillingFrequency || 'Frequency not selected' }}</div></div></div>
-            <p-table [value]="assets.getRawValue()" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Asset</th><th>Pricing</th><th class="text-right">Qty</th><th class="text-right">Monthly rental</th></tr></ng-template><ng-template pTemplate="body" let-asset><tr><td>{{ asset.Description || ('Asset line ' + asset.LineNo) }}</td><td>{{ pricingMethodLabel(asset) }}</td><td class="text-right">{{ asset.Quantity }}</td><td class="text-right">{{ rentalForAsset(asset) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
-            <div class="grid mt-3"><div class="col-12 md:col-7"><strong>Terms and conditions</strong><p class="white-space-pre-line">{{ header.value.TermsAndConditions || 'No commercial terms have been entered.' }}</p><strong *ngIf="header.value.DeliveryTerms">Delivery terms</strong><p *ngIf="header.value.DeliveryTerms" class="white-space-pre-line">{{ header.value.DeliveryTerms }}</p><strong *ngIf="header.value.ReturnTerms">Return terms</strong><p *ngIf="header.value.ReturnTerms" class="white-space-pre-line">{{ header.value.ReturnTerms }}</p><strong *ngIf="header.value.ServiceLevelTerms">Service-level terms</strong><p *ngIf="header.value.ServiceLevelTerms" class="white-space-pre-line">{{ header.value.ServiceLevelTerms }}</p></div><div class="col-12 md:col-5"><div class="flex justify-content-between"><span>Periodic rental</span><strong>{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div><div class="flex justify-content-between mt-2"><span>Upfront charges</span><strong>{{ totalOneOff() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div><div class="flex justify-content-between mt-3 pt-3 border-top-1 border-200 text-lg"><span>Estimated contract value</span><strong>{{ estimatedContractValue() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div></div></div>
+        <section *ngIf="activeTab === 5" class="quote-review-section">
+          <div class="quote-review-toolbar">
+            <div>
+              <h3 class="m-0">Quotation preview</h3>
+              <span class="text-color-secondary">Review the quotation before using the approval and issue workflow.</span>
+            </div>
+            <div class="quote-review-actions">
+              <button type="button" size="small" pButton icon="pi pi-file-pdf" label="Preview PDF" class="p-button-sm p-button-outlined" [disabled]="isPdfAction" (click)="previewPdf()"></button>
+              <button type="button" size="small" pButton icon="pi pi-save" label="Save draft" class="p-button-sm" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button>
+            </div>
+          </div>
+
+          <article class="quote-review-document">
+            <div class="quote-review-document-header">
+              <div>
+                <div class="quote-review-document-title">Lease quotation</div>
+                <div class="quote-review-document-reference">{{ header.value.QuoteId || 'Draft quotation' }} · Version {{ header.value.VersionNo || 'DRAFT' }}</div>
+              </div>
+              <div class="quote-review-status-block">
+                <span class="quote-review-status">{{ header.value.StatusName || 'Draft' }}</span>
+                <span class="text-color-secondary">Valid until {{ header.value.ValidUntil | date:'dd MMM yyyy' }}</span>
+              </div>
+            </div>
+
+            <div *ngIf="hasUnappliedCalculatedPricing()" class="quote-review-pricing-warning">
+              <div><strong>Calculated pricing has not been applied.</strong><span>Review totals and the contractual schedule use applied scenarios only. Save and apply the current calculation before continuing.</span></div>
+              <button type="button" pButton icon="pi pi-calculator" label="Review pricing" class="p-button-sm p-button-outlined" (click)="selectTab(2)"></button>
+            </div>
+
+            <div class="quote-review-overview-grid">
+              <section class="quote-review-detail-card">
+                <i class="pi pi-user" aria-hidden="true"></i>
+                <div><span class="quote-review-detail-label">Customer</span><strong>{{ partyDisplayName() }}</strong></div>
+              </section>
+              <section class="quote-review-detail-card">
+                <i class="pi pi-briefcase" aria-hidden="true"></i>
+                <div><span class="quote-review-detail-label">Commercial terms</span><strong>{{ header.value.RequestedTermMonths }} months · {{ header.value.BillingFrequency || 'Frequency not selected' }}</strong></div>
+              </section>
+            </div>
+
+            <section class="quote-review-assets-section">
+              <div class="quote-review-subsection-heading">
+                <h4 class="m-0">Quoted assets</h4>
+                <span class="text-color-secondary">Rental and quantity by quotation line.</span>
+              </div>
+              <p-table [value]="assets.getRawValue()" styleClass="p-datatable-sm quote-review-assets-table">
+                <ng-template pTemplate="header"><tr><th>Asset</th><th>Pricing</th><th class="text-right">Qty</th><th class="text-right">Monthly rental</th></tr></ng-template>
+                <ng-template pTemplate="body" let-asset><tr><td>{{ asset.Description || ('Asset line ' + asset.LineNo) }}</td><td>{{ pricingMethodLabel(asset) }}</td><td class="text-right">{{ asset.Quantity }}</td><td class="text-right">{{ rentalForAsset(asset) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="emptymessage"><tr><td colspan="4" class="quote-review-empty-state">No assets have been added to this draft quotation.</td></tr></ng-template>
+              </p-table>
+            </section>
+
+            <div class="quote-review-summary-grid">
+              <section class="quote-review-terms-card">
+                <div class="quote-review-subsection-heading">
+                  <h4 class="m-0">Terms and conditions</h4>
+                  <span class="text-color-secondary">Customer-facing commercial and service terms.</span>
+                </div>
+                <p class="quote-review-term-text white-space-pre-line">{{ header.value.TermsAndConditions || 'No commercial terms have been entered.' }}</p>
+                <div *ngIf="header.value.DeliveryTerms" class="quote-review-term-group"><strong>Delivery terms</strong><p class="white-space-pre-line">{{ header.value.DeliveryTerms }}</p></div>
+                <div *ngIf="header.value.ReturnTerms" class="quote-review-term-group"><strong>Return terms</strong><p class="white-space-pre-line">{{ header.value.ReturnTerms }}</p></div>
+                <div *ngIf="header.value.ServiceLevelTerms" class="quote-review-term-group"><strong>Service-level terms</strong><p class="white-space-pre-line">{{ header.value.ServiceLevelTerms }}</p></div>
+              </section>
+
+              <aside class="quote-review-totals-card">
+                <div class="quote-review-subsection-heading"><h4 class="m-0">Quotation totals</h4><span class="text-color-secondary">Estimated customer commitment.</span></div>
+                <div class="quote-review-total-row"><span>Periodic rental</span><strong>{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-review-total-row"><span>Upfront charges</span><strong>{{ totalOneOff() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-review-total-row quote-review-total-row-emphasis"><span>Estimated contract value</span><strong>{{ estimatedContractValue() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+              </aside>
+            </div>
           </article>
-          <article *ngIf="commercialStatus" class="surface-card border-1 border-200 border-round p-4 mt-4">
-            <div class="flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+
+          <article *ngIf="commercialStatus" class="quote-commercial-controls-card">
+            <div class="quote-commercial-controls-heading">
               <div><h4 class="m-0">Commercial controls</h4><span class="text-color-secondary">Status, policy compliance, approvals and the contractual payment view.</span></div>
-              <span class="font-semibold" [class.text-green-700]="commercialStatus.StatusCode === 'APPROVED' || commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" [class.text-orange-700]="commercialStatus.StatusCode === 'PENDING_APPROVAL'">{{ commercialStatus.StatusName }}</span>
+              <span class="quote-commercial-status" [class.text-green-700]="commercialStatus.StatusCode === 'APPROVED' || commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" [class.text-orange-700]="commercialStatus.StatusCode === 'PENDING_APPROVAL'">{{ commercialStatus.StatusName }}</span>
             </div>
 
             <div *ngIf="commercialStatus.PolicyEvaluations?.length; else compliantPolicies" class="mb-4">
@@ -209,7 +365,7 @@
                 <ng-template pTemplate="body" let-policy><tr><td>{{ policy.PolicyCode || 'Commercial policy' }}</td><td><span [class.text-red-600]="policy.SeverityCode === 'BLOCK'" [class.text-orange-700]="policy.SeverityCode === 'EXCEPTION' || policy.SeverityCode === 'APPROVAL_REQUIRED'">{{ policy.SeverityCode }}</span></td><td>{{ policy.Message }}</td></tr></ng-template>
               </p-table>
             </div>
-            <ng-template #compliantPolicies><div class="mb-4 p-3 surface-ground border-round text-green-700">No active commercial policy exceptions were found for the current quotation state.</div></ng-template>
+            <ng-template #compliantPolicies><div class="quote-commercial-compliant-message">No active commercial policy exceptions were found for the current quotation state.</div></ng-template>
 
             <div class="mb-4">
               <h5 class="mt-0 mb-2">Contractual payment schedule</h5>
@@ -225,8 +381,8 @@
               <p-table [value]="commercialStatus.ApprovalHistory" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Request</th><th>Step</th><th>Action</th><th>At</th><th>Comments</th></tr></ng-template><ng-template pTemplate="body" let-history><tr><td>{{ history.ApprovalRequestNumber }} · {{ history.ApprovalStatus }}</td><td>{{ history.StepNo || '-' }}</td><td>{{ history.ActionCode || 'Pending' }}</td><td>{{ history.ActionDateTime | date:'dd MMM yyyy HH:mm' }}</td><td>{{ history.Comments || '-' }}</td></tr></ng-template></p-table>
             </div>
 
-            <div class="surface-ground border-round p-3">
-              <div class="flex flex-wrap gap-2 align-items-center">
+            <div class="quote-commercial-action-panel">
+              <div class="quote-commercial-actions">
                 <button *ngIf="commercialStatus.StatusCode === 'DRAFT'" type="button" pButton icon="pi pi-send" label="Submit for approval" [disabled]="isCommercialAction" (click)="submitForCommercialApproval()"></button>
                 <ng-container *ngIf="commercialStatus.StatusCode === 'PENDING_APPROVAL'">
                   <textarea pTextarea [(ngModel)]="commercialComments" [ngModelOptions]="{standalone: true}" rows="2" maxlength="1000" class="w-20rem" placeholder="Approval comments"></textarea>
@@ -235,20 +391,24 @@
                   <button type="button" pButton icon="pi pi-times" label="Reject" class="p-button-danger p-button-outlined" [disabled]="isCommercialAction" (click)="rejectCommercial()"></button>
                 </ng-container>
                 <button *ngIf="commercialStatus.StatusCode === 'APPROVED'" type="button" pButton icon="pi pi-file-check" label="Issue quotation" [disabled]="isCommercialAction" (click)="issueQuotation()"></button>
+                <button *ngIf="issuedPdf && (commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED')" type="button" pButton icon="pi pi-file-pdf" label="View / download PDF" class="p-button-outlined" [disabled]="isPdfAction" (click)="downloadIssuedPdf()"></button>
+                <button *ngIf="commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" type="button" pButton icon="pi pi-send" label="Send to customer" class="p-button-outlined" [disabled]="isPdfAction" (click)="sendToCustomer()"></button>
                 <button *ngIf="commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" type="button" pButton icon="pi pi-copy" label="Revise quotation" class="p-button-outlined" [disabled]="isCommercialAction" (click)="createRevision()"></button>
               </div>
 
-              <div *ngIf="commercialStatus.StatusCode === 'ISSUED'" class="grid mt-2">
-                <div class="col-12"><h5 class="mb-2">Record customer acceptance</h5></div>
-                <div class="col-12 md:col-4"><label>Customer contact *</label><input pInputText [(ngModel)]="acceptedByName" [ngModelOptions]="{standalone: true}" maxlength="200" /></div>
-                <div class="col-12 md:col-3"><label>Acceptance method</label><input pInputText [(ngModel)]="acceptanceMethodCode" [ngModelOptions]="{standalone: true}" maxlength="20" /></div>
-                <div class="col-12 md:col-5"><label>Remarks</label><input pInputText [(ngModel)]="acceptanceRemarks" [ngModelOptions]="{standalone: true}" maxlength="1000" /></div>
-                <div class="col-12"><button type="button" pButton icon="pi pi-user-plus" label="Record acceptance" [disabled]="isCommercialAction" (click)="recordAcceptance()"></button></div>
+              <div *ngIf="commercialStatus.StatusCode === 'ISSUED'" class="quote-acceptance-section">
+                <h5 class="m-0">Record customer acceptance</h5>
+                <div class="quote-acceptance-grid">
+                  <div class="quote-acceptance-field"><label>Customer contact *</label><input class="w-full" pInputText [(ngModel)]="acceptedByName" [ngModelOptions]="{standalone: true}" maxlength="200" /></div>
+                  <div class="quote-acceptance-field"><label>Acceptance method</label><input class="w-full" pInputText [(ngModel)]="acceptanceMethodCode" [ngModelOptions]="{standalone: true}" maxlength="20" /></div>
+                  <div class="quote-acceptance-field quote-acceptance-field-wide"><label>Remarks</label><input class="w-full" pInputText [(ngModel)]="acceptanceRemarks" [ngModelOptions]="{standalone: true}" maxlength="1000" /></div>
+                </div>
+                <button type="button" pButton icon="pi pi-user-plus" label="Record acceptance" [disabled]="isCommercialAction" (click)="recordAcceptance()"></button>
               </div>
               <div *ngIf="commercialStatus.StatusCode === 'ACCEPTED'" class="mt-3"><button type="button" pButton icon="pi pi-briefcase" label="Create contract draft" [disabled]="isCommercialAction" (click)="createContractDraft()"></button></div>
             </div>
           </article>
-          <div class="mt-4 flex gap-2 flex-wrap"><button type="button" pButton icon="pi pi-sitemap" label="Open approval & issue workflow" [disabled]="!quoteId" (click)="openWorkflow()"></button><span *ngIf="!quoteId" class="align-self-center text-color-secondary">Save the draft to continue.</span></div>
+          <div class="quote-review-workflow-link"><button type="button" pButton icon="pi pi-sitemap" label="Open approval & issue workflow" class="p-button-sm" [disabled]="!quoteId" (click)="openWorkflow()"></button><span *ngIf="!quoteId" class="text-color-secondary">Save the draft to continue.</span></div>
         </section>
       </form>
     </div>

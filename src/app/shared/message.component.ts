@@ -24,13 +24,14 @@ export class MessageComponent implements OnInit {
 
   }
 
-  showSuccess(msg: string) {
+  showSuccess(msg: unknown) {
+    const detail = this.getDetail(msg, 'Operation completed successfully.');
     if (this.AlertType == 'toast') {
-      this.service.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: 'Message sent' });
+      this.service.add({ key: 'tst', severity: 'success', summary: 'Success', detail });
     }
     else {
       this.msgs = [];
-      this.msgs.push({ severity: 'success', summary: 'Info Message', detail: msg });
+      this.msgs.push({ severity: 'success', summary: 'Info Message', detail });
     }
  setTimeout(() => {
       this.hide();
@@ -38,30 +39,32 @@ export class MessageComponent implements OnInit {
 
   }
 
-  showError(msg: string) {
+  showError(msg: unknown) {
+    const detail = this.getDetail(msg, 'The action could not be completed.');
     this.msgs = [];
     if (this.AlertType == 'toast') {
 
-      this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
+      this.service.add({ key: 'tst', severity: 'error', summary: 'Action failed', detail });
 
     }
     else {
-      this.msgs.push({ severity: 'error', summary: 'Info Message', detail: msg });
+      this.msgs.push({ severity: 'error', summary: 'Error', detail });
     }
 setTimeout(() => {
       this.hide();
     }, 5000);
   }
 
-  showInfo(msg: string) {
+  showInfo(msg: unknown) {
+    const detail = this.getDetail(msg, 'Information updated.');
 
     this.msgs = [];
     if (this.AlertType == 'toast') {
-      this.service.add({ key: 'tst', severity: 'info', summary: 'Info Message', detail: 'PrimeNG rocks' });
+      this.service.add({ key: 'tst', severity: 'info', summary: 'Information', detail });
 
     }
     else {
-      this.msgs.push({ severity: 'info', summary: 'Info Message', detail: msg });
+      this.msgs.push({ severity: 'info', summary: 'Info Message', detail });
     }
 setTimeout(() => {
       this.hide();
@@ -75,6 +78,26 @@ setTimeout(() => {
     } else {
       this.msgs = [];
     }
+  }
+
+  private getDetail(message: unknown, fallback: string): string {
+    if (typeof message === 'string' && message.trim()) {
+      return message.trim();
+    }
+
+    if (Array.isArray(message)) {
+      const items = message.map(item => this.getDetail(item, '')).filter(Boolean);
+      return items.length ? items.join(' ') : fallback;
+    }
+
+    const value = message as any;
+    return value?.error?.ErrorMessage
+      ?? value?.error?.message
+      ?? value?.error?.Message
+      ?? value?.ErrorMessage
+      ?? value?.message
+      ?? value?.Message
+      ?? fallback;
   }
 
 }

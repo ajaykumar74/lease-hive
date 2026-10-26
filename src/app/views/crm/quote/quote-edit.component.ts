@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { finalize } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
@@ -107,7 +108,9 @@ export class QuoteEditComponent implements OnInit {
 
     loadUI(): void {
         this.isLoading = true;
-        this.quoteService.getById(this.selectedId).subscribe({
+        this.quoteService.getById(this.selectedId).pipe(
+            finalize(() => { this.isLoading = false; })
+        ).subscribe({
             next: (data) => {
                 this.quote = data.data;
                 this.permission = data.permission;
@@ -118,12 +121,7 @@ export class QuoteEditComponent implements OnInit {
                 this.objMaster = { ...this.quote };
                 this.populateUI(this.quote);
             },
-            error: (err) => {
-                this.messageService.showSuccess(err);
-            },
-            complete: () => {
-                this.isLoading = false;
-            }
+            error: (err) => this.messageService.showError(err)
         });
     }
 
@@ -250,19 +248,15 @@ export class QuoteEditComponent implements OnInit {
         } as IQuote;
 
         this.spinner.show();
-        this.quoteService.update(this.quote.Id, updatedObj).subscribe({
+        this.quoteService.update(this.quote.Id, updatedObj).pipe(
+            finalize(() => this.spinner.hide())
+        ).subscribe({
             next: (data) => {
                 //this.messageService.showSuccess(Quote +  'Details Updated sucessfully.');
                 //this.editForm.reset();
                 this._location.back();
             },
-            error: (err) => {
-                this.messageService.showError(err);
-                this.spinner.hide();
-            },
-            complete: () => {
-                this.spinner.hide();
-            }
+            error: (err) => this.messageService.showError(err)
         });
     }
 
