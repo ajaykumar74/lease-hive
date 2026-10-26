@@ -41,6 +41,12 @@ export class QuoteListComponent implements OnInit {
       this.currentPage = this.quoteService.CacheData.CurrentPage;
       this.objSearch = this.quoteService.CacheData.objSearch;
       this.permission = this.quoteService.CacheData.permission;
+      this.pgEvent = {
+        first: Math.max(0, (this.currentPage - 1) * this.pgEvent.rows),
+        rows: this.pgEvent.rows,
+        page: Math.max(0, this.currentPage - 1),
+        pageCount: 0
+      };
     }  
   }
 
@@ -61,16 +67,25 @@ export class QuoteListComponent implements OnInit {
 
 
   search(): void {
+    this.resetPagination();
     this.searchData(this.pgEvent, true);
   }
 
   clearSearch(): void {
     this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.resetPagination();
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(event: { first?: number; rows?: number; page?: number; pageCount?: number }): void {
+    this.pgEvent = {
+      first: event.first ?? 0,
+      rows: event.rows ?? 10,
+      page: event.page ?? 0,
+      pageCount: event.pageCount ?? 0
+    };
+    this.currentPage = this.pgEvent.page + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -141,12 +156,20 @@ export class QuoteListComponent implements OnInit {
         if (quote?.IsEditable && (this.permission.CanCreate || this.permission.CanUpdate)) {
           this.router.navigate(['/business/origination/quotes/edit/' + obj.Id]);
         } else {
-          this.router.navigate(['/business/origination/quotes/view/' + obj.Id]);
+          // A pending or otherwise locked quotation still needs to be reviewed,
+          // approved and issued. The legacy details view only renders fields and
+          // leaves those workflow controls unreachable.
+          this.router.navigate(['/business/origination/quotes/review/' + obj.Id]);
         }
       },
       error: err => this.messageService.showError(err)
     });
   };
+
+  private resetPagination(): void {
+    this.pgEvent = { first: 0, rows: this.pgEvent.rows || 10, page: 0, pageCount: 0 };
+    this.currentPage = 1;
+  }
 
   getStatusClass(status: string): string {
     const value = (status || '').toLowerCase();

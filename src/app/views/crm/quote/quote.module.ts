@@ -14,12 +14,14 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 import { FluidModule } from 'primeng/fluid';
 
 import { QuoteListComponent } from './quote-list.component';
 import { QuoteCreateComponent } from './quote-create.component';
 import { QuoteEditComponent } from './quote-edit.component';
 import { QuoteViewComponent } from './quote-view.component';
+import { QuotationWorkspaceComponent } from './quotation-workspace.component';
 import { QuoteRoutingModule } from './quote-routing.module';
 
 
@@ -33,6 +35,7 @@ import { QuoteRoutingModule } from './quote-routing.module';
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		PaginatorModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,
@@ -48,7 +51,8 @@ import { QuoteRoutingModule } from './quote-routing.module';
 		QuoteCreateComponent,
 		QuoteListComponent,
 		QuoteEditComponent,
-		QuoteViewComponent
+		QuoteViewComponent,
+		QuotationWorkspaceComponent
 	]
 })
 export class QuoteModule { }

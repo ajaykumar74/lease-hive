@@ -1,0 +1,56 @@
+<div class="grid"> 
+	<div class="col-12">
+		<div class="card"> 
+            <app-message [AlertType]="'message'"></app-message> 
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'QuoteService List'"
+					[PageType]="'List'">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>                     
+                        <input type="text" class="p-inputtext-sm" pInputText placeholder="Search quote services" [(ngModel)]="objSearch.SearchTerm" (keyup.enter)="search()" />
+						<button type="button" pButton icon="pi pi-search" class="btn-sm" aria-label="Search" (click)="search()" ></button>
+                        <button type="button" pButton icon="pi pi-times" class="btn-sm" aria-label="Clear search" (click)="clearSearch()" ></button>
+                    </p-inputGroup>
+                    <small class="block mt-2 text-color-secondary">{{ totalNoOfRecords }} record{{ totalNoOfRecords === 1 ? '' : 's' }}</small>
+                </div>
+			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th pFrozenColumn pSortableColumn="Id" style="width:200px">Id <p-sortIcon field="Id" /> </th> 
+						 <th style="width:200px">Quote Service Id <p-sortIcon field="QuoteServiceId" /> </th> 
+<th style="width:200px">Quote <p-sortIcon field="QuoteId" /> </th> 
+<th style="width:200px">Quote Asset <p-sortIcon field="QuoteAssetId" /> </th> 
+<th style="width:200px">Lease Service <p-sortIcon field="LeaseServiceId" /> </th> 
+<th style="width:200px">Service Name <p-sortIcon field="ServiceNameSnapshot" /> </th> 
+<th style="width:200px">Is Included <p-sortIcon field="IsIncluded" /> </th> 
+<th style="width:200px">Is Separately Chargeable <p-sortIcon field="IsSeparatelyChargeable" /> </th> 
+<th style="width:200px">Charge Frequency <p-sortIcon field="ChargeFrequencyCode" /> </th> 
+<th style="width:200px">Unit Amount <p-sortIcon field="UnitAmount" /> </th> 
+<th style="width:200px">Quantity <p-sortIcon field="Quantity" /> </th> 
+<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th> 
+
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-obj>
+					<tr>
+						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
+                         <td style="width:200px">{{obj.QuoteServiceId}}</td>
+ <td style="width:200px">{{obj.QuoteDisplayName}}</td>
+ <td style="width:200px">{{obj.QuoteAssetDisplayName}}</td>
+ <td style="width:200px">{{obj.LeaseServiceDisplayName}}</td>
+ <td style="width:200px">{{obj.ServiceNameSnapshot}}</td>
+ <td style="width:200px">{{obj.IsIncluded | yesNo }}</td>
+ <td style="width:200px">{{obj.IsSeparatelyChargeable | yesNo }}</td>
+ <td style="width:200px">{{obj.ChargeFrequencyCode}}</td>
+ <td style="width:200px">{{obj.UnitAmount | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.Quantity | number:'1.0':'en-US' }}</td>
+ <td style="width:200px">{{obj.RecordStatus}}</td>
+ 
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div> 
+</div>
+  

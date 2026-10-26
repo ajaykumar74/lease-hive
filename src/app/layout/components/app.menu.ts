@@ -741,6 +741,31 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/origination/quotes/assets']
                                         },
                                         {
+                                            label: 'Quote Services',
+                                            icon: 'pi pi-fw pi-briefcase',
+                                            routerLink: ['/business/origination/quotes/services']
+                                        },
+                                        {
+                                            label: 'Pricing Scenarios',
+                                            icon: 'pi pi-fw pi-calculator',
+                                            routerLink: ['/business/origination/quotes/pricing-scenarios']
+                                        },
+                                        {
+                                            label: 'Pricing Schedules',
+                                            icon: 'pi pi-fw pi-calendar',
+                                            routerLink: ['/business/origination/quotes/pricing-schedules']
+                                        },
+                                        {
+                                            label: 'Lease Services',
+                                            icon: 'pi pi-fw pi-list-check',
+                                            routerLink: ['/business/origination/config/lease-services']
+                                        },
+                                        {
+                                            label: 'Lease Pricing Policies',
+                                            icon: 'pi pi-fw pi-sliders-h',
+                                            routerLink: ['/business/origination/config/lease-pricing-policies']
+                                        },
+                                        {
                                             label: 'Quote Acceptances',
                                             icon: 'pi pi-fw pi-check-circle',
                                             routerLink: ['/business/origination/quotes/acceptances']

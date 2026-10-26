@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { finalize } from 'rxjs';
 
 
 import { IPermission } from '@/shared/IPermission';
@@ -54,14 +55,15 @@ export class QuoteViewComponent implements OnInit {
     loadUI(): void {
         this.isLoading = true;
         this.spinner.show();
-        this.quoteService.getById(this.selectedId).subscribe({
+        this.quoteService.getById(this.selectedId).pipe(
+            finalize(() => { this.spinner.hide(); this.isLoading = false; })
+        ).subscribe({
             next: data => {
                 this.quote = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.quote);
             },
-            error: err => { },
-            complete: () => { this.spinner.hide(); this.isLoading = false; }
+            error: err => this.messageService.showError(err)
         });
     }
 
@@ -79,21 +81,19 @@ export class QuoteViewComponent implements OnInit {
     }
 
     createRevision(): void {
-        if (this.quote?.StatusCode?.toUpperCase() !== 'ACCEPTED') {
+        if (!['ISSUED', 'ACCEPTED'].includes(this.quote?.StatusCode?.toUpperCase())) {
             return;
         }
 
         this.isLoading = true;
         this.spinner.show();
-        this.quoteService.createRevision(this.quote.Id).subscribe({
+        this.quoteService.createRevision(this.quote.Id).pipe(
+            finalize(() => { this.spinner.hide(); this.isLoading = false; })
+        ).subscribe({
             next: response => {
                 this.router.navigate(['/business/origination/quotes/edit/' + response.Id]);
             },
-            error: err => this.messageService.showError(err),
-            complete: () => {
-                this.spinner.hide();
-                this.isLoading = false;
-            }
+            error: err => this.messageService.showError(err)
         });
     }
 
