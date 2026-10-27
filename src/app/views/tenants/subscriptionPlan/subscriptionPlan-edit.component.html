@@ -85,6 +85,43 @@
 
                </div></div>
 
+					<section class="mt-4" aria-labelledby="plan-features-heading">
+						<div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-2 mb-3">
+							<div>
+								<h3 id="plan-features-heading" class="m-0">Included Features</h3>
+								<p class="m-0 mt-1 text-sm text-color-secondary">Select the system FeatureCodes included with this subscription plan.</p>
+							</div>
+						</div>
+						<p-table [value]="featureCodeOptions" [scrollable]="true" scrollHeight="320px" styleClass="p-datatable-sm">
+							<ng-template pTemplate="header">
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+									<th style="width: 16rem">
+										<div class="flex align-items-center gap-1">
+											<span>Included</span>
+											<button type="button" pButton label="Select all" class="p-button-text p-button-sm" (click)="selectAllFeatures()"></button>
+											<span aria-hidden="true">|</span>
+											<button type="button" pButton label="Clear" class="p-button-text p-button-sm" (click)="clearFeatures()"></button>
+										</div>
+									</th>
+								</tr>
+							</ng-template>
+							<ng-template pTemplate="body" let-feature>
+								<tr>
+									<td><code>{{ feature.Value }}</code></td>
+									<td>{{ feature.Text || feature.Value }}</td>
+									<td>
+										<p-checkbox [binary]="true" [ngModel]="isFeatureSelected(feature)"
+											[ngModelOptions]="{ standalone: true }"
+											(onChange)="onFeatureSelectionChanged(feature, $event.checked)">
+										</p-checkbox>
+									</td>
+								</tr>
+							</ng-template>
+						</p-table>
+					</section>
+
 					<app-audit-details [model]="subscriptionPlan"></app-audit-details>
 					</div>
 				</div>

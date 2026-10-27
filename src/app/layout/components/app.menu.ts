@@ -33,6 +33,23 @@ export class AppMenu implements OnInit, OnDestroy {
         const isCustomerPortalUser = this.loggedInUserService.isCustomerPortalUser;
         if (isCustomerPortalUser) {
             this.model = buildCustomerPortalMenu(this.loggedInUserService.isCustomerPortalAdmin);
+        } else if (this.loggedInUserService.isPlatformAdmin) {
+            this.model = [
+                {
+                    label: 'Platform Administration',
+                    icon: 'pi pi-shield',
+                    items: [
+                        { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard/platform-admin'], alwaysVisible: true },
+                        { label: 'Tenants', icon: 'pi pi-fw pi-building', routerLink: ['/dashboard/tenants'], alwaysVisible: true },
+                        { label: 'Subscription Plans', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/subscriptionPlans'], alwaysVisible: true },
+                        { label: 'Tenant Subscriptions', icon: 'pi pi-fw pi-calendar', routerLink: ['/dashboard/tenantSubscriptions'], alwaysVisible: true },
+                        { label: 'Tenant Security Policies', icon: 'pi pi-fw pi-shield', routerLink: ['/dashboard/tenantSecurityPolicys'], alwaysVisible: true },
+                        { label: 'Tenant Usage', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/dashboard/tenantUsages'], alwaysVisible: true },
+                        { label: 'Tenant Statuses', icon: 'pi pi-fw pi-flag', routerLink: ['/dashboard/tenantStatuss'], alwaysVisible: true },
+                        { label: 'Tenant Invitations', icon: 'pi pi-fw pi-send', routerLink: ['/dashboard/tenantInvitations'], alwaysVisible: true }
+                    ]
+                }
+            ];
         } else if (this.loggedInUserService.loggedInUser.AccountType == 'Platform') {
             this.model = [
                 {
@@ -725,6 +742,31 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/origination/quotes/assets']
                                         },
                                         {
+                                            label: 'Quote Services',
+                                            icon: 'pi pi-fw pi-briefcase',
+                                            routerLink: ['/business/origination/quotes/services']
+                                        },
+                                        {
+                                            label: 'Pricing Scenarios',
+                                            icon: 'pi pi-fw pi-calculator',
+                                            routerLink: ['/business/origination/quotes/pricing-scenarios']
+                                        },
+                                        {
+                                            label: 'Pricing Schedules',
+                                            icon: 'pi pi-fw pi-calendar',
+                                            routerLink: ['/business/origination/quotes/pricing-schedules']
+                                        },
+                                        {
+                                            label: 'Lease Services',
+                                            icon: 'pi pi-fw pi-list-check',
+                                            routerLink: ['/business/origination/config/lease-services']
+                                        },
+                                        {
+                                            label: 'Lease Pricing Policies',
+                                            icon: 'pi pi-fw pi-sliders-h',
+                                            routerLink: ['/business/origination/config/lease-pricing-policies']
+                                        },
+                                        {
                                             label: 'Quote Acceptances',
                                             icon: 'pi pi-fw pi-check-circle',
                                             routerLink: ['/business/origination/quotes/acceptances']
@@ -833,22 +875,26 @@ export class AppMenu implements OnInit, OnDestroy {
                                 {
                                     label: 'Vehicle Assets',
                                     icon: 'pi pi-fw pi-car',
-                                    routerLink: ['/business/assets/specialised/vehicles']
+                                    routerLink: ['/business/assets/specialised/vehicles'],
+                                    requiredAssetCategoryCode: 'VEHICLE'
                                 },
                                 {
                                     label: 'IT Assets',
                                     icon: 'pi pi-fw pi-desktop',
-                                    routerLink: ['/business/assets/specialised/it']
+                                    routerLink: ['/business/assets/specialised/it'],
+                                    requiredAssetCategoryCode: 'IT'
                                 },
                                 {
                                     label: 'Equipment Assets',
                                     icon: 'pi pi-fw pi-cog',
-                                    routerLink: ['/business/assets/specialised/equipment']
+                                    routerLink: ['/business/assets/specialised/equipment'],
+                                    requiredAssetCategoryCode: 'EQUIPMENT'
                                 },
                                 {
                                     label: 'Property Assets',
                                     icon: 'pi pi-fw pi-building',
-                                    routerLink: ['/business/assets/specialised/property']
+                                    routerLink: ['/business/assets/specialised/property'],
+                                    requiredAssetCategoryCode: 'PROPERTY'
                                 },
                                 {
                                     label: 'Classification',

@@ -45,17 +45,20 @@ export class AppTopbar {
     constructor(public layoutService: LayoutService,
         private loggedInUserService: LoggedInUserService
     ) {
-debugger;
+        const user = this.loggedInUserService.loggedInUser;
 
+        if (this.loggedInUserService.isPlatformAdmin || user?.AccountType === 'Platform') {
+            this.shortName = 'LeaseHive';
+            this.HomeCaption = 'LeaseHive - Platform Administration';
+            return;
+        }
 
-        if (this.loggedInUserService.loggedInUser.AccountType != 'Platform') {
-            this.shortName = this.loggedInUserService.loggedInUser.Tenant?.LegalName;
-            this.HomeCaption = this.loggedInUserService.IsGlobalAdmin ? `${this.shortName} - Global Admin` : (`${this.shortName} - ${this.loggedInUserService.loggedInUser.Role} - Home`);
-        }
-        else {
-            this.shortName = this.loggedInUserService.loggedInUser.BrandPartner.shortName;
-             this.HomeCaption =  `${this.shortName} - Platform Home`
-        }
+        this.shortName = user?.Tenant?.LegalName
+            ?? user?.BrandPartner?.shortName
+            ?? 'LeaseHive';
+        this.HomeCaption = this.loggedInUserService.IsGlobalAdmin
+            ? `${this.shortName} - Global Admin`
+            : `${this.shortName} - ${user?.Role || 'User'} - Home`;
     }
 
     onMenuButtonClick() {

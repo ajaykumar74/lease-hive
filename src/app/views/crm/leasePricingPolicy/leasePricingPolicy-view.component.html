@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
+					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					<app-spinner></app-spinner>
+					<form> 
+				<p-fluid>
+		      			<div class="flex mt-8">
+						<div class="card flex flex-col gap-4 w-full"> 
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Category" [value]="leasePricingPolicy.AssetCategoryId">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Policy Code" [value]="leasePricingPolicy.PolicyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Policy Name" [value]="leasePricingPolicy.PolicyName">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Default Pricing Mode" [value]="leasePricingPolicy.DefaultPricingModeCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Default Funding Rate" [value]="leasePricingPolicy.DefaultFundingRate">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Minimum Funding Rate" [value]="leasePricingPolicy.MinimumFundingRate">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maximum Term Months" [value]="leasePricingPolicy.MaximumTermMonths">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Minimum Down Payment Percent" [value]="leasePricingPolicy.MinimumDownPaymentPct">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maximum Residual Percent" [value]="leasePricingPolicy.MaximumResidualPct">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency" [value]="leasePricingPolicy.CurrencyCode">
+								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Effective From" [value]="leasePricingPolicy.EffectiveFrom">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="leasePricingPolicy.EffectiveTo">
+								</app-view-field></div></div>
+
+						</div>
+					</div>
+ 				</p-fluid> 	
+
+
+					</form>
+			</div>
+		</div>
+	</div>
+</div>

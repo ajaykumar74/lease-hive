@@ -6,6 +6,7 @@ import { QuoteListComponent } from './quote-list.component';
 import { QuoteCreateComponent } from './quote-create.component';
 import { QuoteEditComponent } from './quote-edit.component';
 import { QuoteViewComponent } from './quote-view.component';
+import { QuotationWorkspaceComponent } from './quotation-workspace.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
       {
         path: 'create',
         canActivate: [AuthGuard],
-        component: QuoteCreateComponent,
+        component: QuotationWorkspaceComponent,
         data: {
           title: 'Create'
         }
@@ -42,7 +43,16 @@ const routes: Routes = [
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],
-        component: QuoteEditComponent 
+        component: QuotationWorkspaceComponent
+      },
+	  {
+        path: 'review/:id',
+        canActivate: [AuthGuard],
+        component: QuotationWorkspaceComponent,
+        data: {
+          title: 'Review & Issue',
+          review: true
+        }
       },
 	  {
         path: 'view/:id',

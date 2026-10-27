@@ -58,6 +58,7 @@ type QuoteDecision = 'ACCEPTED' | 'REJECTED';
                             <th>Decision / expiry</th>
                             <th>Lease terms</th>
                             <th>Total</th>
+                            <th>PDF</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +80,9 @@ type QuoteDecision = 'ACCEPTED' | 'REJECTED';
                                     ><br /><small *ngIf="quote.SecurityDepositAmount">Deposit {{ quote.SecurityDepositAmount | currency: quote.CurrencyCode : 'symbol' : '1.2-2' }}</small>
                                 </td>
                                 <td class="quote-actions">
+                                    <button *ngIf="quote.HasIssuedPdf" type="button" class="view-pdf" [disabled]="viewingPdfQuoteId === quote.QuoteId" (click)="viewPdf(quote)">
+                                        {{ viewingPdfQuoteId === quote.QuoteId ? 'Opening…' : 'View PDF' }}
+                                    </button>
                                     <ng-container *ngIf="isAdministrator; else viewOnly">
                                         <button type="button" class="accept" (click)="startDecision(quote, 'ACCEPTED')">Accept</button>
                                         <button type="button" class="reject" (click)="startDecision(quote, 'REJECTED')">Reject</button>
@@ -101,6 +105,12 @@ type QuoteDecision = 'ACCEPTED' | 'REJECTED';
                                 </td>
                                 <td>
                                     <strong>{{ quote.TotalAmount | currency: quote.CurrencyCode : 'symbol' : '1.2-2' }}</strong>
+                                </td>
+                                <td class="quote-actions">
+                                    <button *ngIf="quote.HasIssuedPdf; else noPdf" type="button" class="view-pdf" [disabled]="viewingPdfQuoteId === quote.QuoteId" (click)="viewPdf(quote)">
+                                        {{ viewingPdfQuoteId === quote.QuoteId ? 'Opening…' : 'View PDF' }}
+                                    </button>
+                                    <ng-template #noPdf><span class="text-muted">—</span></ng-template>
                                 </td>
                             </ng-template>
                         </tr>
@@ -188,6 +198,10 @@ type QuoteDecision = 'ACCEPTED' | 'REJECTED';
             }
             .reject {
                 background: #b42318;
+                color: #fff;
+            }
+            .view-pdf {
+                background: #1d6f8c;
                 color: #fff;
             }
             .secondary {
@@ -281,6 +295,7 @@ export class CustomerPortalQuotesComponent implements OnInit {
     error = '';
     decisionError = '';
     notice = '';
+    viewingPdfQuoteId?: number;
 
     constructor(
         private readonly loggedInUserService: LoggedInUserService,
@@ -326,6 +341,30 @@ export class CustomerPortalQuotesComponent implements OnInit {
         this.selectedQuote = undefined;
         this.remarks = '';
         this.decisionError = '';
+    }
+
+    viewPdf(quote: CustomerPortalQuote): void {
+        if (!quote.HasIssuedPdf || this.viewingPdfQuoteId === quote.QuoteId) {
+            return;
+        }
+
+        this.viewingPdfQuoteId = quote.QuoteId;
+        this.error = '';
+        this.workspace
+            .quotePdf(quote.QuoteId)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (pdf) => {
+                    const url = URL.createObjectURL(pdf);
+                    window.open(url, '_blank', 'noopener');
+                    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+                    this.viewingPdfQuoteId = undefined;
+                },
+                error: (error) => {
+                    this.error = this.errorMessage(error, 'The quotation PDF could not be opened.');
+                    this.viewingPdfQuoteId = undefined;
+                }
+            });
     }
 
     submitDecision(): void {

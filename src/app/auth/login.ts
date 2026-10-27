@@ -129,24 +129,46 @@ export class Login {
           this.baseService.updateJwtToken(response.Token);
           localStorage.setItem("jwt", response.Token);
           localStorage.setItem("refreshToken", response.RefreshToken);
-
-        this.permissionService.loadPermissions(response.Token,"UTC").subscribe({
-          next: (securityContext) => {
-            console.log(securityContext);
-          }
-
-          });
-
-          if (this.isCustomerPortalRole(user.Role)) {
-            // Customer portal AppUsers do not have the legacy PortalUser/
-            // BrandPartner relationship used by the internal login flow.
-            user.AccountType = 'CustomerPortal';
+           if (this.isPlatformAdminRole(user.Role.toLowerCase())) {
+            // Platform administrators are not tenant-bound. Load their
+            // configuration permissions before navigation so the root
+            // permission guard cannot race the successful login redirect.
+            user.AccountType = 'Platform';
             this.loggedInUserService.updateloggedInUser(user);
-            this.router.navigate(['/customer-portal/dashboard']);
+            this.permissionService.loadPermissions(response.Token, 'UTC').subscribe({
+              next: () => {debugger; this.router.navigateByUrl('/dashboard/platform-admin')},
+              error: () => {
+                this.submitted = false;
+                this.btnCaption = 'Login';
+                this.messageService.add({ severity: 'error', summary: '', detail: 'Unable to load PlatformAdmin access permissions.' });
+              }
+            });
             return;
           }
 
-          this.getCustomerAndPartner(user);
+          this.permissionService.loadPermissions(response.Token,"UTC").subscribe({
+            next: (securityContext) => {
+              const tenant = securityContext.tenantContext;
+              if (!securityContext.isPlatformAdministrator && tenant && tenant.TenantStatus?.toLowerCase() !== 'active') {
+                localStorage.removeItem('jwt');
+                localStorage.removeItem('refreshToken');
+                this.permissionService.clear();
+                this.router.navigate(['/tenant-access-blocked'], {
+                  queryParams: { tenantName: tenant.TenantName, tenantStatus: tenant.TenantStatus }
+                });
+                return;
+              }
+
+              if (this.isCustomerPortalRole(user.Role)) {
+                user.AccountType = 'CustomerPortal';
+                this.loggedInUserService.updateloggedInUser(user);
+                this.router.navigate(['/customer-portal/dashboard']);
+                return;
+              }
+
+              this.getCustomerAndPartner(user);
+            }
+          });
 
         }
 
@@ -209,6 +231,10 @@ export class Login {
 
   private isCustomerPortalRole(role: string | undefined): boolean {
     return /(^|[,\s])(customer_portal_admin|customer_portal_user|customerportaladmin|customerportaluser)(?=$|[,\s])/i.test(role || '');
+  }
+
+  private isPlatformAdminRole(role: string | undefined): boolean {
+    return /platform[\s_-]*admin/i.test(role || '');
   }
 
   onRegister() {

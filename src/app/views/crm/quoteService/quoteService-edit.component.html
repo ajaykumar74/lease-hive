@@ -1,0 +1,127 @@
+<div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		       <form [formGroup]="editForm" (ngSubmit)="Save()">
+ 				<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Quote" class="mb-1">QuoteId</label>
+        <p-dropdown
+            inputId="QuoteId" 
+            [options]="quoteidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteId')"
+											label="Quote">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Quote Asset" class="mb-1">QuoteAssetId</label>
+        <p-dropdown
+            inputId="QuoteAssetId" 
+            [options]="quoteassetidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="QuoteAssetId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('QuoteAssetId')"
+											label="Quote Asset">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease Service" class="mb-1">LeaseServiceId</label>
+        <p-dropdown
+            inputId="LeaseServiceId" 
+            [options]="leaseserviceidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="LeaseServiceId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseServiceId')"
+											label="Lease Service">
+										</app-validation-errors></div><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsIncluded" binary="true" formControlName="IsIncluded">
+											</p-checkbox>
+											<label for="IsIncluded">Is Included</label>
+										</div>
+										<div class="validation-space"></div></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label class="pt-8"></label>
+										<div class="flex items-center gap-2">
+											<p-checkbox inputId="IsSeparatelyChargeable" binary="true" formControlName="IsSeparatelyChargeable">
+											</p-checkbox>
+											<label for="IsSeparatelyChargeable">Is Separately Chargeable</label>
+										</div>
+										<div class="validation-space"></div></div><div class="flex flex-col w-full"> <label for="Charge Frequency" class="mb-1">ChargeFrequencyCode</label>
+        <p-dropdown
+            inputId="ChargeFrequencyCode" 
+            [options]="chargefrequencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="ChargeFrequencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('ChargeFrequencyCode')"
+											label="Charge Frequency">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="UnitAmount">Unit Amount 
+							</label> 
+							<p-inputNumber id="UnitAmount"  pSize="small"	formControlName="UnitAmount"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('UnitAmount')"
+											label="Unit Amount">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="Quantity">Quantity 
+							</label> 
+							<p-inputNumber id="Quantity"  pSize="small"	formControlName="Quantity"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('Quantity')"
+											label="Quantity">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Service Terms</label>
+                    <textarea size="small" pTextarea placeholder="Type Service Terms" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="ServiceTerms"
+										[ngClass]="{'is-invalid': (editForm.get('ServiceTerms').touched || editForm.get('ServiceTerms').dirty) && !editForm.get('ServiceTerms').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('ServiceTerms')"
+											label="Service Terms">
+										</app-validation-errors>
+
+
+               </div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 	
+                     </form>			 
+
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+

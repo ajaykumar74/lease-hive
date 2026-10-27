@@ -1,0 +1,6 @@
+<div class="container"><div class="grid"><div class="col-12"><div class="card p-fluid"><app-message [AlertType]="'message'"></app-message><app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"></app-toolbar-buttons><app-spinner></app-spinner><form [formGroup]="editForm" (ngSubmit)="save()"><div class="grid mt-4">
+  <div class="col-12 md:col-6"><label for="TenantId">Tenant</label><p-dropdown inputId="TenantId" [options]="tenantIdOptions" optionLabel="Text" optionValue="Value" formControlName="TenantId" placeholder="Select tenant"></p-dropdown></div>
+  <div class="col-12 md:col-6 flex align-items-end"><p-checkbox inputId="MFAEnabled" binary="true" formControlName="MFAEnabled"></p-checkbox><label for="MFAEnabled" class="ml-2">Require MFA</label></div>
+  <div class="col-12 md:col-6"><label for="SessionTimeoutMinutes">Session timeout (minutes)</label><p-inputNumber inputId="SessionTimeoutMinutes" formControlName="SessionTimeoutMinutes"></p-inputNumber></div>
+  <div class="col-12 md:col-6"><label for="RecordStatus">Record status</label><p-dropdown inputId="RecordStatus" [options]="recordStatusOptions" optionLabel="Text" optionValue="Value" formControlName="RecordStatus"></p-dropdown></div>
+</div></form></div></div></div></div>

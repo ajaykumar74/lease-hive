@@ -7,5 +7,6 @@ ItemName :string;
 Description :string;
 IsSystem : boolean;
 TenantId :number;
+SourceSystemPicklistItemId?: number | null;
 
 }

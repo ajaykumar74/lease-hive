@@ -121,7 +121,7 @@ export class PicklistItemListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanUpdate) {
+    if (this.permission.CanUpdate && !(this.isSystemItem(obj) && this.isSystemTenantContext())) {
       this.router.navigate(['dashboard/picklistItems/edit', obj.Id]);
     }
     else {
@@ -139,6 +139,14 @@ export class PicklistItemListComponent implements OnInit {
     }
     else if (key == "Cancel") {
     }
+  }
+
+  isSystemItem(item: IPicklistItem): boolean {
+    return item?.TenantId === -1 || item?.IsSystem === true;
+  }
+
+  get isSystemCatalogContext(): boolean {
+    return this.isSystemTenantContext();
   }
 
   confirmDelete(item: IPicklistItem): void {
@@ -173,6 +181,12 @@ export class PicklistItemListComponent implements OnInit {
         this.deletingId = null;
       }
     });
+  }
+
+  private isSystemTenantContext(): boolean {
+    const tenant = this.loggedInUserService.loggedInUser?.Tenant;
+    const tenantId = tenant?.Id ?? tenant?.TenantId;
+    return tenantId === -1;
   }
 
   private loadCategoryOptions(): void {

@@ -1,0 +1,59 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4">
+						<div class="flex flex-col w-full">
+					
+							<label for="TenantId">Tenant
+							</label> 
+							<p-dropdown inputId="TenantId" [options]="tenantIdOptions" optionLabel="Text" optionValue="Value"
+								formControlName="TenantId" placeholder="Select tenant"></p-dropdown>
+							<app-validation-errors [type]="'text'" [control]="editForm.get('TenantId')"
+											label="Tenant">
+										</app-validation-errors>
+						 </div>
+
+						<div class="flex flex-col w-full">
+					
+							<label for="Status">Status 
+							</label> 
+							<p-dropdown inputId="Status" [options]="statusOptions" optionLabel="Text" optionValue="Value"
+								formControlName="Status" placeholder="Select status"></p-dropdown>
+							<app-validation-errors [type]="'text'" [control]="editForm.get('Status')"
+											label="Status">
+										</app-validation-errors>
+						 </div>
+					</div>
+
+					<div class="flex flex-col w-full">
+                 <label for="Description">Description</label>
+                    <textarea size="small" pTextarea placeholder="Type Description" [autoResize]="true" rows="3" class="w-full"
+										cols="30" formControlName="Description"
+										[ngClass]="{'is-invalid': (editForm.get('Description').touched || editForm.get('Description').dirty) && !editForm.get('Description').valid }"></textarea>
+<app-validation-errors [type]="'text'" [control]="editForm.get('Description')"
+											label="Description">
+										</app-validation-errors>
+
+
+               </div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

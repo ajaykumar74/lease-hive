@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PermissionService } from './permission.service';
+import { TenantContextService } from './tenant-context.service';
 
 export interface AppMenuItem {
     label?: string;
@@ -10,6 +11,7 @@ export interface AppMenuItem {
     visible?: boolean;
     alwaysVisible?: boolean;
     requiredPermission?: string;
+    requiredAssetCategoryCode?: string;
     [key: string]: unknown;
 }
 
@@ -41,6 +43,9 @@ export class MenuPermissionService {
     private readonly publicRoutes = [
         '/dashboard/mydashboard',
         '/dashboard/admin',
+        // The platform landing page is a navigation shell. Its child screens
+        // are still guarded by their own configuration resource permissions.
+        '/dashboard/platform-admin',
         // Product help requires an authenticated session, but no resource permission.
         '/dashboard/crmhelpdoc'
     ];
@@ -61,6 +66,14 @@ export class MenuPermissionService {
         { route: '/dashboard/numbersequences', resource: 'configuration.numbersequence' },
         { route: '/dashboard/tenants', resource: 'configuration.tenant' },
         { route: '/dashboard/subscriptionplans', resource: 'configuration.subscriptionplan' },
+        { route: '/dashboard/featuredefinitions', resource: 'configuration.featuredefinition' },
+        { route: '/dashboard/tenantfeatures', resource: 'configuration.tenantfeature' },
+        { route: '/dashboard/tenantsubscriptions', resource: 'configuration.tenantsubscription' },
+        { route: '/dashboard/tenantsecuritypolicys', resource: 'configuration.tenantsecuritypolicy' },
+        { route: '/dashboard/tenantusages', resource: 'configuration.tenantusage' },
+        { route: '/dashboard/tenantstatuss', resource: 'configuration.tenantstatus' },
+        { route: '/dashboard/tenantassetcategories', resource: 'configuration.tenantassetcategory' },
+        { route: '/dashboard/tenantinvitations', resource: 'configuration.tenantinvitation' },
         { route: '/dashboard/customers', resource: 'party.customerprofile' },
         { route: '/dashboard/brandpartners', resource: 'party.supplierprofile' },
         { route: '/dashboard/contacts', resource: 'party.contact' },
@@ -127,7 +140,7 @@ export class MenuPermissionService {
         { route: '/eol-disposal', resource: 'endoflease.endofleasecase' }
     ].sort((left, right) => right.route.length - left.route.length);
 
-    constructor(private readonly permissionService: PermissionService) {
+    constructor(private readonly permissionService: PermissionService, private readonly tenantContextService: TenantContextService) {
     }
 
     filterMenu(items: AppMenuItem[]): AppMenuItem[] {
@@ -189,10 +202,18 @@ export class MenuPermissionService {
             return null;
         }
 
+        if (item.requiredAssetCategoryCode && !this.hasActiveAssetCategory(item.requiredAssetCategoryCode)) {
+            return null;
+        }
+
         return {
             ...item,
             ...(children ? { items: children } : {})
         };
+    }
+
+    hasActiveAssetCategory(categoryCode: string): boolean {
+        return this.tenantContextService.hasActiveAssetCategory(categoryCode);
     }
 
     private getAction(route: string): string {

@@ -67,6 +67,7 @@ export interface CustomerPortalQuote {
     BillingFrequency: string;
     TotalAmount: number;
     SecurityDepositAmount: number;
+    HasIssuedPdf: boolean;
     CanRespond: boolean;
     DecisionCode?: string;
     DecisionDateTime?: string;
@@ -169,6 +170,12 @@ export class CustomerPortalWorkspaceService {
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
     quotes(): Observable<CustomerPortalQuote[]> { return this.get<CustomerPortalQuote[]>('quotes'); }
+    quotePdf(quoteId: number): Observable<Blob> {
+        return this.http.get(`${this.endpoint}/quotes/${quoteId}/pdf`, {
+            headers: this.baseService.getHeaders(),
+            responseType: 'blob'
+        }).pipe(catchError(this.baseService.handleError));
+    }
     decideQuote(quoteId: number, decisionCode: 'ACCEPTED' | 'REJECTED', remarks: string): Observable<CustomerPortalQuoteDecisionResult> {
         return this.http.post<{ data: CustomerPortalQuoteDecisionResult }>(`${this.endpoint}/quotes/${quoteId}/decision`, {
             DecisionCode: decisionCode,

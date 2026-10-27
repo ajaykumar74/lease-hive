@@ -3,6 +3,24 @@ export interface UserSecurityContext {
     tenantId: number;
     userCode?: string;
     permissions: string[];
+    tenantContext?: TenantContext;
+    isPlatformAdministrator?: boolean;
+}
+
+export interface TenantContext {
+    TenantId: number;
+    TenantName: string;
+    TenantStatus: string;
+    SubscriptionStatus?: string;
+    PlanCode?: string;
+    PlanName?: string;
+    MaxUsers?: number;
+    MaxAssets?: number;
+    StorageGB?: number;
+    ActiveUsers: number;
+    ActiveAssets: number;
+    FeatureCodes: string[];
+    ActiveAssetCategoryCodes: string[];
 }
 
 export interface UserSecurityContextResponse {
@@ -10,4 +28,6 @@ export interface UserSecurityContextResponse {
     TenantId: number;
     UserCode?: string;
     Permissions: string[];
+    TenantContext?: TenantContext;
+    IsPlatformAdministrator?: boolean;
 }

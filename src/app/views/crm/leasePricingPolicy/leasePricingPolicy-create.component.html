@@ -1,0 +1,159 @@
+ <div class="container">
+	<div class="grid">
+		<div class="col-12 md:col-12">
+			<div class="card p-fluid">
+				<app-message [AlertType]="'message'"></app-message>
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
+					[PageType]="'Details'" [form]="editForm">
+				</app-toolbar-buttons> 
+				<app-spinner></app-spinner>
+				
+		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+  			<p-fluid>
+		      		<div class="flex mt-8">
+					<div class="card flex flex-col gap-4 w-full"> 
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Category" class="mb-1">AssetCategoryId</label>
+        <p-dropdown
+            inputId="AssetCategoryId" 
+            [options]="assetcategoryidOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="AssetCategoryId"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
+											label="Asset Category">
+										</app-validation-errors></div><div class="flex flex-col w-full">					
+							<label for="PolicyCode">Policy Code 
+							</label> 
+							<input pInputText id="PolicyCode" type="text" pSize="small"	formControlName="PolicyCode"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PolicyCode')"
+											label="Policy Code">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							<label for="PolicyName">Policy Name 
+							</label> 
+							<input pInputText id="PolicyName" type="text" pSize="small"	formControlName="PolicyName"  />
+							<app-validation-errors [type]="'text'" [control]="editForm.get('PolicyName')"
+											label="Policy Name">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full"> <label for="Default Pricing Mode" class="mb-1">DefaultPricingModeCode</label>
+        <p-dropdown
+            inputId="DefaultPricingModeCode" 
+            [options]="defaultpricingmodecodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="DefaultPricingModeCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('DefaultPricingModeCode')"
+											label="Default Pricing Mode">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="DefaultFundingRate">Default Funding Rate 
+							</label> 
+							<p-inputNumber id="DefaultFundingRate"  pSize="small"	formControlName="DefaultFundingRate"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('DefaultFundingRate')"
+											label="Default Funding Rate">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="MinimumFundingRate">Minimum Funding Rate 
+							</label> 
+							<p-inputNumber id="MinimumFundingRate"  pSize="small"	formControlName="MinimumFundingRate"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MinimumFundingRate')"
+											label="Minimum Funding Rate">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MaximumTermMonths">Maximum Term Months 
+							</label> 
+							<p-inputNumber id="MaximumTermMonths"  pSize="small"	formControlName="MaximumTermMonths"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MaximumTermMonths')"
+											label="Maximum Term Months">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">							<label for="MinimumDownPaymentPct">Minimum Down Payment Percent 
+							</label> 
+							<p-inputNumber id="MinimumDownPaymentPct"  pSize="small"	formControlName="MinimumDownPaymentPct"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MinimumDownPaymentPct')"
+											label="Minimum Down Payment Percent">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="MaximumResidualPct">Maximum Residual Percent 
+							</label> 
+							<p-inputNumber id="MaximumResidualPct"  pSize="small"	formControlName="MaximumResidualPct"  >
+</p-inputNumber>
+<app-validation-errors [type]="'number'" [control]="editForm.get('MaximumResidualPct')"
+											label="Maximum Residual Percent">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">
+                            <label for="LeaseTypeCode">Lease type (blank = all)</label>
+                            <input pInputText id="LeaseTypeCode" type="text" pSize="small" formControlName="LeaseTypeCode" />
+						 </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="MaximumFundingRate">Maximum funding rate</label><p-inputNumber id="MaximumFundingRate" pSize="small" formControlName="MaximumFundingRate"></p-inputNumber></div>
+<div class="flex flex-col w-full"><label for="MaximumContractValue">Maximum contract value</label><p-inputNumber id="MaximumContractValue" pSize="small" formControlName="MaximumContractValue"></p-inputNumber></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="MaximumDiscountAmount">Maximum discount amount</label><p-inputNumber id="MaximumDiscountAmount" pSize="small" formControlName="MaximumDiscountAmount"></p-inputNumber></div>
+<div class="flex flex-col w-full"><label for="ApprovalThresholdAmount">Approval threshold amount</label><p-inputNumber id="ApprovalThresholdAmount" pSize="small" formControlName="ApprovalThresholdAmount"></p-inputNumber></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><label for="ExceptionThresholdAmount">Exception threshold amount</label><p-inputNumber id="ExceptionThresholdAmount" pSize="small" formControlName="ExceptionThresholdAmount"></p-inputNumber></div>
+<div class="flex flex-col w-full justify-content-end gap-2"><p-checkbox inputId="RequireCommercialApproval" [binary]="true" formControlName="RequireCommercialApproval" label="Require commercial approval"></p-checkbox><p-checkbox inputId="BlockPolicyViolations" [binary]="true" formControlName="BlockPolicyViolations" label="Block policy violations"></p-checkbox></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+ <label for="Currency" class="mb-1">CurrencyCode</label>
+        <p-dropdown
+            inputId="CurrencyCode" 
+            [options]="currencycodeOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="CurrencyCode"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
+											label="Currency">
+										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
+							<label for="EffectiveFrom">Effective From 
+							</label> 
+							<p-calendar id="EffectiveFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveFrom"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveFrom')"
+											label="Effective From">
+										</app-validation-errors>
+						 </div><div class="flex flex-col w-full">			
+							<label for="EffectiveTo">Effective To 
+							</label> 
+							<p-calendar id="EffectiveTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+	formControlName="EffectiveTo"  ></p-calendar>
+	<app-validation-errors [type]="'date'" [control]="editForm.get('EffectiveTo')"
+											label="Effective To">
+										</app-validation-errors>
+						 </div></div>
+<div class="flex flex-wrap" > <div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
+        <p-dropdown
+            inputId="RecordStatus" 
+            [options]="recordstatusOptions"
+            optionLabel="Text"
+	    optionValue="Value"
+	    formControlName="RecordStatus"
+            placeholder="Select One"
+            class="w-full">
+        </p-dropdown>
+      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
+											label="Record Status">
+										</app-validation-errors></div></div>
+
+					</div>
+				</div>
+ 			</p-fluid> 				 
+                     </form>				 
+
+			</div>
+		</div>
+	</div>
+</div>

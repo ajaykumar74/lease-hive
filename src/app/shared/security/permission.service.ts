@@ -18,6 +18,7 @@ import {
     UserSecurityContextResponse
 } from './security.models';
 import { BaseService } from '../IBaseService';
+import { TenantContextService } from './tenant-context.service';
 
 @Injectable({
     providedIn: 'root'
@@ -53,7 +54,8 @@ export class PermissionService {
 
     constructor(
         private readonly http: HttpClient,
-        private   baseService: BaseService
+        private   baseService: BaseService,
+        private readonly tenantContextService: TenantContextService
     ) {
     }
 
@@ -89,13 +91,16 @@ export class PermissionService {
                     userId: response.UserId,
                     tenantId: response.TenantId,
                     userCode: response.UserCode,
-                    permissions: response.Permissions ?? []
+                    permissions: response.Permissions ?? [],
+                    tenantContext: response.TenantContext,
+                    isPlatformAdministrator: response.IsPlatformAdministrator === true
                 })),
                 tap(context => {
 
                     this.securityContextSubject.next(
                         context
                     );
+                    this.tenantContextService.set(context.tenantContext);
 
                     this.setPermissions(
                         context.permissions
@@ -244,6 +249,7 @@ export class PermissionService {
         this.securityContextSubject.next(
             null
         );
+        this.tenantContextService.clear();
 
         this.permissionsLoadedSubject.next(
             false

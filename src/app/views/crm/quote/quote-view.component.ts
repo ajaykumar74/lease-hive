@@ -90,7 +90,7 @@ export class QuoteViewComponent implements OnInit {
     }
 
     createRevision(): void {
-        if (this.quote?.StatusCode?.toUpperCase() !== 'ACCEPTED') {
+        if (!['ISSUED', 'ACCEPTED'].includes(this.quote?.StatusCode?.toUpperCase())) {
             return;
         }
 

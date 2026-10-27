@@ -190,6 +190,31 @@ export const BUSINESS_ROUTES: Routes = [
                 loadChildren: () => import('@/views/crm/quoteAcceptance/quoteAcceptance.module').then((m) => m.QuoteAcceptanceModule)
             },
             {
+                path: 'origination/quotes/services',
+                data: { title: 'Quote Services', breadcrumb: 'Quote Services' },
+                loadChildren: () => import('@/views/crm/quoteService/quoteService.module').then((m) => m.QuoteServiceModule)
+            },
+            {
+                path: 'origination/quotes/pricing-scenarios',
+                data: { title: 'Quote Pricing Scenarios', breadcrumb: 'Quote Pricing Scenarios' },
+                loadChildren: () => import('@/views/crm/quotePricingScenario/quotePricingScenario.module').then((m) => m.QuotePricingScenarioModule)
+            },
+            {
+                path: 'origination/quotes/pricing-schedules',
+                data: { title: 'Quote Pricing Schedules', breadcrumb: 'Quote Pricing Schedules' },
+                loadChildren: () => import('@/views/crm/quotePricingSchedule/quotePricingSchedule.module').then((m) => m.QuotePricingScheduleModule)
+            },
+            {
+                path: 'origination/config/lease-pricing-policies',
+                data: { title: 'Lease Pricing Policies', breadcrumb: 'Lease Pricing Policies' },
+                loadChildren: () => import('@/views/crm/leasePricingPolicy/leasePricingPolicy.module').then((m) => m.LeasePricingPolicyModule)
+            },
+            {
+                path: 'origination/config/lease-services',
+                data: { title: 'Lease Services', breadcrumb: 'Lease Services' },
+                loadChildren: () => import('@/views/crm/leaseService/leaseService.module').then((m) => m.LeaseServiceModule)
+            },
+            {
                 path: 'origination/documents',
                 redirectTo: 'crm/leaseRequirements',
                 pathMatch: 'full'
