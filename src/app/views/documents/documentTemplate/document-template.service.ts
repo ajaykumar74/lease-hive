@@ -21,6 +21,10 @@ export class DocumentTemplateService {
         return this.data<DocumentTemplate[]>(this.http.get<{ data: DocumentTemplate[] }>(this.url, { headers: this.headers }));
     }
 
+    get(templateId: number): Observable<DocumentTemplate> {
+        return this.data<DocumentTemplate>(this.http.get<{ data: DocumentTemplate }>(`${this.url}/${templateId}`, { headers: this.headers }));
+    }
+
     options(): Observable<DocumentTemplateOptions> {
         return this.data<DocumentTemplateOptions>(this.http.get<{ data: DocumentTemplateOptions }>(`${this.url}/options`, { headers: this.headers }));
     }

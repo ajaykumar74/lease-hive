@@ -303,8 +303,8 @@
               </div>
             </div>
 
-            <div *ngIf="hasUnappliedCalculatedPricing()" class="quote-review-pricing-warning">
-              <div><strong>Calculated pricing has not been applied.</strong><span>Review totals and the contractual schedule use applied scenarios only. Save and apply the current calculation before continuing.</span></div>
+            <div *ngIf="hasPricingReapplicationRequired()" class="quote-review-pricing-warning">
+              <div><strong>{{ hasStaleCalculatedPricing() ? 'Calculated pricing is out of date.' : 'Calculated pricing has not been applied.' }}</strong><span>{{ hasStaleCalculatedPricing() ? 'A pricing input changed after the scenario was applied. Recalculate and apply the current scenario before continuing.' : 'Review totals and the contractual schedule use applied scenarios only. Save and apply the current calculation before continuing.' }}</span></div>
               <button type="button" pButton icon="pi pi-calculator" label="Review pricing" class="p-button-sm p-button-outlined" (click)="selectTab(2)"></button>
             </div>
 
@@ -383,16 +383,16 @@
 
             <div class="quote-commercial-action-panel">
               <div class="quote-commercial-actions">
-                <button *ngIf="commercialStatus.StatusCode === 'DRAFT'" type="button" pButton icon="pi pi-send" label="Submit for approval" [disabled]="isCommercialAction" (click)="submitForCommercialApproval()"></button>
+                <button *ngIf="commercialStatus.StatusCode === 'DRAFT'" type="button" pButton icon="pi pi-send" label="Submit for approval" [disabled]="isCommercialAction || hasPricingReapplicationRequired()" (click)="submitForCommercialApproval()"></button>
                 <ng-container *ngIf="commercialStatus.StatusCode === 'PENDING_APPROVAL'">
                   <textarea pTextarea [(ngModel)]="commercialComments" [ngModelOptions]="{standalone: true}" rows="2" maxlength="1000" class="w-20rem" placeholder="Approval comments"></textarea>
                   <button type="button" pButton icon="pi pi-check" label="Approve" [disabled]="isCommercialAction" (click)="approveCommercial()"></button>
                   <button type="button" pButton icon="pi pi-replay" label="Return" class="p-button-outlined" [disabled]="isCommercialAction" (click)="returnCommercial()"></button>
                   <button type="button" pButton icon="pi pi-times" label="Reject" class="p-button-danger p-button-outlined" [disabled]="isCommercialAction" (click)="rejectCommercial()"></button>
                 </ng-container>
-                <button *ngIf="commercialStatus.StatusCode === 'APPROVED'" type="button" pButton icon="pi pi-file-check" label="Issue quotation" [disabled]="isCommercialAction" (click)="issueQuotation()"></button>
+                <button *ngIf="commercialStatus.StatusCode === 'APPROVED' || ((commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED') && !issuedPdf)" type="button" pButton icon="pi pi-file-check" [label]="commercialStatus.StatusCode === 'APPROVED' ? 'Issue quotation' : 'Generate final PDF'" [disabled]="isCommercialAction" (click)="issueQuotation()"></button>
                 <button *ngIf="issuedPdf && (commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED')" type="button" pButton icon="pi pi-file-pdf" label="View / download PDF" class="p-button-outlined" [disabled]="isPdfAction" (click)="downloadIssuedPdf()"></button>
-                <button *ngIf="commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" type="button" pButton icon="pi pi-send" label="Send to customer" class="p-button-outlined" [disabled]="isPdfAction" (click)="sendToCustomer()"></button>
+                <button *ngIf="issuedPdf && (commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED')" type="button" pButton icon="pi pi-send" label="Send to customer" class="p-button-outlined" [disabled]="isPdfAction" (click)="sendToCustomer()"></button>
                 <button *ngIf="commercialStatus.StatusCode === 'ISSUED' || commercialStatus.StatusCode === 'ACCEPTED'" type="button" pButton icon="pi pi-copy" label="Revise quotation" class="p-button-outlined" [disabled]="isCommercialAction" (click)="createRevision()"></button>
               </div>
 

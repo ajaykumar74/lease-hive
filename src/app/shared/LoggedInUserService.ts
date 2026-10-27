@@ -252,7 +252,8 @@ export class LoggedInUserService {
     onError: (error: any) => void,
     destroyRef: DestroyRef,
     parentFields: Record<string, string> = {},
-    valueMode: 'id' | 'reference' = 'id'
+    valueMode: 'id' | 'reference' = 'id',
+    allowUnfilteredWhenParentsMissing = false
   ): void {
     form.valueChanges.pipe(
       startWith(null),
@@ -264,13 +265,14 @@ export class LoggedInUserService {
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
       switchMap(({ selectedId, filters }) => {
         assign([]);
-        // A dependent dropdown must stay empty until all of its parent records are selected.
-        // Otherwise a child record from another party can briefly be displayed and selected.
-        if (Object.keys(parentFields).length > 0 && Object.values(filters).some(value => value <= 0)) {
+        const parentsMissing = Object.keys(parentFields).length > 0 && Object.values(filters).some(value => value <= 0);
+        // Most dependent dropdowns must stay empty until their parents are selected.
+        // Owner fields can opt in to the tenant-scoped list so the current user remains a valid default.
+        if (parentsMissing && !allowUnfilteredWhenParentsMissing) {
           if (selectedId) form.get(field)?.setValue(null, { emitEvent: false });
           return EMPTY;
         }
-        return this.getEntityLookupOptions(lookupType, selectedId, filters, valueMode).pipe(
+        return this.getEntityLookupOptions(lookupType, selectedId, parentsMissing ? {} : filters, valueMode).pipe(
           map(options => {
             assign(options);
             if (selectedId && !options.some(option => (valueMode === 'reference' ? option.Value : option.Id) === selectedId)) form.get(field)?.setValue(null);
@@ -345,6 +347,20 @@ export class LoggedInUserService {
       'application-users',
       selectedId,
       organisationUnitId ? { DefaultOrganisationUnitId: organisationUnitId } : {}
+    );
+  }
+
+  /** Resolve the tenant AppUser record for the authenticated session. */
+  getCurrentApplicationUserId(): Observable<number> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/ApplicationUsers/current`, { headers: this.headers }).pipe(
+      map(response => {
+        const id = Number(response?.data?.Id);
+        if (!Number.isSafeInteger(id) || id <= 0) {
+          throw new Error('The signed-in user does not have an active application-user record.');
+        }
+
+        return id;
+      })
     );
   }
 

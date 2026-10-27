@@ -15,7 +15,7 @@
         <p *ngIf="error" class="text-red-600" role="alert">{{ error }}</p>
         <p *ngIf="message" class="text-green-600" role="status">{{ message }}</p>
 
-        <p-table [value]="templates" [loading]="loading" responsiveLayout="scroll" selectionMode="single" [(selection)]="selected" (onRowSelect)="select($event.data)" [tableStyle]="{ 'min-width': '72rem' }">
+        <p-table [value]="templates" [loading]="loading" responsiveLayout="scroll" selectionMode="single" dataKey="Id" [(selection)]="selectedRow" (onRowSelect)="openTemplate($event.data)" [tableStyle]="{ 'min-width': '72rem' }">
             <ng-template pTemplate="header">
                 <tr><th>Name</th><th>Type / category</th><th>Source version</th><th>Scope</th><th>Default</th><th>Status</th><th>Effective dates</th></tr>
             </ng-template>
@@ -35,22 +35,28 @@
     </div>
 
     <div *ngIf="editorOpen" class="card template-editor-card">
-        <div class="editor-header flex flex-wrap justify-content-between align-items-start gap-3 mb-5">
-            <div>
-                <button pButton type="button" class="p-button-text p-button-secondary p-0 mb-3" label="Back to templates" icon="pi pi-arrow-left" (click)="backToList()" [disabled]="busy"></button>
-                <p class="section-kicker mb-2">{{ selected ? 'Template configuration' : 'New template' }}</p>
-                <h1 class="text-3xl mb-2">{{ editorTitle }}</h1>
-                <p class="m-0 text-color-secondary">{{ selected ? (editingSystemTemplate ? 'System templates are read-only fallbacks.' : 'Update metadata or replace the versioned DOCX source file.') : 'Add a tenant DOCX template and define where it applies.' }}</p>
+        <div class="editor-header mb-4">
+            <div class="editor-heading">
+                <button pButton type="button" class="p-button-text p-button-secondary p-button-sm editor-back" label="Back to templates" icon="pi pi-arrow-left" (click)="backToList()" [disabled]="busy"></button>
+                <p class="section-kicker">{{ selected ? 'Template configuration' : 'New template' }}</p>
+                <h1>{{ editorTitle }}</h1>
+                <p>{{ selected ? (editingSystemTemplate ? 'System templates are read-only fallbacks.' : 'Update the metadata or create a new version of the source DOCX.') : 'Add a tenant DOCX template and define where it applies.' }}</p>
             </div>
-            <div class="flex flex-wrap justify-content-end gap-2 editor-actions">
-                <button *ngIf="selected" pButton type="button" class="p-button-secondary" label="Download DOCX" icon="pi pi-download" (click)="download()" [disabled]="busy || !canDownload"></button>
-                <button *ngIf="selected" pButton type="button" class="p-button-secondary" label="Validate" icon="pi pi-check-circle" (click)="validate()" [disabled]="busy"></button>
-                <button *ngIf="selected" pButton type="button" class="p-button-secondary" label="Preview PDF" icon="pi pi-eye" (click)="preview()" [disabled]="busy"></button>
-                <button *ngIf="selected && !editingSystemTemplate" pButton type="button" class="p-button-secondary" label="Upload version" icon="pi pi-upload" (click)="replaceFile()" [disabled]="busy || !canUpdate || !selectedFile"></button>
-                <button *ngIf="selected && !editingSystemTemplate" pButton type="button" class="p-button-secondary" [label]="selected.IsDefault ? 'Reapply default' : 'Set as default'" icon="pi pi-star" (click)="setDefault()" [disabled]="busy || !canUpdate"></button>
-                <button *ngIf="selected && !editingSystemTemplate" pButton type="button" class="p-button-secondary" [label]="selected.RecordStatus === 'Active' ? 'Deactivate' : 'Activate'" (click)="toggleStatus()" [disabled]="busy || !canUpdate"></button>
-                <button pButton type="button" class="p-button-text p-button-secondary" label="Cancel" (click)="backToList()" [disabled]="busy"></button>
-                <button *ngIf="!editingSystemTemplate" pButton type="button" [label]="selected ? 'Save changes' : 'Create template'" icon="pi pi-check" (click)="save()" [disabled]="busy || form.invalid || (selected ? !canUpdate : !canCreate)"></button>
+            <div class="editor-toolbar" aria-label="Template actions">
+                <div class="editor-action-group" *ngIf="selected">
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Download" icon="pi pi-download" (click)="download()" [disabled]="busy || !canDownload"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Validate" icon="pi pi-check-circle" (click)="validate()" [disabled]="busy"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Preview" icon="pi pi-eye" (click)="preview()" [disabled]="busy"></button>
+                </div>
+                <div class="editor-action-group" *ngIf="selected && !editingSystemTemplate">
+                    <button pButton type="button" class="p-button-sm p-button-outlined p-button-secondary" label="Upload version" icon="pi pi-upload" (click)="replaceFile()" [disabled]="busy || !canUpdate || !selectedFile"></button>
+                    <button pButton type="button" class="p-button-sm p-button-outlined p-button-secondary" [label]="selected.IsDefault ? 'Reapply default' : 'Set as default'" icon="pi pi-star" (click)="setDefault()" [disabled]="busy || !canUpdate"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" [label]="selected.RecordStatus === 'Active' ? 'Deactivate' : 'Activate'" icon="pi pi-power-off" (click)="toggleStatus()" [disabled]="busy || !canUpdate"></button>
+                </div>
+                <div class="editor-action-group editor-primary-actions">
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Cancel" icon="pi pi-times" (click)="backToList()" [disabled]="busy"></button>
+                    <button *ngIf="!editingSystemTemplate" pButton type="button" class="p-button-sm" [label]="selected ? 'Save changes' : 'Create template'" icon="pi pi-check" (click)="save()" [disabled]="busy || form.invalid || (selected ? !canUpdate : !canCreate)"></button>
+                </div>
             </div>
         </div>
 
@@ -61,16 +67,25 @@
 
         <form [formGroup]="form" (ngSubmit)="save()" class="p-fluid">
             <fieldset [disabled]="busy || editingSystemTemplate" class="border-0 p-0 m-0">
-                <div class="grid">
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="templateCode">Template code</label><input pInputText id="templateCode" formControlName="TemplateCode" /><small class="text-red-600" *ngIf="form.controls['TemplateCode'].touched && form.controls['TemplateCode'].invalid">Use 1–20 letters, digits, hyphens, or underscores.</small></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="templateName">Template name</label><input pInputText id="templateName" formControlName="TemplateName" /></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="templateType">Document type</label><p-dropdown inputId="templateType" [options]="options.TemplateTypeCodes" formControlName="TemplateTypeCode" placeholder="Select type"></p-dropdown></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="assetCategory">Asset category</label><p-dropdown inputId="assetCategory" [options]="options.AssetCategories" optionLabel="Name" optionValue="Id" formControlName="AssetCategoryId" [showClear]="true" placeholder="Generic for all categories"></p-dropdown></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="effectiveFrom">Effective from</label><input pInputText id="effectiveFrom" type="date" formControlName="EffectiveFrom" /></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="effectiveTo">Effective to</label><input pInputText id="effectiveTo" type="date" formControlName="EffectiveTo" /></div>
-                    <div class="col-12 md:col-6 flex align-items-center gap-2 form-field checkbox-field"><p-checkbox inputId="isDefault" binary="true" formControlName="IsDefault"></p-checkbox><label for="isDefault">Use as default for this scope</label></div>
-                    <div class="col-12 md:col-6 flex flex-column gap-2 form-field"><label for="recordStatus">Status</label><p-dropdown inputId="recordStatus" [options]="['Active', 'Inactive']" formControlName="RecordStatus"></p-dropdown></div>
-                    <div class="col-12 flex flex-column gap-2 form-field"><label for="templateFile">{{ selected ? 'New DOCX version (optional)' : 'DOCX template file' }}</label><input class="template-file-input" id="templateFile" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" (change)="chooseFile($event)" /><small class="text-color-secondary" *ngIf="selectedFile">Selected: {{ selectedFile.name }}</small></div>
+                <div class="template-form-grid">
+                    <div class="form-field"><label for="templateCode">Template code</label><input pInputText id="templateCode" formControlName="TemplateCode" /><small class="text-red-600" *ngIf="form.controls['TemplateCode'].touched && form.controls['TemplateCode'].invalid">Use 1–20 letters, digits, hyphens, or underscores.</small></div>
+                    <div class="form-field"><label for="templateName">Template name</label><input pInputText id="templateName" formControlName="TemplateName" /></div>
+                    <div class="form-field"><label for="templateType">Document type</label><p-dropdown inputId="templateType" [options]="options.TemplateTypeCodes" formControlName="TemplateTypeCode" placeholder="Select type"></p-dropdown></div>
+                    <div class="form-field"><label for="assetCategory">Asset category</label><p-dropdown inputId="assetCategory" [options]="options.AssetCategories" optionLabel="Name" optionValue="Id" formControlName="AssetCategoryId" [showClear]="true" placeholder="Generic for all categories"></p-dropdown></div>
+                    <div class="form-field"><label for="effectiveFrom">Effective from</label><input pInputText id="effectiveFrom" type="date" formControlName="EffectiveFrom" /></div>
+                    <div class="form-field"><label for="effectiveTo">Effective to</label><input pInputText id="effectiveTo" type="date" formControlName="EffectiveTo" /></div>
+                    <div class="form-field checkbox-field"><p-checkbox inputId="isDefault" binary="true" formControlName="IsDefault"></p-checkbox><label for="isDefault">Use as default for this scope</label><small>Used when no more specific asset-category template applies.</small></div>
+                    <div class="form-field"><label for="recordStatus">Status</label><p-dropdown inputId="recordStatus" [options]="['Active', 'Inactive']" formControlName="RecordStatus"></p-dropdown></div>
+                    <div class="form-field form-field-wide">
+                        <label for="templateFile">{{ selected ? 'New DOCX version (optional)' : 'DOCX template file' }}</label>
+                        <label class="file-picker" for="templateFile">
+                            <i class="pi pi-cloud-upload"></i>
+                            <span><strong>{{ selected ? 'Choose replacement DOCX' : 'Choose DOCX template' }}</strong><small>Word document (.docx), maximum 25 MB</small></span>
+                            <span class="file-picker-action">Browse</span>
+                        </label>
+                        <input class="template-file-input" id="templateFile" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" (change)="chooseFile($event)" />
+                        <small class="selected-file" *ngIf="selectedFile"><i class="pi pi-file-word"></i> {{ selectedFile.name }}</small>
+                    </div>
                 </div>
             </fieldset>
         </form>

@@ -16,6 +16,11 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<any>(null);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // The refresh call must not try to refresh itself after an invalid or expired refresh token.
+    if (req.url.toLowerCase().includes('/api/account/refresh')) {
+      return next.handle(req);
+    }
+
     const token = this.authService.getToken();    
     let authReq = req;
     if (token) {
@@ -44,12 +49,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
       return this.authService.refreshToken().pipe(
         switchMap((tokens: any) => {
+          const accessToken = tokens?.accessToken ?? tokens?.AccessToken;
+          if (!accessToken) {
+            throw new Error('The token refresh response did not contain an access token.');
+          }
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(tokens.accessToken);
+          this.refreshTokenSubject.next(accessToken);
 
           return next.handle(
             request.clone({
-              setHeaders: { Authorization: `Bearer ${tokens.accessToken}` }
+              setHeaders: { Authorization: `Bearer ${accessToken}` }
             })
           );
         }),

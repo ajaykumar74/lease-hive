@@ -60,6 +60,7 @@ export class QuotationWorkspaceComponent implements OnInit {
   acceptanceMethodCode = 'MANUAL';
   acceptanceRemarks = '';
   private isHydrating = false;
+  private appliedPricingInputSignatures = new Map<string, string>();
   removedAssetIds: number[] = [];
   removedServiceIds: number[] = [];
   removedChargeIds: number[] = [];
@@ -112,11 +113,11 @@ export class QuotationWorkspaceComponent implements OnInit {
     this.isReviewRoute = this.route.snapshot.data['review'] === true;
     if (this.isReviewRoute) this.activeTab = 5;
     this.loadLookupOptions();
-    this.assets.valueChanges.subscribe(() => this.markCalculatedPricingStale());
-    this.services.valueChanges.subscribe(() => this.markCalculatedPricingStale());
-    this.charges.valueChanges.subscribe(() => this.markCalculatedPricingStale());
-    ['RequestedTermMonths', 'BillingFrequency', 'PaymentTimingCode', 'SecurityDepositAmount'].forEach(name =>
-      this.header.get(name)?.valueChanges.subscribe(() => this.markCalculatedPricingStale()));
+    this.assets.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
+    this.services.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
+    this.charges.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
+    ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount'].forEach(name =>
+      this.header.get(name)?.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness()));
     if (this.quoteId > 0) this.loadWorkspace();
   }
 
@@ -236,7 +237,18 @@ export class QuotationWorkspaceComponent implements OnInit {
   hasUnappliedCalculatedPricing(): boolean {
     return (this.assets.getRawValue() as IQuotationWorkspaceAsset[]).some(asset =>
       String(asset.PricingMethodCode || '').toUpperCase() === 'CALCULATED'
-      && (!asset.AppliedPricingScenarioId || asset.PricingIsStale));
+      && !asset.AppliedPricingScenarioId);
+  }
+
+  hasStaleCalculatedPricing(): boolean {
+    return (this.assets.getRawValue() as IQuotationWorkspaceAsset[]).some(asset =>
+      String(asset.PricingMethodCode || '').toUpperCase() === 'CALCULATED'
+      && !!asset.AppliedPricingScenarioId
+      && asset.PricingIsStale);
+  }
+
+  hasPricingReapplicationRequired(): boolean {
+    return this.hasUnappliedCalculatedPricing() || this.hasStaleCalculatedPricing();
   }
 
   partyDisplayName(): string {
@@ -404,6 +416,8 @@ export class QuotationWorkspaceComponent implements OnInit {
       PricingModeCode: this.quotePricingMode()
     }, { emitEvent: false });
     this.calculationResult = applied.Result;
+    this.recordAppliedPricingInputSignature(asset.getRawValue() as IQuotationWorkspaceAsset);
+    this.markPricingInputsAsApplied(asset);
     this.messageService.showSuccess('Price applied to the selected asset. Save Draft to retain all other unsaved quotation changes together.');
     this.loadPricingScenarios();
     this.loadCommercialStatus();
@@ -464,12 +478,150 @@ export class QuotationWorkspaceComponent implements OnInit {
     return calculated === 0 ? 'MANUAL' : calculated === values.length ? 'CALCULATED' : 'MIXED';
   }
 
-  private markCalculatedPricingStale(): void {
+  private refreshCalculatedPricingStaleness(): void {
     if (this.isHydrating || this.readOnly) return;
     this.assets.controls.forEach(asset => {
-      if (String(asset.value.PricingMethodCode || '').toUpperCase() === 'CALCULATED')
+      const value = asset.getRawValue() as IQuotationWorkspaceAsset;
+      const key = this.pricingSignatureKey(value);
+      if (String(value.PricingMethodCode || '').toUpperCase() !== 'CALCULATED' || !value.AppliedPricingScenarioId || value.PricingIsStale)
+        return;
+
+      const appliedSignature = this.appliedPricingInputSignatures.get(key);
+      if (appliedSignature
+        && this.hasDirtyPricingInputs(asset)
+        && appliedSignature !== this.pricingInputSignature(value)) {
         asset.patchValue({ PricingIsStale: true }, { emitEvent: false });
+        this.appliedPricingInputSignatures.delete(key);
+      }
     });
+  }
+
+  /**
+   * Only an actual edit to data passed to the pricing engine can invalidate an
+   * applied scenario.  Form-array value changes also fire for harmless UI
+   * hydration and for descriptive fields on later tabs; treating those as
+   * pricing edits caused valid scenarios to become stale while completing the
+   * quotation workflow.
+   */
+  private hasDirtyPricingInputs(asset: FormGroup): boolean {
+    const isDirty = (group: FormGroup, names: string[]) => names.some(name => group.get(name)?.dirty);
+    const assetInputNames = [
+      'AssetCategoryId', 'Quantity', 'UnitAssetCost', 'TermMonths', 'BillingFrequency', 'PricingMethodCode',
+      'AnnualFundingRate', 'EstimatedResidualValueAmount', 'NonRefundableDownPaymentAmount',
+      'ContractualBulletPaymentAmount', 'UsageAllowance', 'ExpectedUsage', 'ExcessUsageRate',
+      'ManualPeriodicRentalAmount'
+    ];
+    const headerInputNames = ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount'];
+    if (isDirty(asset, assetInputNames) || isDirty(this.header, headerInputNames)) return true;
+
+    const value = asset.getRawValue() as IQuotationWorkspaceAsset;
+    const belongsToAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) =>
+      row.QuoteAssetId === value.Id || row.QuoteAssetClientKey === value.ClientKey;
+    const serviceInputNames = [
+      'QuoteAssetId', 'QuoteAssetClientKey', 'LeaseServiceId', 'IsIncluded', 'IsSeparatelyChargeable',
+      'ChargeFrequencyCode', 'UnitAmount', 'Quantity'
+    ];
+    const chargeInputNames = [
+      'QuoteAssetId', 'QuoteAssetClientKey', 'ChargeDescription', 'IsRecurring', 'ChargeFrequencyCode',
+      'StartPeriodNo', 'EndPeriodNo', 'RateOrAmount'
+    ];
+
+    return this.services.controls.some(service => belongsToAsset(service.getRawValue()) && isDirty(service, serviceInputNames))
+      || this.charges.controls.some(charge => belongsToAsset(charge.getRawValue()) && isDirty(charge, chargeInputNames));
+  }
+
+  private markPricingInputsAsApplied(asset: FormGroup): void {
+    const markPristine = (group: FormGroup, names: string[]) =>
+      names.forEach(name => group.get(name)?.markAsPristine({ onlySelf: true }));
+    const assetInputNames = [
+      'AssetCategoryId', 'Quantity', 'UnitAssetCost', 'TermMonths', 'BillingFrequency', 'PricingMethodCode',
+      'AnnualFundingRate', 'EstimatedResidualValueAmount', 'NonRefundableDownPaymentAmount',
+      'ContractualBulletPaymentAmount', 'UsageAllowance', 'ExpectedUsage', 'ExcessUsageRate',
+      'ManualPeriodicRentalAmount'
+    ];
+    markPristine(asset, assetInputNames);
+    markPristine(this.header, ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount']);
+
+    const value = asset.getRawValue() as IQuotationWorkspaceAsset;
+    const belongsToAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) =>
+      row.QuoteAssetId === value.Id || row.QuoteAssetClientKey === value.ClientKey;
+    this.services.controls
+      .filter(service => belongsToAsset(service.getRawValue()))
+      .forEach(service => markPristine(service, ['QuoteAssetId', 'QuoteAssetClientKey', 'LeaseServiceId', 'IsIncluded', 'IsSeparatelyChargeable', 'ChargeFrequencyCode', 'UnitAmount', 'Quantity']));
+    this.charges.controls
+      .filter(charge => belongsToAsset(charge.getRawValue()))
+      .forEach(charge => markPristine(charge, ['QuoteAssetId', 'QuoteAssetClientKey', 'ChargeDescription', 'IsRecurring', 'ChargeFrequencyCode', 'StartPeriodNo', 'EndPeriodNo', 'RateOrAmount']));
+  }
+
+  private captureAppliedPricingInputSignatures(): void {
+    this.appliedPricingInputSignatures.clear();
+    this.assets.controls.forEach(control => {
+      const asset = control.getRawValue() as IQuotationWorkspaceAsset;
+      this.recordAppliedPricingInputSignature(asset);
+    });
+  }
+
+  private recordAppliedPricingInputSignature(asset: IQuotationWorkspaceAsset): void {
+    if (String(asset?.PricingMethodCode || '').toUpperCase() !== 'CALCULATED'
+      || !asset?.AppliedPricingScenarioId || asset.PricingIsStale) return;
+    this.appliedPricingInputSignatures.set(this.pricingSignatureKey(asset), this.pricingInputSignature(asset));
+  }
+
+  private pricingInputSignature(asset: IQuotationWorkspaceAsset): string {
+    const sameAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) =>
+      row.QuoteAssetId === asset.Id || row.QuoteAssetClientKey === asset.ClientKey;
+    const text = (value: unknown) => String(value ?? '').trim().toUpperCase();
+    const number = (value: unknown) => this.numberValue(value);
+    const services = (this.services.getRawValue() as IQuotationWorkspaceService[])
+      .filter(sameAsset)
+      .map(service => ({
+        Id: service.Id || 0,
+        Name: text(service.ServiceNameSnapshot || service.LeaseServiceDisplayName),
+        IsIncluded: !!service.IsIncluded,
+        IsSeparatelyChargeable: !!service.IsSeparatelyChargeable,
+        ChargeFrequencyCode: text(service.ChargeFrequencyCode),
+        UnitAmount: number(service.UnitAmount),
+        Quantity: number(service.Quantity)
+      }))
+      .sort((left, right) => left.Id - right.Id || left.Name.localeCompare(right.Name));
+    const charges = (this.charges.getRawValue() as IQuotationWorkspaceCharge[])
+      .filter(sameAsset)
+      .map(charge => ({
+        Id: charge.Id || 0,
+        Description: text(charge.ChargeDescription),
+        IsRecurring: !!charge.IsRecurring,
+        ChargeFrequencyCode: text(charge.ChargeFrequencyCode),
+        StartPeriodNo: charge.StartPeriodNo || null,
+        EndPeriodNo: charge.EndPeriodNo || null,
+        Amount: number(charge.RateOrAmount)
+      }))
+      .sort((left, right) => left.Id - right.Id || left.Description.localeCompare(right.Description));
+
+    return JSON.stringify({
+      CurrencyCode: text(this.header.value.CurrencyCode),
+      PricingModeCode: text(asset.PricingMethodCode),
+      PaymentTimingCode: text(this.header.value.PaymentTimingCode || 'ARREARS'),
+      BillingFrequency: text(asset.BillingFrequency || this.header.value.BillingFrequency || 'MONTHLY'),
+      AssetCategoryId: number(asset.AssetCategoryId),
+      Quantity: number(asset.Quantity),
+      UnitAssetCost: number(asset.UnitAssetCost),
+      TermMonths: number(asset.TermMonths),
+      AnnualFundingRate: number(asset.AnnualFundingRate),
+      EstimatedResidualValueAmount: number(asset.EstimatedResidualValueAmount),
+      NonRefundableDownPaymentAmount: number(asset.NonRefundableDownPaymentAmount),
+      ContractualBulletPaymentAmount: number(asset.ContractualBulletPaymentAmount),
+      RefundableSecurityDepositAmount: number(this.header.value.SecurityDepositAmount),
+      UsageAllowance: number(asset.UsageAllowance),
+      ExpectedUsage: number(asset.ExpectedUsage),
+      ExcessUsageRate: number(asset.ExcessUsageRate),
+      ManualPeriodicRentalAmount: number(asset.ManualPeriodicRentalAmount),
+      Services: services,
+      Charges: charges
+    });
+  }
+
+  private pricingSignatureKey(asset: IQuotationWorkspaceAsset): string {
+    return asset.ClientKey || `asset-${asset.Id}`;
   }
 
   private numberValue(value: unknown): number { return Number(value) || 0; }
@@ -741,6 +893,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     } finally {
       this.isHydrating = false;
     }
+    this.captureAppliedPricingInputSignatures();
     this.loadPricingScenarios();
     this.loadCommercialStatus();
   }

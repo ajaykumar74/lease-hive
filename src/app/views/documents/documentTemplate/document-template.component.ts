@@ -28,6 +28,7 @@ export class DocumentTemplateComponent implements OnInit {
     readonly form: FormGroup;
     templates: DocumentTemplate[] = [];
     options: DocumentTemplateOptions = { TemplateTypeCodes: [], AssetCategories: [] };
+    selectedRow: DocumentTemplate | null = null;
     selected: DocumentTemplate | null = null;
     selectedFile: File | null = null;
     validation: DocumentTemplateValidationResult | null = null;
@@ -81,6 +82,7 @@ export class DocumentTemplateComponent implements OnInit {
 
     newTemplate(): void {
         this.editorOpen = true;
+        this.selectedRow = null;
         this.selected = null;
         this.selectedFile = null;
         this.validation = null;
@@ -92,7 +94,19 @@ export class DocumentTemplateComponent implements OnInit {
         });
     }
 
-    select(template: DocumentTemplate): void {
+    openTemplate(template: DocumentTemplate): void {
+        this.selectedRow = template;
+        this.populateEditor(template);
+        this.templateService.get(template.Id).subscribe({
+            next: currentTemplate => {
+                // Ignore a late response if the user selected another template.
+                if (this.selected?.Id === template.Id) this.populateEditor(currentTemplate);
+            },
+            error: error => this.error = this.errorText(error)
+        });
+    }
+
+    private populateEditor(template: DocumentTemplate): void {
         this.editorOpen = true;
         this.selected = template;
         this.selectedFile = null;
@@ -114,6 +128,7 @@ export class DocumentTemplateComponent implements OnInit {
     backToList(): void {
         if (this.busy) return;
         this.editorOpen = false;
+        this.selectedRow = null;
         this.selected = null;
         this.selectedFile = null;
         this.validation = null;
@@ -146,9 +161,8 @@ export class DocumentTemplateComponent implements OnInit {
         operation.pipe(finalize(() => this.busy = false)).subscribe({
             next: template => {
                 this.upsert(template);
-                this.selected = template;
                 this.selectedFile = null;
-                this.select(template);
+                this.populateEditor(template);
                 this.message = 'Document template saved.';
             },
             error: error => this.error = this.errorText(error)
@@ -165,7 +179,7 @@ export class DocumentTemplateComponent implements OnInit {
             next: template => {
                 this.upsert(template);
                 this.selectedFile = null;
-                this.select(template);
+                this.populateEditor(template);
                 this.message = `Version ${template.DocumentVersionNumber} is now current.`;
             },
             error: error => this.error = this.errorText(error)
@@ -178,8 +192,7 @@ export class DocumentTemplateComponent implements OnInit {
         this.templateService.setDefault(this.selected.Id).pipe(finalize(() => this.busy = false)).subscribe({
             next: template => {
                 this.upsert(template);
-                this.selected = template;
-                this.select(template);
+                this.populateEditor(template);
                 this.message = 'Default template updated for this scope.';
             },
             error: error => this.error = this.errorText(error)
@@ -193,8 +206,7 @@ export class DocumentTemplateComponent implements OnInit {
         this.templateService.setStatus(this.selected.Id, status).pipe(finalize(() => this.busy = false)).subscribe({
             next: template => {
                 this.upsert(template);
-                this.selected = template;
-                this.select(template);
+                this.populateEditor(template);
                 this.message = `Template ${status.toLowerCase()}d.`;
             },
             error: error => this.error = this.errorText(error)
@@ -253,7 +265,16 @@ export class DocumentTemplateComponent implements OnInit {
 
     private startAction(): void { this.busy = true; this.error = ''; this.message = ''; }
     private errorText(error: unknown): string { return typeof error === 'string' ? error : 'Document template action could not be completed.'; }
-    private dateOnly(value: string): string { return value ? value.substring(0, 10) : ''; }
+    private dateOnly(value: unknown): string {
+        if (!value) return '';
+        if (typeof value === 'string') return value.substring(0, 10);
+        if (value instanceof Date && !Number.isNaN(value.getTime())) {
+            const month = String(value.getMonth() + 1).padStart(2, '0');
+            const day = String(value.getDate()).padStart(2, '0');
+            return `${value.getFullYear()}-${month}-${day}`;
+        }
+        return '';
+    }
     private today(): string { return new Date().toISOString().substring(0, 10); }
 
     private openBlob(file: Blob, fileName: string, preview: boolean): void {
