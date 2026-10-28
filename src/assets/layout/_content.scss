@@ -11,16 +11,16 @@
 }
 
 .layout-content .list-page,
-.layout-content > :not(router-outlet) > .container {
+.layout-content > * > .container {
     min-height: var(--visible-page-height);
 }
 
-.layout-content > :not(router-outlet) > .container > .grid,
-.layout-content > :not(router-outlet) > .container > .grid > [class~='col-12'] {
+.layout-content > * > .container > .grid,
+.layout-content > * > .container > .grid > [class~='col-12'] {
     min-height: inherit;
 }
 
-.layout-content > :not(router-outlet) > .container > .grid > [class~='col-12'] > .card {
+.layout-content > * > .container > .grid > [class~='col-12'] > .card {
     min-height: inherit;
 }
 
