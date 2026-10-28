@@ -7,6 +7,11 @@
 					[Caption]="Caption" [PageType]="'View'">
 					<button type="button" pButton label="Edit details" icon="pi pi-pencil" class="p-button-outlined"
 						*ngIf="canEditContract" (click)="editContract()"></button>
+					<button type="button" pButton label="Allocate Asset" icon="pi pi-plus" class="p-button-outlined"
+						*ngIf="isPendingActivation" (click)="openAllocateAssetQuickOption()"
+						[disabled]="isLoading || !canAllocateAsset || !canOpenAllocation"></button>
+					<p-splitbutton *ngIf="isPendingActivation" size="small" label="Quick Options" icon="pi pi-bolt"
+						[model]="quickOptionItems" [disabled]="isLoading"></p-splitbutton>
 				</app-toolbar-buttons>
 				<div *ngIf="readiness" class="workflow-card mb-4">
 					<div class="workflow-header">
@@ -172,65 +177,61 @@
 						</div>
 					</div>
 
-					<section *ngIf="isPendingActivation && activationReadiness as activation" class="surface-50 border-round p-4 mt-3">
-						<div class="flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
-							<div>
-								<div class="font-semibold text-xl">Asset delivery and lease activation</div>
-								<div class="text-color-secondary text-sm mt-1">Allocate every required physical asset, record delivery and manual customer acceptance, then activate the lease. Activation does not create billing.</div>
+					<section #activationSection *ngIf="isPendingActivation && activationReadiness as activation" class="activation-workbench mt-4" tabindex="-1">
+						<header class="activation-header">
+							<div class="activation-heading">
+								<span class="section-eyebrow">Activation workbench</span>
+								<h3>Deliver assets and activate the lease</h3>
+								<p>Follow each step in order. The lease becomes active only after all mandatory checks pass.</p>
 							</div>
-							<div class="flex flex-wrap gap-2 align-items-center">
-								<p-tag [value]="activation.IsReadyForActivation ? 'Ready to activate' : 'Activation checks pending'" [severity]="activation.IsReadyForActivation ? 'success' : 'warn'"></p-tag>
-								<button type="button" pButton label="Validate activation" icon="pi pi-check-circle" class="p-button-outlined" (click)="validateActivation()" [disabled]="isLoading"></button>
-								<button type="button" pButton label="Activate lease" icon="pi pi-play" (click)="activateContract()" [disabled]="isLoading || !activation.IsReadyForActivation || !permission?.CanUpdate"></button>
-								<button type="button" pButton label="View signed agreement" icon="pi pi-file-pdf" class="p-button-text" *ngIf="workflow.SignedAgreementDocumentId" (click)="viewSignedAgreement()" [disabled]="isLoading"></button>
+							<div class="activation-header-actions">
+								<p-tag [value]="activation.IsReadyForActivation ? 'Ready to activate' : 'Action required'" [severity]="activation.IsReadyForActivation ? 'success' : 'warn'"></p-tag>
+								<button type="button" pButton label="Validate" icon="pi pi-check-circle" class="p-button-outlined" (click)="validateActivation()" [disabled]="isLoading || !canViewActivationConditions"></button>
+								<button type="button" pButton label="Activate lease" icon="pi pi-play" (click)="activateContract()" [disabled]="isLoading || !activation.IsReadyForActivation || !canActivateContract"></button>
 							</div>
+						</header>
+
+						<div class="activation-journey" aria-label="Lease activation progress">
+							<div class="activation-step" [ngClass]="{ 'is-complete': isAllocationComplete, 'is-current': !isAllocationComplete }"><span>1</span><div><strong>Allocate</strong><small>{{ activationAllocatedAssetCount }} of {{ activationRequiredAssetCount }} assets</small></div></div>
+							<div class="activation-step" [ngClass]="{ 'is-complete': isDeliveryComplete, 'is-current': isAllocationComplete && !isDeliveryComplete }"><span>2</span><div><strong>Deliver</strong><small>{{ activationDeliveredAssetCount }} assets delivered</small></div></div>
+							<div class="activation-step" [ngClass]="{ 'is-complete': isCustomerAcceptanceComplete, 'is-current': isDeliveryComplete && !isCustomerAcceptanceComplete }"><span>3</span><div><strong>Customer acceptance</strong><small>{{ activationAwaitingAcceptanceCount }} awaiting confirmation</small></div></div>
+							<div class="activation-step" [ngClass]="{ 'is-complete': activation.IsReadyForActivation, 'is-current': isCustomerAcceptanceComplete && !activation.IsReadyForActivation }"><span>4</span><div><strong>Activate</strong><small>{{ activation.IsReadyForActivation ? 'Ready to activate' : 'Checks in progress' }}</small></div></div>
 						</div>
 
-						<div class="grid text-sm mb-3">
-							<div class="col-12 md:col-4"><span class="text-color-secondary block">Proposed commencement</span><strong>{{ activation.ProposedCommencementDate ? (activation.ProposedCommencementDate | date:'mediumDate') : 'Pending customer acceptance' }}</strong></div>
-							<div class="col-12 md:col-4"><span class="text-color-secondary block">Asset policy</span><strong>All allocated assets accepted</strong></div>
-							<div class="col-12 md:col-4"><span class="text-color-secondary block">Billing</span><strong>Not started by this action</strong></div>
-						</div>
-						<div *ngIf="activation.BlockingErrors.length" class="p-3 mb-3 border-round bg-red-50 text-red-700">
-							<div class="font-semibold mb-1">Complete before activating</div>
-							<ul class="m-0 pl-3"><li *ngFor="let issue of activation.BlockingErrors">{{ issue.Message }}</li></ul>
-						</div>
-						<div *ngIf="activation.Warnings.length" class="p-3 mb-3 border-round bg-yellow-50 text-yellow-700">
-							<div class="font-semibold mb-1">Warnings</div>
-							<ul class="m-0 pl-3"><li *ngFor="let issue of activation.Warnings">{{ issue.Message }}</li></ul>
+						<div class="activation-summary">
+							<div><span>Proposed commencement</span><strong>{{ activation.ProposedCommencementDate ? (activation.ProposedCommencementDate | date:'mediumDate') : 'Set after customer acceptance' }}</strong></div>
+							<div><span>Asset acceptance policy</span><strong>All allocated assets accepted</strong></div>
+							<div><span>Billing impact</span><strong>Not started by activation</strong></div>
 						</div>
 
-						<div *ngFor="let requirement of activation.AssetRequirements" class="border-1 surface-border border-round p-3 mb-3">
-							<div class="flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-								<div><div class="font-semibold">{{ requirement.AssetCategoryName }} · {{ requirement.AssetTypeName }}</div><small class="text-color-secondary">{{ requirement.AllocatedAssets.length }} of {{ requirement.RequiredQuantity }} physical asset(s) allocated</small></div>
+						<div class="customer-acceptance-guidance">
+							<i class="pi pi-info-circle" aria-hidden="true"></i>
+							<div><strong>How customer acceptance works</strong><p>{{ customerAcceptanceGuidance }}</p><small>The customer portal currently lets customers view contracts and assets only. An authorised team member records the customer’s acceptance or rejection here after receiving confirmation through the agreed channel.</small></div>
+						</div>
+
+						<div *ngIf="activation.BlockingErrors.length" class="activation-feedback activation-feedback-danger">
+							<i class="pi pi-exclamation-circle" aria-hidden="true"></i><div><strong>Complete before activating</strong><ul><li *ngFor="let issue of activation.BlockingErrors">{{ issue.Message }}</li></ul></div>
+						</div>
+						<div *ngIf="activation.Warnings.length" class="activation-feedback activation-feedback-warning">
+							<i class="pi pi-info-circle" aria-hidden="true"></i><div><strong>Heads up</strong><ul><li *ngFor="let issue of activation.Warnings">{{ issue.Message }}</li></ul></div>
+						</div>
+
+						<div *ngFor="let requirement of activation.AssetRequirements; let requirementIndex = index" [id]="activationRequirementElementId(requirement.LeaseContractAssetId)" class="activation-requirement" tabindex="-1">
+							<div class="activation-requirement-header">
+								<div class="requirement-index">{{ requirementIndex + 1 }}</div><div><span class="requirement-label">Physical asset requirement</span><h4>{{ requirement.AssetCategoryName }} · {{ requirement.AssetTypeName }}</h4><p>{{ requirement.AllocatedAssets.length }} of {{ requirement.RequiredQuantity }} required asset(s) allocated</p></div>
 								<p-tag [value]="requirement.AllocationStatusCode || 'Pending allocation'" [severity]="requirement.AllocatedAssets.length >= requirement.RequiredQuantity ? 'success' : 'warn'"></p-tag>
 							</div>
-							<div *ngIf="requirement.AllocatedAssets.length < requirement.RequiredQuantity" class="flex flex-wrap align-items-center gap-2 mb-3">
-								<p-dropdown [options]="requirement.AvailableAssets" optionLabel="Label" optionValue="AssetId" placeholder="Select available physical asset" [ngModel]="allocationSelections[requirement.LeaseContractAssetId]" (ngModelChange)="selectAllocation(requirement, $event)" [disabled]="isLoading || !permission?.CanUpdate" styleClass="w-full md:w-25rem"></p-dropdown>
-								<button type="button" pButton label="Allocate asset" icon="pi pi-plus" class="p-button-outlined" (click)="allocateAsset(requirement)" [disabled]="isLoading || !allocationSelections[requirement.LeaseContractAssetId] || !permission?.CanUpdate"></button>
+							<div *ngIf="requirement.AllocatedAssets.length < requirement.RequiredQuantity" class="allocation-picker">
+								<div><strong>Allocate a physical asset</strong><p>Select an eligible asset matching this requirement. Allocation remains subject to server validation.</p></div>
+								<div class="allocation-controls"><p-dropdown [options]="requirement.AvailableAssets" optionLabel="Label" optionValue="AssetId" placeholder="Select available physical asset" [ngModel]="allocationSelections[requirement.LeaseContractAssetId]" (ngModelChange)="selectAllocation(requirement, $event)" [disabled]="isLoading || !canAllocateAsset" styleClass="w-full"></p-dropdown><button type="button" pButton label="Allocate asset" icon="pi pi-plus" (click)="allocateAsset(requirement)" [disabled]="isLoading || !allocationSelections[requirement.LeaseContractAssetId] || !canAllocateAsset"></button></div>
 							</div>
-							<div *ngIf="!requirement.AllocatedAssets.length" class="text-sm text-color-secondary">No physical asset allocated yet.</div>
-							<div *ngFor="let asset of requirement.AllocatedAssets" class="surface-0 border-1 surface-border border-round p-3 mb-2">
-								<div class="flex flex-wrap justify-content-between align-items-start gap-2">
-									<div><strong>{{ asset.AssetNumber }}</strong><span class="text-color-secondary"> · {{ asset.Identifier || 'Identifier missing' }}</span><small *ngIf="asset.AllocationIssue" class="block text-red-600">{{ asset.AllocationIssue }}</small></div>
-									<div class="flex flex-wrap gap-2"><p-tag [value]="asset.DeliveredOnUtc ? 'Delivered' : 'Delivery pending'" [severity]="asset.DeliveredOnUtc ? 'info' : 'warn'"></p-tag><p-tag [value]="asset.AcceptanceStatusCode || 'Acceptance pending'" [severity]="asset.AcceptanceStatusCode === 'ACCEPTED' ? 'success' : asset.AcceptanceStatusCode === 'REJECTED' ? 'danger' : 'warn'"></p-tag></div>
-								</div>
-								<div class="text-sm text-color-secondary mt-2" *ngIf="asset.DeliveredOnUtc">Delivered {{ asset.DeliveredOnUtc | date:'medium' }} — {{ asset.DeliverySummary }}</div>
-								<div class="text-sm text-color-secondary mt-1" *ngIf="asset.AcceptanceStatusCode">{{ asset.AcceptanceStatusCode | titlecase }} {{ asset.AcceptedOnUtc ? (asset.AcceptedOnUtc | date:'medium') : '' }} — {{ asset.AcceptanceSummary }}</div>
-								<div class="flex flex-wrap gap-2 mt-3">
-									<button type="button" pButton label="Record delivery" icon="pi pi-truck" class="p-button-text" *ngIf="!asset.DeliveredOnUtc" (click)="beginDelivery(requirement, asset)" [disabled]="isLoading || !permission?.CanUpdate"></button>
-									<button type="button" pButton label="Record acceptance" icon="pi pi-check" class="p-button-text" *ngIf="asset.DeliveredOnUtc && !asset.AcceptanceStatusCode" (click)="beginAcceptance(requirement, asset)" [disabled]="isLoading || !permission?.CanUpdate"></button>
-								</div>
-								<div *ngIf="deliveryForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && deliveryForm.value.AssetId === asset.AssetId" class="surface-50 border-round p-3 mt-3" [formGroup]="deliveryForm">
-									<div class="font-semibold mb-2">Record delivery</div>
-									<div class="grid"><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivery location</label><p-dropdown [options]="activation.DeliveryLocations" optionLabel="Label" optionValue="LocationId" formControlName="DeliveryLocationId" placeholder="Select location" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivered by</label><input pInputText formControlName="DeliveredBy" placeholder="Delivery representative" /></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Received by</label><input pInputText formControlName="ReceivedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivered on</label><input pInputText type="datetime-local" formControlName="DeliveredOnUtc" /></div><div class="col-12"><label class="block text-sm mb-1">Remarks</label><input pInputText formControlName="Remarks" /></div></div>
-									<div class="flex gap-2 mt-3"><button type="button" pButton label="Save delivery" icon="pi pi-check" (click)="recordDelivery()" [disabled]="isLoading || !permission?.CanUpdate"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelDelivery()" [disabled]="isLoading"></button></div>
-								</div>
-								<div *ngIf="acceptanceForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && acceptanceForm.value.AssetId === asset.AssetId" class="surface-50 border-round p-3 mt-3" [formGroup]="acceptanceForm">
-									<div class="font-semibold mb-2">Record customer decision</div>
-									<div class="grid"><div class="col-12 md:col-4"><label class="block text-sm mb-1">Decision</label><p-dropdown [options]="[{ label: 'Accept', value: 'ACCEPT' }, { label: 'Reject', value: 'REJECT' }]" optionLabel="label" optionValue="value" formControlName="DecisionCode" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-4"><label class="block text-sm mb-1">Accepted by</label><input pInputText formControlName="AcceptedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-4"><label class="block text-sm mb-1">Decision time</label><input pInputText type="datetime-local" formControlName="AcceptedOnUtc" /></div><div class="col-12"><label class="block text-sm mb-1">Remarks</label><input pInputText formControlName="Remarks" /></div></div>
-									<div class="flex gap-2 mt-3"><button type="button" pButton label="Save decision" icon="pi pi-check" (click)="recordAcceptance()" [disabled]="isLoading || !permission?.CanUpdate"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelAcceptance()" [disabled]="isLoading"></button></div>
-								</div>
+							<div *ngIf="!requirement.AllocatedAssets.length" class="allocation-empty"><i class="pi pi-box"></i><span>No physical asset has been allocated yet.</span></div>
+							<div *ngFor="let asset of requirement.AllocatedAssets" class="activation-asset-card">
+								<div class="activation-asset-header"><div><strong>{{ asset.AssetNumber }}</strong><span>{{ asset.Identifier || 'Identifier missing' }}</span><small *ngIf="asset.AllocationIssue" class="text-red-600">{{ asset.AllocationIssue }}</small></div><div class="asset-statuses"><p-tag [value]="asset.DeliveredOnUtc ? 'Delivered' : 'Delivery pending'" [severity]="asset.DeliveredOnUtc ? 'info' : 'warn'"></p-tag><p-tag [value]="asset.AcceptanceStatusCode || 'Acceptance pending'" [severity]="asset.AcceptanceStatusCode === 'ACCEPTED' ? 'success' : asset.AcceptanceStatusCode === 'REJECTED' ? 'danger' : 'warn'"></p-tag></div></div>
+								<p class="asset-detail" *ngIf="asset.DeliveredOnUtc">Delivered {{ asset.DeliveredOnUtc | date:'medium' }} — {{ asset.DeliverySummary }}</p><p class="asset-detail" *ngIf="asset.AcceptanceStatusCode">{{ asset.AcceptanceStatusCode | titlecase }} {{ asset.AcceptedOnUtc ? (asset.AcceptedOnUtc | date:'medium') : '' }} — {{ asset.AcceptanceSummary }}</p>
+								<div class="asset-actions"><button type="button" pButton label="Record delivery" icon="pi pi-truck" class="p-button-text" *ngIf="!asset.DeliveredOnUtc" (click)="beginDelivery(requirement, asset)" [disabled]="isLoading || !canRecordDelivery"></button><button type="button" pButton label="Record customer acceptance" icon="pi pi-check" class="p-button-text" *ngIf="asset.DeliveredOnUtc && !asset.AcceptanceStatusCode" (click)="beginAcceptance(requirement, asset)" [disabled]="isLoading || !canRecordCustomerAcceptance"></button></div>
+								<div *ngIf="deliveryForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && deliveryForm.value.AssetId === asset.AssetId" class="activation-form" [formGroup]="deliveryForm"><div class="activation-form-heading"><strong>Record delivery</strong><span>Enter the handover details for this asset.</span></div><div class="grid"><div class="col-12 md:col-6"><label>Delivery location</label><p-dropdown [options]="activation.DeliveryLocations" optionLabel="Label" optionValue="LocationId" formControlName="DeliveryLocationId" placeholder="Select location" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-6"><label>Delivered by</label><input pInputText formControlName="DeliveredBy" placeholder="Delivery representative" /></div><div class="col-12 md:col-6"><label>Received by</label><input pInputText formControlName="ReceivedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-6"><label>Delivered on</label><input pInputText type="datetime-local" formControlName="DeliveredOnUtc" /></div><div class="col-12"><label>Remarks</label><input pInputText formControlName="Remarks" /></div></div><div class="activation-form-actions"><button type="button" pButton label="Save delivery" icon="pi pi-check" (click)="recordDelivery()" [disabled]="isLoading || !canRecordDelivery"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelDelivery()" [disabled]="isLoading"></button></div></div>
+								<div *ngIf="acceptanceForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && acceptanceForm.value.AssetId === asset.AssetId" class="activation-form" [formGroup]="acceptanceForm"><div class="activation-form-heading"><strong>Record customer acceptance</strong><span>Record the decision after receiving confirmation from the customer.</span></div><div class="grid"><div class="col-12 md:col-4"><label>Decision</label><p-dropdown [options]="[{ label: 'Accept', value: 'ACCEPT' }, { label: 'Reject', value: 'REJECT' }]" optionLabel="label" optionValue="value" formControlName="DecisionCode" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-4"><label>Accepted by</label><input pInputText formControlName="AcceptedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-4"><label>Decision time</label><input pInputText type="datetime-local" formControlName="AcceptedOnUtc" /></div><div class="col-12"><label>Remarks</label><input pInputText formControlName="Remarks" /></div></div><div class="activation-form-actions"><button type="button" pButton label="Save customer decision" icon="pi pi-check" (click)="recordAcceptance()" [disabled]="isLoading || !canRecordCustomerAcceptance"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelAcceptance()" [disabled]="isLoading"></button></div></div>
 							</div>
 						</div>
 					</section>

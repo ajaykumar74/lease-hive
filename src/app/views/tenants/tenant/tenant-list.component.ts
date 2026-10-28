@@ -109,8 +109,7 @@ export class TenantListComponent implements OnInit {
 
   getSearchParams() {
     var Items = [];
-    Items = [
-      { DBName: 'Status', Value: this.objSearch.Status, DataType: DataType.Text, Operator: Operator.EqualTo },
+    Items = [ 
     //  { DBName: 'OperatorId', Value: '', DataType: DataType.Int, Operator: Operator.EqualTo },
       { DBName: 'TenantName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
       { DBName: 'TenantCode', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
