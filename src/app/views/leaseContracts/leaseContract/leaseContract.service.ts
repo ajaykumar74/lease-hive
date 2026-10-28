@@ -6,7 +6,7 @@ import { ILeaseContract } from './leaseContract';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 import { ILeaseContractApprovalActionResult, ILeaseContractApprovalSubmission, ILeaseContractReadiness } from './leaseContract-readiness';
-import { ILeaseContractExecutionResult, ILeaseContractExecutionWorkflow, ILeaseContractSignatureSendResult, ILeaseContractSignedAgreementUploadResult } from './leaseContract-execution';
+import { ILeaseContractExecutedAgreementSendResult, ILeaseContractExecutionResult, ILeaseContractExecutionWorkflow, ILeaseContractSignatureSendResult, ILeaseContractSignedAgreementUploadResult } from './leaseContract-execution';
 import { HttpHeaders } from '@angular/common/http';
 import { ILeaseContractActivationReadiness, ILeaseContractActivationResult } from './leaseContract-activation';
 
@@ -80,6 +80,13 @@ export class LeaseContractService extends BaseCrudService<any> {
     return this.http.post<{ data: ILeaseContractSignatureSendResult }>(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/send-for-signature`, {
       RecipientEmail: recipientEmail,
       IsResend: isResend
+    }, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  sendExecutedAgreement(id: number, recipientEmail: string): Observable<{ data: ILeaseContractExecutedAgreementSendResult }> {
+    return this.http.post<{ data: ILeaseContractExecutedAgreementSendResult }>(`${this.baseService.C_APP_URL}/lease-contract-documents/${id}/send-executed-agreement`, {
+      RecipientEmail: recipientEmail
     }, { headers: this.headers })
       .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }

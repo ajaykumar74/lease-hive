@@ -40,6 +40,15 @@ export interface ILeaseContractSignatureSendResult {
     Message: string;
 }
 
+export interface ILeaseContractExecutedAgreementSendResult {
+    LeaseContractId: number;
+    ContractNumber: string;
+    EmailJobQueueId?: number | null;
+    RecipientEmail: string;
+    IsQueued: boolean;
+    Message: string;
+}
+
 export interface ILeaseContractSignedAgreementUploadResult {
     Execution: ILeaseContractExecutionWorkflow;
     SignedAgreement: IDocumentAttachment;

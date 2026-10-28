@@ -39,6 +39,7 @@ export class LeaseContractViewComponent implements OnInit {
     execution: ILeaseContractExecutionWorkflow | null = null;
     signedAgreementFile: File | null = null;
     signatureRequestForm: any;
+    executedAgreementForm: any;
     signatureVerificationForm: any;
     activationReadiness: ILeaseContractActivationReadiness | null = null;
     allocationSelections: { [leaseContractAssetId: number]: number | null } = {};
@@ -57,6 +58,9 @@ export class LeaseContractViewComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {
         this.signatureRequestForm = this.formBuilder.group({
+            RecipientEmail: ['', [Validators.required, Validators.email]]
+        });
+        this.executedAgreementForm = this.formBuilder.group({
             RecipientEmail: ['', [Validators.required, Validators.email]]
         });
         this.signatureVerificationForm = this.formBuilder.group({
@@ -186,6 +190,26 @@ export class LeaseContractViewComponent implements OnInit {
             next: response => {
                 response.data.AlreadyQueued ? this.messageService.showError(response.data.Message) : this.messageService.showSuccess(response.data.Message);
                 this.loadExecution();
+            },
+            error: err => this.messageService.showError(err)
+        });
+    }
+
+    sendExecutedAgreement(): void {
+        if (this.executedAgreementForm.invalid) {
+            this.executedAgreementForm.markAllAsTouched();
+            this.messageService.showError('Confirm a valid customer email before sending the executed agreement.');
+            return;
+        }
+        this.isLoading = true;
+        this.spinner.show();
+        const recipientEmail = this.executedAgreementForm.controls.RecipientEmail.value || '';
+        this.leaseContractService.sendExecutedAgreement(this.leaseContract.Id, recipientEmail).pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+        })).subscribe({
+            next: response => {
+                response.data.IsQueued ? this.messageService.showSuccess(response.data.Message) : this.messageService.showError(response.data.Message);
             },
             error: err => this.messageService.showError(err)
         });
@@ -460,6 +484,9 @@ export class LeaseContractViewComponent implements OnInit {
                 if (!this.signatureRequestForm.controls.RecipientEmail.dirty) {
                     this.signatureRequestForm.patchValue({ RecipientEmail: this.execution.CustomerSignerEmail || '' });
                 }
+                if (!this.executedAgreementForm.controls.RecipientEmail.dirty) {
+                    this.executedAgreementForm.patchValue({ RecipientEmail: this.execution.CustomerSignerEmail || '' });
+                }
                 if (!this.signatureVerificationForm.dirty) {
                     this.signatureVerificationForm.patchValue({
                         CustomerSignerName: this.execution.CustomerSignerName || '',
@@ -572,6 +599,7 @@ export class LeaseContractViewComponent implements OnInit {
     get isApproved(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'APPROVED'; }
     get isPendingExecution(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_EXECUTION'; }
     get isPendingActivation(): boolean { return this.normalizeStatus(this.execution?.ContractStatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.activationReadiness?.StatusCode) === 'PENDING_ACTIVATION'; }
+    get isExecutedAgreementAvailable(): boolean { return this.normalizeStatus(this.execution?.ExecutionStatusCode) === 'EXECUTED' && !!this.execution?.SignedAgreementDocumentId; }
     get canEditContract(): boolean { return this.isDraft && this.permission?.CanUpdate === true; }
     get signaturesVerified(): boolean {
         return this.execution?.CustomerSignatureStatusCode === 'SIGNED_VERIFIED' && this.execution?.LessorSignatureStatusCode === 'SIGNED_VERIFIED';
