@@ -134,13 +134,7 @@ export class LeaseContractListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/contracts/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['/contracts/view/' + obj.Id]);
-    } 
-  
+    this.router.navigate(['/contracts/view/' + obj.Id]);
   };
 
   onOptionItemClicked(key: string): void {

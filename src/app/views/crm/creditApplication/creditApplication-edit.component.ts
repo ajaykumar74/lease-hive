@@ -69,15 +69,34 @@ export class CreditApplicationEditComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { PartyId: 'PartyId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
-        this.loggedInUserService.getLookupOptions('credit-application-statuses').subscribe((options) => (this.creditapplicationstatusidOptions = options));
-        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'CreditApplicationStatusId',
+            'credit-application-statuses',
+            (options) => (this.creditapplicationstatusidOptions = options),
+            (error) => setTimeout(() => this.messageService?.showError(error)),
+            this.entityLookupDestroyRef
+        );
+        this.loadRiskSegmentOptions();
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
+    }
+
+    private loadRiskSegmentOptions(): void {
+        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+        if (this.risksegmentcodeOptions.length) return;
+
+        this.loggedInUserService.loadPicklistCache().subscribe({
+            next: () => {
+                this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+            },
+            error: (error) => setTimeout(() => this.messageService?.showError(error))
+        });
     }
 
     ngAfterViewInit(): void {
@@ -105,7 +124,6 @@ export class CreditApplicationEditComponent implements OnInit {
     }
 
     populateUI(obj: ICreditApplication): void {
-        this.loggedInUserService.getLookupOptions('credit-application-statuses', obj.CreditApplicationStatusId).subscribe((options) => (this.creditapplicationstatusidOptions = options));
         this.editForm.patchValue({
             Id: obj.Id || 0,
             OpportunityId: obj.OpportunityId || 0,

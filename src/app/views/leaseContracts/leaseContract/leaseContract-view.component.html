@@ -1,10 +1,240 @@
-<div class="container">
+<div class="container contract-details-page">
 	<div class="grid">
 		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
+			<div class="card p-fluid contract-details-shell">
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+					[Caption]="Caption" [PageType]="'View'">
+					<button type="button" pButton label="Edit details" icon="pi pi-pencil" class="p-button-outlined"
+						*ngIf="canEditContract" (click)="editContract()"></button>
+				</app-toolbar-buttons>
+				<div *ngIf="readiness" class="workflow-card mb-4">
+					<div class="workflow-header">
+						<div class="workflow-heading">
+							<span class="section-eyebrow">Contract lifecycle</span>
+							<h2>Contract workflow</h2>
+							<p>Validate the contract, secure approval, and issue the final unsigned agreement.</p>
+						</div>
+						<div class="workflow-header-actions">
+							<span class="status-pill" [ngClass]="isPendingExecution ? 'status-info' : isApproved ? 'status-success' : readiness.IsReadyForApproval ? 'status-success' : 'status-warning'">
+								{{ isPendingActivation ? 'Pending activation' : isPendingExecution ? 'Pending execution' : isApproved ? 'Approved' : readiness.IsReadyForApproval ? 'Ready for approval' : 'Needs attention' }}
+							</span>
+							<button type="button" pButton label="Validate contract" icon="pi pi-check-circle" class="p-button-outlined"
+								*ngIf="isDraft" (click)="validateContract()" [disabled]="isLoading"></button>
+							<button type="button" pButton label="Submit for approval" icon="pi pi-send"
+								*ngIf="isDraft && permission?.CanUpdate && !readiness.IsSubmittedForApproval" (click)="submitForApproval()"
+								[disabled]="isLoading || !readiness.IsReadyForApproval"></button>
+							<span *ngIf="readiness.IsSubmittedForApproval" class="status-pill status-info">Pending approval</span>
+						</div>
+					</div>
+					<div class="workflow-check-grid">
+						<div class="workflow-check" *ngFor="let section of readiness.Sections" [ngClass]="section.IsComplete ? 'check-complete' : 'check-incomplete'">
+							<i class="pi" [ngClass]="section.IsComplete ? 'pi-check-circle' : 'pi-exclamation-circle'"></i>
+							<div>
+								<div class="workflow-check-label">{{ section.Label }}</div>
+								<div class="workflow-check-status">{{ section.IsComplete ? 'Complete' : 'Action required' }}</div>
+							</div>
+						</div>
+					</div>
+					<div *ngIf="readiness.BlockingErrors.length" class="workflow-feedback workflow-feedback-danger">
+						<i class="pi pi-exclamation-triangle"></i>
+						<div><div class="font-semibold mb-1">Complete these items before submission</div><ul class="m-0 pl-3"><li *ngFor="let issue of readiness.BlockingErrors">{{ issue.Message }}</li></ul></div>
+					</div>
+					<div *ngIf="readiness.Warnings.length" class="workflow-feedback workflow-feedback-warning">
+						<i class="pi pi-info-circle"></i>
+						<div><div class="font-semibold mb-1">Later-stage items</div><ul class="m-0 pl-3"><li *ngFor="let issue of readiness.Warnings">{{ issue.Message }}</li></ul></div>
+					</div>
+					<div *ngIf="isPendingApproval" class="mt-3 p-3 border-round bg-blue-50">
+						<div class="font-semibold text-blue-800 mb-2">Internal approval</div>
+						<div class="flex flex-wrap align-items-end gap-2">
+							<div class="flex-1 min-w-15rem">
+								<label class="block text-sm mb-1" for="rejectionReason">Reason required only when rejecting</label>
+								<input id="rejectionReason" pInputText [(ngModel)]="rejectionReason" [disabled]="isLoading" placeholder="Explain the required correction" />
+							</div>
+							<button type="button" pButton label="Approve contract" icon="pi pi-check" *ngIf="permission?.CanUpdate"
+								(click)="approveContract()" [disabled]="isLoading"></button>
+							<button type="button" pButton label="Reject contract" icon="pi pi-times" class="p-button-danger p-button-outlined" *ngIf="permission?.CanUpdate"
+								(click)="rejectContract()" [disabled]="isLoading || !rejectionReason.trim()"></button>
+						</div>
+					</div>
+					<div *ngIf="readiness.ApprovalStatus === 'APPROVED'" class="mt-3 text-sm text-color-secondary">
+						Approval completed<span *ngIf="readiness.ApprovedByUserId"> by user #{{ readiness.ApprovedByUserId }}</span><span *ngIf="readiness.ApprovedOn"> on {{ readiness.ApprovedOn | date:'medium' }}</span>.
+					</div>
+				</div>
+				<section class="action-card mb-4" *ngIf="leaseContract?.Id && (isApproved || (isPendingExecution && agreement))">
+					<div class="action-card-header">
+						<div class="action-heading">
+							<span class="section-eyebrow">Agreement</span>
+							<h2>Contract actions</h2>
+							<p *ngIf="isApproved">Preview the approved contract or issue its immutable final PDF.</p>
+							<p *ngIf="isPendingExecution">Use the stored issued PDF for viewing, downloading, and signature delivery.</p>
+						</div>
+						<div class="agreement-actions" *ngIf="isApproved">
+							<div class="template-context">
+							<p-dropdown *ngIf="templates.length > 1" [options]="templates" optionLabel="TemplateName" optionValue="Id"
+								[(ngModel)]="selectedTemplateId" [showClear]="true" placeholder="Select agreement template" [disabled]="isLoading"
+								[style]="{'min-width': '17rem'}"></p-dropdown>
+							<span *ngIf="templates.length === 1" class="template-note"><i class="pi pi-file-word"></i> {{ templates[0].TemplateName }}</span>
+							<span *ngIf="!templates.length && templateChoicesUnavailable" class="template-note"><i class="pi pi-info-circle"></i> The configured default agreement template will be resolved by the server.</span>
+							<span *ngIf="!templates.length && !templateChoicesUnavailable" class="template-note template-note-warning"><i class="pi pi-exclamation-circle"></i> No eligible template is configured. Add an active default Lease Contract DOCX template before previewing or issuing.</span>
+							</div>
+							<div class="agreement-buttons">
+							<button type="button" pButton label="Preview Agreement" icon="pi pi-eye" class="p-button-outlined"
+								(click)="previewAgreement()" [disabled]="isLoading"></button>
+							<button type="button" pButton label="Issue Agreement" icon="pi pi-file-pdf"
+								*ngIf="permission?.CanUpdate" (click)="issueAgreement()" [disabled]="isLoading"></button>
+							</div>
+						</div>
+						<div class="agreement-actions" *ngIf="isPendingExecution && agreement">
+							<div class="template-context"><span class="template-note"><i class="pi pi-file-pdf"></i> Issued {{ agreement.GeneratedAtUtc | date:'medium' }}</span></div>
+							<div class="agreement-buttons">
+							<button type="button" pButton label="View Agreement" icon="pi pi-eye" class="p-button-outlined"
+								(click)="viewAgreement()" [disabled]="isLoading"></button>
+							<button type="button" pButton label="Download Agreement" icon="pi pi-download" class="p-button-outlined"
+								(click)="downloadAgreement()" [disabled]="isLoading"></button>
+							<button type="button" pButton label="Send for Signature" icon="pi pi-send"
+								*ngIf="permission?.CanUpdate" (click)="sendForSignature()" [disabled]="isLoading || signatureRequestForm.invalid"></button>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section *ngIf="execution as workflow" class="execution-card mb-4">
+					<div class="execution-header">
+						<div class="execution-heading">
+							<span class="section-eyebrow">Execution</span>
+							<h2>Agreement execution</h2>
+							<p>The issued PDF remains unchanged. Queue delivery does not confirm delivery or a signature.</p>
+						</div>
+						<p-tag [value]="workflow.ExecutionStatusCode || 'Not started'" [severity]="isPendingActivation ? 'success' : signaturesVerified ? 'success' : workflow.SignatureRequestSentOnUtc ? 'info' : 'warn'"></p-tag>
+					</div>
+					<div class="execution-summary">
+						<div class="execution-metric"><span>Issued agreement</span><strong>{{ workflow.IssuedAgreementFileName || 'Not issued' }}</strong><small *ngIf="workflow.IssuedOnUtc">{{ workflow.IssuedOnUtc | date:'medium' }}</small></div>
+						<div class="execution-metric"><span>Signature request</span><strong>{{ workflow.SignatureRequestSentOnUtc ? 'Queued' : 'Not queued' }}</strong><small *ngIf="workflow.SignatureRequestSentOnUtc">{{ workflow.SignatureRequestSentOnUtc | date:'medium' }}</small></div>
+						<div class="execution-metric"><span>Signed agreement</span><strong>{{ workflow.SignedAgreementFileName || 'Not uploaded' }}</strong><small *ngIf="workflow.SignedAgreementUploadedOnUtc">{{ workflow.SignedAgreementUploadedOnUtc | date:'medium' }}</small></div>
+						<div class="execution-metric"><span>Execution date</span><strong>{{ workflow.ExecutedOnUtc ? (workflow.ExecutedOnUtc | date:'medium') : 'Not executed' }}</strong></div>
+					</div>
+
+					<div *ngIf="isPendingExecution" class="grid">
+						<div class="col-12 lg:col-6">
+							<div class="surface-50 border-round p-3 h-full" [formGroup]="signatureRequestForm">
+								<div class="font-semibold mb-1">1. Send for signature</div>
+								<p class="text-sm text-color-secondary mt-0 mb-3">Confirm the authorised customer signatory email. This queues the exact issued PDF.</p>
+								<label class="block text-sm mb-1" for="signatureRecipient">Customer signatory email</label>
+								<input id="signatureRecipient" pInputText type="email" formControlName="RecipientEmail" placeholder="signatory@example.com" [disabled]="isLoading" />
+								<small *ngIf="signatureRequestForm.controls.RecipientEmail.invalid && signatureRequestForm.controls.RecipientEmail.touched" class="text-red-500 block mt-1">Enter a valid recipient email.</small>
+								<div class="flex flex-wrap gap-2 mt-3">
+									<button type="button" pButton [label]="workflow.SignatureRequestSentOnUtc ? 'Resend agreement' : 'Send for Signature'" icon="pi pi-send" (click)="sendForSignature(!!workflow.SignatureRequestSentOnUtc)" [disabled]="isLoading || !permission?.CanUpdate"></button>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 lg:col-6">
+							<div class="surface-50 border-round p-3 h-full">
+								<div class="font-semibold mb-1">2. Upload signed agreement</div>
+								<p class="text-sm text-color-secondary mt-0 mb-3">One PDF only. It is permanently linked to issued version #{{ workflow.IssuedAgreementDocumentVersionId || '—' }}.</p>
+								<input type="file" accept="application/pdf,.pdf" (change)="onSignedAgreementSelected($event)" [disabled]="isLoading || !!workflow.SignedAgreementDocumentId" />
+								<div class="flex flex-wrap gap-2 mt-3">
+									<button type="button" pButton label="Upload signed PDF" icon="pi pi-upload" class="p-button-outlined" (click)="uploadSignedAgreement()" [disabled]="isLoading || !signedAgreementFile || !!workflow.SignedAgreementDocumentId || !permission?.CanUpdate"></button>
+									<button type="button" pButton label="View signed PDF" icon="pi pi-file-pdf" class="p-button-text" *ngIf="workflow.SignedAgreementDocumentId" (click)="viewSignedAgreement()" [disabled]="isLoading"></button>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="surface-50 border-round p-3" [formGroup]="signatureVerificationForm">
+								<div class="font-semibold mb-1">3. Verify signatures and execute</div>
+								<p class="text-sm text-color-secondary mt-0 mb-3">An authorised user must confirm both signatures against the signed PDF before execution.</p>
+								<div class="grid">
+									<div class="col-12 md:col-6"><label class="block text-sm mb-1" for="customerSigner">Customer signatory</label><input id="customerSigner" pInputText formControlName="CustomerSignerName" [disabled]="isLoading" /></div>
+									<div class="col-12 md:col-6"><label class="block text-sm mb-1" for="customerSignedOn">Customer signature date</label><input id="customerSignedOn" pInputText type="date" formControlName="CustomerSignedOnUtc" [disabled]="isLoading" /></div>
+									<div class="col-12 md:col-6"><label class="block text-sm mb-1" for="lessorSigner">Lessor signatory</label><input id="lessorSigner" pInputText formControlName="LessorSignerName" [disabled]="isLoading" /></div>
+									<div class="col-12 md:col-6"><label class="block text-sm mb-1" for="lessorSignedOn">Lessor signature date</label><input id="lessorSignedOn" pInputText type="date" formControlName="LessorSignedOnUtc" [disabled]="isLoading" /></div>
+									<div class="col-12"><label class="block text-sm mb-1" for="verificationComments">Verification notes</label><textarea id="verificationComments" pInputTextarea rows="2" formControlName="VerificationComments" [disabled]="isLoading" placeholder="Evidence checked by the authorised user"></textarea></div>
+								</div>
+								<div class="flex flex-wrap gap-2 mt-3">
+									<button type="button" pButton label="Record verified signatures" icon="pi pi-check-circle" class="p-button-outlined" (click)="recordSignatures()" [disabled]="isLoading || !workflow.SignedAgreementDocumentId || !permission?.CanUpdate"></button>
+									<button type="button" pButton label="Execute contract" icon="pi pi-verified" (click)="executeContract()" [disabled]="isLoading || !signaturesVerified || !permission?.CanUpdate"></button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div *ngIf="isExecutedAgreementAvailable" class="surface-50 border-round p-3 mt-3" [formGroup]="executedAgreementForm">
+						<div class="flex flex-wrap justify-content-between align-items-start gap-3">
+							<div>
+								<div class="font-semibold mb-1">Send executed agreement</div>
+								<p class="text-sm text-color-secondary mt-0 mb-0">Queues the exact immutable signed PDF. The same view-only copy appears in My Documents once tenant portal access is configured.</p>
+							</div>
+							<button type="button" pButton label="Send executed agreement" icon="pi pi-send" class="p-button-outlined" (click)="sendExecutedAgreement()" [disabled]="isLoading || !permission?.CanUpdate"></button>
+						</div>
+						<div class="mt-3">
+							<label class="block text-sm mb-1" for="executedAgreementRecipient">Customer email</label>
+							<input id="executedAgreementRecipient" pInputText type="email" formControlName="RecipientEmail" placeholder="customer@example.com" [disabled]="isLoading" />
+							<small *ngIf="executedAgreementForm.controls.RecipientEmail.invalid && executedAgreementForm.controls.RecipientEmail.touched" class="text-red-500 block mt-1">Enter a valid recipient email.</small>
+						</div>
+					</div>
+
+					<section *ngIf="isPendingActivation && activationReadiness as activation" class="surface-50 border-round p-4 mt-3">
+						<div class="flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+							<div>
+								<div class="font-semibold text-xl">Asset delivery and lease activation</div>
+								<div class="text-color-secondary text-sm mt-1">Allocate every required physical asset, record delivery and manual customer acceptance, then activate the lease. Activation does not create billing.</div>
+							</div>
+							<div class="flex flex-wrap gap-2 align-items-center">
+								<p-tag [value]="activation.IsReadyForActivation ? 'Ready to activate' : 'Activation checks pending'" [severity]="activation.IsReadyForActivation ? 'success' : 'warn'"></p-tag>
+								<button type="button" pButton label="Validate activation" icon="pi pi-check-circle" class="p-button-outlined" (click)="validateActivation()" [disabled]="isLoading"></button>
+								<button type="button" pButton label="Activate lease" icon="pi pi-play" (click)="activateContract()" [disabled]="isLoading || !activation.IsReadyForActivation || !permission?.CanUpdate"></button>
+								<button type="button" pButton label="View signed agreement" icon="pi pi-file-pdf" class="p-button-text" *ngIf="workflow.SignedAgreementDocumentId" (click)="viewSignedAgreement()" [disabled]="isLoading"></button>
+							</div>
+						</div>
+
+						<div class="grid text-sm mb-3">
+							<div class="col-12 md:col-4"><span class="text-color-secondary block">Proposed commencement</span><strong>{{ activation.ProposedCommencementDate ? (activation.ProposedCommencementDate | date:'mediumDate') : 'Pending customer acceptance' }}</strong></div>
+							<div class="col-12 md:col-4"><span class="text-color-secondary block">Asset policy</span><strong>All allocated assets accepted</strong></div>
+							<div class="col-12 md:col-4"><span class="text-color-secondary block">Billing</span><strong>Not started by this action</strong></div>
+						</div>
+						<div *ngIf="activation.BlockingErrors.length" class="p-3 mb-3 border-round bg-red-50 text-red-700">
+							<div class="font-semibold mb-1">Complete before activating</div>
+							<ul class="m-0 pl-3"><li *ngFor="let issue of activation.BlockingErrors">{{ issue.Message }}</li></ul>
+						</div>
+						<div *ngIf="activation.Warnings.length" class="p-3 mb-3 border-round bg-yellow-50 text-yellow-700">
+							<div class="font-semibold mb-1">Warnings</div>
+							<ul class="m-0 pl-3"><li *ngFor="let issue of activation.Warnings">{{ issue.Message }}</li></ul>
+						</div>
+
+						<div *ngFor="let requirement of activation.AssetRequirements" class="border-1 surface-border border-round p-3 mb-3">
+							<div class="flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+								<div><div class="font-semibold">{{ requirement.AssetCategoryName }} · {{ requirement.AssetTypeName }}</div><small class="text-color-secondary">{{ requirement.AllocatedAssets.length }} of {{ requirement.RequiredQuantity }} physical asset(s) allocated</small></div>
+								<p-tag [value]="requirement.AllocationStatusCode || 'Pending allocation'" [severity]="requirement.AllocatedAssets.length >= requirement.RequiredQuantity ? 'success' : 'warn'"></p-tag>
+							</div>
+							<div *ngIf="requirement.AllocatedAssets.length < requirement.RequiredQuantity" class="flex flex-wrap align-items-center gap-2 mb-3">
+								<p-dropdown [options]="requirement.AvailableAssets" optionLabel="Label" optionValue="AssetId" placeholder="Select available physical asset" [ngModel]="allocationSelections[requirement.LeaseContractAssetId]" (ngModelChange)="selectAllocation(requirement, $event)" [disabled]="isLoading || !permission?.CanUpdate" styleClass="w-full md:w-25rem"></p-dropdown>
+								<button type="button" pButton label="Allocate asset" icon="pi pi-plus" class="p-button-outlined" (click)="allocateAsset(requirement)" [disabled]="isLoading || !allocationSelections[requirement.LeaseContractAssetId] || !permission?.CanUpdate"></button>
+							</div>
+							<div *ngIf="!requirement.AllocatedAssets.length" class="text-sm text-color-secondary">No physical asset allocated yet.</div>
+							<div *ngFor="let asset of requirement.AllocatedAssets" class="surface-0 border-1 surface-border border-round p-3 mb-2">
+								<div class="flex flex-wrap justify-content-between align-items-start gap-2">
+									<div><strong>{{ asset.AssetNumber }}</strong><span class="text-color-secondary"> · {{ asset.Identifier || 'Identifier missing' }}</span><small *ngIf="asset.AllocationIssue" class="block text-red-600">{{ asset.AllocationIssue }}</small></div>
+									<div class="flex flex-wrap gap-2"><p-tag [value]="asset.DeliveredOnUtc ? 'Delivered' : 'Delivery pending'" [severity]="asset.DeliveredOnUtc ? 'info' : 'warn'"></p-tag><p-tag [value]="asset.AcceptanceStatusCode || 'Acceptance pending'" [severity]="asset.AcceptanceStatusCode === 'ACCEPTED' ? 'success' : asset.AcceptanceStatusCode === 'REJECTED' ? 'danger' : 'warn'"></p-tag></div>
+								</div>
+								<div class="text-sm text-color-secondary mt-2" *ngIf="asset.DeliveredOnUtc">Delivered {{ asset.DeliveredOnUtc | date:'medium' }} — {{ asset.DeliverySummary }}</div>
+								<div class="text-sm text-color-secondary mt-1" *ngIf="asset.AcceptanceStatusCode">{{ asset.AcceptanceStatusCode | titlecase }} {{ asset.AcceptedOnUtc ? (asset.AcceptedOnUtc | date:'medium') : '' }} — {{ asset.AcceptanceSummary }}</div>
+								<div class="flex flex-wrap gap-2 mt-3">
+									<button type="button" pButton label="Record delivery" icon="pi pi-truck" class="p-button-text" *ngIf="!asset.DeliveredOnUtc" (click)="beginDelivery(requirement, asset)" [disabled]="isLoading || !permission?.CanUpdate"></button>
+									<button type="button" pButton label="Record acceptance" icon="pi pi-check" class="p-button-text" *ngIf="asset.DeliveredOnUtc && !asset.AcceptanceStatusCode" (click)="beginAcceptance(requirement, asset)" [disabled]="isLoading || !permission?.CanUpdate"></button>
+								</div>
+								<div *ngIf="deliveryForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && deliveryForm.value.AssetId === asset.AssetId" class="surface-50 border-round p-3 mt-3" [formGroup]="deliveryForm">
+									<div class="font-semibold mb-2">Record delivery</div>
+									<div class="grid"><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivery location</label><p-dropdown [options]="activation.DeliveryLocations" optionLabel="Label" optionValue="LocationId" formControlName="DeliveryLocationId" placeholder="Select location" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivered by</label><input pInputText formControlName="DeliveredBy" placeholder="Delivery representative" /></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Received by</label><input pInputText formControlName="ReceivedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-6"><label class="block text-sm mb-1">Delivered on</label><input pInputText type="datetime-local" formControlName="DeliveredOnUtc" /></div><div class="col-12"><label class="block text-sm mb-1">Remarks</label><input pInputText formControlName="Remarks" /></div></div>
+									<div class="flex gap-2 mt-3"><button type="button" pButton label="Save delivery" icon="pi pi-check" (click)="recordDelivery()" [disabled]="isLoading || !permission?.CanUpdate"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelDelivery()" [disabled]="isLoading"></button></div>
+								</div>
+								<div *ngIf="acceptanceForm.value.LeaseContractAssetId === requirement.LeaseContractAssetId && acceptanceForm.value.AssetId === asset.AssetId" class="surface-50 border-round p-3 mt-3" [formGroup]="acceptanceForm">
+									<div class="font-semibold mb-2">Record customer decision</div>
+									<div class="grid"><div class="col-12 md:col-4"><label class="block text-sm mb-1">Decision</label><p-dropdown [options]="[{ label: 'Accept', value: 'ACCEPT' }, { label: 'Reject', value: 'REJECT' }]" optionLabel="label" optionValue="value" formControlName="DecisionCode" styleClass="w-full"></p-dropdown></div><div class="col-12 md:col-4"><label class="block text-sm mb-1">Accepted by</label><input pInputText formControlName="AcceptedBy" placeholder="Customer representative" /></div><div class="col-12 md:col-4"><label class="block text-sm mb-1">Decision time</label><input pInputText type="datetime-local" formControlName="AcceptedOnUtc" /></div><div class="col-12"><label class="block text-sm mb-1">Remarks</label><input pInputText formControlName="Remarks" /></div></div>
+									<div class="flex gap-2 mt-3"><button type="button" pButton label="Save decision" icon="pi pi-check" (click)="recordAcceptance()" [disabled]="isLoading || !permission?.CanUpdate"></button><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelAcceptance()" [disabled]="isLoading"></button></div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
 					<app-spinner></app-spinner>
 					<form> 
 				<p-fluid>

@@ -67,8 +67,8 @@ export class CreditApplicationCreateComponent implements OnInit {
             EffectiveTo: new FormControl(new Date(), [])
         });
         this.Caption = 'Create CreditApplication';
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OpportunityId: 'OpportunityId' });
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityId', 'opportunities', options => this.opportunityidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { PartyId: 'PartyId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(
             this.editForm,
@@ -78,8 +78,20 @@ export class CreditApplicationCreateComponent implements OnInit {
             (error) => setTimeout(() => this.messageService?.showError(error)),
             this.entityLookupDestroyRef
         );
-        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+        this.loadRiskSegmentOptions();
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
+    }
+
+    private loadRiskSegmentOptions(): void {
+        this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+        if (this.risksegmentcodeOptions.length) return;
+
+        this.loggedInUserService.loadPicklistCache().subscribe({
+            next: () => {
+                this.risksegmentcodeOptions = this.loggedInUserService.getPicklistOptions('RiskSegmentCode');
+            },
+            error: (error) => setTimeout(() => this.messageService?.showError(error))
+        });
     }
 
     loadUI(): void {

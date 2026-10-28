@@ -74,8 +74,7 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
-this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
+    this.loadPicklistOptions();
     this.editForm.get('AuthorityType').valueChanges.subscribe((authorityType: string) => {
       this.configureAuthorityTarget(authorityType, true);
     });
@@ -93,6 +92,28 @@ this.loggedInUserService.getApplicationUserOptions().subscribe({
       error: err => setTimeout(() => this.messageService?.showError(err))
     });
 
+  }
+
+  /**
+   * Approval process codes are system picklist items.  A direct navigation to
+   * this form can occur before the application-level cache has been hydrated,
+   * so retry through the existing bootstrap endpoint when the cache is empty.
+   */
+  private loadPicklistOptions(): void {
+    const applyCachedOptions = () => {
+      this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
+      this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
+    };
+
+    applyCachedOptions();
+    if (this.processcodeOptions.length > 0) {
+      return;
+    }
+
+    this.loggedInUserService.loadPicklistCache().subscribe({
+      next: applyCachedOptions,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
   }
  
  loadUI(): void {

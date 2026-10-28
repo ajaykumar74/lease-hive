@@ -71,8 +71,19 @@ export class OpportunityCreateComponent implements OnInit {
         this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { LeadId: 'LeadId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'OwnerUserId',
+            'application-users',
+            options => this.owneruseridOptions = options,
+            error => this.messageService?.showError(error),
+            this.destroyRef,
+            { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' },
+            'id',
+            true
+        );
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityStageId', 'opportunity-stages', options => this.opportunitystageidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.populateOwnerWithCurrentUser();
     }
 
     loadUI(): void {
@@ -107,6 +118,13 @@ export class OpportunityCreateComponent implements OnInit {
             ProbabilityPct: obj.ProbabilityPct || 0,
             ExpectedCloseDate: obj.ExpectedCloseDate || new Date(),
             Description: obj.Description || ''
+        });
+    }
+
+    private populateOwnerWithCurrentUser(): void {
+        this.loggedInUserService.getCurrentApplicationUserId().subscribe({
+            next: ownerUserId => this.editForm.get('OwnerUserId')?.setValue(ownerUserId),
+            error: error => this.messageService?.showError(error)
         });
     }
 
@@ -159,7 +177,7 @@ export class OpportunityCreateComponent implements OnInit {
             PartyId: formValues.PartyId || 0,
             OriginatingOrganisationId: formValues.OriginatingOrganisationId || 0,
             OwnerOrganisationUnitId: formValues.OwnerOrganisationUnitId || 0,
-            OwnerUserId: formValues.OwnerUserId || 0,
+            OwnerUserId: Number(formValues.OwnerUserId) || 0,
             OpportunityStageId: formValues.OpportunityStageId || 0,
             OpportunityName: formValues.OpportunityName || null,
             EstimatedAmount: Number(formValues.EstimatedAmount) || 0,

@@ -75,15 +75,36 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
-this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
-this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    this.loadPicklistOptions();
     this.editForm.get('AuthorityType').valueChanges.subscribe((authorityType: string) => {
       this.configureAuthorityTarget(authorityType, true);
     });
     this.configureAuthorityTarget(this.editForm.get('AuthorityType').value);
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  /**
+   * Approval process codes come from the shared system picklist. A form opened
+   * directly may render before that cache is populated, so hydrate it through
+   * the existing bootstrap API and then re-read the options.
+   */
+  private loadPicklistOptions(): void {
+    const applyCachedOptions = () => {
+      this.authoritytypeOptions = this.loggedInUserService.getPicklistOptions('AuthorityType');
+      this.processcodeOptions = this.loggedInUserService.getPicklistOptions('ApprovalProcessCode');
+      this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
+    };
+
+    applyCachedOptions();
+    if (this.processcodeOptions.length > 0) {
+      return;
+    }
+
+    this.loggedInUserService.loadPicklistCache().subscribe({
+      next: applyCachedOptions,
+      error: err => setTimeout(() => this.messageService?.showError(err))
+    });
   }
 
   ngAfterViewInit(): void {

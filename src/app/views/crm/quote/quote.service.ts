@@ -55,6 +55,31 @@ export class QuoteService extends BaseCrudService<any> {
       );
   }
 
+  previewDocument(id: number, templateId?: number): Observable<Blob> {
+    const query = templateId ? `?templateId=${templateId}` : '';
+    return this.http.get(`${this.baseService.C_APP_URL}/quotation-documents/${id}/preview${query}`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  getIssuedDocument(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/quotation-documents/${id}/issued`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  downloadIssuedDocument(id: number): Observable<Blob> {
+    return this.http.get(`${this.baseService.C_APP_URL}/quotation-documents/${id}/issued/download`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  sendIssuedDocument(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/quotation-documents/${id}/send-to-customer`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
   getWorkspace(id: number): Observable<any> {
     const url = `${this.baseService.C_APP_URL}/QuotationWorkspace/${id}`;
     return this.http.get<any>(url, { headers: this.headers })

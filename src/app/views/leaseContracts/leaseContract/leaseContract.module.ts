@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { TagModule } from 'primeng/tag';
 
 import { LeaseContractListComponent } from './leaseContract-list.component';
 import { LeaseContractCreateComponent } from './leaseContract-create.component';
@@ -42,6 +43,7 @@ import { LeaseContractRoutingModule } from './leaseContract-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		TagModule,
 		LeaseContractRoutingModule,
 	],
 	declarations: [

@@ -23,16 +23,16 @@ export class AuthService {
   }
 
   setTokens(accessToken: string, refreshToken: string) { 
-       localStorage.setItem("jwt", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
+       this.baseService.updateJwtToken(accessToken);
+       localStorage.setItem("refreshToken", refreshToken);
   }
 
   refreshToken(): Observable<any> {   
     return this.http.post(`${this.baseUrl}/refresh`, {
-    AccessToken: this.getRefreshToken(),  RefreshToken: this.getRefreshToken()
+    AccessToken: this.getToken(), RefreshToken: this.getRefreshToken()
     }).pipe(
       tap((tokens: any) => {
-        this.setTokens(tokens.accessToken, tokens.refreshToken);
+        this.setTokens(tokens?.accessToken ?? tokens?.AccessToken, tokens?.refreshToken ?? tokens?.RefreshToken);
       })
     );
   }

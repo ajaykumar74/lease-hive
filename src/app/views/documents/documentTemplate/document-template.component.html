@@ -1,0 +1,101 @@
+<section class="container template-workspace" aria-labelledby="document-templates-title">
+    <div *ngIf="!editorOpen" class="card template-list-card">
+        <div class="flex flex-wrap justify-content-between align-items-start gap-3 mb-5">
+            <div>
+                <p class="section-kicker mb-2">Document management</p>
+                <h1 id="document-templates-title" class="text-3xl mb-2">Document templates</h1>
+                <p class="m-0 text-color-secondary">Manage tenant DOCX templates, versioned source files, and the default resolution scope.</p>
+            </div>
+            <div class="flex flex-wrap justify-content-end gap-2">
+                <button pButton type="button" class="p-button-secondary" label="Reload" icon="pi pi-refresh" (click)="load()" [disabled]="loading || busy"></button>
+                <button pButton type="button" label="New template" icon="pi pi-plus" (click)="newTemplate()" [disabled]="!canCreate || busy"></button>
+            </div>
+        </div>
+
+        <p *ngIf="error" class="text-red-600" role="alert">{{ error }}</p>
+        <p *ngIf="message" class="text-green-600" role="status">{{ message }}</p>
+
+        <p-table [value]="templates" [loading]="loading" responsiveLayout="scroll" selectionMode="single" dataKey="Id" [(selection)]="selectedRow" (onRowSelect)="openTemplate($event.data)" [tableStyle]="{ 'min-width': '72rem' }">
+            <ng-template pTemplate="header">
+                <tr><th>Name</th><th>Type / category</th><th>Source version</th><th>Scope</th><th>Default</th><th>Status</th><th>Effective dates</th></tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-template>
+                <tr [pSelectableRow]="template" class="cursor-pointer">
+                    <td><strong>{{ template.TemplateName }}</strong><small class="block text-color-secondary">{{ template.TemplateCode }}</small></td>
+                    <td>{{ template.TemplateTypeCode }}<small class="block text-color-secondary">{{ template.AssetCategoryName || 'Generic' }}</small></td>
+                    <td>v{{ template.DocumentVersionNumber }}<small class="block text-color-secondary">{{ template.OriginalFileName }}</small></td>
+                    <td><p-tag [value]="template.IsSystemTemplate ? 'System fallback' : 'This tenant'" [severity]="template.IsSystemTemplate ? 'warn' : 'info'"></p-tag></td>
+                    <td><p-tag [value]="template.IsDefault ? 'Default' : 'Not default'" [severity]="template.IsDefault ? 'success' : 'secondary'"></p-tag></td>
+                    <td><p-tag [value]="template.RecordStatus" [severity]="severity(template.RecordStatus)"></p-tag></td>
+                    <td>{{ template.EffectiveFrom | date:'dd MMM y' }} — {{ template.EffectiveTo ? (template.EffectiveTo | date:'dd MMM y') : 'Open ended' }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage"><tr><td colspan="7">No templates are available for this tenant yet.</td></tr></ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="editorOpen" class="card template-editor-card">
+        <div class="editor-header mb-4">
+            <div class="editor-heading">
+                <button pButton type="button" class="p-button-text p-button-secondary p-button-sm editor-back" label="Back to templates" icon="pi pi-arrow-left" (click)="backToList()" [disabled]="busy"></button>
+                <p class="section-kicker">{{ selected ? 'Template configuration' : 'New template' }}</p>
+                <h1>{{ editorTitle }}</h1>
+                <p>{{ selected ? (editingSystemTemplate ? 'System templates are read-only fallbacks.' : 'Update the metadata or create a new version of the source DOCX.') : 'Add a tenant DOCX template and define where it applies.' }}</p>
+            </div>
+            <div class="editor-toolbar" aria-label="Template actions">
+                <div class="editor-action-group" *ngIf="selected">
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Download" icon="pi pi-download" (click)="download()" [disabled]="busy || !canDownload"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Validate" icon="pi pi-check-circle" (click)="validate()" [disabled]="busy"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Preview" icon="pi pi-eye" (click)="preview()" [disabled]="busy"></button>
+                </div>
+                <div class="editor-action-group" *ngIf="selected && !editingSystemTemplate">
+                    <button pButton type="button" class="p-button-sm p-button-outlined p-button-secondary" label="Upload version" icon="pi pi-upload" (click)="replaceFile()" [disabled]="busy || !canUpdate || !selectedFile"></button>
+                    <button pButton type="button" class="p-button-sm p-button-outlined p-button-secondary" [label]="selected.IsDefault ? 'Reapply default' : 'Set as default'" icon="pi pi-star" (click)="setDefault()" [disabled]="busy || !canUpdate"></button>
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" [label]="selected.RecordStatus === 'Active' ? 'Deactivate' : 'Activate'" icon="pi pi-power-off" (click)="toggleStatus()" [disabled]="busy || !canUpdate"></button>
+                </div>
+                <div class="editor-action-group editor-primary-actions">
+                    <button pButton type="button" class="p-button-sm p-button-text p-button-secondary" label="Cancel" icon="pi pi-times" (click)="backToList()" [disabled]="busy"></button>
+                    <button *ngIf="!editingSystemTemplate" pButton type="button" class="p-button-sm" [label]="selected ? 'Save changes' : 'Create template'" icon="pi pi-check" (click)="save()" [disabled]="busy || form.invalid || (selected ? !canUpdate : !canCreate)"></button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="error || message" class="editor-feedback mb-4" [class.editor-feedback-error]="error" [class.editor-feedback-success]="message && !error" role="status">
+            <i class="pi" [class.pi-exclamation-circle]="error" [class.pi-check-circle]="message && !error"></i>
+            <span>{{ error || message }}</span>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="save()" class="p-fluid">
+            <fieldset [disabled]="busy || editingSystemTemplate" class="border-0 p-0 m-0">
+                <div class="template-form-grid">
+                    <div class="form-field"><label for="templateCode">Template code</label><input pInputText id="templateCode" formControlName="TemplateCode" /><small class="text-red-600" *ngIf="form.controls['TemplateCode'].touched && form.controls['TemplateCode'].invalid">Use 1–20 letters, digits, hyphens, or underscores.</small></div>
+                    <div class="form-field"><label for="templateName">Template name</label><input pInputText id="templateName" formControlName="TemplateName" /></div>
+                    <div class="form-field"><label for="templateType">Document type</label><p-dropdown inputId="templateType" [options]="options.TemplateTypeCodes" formControlName="TemplateTypeCode" placeholder="Select type"></p-dropdown></div>
+                    <div class="form-field"><label for="assetCategory">Asset category</label><p-dropdown inputId="assetCategory" [options]="options.AssetCategories" optionLabel="Name" optionValue="Id" formControlName="AssetCategoryId" [showClear]="true" placeholder="Generic for all categories"></p-dropdown></div>
+                    <div class="form-field"><label for="effectiveFrom">Effective from</label><input pInputText id="effectiveFrom" type="date" formControlName="EffectiveFrom" /></div>
+                    <div class="form-field"><label for="effectiveTo">Effective to</label><input pInputText id="effectiveTo" type="date" formControlName="EffectiveTo" /></div>
+                    <div class="form-field checkbox-field"><p-checkbox inputId="isDefault" binary="true" formControlName="IsDefault"></p-checkbox><label for="isDefault">Use as default for this scope</label><small>Used when no more specific asset-category template applies.</small></div>
+                    <div class="form-field"><label for="recordStatus">Status</label><p-dropdown inputId="recordStatus" [options]="['Active', 'Inactive']" formControlName="RecordStatus"></p-dropdown></div>
+                    <div class="form-field form-field-wide">
+                        <label for="templateFile">{{ selected ? 'New DOCX version (optional)' : 'DOCX template file' }}</label>
+                        <label class="file-picker" for="templateFile">
+                            <i class="pi pi-cloud-upload"></i>
+                            <span><strong>{{ selected ? 'Choose replacement DOCX' : 'Choose DOCX template' }}</strong><small>Word document (.docx), maximum 25 MB</small></span>
+                            <span class="file-picker-action">Browse</span>
+                        </label>
+                        <input class="template-file-input" id="templateFile" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" (change)="chooseFile($event)" />
+                        <small class="selected-file" *ngIf="selectedFile"><i class="pi pi-file-word"></i> {{ selectedFile.name }}</small>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <div *ngIf="validation" class="mt-4 p-3 border-round surface-100">
+            <strong>{{ validation.IsValid ? 'Validation passed' : 'Validation requires attention' }}</strong>
+            <p class="mb-1">Recognised variables: {{ validation.Variables.length ? validation.Variables.join(', ') : 'none' }}</p>
+            <p *ngIf="validation.MissingVariables.length" class="text-red-600 mb-1">Unrecognised variables: {{ validation.MissingVariables.join(', ') }}</p>
+            <p *ngIf="validation.UnsupportedTokens.length" class="text-red-600 mb-1">Unsupported tokens: {{ validation.UnsupportedTokens.join(', ') }}</p>
+            <p *ngIf="validation.StructuralErrors.length" class="text-red-600 mb-0">Structure: {{ validation.StructuralErrors.join(', ') }}</p>
+        </div>
+    </div>
+</section>

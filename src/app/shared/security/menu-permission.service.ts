@@ -83,6 +83,7 @@ export class MenuPermissionService {
         { route: '/dashboard/document-retention-policies', resource: 'document.documentretentionpolicy' },
         { route: '/dashboard/document-types', resource: 'document.documenttype' },
         { route: '/dashboard/document-requirements', resource: 'document.documentrequirement' },
+        { route: '/dashboard/document-templates', resource: 'document.document' },
         { route: '/dashboard/document-versions', resource: 'document.documentversion' },
         { route: '/dashboard/documents', resource: 'document.document' },
         { route: '/dashboard/upload-sessions', resource: 'document.uploadsession' },
