@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -19,6 +19,7 @@ export class BillingRunListComponent implements OnInit {
   constructor(
     private billingRunService: BillingRunService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,12 +33,15 @@ export class BillingRunListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  leaseContractId: number | null = null;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.billingRunService.CacheData.IsLoaded) {
+     const contractId = Number(this.activatedRoute.snapshot.queryParamMap.get('leaseContractId'));
+     this.leaseContractId = Number.isInteger(contractId) && contractId > 0 ? contractId : null;
+     if (!this.leaseContractId && this.billingRunService.CacheData.IsLoaded) {
       this.currentPage = this.billingRunService.CacheData.CurrentPage;
       this.objSearch = this.billingRunService.CacheData.objSearch;
       this.permission = this.billingRunService.CacheData.permission;
@@ -46,7 +50,7 @@ export class BillingRunListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.billingRunService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !!this.leaseContractId || !this.billingRunService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -82,6 +86,7 @@ export class BillingRunListComponent implements OnInit {
         Take: pgEvent.rows,
         SortBy: this.sortBy,
         IsDescending: this.IsDescending  ,
+        LeaseContractId: this.leaseContractId,
         Conditions: this.getSearchParams()  
       }
       this.isLoading = true;

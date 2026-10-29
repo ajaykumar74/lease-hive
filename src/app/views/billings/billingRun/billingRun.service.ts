@@ -41,6 +41,25 @@ export class BillingRunService extends BaseCrudService<any> {
       );
   }
 
+  generateDraftInvoices(billingRunId: number): Observable<any> {
+    const url = `${this.baseUrl}/${billingRunId}/generate-draft-invoices`;
+    return this.http.post<any>(url, {}, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
+
+  validateBillingRun(billingRunId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/validate`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  approveBillingRun(billingRunId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/approve`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }

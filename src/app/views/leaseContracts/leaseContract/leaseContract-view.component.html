@@ -10,7 +10,7 @@
 					<button type="button" pButton label="Allocate Asset" icon="pi pi-plus" class="p-button-outlined"
 						*ngIf="isPendingActivation" (click)="openAllocateAssetQuickOption()"
 						[disabled]="isLoading || !canAllocateAsset || !canOpenAllocation"></button>
-					<p-splitbutton *ngIf="isPendingActivation" size="small" label="Quick Options" icon="pi pi-bolt"
+					<p-splitbutton *ngIf="isPendingActivation || isActive" size="small" label="Quick Options" icon="pi pi-bolt"
 						[model]="quickOptionItems" [disabled]="isLoading"></p-splitbutton>
 				</app-toolbar-buttons>
 				<div *ngIf="readiness" class="workflow-card mb-4">

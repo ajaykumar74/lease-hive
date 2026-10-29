@@ -7,6 +7,27 @@
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+				<section *ngIf="customerInvoice?.Id" class="mb-4 border-1 border-round border-200 p-3 surface-50">
+					<div class="flex flex-column gap-1 mb-3">
+						<strong>Quick options</strong>
+						<span class="text-sm text-color-secondary">Preview the saved invoice, then issue and deliver its immutable PDF when eligible.</span>
+					</div>
+					<div class="flex gap-2 flex-wrap">
+						<button type="button" pButton label="Preview Invoice" icon="pi pi-eye" severity="secondary"
+							[disabled]="isInvoiceActionInProgress" (click)="previewInvoice()"></button>
+						<button *ngIf="isIssued" type="button" pButton label="Download PDF" icon="pi pi-download" severity="secondary"
+							[disabled]="isInvoiceActionInProgress" (click)="downloadInvoice()"></button>
+						<button *ngIf="!isIssued" type="button" pButton label="Issue Invoice" icon="pi pi-check-circle"
+							[disabled]="!canIssueInvoice" (click)="issueInvoice()"></button>
+						<button *ngIf="isIssued" type="button" pButton label="View Customer Portal Invoice" icon="pi pi-external-link" severity="secondary"
+							(click)="viewCustomerPortalInvoice()"></button>
+						<button *ngIf="isIssued" type="button" pButton label="Resend Invoice Email" icon="pi pi-send"
+							[disabled]="!canManageInvoice" (click)="resendInvoiceEmail()"></button>
+					</div>
+					<small *ngIf="!isIssued" class="block mt-3 text-color-secondary">Draft previews are marked DRAFT and are not issued tax invoices.</small>
+					<small *ngIf="isIssued" class="block mt-3 text-color-secondary">This invoice is issued. Its financial values and final PDF are locked.</small>
+				</section>
+				<p *ngIf="isIssued" class="p-3 mb-3 border-round surface-100 text-color-secondary">This invoice has been issued. Its financial values are locked and may no longer be edited.</p>
 				
 		       <form [formGroup]="editForm" (ngSubmit)="Save()">
  				<p-fluid>

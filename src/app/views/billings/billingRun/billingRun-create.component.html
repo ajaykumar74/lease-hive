@@ -9,6 +9,9 @@
 				<app-spinner></app-spinner>
 				
 		      <form [formGroup]="editForm" (ngSubmit)="Save()">
+					<div *ngIf="isContractBillingGeneration" class="mb-4 p-3 border-round bg-blue-50 text-blue-900">
+						Items will be generated from the active contract’s due, unbilled payment schedule lines and eligible one-off charges when this draft run is saved.
+					</div>
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
@@ -128,7 +131,7 @@
 					</div>
 				</div>
  			</p-fluid> 				 
-                    <section class="mt-5" formArrayName="BillingRunItems">
+                    <section *ngIf="!isContractBillingGeneration" class="mt-5" formArrayName="BillingRunItems">
                         <div class="flex justify-between items-center mb-3">
                             <h5 class="m-0">Billing Run Items</h5>
                             <button type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>

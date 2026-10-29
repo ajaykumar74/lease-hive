@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -42,6 +42,7 @@ validationstatusOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IBillingRun = {} as IBillingRun;
+  leaseContractId: number | null = null;
   
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -49,6 +50,7 @@ validationstatusOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private billingRunService: BillingRunService,
 	private loggedInUserService : LoggedInUserService
@@ -61,6 +63,8 @@ validationstatusOptions: ISelectItem[] = [];
 
   
   ngOnInit(): void {
+   const contractId = Number(this.activatedRoute.snapshot.queryParamMap.get('leaseContractId'));
+   this.leaseContractId = Number.isInteger(contractId) && contractId > 0 ? contractId : null;
    this.objMaster = { ...this.billingRun };
 
     this.editForm = this.fb.group({
@@ -81,11 +85,21 @@ BillingRunItems: this.fb.array([]),
 
     });
     this.Caption = 'Create BillingRun';
+    if (this.isContractBillingGeneration) {
+      this.Caption = `Generate Contract Billing Run #${this.leaseContractId}`;
+      this.editForm.patchValue({ RunType: 'ADHOC', RecordStatus: 'Active' });
+    }
     this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingOrganisationId', 'organisations',
       options => this.billingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BillingRunStatusId', 'billing-run-statuses',
-      options => this.billingrunstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => {
+        this.billingrunstatusidOptions = options;
+        if (this.isContractBillingGeneration) {
+          const draftStatus = options.find(option => String(option.Text || '').toUpperCase().includes('DRAFT'));
+          if (draftStatus) this.editForm.patchValue({ BillingRunStatusId: draftStatus.Value });
+        }
+      }, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.runtypeOptions = this.loggedInUserService.getPicklistOptions('RunType');
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ApprovedByUserId', 'application-users',
@@ -132,6 +146,7 @@ ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
   }
 
   get billingRunItems(): FormArray<FormGroup> { return this.editForm.get('BillingRunItems') as FormArray<FormGroup>; }
+  get isContractBillingGeneration(): boolean { return this.leaseContractId !== null; }
 
   addBillingRunItem(item?: Partial<IBillingRunItem>): void {
     const line = this.fb.group({
@@ -227,13 +242,13 @@ ApprovedAtUtc:  obj.ApprovedAtUtc || new Date(),
 
   Save(): void {    
    
-        if (!this.editForm.valid || this.billingRunItems.length === 0) {
+        if (!this.editForm.valid || (!this.isContractBillingGeneration && this.billingRunItems.length === 0)) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }	
   
   
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
@@ -252,6 +267,7 @@ ApprovedByUserId: formValues.ApprovedByUserId || 0,
 ApprovedAtUtc: formValues.ApprovedAtUtc || null,
 BillingRunItems: this.billingRunItems.getRawValue().map((item: any) => ({ ...item, BillingRunId: 0, TenantId: this.loggedInUserService.loggedInUser.Tenant.Id })),
 RecordStatus: 'Active',
+LeaseContractId: this.leaseContractId || 0,
 
     } as IBillingRun ; 
 	

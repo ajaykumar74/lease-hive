@@ -614,6 +614,33 @@ export class LeaseContractViewComponent implements OnInit {
     }
 
     private refreshQuickOptions(): void {
+        if (this.isActive) {
+            this.quickOptionItems = [
+                {
+                    label: 'View Payment Schedule',
+                    icon: 'pi pi-calendar',
+                    command: () => this.openContractBillingRoute('/contracts/payment-schedules')
+                },
+                {
+                    label: 'Generate Billing Run',
+                    icon: 'pi pi-play-circle',
+                    disabled: this.permission?.CanUpdate !== true,
+                    command: () => this.openContractBillingRoute('/billing-finance/billing/runs/create')
+                },
+                {
+                    label: 'View Billing Runs',
+                    icon: 'pi pi-list',
+                    command: () => this.openContractBillingRoute('/billing-finance/billing/runs')
+                },
+                {
+                    label: 'View Customer Invoices',
+                    icon: 'pi pi-file',
+                    command: () => this.openContractBillingRoute('/billing-finance/invoices')
+                }
+            ];
+            return;
+        }
+
         this.quickOptionItems = [
             {
                 label: 'Allocate Asset',
@@ -646,6 +673,11 @@ export class LeaseContractViewComponent implements OnInit {
                 command: () => this.openActivationQuickOption()
             }
         ];
+    }
+
+    private openContractBillingRoute(route: string): void {
+        if (!this.leaseContract?.Id) return;
+        this.router.navigate([route], { queryParams: { leaseContractId: this.leaseContract.Id } });
     }
 
     private findAllocationTarget(): ILeaseContractActivationRequirement | null {
@@ -863,6 +895,7 @@ export class LeaseContractViewComponent implements OnInit {
     get isApproved(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'APPROVED'; }
     get isPendingExecution(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_EXECUTION'; }
     get isPendingActivation(): boolean { return this.normalizeStatus(this.execution?.ContractStatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.activationReadiness?.StatusCode) === 'PENDING_ACTIVATION'; }
+    get isActive(): boolean { return this.normalizeStatus(this.execution?.ContractStatusCode) === 'ACTIVE' || this.normalizeStatus(this.readiness?.StatusCode) === 'ACTIVE' || this.normalizeStatus(this.activationReadiness?.StatusCode) === 'ACTIVE'; }
     get isExecutedAgreementAvailable(): boolean { return this.normalizeStatus(this.execution?.ExecutionStatusCode) === 'EXECUTED' && !!this.execution?.SignedAgreementDocumentId; }
     get canEditContract(): boolean { return this.isDraft && this.permission?.CanUpdate === true; }
     get signaturesVerified(): boolean {

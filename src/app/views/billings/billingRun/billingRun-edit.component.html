@@ -7,6 +7,23 @@
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+				<p-confirmDialog key="billing-run-edit-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
+				<section *ngIf="billingRun?.Id" class="mb-4 border-1 border-round border-200 p-3 surface-50">
+					<div class="flex flex-column gap-1 mb-3">
+						<strong>Workflow actions</strong>
+						<span class="text-sm text-color-secondary">Advance this billing run through validation, approval, and draft invoice generation.</span>
+					</div>
+					<div class="flex gap-2 flex-wrap">
+						<button *ngIf="isDraft" type="button" pButton label="Validate" icon="pi pi-check-circle"
+							[disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="validateBillingRun()"></button>
+						<button *ngIf="isValidated" type="button" pButton label="Approve" icon="pi pi-check"
+							[disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="approveBillingRun()"></button>
+						<button *ngIf="isApprovedForInvoiceGeneration" type="button" pButton label="Execute" icon="pi pi-play"
+							[disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmExecution()"></button>
+						<button *ngIf="hasGeneratedInvoices" type="button" pButton label="View Invoices" icon="pi pi-external-link"
+							severity="secondary" (click)="viewGeneratedInvoices()"></button>
+					</div>
+				</section>
 				
 		       <form [formGroup]="editForm" (ngSubmit)="Save()">
  				<p-fluid>
@@ -144,13 +161,14 @@
                     <section class="mt-5" formArrayName="BillingRunItems">
                         <div class="flex justify-between items-center mb-3">
                             <h5 class="m-0">Billing Run Items</h5>
-                            <button type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
+                            <button *ngIf="isDraft" type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
                         </div>
+                        <p *ngIf="!isDraft" class="text-sm text-color-secondary">This billing run is read-only after validation. Review its workflow actions from the details page.</p>
                         <p class="text-sm text-color-secondary" *ngIf="billingRunItems.length === 0">Add at least one billing run item.</p>
                         <div class="card mb-3" *ngFor="let item of billingRunItems.controls; let index = index" [formGroupName]="index">
                             <div class="flex justify-between items-center mb-3">
                                 <strong>Item {{ index + 1 }}</strong>
-                                <button type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
+                                <button *ngIf="isDraft" type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
                             </div>
                             <div class="flex flex-col md:flex-row gap-4">
                                 <div class="flex flex-col w-full"><label>Lease Contract</label><p-dropdown [options]="leasecontractidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractId" placeholder="Select One"></p-dropdown></div>

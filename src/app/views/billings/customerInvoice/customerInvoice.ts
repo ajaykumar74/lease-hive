@@ -5,6 +5,9 @@ export interface ICustomerInvoice extends IBase {
 TenantId :number;
 InvoiceId :string;
 InvoiceStatusId :number;
+InvoiceStatusCode?: string;
+InvoiceStatusName?: string;
+IsIssued?: boolean;
 BillingOrganisationId :number;
 CustomerPartyId :number;
 LeaseContractId :number;
