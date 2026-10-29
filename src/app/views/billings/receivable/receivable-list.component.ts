@@ -29,6 +29,8 @@ export class ReceivableListComponent implements OnInit {
   currentPage: number = 1;
   isAdvanceView: boolean = true;
   isLoading: boolean = false;
+  isReconciling = false;
+  reconciliationSummary = '';
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
@@ -142,6 +144,22 @@ export class ReceivableListComponent implements OnInit {
     } 
   
   };
+
+  reconcileMissingReceivables(): void {
+    if (this.isReconciling || !this.permission?.CanUpdate) return;
+    this.isReconciling = true;
+    this.spinner?.show();
+    this.receivableService.reconcileMissingReceivables().subscribe({
+      next: response => {
+        const result = response?.data || {};
+        this.reconciliationSummary = `${result.CreatedCount || 0} created, ${result.SkippedCount || 0} skipped, ${result.FailedCount || 0} failed.`;
+        this.messageService?.showSuccess(`Receivable reconciliation complete: ${this.reconciliationSummary}`);
+        this.search();
+      },
+      error: error => this.messageService?.showError(error?.error?.ErrorMessage || error?.message || 'Receivable reconciliation failed.'),
+      complete: () => { this.isReconciling = false; this.spinner?.hide(); }
+    });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

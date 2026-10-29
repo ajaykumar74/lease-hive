@@ -25,6 +25,7 @@ export class CustomerInvoiceViewComponent implements OnInit {
     customerInvoice: ICustomerInvoice = {} as ICustomerInvoice;
     Caption: string = 'Loading...';
     isWorkflowActionInProgress = false;
+    receivable: any = null;
     
 
     constructor( 
@@ -60,6 +61,7 @@ export class CustomerInvoiceViewComponent implements OnInit {
                 this.customerInvoice = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.customerInvoice);
+                this.loadReceivable();
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
@@ -133,6 +135,15 @@ export class CustomerInvoiceViewComponent implements OnInit {
 
     viewCustomerPortalInvoice(): void {
         if (this.isIssued) this.router.navigate(['/customer-portal/invoices']);
+    }
+
+    viewReceivable(): void {
+        if (this.receivable?.ReceivableId) this.router.navigate(['/billing-finance/receivables/view', this.receivable.ReceivableId]);
+    }
+
+    private loadReceivable(): void {
+        if (!this.isIssued) { this.receivable = null; return; }
+        this.customerInvoiceService.getReceivable(this.selectedId).subscribe({ next: response => this.receivable = response?.data || null });
     }
 
     private openPdf(blob: Blob, filename: string): void {

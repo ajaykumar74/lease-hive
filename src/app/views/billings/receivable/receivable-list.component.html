@@ -6,6 +6,10 @@
 					[PageType]="'List'">
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
+				<div class="flex align-items-center gap-2 mb-3">
+					<button type="button" pButton label="Reconcile Missing Receivables" icon="pi pi-sync" severity="secondary" [loading]="isReconciling" [disabled]="!permission?.CanUpdate || isReconciling" (click)="reconcileMissingReceivables()"></button>
+					<small *ngIf="reconciliationSummary" class="text-color-secondary">{{ reconciliationSummary }}</small>
+				</div>
 				<div class="generated-list-search">
     <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
     <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
