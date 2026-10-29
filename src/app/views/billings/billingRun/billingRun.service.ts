@@ -60,6 +60,11 @@ export class BillingRunService extends BaseCrudService<any> {
       .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }
 
+  issueInvoices(billingRunId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/issue-invoices`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }

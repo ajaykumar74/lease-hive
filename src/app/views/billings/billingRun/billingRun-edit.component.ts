@@ -13,12 +13,15 @@ import { ISelectItem } from '@/shared/ISelectItem';
 import { IBillingRun } from './billingRun';
 import { BillingRunService } from './billingRun.service';
 import { IBillingRunItem } from '../billingRunItem/billingRunItem';
+import { CustomerInvoiceService } from '../customerInvoice/customerInvoice.service';
+import { ICustomerInvoice } from '../customerInvoice/customerInvoice';
 
 
 @Component({
   selector: 'app-billingRun-edit',
   standalone: false,
   templateUrl: './billingRun-edit.component.html',
+  styleUrls: ['./billingRun-workflow.css'],
   providers: [ MessageService, ConfirmationService]
 })
 export class BillingRunEditComponent implements OnInit {
@@ -46,17 +49,28 @@ validationstatusOptions: ISelectItem[] = [];
   isValidating = false;
   isApproving = false;
   isGeneratingInvoices = false;
+  isIssuingInvoices = false;
+  isInvoiceIssuanceSummaryLoading = false;
+  draftInvoiceCount = 0;
+  issuedInvoiceCount = 0;
+  invoiceIssuanceSummaryError = '';
+  invoiceIssueResult: any = null;
+  private invoiceIssuanceSummaryRequest = 0;
+
+  get billingRunStatusCode(): string {
+    return String(this.billingRun?.BillingRunStatusCode || '').toUpperCase();
+  }
 
   get isDraft(): boolean {
-    return String(this.billingRun?.BillingRunStatusCode || '').toUpperCase() === 'DRAFT';
+    return this.billingRunStatusCode === 'DRAFT';
   }
 
   get isValidated(): boolean {
-    return String(this.billingRun?.BillingRunStatusCode || '').toUpperCase() === 'VALIDATED';
+    return this.billingRunStatusCode === 'VALIDATED';
   }
 
   get isApprovedForInvoiceGeneration(): boolean {
-    return String(this.billingRun?.BillingRunStatusCode || '').toUpperCase() === 'APPROVED';
+    return this.billingRunStatusCode === 'APPROVED';
   }
 
   get hasGeneratedInvoices(): boolean {
@@ -65,7 +79,46 @@ validationstatusOptions: ISelectItem[] = [];
   }
 
   get isWorkflowActionInProgress(): boolean {
-    return this.isValidating || this.isApproving || this.isGeneratingInvoices;
+    return this.isValidating || this.isApproving || this.isGeneratingInvoices || this.isIssuingInvoices;
+  }
+
+  get workflowItems(): IBillingRunItem[] {
+    return this.billingRun?.BillingRunItems || [];
+  }
+
+  get validItemCount(): number {
+    return this.workflowItems.filter(item => this.validationStatus(item) === 'VALID').length;
+  }
+
+  get excludedItemCount(): number {
+    return this.workflowItems.filter(item => this.validationStatus(item) === 'EXCLUDED').length;
+  }
+
+  get errorItemCount(): number {
+    return this.workflowItems.filter(item => this.validationStatus(item) === 'INVALID' || this.validationStatus(item) === 'ERROR').length;
+  }
+
+  get validationStatusLabel(): string {
+    return this.isDraft ? (this.errorItemCount ? 'Action required' : 'Ready to validate') : 'Validated';
+  }
+
+  get approvalStatusLabel(): string {
+    return this.isApprovedForInvoiceGeneration ? 'Approved' : this.isValidated ? 'Ready for approval' : 'Pending validation';
+  }
+
+  get invoiceGenerationStatusLabel(): string {
+    return this.hasGeneratedInvoices ? 'Draft invoices generated' : this.isApprovedForInvoiceGeneration ? 'Ready to execute' : 'Awaiting approval';
+  }
+
+  get invoiceIssuanceStatusLabel(): string {
+    if (!this.hasGeneratedInvoices) return 'Awaiting draft invoices';
+    if (this.isInvoiceIssuanceSummaryLoading) return 'Loading invoice status';
+    if (this.draftInvoiceCount > 0) return 'Invoices ready to issue';
+    return this.issuedInvoiceCount > 0 ? 'All listed invoices issued' : 'No invoices available';
+  }
+
+  get bulkIssueFailures(): any[] {
+    return (this.invoiceIssueResult?.Invoices || []).filter((invoice: any) => invoice?.Outcome === 'Failed');
   }
 
 
@@ -75,6 +128,7 @@ validationstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private billingRunService: BillingRunService, 
+	private customerInvoiceService: CustomerInvoiceService,
 	private loggedInUserService : LoggedInUserService,
     private confirmationService: ConfirmationService
 	) {
@@ -138,6 +192,7 @@ this.loadBillingRunItemOptions();
 		this.permission = data.permission;
         this.objMaster = { ...this.billingRun };
         this.populateUI(this.billingRun);
+        this.loadInvoiceIssuanceSummary();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -301,6 +356,41 @@ RecordStatus: obj.RecordStatus || '',
     });
   }
 
+  confirmIssueAllInvoices(): void {
+    if (!this.hasGeneratedInvoices || this.draftInvoiceCount <= 0 || !this.permission?.CanUpdate || this.isWorkflowActionInProgress) return;
+    const count = this.draftInvoiceCount;
+    this.confirmationService.confirm({
+      key: 'billing-run-edit-execution',
+      header: 'Issue customer invoices',
+      icon: 'pi pi-exclamation-triangle',
+      message: `Issue ${count} eligible draft customer invoice${count === 1 ? '' : 's'}? Each invoice will be validated and processed independently.`,
+      acceptLabel: 'Issue invoices',
+      rejectLabel: 'Cancel',
+      accept: () => this.issueAllInvoices()
+    });
+  }
+
+  private issueAllInvoices(): void {
+    if (!this.hasGeneratedInvoices || this.draftInvoiceCount <= 0 || !this.permission?.CanUpdate || this.isIssuingInvoices) return;
+
+    this.isIssuingInvoices = true;
+    this.invoiceIssueResult = null;
+    this.spinner.show();
+    this.billingRunService.issueInvoices(this.selectedId).subscribe({
+      next: response => {
+        this.invoiceIssueResult = response?.data || response;
+        const result = this.invoiceIssueResult || {};
+        this.messageService.showSuccess(`${result.IssuedCount || 0} invoice(s) issued; ${result.SkippedCount || 0} skipped; ${result.FailedCount || 0} failed.`);
+        this.loadUI();
+      },
+      error: err => this.messageService.showError(this.getErrorMessage(err)),
+      complete: () => {
+        this.isIssuingInvoices = false;
+        this.spinner.hide();
+      }
+    });
+  }
+
   private generateDraftInvoices(): void {
     if (!this.isApprovedForInvoiceGeneration || !this.permission?.CanUpdate || this.isGeneratingInvoices) return;
 
@@ -330,6 +420,48 @@ RecordStatus: obj.RecordStatus || '',
     const queryParams: any = { billingRunId: this.selectedId };
     if (contractIds.length === 1) queryParams.leaseContractId = contractIds[0];
     this.router.navigate(['/billing-finance/invoices'], { queryParams });
+  }
+
+  private loadInvoiceIssuanceSummary(): void {
+    const requestId = ++this.invoiceIssuanceSummaryRequest;
+    this.draftInvoiceCount = 0;
+    this.issuedInvoiceCount = 0;
+    this.invoiceIssuanceSummaryError = '';
+    if (!this.hasGeneratedInvoices) {
+      this.isInvoiceIssuanceSummaryLoading = false;
+      return;
+    }
+
+    this.isInvoiceIssuanceSummaryLoading = true;
+    this.loadInvoiceIssuancePage(requestId, 0, []);
+  }
+
+  private loadInvoiceIssuancePage(requestId: number, skip: number, invoices: ICustomerInvoice[]): void {
+    this.customerInvoiceService.search({ Skip: skip, Take: 100, SortBy: 'Id', IsDescending: false, BillingRunId: this.selectedId, Conditions: [] })
+      .subscribe({
+        next: response => {
+          if (requestId !== this.invoiceIssuanceSummaryRequest) return;
+          const page = response?.data?.Records || [];
+          const allInvoices = invoices.concat(page);
+          const total = Number(response?.data?.TotalRecords || 0);
+          if (page.length > 0 && allInvoices.length < total) {
+            this.loadInvoiceIssuancePage(requestId, allInvoices.length, allInvoices);
+            return;
+          }
+          this.issuedInvoiceCount = allInvoices.filter(invoice => !!invoice.IsIssued || !!invoice.IssuedAtUtc).length;
+          this.draftInvoiceCount = allInvoices.length - this.issuedInvoiceCount;
+          this.isInvoiceIssuanceSummaryLoading = false;
+        },
+        error: error => {
+          if (requestId !== this.invoiceIssuanceSummaryRequest) return;
+          this.invoiceIssuanceSummaryError = this.getErrorMessage(error);
+          this.isInvoiceIssuanceSummaryLoading = false;
+        }
+      });
+  }
+
+  private validationStatus(item: IBillingRunItem): string {
+    return String(item?.ValidationStatus || '').trim().toUpperCase();
   }
 
   private getErrorMessage(error: any): string {
