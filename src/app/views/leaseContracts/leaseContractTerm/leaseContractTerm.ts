@@ -10,6 +10,7 @@ LeaseTypeCode :string;
 TermMonths :number;
 PaymentFrequencyCode :string;
 PaymentTimingCode :string;
+BillingDueDay?: number | null;
 BaseRentalAmount :number;
 RentalRate :number;
 ResidualValueAmount :number;

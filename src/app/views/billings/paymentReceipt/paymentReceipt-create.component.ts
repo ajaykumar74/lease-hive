@@ -59,6 +59,7 @@ organisationbankaccountidOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
+ReceiptNo: new FormControl('', [Validators.required, Validators.maxLength(40)]),
 ReceiptStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 ReceivingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 CustomerPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -109,6 +110,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationBankAccoun
      this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
+	  ReceiptNo: obj.ReceiptNo || '',
 	  ReceiptStatusId: obj.ReceiptStatusId || 0,
 ReceivingOrganisationId: obj.ReceivingOrganisationId || 0,
 CustomerPartyId: obj.CustomerPartyId || 0,
@@ -149,6 +151,7 @@ VerifiedAtUtc:  obj.VerifiedAtUtc || new Date(),
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
+	  ReceiptNo: obj.ReceiptNo || '',
 	  ReceiptStatusId: obj.ReceiptStatusId || 0,
 ReceivingOrganisationId: obj.ReceivingOrganisationId || 0,
 CustomerPartyId: obj.CustomerPartyId || 0,
@@ -181,19 +184,20 @@ VerifiedAtUtc:  obj.VerifiedAtUtc || new Date(),
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+     ReceiptNo: formValues.ReceiptNo || null,
      ReceiptStatusId: formValues.ReceiptStatusId || 0,
 ReceivingOrganisationId: formValues.ReceivingOrganisationId || 0,
 CustomerPartyId: formValues.CustomerPartyId || 0,
 ReceiptDate: formValues.ReceiptDate || null,
 CurrencyCode: formValues.CurrencyCode || null,
 ReceiptAmount: formValues.ReceiptAmount || 0,
-AllocatedAmount: formValues.AllocatedAmount || 0,
-UnappliedAmount: formValues.UnappliedAmount || 0,
+AllocatedAmount: 0,
+UnappliedAmount: 0,
 PaymentMethod: formValues.PaymentMethod || null,
 OrganisationBankAccountId: formValues.OrganisationBankAccountId || 0,
 ExternalTransactionRef: formValues.ExternalTransactionRef || null,
 PayerNameSnapshot: formValues.PayerNameSnapshot || null,
-VerifiedAtUtc: formValues.VerifiedAtUtc || null,
+VerifiedAtUtc: null,
 RecordStatus: 'Active',
 
     } as IPaymentReceipt ; 

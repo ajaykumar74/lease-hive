@@ -18,6 +18,8 @@
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Payment Frequency Code" [value]="leaseContractTerm.PaymentFrequencyCode">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Payment Timing Code" [value]="leaseContractTerm.PaymentTimingCode">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Billing Due Day" [value]="leaseContractTerm.BillingDueDay ? (leaseContractTerm.BillingDueDay + ' of each billing period') : 'Not configured'">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Base Rental Amount" [value]="leaseContractTerm.BaseRentalAmount">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Rental Rate" [value]="leaseContractTerm.RentalRate">

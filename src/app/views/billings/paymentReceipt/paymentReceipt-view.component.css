@@ -1,0 +1,142 @@
+.payment-workflow-card {
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary-color) 7%, var(--surface-card)), var(--surface-card) 48%);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.payment-workflow-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.payment-workflow-card__eyebrow {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--primary-color);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.payment-workflow-card h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.payment-workflow-card p {
+    max-width: 48rem;
+    margin: 0.4rem 0 0;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+}
+
+.payment-workflow-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.625rem;
+}
+
+.payment-status-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.42rem 0.75rem;
+    background: #ffedd5;
+    color: #9a3412;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.payment-status-pill--confirmed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.payment-status-transition {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.payment-status-transition::before {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 1.1rem);
+    z-index: 1;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 50%;
+    background: var(--surface-card);
+    color: var(--primary-color);
+    content: '›';
+    font-size: 1.6rem;
+    line-height: 1.95rem;
+    text-align: center;
+}
+
+.payment-status-step {
+    min-height: 9.4rem;
+    padding: 1rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 11px;
+    background: var(--surface-card);
+}
+
+.payment-status-step--draft {
+    border-color: color-mix(in srgb, #ea580c 30%, var(--surface-border));
+}
+
+.payment-status-step--confirmed {
+    border-color: color-mix(in srgb, #16a34a 38%, var(--surface-border));
+    background: linear-gradient(135deg, #f0fdf4, var(--surface-card) 75%);
+}
+
+.payment-status-step__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.payment-status-step--confirmed .payment-status-step__heading i { color: #15803d; }
+.payment-status-step--draft .payment-status-step__heading i { color: #c2410c; }
+
+.payment-status-step > strong {
+    display: block;
+    margin-top: 0.6rem;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.payment-status-step__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+}
+
+.payment-status-step__detail span,
+.payment-status-step small { color: var(--text-color-secondary); }
+.payment-status-step small { display: block; margin-top: 0.5rem; font-size: 0.78rem; }
+
+@media screen and (max-width: 640px) {
+    .payment-workflow-card__header { flex-direction: column; }
+    .payment-workflow-card__actions { justify-content: flex-start; }
+    .payment-status-transition { grid-template-columns: 1fr; }
+    .payment-status-transition::before { display: none; }
+}

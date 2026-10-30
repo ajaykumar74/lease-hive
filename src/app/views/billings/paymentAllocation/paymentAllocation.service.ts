@@ -12,11 +12,13 @@ import { BaseCrudService } from '@/shared/baseCrudService';
 export class PaymentAllocationService extends BaseCrudService<any> {
 
   protected baseUrl: string;
+  private paymentReceiptUrl: string;
   public CacheData: ICacheData;
 
   constructor(protected override http: HttpClient, protected override baseService: BaseService) {
     super(http, baseService);
     this.baseUrl = this.baseService.C_APP_URL + '/PaymentAllocations';
+    this.paymentReceiptUrl = this.baseService.C_APP_URL + '/PaymentReceipts';
     this.CacheData = {} as ICacheData;
     this.baseService.isTokenUpdated().subscribe(token => {
       this.CacheData = {} as ICacheData;
@@ -43,6 +45,11 @@ export class PaymentAllocationService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  allocatePayment(paymentReceiptId: number, request: { IdempotencyKey: string; Allocations: { ReceivableId: number; Amount: number }[] }): Observable<any> {
+    return this.http.post<any>(`${this.paymentReceiptUrl}/${paymentReceiptId}/allocations`, request, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
   }
 }
 

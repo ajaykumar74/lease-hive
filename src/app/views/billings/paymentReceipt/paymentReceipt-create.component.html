@@ -12,7 +12,13 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Receipt Status Id" class="mb-1">ReceiptStatusId</label>
+				 	<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+	<label for="ReceiptNo" class="mb-1">Receipt number</label>
+	<input id="ReceiptNo" pInputText type="text" formControlName="ReceiptNo" />
+	<app-validation-errors [type]="'text'" [control]="editForm.get('ReceiptNo')" label="Receipt number"></app-validation-errors>
+</div>
+<div class="flex flex-col w-full"> <label for="Receipt Status Id" class="mb-1">ReceiptStatusId</label>
         <p-dropdown
             inputId="ReceiptStatusId" 
             [options]="receiptstatusidOptions"
