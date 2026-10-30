@@ -40,6 +40,7 @@ export class AppMenu implements OnInit, OnDestroy {
                     icon: 'pi pi-shield',
                     items: [
                         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard/platform-admin'], alwaysVisible: true },
+                        { label: 'Platform Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: ['/dashboard/platform-settings'], tooltip: 'Manage setting definitions and defaults available to tenants', alwaysVisible: true },
                         { label: 'Tenants', icon: 'pi pi-fw pi-building', routerLink: ['/dashboard/tenants'], alwaysVisible: true },
                         { label: 'Subscription Plans', icon: 'pi pi-fw pi-tags', routerLink: ['/dashboard/subscriptionPlans'], alwaysVisible: true },
                         { label: 'Tenant Subscriptions', icon: 'pi pi-fw pi-calendar', routerLink: ['/dashboard/tenantSubscriptions'], alwaysVisible: true },
@@ -540,6 +541,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'See your fleet/ actions and costs here'
                                 },
 
+                                {
+                                    label: 'Tenant Settings',
+                                    icon: 'pi pi-fw pi-sliders-h',
+                                    routerLink: ['/dashboard/tenant-settings'],
+                                    tooltip: 'Configure tenant-wide billing, finance, document, and appearance preferences',
+                                    requiredPermission: 'administration.tenantsettings.view'
+                                },
                                 {
                                     label: 'AI settings',
                                     icon: 'pi pi-fw pi-sparkles',

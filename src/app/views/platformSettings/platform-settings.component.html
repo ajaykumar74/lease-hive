@@ -1,0 +1,106 @@
+<p-toast></p-toast>
+
+<section class="platform-settings p-3 md:p-5" aria-labelledby="platform-settings-title">
+    <header class="platform-settings__header">
+        <div>
+            <p class="m-0 text-sm font-medium text-primary">Platform Administration</p>
+            <h1 id="platform-settings-title" class="mb-1 mt-1 text-3xl font-semibold text-900">Platform Settings</h1>
+            <p class="m-0 text-color-secondary">Manage the reusable setting definitions and defaults made available to tenants.</p>
+        </div>
+        <button *ngIf="isPlatformAdmin" pButton type="button" icon="pi pi-plus" label="Add Setting" (click)="openCreate()"></button>
+    </header>
+
+    <p *ngIf="loading" class="card m-0 p-5 text-color-secondary">Loading platform settings…</p>
+    <p *ngIf="error" class="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-red-700" role="alert">{{ error }}</p>
+
+    <div *ngIf="!loading && isPlatformAdmin" class="card p-0 overflow-hidden">
+        <p-table [value]="definitions" dataKey="Id" [paginator]="definitions.length > 10" [rows]="10" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Setting</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Tenant editable</th>
+                    <th>Status</th>
+                    <th class="platform-settings__actions-column"><span class="sr-only">Actions</span></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-definition>
+                <tr>
+                    <td>
+                        <div class="font-medium text-900">{{ definition.SettingName }}</div>
+                        <code class="platform-settings__key">{{ definition.SettingKey }}</code>
+                    </td>
+                    <td>{{ definition.CategoryCode }}</td>
+                    <td>{{ definition.DataType }}</td>
+                    <td>{{ definition.DefaultValue || '—' }}</td>
+                    <td>{{ definition.IsTenantEditable ? 'Yes' : 'Restricted' }}</td>
+                    <td>
+                        <span class="platform-settings__status" [class.platform-settings__status--inactive]="!definition.IsActive">
+                            {{ definition.IsActive ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td class="platform-settings__actions-column">
+                        <button pButton type="button" class="p-button-text p-button-secondary" icon="pi pi-pencil" label="Edit" (click)="openEdit(definition)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr><td colspan="7" class="text-center p-5 text-color-secondary">No platform setting definitions have been added.</td></tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <p-dialog [(visible)]="dialogVisible" [modal]="true" [draggable]="false" [resizable]="false" styleClass="platform-settings-dialog" [style]="{ width: 'min(42rem, calc(100vw - 2rem))', height: 'min(46rem, calc(100vh - 2rem))' }" [contentStyle]="{ overflow: 'auto' }" [header]="selectedDefinition ? 'Edit platform setting' : 'Add platform setting'">
+        <form [formGroup]="form" (ngSubmit)="save()" class="platform-settings__form">
+            <div class="platform-settings__field">
+                <label for="settingKey">Setting key</label>
+                <input id="settingKey" pInputText formControlName="SettingKey" class="w-full" placeholder="Example.FeatureEnabled" />
+                <small *ngIf="selectedDefinition" class="text-color-secondary">Keys cannot be changed after creation because applications depend on them.</small>
+            </div>
+
+            <div class="platform-settings__form-grid">
+                <div class="platform-settings__field">
+                    <label for="settingName">Display name</label>
+                    <input id="settingName" pInputText formControlName="SettingName" class="w-full" />
+                </div>
+                <div class="platform-settings__field">
+                    <label for="categoryCode">Category</label>
+                    <input id="categoryCode" pInputText formControlName="CategoryCode" class="w-full" placeholder="Billing" />
+                </div>
+                <div class="platform-settings__field">
+                    <label for="dataType">Data type</label>
+                    <p-select inputId="dataType" formControlName="DataType" [options]="dataTypes" class="w-full"></p-select>
+                    <small *ngIf="selectedDefinition" class="text-color-secondary">Data types cannot be changed after creation.</small>
+                </div>
+                <div class="platform-settings__field">
+                    <label for="defaultValue">Default value</label>
+                    <input id="defaultValue" pInputText formControlName="DefaultValue" class="w-full" />
+                </div>
+            </div>
+
+            <div *ngIf="isSelect" class="platform-settings__field">
+                <label for="optionsJson">Allowed options</label>
+                <textarea id="optionsJson" pTextarea formControlName="OptionsJson" class="w-full" [autoResize]="true" placeholder='["option-one", "option-two"]'></textarea>
+                <small class="text-color-secondary">Enter a JSON array of unique string values.</small>
+            </div>
+
+            <div class="platform-settings__field">
+                <label for="description">Description</label>
+                <textarea id="description" pTextarea formControlName="Description" class="w-full" [autoResize]="true"></textarea>
+            </div>
+
+            <div class="platform-settings__switches">
+                <label for="tenantEditable"><p-toggleswitch inputId="tenantEditable" formControlName="IsTenantEditable"></p-toggleswitch><span>Tenant administrators can edit this setting</span></label>
+                <label for="settingActive"><p-toggleswitch inputId="settingActive" formControlName="IsActive"></p-toggleswitch><span>Setting is active</span></label>
+            </div>
+
+            <p *ngIf="form.invalid && form.touched" class="m-0 text-red-600">Complete the required fields before saving.</p>
+            <div class="platform-settings__dialog-actions">
+                <button pButton type="button" class="p-button-text p-button-secondary" label="Cancel" (click)="dialogVisible = false" [disabled]="saving"></button>
+                <button pButton type="submit" icon="pi pi-check" label="Save Setting" [loading]="saving"></button>
+            </div>
+        </form>
+    </p-dialog>
+</section>

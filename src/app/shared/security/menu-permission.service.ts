@@ -46,6 +46,9 @@ export class MenuPermissionService {
         // The platform landing page is a navigation shell. Its child screens
         // are still guarded by their own configuration resource permissions.
         '/dashboard/platform-admin',
+        // Platform setting definitions are protected by the PlatformAdmin role
+        // at the API boundary, not by a tenant-scoped resource permission.
+        '/dashboard/platform-settings',
         // Product help requires an authenticated session, but no resource permission.
         '/dashboard/crmhelpdoc'
     ];
@@ -90,6 +93,7 @@ export class MenuPermissionService {
         { route: '/dashboard/tenantnotifications', resource: 'notification.tenantnotification' },
         { route: '/dashboard/emailprofiles', resource: 'notification.tenantemailprofile' },
         { route: '/dashboard/ai-settings', resource: 'ai.aitenantsettings' },
+        { route: '/dashboard/tenant-settings', resource: 'administration.tenantsettings' },
         { route: '/dashboard/notificationrecipientrules', resource: 'notification.tenantnotificationrecipentrule' },
         { route: '/dashboard/emailjobqueues', resource: 'notification.emailjobqueue' },
         { route: '/dashboard/auditlogs', resource: 'audit.auditlog' },

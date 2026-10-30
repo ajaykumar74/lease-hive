@@ -1,0 +1,103 @@
+:host {
+    display: block;
+}
+
+.platform-settings__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.platform-settings__key {
+    display: inline-block;
+    margin-top: 0.25rem;
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+}
+
+.platform-settings__actions-column {
+    width: 1%;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.platform-settings__status {
+    display: inline-flex;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--green-500) 16%, transparent);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+}
+
+.platform-settings__status--inactive {
+    background: var(--surface-200);
+    color: var(--text-color-secondary);
+}
+
+.platform-settings__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.platform-settings__form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.platform-settings__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.platform-settings__field textarea {
+    min-height: 5.5rem;
+}
+
+.platform-settings__field > label,
+.platform-settings__switches span {
+    color: var(--text-color);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.platform-settings__switches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+}
+
+.platform-settings__switches label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    cursor: pointer;
+}
+
+.platform-settings__dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+:host ::ng-deep .platform-settings-dialog .p-dialog-content {
+    min-height: 0;
+}
+
+@media (max-width: 640px) {
+    .platform-settings__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .platform-settings__form-grid {
+        grid-template-columns: 1fr;
+    }
+}
