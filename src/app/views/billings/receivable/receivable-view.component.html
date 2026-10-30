@@ -6,6 +6,7 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
+					<button *ngIf="receivable?.SourceDocumentType === 'CustomerInvoice'" type="button" pButton label="View linked invoice" icon="pi pi-file" severity="secondary" class="mb-3" (click)="viewCustomerInvoice()"></button>
 					<form> 
 				<p-fluid>
 		      			<div class="flex mt-8">

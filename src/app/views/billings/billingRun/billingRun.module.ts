@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { BillingRunListComponent } from './billingRun-list.component';
 import { BillingRunCreateComponent } from './billingRun-create.component';
@@ -41,6 +42,7 @@ import { BillingRunRoutingModule } from './billingRun-routing.module';
 		ButtonModule,
 		InputGroupModule, 
 		MySharedModule, 
+		ConfirmDialogModule,
 		FluidModule,
 		BillingRunRoutingModule,
 	],

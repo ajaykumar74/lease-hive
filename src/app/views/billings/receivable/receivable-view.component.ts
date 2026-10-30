@@ -69,6 +69,11 @@ export class ReceivableViewComponent implements OnInit {
         this.Caption = "Receivable Details #" + obj.Id;
     }
 
+    viewCustomerInvoice(): void {
+        if (this.receivable?.SourceDocumentType === 'CustomerInvoice' && this.receivable.SourceDocumentId > 0)
+            this.router.navigate(['/billing-finance/invoices/view', this.receivable.SourceDocumentId]);
+    }
+
     onOptionItemClicked(key: string): void {
         if (key == "Create") {
             this.router.navigate(['/billing-finance/receivables/create']);

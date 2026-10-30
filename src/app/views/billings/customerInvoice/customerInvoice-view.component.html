@@ -6,11 +6,36 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
-					<form> 
+					<form>
 				<p-fluid>
 		      			<div class="flex mt-8">
 						<div class="card flex flex-col gap-4 w-full"> 
- 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Invoice Status Id" [value]="customerInvoice.InvoiceStatusId">
+						<section class="border-1 border-round border-200 p-3 surface-50">
+							<div class="flex flex-column gap-1 mb-3">
+								<strong>Quick options</strong>
+								<span class="text-sm text-color-secondary">Preview draft output, issue a validated invoice, and manage the immutable issued document.</span>
+							</div>
+							<div class="flex gap-2 flex-wrap">
+								<button type="button" pButton label="Preview Invoice" icon="pi pi-eye" severity="secondary"
+									[disabled]="isWorkflowActionInProgress" (click)="previewInvoice()"></button>
+								<button *ngIf="isIssued" type="button" pButton label="Download PDF" icon="pi pi-download" severity="secondary"
+									[disabled]="isWorkflowActionInProgress" (click)="downloadInvoice()"></button>
+								<button *ngIf="!isIssued" type="button" pButton label="Issue Invoice" icon="pi pi-check-circle"
+									[disabled]="!canIssueInvoice" (click)="issueInvoice()"></button>
+								<button *ngIf="isIssued" type="button" pButton label="View Customer Portal Invoice" icon="pi pi-external-link" severity="secondary"
+									(click)="viewCustomerPortalInvoice()"></button>
+								<button *ngIf="receivable?.ReceivableId" type="button" pButton label="View Receivable" icon="pi pi-money-bill" severity="secondary"
+									(click)="viewReceivable()"></button>
+								<button *ngIf="isIssued" type="button" pButton label="Resend Invoice Email" icon="pi pi-send"
+									[disabled]="!canManageInvoice" (click)="resendInvoiceEmail()"></button>
+							</div>
+							<small *ngIf="!isIssued" class="block mt-3 text-color-secondary">Draft previews are watermarked DRAFT and are not tax invoices. Issuing validates saved customer, tax, line, and total values.</small>
+							<small *ngIf="isIssued" class="block mt-3 text-color-secondary">This invoice is issued. Financial values and its final PDF are immutable.</small>
+							<small *ngIf="receivable?.ReceivableId" class="block mt-2 text-color-secondary">Receivable {{ receivable.ReceivableStatus }} · {{ receivable.CurrencyCode }} {{ receivable.OutstandingAmount | number:'1.2-2' }}</small>
+						</section>
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<app-view-field label="Invoice number" [value]="customerInvoice.InvoiceId">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Invoice status" [value]="customerInvoice.InvoiceStatusName || customerInvoice.InvoiceStatusCode || (isIssued ? 'Issued' : 'Draft / pending issue')">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="customerInvoice.BillingOrganisationId">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer Party Id" [value]="customerInvoice.CustomerPartyId">

@@ -35,6 +35,7 @@ reversalofallocationidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IPaymentAllocation = {} as IPaymentAllocation;
+  private allocationRequestId: string | null = null;
   
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent;
@@ -174,10 +175,15 @@ RecordStatus: 'Active',
 
     } as IPaymentAllocation ; 
 	
+	  this.allocationRequestId ??= this.createRequestId();
 	  this.spinner.show(); 
-    this.paymentAllocationService.create(createdObj).subscribe({
+    this.paymentAllocationService.allocatePayment(createdObj.PaymentReceiptId, {
+      IdempotencyKey: this.allocationRequestId,
+      Allocations: [{ ReceivableId: createdObj.ReceivableId, Amount: createdObj.AllocatedAmount }]
+    }).subscribe({
       next: data => {	   
          // this.messageService.showSuccess(PaymentAllocation +  'Details Updated sucessfully.');
+		 this.allocationRequestId = null;
 		 this._location.back();     
       },
       error: err => { 
@@ -187,6 +193,14 @@ RecordStatus: 'Active',
       complete: () => { this.spinner.hide(); }
     });
   } 
+
+  private createRequestId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, character => {
+      const value = Math.floor(Math.random() * 16);
+      return (character === 'x' ? value : (value & 0x3) | 0x8).toString(16);
+    });
+  }
 
 }
 

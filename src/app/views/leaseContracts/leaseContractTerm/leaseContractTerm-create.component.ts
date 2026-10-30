@@ -32,6 +32,7 @@ export class LeaseContractTermCreateComponent implements OnInit {
 leasetypecodeOptions: ISelectItem[] = [];
 paymentfrequencycodeOptions: ISelectItem[] = [];
 paymenttimingcodeOptions: ISelectItem[] = [];
+billingDueDayOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : ILeaseContractTerm = {} as ILeaseContractTerm;
@@ -64,6 +65,7 @@ LeaseTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20
 TermMonths: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 PaymentFrequencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 PaymentTimingCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+BillingDueDay: new FormControl(null, [Validators.min(1), Validators.max(28)]),
 GraceDays: new FormControl(0, [Validators.required, Validators.min(-32768), Validators.max(32767)]),
 TaxInclusive: new FormControl(false, [Validators.required]),
 TermsJson: new FormControl('', [Validators.maxLength(8000), ]), 
@@ -76,6 +78,7 @@ TermsJson: new FormControl('', [Validators.maxLength(8000), ]),
 this.leasetypecodeOptions = this.loggedInUserService.getPicklistOptions('LeaseTypeCode');
 this.paymentfrequencycodeOptions = this.loggedInUserService.getPicklistOptions('PaymentFrequencyCode');
 this.paymenttimingcodeOptions = this.loggedInUserService.getPicklistOptions('PaymentTimingCode');
+this.loadBillingDueDayOptions();
 
   }
  
@@ -103,6 +106,7 @@ LeaseTypeCode: obj.LeaseTypeCode || '',
 TermMonths: obj.TermMonths || 0,
 PaymentFrequencyCode: obj.PaymentFrequencyCode || '',
 PaymentTimingCode: obj.PaymentTimingCode || '',
+BillingDueDay: obj.BillingDueDay ?? null,
 GraceDays: obj.GraceDays || 0,
 TaxInclusive:  obj.TaxInclusive || false,
 TermsJson: obj.TermsJson || '',
@@ -139,6 +143,7 @@ LeaseTypeCode: obj.LeaseTypeCode || '',
 TermMonths: obj.TermMonths || 0,
 PaymentFrequencyCode: obj.PaymentFrequencyCode || '',
 PaymentTimingCode: obj.PaymentTimingCode || '',
+BillingDueDay: obj.BillingDueDay ?? null,
 GraceDays: obj.GraceDays || 0,
 TaxInclusive:  obj.TaxInclusive || false,
 TermsJson: obj.TermsJson || '',
@@ -167,6 +172,7 @@ LeaseTypeCode: formValues.LeaseTypeCode || null,
 TermMonths: formValues.TermMonths || 0,
 PaymentFrequencyCode: formValues.PaymentFrequencyCode || null,
 PaymentTimingCode: formValues.PaymentTimingCode || null,
+BillingDueDay: formValues.BillingDueDay === null || formValues.BillingDueDay === '' ? null : Number(formValues.BillingDueDay),
 BaseRentalAmount: formValues.BaseRentalAmount || 0,
 RentalRate: formValues.RentalRate || 0,
 ResidualValueAmount: formValues.ResidualValueAmount || 0,
@@ -192,6 +198,15 @@ TermsJson: formValues.TermsJson || null,
       complete: () => { this.spinner.hide(); }
     });
   } 
+
+  private loadBillingDueDayOptions(): void {
+    this.loggedInUserService.getTenantPicklistOptions('BillingDueDays').subscribe({
+      next: options => this.billingDueDayOptions = options
+        .filter(option => Number.isInteger(Number(option.Value)) && Number(option.Value) >= 1 && Number(option.Value) <= 28)
+        .sort((left, right) => Number(left.Value) - Number(right.Value)),
+      error: err => this.messageService?.showError(err)
+    });
+  }
 
 }
 

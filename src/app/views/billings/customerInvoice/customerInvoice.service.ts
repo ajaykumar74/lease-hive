@@ -44,6 +44,35 @@ export class CustomerInvoiceService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  previewInvoicePdf(invoiceId: number): Observable<Blob> {
+    return this.http.get(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/preview`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  downloadInvoicePdf(invoiceId: number): Observable<Blob> {
+    return this.http.get(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/issued/download`, {
+      headers: this.headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.baseService.handleError));
+  }
+
+  issueInvoice(invoiceId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/issue`, {}, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
+
+  resendInvoiceEmail(invoiceId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/resend-email`, {}, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
+
+  getReceivable(invoiceId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/receivable`, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
 }
 
 

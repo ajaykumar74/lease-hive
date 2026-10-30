@@ -41,6 +41,11 @@ export class ReceivableService extends BaseCrudService<any> {
       );
   }
 
+  reconcileMissingReceivables(): Observable<any> {
+    return this.http.post<any>(`${this.baseService.C_APP_URL}/customer-invoice-documents/reconcile-receivables`, {}, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }

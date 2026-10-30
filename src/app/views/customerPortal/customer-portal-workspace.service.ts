@@ -52,6 +52,7 @@ export interface CustomerPortalInvoice {
     CurrencyCode: string;
     GrossAmount: number;
     OutstandingAmount: number;
+    HasIssuedPdf: boolean;
 }
 
 export interface CustomerPortalQuote {
@@ -169,6 +170,12 @@ export class CustomerPortalWorkspaceService {
     contract(id: number): Observable<CustomerPortalContract> { return this.get<CustomerPortalContract>(`contracts/${id}`); }
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
+    invoicePdf(customerInvoiceId: number): Observable<Blob> {
+        return this.http.get(`${this.endpoint}/invoices/${customerInvoiceId}/pdf`, {
+            headers: this.baseService.getHeaders(),
+            responseType: 'blob'
+        }).pipe(catchError(this.baseService.handleError));
+    }
     quotes(): Observable<CustomerPortalQuote[]> { return this.get<CustomerPortalQuote[]>('quotes'); }
     quotePdf(quoteId: number): Observable<Blob> {
         return this.http.get(`${this.endpoint}/quotes/${quoteId}/pdf`, {

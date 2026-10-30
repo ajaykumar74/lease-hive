@@ -36,6 +36,8 @@ recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
   objMaster : ICustomerInvoice = {} as ICustomerInvoice;
+  isIssued = false;
+  isInvoiceActionInProgress = false;
 
 
   constructor( 
@@ -146,6 +148,10 @@ RecordStatus: obj.RecordStatus || '',
  
       }
     );
+    this.isIssued = !!obj.IsIssued || !!obj.IssuedAtUtc;
+    if (this.isIssued) this.editForm.disable({ emitEvent: false });
+    else this.editForm.enable({ emitEvent: false });
+    this.editForm.markAsPristine();
    
 	 this.Caption = "CustomerInvoice Details #" + obj.Id;
   } 
@@ -201,6 +207,10 @@ RecordStatus: obj.RecordStatus || '',
 
 
   Save(): void {
+        if (this.isIssued) {
+            this.messageService.showError('Issued invoices are read-only. Financial values cannot be changed after issuance.');
+            return;
+        }
   
         if (!this.editForm.valid) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
@@ -247,5 +257,91 @@ RecordStatus:  formValues.RecordStatus || null,
 	  },
       complete: () => { this.spinner.hide();}
     });
+  }
+
+  get invoiceStatusCode(): string {
+    return String(this.customerInvoice?.InvoiceStatusCode || '').toUpperCase();
+  }
+
+  get canManageInvoice(): boolean {
+    return !!this.permission?.CanUpdate && !this.isInvoiceActionInProgress;
+  }
+
+  get canIssueInvoice(): boolean {
+    return !this.isIssued && (this.invoiceStatusCode === 'DRAFT' || this.invoiceStatusCode === 'APPROVED') && this.canManageInvoice;
+  }
+
+  previewInvoice(): void {
+    if (this.isInvoiceActionInProgress) return;
+    this.isInvoiceActionInProgress = true;
+    this.customerInvoiceService.previewInvoicePdf(this.selectedId).subscribe({
+      next: pdf => this.openPdf(pdf, this.isIssued ? `Invoice-${this.customerInvoice.InvoiceId}.pdf` : `Invoice-${this.selectedId}-draft-preview.pdf`),
+      error: error => this.messageService?.showError(this.getErrorMessage(error)),
+      complete: () => this.isInvoiceActionInProgress = false
+    });
+  }
+
+  downloadInvoice(): void {
+    if (!this.isIssued || this.isInvoiceActionInProgress) return;
+    this.isInvoiceActionInProgress = true;
+    this.customerInvoiceService.downloadInvoicePdf(this.selectedId).subscribe({
+      next: pdf => this.downloadPdf(pdf, `Invoice-${this.customerInvoice.InvoiceId}.pdf`),
+      error: error => this.messageService?.showError(this.getErrorMessage(error)),
+      complete: () => this.isInvoiceActionInProgress = false
+    });
+  }
+
+  issueInvoice(): void {
+    if (!this.canIssueInvoice) return;
+    if (this.editForm.dirty) {
+      this.messageService?.showError('Save or cancel your changes before issuing this invoice.');
+      return;
+    }
+    this.isInvoiceActionInProgress = true;
+    this.spinner?.show();
+    this.customerInvoiceService.issueInvoice(this.selectedId).subscribe({
+      next: response => {
+        this.messageService?.showSuccess(response?.data?.EmailQueueWarning || 'Invoice issued and final PDF created.');
+        this.loadUI();
+      },
+      error: error => this.messageService?.showError(this.getErrorMessage(error)),
+      complete: () => { this.isInvoiceActionInProgress = false; this.spinner?.hide(); }
+    });
+  }
+
+  resendInvoiceEmail(): void {
+    if (!this.isIssued || !this.canManageInvoice) return;
+    this.isInvoiceActionInProgress = true;
+    this.customerInvoiceService.resendInvoiceEmail(this.selectedId).subscribe({
+      next: () => this.messageService?.showSuccess('Invoice email queued for delivery.'),
+      error: error => this.messageService?.showError(this.getErrorMessage(error)),
+      complete: () => this.isInvoiceActionInProgress = false
+    });
+  }
+
+  viewCustomerPortalInvoice(): void {
+    if (this.isIssued) this.router.navigate(['/customer-portal/invoices']);
+  }
+
+  private openPdf(blob: Blob, _filename: string): void {
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank', 'noopener');
+    window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }
+
+  private downloadPdf(blob: Blob, filename: string): void {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  private getErrorMessage(error: any): string {
+    const payload = error?.error || error;
+    const errors = payload?.Errors || payload?.errors;
+    if (Array.isArray(errors) && errors.length) return errors.join(' ');
+    return payload?.ErrorMessage || payload?.message || payload?.Message || 'The invoice action could not be completed.';
   }
 }

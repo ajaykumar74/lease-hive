@@ -169,6 +169,28 @@ export class LoggedInUserService {
     return this.sortSelectItems(this.picklistCache.get(this.normalizePicklistCategory(category)) || []);
   }
 
+  /**
+   * Returns only values configured directly by the signed-in tenant.  This is
+   * used where a system default must not be selectable as a tenant decision.
+   */
+  getTenantPicklistOptions(category: string): Observable<ISelectItem[]> {
+    const tenant = this.loggedInUser?.Tenant;
+    const tenantId = tenant?.Id ?? tenant?.TenantId;
+    if (!tenantId) return throwError(() => 'Tenant information is not available for the logged-in user.');
+
+    const encodedCategory = encodeURIComponent(category);
+    const url = `${this.baseService.C_APP_URL}/PicklistItems/GetByCategory/${encodedCategory}`;
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
+      map(response => this.sortSelectItems((response.data || [])
+        .filter((item: any) => item.TenantId === tenantId)
+        .map((item: any) => ({
+          Id: item.Id,
+          Value: item.ItemName,
+          Text: item.Description || item.ItemName
+        }))))
+    );
+  }
+
   clearPicklistCache(): void {
     this.picklistCache.clear();
     sessionStorage.removeItem('picklistCache');

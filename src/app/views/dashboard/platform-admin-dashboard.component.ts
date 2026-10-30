@@ -16,6 +16,7 @@ interface PlatformAdminShortcut {
 })
 export class PlatformAdminDashboardComponent {
   readonly shortcuts: PlatformAdminShortcut[] = [
+    { label: 'Platform settings', detail: 'Manage setting definitions and tenant defaults.', icon: 'pi-sliders-h', route: '/dashboard/platform-settings' },
     { label: 'Tenants', detail: 'Configure tenant identity and regional defaults.', icon: 'pi-building', route: '/dashboard/tenants' },
     { label: 'Subscription plans', detail: 'Define commercial limits and included features.', icon: 'pi-tags', route: '/dashboard/subscriptionPlans' },
     { label: 'Tenant subscriptions', detail: 'Assign plans and subscription dates.', icon: 'pi-calendar', route: '/dashboard/tenantSubscriptions' },

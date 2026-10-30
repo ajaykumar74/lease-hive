@@ -1,0 +1,81 @@
+<p-toast></p-toast>
+
+<section class="p-3 md:p-5" aria-labelledby="tenant-settings-title">
+    <div class="mb-5">
+        <p class="m-0 text-sm font-medium text-primary">Administration</p>
+        <h1 id="tenant-settings-title" class="mb-1 mt-1 text-3xl font-semibold text-900">Tenant Settings</h1>
+        <p class="m-0 text-color-secondary">Configure tenant-wide operational preferences. Changes apply only to your current tenant.</p>
+    </div>
+
+    <p *ngIf="loading" class="card m-0 p-5 text-color-secondary">Loading tenant settings…</p>
+    <p *ngIf="error" class="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-red-700" role="alert">{{ error }}</p>
+
+    <div *ngIf="!loading" class="tenant-settings-layout">
+        <aside class="tenant-settings-navigation">
+            <nav class="card settings-category-nav" aria-label="Tenant settings categories">
+                <button
+                    *ngFor="let category of categories"
+                    type="button"
+                    class="settings-category-button"
+                    [class.is-active]="activeCategoryCode === category.code"
+                    (click)="selectCategory(category)">
+                    <i class="pi settings-category-icon" [ngClass]="category.icon" aria-hidden="true"></i>
+                    <span class="settings-category-label">{{ category.label }}</span>
+                </button>
+            </nav>
+        </aside>
+
+        <div class="tenant-settings-detail">
+            <form [formGroup]="form" (ngSubmit)="save()" class="card m-0 p-0 overflow-hidden">
+                <header class="tenant-settings-header border-bottom-1 surface-border p-4">
+                    <div class="tenant-settings-heading">
+                        <h2 class="m-0 text-2xl font-semibold text-900">{{ activeCategory.label }}</h2>
+                        <p class="mb-0 mt-2 text-color-secondary">{{ activeCategory.description }}</p>
+                    </div>
+                    <div class="tenant-settings-actions">
+                        <button pButton type="button" class="p-button-outlined p-button-secondary" label="Reset to Defaults" icon="pi pi-refresh" (click)="resetToDefaults()" [disabled]="!canUpdate || !hasEditableSettings || resetting || saving"></button>
+                        <button pButton type="submit" label="Save Changes" icon="pi pi-check" [loading]="saving" [disabled]="!canUpdate || !hasEditableSettings || resetting"></button>
+                    </div>
+                </header>
+
+                <div *ngIf="activeSettings.length === 0" class="p-5 text-center">
+                    <i class="pi pi-sliders-h text-4xl text-color-secondary"></i>
+                    <h3 class="mb-2 mt-3 text-xl font-medium">No settings available yet</h3>
+                    <p class="m-0 text-color-secondary">Settings for {{ activeCategory.label }} will appear here as this module is introduced.</p>
+                </div>
+
+                <div *ngIf="activeSettings.length > 0" class="p-3 md:p-4">
+                    <div *ngIf="activeCategoryCode === 'Billing' && systemUsersLoading" class="mb-3 rounded-md bg-blue-50 p-3 text-blue-700">Loading eligible recurring-billing system users…</div>
+                    <div *ngIf="activeCategoryCode === 'Billing' && systemUsersLoaded && eligibleSystemUsers.length === 0" class="mb-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-amber-800">
+                        No active tenant user has the required invoice-create permission. Assign an eligible billing user before enabling recurring billing.
+                    </div>
+
+                    <article *ngFor="let setting of activeSettings" class="grid align-items-center border-bottom-1 surface-border px-2 py-4 last:border-none">
+                        <div class="col-12 md:col-7 lg:col-8">
+                            <div class="flex align-items-center gap-2">
+                                <label class="font-medium text-900" [for]="controlName(setting)">{{ setting.SettingName }}</label>
+                                <i *ngIf="!setting.IsEditable" class="pi pi-lock text-color-secondary" pTooltip="This setting is system controlled"></i>
+                            </div>
+                            <p class="mb-0 mt-2 line-height-3 text-sm text-color-secondary">{{ setting.Description || 'No description is available for this setting.' }}</p>
+                            <small *ngIf="setting.SettingKey === 'RecurringBilling.AutoIssueInvoices' || setting.SettingKey === 'RecurringBilling.RequireApproval'" class="mt-2 block text-orange-600">Saved for future workflow support; this does not change current billing behavior.</small>
+                        </div>
+
+                        <div class="col-12 md:col-5 lg:col-4">
+                            <p-toggleswitch *ngIf="isBoolean(setting)" [inputId]="controlName(setting)" [formControlName]="controlName(setting)" [disabled]="!isSettingEditable(setting)"></p-toggleswitch>
+                            <p-inputNumber *ngIf="isInteger(setting)" [inputId]="controlName(setting)" [formControlName]="controlName(setting)" [useGrouping]="false" [min]="0" [disabled]="!isSettingEditable(setting)" styleClass="w-full"></p-inputNumber>
+                            <p-select *ngIf="isSystemUser(setting)" [inputId]="controlName(setting)" [formControlName]="controlName(setting)" [options]="eligibleSystemUsers" optionLabel="DisplayName" optionValue="ApplicationUserId" [showClear]="true" placeholder="Select an eligible system user" [disabled]="!isSettingEditable(setting)" class="w-full"></p-select>
+                            <p-select *ngIf="isSelect(setting)" [inputId]="controlName(setting)" [formControlName]="controlName(setting)" [options]="settingOptions(setting)" [disabled]="!isSettingEditable(setting)" class="w-full"></p-select>
+                            <textarea *ngIf="isLongText(setting)" pTextarea [id]="controlName(setting)" [formControlName]="controlName(setting)" [autoResize]="true" [disabled]="!isSettingEditable(setting)" class="w-full"></textarea>
+                            <input *ngIf="!isBoolean(setting) && !isInteger(setting) && !isSystemUser(setting) && !isSelect(setting) && !isLongText(setting)" pInputText [id]="controlName(setting)" [formControlName]="controlName(setting)" [disabled]="!isSettingEditable(setting)" class="w-full" />
+                            <small *ngIf="control(setting).invalid && control(setting).touched" class="mt-1 block text-red-600">Enter a valid value.</small>
+                        </div>
+                    </article>
+                </div>
+
+                <footer *ngIf="!canUpdate" class="border-top-1 surface-border p-4 text-sm text-color-secondary">
+                    You can view these settings but do not have permission to make changes.
+                </footer>
+            </form>
+        </div>
+    </div>
+</section>

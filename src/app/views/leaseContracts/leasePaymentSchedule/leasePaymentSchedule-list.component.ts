@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -19,6 +19,7 @@ export class LeasePaymentScheduleListComponent implements OnInit {
   constructor(
     private leasePaymentScheduleService: LeasePaymentScheduleService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,12 +33,15 @@ export class LeasePaymentScheduleListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  leaseContractId: number | null = null;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.leasePaymentScheduleService.CacheData.IsLoaded) {
+     const contractId = Number(this.activatedRoute.snapshot.queryParamMap.get('leaseContractId'));
+     this.leaseContractId = Number.isInteger(contractId) && contractId > 0 ? contractId : null;
+     if (!this.leaseContractId && this.leasePaymentScheduleService.CacheData.IsLoaded) {
       this.currentPage = this.leasePaymentScheduleService.CacheData.CurrentPage;
       this.objSearch = this.leasePaymentScheduleService.CacheData.objSearch;
       this.permission = this.leasePaymentScheduleService.CacheData.permission;
@@ -46,7 +50,7 @@ export class LeasePaymentScheduleListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.leasePaymentScheduleService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !!this.leaseContractId || !this.leasePaymentScheduleService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -113,6 +117,10 @@ export class LeasePaymentScheduleListComponent implements OnInit {
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
      
     ];
+
+    if (this.leaseContractId) {
+      Items.push({ DBName: 'LeaseContractId', Value: this.leaseContractId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;

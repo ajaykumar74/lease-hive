@@ -7,6 +7,45 @@
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+				<p-confirmDialog key="billing-run-edit-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
+				<section *ngIf="billingRun?.Id" class="billing-workflow mb-4">
+					<header class="billing-workflow__header">
+						<div class="billing-workflow__heading">
+							<span class="section-eyebrow">Billing workflow</span>
+							<h2>Billing Run Workflow</h2>
+							<p>Validate the run, approve eligible candidates, generate draft invoices, then issue each invoice through its existing workflow.</p>
+						</div>
+						<span class="billing-workflow__run-status" [ngClass]="{ 'is-ready': isApprovedForInvoiceGeneration, 'is-progress': isValidated, 'is-pending': isDraft }">{{ billingRunStatusCode || 'DRAFT' }}</span>
+					</header>
+					<div class="billing-workflow__grid">
+						<article class="billing-workflow__card">
+							<div class="billing-workflow__card-heading"><div><span>01 · Validation</span><h3>Validate candidates</h3></div><i class="pi pi-check-circle" aria-hidden="true"></i></div>
+							<span class="billing-workflow__status" [ngClass]="{ 'is-complete': !isDraft, 'is-attention': isDraft && errorItemCount > 0, 'is-ready': isDraft && errorItemCount === 0 }">{{ validationStatusLabel }}</span>
+							<div class="billing-workflow__metrics"><div><span>Valid</span><strong>{{ validItemCount }}</strong></div><div><span>Excluded</span><strong>{{ excludedItemCount }}</strong></div><div><span>Errors</span><strong>{{ errorItemCount }}</strong></div><div><span>Candidates</span><strong>{{ billingRun.CandidateCount || workflowItems.length }}</strong></div></div>
+							<p class="billing-workflow__note">Validation date: not recorded by the existing workflow.</p>
+							<div class="billing-workflow__action"><button *ngIf="isDraft" type="button" pButton label="Validate" icon="pi pi-check-circle" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="validateBillingRun()"></button><span *ngIf="!isDraft">Validation is complete.</span></div>
+						</article>
+						<article class="billing-workflow__card">
+							<div class="billing-workflow__card-heading"><div><span>02 · Approval</span><h3>Approve the run</h3></div><i class="pi pi-verified" aria-hidden="true"></i></div>
+							<span class="billing-workflow__status" [ngClass]="{ 'is-complete': isApprovedForInvoiceGeneration, 'is-ready': isValidated, 'is-pending': !isValidated && !isApprovedForInvoiceGeneration }">{{ approvalStatusLabel }}</span>
+							<dl class="billing-workflow__details"><div><dt>Approved by</dt><dd>{{ billingRun.ApprovedByUserId ? ('User #' + billingRun.ApprovedByUserId) : 'Not recorded' }}</dd></div><div><dt>Approved at</dt><dd>{{ billingRun.ApprovedAtUtc ? (billingRun.ApprovedAtUtc | date:'medium') : 'Not recorded' }}</dd></div></dl>
+							<div class="billing-workflow__action"><button *ngIf="isValidated" type="button" pButton label="Approve" icon="pi pi-check" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="approveBillingRun()"></button><span *ngIf="!isValidated">{{ isApprovedForInvoiceGeneration ? 'Approval is complete.' : 'Available after validation.' }}</span></div>
+						</article>
+						<article class="billing-workflow__card">
+							<div class="billing-workflow__card-heading"><div><span>03 · Invoice generation</span><h3>Generate draft invoices</h3></div><i class="pi pi-file-edit" aria-hidden="true"></i></div>
+							<span class="billing-workflow__status" [ngClass]="{ 'is-complete': hasGeneratedInvoices, 'is-ready': isApprovedForInvoiceGeneration && !hasGeneratedInvoices, 'is-pending': !isApprovedForInvoiceGeneration }">{{ invoiceGenerationStatusLabel }}</span>
+							<dl class="billing-workflow__details"><div><dt>Generated invoices</dt><dd>{{ billingRun.InvoiceCount || 0 }}</dd></div><div><dt>Total amount</dt><dd>{{ billingRun.CurrencyCode }} {{ billingRun.TotalAmount | number:'1.2-2' }}</dd></div></dl>
+							<div class="billing-workflow__action"><button *ngIf="isApprovedForInvoiceGeneration && !hasGeneratedInvoices" type="button" pButton label="Execute" icon="pi pi-play" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmExecution()"></button><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button><span *ngIf="!isApprovedForInvoiceGeneration">Available after approval.</span></div>
+						</article>
+						<article class="billing-workflow__card">
+							<div class="billing-workflow__card-heading"><div><span>04 · Invoice issuance</span><h3>Issue customer invoices</h3></div><i class="pi pi-send" aria-hidden="true"></i></div>
+							<span class="billing-workflow__status" [ngClass]="{ 'is-attention': draftInvoiceCount > 0, 'is-complete': draftInvoiceCount === 0 && issuedInvoiceCount > 0, 'is-pending': !hasGeneratedInvoices }">{{ invoiceIssuanceStatusLabel }}</span>
+							<div class="billing-workflow__metrics billing-workflow__metrics--three"><div><span>Draft</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : draftInvoiceCount }}</strong></div><div><span>Issued</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : issuedInvoiceCount }}</strong></div><div><span>Failed</span><strong>{{ invoiceIssueResult?.FailedCount ?? '—' }}</strong></div></div>
+							<p *ngIf="invoiceIssuanceSummaryError" class="billing-workflow__note is-error">{{ invoiceIssuanceSummaryError }}</p><p *ngIf="invoiceIssueResult" class="billing-workflow__note">Last bulk issue: {{ invoiceIssueResult.IssuedCount || 0 }} issued, {{ invoiceIssueResult.SkippedCount || 0 }} skipped, {{ invoiceIssueResult.FailedCount || 0 }} failed.</p><ul *ngIf="bulkIssueFailures.length" class="billing-workflow__failures"><li *ngFor="let invoice of bulkIssueFailures.slice(0, 3)">Invoice #{{ invoice.CustomerInvoiceId }}: {{ invoice.Reason }}</li></ul><p *ngIf="!invoiceIssuanceSummaryError && !invoiceIssueResult" class="billing-workflow__note">Each draft is validated before its individual issuance is committed.</p>
+							<div class="billing-workflow__action"><button *ngIf="draftInvoiceCount > 0 && !isInvoiceIssuanceSummaryLoading" type="button" pButton label="Issue all invoices" icon="pi pi-send" [loading]="isIssuingInvoices" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmIssueAllInvoices()"></button><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button><span *ngIf="!hasGeneratedInvoices">Available after draft generation.</span></div>
+						</article>
+					</div>
+				</section>
 				
 		       <form [formGroup]="editForm" (ngSubmit)="Save()">
  				<p-fluid>
@@ -144,13 +183,14 @@
                     <section class="mt-5" formArrayName="BillingRunItems">
                         <div class="flex justify-between items-center mb-3">
                             <h5 class="m-0">Billing Run Items</h5>
-                            <button type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
+                            <button *ngIf="isDraft" type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
                         </div>
+                        <p *ngIf="!isDraft" class="text-sm text-color-secondary">This billing run is read-only after validation. Review its workflow actions from the details page.</p>
                         <p class="text-sm text-color-secondary" *ngIf="billingRunItems.length === 0">Add at least one billing run item.</p>
                         <div class="card mb-3" *ngFor="let item of billingRunItems.controls; let index = index" [formGroupName]="index">
                             <div class="flex justify-between items-center mb-3">
                                 <strong>Item {{ index + 1 }}</strong>
-                                <button type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
+                                <button *ngIf="isDraft" type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
                             </div>
                             <div class="flex flex-col md:flex-row gap-4">
                                 <div class="flex flex-col w-full"><label>Lease Contract</label><p-dropdown [options]="leasecontractidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractId" placeholder="Select One"></p-dropdown></div>

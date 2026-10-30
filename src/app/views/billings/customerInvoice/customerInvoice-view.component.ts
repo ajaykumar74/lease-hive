@@ -24,6 +24,8 @@ export class CustomerInvoiceViewComponent implements OnInit {
     permission = { CanCreate: true } as IPermission;
     customerInvoice: ICustomerInvoice = {} as ICustomerInvoice;
     Caption: string = 'Loading...';
+    isWorkflowActionInProgress = false;
+    receivable: any = null;
     
 
     constructor( 
@@ -59,6 +61,7 @@ export class CustomerInvoiceViewComponent implements OnInit {
                 this.customerInvoice = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.customerInvoice);
+                this.loadReceivable();
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
@@ -66,7 +69,102 @@ export class CustomerInvoiceViewComponent implements OnInit {
     }
 
     populateUI(obj: ICustomerInvoice): void { 
-        this.Caption = "CustomerInvoice Details #" + obj.Id;
+        this.Caption = "Invoice " + (obj.InvoiceId || ('#' + obj.Id));
+    }
+
+    get isIssued(): boolean {
+        return !!this.customerInvoice?.IsIssued || !!this.customerInvoice?.IssuedAtUtc;
+    }
+
+    get invoiceStatusCode(): string {
+        return String(this.customerInvoice?.InvoiceStatusCode || '').toUpperCase();
+    }
+
+    get canIssueInvoice(): boolean {
+        return !this.isIssued && (this.invoiceStatusCode === 'DRAFT' || this.invoiceStatusCode === 'APPROVED') && this.canManageInvoice;
+    }
+
+    get canManageInvoice(): boolean {
+        return !!this.permission?.CanUpdate && !this.isWorkflowActionInProgress;
+    }
+
+    previewInvoice(): void {
+        if (this.isWorkflowActionInProgress) return;
+        this.isWorkflowActionInProgress = true;
+        this.customerInvoiceService.previewInvoicePdf(this.selectedId).subscribe({
+            next: pdf => this.openPdf(pdf, this.isIssued ? `Invoice-${this.customerInvoice.InvoiceId}.pdf` : `Invoice-${this.selectedId}-draft-preview.pdf`),
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => this.isWorkflowActionInProgress = false
+        });
+    }
+
+    downloadInvoice(): void {
+        if (!this.isIssued || this.isWorkflowActionInProgress) return;
+        this.isWorkflowActionInProgress = true;
+        this.customerInvoiceService.downloadInvoicePdf(this.selectedId).subscribe({
+            next: pdf => this.downloadPdf(pdf, `Invoice-${this.customerInvoice.InvoiceId}.pdf`),
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => this.isWorkflowActionInProgress = false
+        });
+    }
+
+    issueInvoice(): void {
+        if (this.isIssued || !this.canManageInvoice) return;
+        this.isWorkflowActionInProgress = true;
+        this.spinner?.show();
+        this.customerInvoiceService.issueInvoice(this.selectedId).subscribe({
+            next: response => {
+                const warning = response?.data?.EmailQueueWarning;
+                this.messageService?.showSuccess(warning || 'Invoice issued and final PDF created.');
+                this.loadUI();
+            },
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => { this.isWorkflowActionInProgress = false; this.spinner?.hide(); }
+        });
+    }
+
+    resendInvoiceEmail(): void {
+        if (!this.isIssued || !this.canManageInvoice) return;
+        this.isWorkflowActionInProgress = true;
+        this.customerInvoiceService.resendInvoiceEmail(this.selectedId).subscribe({
+            next: () => this.messageService?.showSuccess('Invoice email queued for delivery.'),
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => this.isWorkflowActionInProgress = false
+        });
+    }
+
+    viewCustomerPortalInvoice(): void {
+        if (this.isIssued) this.router.navigate(['/customer-portal/invoices']);
+    }
+
+    viewReceivable(): void {
+        if (this.receivable?.ReceivableId) this.router.navigate(['/billing-finance/receivables/view', this.receivable.ReceivableId]);
+    }
+
+    private loadReceivable(): void {
+        if (!this.isIssued) { this.receivable = null; return; }
+        this.customerInvoiceService.getReceivable(this.selectedId).subscribe({ next: response => this.receivable = response?.data || null });
+    }
+
+    private openPdf(blob: Blob, filename: string): void {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank', 'noopener');
+        window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }
+
+    private downloadPdf(blob: Blob, filename: string): void {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        window.setTimeout(() => URL.revokeObjectURL(link.href), 0);
+    }
+
+    private getErrorMessage(error: any): string {
+        const payload = error?.error || error;
+        const errors = payload?.Errors || payload?.errors;
+        if (Array.isArray(errors) && errors.length) return errors.join(' ');
+        return payload?.ErrorMessage || payload?.message || payload?.Message || 'The invoice action could not be completed.';
     }
 
     onOptionItemClicked(key: string): void {

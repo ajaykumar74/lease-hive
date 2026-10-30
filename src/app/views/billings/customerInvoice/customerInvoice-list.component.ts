@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -19,6 +19,7 @@ export class CustomerInvoiceListComponent implements OnInit {
   constructor(
     private customerInvoiceService: CustomerInvoiceService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,12 +33,18 @@ export class CustomerInvoiceListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  leaseContractId: number | null = null;
+  billingRunId: number | null = null;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.customerInvoiceService.CacheData.IsLoaded) {
+     const contractId = Number(this.activatedRoute.snapshot.queryParamMap.get('leaseContractId'));
+     this.leaseContractId = Number.isInteger(contractId) && contractId > 0 ? contractId : null;
+     const runId = Number(this.activatedRoute.snapshot.queryParamMap.get('billingRunId'));
+     this.billingRunId = Number.isInteger(runId) && runId > 0 ? runId : null;
+     if (!this.leaseContractId && !this.billingRunId && this.customerInvoiceService.CacheData.IsLoaded) {
       this.currentPage = this.customerInvoiceService.CacheData.CurrentPage;
       this.objSearch = this.customerInvoiceService.CacheData.objSearch;
       this.permission = this.customerInvoiceService.CacheData.permission;
@@ -46,7 +53,7 @@ export class CustomerInvoiceListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.customerInvoiceService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !!this.leaseContractId || !!this.billingRunId || !this.customerInvoiceService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -82,7 +89,8 @@ export class CustomerInvoiceListComponent implements OnInit {
         Take: pgEvent.rows,
         SortBy: this.sortBy,
         IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
+        Conditions: this.getSearchParams(),
+        BillingRunId: this.billingRunId
       }
       this.isLoading = true;
       this.customerInvoiceService.search(searchParam).subscribe({
@@ -114,6 +122,10 @@ export class CustomerInvoiceListComponent implements OnInit {
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
      
     ];
+
+    if (this.leaseContractId) {
+      Items.push({ DBName: 'LeaseContractId', Value: this.leaseContractId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
 
     var auditCriteria = null;

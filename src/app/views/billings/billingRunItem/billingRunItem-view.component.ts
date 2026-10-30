@@ -69,6 +69,12 @@ export class BillingRunItemViewComponent implements OnInit {
         this.Caption = "BillingRunItem Details #" + obj.Id;
     }
 
+    viewInvoice(): void {
+        if (Number(this.billingRunItem?.CustomerInvoiceId || 0) > 0) {
+            this.router.navigate(['/billing-finance/invoices/view/' + this.billingRunItem.CustomerInvoiceId]);
+        }
+    }
+
     onOptionItemClicked(key: string): void {
         if (key == "Create") {
             this.router.navigate(['/billing-finance/billing/candidates/create']);

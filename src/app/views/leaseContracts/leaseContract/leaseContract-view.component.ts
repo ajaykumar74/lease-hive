@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -6,10 +7,11 @@ import { Location } from '@angular/common';
 
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
+import { PermissionService } from '@/shared/security/permission.service';
 import { LeaseContractService } from './leaseContract.service';
 import { ILeaseContract } from './leaseContract';
 import { finalize } from 'rxjs';
@@ -26,6 +28,13 @@ standalone: false,
     providers: [MessageService]
 })
 export class LeaseContractViewComponent implements OnInit {
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly permissionCodes = {
+        view: 'contract.leasecontract.view',
+        update: 'contract.leasecontract.update',
+        activate: 'contract.leasecontract.activate'
+    } as const;
+
     selectedId: number;
     isLoading: boolean = false;
     permission = { CanCreate: true } as IPermission;
@@ -45,6 +54,7 @@ export class LeaseContractViewComponent implements OnInit {
     allocationSelections: { [leaseContractAssetId: number]: number | null } = {};
     deliveryForm: any;
     acceptanceForm: any;
+    quickOptionItems: MenuItem[] = [];
     Caption: string = 'Loading...';
     
 
@@ -54,6 +64,7 @@ export class LeaseContractViewComponent implements OnInit {
         private leaseContractService: LeaseContractService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService,
+        private permissionService: PermissionService,
         private documentTemplateService: DocumentTemplateService,
         private formBuilder: FormBuilder
     ) {
@@ -91,11 +102,15 @@ export class LeaseContractViewComponent implements OnInit {
 
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
     @ViewChild(MessageComponent) messageService: MessageComponent; 
+    @ViewChild('activationSection') activationSection?: ElementRef<HTMLElement>;
 
        
 
     ngOnInit(): void { 
         this.selectedId = this.activatedRouter.snapshot.params['id']; 
+        this.permissionService.permissions$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => this.refreshQuickOptions());
     }
 
     ngAfterViewInit(): void {
@@ -115,6 +130,7 @@ export class LeaseContractViewComponent implements OnInit {
                 this.leaseContract = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.leaseContract);
+                this.refreshQuickOptions();
                 this.loadAgreement();
                 this.loadTemplates();
                 this.loadReadiness();
@@ -300,6 +316,8 @@ export class LeaseContractViewComponent implements OnInit {
     }
 
     allocateAsset(requirement: ILeaseContractActivationRequirement): void {
+        if (!this.canAllocateAsset) return;
+
         const assetId = this.allocationSelections[requirement.LeaseContractAssetId];
         if (!assetId) {
             this.messageService.showError('Select an available physical asset before allocating it.');
@@ -315,6 +333,8 @@ export class LeaseContractViewComponent implements OnInit {
     cancelDelivery(): void { this.deliveryForm.reset({ LeaseContractAssetId: 0, AssetId: 0, DeliveredOnUtc: '', DeliveryLocationId: null, DeliveredBy: '', ReceivedBy: '', Remarks: '' }); }
 
     recordDelivery(): void {
+        if (!this.canRecordDelivery) return;
+
         if (this.deliveryForm.invalid) {
             this.deliveryForm.markAllAsTouched();
             this.messageService.showError('Enter delivery location, delivering person, and receiving person.');
@@ -331,6 +351,8 @@ export class LeaseContractViewComponent implements OnInit {
     cancelAcceptance(): void { this.acceptanceForm.reset({ LeaseContractAssetId: 0, AssetId: 0, DecisionCode: 'ACCEPT', AcceptedOnUtc: '', AcceptedBy: '', Remarks: '' }); }
 
     recordAcceptance(): void {
+        if (!this.canRecordCustomerAcceptance) return;
+
         if (this.acceptanceForm.invalid) {
             this.acceptanceForm.markAllAsTouched();
             this.messageService.showError('Enter the customer representative confirming this decision.');
@@ -341,6 +363,8 @@ export class LeaseContractViewComponent implements OnInit {
     }
 
     validateActivation(): void {
+        if (!this.canViewActivationConditions) return;
+
         this.isLoading = true;
         this.spinner.show();
         this.leaseContractService.getActivationReadiness(this.leaseContract.Id).pipe(finalize(() => {
@@ -355,6 +379,9 @@ export class LeaseContractViewComponent implements OnInit {
     }
 
     activateContract(): void {
+        if (!this.canActivateContract) return;
+
+        let activationSucceeded = false;
         if (!this.activationReadiness?.IsReadyForActivation) {
             this.messageService.showError('Validate and complete the activation requirements first.');
             return;
@@ -363,14 +390,65 @@ export class LeaseContractViewComponent implements OnInit {
         this.spinner.show();
         this.leaseContractService.activateContract(this.leaseContract.Id).pipe(finalize(() => {
             this.spinner.hide(); this.isLoading = false;
+            if (activationSucceeded) this.loadUI();
         })).subscribe({
             next: response => {
                 this.applyActivationReadiness(response.data.Readiness);
+                this.synchroniseContractStatus(response.data.Readiness.StatusCode);
                 this.messageService.showSuccess(response.data.Message);
-                this.loadUI();
+                activationSucceeded = true;
             },
             error: err => this.messageService.showError(err)
         });
+    }
+
+    openAllocateAssetQuickOption(): void {
+        if (!this.canAllocateAsset) return;
+
+        if (!this.activationReadiness) {
+            this.loadActivationReadiness(
+                () => this.focusAllocationTarget(),
+                () => this.messageService.showError('Unable to load the outstanding asset allocation requirements.')
+            );
+            return;
+        }
+
+        this.focusAllocationTarget();
+    }
+
+    openDeliveryQuickOption(): void {
+        if (!this.canRecordDelivery) return;
+
+        const target = this.findDeliveryTarget();
+        if (!target) return;
+
+        this.beginDelivery(target.requirement, target.asset);
+        this.focusActivationSection();
+    }
+
+    openCustomerAcceptanceQuickOption(): void {
+        if (!this.canRecordCustomerAcceptance) return;
+
+        const target = this.findAcceptanceTarget();
+        if (!target) return;
+
+        this.beginAcceptance(target.requirement, target.asset);
+        this.focusActivationSection();
+    }
+
+    viewActivationConditions(): void {
+        if (!this.canViewActivationConditions) return;
+
+        if (!this.activationReadiness) {
+            this.loadActivationReadiness(() => this.focusActivationSection());
+            return;
+        }
+        this.focusActivationSection();
+    }
+
+    openActivationQuickOption(): void {
+        if (!this.canActivateContract || !this.activationReadiness?.IsReadyForActivation) return;
+        this.activateContract();
     }
 
     viewSignedAgreement(): void {
@@ -472,8 +550,14 @@ export class LeaseContractViewComponent implements OnInit {
 
     private loadReadiness(): void {
         this.leaseContractService.getReadiness(this.selectedId).subscribe({
-            next: response => this.readiness = response.data,
-            error: () => this.readiness = null
+            next: response => {
+                this.readiness = response.data;
+                this.refreshQuickOptions();
+            },
+            error: () => {
+                this.readiness = null;
+                this.refreshQuickOptions();
+            }
         });
     }
 
@@ -495,33 +579,181 @@ export class LeaseContractViewComponent implements OnInit {
                         LessorSignedOnUtc: this.dateValue(this.execution.LessorSignedOnUtc)
                     });
                 }
+                this.refreshQuickOptions();
             },
-            error: () => this.execution = null
+            error: () => {
+                this.execution = null;
+                this.refreshQuickOptions();
+            }
         });
     }
 
-    private loadActivationReadiness(): void {
+    private loadActivationReadiness(loaded?: () => void, failed?: () => void): void {
         this.leaseContractService.getActivationReadiness(this.selectedId).subscribe({
-            next: response => this.applyActivationReadiness(response.data),
-            error: () => this.activationReadiness = null
+            next: response => {
+                this.applyActivationReadiness(response.data);
+                loaded?.();
+            },
+            error: () => {
+                this.activationReadiness = null;
+                this.refreshQuickOptions();
+                failed?.();
+            }
         });
     }
 
     private applyActivationReadiness(readiness: ILeaseContractActivationReadiness): void {
         this.activationReadiness = readiness;
         readiness.AssetRequirements.forEach(requirement => {
-            if (this.allocationSelections[requirement.LeaseContractAssetId] === undefined) this.allocationSelections[requirement.LeaseContractAssetId] = null;
+            const selectedAssetId = this.allocationSelections[requirement.LeaseContractAssetId];
+            if (selectedAssetId === undefined || !requirement.AvailableAssets.some(asset => asset.AssetId === selectedAssetId)) {
+                this.allocationSelections[requirement.LeaseContractAssetId] = null;
+            }
+        });
+        this.refreshQuickOptions();
+    }
+
+    private refreshQuickOptions(): void {
+        if (this.isActive) {
+            this.quickOptionItems = [
+                {
+                    label: 'View Payment Schedule',
+                    icon: 'pi pi-calendar',
+                    command: () => this.openContractBillingRoute('/contracts/payment-schedules')
+                },
+                {
+                    label: 'Generate Billing Run',
+                    icon: 'pi pi-play-circle',
+                    disabled: this.permission?.CanUpdate !== true,
+                    command: () => this.openContractBillingRoute('/billing-finance/billing/runs/create')
+                },
+                {
+                    label: 'View Billing Runs',
+                    icon: 'pi pi-list',
+                    command: () => this.openContractBillingRoute('/billing-finance/billing/runs')
+                },
+                {
+                    label: 'View Customer Invoices',
+                    icon: 'pi pi-file',
+                    command: () => this.openContractBillingRoute('/billing-finance/invoices')
+                }
+            ];
+            return;
+        }
+
+        this.quickOptionItems = [
+            {
+                label: 'Allocate Asset',
+                icon: 'pi pi-plus',
+                disabled: !this.canAllocateAsset || !this.canOpenAllocation,
+                command: () => this.openAllocateAssetQuickOption()
+            },
+            {
+                label: 'Record Delivery',
+                icon: 'pi pi-truck',
+                disabled: !this.canRecordDelivery || !this.findDeliveryTarget(),
+                command: () => this.openDeliveryQuickOption()
+            },
+            {
+                label: 'Record Customer Acceptance',
+                icon: 'pi pi-check',
+                disabled: !this.canRecordCustomerAcceptance || !this.findAcceptanceTarget(),
+                command: () => this.openCustomerAcceptanceQuickOption()
+            },
+            {
+                label: 'View Activation Conditions',
+                icon: 'pi pi-list-check',
+                disabled: !this.canViewActivationConditions,
+                command: () => this.viewActivationConditions()
+            },
+            {
+                label: 'Activate Contract',
+                icon: 'pi pi-play',
+                disabled: !this.canActivateContract || !this.activationReadiness?.IsReadyForActivation,
+                command: () => this.openActivationQuickOption()
+            }
+        ];
+    }
+
+    private openContractBillingRoute(route: string): void {
+        if (!this.leaseContract?.Id) return;
+        this.router.navigate([route], { queryParams: { leaseContractId: this.leaseContract.Id } });
+    }
+
+    private findAllocationTarget(): ILeaseContractActivationRequirement | null {
+        return this.activationReadiness?.AssetRequirements.find(requirement =>
+            requirement.AllocatedAssets.length < requirement.RequiredQuantity) ?? null;
+    }
+
+    private findDeliveryTarget(): { requirement: ILeaseContractActivationRequirement; asset: ILeaseContractActivationAsset } | null {
+        return this.findActivationAsset(asset => asset.IsValidAllocation && !asset.DeliveredOnUtc);
+    }
+
+    private findAcceptanceTarget(): { requirement: ILeaseContractActivationRequirement; asset: ILeaseContractActivationAsset } | null {
+        return this.findActivationAsset(asset => asset.IsValidAllocation && !!asset.DeliveredOnUtc && !asset.AcceptanceStatusCode);
+    }
+
+    private findActivationAsset(matches: (asset: ILeaseContractActivationAsset) => boolean): { requirement: ILeaseContractActivationRequirement; asset: ILeaseContractActivationAsset } | null {
+        for (const requirement of this.activationReadiness?.AssetRequirements || []) {
+            const asset = requirement.AllocatedAssets.find(matches);
+            if (asset) return { requirement, asset };
+        }
+        return null;
+    }
+
+    private focusActivationSection(): void {
+        window.setTimeout(() => {
+            const section = this.activationSection?.nativeElement;
+            if (!section) return;
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            section.focus({ preventScroll: true });
         });
     }
 
+    private focusActivationRequirement(leaseContractAssetId: number): void {
+        window.setTimeout(() => {
+            const requirement = document.getElementById(this.activationRequirementElementId(leaseContractAssetId));
+            if (!requirement) {
+                this.focusActivationSection();
+                return;
+            }
+            requirement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            requirement.focus({ preventScroll: true });
+        });
+    }
+
+    private focusAllocationTarget(): void {
+        const requirement = this.findAllocationTarget();
+        if (!requirement) {
+            this.focusActivationSection();
+            return;
+        }
+        this.focusActivationRequirement(requirement.LeaseContractAssetId);
+    }
+
+    activationRequirementElementId(leaseContractAssetId: number): string {
+        return `activation-requirement-${leaseContractAssetId}`;
+    }
+
+    private synchroniseContractStatus(statusCode: string): void {
+        if (this.readiness) this.readiness = { ...this.readiness, StatusCode: statusCode };
+        if (this.execution) this.execution = { ...this.execution, ContractStatusCode: statusCode };
+    }
+
     private runActivationAction(request: any, successMessage: string, completed?: () => void): void {
+        let actionSucceeded = false;
         this.isLoading = true;
         this.spinner.show();
-        request.pipe(finalize(() => { this.spinner.hide(); this.isLoading = false; })).subscribe({
+        request.pipe(finalize(() => {
+            this.spinner.hide();
+            this.isLoading = false;
+            if (actionSucceeded) this.loadUI();
+        })).subscribe({
             next: (response: { data: ILeaseContractActivationReadiness }) => {
                 this.applyActivationReadiness(response.data);
                 completed?.();
                 this.messageService.showSuccess(successMessage);
+                actionSucceeded = true;
             },
             error: (err: any) => this.messageService.showError(err)
         });
@@ -594,15 +826,84 @@ export class LeaseContractViewComponent implements OnInit {
         return (status || '').trim().toUpperCase().replace(/^LCS-/, '').replace(/-/g, '_');
     }
 
+    get canViewActivationConditions(): boolean {
+        return this.isPendingActivation && this.permissionService.hasPermission(this.permissionCodes.view);
+    }
+
+    get canAllocateAsset(): boolean {
+        return this.isPendingActivation && this.permission?.CanUpdate === true;
+    }
+
+    get hasAllocationRequired(): boolean {
+        return !!this.findAllocationTarget();
+    }
+
+    get canOpenAllocation(): boolean {
+        return !this.activationReadiness || this.hasAllocationRequired;
+    }
+
+    get activationRequiredAssetCount(): number {
+        return (this.activationReadiness?.AssetRequirements || []).reduce((total, requirement) => total + requirement.RequiredQuantity, 0);
+    }
+
+    get activationAllocatedAssetCount(): number {
+        return this.activationAssets.length;
+    }
+
+    get activationDeliveredAssetCount(): number {
+        return this.activationAssets.filter(asset => !!asset.DeliveredOnUtc).length;
+    }
+
+    get activationAwaitingAcceptanceCount(): number {
+        return this.activationAssets.filter(asset => !!asset.DeliveredOnUtc && !asset.AcceptanceStatusCode).length;
+    }
+
+    get isAllocationComplete(): boolean {
+        const requirements = this.activationReadiness?.AssetRequirements || [];
+        return requirements.length > 0 && requirements.every(requirement => requirement.AllocatedAssets.length >= requirement.RequiredQuantity);
+    }
+
+    get isDeliveryComplete(): boolean {
+        return this.isAllocationComplete && this.activationAssets.length > 0 && this.activationAssets.every(asset => !!asset.DeliveredOnUtc);
+    }
+
+    get isCustomerAcceptanceComplete(): boolean {
+        return this.isDeliveryComplete && this.activationAssets.length > 0 && this.activationAssets.every(asset => asset.AcceptanceStatusCode === 'ACCEPTED');
+    }
+
+    get customerAcceptanceGuidance(): string {
+        if (!this.isAllocationComplete) return 'Allocate every required physical asset before arranging delivery with the customer.';
+        if (!this.isDeliveryComplete) return 'Record delivery for each allocated asset before requesting customer acceptance.';
+        if (!this.isCustomerAcceptanceComplete) return 'Obtain confirmation through the agreed customer channel, then record the customer representative’s decision below.';
+        return 'All allocated assets have been accepted. Complete any remaining activation conditions, then activate the lease.';
+    }
+
+    get canRecordDelivery(): boolean {
+        return this.canAllocateAsset;
+    }
+
+    get canRecordCustomerAcceptance(): boolean {
+        return this.canAllocateAsset;
+    }
+
+    get canActivateContract(): boolean {
+        return this.isPendingActivation && this.permissionService.hasPermission(this.permissionCodes.activate);
+    }
+
     get isDraft(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'DRAFT'; }
     get isPendingApproval(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_APPROVAL'; }
     get isApproved(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'APPROVED'; }
     get isPendingExecution(): boolean { return this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_EXECUTION'; }
     get isPendingActivation(): boolean { return this.normalizeStatus(this.execution?.ContractStatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.readiness?.StatusCode) === 'PENDING_ACTIVATION' || this.normalizeStatus(this.activationReadiness?.StatusCode) === 'PENDING_ACTIVATION'; }
+    get isActive(): boolean { return this.normalizeStatus(this.execution?.ContractStatusCode) === 'ACTIVE' || this.normalizeStatus(this.readiness?.StatusCode) === 'ACTIVE' || this.normalizeStatus(this.activationReadiness?.StatusCode) === 'ACTIVE'; }
     get isExecutedAgreementAvailable(): boolean { return this.normalizeStatus(this.execution?.ExecutionStatusCode) === 'EXECUTED' && !!this.execution?.SignedAgreementDocumentId; }
     get canEditContract(): boolean { return this.isDraft && this.permission?.CanUpdate === true; }
     get signaturesVerified(): boolean {
         return this.execution?.CustomerSignatureStatusCode === 'SIGNED_VERIFIED' && this.execution?.LessorSignatureStatusCode === 'SIGNED_VERIFIED';
+    }
+
+    private get activationAssets(): ILeaseContractActivationAsset[] {
+        return (this.activationReadiness?.AssetRequirements || []).flatMap(requirement => requirement.AllocatedAssets);
     }
 
      

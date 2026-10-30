@@ -4,12 +4,14 @@ import { IBillingRunItem } from '../billingRunItem/billingRunItem';
 export interface IBillingRun extends IBase {
 	Id :number;
 TenantId :number;
+LeaseContractId?: number;
 BillingRunNo :string;
 BillingOrganisationId :number;
 BillingDate :Date;
 PeriodFrom :Date;
 PeriodTo :Date;
 BillingRunStatusId :number;
+BillingRunStatusCode?: string;
 RunType :string;
 CandidateCount :number;
 InvoiceCount :number;

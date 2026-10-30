@@ -28,6 +28,7 @@ export class PaymentReceiptEditComponent implements OnInit {
   paymentReceipt: IPaymentReceipt = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  isConfirming = false;
   receiptstatusidOptions: ISelectItem[] = [];
 receivingorganisationidOptions: ISelectItem[] = [];
 customerpartyidOptions: ISelectItem[] = [];
@@ -59,6 +60,7 @@ recordstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
+ReceiptNo: new FormControl('', [Validators.required, Validators.maxLength(40)]),
 ReceiptStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 ReceivingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 CustomerPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -119,6 +121,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
+	  ReceiptNo: obj.ReceiptNo || '',
 	  ReceiptStatusId: obj.ReceiptStatusId || 0,
 ReceivingOrganisationId: obj.ReceivingOrganisationId || 0,
 CustomerPartyId: obj.CustomerPartyId || 0,
@@ -138,6 +141,8 @@ RecordStatus: obj.RecordStatus || '',
     );
    
 	 this.Caption = "PaymentReceipt Details #" + obj.Id;
+     if (obj.VerifiedAtUtc) this.editForm.disable({ emitEvent: false });
+     else this.editForm.enable({ emitEvent: false });
   } 
 
   onOptionItemClicked(key: string): void {
@@ -161,6 +166,7 @@ RecordStatus: obj.RecordStatus || '',
    this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
+	  ReceiptNo: obj.ReceiptNo || '',
 	  ReceiptStatusId: obj.ReceiptStatusId || 0,
 ReceivingOrganisationId: obj.ReceivingOrganisationId || 0,
 CustomerPartyId: obj.CustomerPartyId || 0,
@@ -195,6 +201,7 @@ RecordStatus: obj.RecordStatus || '',
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
+     ReceiptNo: formValues.ReceiptNo || null,
      ReceiptStatusId:  formValues.ReceiptStatusId || 0,
 ReceivingOrganisationId:  formValues.ReceivingOrganisationId || 0,
 CustomerPartyId:  formValues.CustomerPartyId || 0,
@@ -225,5 +232,23 @@ RecordStatus:  formValues.RecordStatus || null,
 	  },
       complete: () => { this.spinner.hide();}
     });
+  }
+
+  confirmPayment(): void {
+    if (this.isConfirming || !this.permission?.CanUpdate || this.paymentReceipt?.VerifiedAtUtc) return;
+    this.isConfirming = true;
+    this.spinner?.show();
+    this.paymentReceiptService.confirm(this.selectedId).subscribe({
+      next: response => {
+        this.messageService?.showSuccess(response?.Message || response?.message || 'Payment confirmed.');
+        this.loadUI();
+      },
+      error: error => this.messageService?.showError(typeof error === 'string' ? error : 'Payment confirmation failed.'),
+      complete: () => { this.isConfirming = false; this.spinner?.hide(); }
+    });
+  }
+
+  openAllocation(): void {
+    this.router.navigate(['/billing-finance/payments/receipts/view', this.selectedId]);
   }
 }

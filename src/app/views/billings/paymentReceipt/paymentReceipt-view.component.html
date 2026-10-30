@@ -6,6 +6,68 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
+					<section class="payment-workflow-card mb-4">
+						<header class="payment-workflow-card__header">
+							<div>
+								<span class="payment-workflow-card__eyebrow">Payment lifecycle</span>
+								<h2>Receipt confirmation</h2>
+								<p>Confirming locks the receipt’s financial details and makes its remaining balance available for allocation.</p>
+							</div>
+							<div class="payment-workflow-card__actions">
+								<span class="payment-status-pill" [class.payment-status-pill--confirmed]="isConfirmed">{{ isConfirmed ? 'CONFIRMED' : 'DRAFT' }}</span>
+								<button *ngIf="!isConfirmed" type="button" pButton label="Confirm payment" icon="pi pi-check-circle" [loading]="isConfirming" [disabled]="!permission?.CanUpdate || isConfirming" (click)="confirmPayment()"></button>
+							</div>
+						</header>
+
+						<div class="payment-status-transition">
+							<article class="payment-status-step payment-status-step--draft">
+								<div class="payment-status-step__heading"><span>01 · DRAFT</span><i class="pi pi-file-edit"></i></div>
+								<strong>Receipt recorded</strong>
+								<div class="payment-status-step__detail"><span>Recorded by</span><b>{{ draftRecordedBy }}</b></div>
+								<small>{{ paymentReceipt?.CreatedDateTime ? (paymentReceipt.CreatedDateTime | date:'medium') : 'Record date not available' }}</small>
+							</article>
+
+							<article class="payment-status-step" [class.payment-status-step--confirmed]="isConfirmed">
+								<div class="payment-status-step__heading"><span>02 · CONFIRMED</span><i [class]="isConfirmed ? 'pi pi-check-circle' : 'pi pi-clock'"></i></div>
+								<strong>{{ isConfirmed ? 'Payment confirmed' : 'Awaiting confirmation' }}</strong>
+								<div *ngIf="isConfirmed; else awaitingConfirmation" class="payment-status-step__detail"><span>Confirmed by</span><b>{{ confirmedBy }}</b></div>
+								<ng-template #awaitingConfirmation><div class="payment-status-step__detail"><span>Next action</span><b>Review and confirm</b></div></ng-template>
+								<small>{{ isConfirmed && paymentReceipt?.VerifiedAtUtc ? (paymentReceipt.VerifiedAtUtc | date:'medium') : 'Confirmation date not recorded' }}</small>
+							</article>
+						</div>
+					</section>
+					<div class="card mb-4" *ngIf="isConfirmed">
+						<div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3 mb-3">
+							<div>
+								<h4 class="m-0">Allocate Payment</h4>
+								<div class="text-600">Available receipt balance: <strong>{{ availableBalance | number:'1.2-2' }}</strong></div>
+								<div class="text-600 mt-2" *ngIf="!canAllocatePayment">This receipt has been fully allocated. Create another receipt or reverse an existing allocation to apply more payment.</div>
+							</div>
+							<div class="text-right">Selected allocation: <strong>{{ allocationTotal | number:'1.2-2' }}</strong></div>
+						</div>
+						<p-table [value]="allocationLines" [tableStyle]="{ 'min-width': '48rem' }">
+							<ng-template pTemplate="header">
+								<tr><th style="width: 4rem"></th><th>Invoice reference</th><th>Due date</th><th>Original</th><th>Previously allocated</th><th>Outstanding</th><th style="width: 12rem">Allocate now</th></tr>
+							</ng-template>
+							<ng-template pTemplate="body" let-line>
+								<tr>
+									<td><p-checkbox [(ngModel)]="line.Selected" [binary]="true" [disabled]="!canAllocatePayment" [ngModelOptions]="{standalone: true}" (ngModelChange)="onAllocationSelectionChanged(line)"></p-checkbox></td>
+									<td>{{ line.InvoiceReference }}</td><td>{{ line.DueDate | date:'mediumDate' }}</td>
+									<td>{{ line.OriginalAmount | number:'1.2-2' }}</td><td>{{ line.AllocatedAmount | number:'1.2-2' }}</td><td>{{ line.OutstandingAmount | number:'1.2-2' }}</td>
+									<td><p-inputNumber [(ngModel)]="line.Amount" [ngModelOptions]="{standalone: true}" [disabled]="!line.Selected || !canAllocatePayment" [min]="0.01" [max]="maxAllocationFor(line)" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" (ngModelChange)="onAllocationAmountChanged(line)"></p-inputNumber></td>
+								</tr>
+							</ng-template>
+							<ng-template pTemplate="emptymessage"><tr><td colspan="7">No eligible receivables are available for this receipt.</td></tr></ng-template>
+						</p-table>
+						<div class="mt-3"><button type="button" pButton label="Allocate Payment" icon="pi pi-wallet" [loading]="isAllocating" [disabled]="!permission?.CanUpdate || isAllocating || !canAllocatePayment" (click)="allocatePayment()"></button></div>
+					</div>
+					<div class="card mb-4" *ngIf="allocationWorkspace?.AllocationHistory?.length">
+						<h4 class="mt-0">Payment Allocation History</h4>
+						<p-table [value]="allocationWorkspace?.AllocationHistory || []">
+							<ng-template pTemplate="header"><tr><th>Invoice reference</th><th>Allocated on</th><th>Type</th><th>Amount</th></tr></ng-template>
+							<ng-template pTemplate="body" let-history><tr><td>{{ history.InvoiceReference }}</td><td>{{ history.AllocationDate | date:'medium' }}</td><td>{{ history.AllocationType }}</td><td>{{ history.AllocatedAmount | number:'1.2-2' }}</td></tr></ng-template>
+						</p-table>
+					</div>
 					<form> 
 				<p-fluid>
 		      			<div class="flex mt-8">

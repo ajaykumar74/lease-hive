@@ -44,6 +44,18 @@ export class PaymentReceiptService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  confirm(id: number): Observable<any> { return this.http.post<any>(`${this.baseUrl}/${id}/confirm`, {}, { headers: this.headers }).pipe(catchError(this.baseService.handleError)); }
+
+  getAllocationWorkspace(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}/allocation-workspace`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  allocate(id: number, request: { IdempotencyKey: string; Allocations: { ReceivableId: number; Amount: number }[] }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/allocations`, request, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
 }
 
 
