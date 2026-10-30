@@ -47,6 +47,12 @@ const routes: Routes = [
         }
       },
       {
+        path: 'platform-settings',
+        canActivate: [AuthGuard],
+        data: { breadcrumb: 'Platform Settings' },
+        loadComponent: () => import('@/views/platformSettings/platform-settings.component').then(c => c.PlatformSettingsComponent),
+      },
+      {
         path: 'CRMHelpDoc',
         canActivate: [AuthGuard],
         component: CrmHelpDocumentComponent,
@@ -301,6 +307,12 @@ const routes: Routes = [
         canActivate: [AuthGuard, PermissionGuard],
         data: { breadcrumb: 'AI tenant settings' },
         loadComponent: () => import('@/views/ai/ai-tenant-settings.component').then(c => c.AiTenantSettingsComponent),
+      },
+      {
+        path: 'tenant-settings',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'Tenant Settings' },
+        loadComponent: () => import('@/views/tenantSettings/tenant-settings.component').then(c => c.TenantSettingsComponent),
       },
       {
         path: 'ai-assistant',
