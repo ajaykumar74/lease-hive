@@ -1,0 +1,86 @@
+<div class="asset-status-allocation-report">
+    <header class="report-heading">
+        <div>
+            <span>Asset Management</span>
+            <h1>Asset Status &amp; Allocation</h1>
+            <p>Monitor asset availability, allocation, customers, contracts, and locations across your portfolio.</p>
+        </div>
+        <div class="heading-actions">
+            <p-button label="Refresh" icon="pi pi-refresh" [outlined]="true" [loading]="isLoading" (onClick)="loadReport()" />
+            <p-button label="Export Excel" icon="pi pi-file-excel" [disabled]="isLoading || !sortedRows.length" (onClick)="exportToExcel()" />
+        </div>
+    </header>
+
+    <section class="card search-toolbar">
+        <div class="search-input">
+            <i class="pi pi-search"></i>
+            <input pInputText type="search" [(ngModel)]="searchTerm" (keyup.enter)="refreshReport()" placeholder="Search asset, customer, contract, or location..." aria-label="Search asset status and allocation report" />
+        </div>
+        <p-button label="Search" icon="pi pi-search" (onClick)="refreshReport()" />
+        <p-button label="Clear" icon="pi pi-times" [text]="true" (onClick)="clearFilters()" />
+        <span class="toolbar-spacer"></span>
+        <p-button [icon]="filtersVisible ? 'pi pi-filter-slash' : 'pi pi-filter'" [label]="filtersVisible ? 'Hide filters' : 'Show filters'" [text]="true" (onClick)="filtersVisible = !filtersVisible" />
+    </section>
+
+    @if (filtersVisible) {
+        <section class="card filters-panel" aria-label="Asset status and allocation report filters">
+            <div><label for="status-allocation-org">Organisation</label><p-select inputId="status-allocation-org" [options]="organisationOptions" [(ngModel)]="selectedOrganisationId" optionLabel="label" optionValue="value" placeholder="All organisations" [showClear]="true" [filter]="true" (onChange)="onOrganisationChange()" /></div>
+            <div><label for="status-allocation-unit">Branch / organisation unit</label><p-select inputId="status-allocation-unit" [options]="organisationUnitOptions" [(ngModel)]="selectedOrganisationUnitId" optionLabel="label" optionValue="value" placeholder="All units" [showClear]="true" [filter]="true" [disabled]="!organisationUnitOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-category">Asset category</label><p-select inputId="status-allocation-category" [options]="categoryOptions" [(ngModel)]="selectedCategoryId" optionLabel="label" optionValue="value" placeholder="All categories" [showClear]="true" [filter]="true" (onChange)="onCategoryChange()" /></div>
+            <div><label for="status-allocation-type">Asset type</label><p-select inputId="status-allocation-type" [options]="typeOptions" [(ngModel)]="selectedTypeId" optionLabel="label" optionValue="value" placeholder="All types" [showClear]="true" [filter]="true" [disabled]="!typeOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-status">Asset status</label><p-select inputId="status-allocation-status" [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-allocation">Allocation status</label><p-select inputId="status-allocation-allocation" [options]="allocationOptions" [(ngModel)]="selectedAllocationStatus" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-customer">Customer</label><p-select inputId="status-allocation-customer" [options]="customerOptions" [(ngModel)]="selectedCustomerId" optionLabel="label" optionValue="value" placeholder="All customers" [showClear]="true" [filter]="true" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-contract">Lease contract</label><p-select inputId="status-allocation-contract" [options]="contractOptions" [(ngModel)]="selectedContractId" optionLabel="label" optionValue="value" placeholder="All contracts" [showClear]="true" [filter]="true" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-location">Location</label><p-select inputId="status-allocation-location" [options]="locationOptions" [(ngModel)]="selectedLocationId" optionLabel="label" optionValue="value" placeholder="All locations" [showClear]="true" [filter]="true" (onChange)="refreshReport()" /></div>
+            <div><label for="status-allocation-date">Reporting date</label><p-datepicker inputId="status-allocation-date" [(ngModel)]="reportingDate" dateFormat="dd M yy" [showIcon]="true" [maxDate]="today()" (onSelect)="refreshReport()" /></div>
+        </section>
+    }
+
+    @if (hasLoadError && !isLoading) {
+        <div class="load-warning"><i class="pi pi-info-circle"></i><span>Some report sources could not be loaded. Available tenant-scoped information is shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadReport()" /></div>
+    }
+
+    <section class="kpi-grid" aria-label="Asset status summary">
+        @if (isLoading) {
+            @for (item of [1, 2, 3, 4, 5, 6]; track item) { <article class="card kpi-card"><p-skeleton width="52%" height=".9rem" /><p-skeleton width="45%" height="2rem" styleClass="mt-3" /></article> }
+        } @else {
+            <article class="card kpi-card"><span>Total assets</span><strong>{{ totalAssets | number }}</strong><small>Assets matching the current filters</small><i class="pi pi-box"></i></article>
+            <article class="card kpi-card"><span>Leased assets</span><strong>{{ leasedAssets | number }}</strong><small>On active lease contracts</small><i class="pi pi-briefcase"></i></article>
+            <article class="card kpi-card"><span>Available assets</span><strong>{{ availableAssets | number }}</strong><small>Ready for leasing</small><i class="pi pi-check-circle"></i></article>
+            <article class="card kpi-card"><span>Reserved assets</span><strong>{{ reservedAssets | number }}</strong><small>Held for allocation</small><i class="pi pi-bookmark"></i></article>
+            <article class="card kpi-card"><span>Under maintenance</span><strong>{{ maintenanceAssets | number }}</strong><small>Temporarily unavailable</small><i class="pi pi-wrench"></i></article>
+            <article class="card kpi-card"><span>Unallocated assets</span><strong>{{ unallocatedAssets | number }}</strong><small>Without a current allocation</small><i class="pi pi-unlink"></i></article>
+        }
+    </section>
+
+    <section class="charts-grid">
+        <article class="card chart-card">
+            <div class="panel-heading"><div><h2>Asset status distribution</h2><span>Current asset lifecycle and availability state</span></div></div>
+            @if (isLoading) { <p-skeleton width="100%" height="17rem" /> }
+            @else if (reportRows.length) { <p-chart type="doughnut" [data]="statusChartData" [options]="statusChartOptions" height="270px" ariaLabel="Asset status distribution" /> }
+            @else { <div class="empty-state"><i class="pi pi-chart-pie"></i><span>No status data matches the applied filters.</span></div> }
+        </article>
+        <article class="card chart-card">
+            <div class="panel-heading"><div><h2>Asset allocation by category</h2><span>Allocated and unallocated assets across categories</span></div></div>
+            @if (isLoading) { <p-skeleton width="100%" height="17rem" /> }
+            @else if (reportRows.length) { <p-chart type="bar" [data]="allocationChartData" [options]="allocationChartOptions" height="270px" ariaLabel="Asset allocation by category" /> }
+            @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No allocation data matches the applied filters.</span></div> }
+        </article>
+    </section>
+
+    <section class="card report-table-card">
+        <div class="table-toolbar">
+            <div><h2>Asset status and allocation detail</h2><span>{{ sortedRows.length | number }} matching assets</span></div>
+            <div><label for="status-allocation-sort">Sort by</label><p-select inputId="status-allocation-sort" [options]="sortOptions" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value" (onChange)="onSortChange()" /></div>
+        </div>
+        <p-table styleClass="status-allocation-table" [value]="pagedRows" [loading]="isLoading" [scrollable]="true" scrollHeight="clamp(20rem, calc(100vh - 22rem), 44rem)" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '1450px', 'width': '100%' }">
+            <ng-template #header><tr><th>Asset number</th><th>Asset name</th><th>Category</th><th>Asset type</th><th>Organisation</th><th>Current status</th><th>Allocation status</th><th>Customer</th><th>Lease contract</th><th>Allocation date</th><th>Location</th><th class="action-column"></th></tr></ng-template>
+            <ng-template #body let-row><tr>
+                <td><button type="button" class="asset-link" (click)="openAsset(row)">{{ row.assetNumber }}</button></td><td>{{ row.assetName }}</td><td>{{ row.category }}</td><td>{{ row.type }}</td><td>{{ row.organisation }}</td><td><p-tag [value]="row.status" [severity]="statusSeverity(row.status)" /></td><td><p-tag [value]="row.allocationStatus" [severity]="allocationSeverity(row.allocationStatus)" /></td><td>{{ row.customer }}</td><td>@if (row.contractId) { <button type="button" class="contract-link" (click)="openContract(row)">{{ row.contract }}</button> } @else { — }</td><td>{{ formatDate(row.allocationDate) }}</td><td>{{ row.location }}</td><td class="action-cell"><button type="button" class="view-action" title="Open asset details" aria-label="Open asset details" (click)="openAsset(row)"><i class="pi pi-eye"></i></button></td>
+            </tr></ng-template>
+            <ng-template #emptymessage><tr><td colspan="12"><div class="empty-state table-empty"><i class="pi pi-box"></i><span>No assets match the applied filters.</span></div></td></tr></ng-template>
+        </p-table>
+        <p-paginator *ngIf="sortedRows.length" [first]="first" [rows]="rows" [totalRecords]="sortedRows.length" [rowsPerPageOptions]="[10, 20, 50, 100]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="onPageChange($event)" />
+    </section>
+</div>

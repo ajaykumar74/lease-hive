@@ -48,6 +48,13 @@ export const appRoutes: Routes = [
         canActivateChild: [AuthGuard, PermissionGuard]
     },
     {
+        path: 'reports',
+        loadChildren: () => import('./app/views/reports/reports.routes').then(m => m.REPORTS_ROUTES),
+        data: { breadcrumb: 'Reports' },
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard, PermissionGuard]
+    },
+    {
         path: 'contracts',
         loadChildren: () => import('./app/views/business/leaseContracts.routes').then(m => m.LEASE_CONTRACT_ROUTES),
         data: { breadcrumb: 'Lease Contracts' },

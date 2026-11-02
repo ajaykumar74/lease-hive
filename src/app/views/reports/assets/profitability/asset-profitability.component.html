@@ -1,0 +1,55 @@
+<div class="asset-profitability-report">
+    <header class="report-heading">
+        <div><span>Asset Management</span><h1>Asset Revenue &amp; Profitability</h1><p>Analyze asset-wise rental income, operating expenses, and operating contribution across your leasing portfolio.</p></div>
+        <div class="heading-actions"><p-button label="Refresh" icon="pi pi-refresh" [outlined]="true" [loading]="isLoading" (onClick)="loadReport()" /><p-button label="Export Excel" icon="pi pi-file-excel" [disabled]="isLoading || !sortedRows.length" (onClick)="exportToExcel()" /></div>
+    </header>
+
+    <section class="card search-toolbar">
+        <div class="search-input"><i class="pi pi-search"></i><input pInputText type="search" [(ngModel)]="searchTerm" (keyup.enter)="refreshReport()" placeholder="Search asset, customer, contract..." aria-label="Search profitability report" /></div>
+        <p-button label="Search" icon="pi pi-search" (onClick)="refreshReport()" /><p-button label="Clear" icon="pi pi-times" [text]="true" (onClick)="clearFilters()" /><span class="toolbar-spacer"></span><p-button [icon]="filtersVisible ? 'pi pi-filter-slash' : 'pi pi-filter'" [label]="filtersVisible ? 'Hide filters' : 'Show filters'" [text]="true" (onClick)="filtersVisible = !filtersVisible" />
+    </section>
+
+    @if (filtersVisible) {
+        <section class="card filters-panel" aria-label="Profitability report filters">
+            <div><label for="profit-from">From date</label><p-datepicker inputId="profit-from" [(ngModel)]="dateFrom" dateFormat="dd M yy" [showIcon]="true" [maxDate]="dateTo" (onSelect)="onDateRangeChange()" /></div>
+            <div><label for="profit-to">To date</label><p-datepicker inputId="profit-to" [(ngModel)]="dateTo" dateFormat="dd M yy" [showIcon]="true" [minDate]="dateFrom" [maxDate]="today()" (onSelect)="onDateRangeChange()" /></div>
+            <div><label for="profit-org">Organisation</label><p-select inputId="profit-org" [options]="organisationOptions" [(ngModel)]="selectedOrganisationId" optionLabel="label" optionValue="value" placeholder="All organisations" [showClear]="true" (onChange)="onOrganisationChange()" /></div>
+            <div><label for="profit-unit">Branch / organisation unit</label><p-select inputId="profit-unit" [options]="organisationUnitOptions" [(ngModel)]="selectedOrganisationUnitId" optionLabel="label" optionValue="value" placeholder="All units" [showClear]="true" [disabled]="!organisationUnitOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="profit-category">Asset category</label><p-select inputId="profit-category" [options]="categoryOptions" [(ngModel)]="selectedCategoryId" optionLabel="label" optionValue="value" placeholder="All categories" [showClear]="true" (onChange)="onCategoryChange()" /></div>
+            <div><label for="profit-type">Asset type</label><p-select inputId="profit-type" [options]="typeOptions" [(ngModel)]="selectedTypeId" optionLabel="label" optionValue="value" placeholder="All types" [showClear]="true" [disabled]="!typeOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="profit-status">Asset status</label><p-select inputId="profit-status" [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="profit-customer">Customer</label><p-select inputId="profit-customer" [options]="customerOptions" [(ngModel)]="selectedCustomerId" optionLabel="label" optionValue="value" placeholder="All customers" [showClear]="true" (onChange)="onCustomerChange()" /></div>
+            <div><label for="profit-contract">Lease contract</label><p-select inputId="profit-contract" [options]="contractOptions" [(ngModel)]="selectedContractId" optionLabel="label" optionValue="value" placeholder="All contracts" [showClear]="true" (onChange)="refreshReport()" /></div>
+            <div><label for="profit-currency">Currency</label><p-select inputId="profit-currency" [options]="currencyOptions" [(ngModel)]="selectedCurrency" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+        </section>
+    }
+
+    @if (hasLoadError && !isLoading) { <div class="load-warning"><i class="pi pi-info-circle"></i><span>Some financial sources could not be loaded. Available tenant-scoped records are shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadReport()" /></div> }
+
+    <section class="kpi-grid" aria-label="Profitability summary">
+        @if (isLoading) { @for (item of [1,2,3,4,5,6]; track item) { <article class="card kpi-card"><p-skeleton width="55%" height=".9rem" /><p-skeleton width="55%" height="2rem" styleClass="mt-3" /></article> } }
+        @else {
+            <article class="card kpi-card money-card"><span>Total rental revenue</span><strong>{{ formatTotals(totalRentalRevenue) }}</strong><small>Finalized invoices, with due schedule fallback</small><i class="pi pi-money-bill"></i></article>
+            <article class="card kpi-card money-card"><span>Total operating cost</span><strong>{{ formatTotals(totalOperatingCost) }}</strong><small>Maintenance and insurance costs</small><i class="pi pi-wrench"></i></article>
+            <article class="card kpi-card money-card"><span>Net operating contribution</span><strong>{{ formatTotals(netOperatingContribution) }}</strong><small>Not accounting net profit</small><i class="pi pi-chart-line"></i></article>
+            <article class="card kpi-card"><span>Operating margin</span><strong>{{ formatMargins(totalRentalRevenue, netOperatingContribution) }}</strong><small>Contribution ÷ rental revenue</small><i class="pi pi-percentage"></i></article>
+            <article class="card kpi-card"><span>Revenue generating assets</span><strong>{{ revenueGeneratingAssets.length | number }}</strong><small>With rental revenue in the period</small><i class="pi pi-box"></i></article>
+            <article class="card kpi-card money-card"><span>Average revenue per asset</span><strong>{{ formatTotals(averageRevenuePerAsset) }}</strong><small>Across revenue-generating assets</small><i class="pi pi-calculator"></i></article>
+        }
+    </section>
+
+    <section class="charts-grid">
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Revenue vs operating cost</h2><span>Recognized asset-linked amounts by month</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="18rem" /> } @else if (reportRows.length) { <p-chart type="bar" [data]="revenueCostChartData" [options]="revenueCostChartOptions" height="285px" ariaLabel="Revenue versus operating cost by month" /> } @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No financial activity matches the applied filters.</span></div> }</article>
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Operating contribution by asset category</h2><span>Revenue less recognized operating cost; currencies remain separate</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="18rem" /> } @else if (reportRows.length) { <p-chart type="bar" [data]="categoryChartData" [options]="categoryChartOptions" height="285px" ariaLabel="Operating contribution by category" /> } @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No category contribution is available for this selection.</span></div> }</article>
+    </section>
+
+    <section class="card report-table-card">
+        <div class="table-toolbar"><div><h2>Asset profitability detail</h2><span>{{ sortedRows.length | number }} matching assets</span></div><div><label for="profit-sort">Sort by</label><p-select inputId="profit-sort" [options]="sortOptions" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value" (onChange)="onSortChange()" /></div></div>
+        <p-table styleClass="profitability-table" [value]="pagedRows" [loading]="isLoading" [scrollable]="true" scrollHeight="clamp(20rem, calc(100vh - 22rem), 44rem)" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '1500px', 'width': '100%' }">
+            <ng-template #header><tr><th>Asset number</th><th>Asset name</th><th>Category</th><th>Organisation</th><th>Customer</th><th>Lease contract</th><th class="numeric">Rental revenue</th><th class="numeric">Maintenance cost</th><th class="numeric">Insurance cost</th><th class="numeric">Other operating cost</th><th class="numeric">Total operating cost</th><th class="numeric">Net contribution</th><th class="numeric">Margin %</th><th class="action-column"></th></tr></ng-template>
+            <ng-template #body let-row><tr><td><button type="button" class="asset-link" (click)="openAsset(row)">{{ row.assetNumber }}</button></td><td>{{ row.assetName }}</td><td>{{ row.category }}</td><td>{{ row.organisation }}</td><td>{{ row.customer }}</td><td>{{ row.contract }}</td><td class="numeric value-cell">{{ formatTotals(visibleTotals(row.revenue)) }}</td><td class="numeric value-cell">{{ formatTotals(visibleTotals(row.maintenance)) }}</td><td class="numeric value-cell">{{ formatTotals(visibleTotals(row.insurance)) }}</td><td class="numeric value-cell">{{ formatTotals(visibleTotals(row.other)) }}</td><td class="numeric value-cell">{{ formatTotals(visibleTotalCost(row)) }}</td><td class="numeric value-cell">{{ formatTotals(visibleNetContribution(row)) }}</td><td class="numeric">{{ formatMargins(visibleTotals(row.revenue), visibleNetContribution(row)) }}</td><td><button type="button" class="view-action" title="Open asset details" aria-label="Open asset details" (click)="openAsset(row)"><i class="pi pi-eye"></i></button></td></tr></ng-template>
+            <ng-template #emptymessage><tr><td colspan="14"><div class="empty-state table-empty"><i class="pi pi-wallet"></i><span>No asset financial records match the applied filters.</span></div></td></tr></ng-template>
+        </p-table>
+        <p-paginator *ngIf="sortedRows.length" [first]="first" [rows]="rows" [totalRecords]="sortedRows.length" [rowsPerPageOptions]="[10,20,50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="onPageChange($event)" />
+    </section>
+</div>

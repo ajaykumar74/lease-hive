@@ -1,0 +1,68 @@
+<div class="asset-utilization-report">
+    <header class="report-heading">
+        <div>
+            <span>Asset Management</span>
+            <h1>Asset Utilization &amp; Idle Aging</h1>
+            <p>Monitor leased, available, and idle assets across your portfolio.</p>
+        </div>
+        <div class="heading-actions">
+            <p-button label="Refresh" icon="pi pi-refresh" [outlined]="true" [loading]="isLoading" (onClick)="loadReport()" />
+            <p-button label="Export Excel" icon="pi pi-file-excel" [disabled]="isLoading || !sortedRows.length" (onClick)="exportToExcel()" />
+        </div>
+    </header>
+
+    <section class="card search-toolbar">
+        <div class="search-input">
+            <i class="pi pi-search"></i>
+            <input pInputText type="search" [(ngModel)]="searchTerm" (keyup.enter)="refreshReport()" placeholder="Search asset, customer, contract..." aria-label="Search utilization report" />
+        </div>
+        <p-button label="Search" icon="pi pi-search" (onClick)="refreshReport()" />
+        <p-button label="Clear" icon="pi pi-times" [text]="true" (onClick)="clearFilters()" />
+        <span class="toolbar-spacer"></span>
+        <p-button [icon]="filtersVisible ? 'pi pi-filter-slash' : 'pi pi-filter'" [label]="filtersVisible ? 'Hide filters' : 'Show filters'" [text]="true" (onClick)="filtersVisible = !filtersVisible" />
+    </section>
+
+    @if (filtersVisible) {
+        <section class="card filters-panel" aria-label="Utilization report filters">
+            <div><label for="util-org">Organisation</label><p-select inputId="util-org" [options]="organisationOptions" [(ngModel)]="selectedOrganisationId" optionLabel="label" optionValue="value" placeholder="All organisations" [showClear]="true" (onChange)="onOrganisationChange()" /></div>
+            <div><label for="util-unit">Branch / organisation unit</label><p-select inputId="util-unit" [options]="organisationUnitOptions" [(ngModel)]="selectedOrganisationUnitId" optionLabel="label" optionValue="value" placeholder="All units" [showClear]="true" [disabled]="!organisationUnitOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="util-category">Asset category</label><p-select inputId="util-category" [options]="categoryOptions" [(ngModel)]="selectedCategoryId" optionLabel="label" optionValue="value" placeholder="All categories" [showClear]="true" (onChange)="onCategoryChange()" /></div>
+            <div><label for="util-type">Asset type</label><p-select inputId="util-type" [options]="typeOptions" [(ngModel)]="selectedTypeId" optionLabel="label" optionValue="value" placeholder="All types" [showClear]="true" [disabled]="!typeOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="util-status">Asset status</label><p-select inputId="util-status" [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="util-aging">Idle aging</label><p-select inputId="util-aging" [options]="agingOptions" [(ngModel)]="selectedIdleAging" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="util-report-date">Reporting date</label><p-datepicker inputId="util-report-date" [(ngModel)]="reportingDate" dateFormat="dd M yy" [showIcon]="true" [maxDate]="today()" (onSelect)="refreshReport()" /></div>
+        </section>
+    }
+
+    @if (hasLoadError && !isLoading) {
+        <div class="load-warning"><i class="pi pi-info-circle"></i><span>Some utilization sources could not be loaded. Available tenant-scoped information is shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadReport()" /></div>
+    }
+
+    <section class="kpi-grid" aria-label="Utilization summary">
+        @if (isLoading) {
+            @for (item of [1, 2, 3, 4, 5, 6]; track item) { <article class="card kpi-card"><p-skeleton width="52%" height=".9rem" /><p-skeleton width="45%" height="2rem" styleClass="mt-3" /></article> }
+        } @else {
+            <article class="card kpi-card"><span>Total eligible assets</span><strong>{{ totalEligibleAssets | number }}</strong><small>Leaseable assets in report scope</small><i class="pi pi-box"></i></article>
+            <article class="card kpi-card"><span>Leased assets</span><strong>{{ leasedRows.length | number }}</strong><small>Allocated to active leases</small><i class="pi pi-briefcase"></i></article>
+            <article class="card kpi-card"><span>Utilization rate</span><strong>{{ utilizationRate | number:'1.0-1' }}%</strong><small>Leased ÷ eligible assets</small><i class="pi pi-chart-line"></i></article>
+            <article class="card kpi-card"><span>Idle assets</span><strong>{{ idleRows.length | number }}</strong><small>Available and not generating rent</small><i class="pi pi-pause-circle"></i></article>
+            <article class="card kpi-card"><span>Average idle days</span><strong>{{ averageIdleDays | number:'1.0-1' }}</strong><small>Across currently idle assets</small><i class="pi pi-clock"></i></article>
+            <article class="card kpi-card money-card"><span>Idle asset value</span><strong>{{ formatCurrencyTotals(idleValueTotals) }}</strong><small>Acquisition value; currencies kept separate</small><i class="pi pi-wallet"></i></article>
+        }
+    </section>
+
+    <section class="charts-grid">
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Asset utilization by category</h2><span>Leased eligible assets as a percentage of each category</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="17rem" /> } @else if (reportRows.length) { <p-chart type="bar" [data]="utilizationChartData" [options]="utilizationChartOptions" height="270px" ariaLabel="Asset utilization by category" /> } @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No utilization data matches the applied filters.</span></div> }</article>
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Idle asset aging distribution</h2><span>Available assets grouped by idle duration</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="17rem" /> } @else if (idleRows.length) { <p-chart type="doughnut" [data]="agingChartData" [options]="agingChartOptions" height="270px" ariaLabel="Idle asset aging distribution" /> } @else { <div class="empty-state"><i class="pi pi-chart-pie"></i><span>No idle assets match the applied filters.</span></div> }</article>
+    </section>
+
+    <section class="card report-table-card">
+        <div class="table-toolbar"><div><h2>Asset utilization detail</h2><span>{{ sortedRows.length | number }} matching assets</span></div><div><label for="util-sort">Sort by</label><p-select inputId="util-sort" [options]="sortOptions" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value" (onChange)="onSortChange()" /></div></div>
+        <p-table [value]="pagedRows" [loading]="isLoading" [scrollable]="true" scrollHeight="clamp(20rem, 50vh, 40rem)" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '1100px' }">
+            <ng-template #header><tr><th>Asset number</th><th>Asset name</th><th>Category</th><th>Organisation</th><th>Current status</th><th>Customer</th><th>Lease contract</th><th>Last lease end / return</th><th class="numeric">Idle days</th><th class="numeric">Acquisition value</th><th class="action-column"></th></tr></ng-template>
+            <ng-template #body let-row><tr><td><button type="button" class="asset-link" (click)="openAsset(row)">{{ row.assetNumber }}</button></td><td>{{ row.assetName }}</td><td>{{ row.category }}</td><td>{{ row.organisation }}</td><td><p-tag [value]="row.status" [severity]="statusSeverity(row.status)" /></td><td>{{ row.customer }}</td><td>{{ row.contract }}</td><td>{{ formatDate(row.lastLeaseEnd) }}</td><td class="numeric">{{ row.idleDays === null ? '—' : (row.idleDays | number) }}</td><td class="numeric value-cell">{{ formatAssetValue(row) }}</td><td><button type="button" class="view-action" title="Open asset details" aria-label="Open asset details" (click)="openAsset(row)"><i class="pi pi-eye"></i></button></td></tr></ng-template>
+            <ng-template #emptymessage><tr><td colspan="11"><div class="empty-state table-empty"><i class="pi pi-box"></i><span>No assets match the applied filters.</span></div></td></tr></ng-template>
+        </p-table>
+        <p-paginator *ngIf="sortedRows.length" [first]="first" [rows]="rows" [totalRecords]="sortedRows.length" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="onPageChange($event)" />
+    </section>
+</div>

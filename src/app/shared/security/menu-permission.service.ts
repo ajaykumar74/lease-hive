@@ -54,6 +54,13 @@ export class MenuPermissionService {
     ];
 
     private readonly resourceRoutes: ResourceRoute[] = [
+        // The portfolio overview is a read-only asset report. It deliberately
+        // uses asset view permission; exporting its CSV remains an in-screen action.
+        { route: '/reports/assets/overview', resource: 'asset.asset' },
+        { route: '/reports/assets/status-allocation', resource: 'asset.asset' },
+        { route: '/reports/assets/utilization', resource: 'asset.asset' },
+        { route: '/reports/assets/profitability', resource: 'asset.asset' },
+        { route: '/reports/assets/expiry-risk', resource: 'asset.asset' },
         { route: '/business/organisations/units', resource: 'foundation.organisationunit' },
         { route: '/business/organisations/locations', resource: 'foundation.location' },
         { route: '/business/organisations/departments', resource: 'foundation.department' },
@@ -221,6 +228,10 @@ export class MenuPermissionService {
     }
 
     private getAction(route: string): string {
+        if (route === '/reports/assets/overview' || route === '/reports/assets/status-allocation' || route === '/reports/assets/utilization' || route === '/reports/assets/profitability' || route === '/reports/assets/expiry-risk') {
+            return 'view';
+        }
+
         if (/(?:^|\/)(create|new|booknow|capture|receive)(?:\/|$)/.test(route)) {
             return 'create';
         }

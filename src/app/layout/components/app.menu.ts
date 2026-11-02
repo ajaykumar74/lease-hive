@@ -2485,27 +2485,32 @@ export class AppMenu implements OnInit, OnDestroy {
                 {
                     label: 'Asset Portfolio Dashboard',
                     icon: 'pi pi-chart-pie',
-                    routerLink: ['/reports/assets/overview']
+                    routerLink: ['/reports/assets/overview'],
+                    requiredPermission: 'asset.asset.view'
                 },
                 {
                     label: 'Asset Status & Allocation',
                     icon: 'pi pi-list',
-                    routerLink: ['/reports/assets/status-allocation']
+                    routerLink: ['/reports/assets/status-allocation'],
+                    requiredPermission: 'asset.asset.view'
                 },
                 {
                     label: 'Asset Utilization & Idle Aging',
                     icon: 'pi pi-chart-line',
-                    routerLink: ['/reports/assets/utilization']
+                    routerLink: ['/reports/assets/utilization'],
+                    requiredPermission: 'asset.asset.view'
                 },
                 {
                     label: 'Asset Revenue & Profitability',
                     icon: 'pi pi-wallet',
-                    routerLink: ['/reports/assets/profitability']
+                    routerLink: ['/reports/assets/profitability'],
+                    requiredPermission: 'asset.asset.view'
                 },
                 {
                     label: 'Asset Lease Expiry & Risk',
                     icon: 'pi pi-calendar-times',
-                    routerLink: ['/reports/assets/expiry-risk']
+                    routerLink: ['/reports/assets/expiry-risk'],
+                    requiredPermission: 'asset.asset.view'
                 }
             ]
         }

@@ -1,0 +1,56 @@
+<div class="asset-expiry-risk-report">
+    <header class="report-heading">
+        <div><span>Asset Management</span><h1>Asset Lease Expiry &amp; Risk</h1><p>Monitor upcoming lease expirations, overdue asset returns, and operational risks.</p></div>
+        <div class="heading-actions"><p-button label="Refresh" icon="pi pi-refresh" [outlined]="true" [loading]="isLoading" (onClick)="loadReport()" /><p-button label="Export Excel" icon="pi pi-file-excel" [disabled]="isLoading || !sortedRows.length" (onClick)="exportToExcel()" /></div>
+    </header>
+
+    <section class="card search-toolbar">
+        <div class="search-input"><i class="pi pi-search"></i><input pInputText type="search" [(ngModel)]="searchTerm" (keyup.enter)="refreshReport()" placeholder="Search asset, customer, contract, risk..." aria-label="Search lease expiry and risk report" /></div>
+        <p-button label="Search" icon="pi pi-search" (onClick)="refreshReport()" /><p-button label="Clear" icon="pi pi-times" [text]="true" (onClick)="clearFilters()" /><span class="toolbar-spacer"></span><p-button [icon]="filtersVisible ? 'pi pi-filter-slash' : 'pi pi-filter'" [label]="filtersVisible ? 'Hide filters' : 'Show filters'" [text]="true" (onClick)="filtersVisible = !filtersVisible" />
+    </section>
+
+    @if (filtersVisible) {
+        <section class="card filters-panel" aria-label="Lease expiry and risk report filters">
+            <div><label for="risk-org">Organisation</label><p-select inputId="risk-org" [options]="organisationOptions" [(ngModel)]="selectedOrganisationId" optionLabel="label" optionValue="value" placeholder="All organisations" [showClear]="true" (onChange)="onOrganisationChange()" /></div>
+            <div><label for="risk-unit">Branch / organisation unit</label><p-select inputId="risk-unit" [options]="organisationUnitOptions" [(ngModel)]="selectedOrganisationUnitId" optionLabel="label" optionValue="value" placeholder="All units" [showClear]="true" [disabled]="!organisationUnitOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="risk-category">Asset category</label><p-select inputId="risk-category" [options]="categoryOptions" [(ngModel)]="selectedCategoryId" optionLabel="label" optionValue="value" placeholder="All categories" [showClear]="true" (onChange)="onCategoryChange()" /></div>
+            <div><label for="risk-type">Asset type</label><p-select inputId="risk-type" [options]="typeOptions" [(ngModel)]="selectedTypeId" optionLabel="label" optionValue="value" placeholder="All types" [showClear]="true" [disabled]="!typeOptions.length" (onChange)="refreshReport()" /></div>
+            <div><label for="risk-customer">Customer</label><p-select inputId="risk-customer" [options]="customerOptions" [(ngModel)]="selectedCustomerId" optionLabel="label" optionValue="value" placeholder="All customers" [showClear]="true" (onChange)="onCustomerChange()" /></div>
+            <div><label for="risk-contract">Lease contract</label><p-select inputId="risk-contract" [options]="contractOptions" [(ngModel)]="selectedContractId" optionLabel="label" optionValue="value" placeholder="All contracts" [showClear]="true" (onChange)="refreshReport()" /></div>
+            <div><label for="risk-expiry-period">Expiry period</label><p-select inputId="risk-expiry-period" [options]="expiryPeriodOptions" [(ngModel)]="selectedExpiryPeriod" optionLabel="label" optionValue="value" (onChange)="onExpiryPeriodChange()" /></div>
+            @if (selectedExpiryPeriod === 'custom') { <div><label for="risk-custom-horizon">Custom horizon</label><p-datepicker inputId="risk-custom-horizon" [(ngModel)]="customHorizonDate" dateFormat="dd M yy" [showIcon]="true" [minDate]="today()" (onSelect)="refreshReport()" /></div> }
+            <div><label for="risk-lease-status">Lease status</label><p-select inputId="risk-lease-status" [options]="leaseStatusOptions" [(ngModel)]="selectedLeaseStatus" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="risk-risk-type">Risk type</label><p-select inputId="risk-risk-type" [options]="riskTypeOptions" [(ngModel)]="selectedRiskType" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+            <div><label for="risk-level">Risk level</label><p-select inputId="risk-level" [options]="riskLevelOptions" [(ngModel)]="selectedRiskLevel" optionLabel="label" optionValue="value" (onChange)="refreshReport()" /></div>
+        </section>
+    }
+
+    @if (hasLoadError && !isLoading) { <div class="load-warning"><i class="pi pi-info-circle"></i><span>Some risk sources could not be loaded. Available tenant-scoped records are shown.</span><p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadReport()" /></div> }
+
+    <section class="kpi-grid" aria-label="Lease expiry risk summary">
+        @if (isLoading) { @for (item of [1,2,3,4,5,6]; track item) { <article class="card kpi-card"><p-skeleton width="58%" height=".9rem" /><p-skeleton width="45%" height="2rem" styleClass="mt-3" /></article> } }
+        @else {
+            <article class="card kpi-card blue"><span>Expiring in 30 days</span><strong>{{ expiring30Assets | number }}</strong><small>Distinct active-lease assets</small><i class="pi pi-calendar-clock"></i></article>
+            <article class="card kpi-card amber"><span>Expiring in 60 days</span><strong>{{ expiring60Assets | number }}</strong><small>31–60 days to expiry</small><i class="pi pi-calendar"></i></article>
+            <article class="card kpi-card amber"><span>Expiring in 90 days</span><strong>{{ expiring90Assets | number }}</strong><small>61–90 days to expiry</small><i class="pi pi-calendar-plus"></i></article>
+            <article class="card kpi-card red"><span>Expired / overdue</span><strong>{{ overdueAssets | number }}</strong><small>Not recorded as returned</small><i class="pi pi-exclamation-triangle"></i></article>
+            <article class="card kpi-card orange"><span>Insurance expiring</span><strong>{{ insuranceExpiringAssets | number }}</strong><small>Coverage ending within 30 days</small><i class="pi pi-shield"></i></article>
+            <article class="card kpi-card red"><span>High-risk assets</span><strong>{{ highRiskAssets | number }}</strong><small>Unresolved high or critical operational risk</small><i class="pi pi-bolt"></i></article>
+        }
+    </section>
+
+    <section class="charts-grid">
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Lease expiry distribution</h2><span>Distinct assets grouped by lease maturity</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="18rem" /> } @else if (reportRows.length) { <p-chart type="bar" [data]="expiryChartData" [options]="expiryChartOptions" height="285px" ariaLabel="Lease expiry distribution" /> } @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No lease expiries or risks match the applied filters.</span></div> }</article>
+        <article class="card chart-card"><div class="panel-heading"><div><h2>Risk distribution</h2><span>Distinct assets by highest risk level</span></div></div>@if (isLoading) { <p-skeleton width="100%" height="18rem" /> } @else if (reportRows.length) { <p-chart type="doughnut" [data]="riskChartData" [options]="riskChartOptions" height="285px" ariaLabel="Risk distribution by level" /> } @else { <div class="empty-state"><i class="pi pi-chart-pie"></i><span>No risks match the applied filters.</span></div> }</article>
+    </section>
+
+    <section class="card report-table-card">
+        <div class="table-toolbar"><div><h2>Asset lease expiry &amp; risk detail</h2><span>{{ sortedRows.length | number }} matching asset-contract associations</span></div><div><label for="risk-sort">Sort by</label><p-select inputId="risk-sort" [options]="sortOptions" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value" (onChange)="onSortChange()" /></div></div>
+        <p-table [value]="pagedRows" [loading]="isLoading" [scrollable]="true" scrollHeight="clamp(20rem, 50vh, 40rem)" responsiveLayout="scroll" styleClass="expiry-risk-table" [tableStyle]="{ 'min-width': '1450px' }">
+            <ng-template #header><tr><th>Asset number</th><th>Asset name</th><th>Category</th><th>Organisation</th><th>Customer</th><th>Lease contract</th><th>Contract end date</th><th class="numeric">Days to expiry</th><th>Asset return status</th><th>Insurance expiry</th><th>Risk type</th><th>Risk level</th><th class="action-column"></th></tr></ng-template>
+            <ng-template #body let-row><tr><td><button type="button" class="asset-link" (click)="openAsset(row)">{{ row.assetNumber }}</button></td><td>{{ row.assetName }}</td><td>{{ row.category }}</td><td>{{ row.organisation }}</td><td>{{ row.customer }}</td><td>@if (row.contract) { <button type="button" class="contract-link" (click)="openContract(row)">{{ row.contractLabel }}</button> } @else { — }</td><td>{{ formatNullableDate(row.contractEnd) }}</td><td class="numeric" [class.overdue]="row.daysToExpiry !== null && row.daysToExpiry < 0">{{ row.daysToExpiry === null ? '—' : (row.daysToExpiry | number) }}</td><td><p-tag [value]="row.returnStatus" [severity]="row.returnStatus === 'Overdue' ? 'danger' : row.returnStatus === 'Returned' ? 'success' : row.returnStatus === 'Pending' ? 'warn' : 'secondary'" /></td><td>{{ formatNullableDate(row.insuranceExpiry) }}</td><td>{{ row.riskTypes.join(', ') || '—' }}</td><td><p-tag [value]="row.riskLevel === 'None' ? '—' : row.riskLevel" [severity]="riskSeverity(row.riskLevel)" /></td><td><div class="row-actions"><button type="button" class="view-action" title="Open asset details" aria-label="Open asset details" (click)="openAsset(row)"><i class="pi pi-eye"></i></button>@if (row.contract) { <button type="button" class="view-action" title="Open contract details" aria-label="Open contract details" (click)="openContract(row)"><i class="pi pi-file"></i></button> }</div></td></tr></ng-template>
+            <ng-template #emptymessage><tr><td colspan="13"><div class="empty-state table-empty"><i class="pi pi-calendar-times"></i><span>No expiry or risk records match the applied filters.</span></div></td></tr></ng-template>
+        </p-table>
+        <p-paginator *ngIf="sortedRows.length" [first]="first" [rows]="rows" [totalRecords]="sortedRows.length" [rowsPerPageOptions]="[10,20,50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="onPageChange($event)" />
+    </section>
+</div>

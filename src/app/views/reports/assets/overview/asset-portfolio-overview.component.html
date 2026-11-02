@@ -1,0 +1,120 @@
+<div class="asset-portfolio-overview">
+    <header class="dashboard-heading">
+        <div>
+            <span class="eyebrow">Asset Management</span>
+            <h1>Asset Portfolio Overview</h1>
+            <p>A complete view of your asset portfolio, utilization, allocation, and performance.</p>
+        </div>
+        <div class="dashboard-actions">
+            <p-button label="Refresh" icon="pi pi-refresh" [outlined]="true" (onClick)="loadDashboard()" [loading]="isLoading" />
+            <p-button label="Export Excel" icon="pi pi-file-excel" [disabled]="isLoading || !categoryRows.length" (onClick)="exportToExcel()" />
+        </div>
+    </header>
+
+    <section class="filter-toolbar" aria-label="Portfolio report filters">
+        <div class="filter-control">
+            <label for="reporting-period">Reporting period</label>
+            <p-select inputId="reporting-period" [options]="periodOptions" [(ngModel)]="selectedPeriod" optionLabel="label" optionValue="value" (onChange)="applyFilters()" />
+        </div>
+        <div class="filter-control">
+            <label for="organisation-filter">Organisation</label>
+            <p-select inputId="organisation-filter" [options]="organisationOptions" [(ngModel)]="selectedOrganisationId" optionLabel="label" optionValue="value" placeholder="All organisations" [showClear]="true" (onChange)="applyFilters()" />
+        </div>
+        <div class="filter-control">
+            <label for="asset-category-filter">Asset category</label>
+            <p-select inputId="asset-category-filter" [options]="categoryOptions" [(ngModel)]="selectedCategoryId" optionLabel="label" optionValue="value" placeholder="All categories" [showClear]="true" (onChange)="applyFilters()" />
+        </div>
+        <p-button label="Clear filters" icon="pi pi-filter-slash" [text]="true" (onClick)="clearFilters()" />
+    </section>
+
+    @if (hasLoadError && !isLoading) {
+        <div class="load-warning" role="status">
+            <i class="pi pi-info-circle"></i>
+            <span>Some portfolio sources could not be loaded. Available tenant-scoped information is shown below.</span>
+            <p-button label="Retry" icon="pi pi-refresh" [text]="true" size="small" (onClick)="loadDashboard()" />
+        </div>
+    }
+
+    <section class="kpi-grid" aria-label="Asset portfolio summary">
+        @if (isLoading) {
+            @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+                <article class="card kpi-card"><p-skeleton width="48%" height=".9rem" /><p-skeleton width="58%" height="2rem" styleClass="mt-3" /><p-skeleton width="72%" height=".8rem" styleClass="mt-3" /></article>
+            }
+        } @else {
+            <button type="button" class="card kpi-card clickable" (click)="openAssetList()"><span class="kpi-label">Total assets</span><strong>{{ scopedAssets.length | number }}</strong><small>Active portfolio assets</small><i class="pi pi-box kpi-icon blue"></i></button>
+            <button type="button" class="card kpi-card clickable money-card" (click)="openAssetList()"><span class="kpi-label">Total asset value</span><strong>{{ formatMoney(assetValueTotals) }}</strong><small>Acquisition value; currencies shown separately</small><i class="pi pi-wallet kpi-icon purple"></i></button>
+            <button type="button" class="card kpi-card clickable" (click)="openContracts()"><span class="kpi-label">Leased assets</span><strong>{{ leasedAssets.length | number }}</strong><small>{{ utilizationRate | number:'1.0-1' }}% of eligible assets</small><i class="pi pi-briefcase kpi-icon green"></i></button>
+            <button type="button" class="card kpi-card clickable" (click)="openAssetList()"><span class="kpi-label">Available assets</span><strong>{{ availableAssets.length | number }}</strong><small>Ready for new lease demand</small><i class="pi pi-check-circle kpi-icon cyan"></i></button>
+            <button type="button" class="card kpi-card clickable" (click)="openMaintenance()"><span class="kpi-label">Under maintenance</span><strong>{{ maintainedAssets.length | number }}</strong><small>Unavailable for allocation</small><i class="pi pi-wrench kpi-icon orange"></i></button>
+            <button type="button" class="card kpi-card clickable" (click)="openAssignments()"><span class="kpi-label">Utilization rate</span><strong>{{ utilizationRate | number:'1.0-1' }}%</strong><small>{{ leasedAssets.length }} leased of {{ scopedAssets.length }} assets</small><i class="pi pi-chart-line kpi-icon teal"></i></button>
+            <button type="button" class="card kpi-card clickable money-card" (click)="openSchedules()"><span class="kpi-label">Monthly rental revenue</span><strong>{{ formatMoney(rentalRevenueTotals) }}</strong><small>Scheduled rental in selected period</small><i class="pi pi-money-bill kpi-icon blue"></i></button>
+            <button type="button" class="card kpi-card clickable" (click)="openAssetList()"><span class="kpi-label">Idle assets</span><strong>{{ idleAssets.length | number }}</strong><small>Available for more than 30 days</small><i class="pi pi-pause-circle kpi-icon rose"></i></button>
+        }
+    </section>
+
+    <section class="analytics-grid">
+        <article class="card chart-card">
+            <div class="panel-heading"><div><h2>Asset status distribution</h2><span>Portfolio availability and operational status</span></div></div>
+            @if (isLoading) { <p-skeleton width="100%" height="20rem" /> }
+            @else if (scopedAssets.length) {
+                <div class="status-chart-layout">
+                    <p-chart type="doughnut" [data]="statusChartData" [options]="statusChartOptions" height="250px" ariaLabel="Asset status distribution" />
+                    <div class="status-legend" aria-label="Asset status legend">
+                        @for (item of statusLegend; track item.label) {
+                            <div><span class="legend-dot" [style.background]="item.color"></span><span>{{ item.label }}</span><strong>{{ item.count | number }}</strong><small>{{ item.percentage | number:'1.0-1' }}%</small></div>
+                        }
+                    </div>
+                </div>
+            } @else { <div class="empty-state"><i class="pi pi-chart-pie"></i><span>No assets match the selected portfolio filters.</span></div> }
+        </article>
+
+        <article class="card chart-card">
+            <div class="panel-heading"><div><h2>Asset utilization by category</h2><span>Leased eligible assets by configured category</span></div></div>
+            @if (isLoading) { <p-skeleton width="100%" height="20rem" /> }
+            @else if (categoryRows.length) { <p-chart type="bar" [data]="utilizationChartData" [options]="utilizationChartOptions" height="275px" ariaLabel="Asset utilization by category" /> }
+            @else { <div class="empty-state"><i class="pi pi-chart-bar"></i><span>No category utilization is available for this selection.</span></div> }
+        </article>
+    </section>
+
+    <section class="card table-card">
+        <div class="panel-heading">
+            <div><h2>Asset portfolio by category</h2><span>Click a category to open its related asset records.</span></div>
+            <p-button label="Asset worklist" icon="pi pi-arrow-right" iconPos="right" [text]="true" size="small" (onClick)="openAssetList()" />
+        </div>
+        <p-table [value]="categoryRows" [loading]="isLoading" responsiveLayout="scroll" sortMode="single" dataKey="categoryId">
+            <ng-template #header>
+                <tr>
+                    <th pSortableColumn="category">Category <p-sortIcon field="category" /></th>
+                    <th pSortableColumn="totalAssets" class="numeric">Total assets <p-sortIcon field="totalAssets" /></th>
+                    <th pSortableColumn="leased" class="numeric">Leased <p-sortIcon field="leased" /></th>
+                    <th pSortableColumn="available" class="numeric">Available <p-sortIcon field="available" /></th>
+                    <th class="numeric">Asset value</th>
+                    <th pSortableColumn="utilization" class="numeric">Utilization <p-sortIcon field="utilization" /></th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-row>
+                <tr class="clickable-row" (click)="openAssetList(row.categoryId)">
+                    <td><strong>{{ row.category }}</strong></td>
+                    <td class="numeric">{{ row.totalAssets | number }}</td>
+                    <td class="numeric">{{ row.leased | number }}</td>
+                    <td class="numeric">{{ row.available | number }}</td>
+                    <td class="numeric money-cell">{{ formatMoney(row.assetValue) }}</td>
+                    <td class="numeric"><p-tag [value]="(row.utilization | number:'1.0-1') + '%'" [severity]="row.utilization >= 75 ? 'success' : row.utilization >= 45 ? 'warn' : 'secondary'" /></td>
+                </tr>
+            </ng-template>
+            <ng-template #emptymessage><tr><td colspan="6" class="table-empty">No asset categories match the selected portfolio filters.</td></tr></ng-template>
+        </p-table>
+    </section>
+
+    <section class="card alerts-card">
+        <div class="panel-heading"><div><h2>Operational alerts</h2><span>Portfolio conditions requiring follow-up</span></div></div>
+        <div class="alerts-grid">
+            <button type="button" class="alert-item" (click)="openAlert('idle')"><i class="pi pi-clock amber"></i><div><strong>{{ idleAssets.length | number }}</strong><span>Idle more than 30 days</span></div><small>Available and not generating rent</small><i class="pi pi-angle-right"></i></button>
+            <button type="button" class="alert-item" (click)="openAlert('idle')"><i class="pi pi-clock amber"></i><div><strong>{{ idleOver60Days.length | number }}</strong><span>Idle more than 60 days</span></div><small>Escalate prolonged idle time</small><i class="pi pi-angle-right"></i></button>
+            <button type="button" class="alert-item" (click)="openAlert('idle')"><i class="pi pi-clock red"></i><div><strong>{{ idleOver90Days.length | number }}</strong><span>Idle more than 90 days</span></div><small>Review disposition options</small><i class="pi pi-angle-right"></i></button>
+            <button type="button" class="alert-item" (click)="openAlert('leases')"><i class="pi pi-calendar-clock blue"></i><div><strong>{{ expiringContracts.length | number }}</strong><span>Leases expiring within 30 days</span></div><small>Review renewals and returns</small><i class="pi pi-angle-right"></i></button>
+            <button type="button" class="alert-item" (click)="openAlert('maintenance')"><i class="pi pi-wrench orange"></i><div><strong>{{ maintainedAssets.length | number }}</strong><span>Assets under maintenance</span></div><small>Currently unavailable</small><i class="pi pi-angle-right"></i></button>
+            <button type="button" class="alert-item" (click)="openAlert('insurance')"><i class="pi pi-shield red"></i><div><strong>{{ expiringInsurance.length | number }}</strong><span>Insurance expiring within 30 days</span></div><small>Review coverage renewal</small><i class="pi pi-angle-right"></i></button>
+        </div>
+    </section>
+</div>
