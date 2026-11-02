@@ -12,7 +12,7 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetId" class="mb-1">Asset</label>
         <p-dropdown
             inputId="AssetId" 
             [options]="assetidOptions"
@@ -23,33 +23,14 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
-											label="Asset Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Maintenance Schedule Id" class="mb-1">MaintenanceScheduleId</label>
-        <p-dropdown
-            inputId="MaintenanceScheduleId" 
-            [options]="maintenancescheduleidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="MaintenanceScheduleId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceScheduleId')"
-											label="Maintenance Schedule Id">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Type Id" class="mb-1">MaintenanceTypeId</label>
-        <p-dropdown
-            inputId="MaintenanceTypeId" 
-            [options]="maintenancetypeidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="MaintenanceTypeId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenanceTypeId')"
-											label="Maintenance Type Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Request Source Code" class="mb-1">RequestSourceCode</label>
+											label="Asset">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="MaintenanceSchedule" class="mb-1">Maintenance Schedule</label>
+        <input pInputText id="MaintenanceSchedule" type="text" pSize="small" [value]="maintenanceScheduleDisplayName" readonly />
+      </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="MaintenanceType" class="mb-1">Maintenance Type</label>
+        <input pInputText id="MaintenanceType" type="text" pSize="small" [value]="maintenanceTypeDisplayName" readonly />
+      </div><div class="flex flex-col w-full">
+ <label for="Request Source Code" class="mb-1">RequestSourceCode</label>
         <p-dropdown
             inputId="RequestSourceCode" 
             [options]="requestsourcecodeOptions"
@@ -70,19 +51,10 @@
 	<app-validation-errors [type]="'date'" [control]="editForm.get('RequestedAt')"
 											label="Requested At">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Requested By Party Id" class="mb-1">RequestedByPartyId</label>
-        <p-dropdown
-            inputId="RequestedByPartyId" 
-            [options]="requestedbypartyidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RequestedByPartyId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RequestedByPartyId')"
-											label="Requested By Party Id">
-										</app-validation-errors></div></div>
+						 </div><div class="flex flex-col w-full">
+ <label for="RequestedByParty" class="mb-1">Requested By Party</label>
+        <input pInputText id="RequestedByParty" type="text" pSize="small" [value]="requestedByPartyDisplayName" readonly />
+      </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Requested By User Id" class="mb-1">RequestedByUserId</label>
         <p-dropdown
             inputId="RequestedByUserId" 
@@ -130,20 +102,6 @@
 
 
                </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
-        <p-dropdown
-            inputId="StatusCode" 
-            [options]="statuscodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="StatusCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
-											label="Status Code">
-										</app-validation-errors></div></div>
-
 					</div>
 				</div>
  			</p-fluid> 				 

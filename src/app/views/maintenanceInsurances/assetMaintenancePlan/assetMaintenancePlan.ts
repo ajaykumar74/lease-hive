@@ -13,5 +13,7 @@ OverrideIntervalDays :number;
 OverrideMeasureValue :number;
 StatusCode :string;
 RecordStatus :string;
+AssetDisplayName?: string;
+MaintenancePlanDisplayName?: string;
 
 }

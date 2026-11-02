@@ -118,6 +118,15 @@ export class AuditLogListComponent implements OnInit {
       ?? `User #${applicationUserId}`;
   }
 
+  getActionSeverity(action: string | null | undefined): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' {
+    const value = (action || '').toLowerCase();
+    if (/(create|add|approve|activate|restore)/.test(value)) return 'success';
+    if (/(update|edit|modify|change|assign)/.test(value)) return 'info';
+    if (/(delete|remove|revoke|reject|deactivate)/.test(value)) return 'danger';
+    if (/(view|read|export|download)/.test(value)) return 'secondary';
+    return 'contrast';
+  }
+
   onDetailsClick(obj: any): void {
     this.router.navigate(['/dashboard/auditLogs/view', obj.Id]);
   }

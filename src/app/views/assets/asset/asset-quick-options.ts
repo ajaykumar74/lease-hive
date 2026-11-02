@@ -18,12 +18,28 @@ export function createAssetQuickOptions(
       navigate([...route, 'asset', assetId]);
     }
   };
+  const openMaintenanceSchedules = (create: boolean) => {
+    const assetId = Number(getAssetId());
+    if (assetId > 0) {
+      navigate(create
+        ? ['/maintenance-insurance/maintenance/schedules/asset', assetId, 'create']
+        : ['/maintenance-insurance/maintenance/schedules/asset', assetId]);
+    }
+  };
 
   const options: MenuItem[] = [
     { label: 'Identifiers', icon: 'pi pi-id-card', command: () => openForAsset(['/business/assets/classification/identifiers']) },
     { label: 'Attributes', icon: 'pi pi-list', command: () => openForAsset(['/business/assets/classification/attribute-values']) },
     { label: 'Documents', icon: 'pi pi-file', command: () => openForAsset(['/business/assets/documents']) },
     { label: 'Warranty & Support', icon: 'pi pi-shield', command: () => openForAsset(['/business/assets/warranties']) },
+    {
+      label: 'Maintenance',
+      icon: 'pi pi-wrench',
+      items: [
+        { label: 'View Schedules', icon: 'pi pi-list', command: () => openMaintenanceSchedules(false) },
+        { label: 'Create Schedule', icon: 'pi pi-plus', command: () => openMaintenanceSchedules(true) }
+      ]
+    },
     { label: 'Assignments', icon: 'pi pi-users', command: () => openForAsset(['/business/assets/assignments']) },
     { label: 'Inspections', icon: 'pi pi-search', command: () => openForAsset(['/business/assets/inspections']) },
     { label: 'Compliance', icon: 'pi pi-verified', command: () => openForAsset(['/business/assets/compliance/records']) },

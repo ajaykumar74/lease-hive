@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { TagModule } from 'primeng/tag';
 
 import { EmailJobQueueListComponent } from './emailJobQueue-list.component';
 import { EmailJobQueueViewComponent } from './emailJobQueue-view.component';
@@ -32,6 +33,7 @@ import { EmailJobQueueRoutingModule } from './emailJobQueue-routing.module';
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		TagModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

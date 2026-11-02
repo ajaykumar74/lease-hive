@@ -11,8 +11,9 @@ import { EmailJobQueueService } from './emailJobQueue.service';
 import { IEmailJobQueue } from './emailJobQueue';
 
 @Component({
-    templateUrl: './emailJobQueue-view.component.html', 
-standalone: false,
+    templateUrl: './emailJobQueue-view.component.html',
+    styleUrl: './emailJobQueue-view.component.scss',
+    standalone: false,
     providers: [MessageService]
 })
 export class EmailJobQueueViewComponent implements OnInit {
@@ -75,6 +76,28 @@ export class EmailJobQueueViewComponent implements OnInit {
         if (key == "Refresh") {
             this.loadUI();
         }
+    }
+
+    getStatusSeverity(status: string | null | undefined): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
+        const value = (status || 'Pending').toLowerCase().trim();
+
+        if (/(success|sent|complete|delivered)/.test(value)) {
+            return 'success';
+        }
+
+        if (/(fail|error|cancel|reject)/.test(value)) {
+            return 'danger';
+        }
+
+        if (/(process|sending|running)/.test(value)) {
+            return 'info';
+        }
+
+        if (/(pending|queue|retry|schedule|hold)/.test(value)) {
+            return 'warn';
+        }
+
+        return 'secondary';
     }
 
     private parseStringArray(value: string): string[] {

@@ -25,9 +25,14 @@
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="User Agent" [value]="auditLog.UserAgent">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Correlation Id" [value]="auditLog.CorrelationId">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Before Json" [value]="auditLog.BeforeJson">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="After Json" [value]="auditLog.AfterJson">
-								</app-view-field></div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<label class="audit-json-label">Before JSON</label>
+<div class="audit-json" role="region" aria-label="Before JSON" [innerHTML]="formatJson(auditLog.BeforeJson)"></div>
+</div><div class="flex flex-col w-full">
+<label class="audit-json-label">After JSON</label>
+<div class="audit-json" role="region" aria-label="After JSON" [innerHTML]="formatJson(auditLog.AfterJson)"></div>
+</div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Outcome" [value]="auditLog.Outcome">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Failure Reason" [value]="auditLog.FailureReason">
 								</app-view-field></div></div>

@@ -15,5 +15,10 @@ PlannedOrganisationUnitId :number;
 PreferredServiceProviderPartyId :number;
 GeneratedFromCode :string;
 RecordStatus :string;
+AssetMaintenancePlanDisplayName?: string;
+AssetDisplayName?: string;
+MaintenancePlanDisplayName?: string;
+PlannedOrganisationUnitDisplayName?: string;
+PreferredServiceProviderPartyDisplayName?: string;
 
 }

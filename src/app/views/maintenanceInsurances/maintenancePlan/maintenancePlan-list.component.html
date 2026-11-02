@@ -1,57 +1,80 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
+<div class="grid list-page maintenance-plan-list">
+    <div class="col-12">
+        <div class="card list-card maintenance-plan-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'MaintenancePlan List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
-</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Maintenance Plan Code <p-sortIcon field="MaintenancePlanCode" /> </th>
-<th style="width:200px">Maintenance Plan Name <p-sortIcon field="MaintenancePlanName" /> </th>
-<th style="width:200px">Maintenance Type ID <p-sortIcon field="MaintenanceTypeId" /> </th>
-<th style="width:200px">Asset Category ID <p-sortIcon field="AssetCategoryId" /> </th>
-<th style="width:200px">Asset Type ID <p-sortIcon field="AssetTypeId" /> </th>
-<th style="width:200px">Asset Model ID <p-sortIcon field="AssetModelId" /> </th>
-<th style="width:200px">Trigger Type Code <p-sortIcon field="TriggerTypeCode" /> </th>
-<th style="width:200px">Interval Days <p-sortIcon field="IntervalDays" /> </th>
-<th style="width:200px">Measure Definition ID <p-sortIcon field="MeasureDefinitionId" /> </th>
-<th style="width:200px">Interval Measure Value <p-sortIcon field="IntervalMeasureValue" /> </th>
-<th style="width:200px">Lead Days <p-sortIcon field="LeadDays" /> </th>
-<th style="width:200px">Lead Measure Value <p-sortIcon field="LeadMeasureValue" /> </th>
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Maintenance Plans'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
 
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.MaintenancePlanCode}}</td>
- <td style="width:200px">{{obj.MaintenancePlanName}}</td>
- <td style="width:200px">{{obj.MaintenanceTypeId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetCategoryId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetTypeId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.AssetModelId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.TriggerTypeCode}}</td>
- <td style="width:200px">{{obj.IntervalDays | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.MeasureDefinitionId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.IntervalMeasureValue | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.LeadDays | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.LeadMeasureValue | number:'1.0':'en-US' }}</td>
- <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
+            <div class="maintenance-plan-list-toolbar" role="search" aria-label="Maintenance plan list controls">
+                <div class="maintenance-plan-search">
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search plan code or name" aria-label="Search maintenance plans" />
+                    <button type="button" pButton icon="pi pi-search" label="Search" (click)="onSearch()" aria-label="Search maintenance plans"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" [disabled]="!searchTerm" (click)="clearSearch()" aria-label="Clear Search" pTooltip="Clear Search" tooltipPosition="top"></button>
+                </div>
 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
+                <div class="maintenance-plan-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching maintenance plans"><i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div>
+                    <label class="maintenance-plan-sort-label" for="maintenancePlanSort">Sort by</label>
+                    <p-dropdown inputId="maintenancePlanSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="maintenance-plan-sort"></p-dropdown>
+                    <span class="maintenance-plan-filter-toggle">
+                        <button type="button" pButton icon="pi pi-filter" [outlined]="!filterControlsVisible" [severity]="hasActiveFilters ? 'primary' : 'secondary'" (click)="toggleFilterControls()" [attr.aria-pressed]="filterControlsVisible" [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'" [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'" tooltipPosition="top"></button>
+                        <span *ngIf="activeFilterCount" class="maintenance-plan-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="maintenance-plan-table-area" aria-label="Maintenance plan results">
+                <div *ngIf="hasLoadError" class="list-empty maintenance-plan-load-error" role="alert">
+                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load maintenance plans</strong><span>Please try again.</span>
+                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
+                </div>
+
+                <ng-container *ngIf="!hasLoadError">
+                    <div *ngIf="emptyState as empty; else planTable" class="list-empty maintenance-plan-empty-state">
+                        <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong><span>{{ empty.description }}</span>
+                        <button *ngIf="searchTerm || hasActiveFilters; else createMaintenancePlan" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                        <ng-template #createMaintenancePlan><button *ngIf="permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button></ng-template>
+                    </div>
+
+                    <ng-template #planTable>
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table maintenance-plan-table" [tableStyle]="{ 'min-width': '1120px' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Maintenance Plan Code</th><th>Maintenance Plan Name</th><th>Maintenance Type</th><th>Asset Category</th><th>Trigger Type</th><th>Maintenance Interval</th><th>Record Status</th><th class="list-actions-column">Actions</th>
+                                </tr>
+                                <tr *ngIf="filterControlsVisible" class="maintenance-plan-filter-row">
+                                    <th><input type="search" pInputText [(ngModel)]="filters.planCode" (keyup.enter)="onFiltersChanged()" (blur)="onFiltersChanged()" placeholder="Plan code" aria-label="Filter by plan code" /></th>
+                                    <th><input type="search" pInputText [(ngModel)]="filters.planName" (keyup.enter)="onFiltersChanged()" (blur)="onFiltersChanged()" placeholder="Plan name" aria-label="Filter by plan name" /></th>
+                                    <th><p-dropdown [options]="maintenanceTypeOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.maintenanceTypeId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Maintenance type" ariaLabel="Filter by maintenance type"></p-dropdown></th>
+                                    <th><p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.assetCategoryId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Asset category" ariaLabel="Filter by asset category"></p-dropdown></th>
+                                    <th><p-dropdown [options]="triggerTypeOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.triggerType" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Trigger type" ariaLabel="Filter by trigger type"></p-dropdown></th>
+                                    <th></th>
+                                    <th><p-dropdown [options]="recordStatusOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.recordStatus" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Record status" ariaLabel="Filter by record status"></p-dropdown></th>
+                                    <th class="maintenance-plan-filter-actions"><button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button></th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-obj>
+                                <tr>
+                                    <td><button type="button" class="list-primary-link" (click)="onViewClick(obj)" [attr.aria-label]="'View maintenance plan ' + obj.MaintenancePlanCode">{{ obj.MaintenancePlanCode || '—' }}</button></td>
+                                    <td>{{ obj.MaintenancePlanName || '—' }}</td>
+                                    <td>{{ getMaintenanceTypeName(obj) }}</td>
+                                    <td>{{ getAssetCategoryName(obj) }}</td>
+                                    <td>{{ getTriggerTypeLabel(obj.TriggerTypeCode) }}</td>
+                                    <td>{{ getMaintenanceInterval(obj) }}</td>
+                                    <td><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
+                                    <td><div class="list-actions">
+                                        <button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View" tooltipPosition="top" aria-label="View maintenance plan"><i class="pi pi-eye" aria-hidden="true"></i></button>
+                                        <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" [disabled]="!isEditable(obj)" (click)="onEditClick(obj)" [pTooltip]="isEditable(obj) ? 'Edit' : 'This plan is not editable'" tooltipPosition="top" aria-label="Edit maintenance plan"><i class="pi pi-pencil" aria-hidden="true"></i></button>
+                                    </div></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"></p-paginator>
+                    </ng-template>
+                </ng-container>
+            </section>
+        </div>
+    </div>
 </div>

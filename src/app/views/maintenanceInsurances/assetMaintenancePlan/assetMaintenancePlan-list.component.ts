@@ -65,7 +65,7 @@ export class AssetMaintenancePlanListComponent implements OnInit {
   }
 
   clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+    this.objSearch = { Name: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
     this.searchData(this.pgEvent, true);
   }
 
@@ -110,10 +110,8 @@ export class AssetMaintenancePlanListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'AssetDisplayName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 

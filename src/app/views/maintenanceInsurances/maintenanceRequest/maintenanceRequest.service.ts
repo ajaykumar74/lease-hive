@@ -5,6 +5,7 @@ import { BaseService } from '@/shared/IBaseService';
 import { IMaintenanceRequest } from './maintenanceRequest';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
+import { ListPageState } from '@/shared/list-page.models';
 
 @Injectable({
   providedIn: 'root'
@@ -23,18 +24,29 @@ export class MaintenanceRequestService extends BaseCrudService<any> {
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache<TFilters>(result: any, permission: any, state: ListPageState<TFilters>): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
+    // An empty result is still a completed request and needs its state restored on return.
+    this.CacheData.IsLoaded = true;
+    this.CacheData.CurrentPage = state.pagination.page;
+    this.CacheData.pgEvent = state.pagination;
+    this.CacheData.stateData = state;
   } 
  
  search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;
     return this.http.post<any>(url, searchParam, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
+
+  getAssetDefaults(assetId: number): Observable<any> {
+    const url = `${this.baseUrl}/asset/${assetId}/defaults`;
+    return this.http.get<any>(url, { headers: this.headers })
       .pipe(
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)

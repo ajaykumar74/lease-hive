@@ -1,55 +1,83 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
+<div class="grid list-page maintenance-request-list">
+    <div class="col-12">
+        <div class="card list-card maintenance-request-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'MaintenanceRequest List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
-</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Maintenance Request No. <p-sortIcon field="MaintenanceRequestNo" /> </th>
-<th style="width:200px">Asset ID <p-sortIcon field="AssetId" /> </th>
-<th style="width:200px">Maintenance Schedule ID <p-sortIcon field="MaintenanceScheduleId" /> </th>
-<th style="width:200px">Maintenance Type ID <p-sortIcon field="MaintenanceTypeId" /> </th>
-<th style="width:200px">Request Source Code <p-sortIcon field="RequestSourceCode" /> </th>
-<th style="width:200px">Requested At <p-sortIcon field="RequestedAt" /> </th>
-<th style="width:200px">Requested By Party ID <p-sortIcon field="RequestedByPartyId" /> </th>
-<th style="width:200px">Requested By User ID <p-sortIcon field="RequestedByUserId" /> </th>
-<th style="width:200px">Location ID <p-sortIcon field="LocationId" /> </th>
-<th style="width:200px">Priority Code <p-sortIcon field="PriorityCode" /> </th>
-<th style="width:200px">Status Code <p-sortIcon field="StatusCode" /> </th>
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Maintenance Requests'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
 
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.MaintenanceRequestNo}}</td>
- <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.MaintenanceScheduleId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.MaintenanceTypeId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RequestSourceCode}}</td>
- <td style="width:200px">{{obj.RequestedAt | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.RequestedByPartyId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RequestedByUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.LocationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.PriorityCode}}</td>
- <td style="width:200px"><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
- <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
+            <div class="maintenance-request-list-toolbar" role="search" aria-label="Maintenance request list controls">
+                <div class="maintenance-request-search">
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search request number, asset or description" aria-label="Search maintenance requests" />
+                    <button type="button" pButton icon="pi pi-search" label="Search" (click)="onSearch()" aria-label="Search maintenance requests"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" [disabled]="!searchTerm" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
+                </div>
 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
+                <div class="maintenance-request-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching maintenance requests"><i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div>
+                    <label class="maintenance-request-sort-label" for="maintenanceRequestSort">Sort by</label>
+                    <p-dropdown inputId="maintenanceRequestSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="maintenance-request-sort"></p-dropdown>
+                    <span class="maintenance-request-filter-toggle">
+                        <button type="button" pButton icon="pi pi-filter" [outlined]="!filterControlsVisible" [severity]="hasActiveFilters ? 'primary' : 'secondary'" (click)="toggleFilterControls()" [attr.aria-pressed]="filterControlsVisible" [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'" [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'" tooltipPosition="top"></button>
+                        <span *ngIf="activeFilterCount" class="maintenance-request-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="maintenance-request-table-area" aria-label="Maintenance request results">
+                <div *ngIf="hasLoadError" class="list-empty maintenance-request-load-error" role="alert">
+                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load maintenance requests</strong><span>Please try again.</span>
+                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
+                </div>
+
+                <ng-container *ngIf="!hasLoadError">
+                    <div *ngIf="emptyState as empty; else requestTable" class="list-empty maintenance-request-empty-state">
+                        <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong><span>{{ empty.description }}</span>
+                        <button *ngIf="searchTerm || hasActiveFilters; else createMaintenanceRequest" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                        <ng-template #createMaintenanceRequest><button *ngIf="permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button></ng-template>
+                    </div>
+
+                    <ng-template #requestTable>
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table maintenance-request-table" [tableStyle]="{ 'min-width': '1250px' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Maintenance Request No.</th><th>Asset</th><th>Problem Description</th><th>Requested At</th><th>Requested By</th><th>Priority</th><th>Status</th><th>Location</th><th class="list-actions-column">Actions</th>
+                                </tr>
+                                <tr *ngIf="filterControlsVisible" class="maintenance-request-filter-row">
+                                    <th><input type="search" pInputText [(ngModel)]="filters.requestNumber" (keyup.enter)="onFiltersChanged()" (blur)="onFiltersChanged()" placeholder="Request no." aria-label="Filter by maintenance request number" /></th>
+                                    <th><input type="search" pInputText [(ngModel)]="filters.asset" (keyup.enter)="onFiltersChanged()" (blur)="onFiltersChanged()" placeholder="Asset" aria-label="Filter by asset" /></th>
+                                    <th></th>
+                                    <th><p-calendar [(ngModel)]="filters.requestedAtRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Date range" ariaLabel="Filter by requested date range"></p-calendar></th>
+                                    <th></th>
+                                    <th><p-dropdown [options]="priorityOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.priority" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Priority" ariaLabel="Filter by priority"></p-dropdown></th>
+                                    <th><p-dropdown [options]="statusOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.status" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Status" ariaLabel="Filter by status"></p-dropdown></th>
+                                    <th><input type="search" pInputText [(ngModel)]="filters.location" (keyup.enter)="onFiltersChanged()" (blur)="onFiltersChanged()" placeholder="Location" aria-label="Filter by location" /></th>
+                                    <th class="maintenance-request-filter-actions"><button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button></th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-obj>
+                                <tr>
+                                    <td><button type="button" class="list-primary-link" (click)="onViewClick(obj)" [attr.aria-label]="'View maintenance request ' + obj.MaintenanceRequestNo">{{ obj.MaintenanceRequestNo || '—' }}</button></td>
+                                    <td>{{ obj.AssetDisplayName || '—' }}</td>
+                                    <td><span class="maintenance-request-description" [pTooltip]="obj.ProblemDescription" [tooltipDisabled]="!isLongDescription(obj.ProblemDescription)" tooltipPosition="top">{{ obj.ProblemDescription || '—' }}</span></td>
+                                    <td>{{ obj.RequestedAt ? (obj.RequestedAt | date:'dd MMM y, h:mm a') : '—' }}</td>
+                                    <td>{{ obj.RequestedByUserDisplayName || '—' }}</td>
+                                    <td><p-tag [value]="obj.PriorityCode || '—'" [severity]="getPrioritySeverity(obj.PriorityCode)"></p-tag></td>
+                                    <td><app-status-pill [value]="obj.StatusCode"></app-status-pill></td>
+                                    <td>{{ obj.LocationDisplayName || '—' }}</td>
+                                    <td><div class="list-actions">
+                                        <button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View" tooltipPosition="top" aria-label="View maintenance request"><i class="pi pi-eye" aria-hidden="true"></i></button>
+                                        <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" [disabled]="!isEditable(obj)" (click)="onEditClick(obj)" [pTooltip]="isEditable(obj) ? 'Edit' : 'This request is not editable'" tooltipPosition="top" aria-label="Edit maintenance request"><i class="pi pi-pencil" aria-hidden="true"></i></button>
+                                    </div></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                        <p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"></p-paginator>
+                    </ng-template>
+                </ng-container>
+            </section>
+        </div>
+    </div>
 </div>

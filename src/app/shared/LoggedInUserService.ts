@@ -242,7 +242,13 @@ export class LoggedInUserService {
       expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
       reduce((items, result) => [...items, ...result.rows], [] as any[]),
       map(items => this.sortSelectItems([...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
-        Id: item.Id, Value: valueMode === 'reference' ? item.ReferenceValue : item.Id, Text: item.DisplayText, Category: item.Code, ParentId: item.ParentId
+        Id: item.Id,
+        Value: valueMode === 'reference'
+          ? (item.ReferenceValue || item.ProfileCode || item.Code || item.Value)
+          : item.Id,
+        Text: item.DisplayText,
+        Category: item.Code,
+        ParentId: item.ParentId
       }))))
     );
   }
@@ -275,7 +281,8 @@ export class LoggedInUserService {
     destroyRef: DestroyRef,
     parentFields: Record<string, string> = {},
     valueMode: 'id' | 'reference' = 'id',
-    allowUnfilteredWhenParentsMissing = false
+    allowUnfilteredWhenParentsMissing = false,
+    preserveSelectionWhenParentsMissing = false
   ): void {
     form.valueChanges.pipe(
       startWith(null),
@@ -291,13 +298,16 @@ export class LoggedInUserService {
         // Most dependent dropdowns must stay empty until their parents are selected.
         // Owner fields can opt in to the tenant-scoped list so the current user remains a valid default.
         if (parentsMissing && !allowUnfilteredWhenParentsMissing) {
-          if (selectedId) form.get(field)?.setValue(null, { emitEvent: false });
+          if (selectedId && !preserveSelectionWhenParentsMissing) form.get(field)?.setValue(null, { emitEvent: false });
           return EMPTY;
         }
         return this.getEntityLookupOptions(lookupType, selectedId, parentsMissing ? {} : filters, valueMode).pipe(
           map(options => {
             assign(options);
-            if (selectedId && !options.some(option => (valueMode === 'reference' ? option.Value : option.Id) === selectedId)) form.get(field)?.setValue(null);
+            const selectionExists = options.some(option => valueMode === 'reference'
+              ? String(option.Value).trim() === String(selectedId).trim()
+              : option.Id === selectedId);
+            if (selectedId && !selectionExists) form.get(field)?.setValue(null);
           }),
           catchError(error => { onError(error); return EMPTY; })
         );

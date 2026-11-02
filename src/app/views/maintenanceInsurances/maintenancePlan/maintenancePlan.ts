@@ -18,5 +18,8 @@ LeadMeasureValue :number;
 EffectiveFrom :Date;
 EffectiveTo :Date | null;
 RecordStatus :string;
+MaintenanceTypeDisplayName?: string;
+AssetCategoryDisplayName?: string;
+MeasureDefinitionDisplayName?: string;
 
 }

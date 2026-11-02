@@ -12,7 +12,7 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Maintenance Plan Id" class="mb-1">AssetMaintenancePlanId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> 	<label for="AssetMaintenancePlanId" class="mb-1">Asset Maintenance Plan</label>
         <p-dropdown
             inputId="AssetMaintenancePlanId" 
             [options]="assetmaintenanceplanidOptions"
@@ -23,39 +23,17 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetMaintenancePlanId')"
-											label="Asset Maintenance Plan Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
-        <p-dropdown
-            inputId="AssetId" 
-            [options]="assetidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="AssetId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
-											label="Asset Id">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Maintenance Plan Id" class="mb-1">MaintenancePlanId</label>
-        <p-dropdown
-            inputId="MaintenancePlanId" 
-            [options]="maintenanceplanidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="MaintenancePlanId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenancePlanId')"
-											label="Maintenance Plan Id">
-										</app-validation-errors></div><div class="flex flex-col w-full">					
+											label="Asset Maintenance Plan">
+										</app-validation-errors></div><div class="flex flex-col w-full"> 	<label for="Asset" class="mb-1">Asset</label>
+        <input pInputText id="Asset" type="text" pSize="small" [value]="assetDisplayName" readonly />
+      </div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="MaintenancePlan" class="mb-1">Maintenance Plan</label>
+        <input pInputText id="MaintenancePlan" type="text" pSize="small" [value]="maintenancePlanDisplayName" readonly />
+      </div><div class="flex flex-col w-full">
+					
 							<label for="ScheduleNo">Schedule No 
 							</label> 
-							<input pInputText id="ScheduleNo" type="text" pSize="small"	formControlName="ScheduleNo"  />
-							<app-validation-errors [type]="'text'" [control]="editForm.get('ScheduleNo')"
-											label="Schedule No">
-										</app-validation-errors>
+							<input pInputText id="ScheduleNo" type="text" pSize="small" formControlName="ScheduleNo" readonly placeholder="Generated when saved" />
 						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
 							<label for="DueDate">Due Date 
@@ -118,19 +96,9 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('PreferredServiceProviderPartyId')"
 											label="Preferred Service Provider Party Id">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Generated From Code" class="mb-1">GeneratedFromCode</label>
-        <p-dropdown
-            inputId="GeneratedFromCode" 
-            [options]="generatedfromcodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="GeneratedFromCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('GeneratedFromCode')"
-											label="Generated From Code">
-										</app-validation-errors></div></div>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="GeneratedFromCode" class="mb-1">Generated From</label>
+        <input pInputText id="GeneratedFromCode" type="text" pSize="small" formControlName="GeneratedFromCode" readonly />
+      </div></div>
 
 					</div>
 				</div>

@@ -1,0 +1,30 @@
+.audit-json-label {
+  margin-bottom: .4rem;
+  color: var(--text-color-secondary);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.audit-json {
+  min-height: 8rem;
+  max-height: 30rem;
+  overflow: auto;
+  padding: .85rem 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  background: var(--surface-50);
+  color: var(--text-color);
+  font-family: var(--font-family-monospace, 'Cascadia Code', Consolas, monospace);
+  font-size: .78rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+:host ::ng-deep .audit-json :is(.audit-json__key, .audit-json__string, .audit-json__literal, .audit-json__number) { font-weight: 600; }
+:host ::ng-deep .audit-json__key { color: #2563eb; }
+:host ::ng-deep .audit-json__string { color: #047857; }
+:host ::ng-deep .audit-json__literal { color: #c2410c; }
+:host ::ng-deep .audit-json__number { color: #7c3aed; }
+:host ::ng-deep .audit-json__empty { color: var(--text-color-secondary); }
+:host ::ng-deep .audit-json__invalid { color: #b45309; }

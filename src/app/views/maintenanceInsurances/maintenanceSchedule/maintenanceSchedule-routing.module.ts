@@ -39,6 +39,38 @@ const routes: Routes = [
           title: 'Create'
         }
       },
+      {
+        path: 'asset/:assetId/create',
+        canActivate: [AuthGuard],
+        component: MaintenanceScheduleCreateComponent,
+        data: {
+          title: 'Create'
+        }
+      },
+      {
+        path: 'plan/:assetMaintenancePlanId/create',
+        canActivate: [AuthGuard],
+        component: MaintenanceScheduleCreateComponent,
+        data: {
+          title: 'Create'
+        }
+      },
+      {
+        path: 'plan/:assetMaintenancePlanId',
+        canActivate: [AuthGuard],
+        component: MaintenanceScheduleListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'asset/:assetId',
+        canActivate: [AuthGuard],
+        component: MaintenanceScheduleListComponent,
+        data: {
+          title: 'List'
+        }
+      },
        {
         path: 'edit/:id',
         canActivate: [AuthGuard],

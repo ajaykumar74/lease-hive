@@ -15,6 +15,7 @@ import { IAuditLog } from './auditLog';
 
 @Component({
     templateUrl: './auditLog-view.component.html', 
+    styleUrl: './auditLog-view.component.scss',
 standalone: false,
     providers: [MessageService]
 })
@@ -67,6 +68,51 @@ export class AuditLogViewComponent implements OnInit {
 
     populateUI(obj: IAuditLog): void { 
         this.Caption = "AuditLog Details #" + obj.Id;
+    }
+
+    formatJson(value: string | null | undefined): string {
+        if (!value?.trim()) {
+            return '<span class="audit-json__empty">—</span>';
+        }
+
+        try {
+            return this.highlightJson(JSON.stringify(JSON.parse(value), null, 2));
+        } catch {
+            return `<span class="audit-json__invalid">${this.escapeHtml(value)}</span>`;
+        }
+    }
+
+    private highlightJson(json: string): string {
+        const tokenPattern = /("(?:\\.|[^"\\])*")(?=\s*:)|("(?:\\.|[^"\\])*")|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g;
+        let output = '';
+        let previousIndex = 0;
+        let match: RegExpExecArray | null;
+
+        while ((match = tokenPattern.exec(json)) !== null) {
+            output += this.escapeHtml(json.slice(previousIndex, match.index));
+            const tokenClass = match[1]
+                ? 'audit-json__key'
+                : match[2]
+                    ? 'audit-json__string'
+                    : match[3]
+                        ? 'audit-json__literal'
+                        : 'audit-json__number';
+            output += `<span class="${tokenClass}">${this.escapeHtml(match[0])}</span>`;
+            previousIndex = match.index + match[0].length;
+        }
+
+        return output + this.escapeHtml(json.slice(previousIndex));
+    }
+
+    private escapeHtml(value: string): string {
+        const entities: Record<string, string> = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        };
+        return value.replace(/[&<>"']/g, character => entities[character] || character);
     }
 
     onOptionItemClicked(key: string): void {

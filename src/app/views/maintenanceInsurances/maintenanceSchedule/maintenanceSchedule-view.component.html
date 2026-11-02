@@ -10,10 +10,11 @@
 				<p-fluid>
 		      			<div class="flex mt-8">
 						<div class="card flex flex-col gap-4 w-full"> 
- 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Maintenance Plan Id" [value]="maintenanceSchedule.AssetMaintenancePlanId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Asset Id" [value]="maintenanceSchedule.AssetId">
+ 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Asset Maintenance Plan" [value]="maintenanceSchedule.AssetMaintenancePlanId">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Asset" [value]="assetDisplayName">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Plan Id" [value]="maintenanceSchedule.MaintenancePlanId">
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Maintenance Plan" [value]="maintenancePlanDisplayName">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Schedule No" [value]="maintenanceSchedule.ScheduleNo">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Due Date" [value]="maintenanceSchedule.DueDate">

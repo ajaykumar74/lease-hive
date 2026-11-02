@@ -29,8 +29,7 @@ export class AssetMaintenancePlanCreateComponent implements OnInit {
   Caption: string = 'Loading...';
   assetMaintenancePlan: IAssetMaintenancePlan = null;
   assetidOptions: ISelectItem[] = [];
-maintenanceplanidOptions: ISelectItem[] = [];
-statuscodeOptions: ISelectItem[] = [];
+  maintenanceplanidOptions: ISelectItem[] = [];
 
   editForm: any; 
   objMaster : IAssetMaintenancePlan = {} as IAssetMaintenancePlan;
@@ -58,6 +57,7 @@ statuscodeOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
 AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetCategoryId: new FormControl(0),
 MaintenancePlanId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 StartDate: new FormControl(new Date(), [Validators.required]),
 EndDate: new FormControl(new Date(), []),
@@ -65,17 +65,15 @@ BaselineDate: new FormControl(new Date(), []),
 BaselineMeasureValue: new FormControl(0, []),
 OverrideIntervalDays: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 OverrideMeasureValue: new FormControl(0, []),
-StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
-    this.Caption = 'Create AssetMaintenancePlan';
+    this.Caption = 'Maintenance Plan';
     this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
-      options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.setAssetOptions(options), error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenancePlanId', 'maintenance-plans',
       options => this.maintenanceplanidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
-this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('AssetMaintenancePlanStatusCode');
+      this.entityLookupDestroyRef, { AssetCategoryId: 'AssetCategoryId' }, 'id', false, true);
 
   }
  
@@ -105,10 +103,29 @@ BaselineDate:  obj.BaselineDate || new Date(),
 BaselineMeasureValue: obj.BaselineMeasureValue || 0,
 OverrideIntervalDays: obj.OverrideIntervalDays || 0,
 OverrideMeasureValue: obj.OverrideMeasureValue || 0,
-StatusCode: obj.StatusCode || '',
  
       }
     );
+  }
+
+  onAssetChanged(): void {
+    this.syncAssetCategory();
+  }
+
+  private setAssetOptions(options: ISelectItem[]): void {
+    this.assetidOptions = options;
+    this.syncAssetCategory();
+  }
+
+  private syncAssetCategory(): void {
+    const assetId = Number(this.editForm?.get('AssetId')?.value) || 0;
+    const selectedAsset = this.assetidOptions.find(option => Number(option.Id) === assetId);
+    const assetCategoryId = Number(selectedAsset?.ParentId) || 0;
+    const categoryControl = this.editForm?.get('AssetCategoryId');
+
+    if (categoryControl && categoryControl.value !== assetCategoryId) {
+      categoryControl.setValue(assetCategoryId);
+    }
   }
 
  
@@ -141,7 +158,6 @@ BaselineDate:  obj.BaselineDate || new Date(),
 BaselineMeasureValue: obj.BaselineMeasureValue || 0,
 OverrideIntervalDays: obj.OverrideIntervalDays || 0,
 OverrideMeasureValue: obj.OverrideMeasureValue || 0,
-StatusCode: obj.StatusCode || '',
  
       }
     );
@@ -169,7 +185,7 @@ BaselineDate: formValues.BaselineDate || null,
 BaselineMeasureValue: formValues.BaselineMeasureValue || 0,
 OverrideIntervalDays: formValues.OverrideIntervalDays || 0,
 OverrideMeasureValue: formValues.OverrideMeasureValue || 0,
-StatusCode: formValues.StatusCode || null,
+StatusCode: 'Active',
 RecordStatus: 'Active',
 
     } as IAssetMaintenancePlan ; 

@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';  
+import { forkJoin } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  
  
 import { MessageService } from 'primeng/api';
@@ -22,21 +23,21 @@ import { MaintenanceRequestService } from './maintenanceRequest.service';
 })
 export class MaintenanceRequestEditComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
+  private assetDefaultsRequest = 0;
 
   selectedId: number;
   isLoading: boolean = false;
   maintenanceRequest: IMaintenanceRequest = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  maintenanceScheduleDisplayName = '';
+  maintenanceTypeDisplayName = '';
+  requestedByPartyDisplayName = '';
   assetidOptions: ISelectItem[] = [];
-maintenancescheduleidOptions: ISelectItem[] = [];
-maintenancetypeidOptions: ISelectItem[] = [];
 requestsourcecodeOptions: ISelectItem[] = [];
-requestedbypartyidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 locationidOptions: ISelectItem[] = [];
 prioritycodeOptions: ISelectItem[] = [];
-statuscodeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -47,7 +48,6 @@ recordstatusOptions: ISelectItem[] = [];
     private activatedRouter: ActivatedRoute,  
 	private fb: FormBuilder,
 	private router: Router, 	
-	private _location: Location,
 	private maintenanceRequestService: MaintenanceRequestService, 
 	private loggedInUserService : LoggedInUserService
 	) {
@@ -64,8 +64,8 @@ recordstatusOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 AssetId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-MaintenanceScheduleId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-MaintenanceTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+MaintenanceScheduleId: new FormControl(0, []),
+MaintenanceTypeId: new FormControl(0, []),
 RequestSourceCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 RequestedAt: new FormControl(new Date(), [Validators.required]),
 RequestedByPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
@@ -73,7 +73,7 @@ RequestedByUserId: new FormControl(0, [Validators.min(-2147483648), Validators.m
 LocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 PriorityCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ProblemDescription: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
-StatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+StatusCode: new FormControl('', [Validators.maxLength(20), ]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 
     });
@@ -81,16 +81,7 @@ RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20)
    this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetId', 'assets',
       options => this.assetidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceScheduleId', 'maintenance-schedules',
-      options => this.maintenancescheduleidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"AssetId":"AssetId"});
-this.loggedInUserService.bindEntityLookup(this.editForm, 'MaintenanceTypeId', 'maintenance-types',
-      options => this.maintenancetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
 this.requestsourcecodeOptions = this.loggedInUserService.getPicklistOptions('RequestSourceCode');
-this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByPartyId', 'parties',
-      options => this.requestedbypartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'application-users',
       options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -98,10 +89,69 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'LocationId', 'location
       options => this.locationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.prioritycodeOptions = this.loggedInUserService.getPicklistOptions('PriorityCode');
-this.statuscodeOptions = this.loggedInUserService.getPicklistOptions('MaintenanceRequestStatusCode');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
+this.editForm.get('AssetId')?.valueChanges
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe((assetId: number) => this.onAssetChanged(assetId));
+
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  onAssetChanged(assetId: number): void {
+    const id = Number(assetId);
+    const requestId = ++this.assetDefaultsRequest;
+    this.maintenanceScheduleDisplayName = '';
+    this.maintenanceTypeDisplayName = '';
+    this.requestedByPartyDisplayName = '';
+    this.editForm.patchValue({ MaintenanceScheduleId: 0, MaintenanceTypeId: 0, RequestedByPartyId: 0 }, { emitEvent: false });
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return;
+    }
+
+    this.maintenanceRequestService.getAssetDefaults(id)
+      .pipe(takeUntilDestroyed(this.entityLookupDestroyRef))
+      .subscribe({
+        next: response => {
+          if (requestId !== this.assetDefaultsRequest) {
+            return;
+          }
+          const defaults = response?.data;
+          if (!defaults) {
+            this.messageService?.showError('The selected asset does not have an active maintenance schedule with a maintenance type.');
+            return;
+          }
+          this.editForm.patchValue({
+            MaintenanceScheduleId: Number(defaults.MaintenanceScheduleId) || 0,
+            MaintenanceTypeId: Number(defaults.MaintenanceTypeId) || 0,
+            RequestedByPartyId: Number(defaults.RequestedByPartyId) || 0
+          }, { emitEvent: false });
+          this.maintenanceScheduleDisplayName = defaults.MaintenanceScheduleDisplayName ?? '';
+          this.maintenanceTypeDisplayName = defaults.MaintenanceTypeDisplayName ?? '';
+          this.requestedByPartyDisplayName = defaults.RequestedByPartyDisplayName ?? '';
+        },
+        error: err => this.messageService?.showError(err)
+      });
+  }
+
+  private loadStoredRelatedDisplayNames(obj: IMaintenanceRequest): void {
+    forkJoin({
+      schedules: this.loggedInUserService.getEntityLookupOptions('maintenance-schedules', obj.MaintenanceScheduleId),
+      maintenanceTypes: this.loggedInUserService.getEntityLookupOptions('maintenance-types', obj.MaintenanceTypeId),
+      parties: this.loggedInUserService.getEntityLookupOptions('parties', obj.RequestedByPartyId)
+    }).pipe(takeUntilDestroyed(this.entityLookupDestroyRef)).subscribe({
+      next: lookups => {
+        this.maintenanceScheduleDisplayName = this.lookupText(lookups.schedules, obj.MaintenanceScheduleId);
+        this.maintenanceTypeDisplayName = this.lookupText(lookups.maintenanceTypes, obj.MaintenanceTypeId);
+        this.requestedByPartyDisplayName = this.lookupText(lookups.parties, obj.RequestedByPartyId);
+      },
+      error: err => this.messageService?.showError(err)
+    });
+  }
+
+  private lookupText(options: ISelectItem[], id: number): string {
+    return options.find(option => Number(option.Value) === id)?.Text ?? '';
   }
 
   ngAfterViewInit(): void {
@@ -142,10 +192,12 @@ ProblemDescription: obj.ProblemDescription || '',
 StatusCode: obj.StatusCode || '',
 RecordStatus: obj.RecordStatus || '',
  
-      }
+      },
+      { emitEvent: false }
     );
+    this.loadStoredRelatedDisplayNames(obj);
    
-	 this.Caption = "MaintenanceRequest Details #" + obj.Id;
+	 this.Caption = "Maintenance Request Details #" + obj.Id;
   } 
 
   onOptionItemClicked(key: string): void {
@@ -221,7 +273,8 @@ RecordStatus:  formValues.RecordStatus || null,
       next: data => {
         //this.messageService.showSuccess(MaintenanceRequest +  'Details Updated sucessfully.');
 		//this.editForm.reset();
-		this._location.back();
+		this.maintenanceRequestService.CacheData.IsLoaded = false;
+		this.router.navigate(['/maintenance-insurance/maintenance/requests']);
       },
       error: err => { 
        this.messageService.showError(err);

@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
@@ -24,6 +25,10 @@ export class AssetMaintenancePlanViewComponent implements OnInit {
     permission = { CanCreate: true } as IPermission;
     assetMaintenancePlan: IAssetMaintenancePlan = {} as IAssetMaintenancePlan;
     Caption: string = 'Loading...';
+    scheduleMenuItems: MenuItem[] = [
+        { label: 'Generate Maintenance Schedule', icon: 'pi pi-plus', command: () => this.openScheduleCreate() },
+        { label: 'View Schedules', icon: 'pi pi-list', command: () => this.openScheduleList() }
+    ];
     
 
     constructor( 
@@ -75,6 +80,20 @@ export class AssetMaintenancePlanViewComponent implements OnInit {
         }        
         else if (key == "Refresh") {
             this.loadUI();
+        }
+    }
+
+    private openScheduleCreate(): void {
+        const assetMaintenancePlanId = Number(this.assetMaintenancePlan?.Id ?? this.selectedId);
+        if (assetMaintenancePlanId > 0) {
+            this.router.navigate(['/maintenance-insurance/maintenance/schedules/plan', assetMaintenancePlanId, 'create']);
+        }
+    }
+
+    private openScheduleList(): void {
+        const assetMaintenancePlanId = Number(this.assetMaintenancePlan?.Id ?? this.selectedId);
+        if (assetMaintenancePlanId > 0) {
+            this.router.navigate(['/maintenance-insurance/maintenance/schedules/plan', assetMaintenancePlanId]);
         }
     }
 

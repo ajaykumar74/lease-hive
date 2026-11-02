@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -18,7 +18,8 @@ export class MaintenanceScheduleListComponent implements OnInit {
 
   constructor(
     private maintenanceScheduleService: MaintenanceScheduleService,
-    private router: Router, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,12 +33,20 @@ export class MaintenanceScheduleListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  assetId?: number;
+  assetMaintenancePlanId?: number;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
-     if (this.maintenanceScheduleService.CacheData.IsLoaded) {
+    const routeAssetId = Number(this.activatedRoute.snapshot.paramMap.get('assetId'));
+    this.assetId = Number.isInteger(routeAssetId) && routeAssetId > 0 ? routeAssetId : undefined;
+    const routeAssetMaintenancePlanId = Number(this.activatedRoute.snapshot.paramMap.get('assetMaintenancePlanId'));
+    this.assetMaintenancePlanId = Number.isInteger(routeAssetMaintenancePlanId) && routeAssetMaintenancePlanId > 0
+      ? routeAssetMaintenancePlanId
+      : undefined;
+     if (!this.assetId && !this.assetMaintenancePlanId && this.maintenanceScheduleService.CacheData.IsLoaded) {
       this.currentPage = this.maintenanceScheduleService.CacheData.CurrentPage;
       this.objSearch = this.maintenanceScheduleService.CacheData.objSearch;
       this.permission = this.maintenanceScheduleService.CacheData.permission;
@@ -46,7 +55,7 @@ export class MaintenanceScheduleListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.maintenanceScheduleService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, !!this.assetId || !!this.assetMaintenancePlanId || !this.maintenanceScheduleService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -110,13 +119,19 @@ export class MaintenanceScheduleListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'AssetDisplayName', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'ScheduleNo', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
      
     ];
 
+
+    if (this.assetId) {
+      Items.push({ DBName: 'AssetId', Value: this.assetId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+    if (this.assetMaintenancePlanId) {
+      Items.push({ DBName: 'AssetMaintenancePlanId', Value: this.assetMaintenancePlanId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
 
     var auditCriteria = null;
     
@@ -147,7 +162,11 @@ export class MaintenanceScheduleListComponent implements OnInit {
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/maintenance-insurance/maintenance/schedules/create']);
+      this.router.navigate(this.assetMaintenancePlanId
+        ? ['/maintenance-insurance/maintenance/schedules/plan', this.assetMaintenancePlanId, 'create']
+        : this.assetId
+          ? ['/maintenance-insurance/maintenance/schedules/asset', this.assetId, 'create']
+          : ['/maintenance-insurance/maintenance/schedules/create']);
     } 
     else if (key == "Refresh") {
       this.search();

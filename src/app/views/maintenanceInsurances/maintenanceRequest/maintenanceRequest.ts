@@ -16,5 +16,11 @@ PriorityCode :string;
 ProblemDescription :string;
 StatusCode :string;
 RecordStatus :string;
+AssetDisplayName?: string;
+MaintenanceScheduleDisplayName?: string;
+MaintenanceTypeDisplayName?: string;
+RequestedByPartyDisplayName?: string;
+RequestedByUserDisplayName?: string;
+LocationDisplayName?: string;
 
 }

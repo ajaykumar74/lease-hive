@@ -39,8 +39,44 @@
 .generated-list-table .p-datatable-tbody > tr > td { padding: .95rem .9rem; border-color: var(--surface-border); vertical-align: middle; white-space: nowrap; }
 .generated-list-table .p-sortable-column-icon { color: var(--text-color-secondary); font-size: .75rem; }
 
+// Maintenance Requests is the first screen using the reusable list-state contracts.
+// Keep the layout hooks generic enough to support the same pattern on later lists.
+.maintenance-request-list,
+.maintenance-request-list > [class~='col-12'] { min-height: var(--visible-page-height); }
+.maintenance-request-list > [class~='col-12'] { display: flex; }
+.maintenance-request-list-card { display: flex; flex: 1 1 auto; height: var(--visible-page-height); min-height: 0; flex-direction: column; }
+.maintenance-request-list-card > :not(.maintenance-request-table-area) { flex: 0 0 auto; }
+.maintenance-request-list-toolbar { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 1.5rem; border-bottom: 1px solid var(--surface-border); }
+.maintenance-request-search,
+.maintenance-request-list-controls { display: flex; align-items: center; gap: .5rem; }
+.maintenance-request-search { flex: 1 1 24rem; min-width: 0; }.maintenance-request-search > i { color: var(--text-color-secondary); }
+.maintenance-request-search input { width: min(100%, 28rem); flex: 1 1 14rem; }.maintenance-request-list-controls { flex: 0 1 auto; justify-content: flex-end; }
+.maintenance-request-sort-label { color: var(--text-color-secondary); font-size: .8rem; font-weight: 600; white-space: nowrap; }.maintenance-request-sort { min-width: 16rem; }
+.maintenance-request-filter-toggle { position: relative; display: inline-flex; }.maintenance-request-filter-count { position: absolute; top: -.35rem; right: -.35rem; display: grid; min-width: 1.1rem; height: 1.1rem; place-items: center; border: 2px solid var(--surface-card); border-radius: 999px; background: var(--primary-color); color: var(--primary-color-text); font-size: .65rem; font-weight: 700; }
+.maintenance-request-table-area { display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; overflow: hidden; }.maintenance-request-table-area .maintenance-request-table { display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; }.maintenance-request-table-area .maintenance-request-table .p-datatable-wrapper { flex: 1 1 auto; }
+.maintenance-request-table .p-datatable-thead > tr.maintenance-request-filter-row > th { padding: .5rem .65rem; background: var(--surface-0); vertical-align: top; }.maintenance-request-filter-row :is(input, .p-dropdown, .p-calendar) { width: 100%; min-width: 7rem; }.maintenance-request-filter-row .p-calendar { display: inline-flex; }.maintenance-request-filter-actions { text-align: center; }
+.maintenance-request-description { display: block; max-width: 20rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.maintenance-request-empty-state, .maintenance-request-load-error { flex: 1 1 auto; min-height: 0; }.maintenance-request-load-error i { color: #dc2626; }.maintenance-request-list-card > .p-paginator { flex: 0 0 auto; }
+
+.maintenance-plan-list,
+.maintenance-plan-list > [class~='col-12'] { min-height: var(--visible-page-height); }
+.maintenance-plan-list > [class~='col-12'] { display: flex; }
+.maintenance-plan-list-card { display: flex; flex: 1 1 auto; height: var(--visible-page-height); min-height: 0; flex-direction: column; }
+.maintenance-plan-list-card > :not(.maintenance-plan-table-area) { flex: 0 0 auto; }
+.maintenance-plan-list-toolbar { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 1.5rem; border-bottom: 1px solid var(--surface-border); }
+.maintenance-plan-search,
+.maintenance-plan-list-controls { display: flex; align-items: center; gap: .5rem; }
+.maintenance-plan-search { flex: 1 1 24rem; min-width: 0; }.maintenance-plan-search > i { color: var(--text-color-secondary); }
+.maintenance-plan-search input { width: min(100%, 28rem); flex: 1 1 14rem; }.maintenance-plan-list-controls { flex: 0 1 auto; justify-content: flex-end; }
+.maintenance-plan-sort-label { color: var(--text-color-secondary); font-size: .8rem; font-weight: 600; white-space: nowrap; }.maintenance-plan-sort { min-width: 16rem; }
+.maintenance-plan-filter-toggle { position: relative; display: inline-flex; }.maintenance-plan-filter-count { position: absolute; top: -.35rem; right: -.35rem; display: grid; min-width: 1.1rem; height: 1.1rem; place-items: center; border: 2px solid var(--surface-card); border-radius: 999px; background: var(--primary-color); color: var(--primary-color-text); font-size: .65rem; font-weight: 700; }
+.maintenance-plan-table-area { display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; overflow: hidden; }.maintenance-plan-table-area .maintenance-plan-table { display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; }.maintenance-plan-table-area .maintenance-plan-table .p-datatable-wrapper { flex: 1 1 auto; }
+.maintenance-plan-table .p-datatable-thead > tr.maintenance-plan-filter-row > th { padding: .5rem .65rem; background: var(--surface-0); vertical-align: top; }.maintenance-plan-filter-row :is(input, .p-dropdown) { width: 100%; min-width: 7rem; }.maintenance-plan-filter-actions { text-align: center; }
+.maintenance-plan-empty-state, .maintenance-plan-load-error { flex: 1 1 auto; min-height: 0; }.maintenance-plan-load-error i { color: #dc2626; }.maintenance-plan-list-card > .p-paginator { flex: 0 0 auto; }
+
 @media (max-width: 700px) {
     .generated-list-search { flex-wrap: wrap; }
     .generated-list-input { width: calc(100% - 6rem); }
     .generated-list-count { margin-left: 0; }
+    .maintenance-request-list-card { height: auto; min-height: var(--visible-page-height); }.maintenance-request-list-toolbar { align-items: stretch; flex-direction: column; padding-inline: 1rem; }.maintenance-request-list-controls { justify-content: flex-start; flex-wrap: wrap; }.maintenance-request-sort { min-width: min(100%, 16rem); }.maintenance-request-search { flex-wrap: wrap; }.maintenance-request-search input { min-width: 12rem; }.maintenance-request-table-area { min-height: 24rem; }
+    .maintenance-plan-list-card { height: auto; min-height: var(--visible-page-height); }.maintenance-plan-list-toolbar { align-items: stretch; flex-direction: column; padding-inline: 1rem; }.maintenance-plan-list-controls { justify-content: flex-start; flex-wrap: wrap; }.maintenance-plan-sort { min-width: min(100%, 16rem); }.maintenance-plan-search { flex-wrap: wrap; }.maintenance-plan-search input { min-width: 12rem; }.maintenance-plan-table-area { min-height: 24rem; }
 }

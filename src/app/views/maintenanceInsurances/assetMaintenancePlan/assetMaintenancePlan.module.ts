@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { AssetMaintenancePlanListComponent } from './assetMaintenancePlan-list.component';
 import { AssetMaintenancePlanCreateComponent } from './assetMaintenancePlan-create.component';
@@ -42,6 +43,7 @@ import { AssetMaintenancePlanRoutingModule } from './assetMaintenancePlan-routin
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		SplitButtonModule,
 		AssetMaintenancePlanRoutingModule,
 	],
 	declarations: [

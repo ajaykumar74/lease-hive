@@ -2,7 +2,7 @@
 <div class="col-12">
 		<div class="card list-card generated-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'AssetMaintenancePlan List'"
+				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Maintenance Plans'"
 					[PageType]="'List'">
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
@@ -16,8 +16,8 @@
 				<ng-template pTemplate="header">
 					<tr>
 						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Asset ID <p-sortIcon field="AssetId" /> </th>
-<th style="width:200px">Maintenance Plan ID <p-sortIcon field="MaintenancePlanId" /> </th>
+						 <th style="width:200px" pSortableColumn="AssetDisplayName">Asset <p-sortIcon field="AssetDisplayName" /> </th>
+<th style="width:200px" pSortableColumn="MaintenancePlanDisplayName">Maintenance Plan <p-sortIcon field="MaintenancePlanDisplayName" /> </th>
 <th style="width:200px">Start Date <p-sortIcon field="StartDate" /> </th>
 <th style="width:200px">End Date <p-sortIcon field="EndDate" /> </th>
 <th style="width:200px">Baseline Date <p-sortIcon field="BaselineDate" /> </th>
@@ -32,8 +32,8 @@
 				<ng-template pTemplate="body" let-obj>
 					<tr>
 						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.AssetId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.MaintenancePlanId | number:'1.0':'en-US' }}</td>
+                         <td style="width:200px">{{obj.AssetDisplayName}}</td>
+ <td style="width:200px">{{obj.MaintenancePlanDisplayName}}</td>
  <td style="width:200px">{{obj.StartDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.EndDate | date:'dd-MMM-yyyy' }}</td>
  <td style="width:200px">{{obj.BaselineDate | date:'dd-MMM-yyyy' }}</td>

@@ -12,19 +12,20 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset Id" class="mb-1">AssetId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetId" class="mb-1">Asset</label>
         <p-dropdown
             inputId="AssetId" 
             [options]="assetidOptions"
             optionLabel="Text"
 	    optionValue="Value"
 	    formControlName="AssetId"
+	    (onChange)="onAssetChanged()"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetId')"
-											label="Asset Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Maintenance Plan Id" class="mb-1">MaintenancePlanId</label>
+											label="Asset">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="MaintenancePlanId" class="mb-1">Maintenance Plan</label>
         <p-dropdown
             inputId="MaintenancePlanId" 
             [options]="maintenanceplanidOptions"
@@ -35,7 +36,7 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('MaintenancePlanId')"
-											label="Maintenance Plan Id">
+											label="Maintenance Plan">
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
 							<label for="StartDate">Start Date 
@@ -85,20 +86,6 @@
 											label="Override Measure Value">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Status Code" class="mb-1">StatusCode</label>
-        <p-dropdown
-            inputId="StatusCode" 
-            [options]="statuscodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="StatusCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('StatusCode')"
-											label="Status Code">
-										</app-validation-errors></div></div>
-
 					</div>
 				</div>
  			</p-fluid> 				 

@@ -1,59 +1,190 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
-            <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'BillingRun List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
-</div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Billing Run No. <p-sortIcon field="BillingRunNo" /> </th>
-<th style="width:200px">Billing Organisation ID <p-sortIcon field="BillingOrganisationId" /> </th>
-<th style="width:200px">Billing Date <p-sortIcon field="BillingDate" /> </th>
-<th style="width:200px">Period From <p-sortIcon field="PeriodFrom" /> </th>
-<th style="width:200px">Period To <p-sortIcon field="PeriodTo" /> </th>
-<th style="width:200px">Billing Run Status ID <p-sortIcon field="BillingRunStatusId" /> </th>
-<th style="width:200px">Run Type <p-sortIcon field="RunType" /> </th>
-<th style="width:200px">Candidate Count <p-sortIcon field="CandidateCount" /> </th>
-<th style="width:200px">Invoice Count <p-sortIcon field="InvoiceCount" /> </th>
-<th style="width:200px">Total Amount <p-sortIcon field="TotalAmount" /> </th>
-<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th>
-<th style="width:200px">Approved By User ID <p-sortIcon field="ApprovedByUserId" /> </th>
-<th style="width:200px">Approved At Utc <p-sortIcon field="ApprovedAtUtc" /> </th>
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
+<div class="billing-run-page">
+    <app-message [AlertType]="'message'"></app-message>
+    <app-spinner></app-spinner>
 
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.Id}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.BillingRunNo}}</td>
- <td style="width:200px">{{obj.BillingOrganisationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.BillingDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.PeriodFrom | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.PeriodTo | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.BillingRunStatusId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RunType}}</td>
- <td style="width:200px">{{obj.CandidateCount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.InvoiceCount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.TotalAmount | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.CurrencyCode}}</td>
- <td style="width:200px">{{obj.ApprovedByUserId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ApprovedAtUtc | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
+    <header class="billing-run-header">
+        <div>
+            <span class="billing-run-eyebrow">Billing &amp; finance</span>
+            <h1>Billing Runs</h1>
+            <p>View and manage billing runs for generating customer invoices.</p>
+        </div>
+        <div class="billing-run-header-actions">
+            <ng-container *appPermission="'finance.customerinvoice.create'">
+                <p-button label="Run Recurring Billing Now" icon="pi pi-play-circle" severity="secondary" [outlined]="true" [loading]="isTriggeringRecurringBilling" [disabled]="isTriggeringRecurringBilling" (onClick)="triggerRecurringBilling()" />
+            </ng-container>
+            <p-button *ngIf="permission.CanCreate" label="Create Billing Run" icon="pi pi-plus" (onClick)="createBillingRun()" />
+        </div>
+    </header>
 
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
+    <section class="billing-run-toolbar" aria-label="Billing run filters">
+        <div class="billing-run-filter billing-run-search">
+            <label for="billingRunSearch">Search</label>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input id="billingRunSearch" type="search" pInputText [(ngModel)]="objSearch.SearchTerm" placeholder="Billing run number or ID" (keyup.enter)="applyFilters()" />
+            </span>
+        </div>
+        <div class="billing-run-filter">
+            <label for="billingDateRange">Billing date</label>
+            <p-calendar
+                inputId="billingDateRange"
+                [(ngModel)]="objSearch.BillingDateRange"
+                selectionMode="range"
+                [showIcon]="true"
+                dateFormat="dd M yy"
+                placeholder="Select date range"
+                [readonlyInput]="true"
+                (onClose)="applyFilters()"
+                (onClearClick)="applyFilters()"
+            />
+        </div>
+        <div class="billing-run-filter">
+            <label for="runType">Run type</label>
+            <p-dropdown inputId="runType" [options]="runTypeOptions" [(ngModel)]="objSearch.RunType" optionLabel="label" optionValue="value" (onChange)="applyFilters()" />
+        </div>
+        <div class="billing-run-filter">
+            <label for="billingRunStatus">Workflow status</label>
+            <p-dropdown inputId="billingRunStatus" [options]="billingRunStatusOptions" [(ngModel)]="objSearch.BillingRunStatusId" optionLabel="label" optionValue="value" (onChange)="applyFilters()" />
+        </div>
+        <div class="billing-run-filter billing-run-toolbar-clear">
+            <label>&nbsp;</label>
+            <p-button label="Clear filters" icon="pi pi-filter-slash" severity="secondary" [text]="true" (onClick)="clearSearch()" />
+        </div>
+    </section>
+
+    <section class="billing-run-results-toolbar">
+        <div class="billing-run-record-count" aria-live="polite">
+            <i class="pi pi-list"></i>
+            <strong>{{ totalNoOfRecords }}</strong>
+            <span>{{ totalNoOfRecords === 1 ? 'billing run' : 'billing runs' }}</span>
+        </div>
+        <div class="billing-run-result-actions">
+            <p-dropdown [options]="sortOptions" [ngModel]="sortDirection" optionLabel="label" optionValue="value" (onChange)="onSortChanged($event.value)" />
+            <div class="billing-run-view-toggle" role="group" aria-label="View options">
+                <button type="button" [class.is-active]="view === 'cards'" (click)="setView('cards')" title="Card view" aria-label="Card view"><i class="pi pi-th-large"></i><span>Cards</span></button>
+                <button type="button" [class.is-active]="view === 'list'" (click)="setView('list')" title="List view" aria-label="List view"><i class="pi pi-list"></i><span>List</span></button>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="view === 'cards'" class="billing-run-card-grid">
+        <ng-container *ngIf="isLoading">
+            <article *ngFor="let obj of skeletonCards" class="billing-run-card billing-run-skeleton-card" aria-label="Loading billing run">
+                <p-skeleton width="44%" height="1.25rem" />
+                <p-skeleton width="70%" height=".9rem" styleClass="mt-3" />
+                <div class="billing-run-summary-grid">
+                    <p-skeleton *ngFor="let tile of skeletonCards" height="4.5rem" />
+                    <p-skeleton *ngFor="let tile of skeletonCards" height="4.5rem" />
+                </div>
+            </article>
+        </ng-container>
+
+        <article *ngFor="let obj of lstMain; trackBy: trackById" class="billing-run-card" [class.is-hidden]="isLoading">
+            <div class="billing-run-card-heading">
+                <div class="billing-run-card-heading-main">
+                    <div class="billing-run-card-heading-details">
+                        <div class="billing-run-card-title-row">
+                            <h2>{{ billingRunNumber(obj) }}</h2>
+                            <span class="billing-run-badge run-type">{{ obj.RunType || 'Not set' }}</span>
+                            <span class="billing-run-badge workflow-status" [ngClass]="statusClass(obj)">{{ workflowStatus(obj) }}</span>
+                        </div>
+                        <div class="billing-run-card-meta">
+                            <span><i class="pi pi-calendar"></i> Billing date {{ obj.BillingDate | date: 'dd MMM yyyy' }}</span>
+                            <span><i class="pi pi-clock"></i> {{ obj.PeriodFrom ? (obj.PeriodFrom | date: 'dd MMM yyyy') : 'Not set' }} → {{ obj.PeriodTo ? (obj.PeriodTo | date: 'dd MMM yyyy') : 'Not set' }}</span>
+                            <span><i class="pi pi-building"></i> {{ organisationName(obj) }}</span>
+                        </div>
+                    </div>
+                    <div class="billing-run-header-summary" aria-label="Billing run summary">
+                        <span
+                            ><small>Candidates</small><strong>{{ obj.CandidateCount || 0 }}</strong></span
+                        >
+                        <span
+                            ><small>Invoices</small><strong>{{ obj.InvoiceCount || 0 }}</strong></span
+                        >
+                        <span class="total-amount"
+                            ><small>Total amount</small><strong>{{ obj.TotalAmount || 0 | currency: obj.CurrencyCode || 'USD' : 'symbol' : '1.0-0' }}</strong></span
+                        >
+                    </div>
+                </div>
+                <p-menu #cardActions [model]="actionMenuItems" [popup]="true" appendTo="body" />
+                <button type="button" class="billing-run-overflow" (click)="openActions(cardActions, $event, obj)" aria-label="More billing run actions"><i class="pi pi-ellipsis-v"></i></button>
+            </div>
+
+            <footer class="billing-run-card-footer">
+                <div class="billing-run-footer-details">
+                    <span class="billing-run-id-value"><small>Billing Run ID</small>{{ obj.Id }}</span>
+                    <span><small>Run type</small>{{ obj.RunType || '—' }}</span>
+                    <span><small>Workflow status</small>{{ workflowStatus(obj) }}</span>
+                    <span *ngIf="obj.CreatedDateTime"><small>Created</small>{{ obj.CreatedDateTime | date: 'dd MMM yyyy' }}</span>
+                    <span><small>Created by</small>{{ obj.CreatedByCode || '—' }}</span>
+                    <span><small>Approved by</small>{{ approvedBy(obj) }}</span>
+                </div>
+                <div class="billing-run-card-actions">
+                    <p-button label="View Details" icon="pi pi-eye" severity="secondary" [outlined]="true" size="small" (onClick)="viewDetails(obj)" />
+                    <p-button label="View Invoices" icon="pi pi-file" size="small" (onClick)="viewInvoices(obj)" />
+                </div>
+            </footer>
+        </article>
+
+        <div *ngIf="!isLoading && !lstMain.length" class="billing-run-empty-state">
+            <i class="pi pi-receipt"></i>
+            <h2>No billing runs found</h2>
+            <p>Try adjusting the filters or create a billing run when one is needed.</p>
+        </div>
+    </section>
+
+    <section *ngIf="view === 'list'" class="billing-run-list-view">
+        <p-table [value]="lstMain" [loading]="isLoading" responsiveLayout="scroll" styleClass="billing-run-table">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Billing run</th>
+                    <th>Billing date</th>
+                    <th>Billing period</th>
+                    <th>Organisation</th>
+                    <th>Workflow status</th>
+                    <th class="text-right">Invoices</th>
+                    <th class="text-right">Total amount</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-obj>
+                <tr>
+                    <td>
+                        <button type="button" class="billing-run-link" (click)="viewDetails(obj)">{{ billingRunNumber(obj) }}</button><small>{{ obj.RunType || '—' }} · ID {{ obj.Id }}</small>
+                    </td>
+                    <td>{{ obj.BillingDate | date: 'dd MMM yyyy' }}</td>
+                    <td>{{ obj.PeriodFrom ? (obj.PeriodFrom | date: 'dd MMM yyyy') : '—' }} → {{ obj.PeriodTo ? (obj.PeriodTo | date: 'dd MMM yyyy') : '—' }}</td>
+                    <td>{{ organisationName(obj) }}</td>
+                    <td>
+                        <span class="billing-run-badge workflow-status" [ngClass]="statusClass(obj)">{{ workflowStatus(obj) }}</span>
+                    </td>
+                    <td class="text-right">{{ obj.InvoiceCount || 0 }}</td>
+                    <td class="text-right">{{ obj.TotalAmount || 0 | currency: obj.CurrencyCode || 'USD' : 'symbol' : '1.0-0' }}</td>
+                    <td class="text-right">
+                        <p-menu #listActions [model]="actionMenuItems" [popup]="true" appendTo="body" /><button type="button" class="billing-run-overflow" (click)="openActions(listActions, $event, obj)" aria-label="More billing run actions">
+                            <i class="pi pi-ellipsis-v"></i>
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">
+                        <div class="billing-run-empty-state compact"><i class="pi pi-receipt"></i><strong>No billing runs found</strong></div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </section>
+
+    <p-paginator
+        *ngIf="totalNoOfRecords > 0"
+        [first]="pgEvent.first"
+        [rows]="pgEvent.rows"
+        [totalRecords]="totalNoOfRecords"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} billing runs"
+        (onPageChange)="pageChanged($event)"
+    />
 </div>

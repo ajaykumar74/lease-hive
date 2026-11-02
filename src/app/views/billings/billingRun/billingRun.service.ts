@@ -7,72 +7,78 @@ import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class BillingRunService extends BaseCrudService<any> {
+    protected baseUrl: string;
+    public CacheData: ICacheData;
 
-  protected baseUrl: string;
-  public CacheData: ICacheData;
+    constructor(
+        protected override http: HttpClient,
+        protected override baseService: BaseService
+    ) {
+        super(http, baseService);
+        this.baseUrl = this.baseService.C_APP_URL + '/BillingRuns';
+        this.CacheData = {} as ICacheData;
+        this.baseService.isTokenUpdated().subscribe((token) => {
+            this.CacheData = {} as ICacheData;
+        });
+    }
 
-  constructor(protected override http: HttpClient, protected override baseService: BaseService) {
-    super(http, baseService);
-    this.baseUrl = this.baseService.C_APP_URL + '/BillingRuns';
-    this.CacheData = {} as ICacheData;
-    this.baseService.isTokenUpdated().subscribe(token => {
-      this.CacheData = {} as ICacheData;
-    });
-  }
+    setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+        this.CacheData.Data = result.Records;
+        this.CacheData.TotalRecords = result.TotalRecords;
+        this.CacheData.permission = permission;
+        this.CacheData.IsLoaded = result.TotalRecords > 0;
+        this.CacheData.CurrentPage = curPage;
+        this.CacheData.objSearch = objsearch;
+    }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
-    this.CacheData.Data = result.Records;
-    this.CacheData.TotalRecords = result.TotalRecords;
-    this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
-  } 
- 
- search(  searchParam: any): Observable<any> {
-    const url = `${this.baseUrl}/search`;
-    return this.http.post<any>(url, searchParam, { headers: this.headers })
-      .pipe(
-        tap(data => this.baseService.onTapData(data)),
-        catchError(this.baseService.handleError)
-      );
-  }
+    search(searchParam: any): Observable<any> {
+        const url = `${this.baseUrl}/search`;
+        return this.http.post<any>(url, searchParam, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
 
-  generateDraftInvoices(billingRunId: number): Observable<any> {
-    const url = `${this.baseUrl}/${billingRunId}/generate-draft-invoices`;
-    return this.http.post<any>(url, {}, { headers: this.headers })
-      .pipe(
-        tap(data => this.baseService.onTapData(data)),
-        catchError(this.baseService.handleError)
-      );
-  }
+    generateDraftInvoices(billingRunId: number): Observable<any> {
+        const url = `${this.baseUrl}/${billingRunId}/generate-draft-invoices`;
+        return this.http.post<any>(url, {}, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
 
-  validateBillingRun(billingRunId: number): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/validate`, {}, { headers: this.headers })
-      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
-  }
+    validateBillingRun(billingRunId: number): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/${billingRunId}/validate`, {}, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
 
-  approveBillingRun(billingRunId: number): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/approve`, {}, { headers: this.headers })
-      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
-  }
+    approveBillingRun(billingRunId: number): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/${billingRunId}/approve`, {}, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
 
-  issueInvoices(billingRunId: number): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${billingRunId}/issue-invoices`, {}, { headers: this.headers })
-      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
-  }
+    issueInvoices(billingRunId: number): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/${billingRunId}/issue-invoices`, {}, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
 
-  GetAll(IsDeleted: Boolean): Observable<any> {
-    return this.getAll();
-  }
+    triggerAutoRecurringBilling(): Observable<any> {
+        return this.http.post<any>(`${this.baseUrl}/auto-recurring/trigger`, {}, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
+
+    GetAll(IsDeleted: Boolean): Observable<any> {
+        return this.getAll();
+    }
 }
-
-
-
-
-
-
-

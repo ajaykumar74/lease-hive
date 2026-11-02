@@ -1,71 +1,257 @@
 <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<p-confirmDialog key="billing-run-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
-					<app-spinner></app-spinner>
-					<p-confirmDialog key="billing-run-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
-					<section *ngIf="billingRun?.Id" class="billing-workflow mb-4">
-						<header class="surface-50 p-3 border-bottom-1 border-200 flex flex-wrap justify-content-between align-items-start gap-3">
-							<div><span class="text-xs font-bold uppercase text-color-secondary">Billing workflow</span><h2 class="text-xl m-0 mt-1">Billing Run Workflow</h2><p class="text-sm text-color-secondary m-0 mt-1">Validate candidates, approve the run, generate draft invoices, then issue each eligible invoice.</p></div>
-							<span class="px-3 py-1 border-round text-sm font-semibold" [ngClass]="isApprovedForInvoiceGeneration ? 'bg-green-100 text-green-700' : isValidated ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'">{{ billingRunStatusCode || 'DRAFT' }}</span>
-						</header>
-						<div class="billing-workflow__grid">
-							<div class="col-12 md:col-6 xl:col-3"><article class="border-1 border-round border-200 p-3 h-full flex flex-column"><div class="flex justify-content-between align-items-start gap-2"><div><span class="text-xs font-bold text-color-secondary">01 · VALIDATION</span><h3 class="m-0 mt-1 text-lg">Validation</h3></div><i class="pi pi-check-circle text-xl text-primary"></i></div><span class="inline-flex align-self-start mt-3 px-2 py-1 border-round text-sm" [ngClass]="isDraft ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'">{{ validationStatusLabel }}</span><div class="grid mt-2 text-sm"><div class="col-6"><span class="block text-color-secondary">Valid</span><strong>{{ validItemCount }}</strong></div><div class="col-6"><span class="block text-color-secondary">Excluded</span><strong>{{ excludedItemCount }}</strong></div><div class="col-6"><span class="block text-color-secondary">Errors</span><strong>{{ errorItemCount }}</strong></div><div class="col-6"><span class="block text-color-secondary">Candidates</span><strong>{{ billingRun.CandidateCount || workflowItems.length }}</strong></div></div><small class="text-color-secondary mt-2">Validation date: not recorded by the existing workflow.</small><div class="mt-auto pt-3"><button *ngIf="isDraft" type="button" pButton label="Validate" icon="pi pi-check-circle" class="w-full" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="validateBillingRun()"></button><small *ngIf="!isDraft" class="text-green-700">Validation is complete.</small></div></article></div>
-							<div class="col-12 md:col-6 xl:col-3"><article class="border-1 border-round border-200 p-3 h-full flex flex-column"><div class="flex justify-content-between align-items-start gap-2"><div><span class="text-xs font-bold text-color-secondary">02 · APPROVAL</span><h3 class="m-0 mt-1 text-lg">Approval</h3></div><i class="pi pi-verified text-xl text-primary"></i></div><span class="inline-flex align-self-start mt-3 px-2 py-1 border-round text-sm" [ngClass]="isApprovedForInvoiceGeneration ? 'bg-green-100 text-green-700' : isValidated ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-color-secondary'">{{ approvalStatusLabel }}</span><div class="mt-3 text-sm"><span class="block text-color-secondary">Approved by</span><strong>{{ billingRun.ApprovedByUserId ? ('User #' + billingRun.ApprovedByUserId) : 'Not recorded' }}</strong><span class="block text-color-secondary mt-3">Approved at</span><strong>{{ billingRun.ApprovedAtUtc ? (billingRun.ApprovedAtUtc | date:'medium') : 'Not recorded' }}</strong></div><div class="mt-auto pt-3"><button *ngIf="isValidated" type="button" pButton label="Approve" icon="pi pi-check" class="w-full" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="approveBillingRun()"></button><small *ngIf="!isValidated" class="text-color-secondary">{{ isApprovedForInvoiceGeneration ? 'Approval is complete.' : 'Available after validation.' }}</small></div></article></div>
-							<div class="col-12 md:col-6 xl:col-3"><article class="border-1 border-round border-200 p-3 h-full flex flex-column"><div class="flex justify-content-between align-items-start gap-2"><div><span class="text-xs font-bold text-color-secondary">03 · INVOICE GENERATION</span><h3 class="m-0 mt-1 text-lg">Draft invoices</h3></div><i class="pi pi-file-edit text-xl text-primary"></i></div><span class="inline-flex align-self-start mt-3 px-2 py-1 border-round text-sm" [ngClass]="hasGeneratedInvoices ? 'bg-green-100 text-green-700' : isApprovedForInvoiceGeneration ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-color-secondary'">{{ invoiceGenerationStatusLabel }}</span><div class="mt-3 text-sm"><span class="block text-color-secondary">Generated invoices</span><strong>{{ billingRun.InvoiceCount || 0 }}</strong><span class="block text-color-secondary mt-3">Total amount</span><strong>{{ billingRun.CurrencyCode }} {{ billingRun.TotalAmount | number:'1.2-2' }}</strong></div><small class="text-color-secondary mt-2">Execution time: not recorded by the existing workflow.</small><div class="mt-auto pt-3 flex flex-column gap-2"><button *ngIf="isApprovedForInvoiceGeneration && !hasGeneratedInvoices" type="button" pButton label="Execute" icon="pi pi-play" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmExecution()"></button><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button></div></article></div>
-							<div class="col-12 md:col-6 xl:col-3"><article class="border-1 border-round border-200 p-3 h-full flex flex-column"><div class="flex justify-content-between align-items-start gap-2"><div><span class="text-xs font-bold text-color-secondary">04 · INVOICE ISSUANCE</span><h3 class="m-0 mt-1 text-lg">Customer delivery</h3></div><i class="pi pi-send text-xl text-primary"></i></div><span class="inline-flex align-self-start mt-3 px-2 py-1 border-round text-sm" [ngClass]="draftInvoiceCount > 0 ? 'bg-orange-100 text-orange-700' : issuedInvoiceCount > 0 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-color-secondary'">{{ invoiceIssuanceStatusLabel }}</span><div class="grid mt-2 text-sm"><div class="col-4"><span class="block text-color-secondary">Draft</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : draftInvoiceCount }}</strong></div><div class="col-4"><span class="block text-color-secondary">Issued</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : issuedInvoiceCount }}</strong></div><div class="col-4"><span class="block text-color-secondary">Failed</span><strong>{{ invoiceIssueResult?.FailedCount ?? '—' }}</strong></div></div><small *ngIf="invoiceIssuanceSummaryError" class="text-red-600 mt-2">{{ invoiceIssuanceSummaryError }}</small><small *ngIf="invoiceIssueResult" class="text-color-secondary mt-2">Last bulk issue: {{ invoiceIssueResult.IssuedCount || 0 }} issued, {{ invoiceIssueResult.SkippedCount || 0 }} skipped, {{ invoiceIssueResult.FailedCount || 0 }} failed.</small><ul *ngIf="bulkIssueFailures.length" class="billing-workflow__failures"><li *ngFor="let invoice of bulkIssueFailures.slice(0, 3)">Invoice #{{ invoice.CustomerInvoiceId }}: {{ invoice.Reason }}</li></ul><small *ngIf="!invoiceIssuanceSummaryError && !invoiceIssueResult" class="text-color-secondary mt-2">Each draft is validated before its individual issuance is committed.</small><div class="mt-auto pt-3 flex flex-column gap-2"><button *ngIf="draftInvoiceCount > 0 && !isInvoiceIssuanceSummaryLoading" type="button" pButton label="Issue all invoices" icon="pi pi-send" [loading]="isIssuingInvoices" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmIssueAllInvoices()"></button><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button></div></article></div>
-						</div>
-					</section>
-					<form> 
-				<p-fluid>
-		      			<div class="flex mt-8">
-						<div class="card flex flex-col gap-4 w-full"> 
- 						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Organisation Id" [value]="billingRun.BillingOrganisationId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Billing Date" [value]="billingRun.BillingDate">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Period From" [value]="billingRun.PeriodFrom">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Period To" [value]="billingRun.PeriodTo">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Billing Run Status" [value]="billingRun.BillingRunStatusCode || billingRun.BillingRunStatusId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Run Type" [value]="billingRun.RunType">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Candidate Count" [value]="billingRun.CandidateCount">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Invoice Count" [value]="billingRun.InvoiceCount">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Total Amount" [value]="billingRun.TotalAmount">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Currency Code" [value]="billingRun.CurrencyCode">
-								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Approved By User Id" [value]="billingRun.ApprovedByUserId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Approved At Utc" [value]="billingRun.ApprovedAtUtc">
-								</app-view-field></div></div>
-						<app-audit-details [model]="billingRun"></app-audit-details>
-						</div>
-					</div>
- 				</p-fluid> 	
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <app-message [AlertType]="'message'"></app-message>
+                <p-confirmDialog key="billing-run-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
+                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
+                <app-spinner></app-spinner>
+                <p-confirmDialog key="billing-run-execution" [style]="{ width: '30rem' }"></p-confirmDialog>
+                <section *ngIf="billingRun?.Id" class="billing-workflow mb-4">
+                    <header class="billing-workflow__header">
+                        <div class="billing-workflow__heading">
+                            <span class="section-eyebrow">Billing workflow</span>
+                            <h2>Billing Run Workflow</h2>
+                            <p>Validate candidates, approve the run, generate draft invoices, then issue each eligible invoice.</p>
+                        </div>
+                        <span class="billing-workflow__run-status" [ngClass]="{ 'is-ready': isApprovedForInvoiceGeneration, 'is-progress': isValidated, 'is-pending': isDraft }">{{ billingRunStatusCode || 'DRAFT' }}</span>
+                    </header>
+                    <div class="billing-workflow__grid">
+                        <article class="billing-workflow__card">
+                            <div class="billing-workflow__card-heading">
+                                <div>
+                                    <span>01 · Validation</span>
+                                    <h3>Validate candidates</h3>
+                                </div>
+                                <i class="pi pi-check-circle" aria-hidden="true"></i>
+                            </div>
+                            <span class="billing-workflow__status" [ngClass]="{ 'is-complete': !isDraft, 'is-attention': isDraft && errorItemCount > 0, 'is-ready': isDraft && errorItemCount === 0 }">{{ validationStatusLabel }}</span>
+                            <div class="billing-workflow__metrics">
+                                <div>
+                                    <span>Valid</span><strong>{{ validItemCount }}</strong>
+                                </div>
+                                <div>
+                                    <span>Excluded</span><strong>{{ excludedItemCount }}</strong>
+                                </div>
+                                <div>
+                                    <span>Errors</span><strong>{{ errorItemCount }}</strong>
+                                </div>
+                                <div>
+                                    <span>Candidates</span><strong>{{ billingRun.CandidateCount || workflowItems.length }}</strong>
+                                </div>
+                            </div>
+                            <p class="billing-workflow__note">Validation date: not recorded by the existing workflow.</p>
+                            <div class="billing-workflow__action">
+                                <button *ngIf="isDraft" type="button" pButton label="Validate" icon="pi pi-check-circle" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="validateBillingRun()"></button
+                                ><span *ngIf="!isDraft">Validation is complete.</span>
+                            </div>
+                        </article>
+                        <article class="billing-workflow__card">
+                            <div class="billing-workflow__card-heading">
+                                <div>
+                                    <span>02 · Approval</span>
+                                    <h3>Approve the run</h3>
+                                </div>
+                                <i class="pi pi-verified" aria-hidden="true"></i>
+                            </div>
+                            <span class="billing-workflow__status" [ngClass]="{ 'is-complete': isApprovedForInvoiceGeneration, 'is-ready': isValidated, 'is-pending': !isValidated && !isApprovedForInvoiceGeneration }">{{ approvalStatusLabel }}</span>
+                            <dl class="billing-workflow__details">
+                                <div>
+                                    <dt>Approved by</dt>
+                                    <dd>{{ billingRun.ApprovedByUserId ? 'User #' + billingRun.ApprovedByUserId : 'Not recorded' }}</dd>
+                                </div>
+                                <div>
+                                    <dt>Approved at</dt>
+                                    <dd>{{ billingRun.ApprovedAtUtc ? (billingRun.ApprovedAtUtc | date: 'medium') : 'Not recorded' }}</dd>
+                                </div>
+                            </dl>
+                            <div class="billing-workflow__action">
+                                <button *ngIf="isValidated" type="button" pButton label="Approve" icon="pi pi-check" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="approveBillingRun()"></button
+                                ><span *ngIf="!isValidated">{{ isApprovedForInvoiceGeneration ? 'Approval is complete.' : 'Available after validation.' }}</span>
+                            </div>
+                        </article>
+                        <article class="billing-workflow__card">
+                            <div class="billing-workflow__card-heading">
+                                <div>
+                                    <span>03 · Invoice generation</span>
+                                    <h3>Generate draft invoices</h3>
+                                </div>
+                                <i class="pi pi-file-edit" aria-hidden="true"></i>
+                            </div>
+                            <span class="billing-workflow__status" [ngClass]="{ 'is-complete': hasGeneratedInvoices, 'is-ready': isApprovedForInvoiceGeneration && !hasGeneratedInvoices, 'is-pending': !isApprovedForInvoiceGeneration }">{{
+                                invoiceGenerationStatusLabel
+                            }}</span>
+                            <dl class="billing-workflow__details">
+                                <div>
+                                    <dt>Generated invoices</dt>
+                                    <dd>{{ billingRun.InvoiceCount || 0 }}</dd>
+                                </div>
+                                <div>
+                                    <dt>Total amount</dt>
+                                    <dd>{{ billingRun.CurrencyCode }} {{ billingRun.TotalAmount | number: '1.2-2' }}</dd>
+                                </div>
+                            </dl>
+                            <div class="billing-workflow__action">
+                                <button
+                                    *ngIf="isApprovedForInvoiceGeneration && !hasGeneratedInvoices"
+                                    type="button"
+                                    pButton
+                                    label="Execute"
+                                    icon="pi pi-play"
+                                    [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress"
+                                    (click)="confirmExecution()"
+                                ></button
+                                ><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button
+                                ><span *ngIf="!isApprovedForInvoiceGeneration">Available after approval.</span>
+                            </div>
+                        </article>
+                        <article class="billing-workflow__card">
+                            <div class="billing-workflow__card-heading">
+                                <div>
+                                    <span>04 · Invoice issuance</span>
+                                    <h3>Issue customer invoices</h3>
+                                </div>
+                                <i class="pi pi-send" aria-hidden="true"></i>
+                            </div>
+                            <span class="billing-workflow__status" [ngClass]="{ 'is-attention': draftInvoiceCount > 0, 'is-complete': draftInvoiceCount === 0 && issuedInvoiceCount > 0, 'is-pending': !hasGeneratedInvoices }">{{
+                                invoiceIssuanceStatusLabel
+                            }}</span>
+                            <div class="billing-workflow__metrics billing-workflow__metrics--three">
+                                <div>
+                                    <span>Draft</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : draftInvoiceCount }}</strong>
+                                </div>
+                                <div>
+                                    <span>Issued</span><strong>{{ isInvoiceIssuanceSummaryLoading ? '—' : issuedInvoiceCount }}</strong>
+                                </div>
+                                <div>
+                                    <span>Failed</span><strong>{{ invoiceIssueResult?.FailedCount ?? '—' }}</strong>
+                                </div>
+                            </div>
+                            <p *ngIf="invoiceIssuanceSummaryError" class="billing-workflow__note is-error">{{ invoiceIssuanceSummaryError }}</p>
+                            <p *ngIf="invoiceIssueResult" class="billing-workflow__note">
+                                Last bulk issue: {{ invoiceIssueResult.IssuedCount || 0 }} issued, {{ invoiceIssueResult.SkippedCount || 0 }} skipped, {{ invoiceIssueResult.FailedCount || 0 }} failed.
+                            </p>
+                            <ul *ngIf="bulkIssueFailures.length" class="billing-workflow__failures">
+                                <li *ngFor="let invoice of bulkIssueFailures.slice(0, 3)">Invoice #{{ invoice.CustomerInvoiceId }}: {{ invoice.Reason }}</li>
+                            </ul>
+                            <p *ngIf="!invoiceIssuanceSummaryError && !invoiceIssueResult" class="billing-workflow__note">Each draft is validated before its individual issuance is committed.</p>
+                            <div class="billing-workflow__action">
+                                <button
+                                    *ngIf="draftInvoiceCount > 0 && !isInvoiceIssuanceSummaryLoading"
+                                    type="button"
+                                    pButton
+                                    label="Issue all invoices"
+                                    icon="pi pi-send"
+                                    [loading]="isIssuingInvoices"
+                                    [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress"
+                                    (click)="confirmIssueAllInvoices()"
+                                ></button
+                                ><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button
+                                ><span *ngIf="!hasGeneratedInvoices">Available after draft generation.</span>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <form>
+                    <p-fluid>
+                        <div class="flex mt-8">
+                            <div class="card flex flex-col gap-4 w-full">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Billing Organisation Id" [value]="billingRun.BillingOrganisationId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Billing Date" [value]="billingRun.BillingDate"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Period From" [value]="billingRun.PeriodFrom"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Period To" [value]="billingRun.PeriodTo"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Billing Run Status" [value]="billingRun.BillingRunStatusCode || billingRun.BillingRunStatusId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Run Type" [value]="billingRun.RunType"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Candidate Count" [value]="billingRun.CandidateCount"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Invoice Count" [value]="billingRun.InvoiceCount"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Total Amount" [value]="billingRun.TotalAmount"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Currency Code" [value]="billingRun.CurrencyCode"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Approved By User Id" [value]="billingRun.ApprovedByUserId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Approved At Utc" [value]="billingRun.ApprovedAtUtc"> </app-view-field>
+                                    </div>
+                                </div>
+                                <app-audit-details [model]="billingRun"></app-audit-details>
+                            </div>
+                        </div>
+                    </p-fluid>
 
-
-					<section class="mt-5">
-						<h5>Billing Run Items</h5>
-						<p-table [value]="billingRun.BillingRunItems || []" responsiveLayout="scroll" styleClass="list-table">
-							<ng-template pTemplate="header">
-								<tr>
-									<th>Lease Contract</th><th>Schedule Line</th><th>Contract Charge</th><th>Source Type</th><th>Due Date</th><th>Amount</th><th>Currency</th><th>Validation Status</th><th>Customer Invoice</th><th>Exclusion Reason</th>
-								</tr>
-							</ng-template>
-							<ng-template pTemplate="body" let-item>
-								<tr>
-									<td>{{ item.LeaseContractId }}</td><td>{{ item.LeasePaymentScheduleLineId }}</td><td>{{ item.LeaseContractChargeId }}</td><td>{{ item.SourceType }}</td><td>{{ item.DueDate | date:'dd-MMM-yyyy' }}</td><td>{{ item.Amount | number:'1.2-2' }}</td><td>{{ item.CurrencyCode }}</td><td>{{ item.ValidationStatus }}</td><td><button *ngIf="item.CustomerInvoiceId > 0" type="button" pButton [text]="true" size="small" [label]="item.CustomerInvoiceId" (click)="viewInvoice(item.CustomerInvoiceId)"></button><span *ngIf="!item.CustomerInvoiceId">—</span></td><td>{{ item.ExclusionReason }}</td>
-								</tr>
-							</ng-template>
-							<ng-template pTemplate="emptymessage"><tr><td colspan="10">No billing run items.</td></tr></ng-template>
-						</p-table>
-					</section>
-					</form>
-			</div>
-		</div>
-	</div>
+                    <section class="mt-5">
+                        <h5>Billing Run Items</h5>
+                        <p-table [value]="billingRun.BillingRunItems || []" responsiveLayout="scroll" styleClass="list-table">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Lease Contract</th>
+                                    <th>Schedule Line</th>
+                                    <th>Contract Charge</th>
+                                    <th>Source Type</th>
+                                    <th>Due Date</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                    <th>Validation Status</th>
+                                    <th>Customer Invoice</th>
+                                    <th>Exclusion Reason</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td>{{ item.LeaseContractId }}</td>
+                                    <td>{{ item.LeasePaymentScheduleLineId }}</td>
+                                    <td>{{ item.LeaseContractChargeId }}</td>
+                                    <td>{{ item.SourceType }}</td>
+                                    <td>{{ item.DueDate | date: 'dd-MMM-yyyy' }}</td>
+                                    <td>{{ item.Amount | number: '1.2-2' }}</td>
+                                    <td>{{ item.CurrencyCode }}</td>
+                                    <td>{{ item.ValidationStatus }}</td>
+                                    <td>
+                                        <button *ngIf="item.CustomerInvoiceId > 0" type="button" pButton [text]="true" size="small" [label]="item.CustomerInvoiceId" (click)="viewInvoice(item.CustomerInvoiceId)"></button
+                                        ><span *ngIf="!item.CustomerInvoiceId">—</span>
+                                    </td>
+                                    <td>{{ item.ExclusionReason }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage"
+                                ><tr>
+                                    <td colspan="10">No billing run items.</td>
+                                </tr></ng-template
+                            >
+                        </p-table>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

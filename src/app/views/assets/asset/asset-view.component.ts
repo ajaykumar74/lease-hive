@@ -7,11 +7,13 @@ import { Location } from '@angular/common';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { AssetService } from './asset.service';
 import { IAsset } from './asset';
+import { createAssetQuickOptions } from './asset-quick-options';
 
 @Component({
     templateUrl: './asset-view.component.html', 
@@ -24,6 +26,7 @@ export class AssetViewComponent implements OnInit {
     permission = { CanCreate: true } as IPermission;
     asset: IAsset = {} as IAsset;
     Caption: string = 'Loading...';
+    menuItems: MenuItem[] = [];
     
 
     constructor( 
@@ -33,7 +36,9 @@ export class AssetViewComponent implements OnInit {
         private _location: Location,
         private loggedInUserService: LoggedInUserService
     ) {
-
+        this.menuItems = createAssetQuickOptions(
+            () => this.asset?.Id,
+            commands => this.router.navigate(commands));
     }
 
     @ViewChild(SpinnerComponent) spinner: SpinnerComponent;

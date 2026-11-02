@@ -15,6 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { MaintenanceRequestListComponent } from './maintenanceRequest-list.component';
 import { MaintenanceRequestCreateComponent } from './maintenanceRequest-create.component';
@@ -33,6 +36,9 @@ import { MaintenanceRequestRoutingModule } from './maintenanceRequest-routing.mo
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		PaginatorModule,
+		TagModule,
+		TooltipModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

@@ -5,6 +5,7 @@ import { BaseService } from '@/shared/IBaseService';
 import { IMaintenancePlan } from './maintenancePlan';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
+import { ListPageState } from '@/shared/list-page.models';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,14 @@ export class MaintenancePlanService extends BaseCrudService<any> {
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache<TFilters>(result: any, permission: any, state: ListPageState<TFilters>): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
+    this.CacheData.IsLoaded = true;
+    this.CacheData.CurrentPage = state.pagination.page;
+    this.CacheData.pgEvent = state.pagination;
+    this.CacheData.stateData = state;
   } 
  
  search(  searchParam: any): Observable<any> {

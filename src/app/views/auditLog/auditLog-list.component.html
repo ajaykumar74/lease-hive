@@ -41,7 +41,7 @@
 						<td style="width:110px" pFrozenColumn><p-button [label]="obj.Id.toString()" [link]="true" (click)="onDetailsClick(obj)" /></td>
 						<td style="width:190px">{{ obj.OccurredAt | date:'dd MMM yyyy, HH:mm' }}</td>
 						<td style="width:230px">{{ getApplicationUserLabel(obj.ApplicationUserId) }}</td>
-						<td style="width:150px">{{ obj.ActionType }}</td>
+						<td style="width:150px"><p-tag [value]="obj.ActionType || '—'" [severity]="getActionSeverity(obj.ActionType)" [rounded]="true"></p-tag></td>
 						<td style="width:180px">{{ obj.EntityType }}</td>
 						<td style="width:120px">{{ obj.EntityId }}</td>
 						<td style="width:130px">{{ obj.Outcome }}</td>

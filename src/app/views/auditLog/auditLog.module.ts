@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { TagModule } from 'primeng/tag';
 
 import { AuditLogListComponent } from './auditLog-list.component';
 import { AuditLogCreateComponent } from './auditLog-create.component';
@@ -33,6 +34,7 @@ import { AuditLogRoutingModule } from './auditLog-routing.module';
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		TagModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,
