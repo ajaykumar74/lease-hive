@@ -233,6 +233,7 @@ export class QuoteCreateComponent implements OnInit {
             finalize(() => this.spinner.hide())
         ).subscribe({
             next: (data) => {
+                this.quoteService.invalidateListCache();
                 // this.messageService.showSuccess(Quote +  'Details Updated sucessfully.');
                 this._location.back();
             },

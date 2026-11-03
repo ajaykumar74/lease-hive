@@ -227,6 +227,7 @@ RecordStatus:  formValues.RecordStatus || null,
       next: data => {
         //this.messageService.showSuccess(Receivable +  'Details Updated sucessfully.');
 		//this.editForm.reset();
+		this.receivableService.invalidateListCache();
 		this._location.back();
       },
       error: err => { 

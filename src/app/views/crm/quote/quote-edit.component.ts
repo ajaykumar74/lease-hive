@@ -252,6 +252,7 @@ export class QuoteEditComponent implements OnInit {
             finalize(() => this.spinner.hide())
         ).subscribe({
             next: (data) => {
+                this.quoteService.invalidateListCache();
                 //this.messageService.showSuccess(Quote +  'Details Updated sucessfully.');
                 //this.editForm.reset();
                 this._location.back();

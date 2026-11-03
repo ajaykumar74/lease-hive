@@ -28,6 +28,11 @@ export interface ListPageState<TFilters> {
     pagination: ListPaginationState;
 }
 
+/** State stored with a module's local list cache. */
+export interface ListPageCachedState<TFilters> extends ListPageState<TFilters> {
+    contextKey: string;
+}
+
 export interface ListEmptyState {
     icon: string;
     title: string;

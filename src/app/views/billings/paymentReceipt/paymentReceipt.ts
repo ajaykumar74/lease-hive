@@ -21,6 +21,12 @@ RecordStatus :string;
 
 }
 
+/** Fields returned by the receipt list's joined read projection. */
+export interface IPaymentReceiptList extends IPaymentReceipt {
+  CustomerDisplayName: string;
+  ReceiptStatusDisplayName: string;
+}
+
 export interface IEligibleReceivable {
   ReceivableId: number;
   InvoiceReference: string;

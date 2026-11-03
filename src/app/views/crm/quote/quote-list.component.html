@@ -1,50 +1,215 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
+<div class="grid list-page leasehive-list-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Quote List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search by quote number..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search quotes" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Quotations'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="leasehive-list-toolbar" role="search" aria-label="Quotation list controls">
+                <div class="leasehive-list-search">
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search quotations..." aria-label="Search by quote number or customer" />
+                    <button type="button" pButton icon="pi pi-search" (click)="onSearch()" aria-label="Search quotations" pTooltip="Search" tooltipPosition="top"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
+                </div>
+
+                <div class="leasehive-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching quotations">
+                        <i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong
+                        ><span>matching</span>
+                    </div>
+                    <label class="leasehive-list-sort-label" for="quoteSort">Sort by</label>
+                    <p-dropdown inputId="quoteSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
+                    <span class="leasehive-list-filter-toggle">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-filter"
+                            [outlined]="!filterControlsVisible"
+                            [severity]="hasActiveFilters ? 'primary' : 'secondary'"
+                            (click)="toggleFilterControls()"
+                            [attr.aria-pressed]="filterControlsVisible"
+                            [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
+                            [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
+                            tooltipPosition="top"
+                        ></button>
+                        <span *ngIf="activeFilterCount" class="leasehive-list-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="leasehive-list-table-area" aria-label="Quotation results">
+                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert">
+                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load quotations</strong><span>Please try again.</span>
+                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
+                </div>
+
+                <ng-container *ngIf="!hasLoadError">
+                    <div *ngIf="emptyState as empty; else quoteTable" class="list-empty leasehive-list-empty-state">
+                        <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong
+                        ><span>{{ empty.description }}</span>
+                        <button *ngIf="searchTerm || hasActiveFilters; else createQuote" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                        <ng-template #createQuote><button *ngIf="permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button></ng-template>
+                    </div>
+
+                    <ng-template #quoteTable>
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1200px' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Quote No.</th>
+                                    <th>Customer</th>
+                                    <th>Opportunity</th>
+                                    <th>Value</th>
+                                    <th>Status</th>
+                                    <th>Valid Until</th>
+                                    <th>Assets</th>
+                                    <th pFrozenColumn alignFrozen="right" class="list-actions-column">Actions</th>
+                                </tr>
+                                <tr *ngIf="filterControlsVisible" class="leasehive-list-filter-row">
+                                    <th></th>
+                                    <th>
+                                        <p-dropdown
+                                            [options]="partyOptions"
+                                            optionLabel="Text"
+                                            optionValue="Id"
+                                            [(ngModel)]="filters.partyId"
+                                            (onChange)="onCustomerChanged()"
+                                            [showClear]="true"
+                                            appendTo="body"
+                                            placeholder="Customer"
+                                            ariaLabel="Filter by customer"
+                                        ></p-dropdown>
+                                    </th>
+                                    <th>
+                                        <p-dropdown
+                                            [options]="opportunityOptions"
+                                            optionLabel="Text"
+                                            optionValue="Id"
+                                            [(ngModel)]="filters.opportunityId"
+                                            (onChange)="onFiltersChanged()"
+                                            [showClear]="true"
+                                            appendTo="body"
+                                            placeholder="Opportunity"
+                                            ariaLabel="Filter by opportunity"
+                                        ></p-dropdown>
+                                    </th>
+                                    <th>
+                                        <div class="leasehive-list-value-range">
+                                            <p-inputNumber
+                                                [(ngModel)]="filters.minimumValue"
+                                                (onBlur)="onFiltersChanged()"
+                                                mode="decimal"
+                                                [minFractionDigits]="0"
+                                                [maxFractionDigits]="2"
+                                                placeholder="Min"
+                                                ariaLabel="Minimum quotation value"
+                                            ></p-inputNumber
+                                            ><p-inputNumber
+                                                [(ngModel)]="filters.maximumValue"
+                                                (onBlur)="onFiltersChanged()"
+                                                mode="decimal"
+                                                [minFractionDigits]="0"
+                                                [maxFractionDigits]="2"
+                                                placeholder="Max"
+                                                ariaLabel="Maximum quotation value"
+                                            ></p-inputNumber>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <p-dropdown
+                                            [options]="quoteStatusOptions"
+                                            optionLabel="Text"
+                                            optionValue="Id"
+                                            [(ngModel)]="filters.quoteStatusId"
+                                            (onChange)="onFiltersChanged()"
+                                            [showClear]="true"
+                                            appendTo="body"
+                                            placeholder="Status"
+                                            ariaLabel="Filter by status"
+                                        ></p-dropdown>
+                                    </th>
+                                    <th>
+                                        <p-calendar
+                                            [(ngModel)]="filters.validUntilRange"
+                                            selectionMode="range"
+                                            [readonlyInput]="true"
+                                            [showIcon]="true"
+                                            [showButtonBar]="true"
+                                            dateFormat="dd-M-yy"
+                                            appendTo="body"
+                                            (onSelect)="onFiltersChanged()"
+                                            (onClearClick)="onFiltersChanged()"
+                                            placeholder="Date range"
+                                            ariaLabel="Filter by valid-until date range"
+                                        ></p-calendar>
+                                    </th>
+                                    <th>
+                                        <p-dropdown
+                                            [options]="currencyOptions"
+                                            optionLabel="Text"
+                                            optionValue="Value"
+                                            [(ngModel)]="filters.currencyCode"
+                                            (onChange)="onFiltersChanged()"
+                                            [showClear]="true"
+                                            appendTo="body"
+                                            placeholder="Currency"
+                                            ariaLabel="Filter by currency"
+                                        ></p-dropdown>
+                                    </th>
+                                    <th pFrozenColumn alignFrozen="right" class="leasehive-list-filter-actions">
+                                        <button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button>
+                                    </th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-obj>
+                                <tr>
+                                    <td>
+                                        <button type="button" class="list-primary-link" (click)="onReviewClick(obj)" [attr.aria-label]="'Review quotation ' + (obj.QuoteId || obj.Id)">{{ obj.QuoteId || '—' }}</button
+                                        ><span class="list-secondary">Version {{ obj.VersionNo || '—' }} · Group {{ obj.QuoteGroupNo || '—' }}</span>
+                                    </td>
+                                    <td>{{ obj.PartyDisplayName || '—' }}</td>
+                                    <td>{{ obj.OpportunityDisplayName || '—' }}</td>
+                                    <td>{{ obj.TotalAmount === null || obj.TotalAmount === undefined || !obj.CurrencyCode ? '—' : (obj.TotalAmount | currency: obj.CurrencyCode : 'symbol' : '1.0-0') }}</td>
+                                    <td>
+                                        <span class="list-status" [ngClass]="getStatusClass(obj.StatusName || obj.StatusCode)"><i class="list-status-dot"></i>{{ obj.StatusName || obj.StatusCode || '—' }}</span>
+                                    </td>
+                                    <td>{{ obj.ValidUntil ? (obj.ValidUntil | date: 'dd-MMM-yyyy') : '—' }}</td>
+                                    <td>{{ obj.AssetCount === null || obj.AssetCount === undefined ? '—' : obj.AssetCount }}</td>
+                                    <td pFrozenColumn alignFrozen="right" class="list-actions-column">
+                                        <div class="list-actions">
+                                            <button type="button" class="list-action view" (click)="onReviewClick(obj)" pTooltip="View / Review" tooltipPosition="top" [attr.aria-label]="'View or review quotation ' + (obj.QuoteId || obj.Id)">
+                                                <i class="pi pi-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                *ngIf="permission.CanUpdate"
+                                                type="button"
+                                                class="list-action edit"
+                                                [disabled]="!isEditable(obj)"
+                                                (click)="onEditClick(obj)"
+                                                [pTooltip]="isEditable(obj) ? 'Edit' : 'This quotation is not editable'"
+                                                tooltipPosition="top"
+                                                [attr.aria-label]="'Edit quotation ' + (obj.QuoteId || obj.Id)"
+                                            >
+                                                <i class="pi pi-pencil" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <p-paginator
+                            *ngIf="totalNoOfRecords > 0"
+                            [first]="pgEvent.first"
+                            [rows]="pgEvent.rows"
+                            [totalRecords]="totalNoOfRecords"
+                            [rowsPerPageOptions]="[10, 20, 50]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                            (onPageChange)="pageChanged($event)"
+                        ></p-paginator>
+                    </ng-template>
+                </ng-container>
+            </section>
+        </div>
+    </div>
 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="QuoteId" style="width:220px">Quote <p-sortIcon field="QuoteId" /> </th>
-<th pSortableColumn="PartyDisplayName" style="width:240px">Customer <p-sortIcon field="PartyDisplayName" /> </th>
-<th pSortableColumn="OpportunityDisplayName" style="width:240px">Opportunity <p-sortIcon field="OpportunityDisplayName" /> </th>
-<th pSortableColumn="LeaseRequirementDisplayName" style="width:220px">Requirement <p-sortIcon field="LeaseRequirementDisplayName" /> </th>
-<th pSortableColumn="TotalAmount" style="width:160px">Quote Value <p-sortIcon field="TotalAmount" /> </th>
-<th pSortableColumn="StatusName" style="width:160px">Quote Status <p-sortIcon field="StatusName" /> </th>
-<th pSortableColumn="ValidUntil" style="width:160px">Valid Until <p-sortIcon field="ValidUntil" /> </th>
-<th pSortableColumn="AssetCount" style="width:110px">Assets <p-sortIcon field="AssetCount" /> </th>
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:220px" pFrozenColumn><p-button [label]="obj.QuoteId || ('Quote #' + obj.Id)" [link]="true" (click)="onDetailsClick(obj)" /><div class="text-sm text-color-secondary">Version {{obj.VersionNo || '—'}} · Group {{obj.QuoteGroupNo || '—'}}</div></td>
-<td style="width:240px">{{obj.PartyDisplayName || '—'}}</td>
-<td style="width:240px">{{obj.OpportunityDisplayName || '—'}}</td>
-<td style="width:220px">{{obj.LeaseRequirementDisplayName || '—'}}</td>
-<td style="width:160px">{{obj.TotalAmount | currency:(obj.CurrencyCode || 'GBP'):'symbol':'1.0-0' }}</td>
-<td style="width:160px"><span class="list-status" [ngClass]="getStatusClass(obj.StatusName || obj.StatusCode)"><i class="list-status-dot"></i>{{obj.StatusName || obj.StatusCode || '—'}}</span></td>
-<td style="width:160px">{{obj.ValidUntil ? (obj.ValidUntil | date:'dd-MMM-yyyy') : '—'}}</td>
-<td style="width:110px">{{obj.AssetCount || 0}}</td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-			<p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows"
-				[totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]"
-				[showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-				(onPageChange)="pageChanged($event)" />
-		</div>
-	</div>
-</div>
-

@@ -5,6 +5,7 @@ import { BaseService } from '@/shared/IBaseService';
 import { IReceivable } from './receivable';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
+import { ListPageState } from '@/shared/list-page.models';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +24,20 @@ export class ReceivableService extends BaseCrudService<any> {
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache<TFilters>(result: any, permission: any, state: ListPageState<TFilters>, requestSignature: string): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
-  } 
+    this.CacheData.IsLoaded = true;
+    this.CacheData.CurrentPage = state.pagination.page;
+    this.CacheData.pgEvent = state.pagination;
+    this.CacheData.stateData = state;
+    this.CacheData.SearchParams = requestSignature;
+  }
+
+  invalidateListCache(): void {
+    this.CacheData = { stateData: this.CacheData.stateData } as ICacheData;
+  }
  
  search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;

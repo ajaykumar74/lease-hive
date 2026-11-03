@@ -22,3 +22,8 @@ DisputeHoldFlag : boolean;
 RecordStatus :string;
 
 }
+
+/** Fields returned by the receivable list's joined read projection. */
+export interface IReceivableList extends IReceivable {
+  CustomerDisplayName: string;
+}

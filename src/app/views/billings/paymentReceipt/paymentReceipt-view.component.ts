@@ -118,7 +118,7 @@ export class PaymentReceiptViewComponent implements OnInit {
         if (this.isConfirming || !this.permission?.CanUpdate || this.isConfirmed) return;
         this.isConfirming = true; this.spinner?.show();
         this.paymentReceiptService.confirm(this.selectedId).subscribe({
-            next: r => { this.messageService?.showSuccess(r?.Message || r?.message || 'Payment confirmed.'); this.loadUI(); },
+            next: r => { this.messageService?.showSuccess(r?.Message || r?.message || 'Payment confirmed.'); this.paymentReceiptService.invalidateListCache(); this.loadUI(); },
             error: e => this.showError(e),
             complete: () => { this.isConfirming = false; this.spinner?.hide(); }
         });
@@ -148,6 +148,7 @@ export class PaymentReceiptViewComponent implements OnInit {
             next: response => {
                 this.messageService?.showSuccess(response?.Message || response?.message || 'Payment allocated successfully.');
                 this.allocationRequestId = null;
+				this.paymentReceiptService.invalidateListCache();
                 this.loadUI();
             },
             // Retain the idempotency key after a timeout: clicking Allocate again remains safe.

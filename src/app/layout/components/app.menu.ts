@@ -278,12 +278,12 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-fw pi-address-book',
                                     routerLink: ['/business/organisations/calendars'],
                                     tooltip: ''
-                                },
+                                }/* ,
                                 {
                                     label: 'Documents',
                                     icon: 'pi pi-fw pi-folder',
                                     routerLink: ['/business/organisations/documents']
-                                }
+                                } */
                             ]
                         },
                         {
@@ -999,7 +999,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         }
                                     ]
                                 },
-                                {
+                               /*  {
                                     label: 'Locations & Movements',
                                     icon: 'pi pi-fw pi-map-marker',
                                     items: [
@@ -1020,7 +1020,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/assets/location-history']
                                         }
                                     ]
-                                },
+                                }, */
                                 {
                                     label: 'Measures & Readings',
                                     icon: 'pi pi-fw pi-chart-line',

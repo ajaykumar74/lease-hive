@@ -233,6 +233,7 @@ RecordStatus:  formValues.RecordStatus || null,
       next: data => {
         //this.messageService.showSuccess(LeaseContract +  'Details Updated sucessfully.');
 		//this.editForm.reset();
+		this.leaseContractService.invalidateListCache();
 		this._location.back();
       },
       error: err => { 

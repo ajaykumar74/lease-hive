@@ -206,6 +206,7 @@ RecordStatus: 'Active',
     this.paymentReceiptService.create(createdObj).subscribe({
       next: data => {	   
          // this.messageService.showSuccess(PaymentReceipt +  'Details Updated sucessfully.');
+		 this.paymentReceiptService.invalidateListCache();
 		 this._location.back();     
       },
       error: err => { 

@@ -1,68 +1,122 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
+<div class="grid list-page leasehive-list-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'LeaseContract List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [IsHideCreate]="true" [permission]="permission" [Caption]="'Lease Contracts'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="leasehive-list-toolbar" role="search" aria-label="Lease contract list controls">
+                <div class="leasehive-list-search">
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search contracts..." aria-label="Search by contract number, customer, or title" />
+                    <button type="button" pButton icon="pi pi-search" (click)="onSearch()" aria-label="Search contracts" pTooltip="Search" tooltipPosition="top"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
+                </div>
+
+                <div class="leasehive-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching contracts">
+                        <i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span>
+                    </div>
+                    <label class="leasehive-list-sort-label" for="leaseContractSort">Sort by</label>
+                    <p-dropdown inputId="leaseContractSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
+                    <span class="leasehive-list-filter-toggle">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-filter"
+                            [outlined]="!filterControlsVisible"
+                            [severity]="hasActiveFilters ? 'primary' : 'secondary'"
+                            (click)="toggleFilterControls()"
+                            [attr.aria-pressed]="filterControlsVisible"
+                            [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
+                            [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
+                            tooltipPosition="top"
+                        ></button>
+                        <span *ngIf="activeFilterCount" class="leasehive-list-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="leasehive-list-table-area" aria-label="Lease contract results">
+                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert">
+                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load lease contracts</strong><span>Please try again.</span>
+                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
+                </div>
+
+                <ng-container *ngIf="!hasLoadError">
+                    <div *ngIf="emptyState as empty; else contractTable" class="list-empty leasehive-list-empty-state">
+                        <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong><span>{{ empty.description }}</span>
+                        <button *ngIf="searchTerm || hasActiveFilters; else createContract" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                        <ng-template #createContract><button *ngIf="permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button></ng-template>
+                    </div>
+
+                    <ng-template #contractTable>
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1700px' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 190px; min-width: 190px">Contract No.</th>
+                                    <th style="width: 250px; min-width: 250px">Customer</th>
+                                    <th style="width: 310px; min-width: 310px">Title</th>
+                                    <th style="width: 235px; min-width: 235px">Status</th>
+                                    <th style="width: 165px; min-width: 165px">Commencement</th>
+                                    <th style="width: 165px; min-width: 165px">Maturity</th>
+                                    <th style="width: 250px; min-width: 250px">Organisation</th>
+                                    <th pFrozenColumn alignFrozen="right" class="list-actions-column" style="width: 130px; min-width: 130px">Actions</th>
+                                </tr>
+                                <tr *ngIf="filterControlsVisible" class="leasehive-list-filter-row">
+                                    <th></th>
+                                    <th>
+                                        <p-dropdown [options]="customerOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.customerPartyId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Customer" ariaLabel="Filter by customer"></p-dropdown>
+                                    </th>
+                                    <th></th>
+                                    <th>
+                                        <p-dropdown [options]="contractStatusOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.leaseContractStatusId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Status" ariaLabel="Filter by contract status"></p-dropdown>
+                                    </th>
+                                    <th>
+                                        <p-calendar [(ngModel)]="filters.commencementRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Date range" ariaLabel="Filter by commencement date range"></p-calendar>
+                                    </th>
+                                    <th>
+                                        <p-calendar [(ngModel)]="filters.maturityRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Date range" ariaLabel="Filter by maturity date range"></p-calendar>
+                                    </th>
+                                    <th>
+                                        <p-dropdown [options]="organisationOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.lessorOrganisationId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Organisation" ariaLabel="Filter by lessor organisation"></p-dropdown>
+                                    </th>
+                                    <th pFrozenColumn alignFrozen="right" class="leasehive-list-filter-actions">
+                                        <button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button>
+                                    </th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-obj>
+                                <tr>
+                                    <td><button type="button" class="list-primary-link" (click)="onViewClick(obj)" [attr.aria-label]="'View contract ' + contractNumber(obj)">{{ contractNumber(obj) }}</button></td>
+                                    <td>{{ customerName(obj) }}</td>
+                                    <td><span class="leasehive-list-title" [pTooltip]="obj.ContractTitle || ''" tooltipPosition="top">{{ obj.ContractTitle || '—' }}</span></td>
+                                    <td><span class="list-status" [ngClass]="getStatusClass(obj)"><i class="list-status-dot"></i>{{ statusName(obj) }}</span></td>
+                                    <td>{{ obj.CommencementDate ? (obj.CommencementDate | date: 'dd-MMM-yyyy') : '—' }}</td>
+                                    <td>{{ obj.MaturityDate ? (obj.MaturityDate | date: 'dd-MMM-yyyy') : '—' }}</td>
+                                    <td>{{ organisationName(obj) }}</td>
+                                    <td pFrozenColumn alignFrozen="right" class="list-actions-column">
+                                        <div class="list-actions">
+                                            <button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View" tooltipPosition="top" [attr.aria-label]="'View contract ' + contractNumber(obj)"><i class="pi pi-eye" aria-hidden="true"></i></button>
+                                            <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" [disabled]="!isEditable(obj)" (click)="onEditClick(obj)" [pTooltip]="isEditable(obj) ? 'Edit' : 'This contract is not editable in its current lifecycle stage'" tooltipPosition="top" [attr.aria-label]="'Edit contract ' + contractNumber(obj)"><i class="pi pi-pencil" aria-hidden="true"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <p-paginator
+                            *ngIf="totalNoOfRecords > 0"
+                            [first]="pgEvent.first"
+                            [rows]="pgEvent.rows"
+                            [totalRecords]="totalNoOfRecords"
+                            [rowsPerPageOptions]="[10, 20, 50]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                            (onPageChange)="pageChanged($event)"
+                        ></p-paginator>
+                    </ng-template>
+                </ng-container>
+            </section>
+        </div>
+    </div>
 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Lease Contract ID <p-sortIcon field="LeaseContractId" /> </th>
-<th style="width:200px">Contract No. <p-sortIcon field="ContractNo" /> </th>
-<th style="width:200px">Version No. <p-sortIcon field="VersionNo" /> </th>
-<th style="width:200px">Lessor Organisation ID <p-sortIcon field="LessorOrganisationId" /> </th>
-<th style="width:200px">Servicing Organisation Unit ID <p-sortIcon field="ServicingOrganisationUnitId" /> </th>
-<th style="width:200px">Customer Party ID <p-sortIcon field="CustomerPartyId" /> </th>
-<th style="width:200px">Lease Contract Status ID <p-sortIcon field="LeaseContractStatusId" /> </th>
-<th style="width:200px">Source Reference Type <p-sortIcon field="SourceReferenceType" /> </th>
-<th style="width:200px">Source Reference ID <p-sortIcon field="SourceReferenceId" /> </th>
-<th style="width:200px">Quote ID <p-sortIcon field="QuoteId" /> </th>
-<th style="width:200px">Credit Approval Reference ID <p-sortIcon field="CreditApprovalReferenceId" /> </th>
-<th style="width:200px">Contract Date <p-sortIcon field="ContractDate" /> </th>
-<th style="width:200px">Commencement Date <p-sortIcon field="CommencementDate" /> </th>
-<th style="width:200px">Maturity Date <p-sortIcon field="MaturityDate" /> </th>
-<th style="width:200px">Currency Code <p-sortIcon field="CurrencyCode" /> </th>
-<th style="width:200px">Contract Title <p-sortIcon field="ContractTitle" /> </th>
-<th style="width:200px">External Reference <p-sortIcon field="ExternalReference" /> </th>
-<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.LeaseContractId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.LeaseContractId}}</td>
- <td style="width:200px">{{obj.ContractNo}}</td>
- <td style="width:200px">{{obj.VersionNo | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.LessorOrganisationId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ServicingOrganisationUnitId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.CustomerPartyId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.LeaseContractStatusId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.SourceReferenceType}}</td>
- <td style="width:200px">{{obj.SourceReferenceId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.QuoteId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.CreditApprovalReferenceId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.ContractDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.CommencementDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.MaturityDate | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.CurrencyCode}}</td>
- <td style="width:200px">{{obj.ContractTitle}}</td>
- <td style="width:200px">{{obj.ExternalReference}}</td>
- <td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
-</div>
-

@@ -14,7 +14,9 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 import { FluidModule } from 'primeng/fluid';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { ReceivableListComponent } from './receivable-list.component';
 import { ReceivableCreateComponent } from './receivable-create.component';
@@ -33,6 +35,8 @@ import { ReceivableRoutingModule } from './receivable-routing.module';
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		PaginatorModule,
+		TooltipModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

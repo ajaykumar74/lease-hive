@@ -216,6 +216,7 @@ export class LeaseContractCreateComponent implements OnInit {
     this.leaseContractService.create(createdObj).subscribe({
       next: data => {
         // this.messageService.showSuccess(LeaseContract +  'Details Updated sucessfully.');
+        this.leaseContractService.invalidateListCache();
         this._location.back();
       },
       error: err => {

@@ -212,6 +212,7 @@ RecordStatus: 'Active',
     this.receivableService.create(createdObj).subscribe({
       next: data => {	   
          // this.messageService.showSuccess(Receivable +  'Details Updated sucessfully.');
+		 this.receivableService.invalidateListCache();
 		 this._location.back();     
       },
       error: err => { 

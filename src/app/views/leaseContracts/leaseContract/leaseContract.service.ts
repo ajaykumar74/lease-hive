@@ -9,6 +9,7 @@ import { ILeaseContractApprovalActionResult, ILeaseContractApprovalSubmission, I
 import { ILeaseContractExecutedAgreementSendResult, ILeaseContractExecutionResult, ILeaseContractExecutionWorkflow, ILeaseContractSignatureSendResult, ILeaseContractSignedAgreementUploadResult } from './leaseContract-execution';
 import { HttpHeaders } from '@angular/common/http';
 import { ILeaseContractActivationReadiness, ILeaseContractActivationResult } from './leaseContract-activation';
+import { ListPageState } from '@/shared/list-page.models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +28,23 @@ export class LeaseContractService extends BaseCrudService<any> {
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache<TFilters>(result: any, permission: any, state: ListPageState<TFilters>, requestSignature: string): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
-  } 
+    // Empty results are valid and should restore without issuing another request.
+    this.CacheData.IsLoaded = true;
+    this.CacheData.CurrentPage = state.pagination.page;
+    this.CacheData.pgEvent = state.pagination;
+    this.CacheData.stateData = state;
+    this.CacheData.SearchParams = requestSignature;
+  }
+
+  invalidateListCache(): void {
+    // Keep the query state so a return from Create/Edit can restore the user's
+    // place while still forcing the list data to be fetched again.
+    this.CacheData = { stateData: this.CacheData.stateData } as ICacheData;
+  }
  
  search(  searchParam: any): Observable<any> {
     const url = `${this.baseUrl}/search`;

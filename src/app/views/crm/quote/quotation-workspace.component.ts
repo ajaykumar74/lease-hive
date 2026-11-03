@@ -284,6 +284,7 @@ export class QuotationWorkspaceComponent implements OnInit {
       next: response => {
         this.hydrate(response.data as IQuotationWorkspace);
         this.quoteId = Number(response.data?.Quote?.Id) || this.quoteId;
+        this.quoteService.invalidateListCache();
         this.loadCommercialStatus();
         this.messageService.showSuccess('Quotation draft saved.');
         if (this.quoteId > 0 && !this.route.snapshot.paramMap.get('id')) {
@@ -750,6 +751,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     ).subscribe({
       next: response => {
         const revisionId = Number(response?.data?.QuoteId || response?.Id);
+        this.quoteService.invalidateListCache();
         if (revisionId > 0) this.router.navigate(['/business/origination/quotes/edit', revisionId]);
         else this.messageService.showSuccess('Quotation revision created.');
       },
@@ -786,6 +788,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     ).subscribe({
       next: (response: any) => {
         const result = response.data as IQuotationCommercialActionResult;
+        this.quoteService.invalidateListCache();
         this.showWorkflowSuccess(result?.Message || 'Commercial action completed.');
         this.commercialComments = '';
         this.loadCommercialStatus();

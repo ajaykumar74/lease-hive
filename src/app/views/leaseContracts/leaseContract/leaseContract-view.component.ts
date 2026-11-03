@@ -305,6 +305,7 @@ export class LeaseContractViewComponent implements OnInit {
             next: response => {
                 this.execution = response.data.Execution;
                 this.messageService.showSuccess(response.data.Message);
+                this.leaseContractService.invalidateListCache();
                 this.loadUI();
             },
             error: err => this.messageService.showError(err)
@@ -396,6 +397,7 @@ export class LeaseContractViewComponent implements OnInit {
                 this.applyActivationReadiness(response.data.Readiness);
                 this.synchroniseContractStatus(response.data.Readiness.StatusCode);
                 this.messageService.showSuccess(response.data.Message);
+                this.leaseContractService.invalidateListCache();
                 activationSucceeded = true;
             },
             error: err => this.messageService.showError(err)
@@ -464,6 +466,7 @@ export class LeaseContractViewComponent implements OnInit {
         })).subscribe({
             next: response => {
                 this.messageService.showSuccess(response.data.Message);
+                this.leaseContractService.invalidateListCache();
                 this.loadUI();
             },
             error: err => this.messageService.showError(err)
@@ -484,6 +487,7 @@ export class LeaseContractViewComponent implements OnInit {
             next: response => {
                 this.rejectionReason = '';
                 this.messageService.showSuccess(response.data.Message);
+                this.leaseContractService.invalidateListCache();
                 this.loadUI();
             },
             error: err => this.messageService.showError(err)
@@ -519,6 +523,7 @@ export class LeaseContractViewComponent implements OnInit {
             next: response => {
                 this.readiness = response.data.Readiness;
                 this.messageService.showSuccess(response.data.Message);
+                this.leaseContractService.invalidateListCache();
                 this.loadUI();
             },
             error: err => this.messageService.showError(err)

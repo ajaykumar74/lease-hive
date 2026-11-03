@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { FluidModule } from 'primeng/fluid';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { QuoteListComponent } from './quote-list.component';
 import { QuoteCreateComponent } from './quote-create.component';
@@ -36,6 +37,7 @@ import { QuoteRoutingModule } from './quote-routing.module';
 		DropdownModule, 
 		TableModule,
 		PaginatorModule,
+		TooltipModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

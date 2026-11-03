@@ -14,9 +14,11 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 import { FluidModule } from 'primeng/fluid';
 import { TagModule } from 'primeng/tag';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { LeaseContractListComponent } from './leaseContract-list.component';
 import { LeaseContractCreateComponent } from './leaseContract-create.component';
@@ -35,6 +37,8 @@ import { LeaseContractRoutingModule } from './leaseContract-routing.module';
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		PaginatorModule,
+		TooltipModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

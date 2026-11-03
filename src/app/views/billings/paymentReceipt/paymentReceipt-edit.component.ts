@@ -224,6 +224,7 @@ RecordStatus:  formValues.RecordStatus || null,
       next: data => {
         //this.messageService.showSuccess(PaymentReceipt +  'Details Updated sucessfully.');
 		//this.editForm.reset();
+		this.paymentReceiptService.invalidateListCache();
 		this._location.back();
       },
       error: err => { 
@@ -241,6 +242,7 @@ RecordStatus:  formValues.RecordStatus || null,
     this.paymentReceiptService.confirm(this.selectedId).subscribe({
       next: response => {
         this.messageService?.showSuccess(response?.Message || response?.message || 'Payment confirmed.');
+		this.paymentReceiptService.invalidateListCache();
         this.loadUI();
       },
       error: error => this.messageService?.showError(typeof error === 'string' ? error : 'Payment confirmation failed.'),
