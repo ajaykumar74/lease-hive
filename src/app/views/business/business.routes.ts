@@ -110,11 +110,6 @@ export const BUSINESS_ROUTES: Routes = [
                 loadChildren: () => import('@/views/crm/leadActivity/leadActivity.module').then((m) => m.LeadActivityModule)
             },
             {
-                path: 'crm/opportunities/pipeline',
-                redirectTo: 'crm/dashboard',
-                pathMatch: 'full'
-            },
-            {
                 path: 'crm/opportunities/new',
                 redirectTo: 'crm/opportunities/create',
                 pathMatch: 'full'

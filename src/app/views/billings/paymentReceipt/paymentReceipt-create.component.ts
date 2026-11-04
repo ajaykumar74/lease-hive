@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -45,7 +45,8 @@ organisationbankaccountidOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private paymentReceiptService: PaymentReceiptService,
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private activatedRoute: ActivatedRoute
 	
   ) {
   }
@@ -76,6 +77,7 @@ VerifiedAtUtc: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create PaymentReceipt';
+    this.applyReceivableContext();
     this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceiptStatusId', 'receipt-statuses',
       options => this.receiptstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -90,6 +92,25 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationBankAccoun
       options => this.organisationbankaccountidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 
+  }
+
+  private applyReceivableContext(): void {
+    const query = this.activatedRoute.snapshot.queryParamMap;
+    const customerPartyId = this.positiveNumber(query.get('customerPartyId'));
+    const receivingOrganisationId = this.positiveNumber(query.get('receivingOrganisationId'));
+    const currencyCode = query.get('currencyCode')?.trim();
+
+    if (!customerPartyId && !receivingOrganisationId && !currencyCode) return;
+    this.editForm.patchValue({
+      CustomerPartyId: customerPartyId || this.editForm.value.CustomerPartyId,
+      ReceivingOrganisationId: receivingOrganisationId || this.editForm.value.ReceivingOrganisationId,
+      CurrencyCode: currencyCode || this.editForm.value.CurrencyCode
+    });
+  }
+
+  private positiveNumber(value: string | null): number | null {
+    const numberValue = Number(value);
+    return Number.isInteger(numberValue) && numberValue > 0 ? numberValue : null;
   }
  
  loadUI(): void {

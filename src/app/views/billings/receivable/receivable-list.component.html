@@ -1,124 +1,164 @@
-<div class="grid list-page leasehive-list-page">
+<div class="grid list-page leasehive-list-page" [class.open-receivables-page]="isReceivablesWorklistMode">
     <div class="col-12">
         <div class="card list-card leasehive-list-card">
             <app-message [AlertType]="'message'"></app-message>
-            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Receivables'" [PageType]="'List'"></app-toolbar-buttons>
+            <app-toolbar-buttons
+                (onItemClicked)="onOptionItemClicked($event)"
+                [permission]="permission"
+                [Caption]="isReceivablesWorklistMode ? worklistCaption : 'Receivables'"
+                [PageType]="'List'"
+                [IsHideCreate]="isReceivablesWorklistMode"
+                [IsHideBack]="isReceivablesWorklistMode"
+            >
+                <button *ngIf="isReceivablesWorklistMode" type="button" pButton label="Export Excel" icon="pi pi-file-excel" size="small" severity="secondary" [outlined]="true" [loading]="isExporting" (click)="exportOpenReceivables()"></button>
+            </app-toolbar-buttons>
             <app-spinner></app-spinner>
 
-            <div class="leasehive-list-utility">
+            <section *ngIf="isOverdueReceivablesMode" class="open-receivable-kpis" aria-label="Overdue receivable summary">
+                <article class="open-receivable-kpi overdue">
+                    <span>Total overdue amount</span>
+                    <strong *ngIf="openSummary?.CurrencyTotals?.length; else noOverdueAmount" class="currency-total-list">
+                        <small *ngFor="let total of openSummary?.CurrencyTotals">{{ total.TotalOverdueAmount | currency: (total.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }} <em>{{ total.CurrencyCode }}</em></small>
+                    </strong>
+                    <ng-template #noOverdueAmount><strong>—</strong></ng-template>
+                    <i class="pi pi-exclamation-circle"></i>
+                </article>
+                <article class="open-receivable-kpi overdue">
+                    <span>Overdue receivables</span>
+                    <strong>{{ openSummary?.OpenReceivablesCount || 0 }}</strong>
+                    <small>unpaid invoices past due</small>
+                    <i class="pi pi-file"></i>
+                </article>
+                <article class="open-receivable-kpi">
+                    <span>Customers with overdue payments</span>
+                    <strong>{{ openSummary?.OverdueCustomers || 0 }}</strong>
+                    <small>matching the current filters</small>
+                    <i class="pi pi-users"></i>
+                </article>
+                <article class="open-receivable-kpi overdue">
+                    <span>Overdue 90+ days</span>
+                    <strong *ngIf="openSummary?.CurrencyTotals?.length; else noOverdueNinety" class="currency-total-list">
+                        <small *ngFor="let total of openSummary?.CurrencyTotals">{{ total.Overdue90PlusAmount | currency: (total.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }} <em>{{ total.CurrencyCode }}</em></small>
+                    </strong>
+                    <ng-template #noOverdueNinety><strong>—</strong></ng-template>
+                    <i class="pi pi-clock"></i>
+                </article>
+            </section>
+
+            <section *ngIf="isOpenReceivablesMode" class="open-receivable-kpis" aria-label="Open receivable summary">
+                <article class="open-receivable-kpi">
+                    <span>Total outstanding amount</span>
+                    <strong *ngIf="openSummary?.CurrencyTotals?.length; else noOutstanding" class="currency-total-list">
+                        <small *ngFor="let total of openSummary?.CurrencyTotals">{{ total.TotalOutstandingAmount | currency: (total.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }} <em>{{ total.CurrencyCode }}</em></small>
+                    </strong>
+                    <ng-template #noOutstanding><strong>—</strong></ng-template>
+                    <i class="pi pi-wallet"></i>
+                </article>
+                <article class="open-receivable-kpi overdue">
+                    <span>Total overdue amount</span>
+                    <strong *ngIf="openSummary?.CurrencyTotals?.length; else noOverdue" class="currency-total-list">
+                        <small *ngFor="let total of openSummary?.CurrencyTotals">{{ total.TotalOverdueAmount | currency: (total.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }} <em>{{ total.CurrencyCode }}</em></small>
+                    </strong>
+                    <ng-template #noOverdue><strong>—</strong></ng-template>
+                    <i class="pi pi-exclamation-circle"></i>
+                </article>
+                <article class="open-receivable-kpi">
+                    <span>Open receivables</span>
+                    <strong>{{ openSummary?.OpenReceivablesCount || 0 }}</strong>
+                    <small>matching the current filters</small>
+                    <i class="pi pi-file"></i>
+                </article>
+                <article class="open-receivable-kpi">
+                    <span>Partially paid</span>
+                    <strong>{{ openSummary?.PartiallyPaidCount || 0 }}</strong>
+                    <small>with payment applied</small>
+                    <i class="pi pi-credit-card"></i>
+                </article>
+            </section>
+
+            <div *ngIf="!isReceivablesWorklistMode" class="leasehive-list-utility">
                 <button type="button" pButton label="Reconcile Missing Receivables" icon="pi pi-sync" severity="secondary" [loading]="isReconciling" [disabled]="!permission.CanUpdate || isReconciling" (click)="reconcileMissingReceivables()"></button>
                 <span *ngIf="reconciliationSummary" class="text-color-secondary">{{ reconciliationSummary }}</span>
             </div>
 
-            <div class="leasehive-list-toolbar" role="search" aria-label="Receivable list controls">
+            <div class="leasehive-list-toolbar" role="search" [attr.aria-label]="isReceivablesWorklistMode ? worklistCaption + ' controls' : 'Receivable list controls'">
                 <div class="leasehive-list-search">
-                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search receivables..." aria-label="Search by document number or customer" />
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" [placeholder]="isReceivablesWorklistMode ? worklistSearchPlaceholder : 'Search receivables...'" aria-label="Search receivables" />
                     <button type="button" pButton icon="pi pi-search" (click)="onSearch()" aria-label="Search receivables" pTooltip="Search" tooltipPosition="top"></button>
                     <button type="button" pButton icon="pi pi-times" [text]="true" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
                 </div>
 
+                <p-dropdown *ngIf="isReceivablesWorklistMode" class="open-receivable-organisation" [options]="organisationOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.billingOrganisationId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Organisation" ariaLabel="Filter by organisation"></p-dropdown>
+
                 <div class="leasehive-list-controls">
-                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching receivables">
-                        <i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span>
-                    </div>
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching receivables"><i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div>
                     <label class="leasehive-list-sort-label" for="receivableSort">Sort by</label>
                     <p-dropdown inputId="receivableSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
                     <span class="leasehive-list-filter-toggle">
-                        <button
-                            type="button"
-                            pButton
-                            icon="pi pi-filter"
-                            [outlined]="!filterControlsVisible"
-                            [severity]="hasActiveFilters ? 'primary' : 'secondary'"
-                            (click)="toggleFilterControls()"
-                            [attr.aria-pressed]="filterControlsVisible"
-                            [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
-                            [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'"
-                            tooltipPosition="top"
-                        ></button>
+                        <button type="button" pButton icon="pi pi-filter" [outlined]="!filterControlsVisible" [severity]="hasActiveFilters ? 'primary' : 'secondary'" (click)="toggleFilterControls()" [attr.aria-pressed]="filterControlsVisible" [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'" [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'" tooltipPosition="top"></button>
                         <span *ngIf="activeFilterCount" class="leasehive-list-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
                     </span>
                 </div>
             </div>
 
+            <section *ngIf="isReceivablesWorklistMode && filterControlsVisible" class="open-receivable-filter-panel" [attr.aria-label]="'Additional ' + worklistCaption.toLowerCase() + ' filters'">
+                <p-dropdown [options]="customerOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.customerPartyId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Customer" ariaLabel="Filter by customer"></p-dropdown>
+                <p-dropdown [options]="contractOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.leaseContractId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Lease contract" ariaLabel="Filter by lease contract"></p-dropdown>
+                <p-dropdown *ngIf="isOverdueReceivablesMode; else openStatusFilter" [options]="ageingBucketOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.ageingBucket" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Ageing bucket" ariaLabel="Filter by ageing bucket"></p-dropdown>
+                <ng-template #openStatusFilter><p-dropdown [options]="openStatusOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.openStatus" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Status" ariaLabel="Filter by status"></p-dropdown></ng-template>
+                <p-calendar [(ngModel)]="filters.dueDateRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Due date range" ariaLabel="Filter by due date range"></p-calendar>
+                <p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.assetCategoryId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Asset category" ariaLabel="Filter by asset category"></p-dropdown>
+                <div *ngIf="!isOverdueReceivablesMode" class="open-receivable-overdue-toggle"><p-checkbox inputId="openReceivablesOverdue" [(ngModel)]="filters.overdueOnly" [binary]="true" (onChange)="onFiltersChanged()"></p-checkbox><label for="openReceivablesOverdue">Overdue only</label></div>
+                <button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" icon="pi pi-filter-slash" severity="secondary" [text]="true" (click)="clearFilters()"></button>
+            </section>
+
             <section class="leasehive-list-table-area" aria-label="Receivable results">
-                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert">
-                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load receivables</strong><span>Please try again.</span>
-                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
-                </div>
+                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert"><i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load receivables</strong><span>Please try again.</span><button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button></div>
 
                 <ng-container *ngIf="!hasLoadError">
                     <div *ngIf="emptyState as empty; else receivableTable" class="list-empty leasehive-list-empty-state">
                         <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong><span>{{ empty.description }}</span>
-                        <button *ngIf="searchTerm || hasActiveFilters; else createReceivable" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
-                        <ng-template #createReceivable><button *ngIf="permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button></ng-template>
+                        <button *ngIf="searchTerm || hasActiveFilters" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                        <button *ngIf="!isReceivablesWorklistMode && !searchTerm && !hasActiveFilters && permission.CanCreate" type="button" pButton [label]="empty.actionLabel" icon="pi pi-plus" (click)="onOptionItemClicked('Create')"></button>
                     </div>
 
                     <ng-template #receivableTable>
-                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table leasehive-list-table-compact" [tableStyle]="{ 'min-width': '1500px' }">
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table leasehive-list-table-compact" [tableStyle]="{ 'min-width': isOverdueReceivablesMode ? '2025px' : isOpenReceivablesMode ? '1880px' : '1500px' }">
                             <ng-template pTemplate="header">
-                                <tr>
-                                    <th style="width: 190px; min-width: 190px">Document No.</th>
-                                    <th style="width: 240px; min-width: 240px">Customer</th>
-                                    <th style="width: 155px; min-width: 155px">Document Date</th>
-                                    <th style="width: 155px; min-width: 155px">Due Date</th>
-                                    <th style="width: 165px; min-width: 165px">Original</th>
-                                    <th style="width: 180px; min-width: 180px">Outstanding</th>
-                                    <th style="width: 230px; min-width: 230px">Status</th>
-                                    <th pFrozenColumn alignFrozen="right" class="list-actions-column" style="width: 130px; min-width: 130px">Actions</th>
-                                </tr>
-                                <tr *ngIf="filterControlsVisible" class="leasehive-list-filter-row">
-                                    <th>
-                                        <p-dropdown [options]="organisationOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.billingOrganisationId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Organisation" ariaLabel="Filter by billing organisation"></p-dropdown>
-                                    </th>
-                                    <th>
-                                        <p-dropdown [options]="customerOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.customerPartyId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Customer" ariaLabel="Filter by customer"></p-dropdown>
-                                    </th>
-                                    <th></th>
-                                    <th>
-                                        <p-calendar [(ngModel)]="filters.dueDateRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Date range" ariaLabel="Filter by due date range"></p-calendar>
-                                    </th>
-                                    <th></th>
-                                    <th>
-                                        <p-dropdown [options]="currencyOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.currencyCode" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Currency" ariaLabel="Filter by currency"></p-dropdown>
-                                    </th>
-                                    <th>
-                                        <p-dropdown [options]="receivableStatusOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.receivableStatus" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Status" ariaLabel="Filter by receivable status"></p-dropdown>
-                                    </th>
-                                    <th pFrozenColumn alignFrozen="right" class="leasehive-list-filter-actions">
-                                        <button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button>
-                                    </th>
-                                </tr>
+                                <ng-container *ngIf="isReceivablesWorklistMode; else standardHeader">
+                                    <tr><th style="width: 175px; min-width: 175px">Invoice Number</th><th style="width: 220px; min-width: 220px">Customer</th><th style="width: 175px; min-width: 175px">Lease Contract</th><th style="width: 130px; min-width: 130px">Invoice Date</th><th style="width: 130px; min-width: 130px">Due Date</th><th style="width: 100px; min-width: 100px">Currency</th><th style="width: 150px; min-width: 150px">Invoice Amount</th><th style="width: 150px; min-width: 150px">Received Amount</th><th style="width: 160px; min-width: 160px">Outstanding Amount</th><th style="width: 125px; min-width: 125px">Days Overdue</th><th *ngIf="isOverdueReceivablesMode" style="width: 125px; min-width: 125px">Ageing Bucket</th><th style="width: 145px; min-width: 145px">Status</th><th pFrozenColumn alignFrozen="right" class="list-actions-column" style="width: 115px; min-width: 115px">Actions</th></tr>
+                                </ng-container>
+                                <ng-template #standardHeader>
+                                    <tr><th style="width: 190px; min-width: 190px">Document No.</th><th style="width: 240px; min-width: 240px">Customer</th><th style="width: 155px; min-width: 155px">Document Date</th><th style="width: 155px; min-width: 155px">Due Date</th><th style="width: 165px; min-width: 165px">Original</th><th style="width: 180px; min-width: 180px">Outstanding</th><th style="width: 230px; min-width: 230px">Status</th><th pFrozenColumn alignFrozen="right" class="list-actions-column" style="width: 130px; min-width: 130px">Actions</th></tr>
+                                    <tr *ngIf="filterControlsVisible" class="leasehive-list-filter-row">
+                                        <th><p-dropdown [options]="organisationOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.billingOrganisationId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Organisation" ariaLabel="Filter by billing organisation"></p-dropdown></th>
+                                        <th><p-dropdown [options]="customerOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.customerPartyId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Customer" ariaLabel="Filter by customer"></p-dropdown></th><th></th>
+                                        <th><p-calendar [(ngModel)]="filters.dueDateRange" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="onFiltersChanged()" placeholder="Date range" ariaLabel="Filter by due date range"></p-calendar></th><th></th>
+                                        <th><p-dropdown [options]="currencyOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.currencyCode" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Currency" ariaLabel="Filter by currency"></p-dropdown></th>
+                                        <th><p-dropdown [options]="receivableStatusOptions" optionLabel="Text" optionValue="Value" [(ngModel)]="filters.receivableStatus" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Status" ariaLabel="Filter by receivable status"></p-dropdown></th>
+                                        <th pFrozenColumn alignFrozen="right" class="leasehive-list-filter-actions"><button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button></th>
+                                    </tr>
+                                </ng-template>
                             </ng-template>
 
                             <ng-template pTemplate="body" let-obj>
-                                <tr>
-                                    <td><button type="button" class="list-primary-link leasehive-list-title" (click)="onViewClick(obj)" [pTooltip]="obj.DocumentNo || ''" tooltipPosition="top" [attr.aria-label]="'View receivable ' + (obj.DocumentNo || obj.Id)">{{ obj.DocumentNo || '—' }}</button></td>
-                                    <td><span class="leasehive-list-title" [pTooltip]="customerName(obj)" tooltipPosition="top">{{ customerName(obj) }}</span></td>
-                                    <td>{{ obj.DocumentDate ? (obj.DocumentDate | date: 'dd-MMM-yyyy') : '—' }}</td>
-                                    <td>{{ obj.DueDate ? (obj.DueDate | date: 'dd-MMM-yyyy') : '—' }}</td>
-                                    <td>{{ obj.OriginalAmount === null || obj.OriginalAmount === undefined ? '—' : (obj.OriginalAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2') }}</td>
-                                    <td>{{ obj.OutstandingAmount === null || obj.OutstandingAmount === undefined ? '—' : (obj.OutstandingAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2') }}</td>
-                                    <td><span class="list-status" [ngClass]="getStatusClass(obj)"><i class="list-status-dot"></i>{{ statusName(obj) }}</span></td>
-                                    <td pFrozenColumn alignFrozen="right" class="list-actions-column">
-                                        <div class="list-actions">
-                                            <button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View" tooltipPosition="top" [attr.aria-label]="'View receivable ' + (obj.DocumentNo || obj.Id)"><i class="pi pi-eye" aria-hidden="true"></i></button>
-                                            <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" [disabled]="!isEditable(obj)" (click)="onEditClick(obj)" [pTooltip]="isEditable(obj) ? 'Edit' : 'This receivable is not editable in its current status'" tooltipPosition="top" [attr.aria-label]="'Edit receivable ' + (obj.DocumentNo || obj.Id)"><i class="pi pi-pencil" aria-hidden="true"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <ng-container *ngIf="isReceivablesWorklistMode; else standardRow">
+                                    <tr>
+                                        <td><button type="button" class="list-primary-link leasehive-list-title" (click)="onInvoiceClick(obj)" [pTooltip]="obj.DocumentNo || ''" tooltipPosition="top" [attr.aria-label]="'View invoice ' + (obj.DocumentNo || obj.Id)">{{ obj.DocumentNo || '—' }}</button></td>
+                                        <td><span class="leasehive-list-title" [pTooltip]="customerName(obj)" tooltipPosition="top">{{ customerName(obj) }}</span></td><td>{{ obj.LeaseContractNumber || '—' }}</td><td>{{ obj.DocumentDate ? (obj.DocumentDate | date: 'dd-MMM-yyyy') : '—' }}</td><td>{{ obj.DueDate ? (obj.DueDate | date: 'dd-MMM-yyyy') : '—' }}</td><td>{{ obj.CurrencyCode || '—' }}</td>
+                                        <td class="text-right">{{ obj.OriginalAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }}</td><td class="text-right">{{ obj.AllocatedAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }}</td><td class="text-right open-outstanding">{{ obj.OutstandingAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2' }}</td><td><span [class.open-overdue-days]="daysOverdue(obj) > 0">{{ daysOverdue(obj) }}</span></td><td *ngIf="isOverdueReceivablesMode"><span class="ageing-bucket" [ngClass]="ageingBucketClass(obj)">{{ ageingBucketName(obj) }}</span></td><td><span class="open-receivable-status" [ngClass]="openStatusClass(obj)">{{ openStatusName(obj) }}</span></td>
+                                        <td pFrozenColumn alignFrozen="right" class="list-actions-column"><p-menu #openActions [model]="openActionItems" [popup]="true" appendTo="body"></p-menu><button type="button" class="list-action view" (click)="openActionMenu(openActions, $event, obj)" pTooltip="Actions" tooltipPosition="top" [attr.aria-label]="'Actions for ' + (obj.DocumentNo || obj.Id)"><i class="pi pi-ellipsis-v" aria-hidden="true"></i></button></td>
+                                    </tr>
+                                </ng-container>
+                                <ng-template #standardRow>
+                                    <tr>
+                                        <td><button type="button" class="list-primary-link leasehive-list-title" (click)="onViewClick(obj)" [pTooltip]="obj.DocumentNo || ''" tooltipPosition="top" [attr.aria-label]="'View receivable ' + (obj.DocumentNo || obj.Id)">{{ obj.DocumentNo || '—' }}</button></td><td><span class="leasehive-list-title" [pTooltip]="customerName(obj)" tooltipPosition="top">{{ customerName(obj) }}</span></td><td>{{ obj.DocumentDate ? (obj.DocumentDate | date: 'dd-MMM-yyyy') : '—' }}</td><td>{{ obj.DueDate ? (obj.DueDate | date: 'dd-MMM-yyyy') : '—' }}</td><td>{{ obj.OriginalAmount === null || obj.OriginalAmount === undefined ? '—' : (obj.OriginalAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2') }}</td><td>{{ obj.OutstandingAmount === null || obj.OutstandingAmount === undefined ? '—' : (obj.OutstandingAmount | currency: (obj.CurrencyCode || 'USD') : 'symbol' : '1.2-2') }}</td><td><span class="list-status" [ngClass]="getStatusClass(obj)"><i class="list-status-dot"></i>{{ statusName(obj) }}</span></td>
+                                        <td pFrozenColumn alignFrozen="right" class="list-actions-column"><div class="list-actions"><button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View" tooltipPosition="top" [attr.aria-label]="'View receivable ' + (obj.DocumentNo || obj.Id)"><i class="pi pi-eye" aria-hidden="true"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" [disabled]="!isEditable(obj)" (click)="onEditClick(obj)" [pTooltip]="isEditable(obj) ? 'Edit' : 'This receivable is not editable in its current status'" tooltipPosition="top" [attr.aria-label]="'Edit receivable ' + (obj.DocumentNo || obj.Id)"><i class="pi pi-pencil" aria-hidden="true"></i></button></div></td>
+                                    </tr>
+                                </ng-template>
                             </ng-template>
                         </p-table>
-                        <p-paginator
-                            *ngIf="totalNoOfRecords > 0"
-                            [first]="pgEvent.first"
-                            [rows]="pgEvent.rows"
-                            [totalRecords]="totalNoOfRecords"
-                            [rowsPerPageOptions]="[10, 20, 50]"
-                            [showCurrentPageReport]="true"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-                            (onPageChange)="pageChanged($any($event))"
-                        ></p-paginator>
+                        <p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($any($event))"></p-paginator>
                     </ng-template>
                 </ng-container>
             </section>

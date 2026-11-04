@@ -1,0 +1,74 @@
+<div class="grid pipeline-page">
+  <div class="col-12">
+    <div class="card pipeline-card">
+      <app-message [AlertType]="'message'"></app-message>
+      <app-toolbar-buttons
+        (onItemClicked)="onOptionItemClicked($event)"
+        [permission]="permission"
+        [Caption]="'Sales Opportunity Pipeline'"
+        [PageType]="'List'"
+        [IsHideCreate]="true"
+        [IsHideBack]="true">
+        <button
+          type="button"
+          pButton
+          [icon]="showAdditionalFilters ? 'pi pi-filter-slash' : 'pi pi-filter'"
+          [text]="true"
+          size="small"
+          class="pipeline-filter-toggle"
+          [attr.aria-label]="showAdditionalFilters ? 'Hide additional filters' : 'Show additional filters'"
+          [title]="showAdditionalFilters ? 'Hide additional filters' : 'Show additional filters'"
+          (click)="toggleAdditionalFilters()">
+        </button>
+      </app-toolbar-buttons>
+
+      <p-confirmDialog key="pipeline-stage-change" [style]="{ width: '28rem' }" [closable]="!isSavingStage"></p-confirmDialog>
+
+      <section class="pipeline-kpis" aria-label="Pipeline key performance indicators">
+        <div class="pipeline-kpi"><div class="pipeline-kpi-icon blue"><i class="pi pi-briefcase"></i></div><div><span>Open opportunities</span><strong>{{ pipeline?.Kpis?.OpenOpportunities ?? 0 }}</strong></div></div>
+        <div class="pipeline-kpi"><div class="pipeline-kpi-icon violet"><i class="pi pi-wallet"></i></div><div><span>Total pipeline value</span><strong>{{ formatCurrencyValues(pipeline?.Kpis?.TotalPipelineValues) }}</strong></div></div>
+        <div class="pipeline-kpi"><div class="pipeline-kpi-icon cyan"><i class="pi pi-chart-line"></i></div><div><span>Weighted pipeline</span><strong>{{ formatCurrencyValues(pipeline?.Kpis?.WeightedPipelineValues) }}</strong></div></div>
+        <div class="pipeline-kpi"><div class="pipeline-kpi-icon green"><i class="pi pi-trophy"></i></div><div><span>Won opportunities</span><strong>{{ pipeline?.Kpis?.WonOpportunities ?? 0 }}</strong></div></div>
+        <div class="pipeline-kpi"><div class="pipeline-kpi-icon amber"><i class="pi pi-bell"></i></div><div><span>Overdue follow-ups</span><strong>{{ pipeline?.Kpis?.OverdueFollowUps ?? 0 }}</strong></div></div>
+      </section>
+
+      <section class="pipeline-filters" [class.filters-expanded]="showAdditionalFilters" aria-label="Pipeline filters">
+        <div class="pipeline-filter"><label for="pipeline-organisation">Organisation</label><p-dropdown inputId="pipeline-organisation" [options]="asOptions(options.Organisations)" optionLabel="Name" optionValue="Id" [(ngModel)]="filters.OrganisationId" [showClear]="true" placeholder="All organisations"></p-dropdown></div>
+        <ng-container *ngIf="showAdditionalFilters">
+          <div class="pipeline-filter"><label for="pipeline-executive">Sales executive</label><p-dropdown inputId="pipeline-executive" [options]="asOptions(options.SalesExecutives)" optionLabel="Name" optionValue="Id" [(ngModel)]="filters.OwnerUserId" [showClear]="true" placeholder="All sales executives"></p-dropdown></div>
+          <div class="pipeline-filter"><label for="pipeline-customer">Customer</label><p-dropdown inputId="pipeline-customer" [options]="asOptions(options.Customers)" optionLabel="Name" optionValue="Id" [(ngModel)]="filters.PartyId" [showClear]="true" placeholder="All customers"></p-dropdown></div>
+          <div class="pipeline-filter"><label for="pipeline-category">Asset category</label><p-dropdown inputId="pipeline-category" [options]="asOptions(options.AssetCategories)" optionLabel="Name" optionValue="Id" [(ngModel)]="filters.AssetCategoryId" [showClear]="true" placeholder="All asset categories"></p-dropdown></div>
+          <div class="pipeline-filter"><label for="pipeline-close-date">Expected closing date</label><p-calendar inputId="pipeline-close-date" [(ngModel)]="filters.ExpectedCloseDate" [showIcon]="true" [showButtonBar]="true" dateFormat="dd M yy" placeholder="Any date"></p-calendar></div>
+          <div class="pipeline-filter"><label for="pipeline-stage">Stage</label><p-dropdown inputId="pipeline-stage" [options]="stages" optionLabel="StageName" optionValue="Id" [(ngModel)]="filters.OpportunityStageId" [showClear]="true" placeholder="All stages"></p-dropdown></div>
+        </ng-container>
+        <div class="pipeline-filter-actions"><button type="button" pButton label="Apply" icon="pi pi-filter" (click)="loadPipeline()" [loading]="isLoading"></button><button *ngIf="showAdditionalFilters" type="button" pButton label="Clear Filters" icon="pi pi-times" [text]="true" (click)="clearFilters()"></button></div>
+      </section>
+
+      <section class="pipeline-board-shell" [class.is-loading]="isLoading" aria-label="Opportunity pipeline by stage">
+        <div *ngIf="isLoading" class="pipeline-loading"><i class="pi pi-spin pi-spinner"></i><span>Loading pipeline…</span></div>
+        <div *ngIf="!isLoading && !stages.length" class="pipeline-empty"><i class="pi pi-chart-bar"></i><strong>No configured opportunity stages</strong><span>Configure active opportunity stages before using the pipeline.</span></div>
+        <div *ngIf="!isLoading && stages.length" class="pipeline-board">
+          <article *ngFor="let stage of stages; trackBy: trackStage" class="pipeline-stage" [ngClass]="stageTone(stage)" [class.drop-target]="dropStageId === stage.Id">
+            <header class="pipeline-stage-header">
+              <div><span class="pipeline-stage-name">{{ stage.StageName }}</span></div>
+              <span class="pipeline-stage-count">{{ stage.OpportunityCount }}</span>
+            </header>
+            <div class="pipeline-stage-value">{{ formatCurrencyValues(stage.TotalValues) }} <span>pipeline value</span></div>
+            <div class="pipeline-card-list" (dragover)="allowDrop($event, stage)" (drop)="onDrop($event, stage)">
+              <button *ngFor="let card of stage.Opportunities; trackBy: trackCard" type="button" class="opportunity-card" [class.followup-overdue]="card.IsFollowUpOverdue" [class.opportunity-delayed]="card.IsDelayed" [draggable]="canMoveCards" (dragstart)="onDragStart($event, card)" (dragend)="onDragEnd()" (click)="onCardClick(card)" [attr.aria-label]="'Open ' + (card.OpportunityId || card.OpportunityName)">
+                <div class="opportunity-card-top"><span class="opportunity-number">{{ card.OpportunityId || ('#' + card.Id) }}</span><span class="opportunity-probability">{{ card.ProbabilityPct }}%</span></div>
+                <strong class="opportunity-customer">{{ card.CustomerName }}</strong>
+                <span class="opportunity-title">{{ card.OpportunityName }}</span>
+                <div class="opportunity-requirement"><i class="pi pi-box"></i><span>{{ card.AssetCategoryName }}</span></div>
+                <span class="opportunity-summary">{{ card.RequirementSummary }}</span>
+                <div class="opportunity-value"><strong>{{ card.EstimatedAmount | currency:(card.CurrencyCode || 'USD'):'symbol':'1.0-0' }}</strong><span>{{ card.CurrencyCode || 'USD' }}</span></div>
+                <div class="opportunity-meta"><span [class.warning]="card.IsDelayed"><i class="pi pi-calendar"></i>{{ card.ExpectedCloseDate ? (card.ExpectedCloseDate | date:'dd MMM yyyy') : 'Close date not set' }}</span><span><i class="pi pi-user"></i>{{ card.SalesExecutiveName }}</span><span [class.warning]="card.IsFollowUpOverdue"><i class="pi pi-bell"></i>{{ card.NextFollowUpDate ? ('Follow-up ' + (card.NextFollowUpDate | date:'dd MMM')) : 'No follow-up set' }}</span></div>
+              </button>
+              <div *ngIf="!stage.Opportunities.length" class="pipeline-stage-empty"><i class="pi pi-inbox"></i><span>No opportunities</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

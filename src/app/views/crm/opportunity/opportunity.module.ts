@@ -16,11 +16,13 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { OpportunityListComponent } from './opportunity-list.component';
 import { OpportunityCreateComponent } from './opportunity-create.component';
 import { OpportunityEditComponent } from './opportunity-edit.component';
 import { OpportunityViewComponent } from './opportunity-view.component';
+import { OpportunityPipelineComponent } from './opportunity-pipeline.component';
 import { OpportunityRoutingModule } from './opportunity-routing.module';
 
 
@@ -44,13 +46,15 @@ import { OpportunityRoutingModule } from './opportunity-routing.module';
 		MySharedModule, 
 		FluidModule,
 		PaginatorModule,
+		ConfirmDialogModule,
 		OpportunityRoutingModule,
 	],
 	declarations: [
 		OpportunityCreateComponent,
 		OpportunityListComponent,
 		OpportunityEditComponent,
-		OpportunityViewComponent
+		OpportunityViewComponent,
+		OpportunityPipelineComponent
 	]
 })
 export class OpportunityModule { }

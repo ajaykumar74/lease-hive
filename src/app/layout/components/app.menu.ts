@@ -644,7 +644,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         {
                                             label: 'Pipeline',
                                             icon: 'pi pi-fw pi-chart-line',
-                                            routerLink: ['/business/crm/dashboard']
+                                            routerLink: ['/business/crm/opportunities/pipeline']
                                         },
                                         {
                                             label: 'All Opportunities',
@@ -1690,7 +1690,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-exclamation-triangle',
                                             routerLink: ['/contracts/conditions/waivers']
                                         },
-                                        {
+                                      /*   {
                                             label: 'Activation Readiness',
                                             icon: 'pi pi-check-circle',
                                             routerLink: ['/contracts/activation-readiness']
@@ -1704,7 +1704,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Activation Exceptions',
                                             icon: 'pi pi-exclamation-circle',
                                             routerLink: ['/contracts/activation/exceptions']
-                                        },
+                                        }, */
                                         {
                                             label: 'Activation History',
                                             icon: 'pi pi-history',

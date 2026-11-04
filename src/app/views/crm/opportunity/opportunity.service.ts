@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { IOpportunity } from './opportunity';
+import { IOpportunity, IOpportunityPipeline, IOpportunityPipelineFilter } from './opportunity';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -43,6 +44,34 @@ export class OpportunityService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  getPipeline(filter: IOpportunityPipelineFilter): Observable<any> {
+    let params = new HttpParams();
+    const numericFilters: Array<keyof IOpportunityPipelineFilter> = [
+      'OrganisationId', 'OwnerUserId', 'PartyId', 'AssetCategoryId', 'OpportunityStageId'
+    ];
+
+    numericFilters.forEach(key => {
+      const value = Number(filter?.[key]);
+      if (value > 0) params = params.set(key, String(value));
+    });
+
+    if (filter?.ExpectedCloseDate) {
+      const date = new Date(filter.ExpectedCloseDate);
+      if (!Number.isNaN(date.valueOf())) {
+        const localDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        params = params.set('ExpectedCloseDate', localDate);
+      }
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/pipeline`, { headers: this.headers, params })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  changeStage(id: number, opportunityStageId: number, rowVersionStr: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${id}/stage`, { OpportunityStageId: opportunityStageId, RowVersionStr: rowVersionStr }, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }
 }
 

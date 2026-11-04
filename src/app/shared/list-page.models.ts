@@ -55,4 +55,5 @@ export interface ListQueryParameters {
     SortBy: string;
     IsDescending: boolean;
     Conditions: ListFilterCondition[];
+    [key: string]: unknown;
 }

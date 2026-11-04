@@ -109,6 +109,7 @@ export class MenuPermissionService {
         { route: '/business/crm/config/lead-statuses', resource: 'crm.leadstatus' },
         { route: '/business/crm/config/opportunity-stages', resource: 'crm.opportunitystage' },
         // Pipeline is an opportunity summary, so it shares the opportunity view permission.
+        { route: '/business/crm/opportunities/pipeline', resource: 'crm.opportunity' },
         { route: '/business/crm/dashboard', resource: 'crm.opportunity' },
         { route: '/business/crm/leads', resource: 'crm.lead' },
         { route: '/business/crm/leaserequirementassets', resource: 'crm.leaserequirementasset' },

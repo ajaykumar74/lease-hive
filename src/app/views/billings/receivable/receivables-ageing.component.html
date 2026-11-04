@@ -1,0 +1,109 @@
+<div class="grid list-page leasehive-list-page receivables-ageing-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card ageing-card-shell">
+            <app-message [AlertType]="'message'"></app-message>
+            <app-toolbar-buttons
+                (onItemClicked)="onToolbarItemClicked($event)"
+                [permission]="permission"
+                [Caption]="'Receivables Ageing Analysis'"
+                [PageType]="'List'"
+                [IsHideCreate]="true"
+                [IsHideBack]="true"
+            >
+                <button type="button" pButton label="Export Excel" icon="pi pi-file-excel" size="small" severity="secondary" [outlined]="true" [loading]="isExporting" [disabled]="isLoading || !totalRecords" (click)="exportAgeing()"></button>
+            </app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <section class="ageing-kpi-grid" aria-label="Receivables ageing summary">
+                <article class="ageing-kpi">
+                    <span>Total outstanding</span>
+                    <strong *ngIf="summary?.CurrencyTotals?.length; else noOutstanding" class="ageing-currency-list">
+                        <small *ngFor="let total of summary?.CurrencyTotals">{{ formatAmount(total.TotalOutstandingAmount, total.CurrencyCode) }}</small>
+                    </strong>
+                    <ng-template #noOutstanding><strong class="ageing-zero-label">No open balance</strong></ng-template>
+                    <i class="pi pi-wallet"></i>
+                </article>
+                <article class="ageing-kpi ageing-kpi-overdue">
+                    <span>Total overdue</span>
+                    <strong *ngIf="summary?.CurrencyTotals?.length; else noOverdue" class="ageing-currency-list">
+                        <small *ngFor="let total of summary?.CurrencyTotals">{{ formatAmount(total.TotalOverdueAmount, total.CurrencyCode) }}</small>
+                    </strong>
+                    <ng-template #noOverdue><strong class="ageing-zero-label">No overdue balance</strong></ng-template>
+                    <i class="pi pi-exclamation-circle"></i>
+                </article>
+                <article class="ageing-kpi ageing-kpi-risk">
+                    <span>Overdue 90+ days</span>
+                    <strong *ngIf="summary?.CurrencyTotals?.length; else noOverdueNinety" class="ageing-currency-list">
+                        <small *ngFor="let total of summary?.CurrencyTotals">{{ formatAmount(total.Overdue90PlusAmount, total.CurrencyCode) }}</small>
+                    </strong>
+                    <ng-template #noOverdueNinety><strong class="ageing-zero-label">No 90+ balance</strong></ng-template>
+                    <i class="pi pi-clock"></i>
+                </article>
+                <article class="ageing-kpi">
+                    <span>Overdue customers</span>
+                    <strong>{{ summary?.OverdueCustomers || 0 }}</strong>
+                    <small>with one or more overdue invoices</small>
+                    <i class="pi pi-users"></i>
+                </article>
+            </section>
+
+            <section class="ageing-chart-panel" aria-label="Receivables ageing bucket chart">
+                <div class="ageing-panel-heading">
+                    <div><h2>Ageing by due-date bucket</h2><span>Outstanding balances as of {{ formatDate(filters.asOfDate) }}. Currencies are shown separately.</span></div>
+                </div>
+                <div *ngIf="isLoading" class="ageing-chart-empty"><i class="pi pi-spin pi-spinner"></i><span>Loading ageing analysis…</span></div>
+                <p-chart *ngIf="!isLoading && hasChartData" type="bar" [data]="ageingChartData" [options]="ageingChartOptions" height="250px" ariaLabel="Receivables ageing by due-date bucket"></p-chart>
+                <div *ngIf="!isLoading && !hasChartData" class="ageing-chart-empty"><i class="pi pi-chart-bar"></i><span>No outstanding receivables match the selected filters.</span></div>
+            </section>
+
+            <div class="leasehive-list-toolbar ageing-toolbar" role="search" aria-label="Receivables ageing controls">
+                <div class="leasehive-list-search">
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search invoice, customer or contract..." aria-label="Search receivables ageing" />
+                    <button type="button" pButton icon="pi pi-search" (click)="onSearch()" aria-label="Search receivables ageing" pTooltip="Search" tooltipPosition="top"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
+                </div>
+
+                <p-dropdown class="ageing-organisation" [options]="organisationOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.billingOrganisationId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Organisation" ariaLabel="Filter by organisation"></p-dropdown>
+                <p-calendar class="ageing-as-of" [(ngModel)]="filters.asOfDate" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true" [maxDate]="maxAsOfDate" dateFormat="dd-M-yy" appendTo="body" (onSelect)="onFiltersChanged()" (onClearClick)="resetAsOfDate()" placeholder="As-of date" ariaLabel="As-of date"></p-calendar>
+
+                <div class="leasehive-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total matching customers"><i class="pi pi-users" aria-hidden="true"></i><strong>{{ totalRecords }}</strong><span>customers</span></div>
+                    <label class="leasehive-list-sort-label" for="ageingSort">Sort by</label>
+                    <p-dropdown inputId="ageingSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
+                    <span class="leasehive-list-filter-toggle">
+                        <button type="button" pButton icon="pi pi-filter" [outlined]="!filterControlsVisible" [severity]="hasActiveFilters ? 'primary' : 'secondary'" (click)="toggleFilterControls()" [attr.aria-pressed]="filterControlsVisible" [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'" [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'" tooltipPosition="top"></button>
+                        <span *ngIf="activeFilterCount" class="leasehive-list-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section *ngIf="filterControlsVisible" class="ageing-filter-panel" aria-label="Additional receivables ageing filters">
+                <p-dropdown [options]="customerOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.customerPartyId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Customer" ariaLabel="Filter by customer"></p-dropdown>
+                <p-dropdown [options]="contractOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.leaseContractId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Lease contract" ariaLabel="Filter by lease contract"></p-dropdown>
+                <p-dropdown [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="filters.assetCategoryId" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Asset category" ariaLabel="Filter by asset category"></p-dropdown>
+                <div class="ageing-overdue-toggle"><p-checkbox inputId="ageingOverdueOnly" [(ngModel)]="filters.overdueOnly" [binary]="true" (onChange)="onFiltersChanged()"></p-checkbox><label for="ageingOverdueOnly">Overdue only</label></div>
+                <button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" icon="pi pi-filter-slash" severity="secondary" [text]="true" (click)="clearFilters()"></button>
+            </section>
+
+            <section class="ageing-table-area" aria-label="Customer ageing results">
+                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert"><i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load receivables ageing</strong><span>Please try again.</span><button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="loadReport(true)"></button></div>
+
+                <div *ngIf="!hasLoadError && !isLoading && !totalRecords" class="list-empty leasehive-list-empty-state ageing-empty-table"><i class="pi pi-chart-bar" aria-hidden="true"></i><strong>No receivables to age</strong><span>There are no outstanding receivables for the selected As-of date and filters.</span><button *ngIf="searchTerm || hasActiveFilters" type="button" pButton label="Clear search & filters" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button></div>
+
+                <p-table *ngIf="!hasLoadError && (isLoading || totalRecords)" [value]="records" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table leasehive-list-table-compact ageing-table" [tableStyle]="{ 'min-width': '1440px' }">
+                    <ng-template pTemplate="header">
+                        <tr><th style="width: 54px; min-width: 54px"></th><th style="width: 250px; min-width: 250px">Customer</th><th style="width: 100px; min-width: 100px">Currency</th><th class="text-right" style="width: 150px; min-width: 150px">Not Due</th><th class="text-right" style="width: 150px; min-width: 150px">1–30</th><th class="text-right" style="width: 150px; min-width: 150px">31–60</th><th class="text-right" style="width: 150px; min-width: 150px">61–90</th><th class="text-right" style="width: 150px; min-width: 150px">90+</th><th class="text-right" style="width: 180px; min-width: 180px">Total Outstanding</th><th class="text-right" style="width: 105px; min-width: 105px">Invoices</th></tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="ageing-customer-row">
+                            <td><button type="button" class="ageing-expand" (click)="toggleCustomer(customer)" [attr.aria-expanded]="isCustomerExpanded(customer)" [attr.aria-label]="(isCustomerExpanded(customer) ? 'Hide' : 'Show') + ' invoices for ' + customerLabel(customer)"><i [class]="isCustomerExpanded(customer) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></button></td>
+                            <td><strong>{{ customerLabel(customer) }}</strong></td><td>{{ customer.CurrencyCode || 'N/A' }}</td><td class="text-right">{{ formatAmount(customer.NotDueAmount, customer.CurrencyCode) }}</td><td class="text-right">{{ formatAmount(customer.Days1To30Amount, customer.CurrencyCode) }}</td><td class="text-right">{{ formatAmount(customer.Days31To60Amount, customer.CurrencyCode) }}</td><td class="text-right">{{ formatAmount(customer.Days61To90Amount, customer.CurrencyCode) }}</td><td class="text-right ageing-ninety">{{ formatAmount(customer.Days90PlusAmount, customer.CurrencyCode) }}</td><td class="text-right ageing-total">{{ formatAmount(customer.TotalOutstandingAmount, customer.CurrencyCode) }}</td><td class="text-right">{{ customer.InvoiceCount || 0 }}</td>
+                        </tr>
+                        <tr *ngIf="isCustomerExpanded(customer)" class="ageing-invoice-row"><td colspan="10"><div class="ageing-invoice-panel"><div class="ageing-invoice-heading"><strong>Outstanding invoices</strong><span>Balances as of {{ formatDate(filters.asOfDate) }}</span></div><p-table [value]="customer.Invoices" responsiveLayout="scroll" styleClass="ageing-invoice-table"><ng-template pTemplate="header"><tr><th>Invoice Number</th><th>Lease Contract</th><th>Due Date</th><th class="text-right">Outstanding</th><th class="text-right">Days Overdue</th></tr></ng-template><ng-template pTemplate="body" let-invoice><tr><td><button type="button" class="list-primary-link" (click)="onInvoiceClick(invoice)" [disabled]="!isCustomerInvoice(invoice)">{{ invoice.DocumentNo || '—' }}</button></td><td>{{ invoice.LeaseContractNumber || '—' }}</td><td>{{ invoice.DueDate ? (invoice.DueDate | date: 'dd-MMM-yyyy') : '—' }}</td><td class="text-right">{{ formatAmount(invoice.OutstandingAmount, customer.CurrencyCode) }}</td><td class="text-right" [class.ageing-overdue-days]="invoice.DaysOverdue > 0">{{ invoice.DaysOverdue || 0 }}</td></tr></ng-template></p-table></div></td></tr>
+                    </ng-template>
+                </p-table>
+                <p-paginator *ngIf="!hasLoadError && totalRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($any($event))"></p-paginator>
+            </section>
+        </div>
+    </div>
+</div>

@@ -17,11 +17,14 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { FluidModule } from 'primeng/fluid';
 import { TooltipModule } from 'primeng/tooltip';
+import { MenuModule } from 'primeng/menu';
+import { ChartModule } from 'primeng/chart';
 
 import { ReceivableListComponent } from './receivable-list.component';
 import { ReceivableCreateComponent } from './receivable-create.component';
 import { ReceivableEditComponent } from './receivable-edit.component';
 import { ReceivableViewComponent } from './receivable-view.component';
+import { ReceivablesAgeingComponent } from './receivables-ageing.component';
 import { ReceivableRoutingModule } from './receivable-routing.module';
 
 
@@ -37,6 +40,8 @@ import { ReceivableRoutingModule } from './receivable-routing.module';
 		TableModule,
 		PaginatorModule,
 		TooltipModule,
+		MenuModule,
+		ChartModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,
@@ -52,7 +57,8 @@ import { ReceivableRoutingModule } from './receivable-routing.module';
 		ReceivableCreateComponent,
 		ReceivableListComponent,
 		ReceivableEditComponent,
-		ReceivableViewComponent
+		ReceivableViewComponent,
+		ReceivablesAgeingComponent
 	]
 })
 export class ReceivableModule { }

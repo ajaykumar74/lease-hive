@@ -6,6 +6,7 @@ import { ReceivableListComponent } from './receivable-list.component';
 import { ReceivableCreateComponent } from './receivable-create.component';
 import { ReceivableEditComponent } from './receivable-edit.component';
 import { ReceivableViewComponent } from './receivable-view.component';
+import { ReceivablesAgeingComponent } from './receivables-ageing.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,32 @@ const routes: Routes = [
       title: 'Receivables'
     },
     children: [
+      {
+        path: 'open',
+        canActivate: [AuthGuard],
+        component: ReceivableListComponent,
+        data: {
+          title: 'Open Receivables',
+          openReceivables: true
+        }
+      },
+      {
+        path: 'overdue',
+        canActivate: [AuthGuard],
+        component: ReceivableListComponent,
+        data: {
+          title: 'Overdue Receivables',
+          overdueReceivables: true
+        }
+      },
+      {
+        path: 'ageing',
+        canActivate: [AuthGuard],
+        component: ReceivablesAgeingComponent,
+        data: {
+          title: 'Receivables Ageing Analysis'
+        }
+      },
       {
         path: '',
         canActivate: [AuthGuard],
@@ -61,5 +88,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class ReceivableRoutingModule { } 
- 
+export class ReceivableRoutingModule { }

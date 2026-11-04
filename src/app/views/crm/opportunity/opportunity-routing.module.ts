@@ -6,6 +6,7 @@ import { OpportunityListComponent } from './opportunity-list.component';
 import { OpportunityCreateComponent } from './opportunity-create.component';
 import { OpportunityEditComponent } from './opportunity-edit.component';
 import { OpportunityViewComponent } from './opportunity-view.component';
+import { OpportunityPipelineComponent } from './opportunity-pipeline.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,14 @@ const routes: Routes = [
         component: OpportunityListComponent,      
         data: {
           title: 'List'
+        }
+      },
+      {
+        path: 'pipeline',
+        canActivate: [AuthGuard],
+        component: OpportunityPipelineComponent,
+        data: {
+          title: 'Pipeline'
         }
       },
       {
@@ -62,4 +71,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class OpportunityRoutingModule { } 
- 
+

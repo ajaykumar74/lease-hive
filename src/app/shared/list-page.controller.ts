@@ -213,6 +213,9 @@ export abstract class ListPageController<TRecord, TFilters extends object> {
 
     protected onStateRestored(): void {}
 
+    /** Allows a specialised list mode to add typed endpoint parameters. */
+    protected getAdditionalSearchParameters(): Record<string, unknown> { return {}; }
+
     protected cloneFilters(filters: TFilters): TFilters {
         return { ...filters };
     }
@@ -228,7 +231,8 @@ export abstract class ListPageController<TRecord, TFilters extends object> {
             Take: this.pgEvent.rows,
             SortBy: sort.field,
             IsDescending: sort.descending,
-            Conditions: this.getSearchParams()
+            Conditions: this.getSearchParams(),
+            ...this.getAdditionalSearchParameters()
         };
     }
 

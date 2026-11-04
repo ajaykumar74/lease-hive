@@ -1,0 +1,160 @@
+:host {
+    display: block;
+    min-width: 0;
+}
+
+.open-receivables-page,
+.open-receivables-page .leasehive-list-card,
+.open-receivables-page .leasehive-list-table-area {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.open-receivable-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .7rem;
+    margin: .25rem 0 1rem;
+}
+
+.open-receivable-kpi {
+    position: relative;
+    min-width: 0;
+    min-height: 104px;
+    padding: .85rem 2.8rem .75rem .9rem;
+    border: 1px solid var(--surface-border);
+    border-radius: .7rem;
+    background: var(--surface-card);
+    overflow: hidden;
+}
+
+.open-receivable-kpi > span,
+.open-receivable-kpi > small {
+    display: block;
+    color: var(--text-color-secondary);
+    font-size: .76rem;
+}
+
+.open-receivable-kpi > strong {
+    display: block;
+    margin-top: .34rem;
+    color: var(--text-color);
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.open-receivable-kpi > i {
+    position: absolute;
+    top: .85rem;
+    right: .85rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+    opacity: .78;
+}
+
+.open-receivable-kpi.overdue > i,
+.open-receivable-kpi.overdue > strong { color: var(--orange-600, #c2410c); }
+
+.currency-total-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: .16rem;
+}
+
+.currency-total-list small {
+    font-size: .91rem;
+    white-space: nowrap;
+}
+
+.currency-total-list em {
+    margin-left: .2rem;
+    color: var(--text-color-secondary);
+    font-size: .68rem;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.open-receivable-organisation {
+    width: min(230px, 100%);
+}
+
+.open-receivable-filter-panel {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(150px, 1fr)) auto;
+    align-items: center;
+    gap: .65rem;
+    margin: -.1rem 0 .9rem;
+    padding: .72rem;
+    border: 1px solid var(--surface-border);
+    border-radius: .65rem;
+    background: var(--surface-ground);
+}
+
+.open-receivable-filter-panel :is(.p-dropdown, .p-calendar) { width: 100%; }
+
+.open-receivable-overdue-toggle {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.45rem;
+    padding: 0 .1rem;
+    color: var(--text-color);
+    font-size: .83rem;
+    white-space: nowrap;
+}
+
+.open-outstanding { font-weight: 700; }
+
+.open-overdue-days {
+    display: inline-flex;
+    min-width: 1.7rem;
+    justify-content: center;
+    padding: .15rem .42rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--red-500, #ef4444) 12%, transparent);
+    color: var(--red-600, #dc2626);
+    font-weight: 700;
+    font-size: .78rem;
+}
+
+.open-receivable-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.55rem;
+    padding: .12rem .5rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.open-status--open { background: color-mix(in srgb, var(--primary-color) 14%, transparent); color: var(--primary-color); }
+.open-status--partial { background: color-mix(in srgb, var(--orange-500, #f97316) 14%, transparent); color: var(--orange-700, #9a3412); }
+.open-status--overdue { background: color-mix(in srgb, var(--red-500, #ef4444) 14%, transparent); color: var(--red-700, #b91c1c); }
+
+.ageing-bucket {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.55rem;
+    padding: .12rem .5rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.ageing-bucket--low { background: color-mix(in srgb, var(--yellow-500, #eab308) 14%, transparent); color: var(--yellow-800, #854d0e); }
+.ageing-bucket--medium { background: color-mix(in srgb, var(--orange-500, #f97316) 14%, transparent); color: var(--orange-700, #9a3412); }
+.ageing-bucket--high { background: color-mix(in srgb, var(--red-500, #ef4444) 14%, transparent); color: var(--red-700, #b91c1c); }
+.ageing-bucket--critical { background: color-mix(in srgb, var(--red-700, #b91c1c) 20%, transparent); color: var(--red-800, #991b1b); }
+
+@media (max-width: 1180px) {
+    .open-receivable-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .open-receivable-filter-panel { grid-template-columns: repeat(3, minmax(150px, 1fr)); }
+}
+
+@media (max-width: 760px) {
+    .open-receivable-kpis { grid-template-columns: 1fr; }
+    .open-receivable-filter-panel { grid-template-columns: 1fr; }
+    .open-receivable-organisation { width: 100%; }
+}
