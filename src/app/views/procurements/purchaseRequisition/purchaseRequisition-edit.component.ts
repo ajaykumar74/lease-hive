@@ -14,12 +14,15 @@ import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseRequisition } from './purchaseRequisition';
 import { PurchaseRequisitionService } from './purchaseRequisition.service';
 import { IPurchaseRequisitionLine } from '../purchaseRequisitionLine/purchaseRequisitionLine';
+import { IPurchaseRequisitionApprovalWorkflow } from './purchaseRequisition';
+import { finalize } from 'rxjs';
 
 
 @Component({
   selector: 'app-purchaseRequisition-edit',
   standalone: false,
   templateUrl: './purchaseRequisition-edit.component.html',
+  styleUrls: ['./purchaseRequisition-approval-workflow.component.css'],
   providers: [ MessageService]
 })
 export class PurchaseRequisitionEditComponent implements OnInit {
@@ -30,6 +33,8 @@ export class PurchaseRequisitionEditComponent implements OnInit {
   purchaseRequisition: IPurchaseRequisition = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  approvalWorkflow: IPurchaseRequisitionApprovalWorkflow | null = null;
+  approvalRemarks: string = '';
   buyingorganisationidOptions: ISelectItem[] = [];
 requestingorganisationunitidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
@@ -114,6 +119,7 @@ this.loadLineItemOptions();
 		this.permission = data.permission;
         this.objMaster = { ...this.purchaseRequisition };
         this.populateUI(this.purchaseRequisition);
+        this.loadApprovalWorkflow();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -142,8 +148,131 @@ RecordStatus: obj.RecordStatus || '',
     );
     this.setLineItems(obj.LineItems || []);
 
-	 this.Caption = "PurchaseRequisition Details #" + obj.Id;
+	 this.Caption = "Purchase Requisition Details #" + obj.Id;
   } 
+
+  private loadApprovalWorkflow(): void {
+    this.purchaseRequisitionService.getApprovalWorkflow(this.selectedId).subscribe({
+      next: response => {
+        this.approvalWorkflow = response.data;
+        this.applyEditability();
+      },
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  private applyEditability(): void {
+    if (!this.editForm || !this.approvalWorkflow) return;
+    if (this.approvalWorkflow.IsEditable) {
+      this.editForm.enable({ emitEvent: false });
+    } else {
+      this.editForm.disable({ emitEvent: false });
+    }
+    // Workflow transitions control this value; requisition editing must not bypass approval.
+    this.editForm.get('PurchaseRequisitionStatusId')?.disable({ emitEvent: false });
+  }
+
+  get workflowStatusLabel(): string {
+    return this.formatWorkflowStatus(this.approvalWorkflow?.StatusCode || this.approvalWorkflow?.ApprovalStatus);
+  }
+
+  get workflowToneClass(): string {
+    switch (this.approvalWorkflow?.StatusCode) {
+      case 'APPROVED': return 'is-approved';
+      case 'PENDING_APPROVAL': return 'is-pending';
+      case 'RETURNED': return 'is-returned';
+      case 'REJECTED': return 'is-rejected';
+      default: return 'is-draft';
+    }
+  }
+
+  get workflowIconClass(): string {
+    switch (this.approvalWorkflow?.StatusCode) {
+      case 'APPROVED': return 'pi pi-check-circle';
+      case 'PENDING_APPROVAL': return 'pi pi-clock';
+      case 'RETURNED': return 'pi pi-reply';
+      case 'REJECTED': return 'pi pi-times-circle';
+      default: return 'pi pi-file-edit';
+    }
+  }
+
+  get pendingApproverLabel(): string {
+    if (this.approvalWorkflow?.PendingApprovers?.length) return this.approvalWorkflow.PendingApprovers.join(', ');
+    return this.approvalWorkflow?.StatusCode === 'PENDING_APPROVAL' ? 'No matching approver configured' : 'Not awaiting approval';
+  }
+
+  get workflowHelperText(): string {
+    switch (this.approvalWorkflow?.StatusCode) {
+      case 'PENDING_APPROVAL': return 'Submitted and waiting for the assigned approver to make a decision.';
+      case 'APPROVED': return 'Approved requisitions can be used for downstream purchase order creation.';
+      case 'RETURNED': return 'Returned for correction. Update the requisition and submit it again.';
+      case 'REJECTED': return 'This requisition was rejected. Review the decision history for details.';
+      default: return 'Complete the requisition details, then submit it for approval.';
+    }
+  }
+
+  get canGenerateRfq(): boolean {
+    return this.approvalWorkflow?.StatusCode === 'APPROVED' && !!this.purchaseRequisition?.Id;
+  }
+
+  workflowStepClass(step: number): string {
+    const status = this.approvalWorkflow?.StatusCode;
+    if (status === 'PENDING_APPROVAL') return step === 1 ? 'is-complete' : step === 2 ? 'is-active' : '';
+    if (['APPROVED', 'RETURNED', 'REJECTED'].includes(status || '')) return step < 3 ? 'is-complete' : 'is-active';
+    return step === 1 ? 'is-active' : '';
+  }
+
+  private formatWorkflowStatus(status?: string): string {
+    return (status || 'Draft')
+      .replace(/[_-]+/g, ' ')
+      .toLowerCase()
+      .replace(/\b\w/g, character => character.toUpperCase());
+  }
+
+  submitForApproval(): void {
+    if (!this.approvalWorkflow?.CanSubmit || this.isLoading) return;
+    this.isLoading = true;
+    this.spinner.show();
+    this.purchaseRequisitionService.submitForApproval(this.selectedId).pipe(finalize(() => {
+      this.isLoading = false;
+      this.spinner.hide();
+    })).subscribe({
+      next: response => {
+        this.messageService.showSuccess(response.data.Message);
+        this.loadUI();
+      },
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  generateRfq(): void {
+    if (!this.canGenerateRfq) return;
+
+    this.router.navigate(['/business/procurement/rfqs/create'], {
+      queryParams: { purchaseRequisitionId: this.purchaseRequisition.Id }
+    });
+  }
+
+  approvalAction(actionCode: 'APPROVE' | 'REJECT' | 'RETURN'): void {
+    if (!this.approvalWorkflow?.CanCurrentUserAction || this.isLoading) return;
+    if ((actionCode === 'REJECT' || actionCode === 'RETURN') && !this.approvalRemarks.trim()) {
+      this.messageService.showError('Remarks are required when returning or rejecting a purchase requisition.');
+      return;
+    }
+    this.isLoading = true;
+    this.spinner.show();
+    this.purchaseRequisitionService.approvalAction(this.selectedId, actionCode, this.approvalRemarks.trim()).pipe(finalize(() => {
+      this.isLoading = false;
+      this.spinner.hide();
+    })).subscribe({
+      next: response => {
+        this.approvalRemarks = '';
+        this.messageService.showSuccess(response.data.Message);
+        this.loadUI();
+      },
+      error: error => this.messageService.showError(error)
+    });
+  }
 
   get lineItems(): FormArray<FormGroup> {
     return this.editForm.get('LineItems') as FormArray<FormGroup>;
@@ -207,6 +336,9 @@ RecordStatus: obj.RecordStatus || '',
     else if (key == "Cancel") {
       this.onCancel();
     }
+    else if (key == "Refresh") {
+      this.loadUI();
+    }
 
   }
 
@@ -242,12 +374,17 @@ RecordStatus: obj.RecordStatus || '',
 
   Save(): void {
 
+        if (!this.approvalWorkflow?.IsEditable) {
+            this.messageService.showError('Only Draft or Returned purchase requisitions can be edited.');
+            return;
+        }
+
         if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');
             return;
         }
 
-     const formValues = this.editForm.value; 
+     const formValues = this.editForm.getRawValue(); 
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

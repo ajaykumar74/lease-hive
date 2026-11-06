@@ -5,8 +5,61 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
+					<button type="button" pButton label="Submit for Approval" icon="pi pi-send" class="p-button-outlined"
+						*ngIf="approvalWorkflow?.CanSubmit && permission?.CanUpdate" (click)="submitForApproval()" [disabled]="isLoading"></button>
+					<button type="button" pButton label="Approve" icon="pi pi-check"
+						*ngIf="approvalWorkflow?.CanCurrentUserAction && approvalWorkflow?.ApprovalStatus === 'PENDING'" (click)="approvalAction('APPROVE')" [disabled]="isLoading"></button>
+					<button type="button" pButton label="Return" icon="pi pi-reply" class="p-button-outlined"
+						*ngIf="approvalWorkflow?.CanCurrentUserAction && approvalWorkflow?.ApprovalStatus === 'PENDING'" (click)="approvalAction('RETURN')" [disabled]="isLoading || !approvalRemarks.trim()"></button>
+					<button type="button" pButton label="Reject" icon="pi pi-times" class="p-button-danger p-button-outlined"
+						*ngIf="approvalWorkflow?.CanCurrentUserAction && approvalWorkflow?.ApprovalStatus === 'PENDING'" (click)="approvalAction('REJECT')" [disabled]="isLoading || !approvalRemarks.trim()"></button>
+					<button type="button" pButton label="Generate RFQ" icon="pi pi-file-plus" class="p-button-outlined"
+						*ngIf="canGenerateRfq" (click)="generateRfq()" [disabled]="isLoading"></button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+
+				<section *ngIf="approvalWorkflow" class="approval-workflow-card mb-4" [ngClass]="workflowToneClass">
+					<header class="approval-workflow-header">
+						<div class="approval-workflow-title">
+							<span class="approval-workflow-icon"><i [class]="workflowIconClass"></i></span>
+							<div>
+								<div class="approval-workflow-eyebrow">Approval workflow</div>
+								<h2 class="approval-workflow-heading">Purchase requisition approval</h2>
+								<div class="text-sm text-color-secondary mt-1" *ngIf="approvalWorkflow.ApprovalRequestNumber">Request {{ approvalWorkflow.ApprovalRequestNumber }}</div>
+							</div>
+						</div>
+						<span class="approval-status-badge"><i [class]="workflowIconClass"></i>{{ workflowStatusLabel }}</span>
+					</header>
+
+					<div class="approval-workflow-body">
+						<div class="approval-steps" aria-label="Approval progress">
+							<div class="approval-step" [ngClass]="workflowStepClass(1)"><span class="approval-step-dot">1</span><span class="approval-step-label">Draft</span></div>
+							<div class="approval-step" [ngClass]="workflowStepClass(2)"><span class="approval-step-dot">2</span><span class="approval-step-label">Approval review</span></div>
+							<div class="approval-step" [ngClass]="workflowStepClass(3)"><span class="approval-step-dot">3</span><span class="approval-step-label">Decision</span></div>
+						</div>
+
+						<div class="approval-workflow-metrics">
+							<div class="approval-metric"><span class="approval-metric-label">Current status</span><div class="approval-metric-value">{{ workflowStatusLabel }}</div></div>
+							<div class="approval-metric"><span class="approval-metric-label">Pending approver</span><div class="approval-metric-value">{{ pendingApproverLabel }}</div></div>
+							<div class="approval-metric"><span class="approval-metric-label">Estimated value</span><div class="approval-metric-value">{{ approvalWorkflow.CurrencyCode }} {{ approvalWorkflow.EstimatedTotal | number:'1.2-2' }}</div></div>
+						</div>
+
+						<div class="approval-workflow-note"><i class="pi pi-info-circle"></i><span>{{ workflowHelperText }}</span></div>
+
+						<div *ngIf="approvalWorkflow.CanCurrentUserAction && approvalWorkflow.ApprovalStatus === 'PENDING'" class="approval-decision-panel">
+							<label for="approvalRemarks" class="approval-decision-label"><span>Decision remarks</span><span class="approval-decision-hint">Required for return or reject</span></label>
+							<textarea id="approvalRemarks" pTextarea [(ngModel)]="approvalRemarks" [ngModelOptions]="{standalone: true}" rows="2" class="w-full" [disabled]="isLoading" placeholder="Add the decision context or required correction"></textarea>
+						</div>
+
+						<div *ngIf="approvalWorkflow.ApprovalHistory?.length" class="approval-history">
+							<h3 class="approval-history-heading">Approval history</h3>
+							<p-table [value]="approvalWorkflow.ApprovalHistory" styleClass="p-datatable-sm" responsiveLayout="scroll">
+								<ng-template pTemplate="header"><tr><th>Step</th><th>Action</th><th>Approver</th><th>Date</th><th>Remarks</th></tr></ng-template>
+								<ng-template pTemplate="body" let-history><tr><td>{{ history.StepNo }}</td><td>{{ history.ActionCode | titlecase }}</td><td>{{ history.ApproverName }}</td><td>{{ history.ActionDateTime | date:'dd MMM yyyy HH:mm' }}</td><td>{{ history.Comments || '—' }}</td></tr></ng-template>
+							</p-table>
+						</div>
+					</div>
+				</section>
 				
 		       <form [formGroup]="editForm" (ngSubmit)="Save()">
  				<p-fluid>
@@ -129,11 +182,11 @@
 
                </div></div>
 <div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
-	<div class="flex align-items-center justify-content-between gap-3"><h3 class="m-0">Line items</h3><button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()"></button></div>
+	<div class="flex align-items-center justify-content-between gap-3"><h3 class="m-0">Line items</h3><button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()" [disabled]="!approvalWorkflow?.IsEditable"></button></div>
 	<small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line item and complete its required fields before saving.</small>
 	<p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll" styleClass="p-datatable-sm">
 		<ng-template pTemplate="header"><tr><th>#</th><th>Description</th><th>Type</th><th>Qty</th><th>UOM</th><th>Estimated unit cost</th><th>Currency</th><th>Required by</th><th></th></tr></ng-template>
-		<ng-template pTemplate="body" let-line let-rowIndex="rowIndex"><tr [formGroupName]="rowIndex"><td>{{ line.get('LineNo')?.value }}</td><td style="min-width: 12rem"><input pInputText type="text" formControlName="Description" class="w-full p-inputtext-sm" /></td><td style="min-width: 8rem"><p-dropdown [options]="linetypecodeOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="LineTypeCode" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 6rem"><p-inputNumber formControlName="Quantity" [min]="1" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-dropdown [options]="uomidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="UOMId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 9rem"><p-inputNumber formControlName="EstimatedUnitCost" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 7rem"><input pInputText type="text" formControlName="CurrencyCode" class="w-full p-inputtext-sm" /></td><td style="min-width: 9rem"><p-calendar formControlName="RequiredByDate" dateFormat="dd-MM-yy" [showIcon]="true" appendTo="body" inputStyleClass="p-inputtext-sm"></p-calendar></td><td><button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Delete line item ' + (rowIndex + 1)"></button></td></tr></ng-template>
+		<ng-template pTemplate="body" let-line let-rowIndex="rowIndex"><tr [formGroupName]="rowIndex"><td>{{ line.get('LineNo')?.value }}</td><td style="min-width: 12rem"><input pInputText type="text" formControlName="Description" class="w-full p-inputtext-sm" /></td><td style="min-width: 8rem"><p-dropdown [options]="linetypecodeOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="LineTypeCode" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 6rem"><p-inputNumber formControlName="Quantity" [min]="1" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-dropdown [options]="uomidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="UOMId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 9rem"><p-inputNumber formControlName="EstimatedUnitCost" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 7rem"><input pInputText type="text" formControlName="CurrencyCode" class="w-full p-inputtext-sm" /></td><td style="min-width: 9rem"><p-calendar formControlName="RequiredByDate" dateFormat="dd-MM-yy" [showIcon]="true" appendTo="body" inputStyleClass="p-inputtext-sm"></p-calendar></td><td><button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeLineItem(rowIndex)" [disabled]="!approvalWorkflow?.IsEditable" [attr.aria-label]="'Delete line item ' + (rowIndex + 1)"></button></td></tr></ng-template>
 		<ng-template pTemplate="emptymessage"><tr><td colspan="9" class="text-center">Add at least one line item.</td></tr></ng-template>
 	</p-table>
 </div>
@@ -149,7 +202,7 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
 											label="Record Status">
-										</app-validation-errors></div></div>
+										</app-validation-errors></div></div>
 
 					<app-audit-details [model]="purchaseRequisition"></app-audit-details>
 					</div>

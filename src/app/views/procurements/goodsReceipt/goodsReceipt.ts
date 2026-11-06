@@ -1,4 +1,5 @@
 import { IBase } from "@/shared/IBase";
+import { IGoodsReceiptLine } from '../goodsReceiptLine/goodsReceiptLine';
 
 export interface IGoodsReceipt extends IBase {
 	Id :number;
@@ -15,5 +16,6 @@ SupplierDeliveryNoteNo :string;
 ReceivedByUserId :number;
 Remarks :string;
 RecordStatus :string;
+LineItems?: IGoodsReceiptLine[];
 
 }

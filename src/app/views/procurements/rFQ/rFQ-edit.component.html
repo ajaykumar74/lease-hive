@@ -5,6 +5,9 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
+					<button type="button" pButton [label]="supplierQuoteActionLabel" icon="pi pi-file-plus" size="small"
+						severity="secondary" [outlined]="true" [disabled]="isLoading || isSupplierQuotationLoading || !rFQ?.Id"
+						(click)="openSupplierQuote()"></button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				

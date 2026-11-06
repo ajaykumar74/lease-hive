@@ -74,11 +74,16 @@ Remarks: new FormControl('', [Validators.maxLength(100), ]),
     });
     this.Caption = 'Create GoodsReceipt';
 this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptStatusId', 'goods-receipt-statuses',
-      options => this.goodsreceiptstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => {
+        this.goodsreceiptstatusidOptions = options;
+        this.applyDefaultGoodsReceiptStatus();
+      }, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
+
+    this.editForm.get('GoodsReceiptStatusId')?.disable({ emitEvent: false });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'ReceiptLocationId', 'locations',
       options => this.receiptlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -92,6 +97,12 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'sup
       options => this.supplierpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 
+  }
+
+  private applyDefaultGoodsReceiptStatus(): void {
+    const draftStatus = this.goodsreceiptstatusidOptions
+      .find(option => String(option.Text || '').toUpperCase().includes('DRAFT'));
+    if (draftStatus) this.editForm.get('GoodsReceiptStatusId')?.setValue(Number(draftStatus.Value), { emitEvent: false });
   }
 
  loadUI(): void {
@@ -195,8 +206,12 @@ RecordStatus: 'Active',
 	  this.spinner.show(); 
     this.goodsReceiptService.create(createdObj).subscribe({
       next: data => {	   
-         // this.messageService.showSuccess(GoodsReceipt +  'Details Updated sucessfully.');
-		 this._location.back();     
+        const savedId = Number((data as any)?.Id ?? (data as any)?.id);
+        if (savedId > 0) {
+          this.router.navigate(['/business/procurement/goods-receipts/edit', savedId]);
+        } else {
+          this.messageService.showError('Goods receipt was created, but its identifier was not returned.');
+        }
       },
       error: err => { 
 	   this.messageService.showError(err);

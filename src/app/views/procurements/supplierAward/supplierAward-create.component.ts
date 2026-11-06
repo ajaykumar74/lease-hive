@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierAward } from './supplierAward';
 import { SupplierAwardService } from './supplierAward.service';
+import { SupplierQuotationService } from '../supplierQuotation/supplierQuotation.service';
 
 @Component({
   selector: 'app-supplierAward-create',
@@ -43,8 +44,10 @@ awardedbyOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private supplierAwardService: SupplierAwardService,
+	private supplierQuotationService: SupplierQuotationService,
 	private loggedInUserService : LoggedInUserService
 
   ) {
@@ -86,6 +89,41 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'sup
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 'supplier-quotations',
       options => this.supplierquotationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {'RFQId': 'RFQId', 'SupplierPartyId': 'SupplierPartyId'});
+    this.loadSupplierQuotationContext();
+  }
+
+  private loadSupplierQuotationContext(): void {
+    const supplierQuotationId = Number(this.activatedRoute.snapshot.queryParamMap.get('supplierQuotationId'));
+    if (!Number.isInteger(supplierQuotationId) || supplierQuotationId <= 0) return;
+
+    this.isLoading = true;
+    this.supplierQuotationService.getById(supplierQuotationId).subscribe({
+      next: response => {
+        const quotation = response.data;
+        if (!quotation || String(quotation.QuotationStatusCode || '').trim().toUpperCase() !== 'ACCEPTED') {
+          this.messageService.showError('Only an accepted supplier quotation can create a supplier award.');
+          this.isLoading = false;
+          return;
+        }
+
+        this.editForm.patchValue({
+          RFQId: quotation.RFQId,
+          SupplierQuotationId: quotation.Id,
+          SupplierPartyId: quotation.SupplierPartyId,
+          AwardDateTime: new Date(),
+          AwardAmount: quotation.TotalAmount || 0,
+          CurrencyCode: quotation.CurrencyCode || ''
+        });
+        ['RFQId', 'SupplierQuotationId', 'SupplierPartyId', 'AwardAmount', 'CurrencyCode']
+          .forEach(controlName => this.editForm.get(controlName)?.disable({ emitEvent: false }));
+        this.Caption = `Create Supplier Award for ${quotation.SupplierQuoteNo || quotation.SupplierQuotationId}`;
+        this.isLoading = false;
+      },
+      error: error => {
+        this.messageService.showError(error);
+        this.isLoading = false;
+      }
+    });
   }
 
  loadUI(): void {
@@ -166,7 +204,7 @@ AwardedBy: obj.AwardedBy || 0,
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

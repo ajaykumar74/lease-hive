@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IRFQ } from './rFQ';
 import { RFQService } from './rFQ.service';
+import { SupplierQuotationService } from '../supplierQuotation/supplierQuotation.service';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class RFQEditComponent implements OnInit {
   rFQ: IRFQ = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  supplierQuotationId: number | null = null;
+  isSupplierQuotationLoading: boolean = false;
   purchaserequisitionidOptions: ISelectItem[] = [];
 buyingorganisationidOptions: ISelectItem[] = [];
 rfqstatuscodeOptions: ISelectItem[] = [];
@@ -43,6 +46,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private rFQService: RFQService, 
+	private supplierQuotationService: SupplierQuotationService,
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -58,7 +62,7 @@ recordstatusOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, [Validators.required]),
 RFQNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
-PurchaseRequisitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseRequisitionId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RFQStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 IssueDateTime: new FormControl(new Date(), []),
@@ -95,11 +99,45 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 		this.permission = data.permission;
         this.objMaster = { ...this.rFQ };
         this.populateUI(this.rFQ);
+        this.loadSupplierQuotation();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
     }); 
   } 
+
+  get supplierQuoteActionLabel(): string {
+    return this.supplierQuotationId ? 'View Supplier Quote' : 'Generate Supplier Quote';
+  }
+
+  private loadSupplierQuotation(): void {
+    if (!this.rFQ?.Id) {
+      this.supplierQuotationId = null;
+      return;
+    }
+
+    this.isSupplierQuotationLoading = true;
+    this.supplierQuotationService.getLatestActiveForRfq(this.rFQ.Id).subscribe({
+      next: response => this.supplierQuotationId = response.data ?? null,
+      error: err => this.messageService.showError(err),
+      complete: () => { this.isSupplierQuotationLoading = false; }
+    });
+  }
+
+  openSupplierQuote(): void {
+    if (!this.rFQ?.Id) {
+      return;
+    }
+
+    if (this.supplierQuotationId) {
+      this.router.navigate(['/business/procurement/supplier-quotations/edit', this.supplierQuotationId]);
+      return;
+    }
+
+    this.router.navigate(['/business/procurement/supplier-quotations/create'], {
+      queryParams: { rfqId: this.rFQ.Id }
+    });
+  }
 
   populateUI(obj: IRFQ): void {  
     this.editForm.patchValue(

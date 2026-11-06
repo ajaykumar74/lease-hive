@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierQuotation } from './supplierQuotation';
 import { SupplierQuotationService } from './supplierQuotation.service';
+import { RFQService } from '../rFQ/rFQ.service';
 
 @Component({
   selector: 'app-supplierQuotation-create',
@@ -41,8 +42,10 @@ quotationstatuscodeOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private supplierQuotationService: SupplierQuotationService,
+	private rFQService: RFQService,
 	private loggedInUserService : LoggedInUserService
 
   ) {
@@ -69,7 +72,7 @@ TaxAmount: new FormControl(0, [Validators.required]),
 TotalAmount: new FormControl(0, [Validators.required]),
 PaymentTermCode: new FormControl('', [Validators.maxLength(20), ]), 
 DeliveryDays: new FormControl(0, [Validators.min(-32768), Validators.max(32767)]),
-QuotationStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+QuotationStatusCode: new FormControl({ value: 'DRAFT', disabled: true }, [Validators.required, Validators.maxLength(20), ]),
 
     });
     this.Caption = 'Create SupplierQuotation';
@@ -81,6 +84,33 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'sup
       this.entityLookupDestroyRef);
 this.quotationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('SupplierQuotationQuotationStatusCode');
 
+    this.loadRfqContext();
+
+  }
+
+  private loadRfqContext(): void {
+    const rfqId = Number(this.activatedRoute.snapshot.queryParamMap.get('rfqId'));
+    if (!Number.isInteger(rfqId) || rfqId <= 0) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.rFQService.getById(rfqId).subscribe({
+      next: response => {
+        const rfq = response.data;
+        this.editForm.patchValue({
+          RFQId: rfq.Id,
+          CurrencyCode: rfq.CurrencyCode || '',
+          VersionNo: 1,
+          QuotationStatusCode: 'DRAFT'
+        });
+        this.editForm.get('RFQId')?.disable();
+        this.editForm.get('CurrencyCode')?.disable();
+        this.Caption = `Create Supplier Quote for ${rfq.RFQNo}`;
+      },
+      error: err => this.messageService.showError(err),
+      complete: () => { this.isLoading = false; }
+    });
   }
 
  loadUI(): void {
@@ -169,7 +199,7 @@ QuotationStatusCode: obj.QuotationStatusCode || '',
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

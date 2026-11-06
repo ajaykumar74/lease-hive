@@ -7,6 +7,9 @@
 					[Caption]="Caption" [PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons>
 				<app-spinner></app-spinner>
+				<div *ngIf="editForm.get('SupplierAwardId')?.disabled" class="mb-4 p-3 border-round surface-100 text-color-secondary">
+					Supplier, buying organisation, currency, values, and payment terms were copied from the supplier award. Enter the PO number, confirm the status, and add PO line items.
+				</div>
 
 				<form [formGroup]="editForm" (ngSubmit)="Save()">
 					<p-fluid>

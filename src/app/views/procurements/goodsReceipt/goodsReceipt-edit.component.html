@@ -134,6 +134,89 @@
 											label="Record Status">
 										</app-validation-errors></div></div>
 
+
+                    <div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
+                        <div class="flex align-items-center justify-content-between gap-3">
+                            <div>
+                                <h3 class="m-0">Receipt line items</h3>
+                                <small class="text-color-secondary">Items are loaded from the selected purchase order.</small>
+                            </div>
+                            <div class="flex gap-1">
+                                <button pButton type="button" icon="pi pi-plus" class="p-button-text p-button-sm"
+                                    title="Add the next purchase-order line" [disabled]="availablePurchaseOrderLines.length === 0"
+                                    (click)="addNextPurchaseOrderLine()" aria-label="Add purchase-order line"></button>
+                                <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-danger p-button-sm"
+                                    title="Remove selected line items" [disabled]="selectedLineIndexes.length === 0"
+                                    (click)="removeSelectedLineItems()" aria-label="Remove selected line items"></button>
+                            </div>
+                        </div>
+                        <small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">
+                            Add at least one receipt line and complete its required fields before saving.
+                        </small>
+                        <p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px"
+                            responsiveLayout="scroll" styleClass="p-datatable-sm">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3rem"></th>
+                                    <th>#</th>
+                                    <th>PO item</th>
+                                    <th>Ordered</th>
+                                    <th>UOM</th>
+                                    <th>Received</th>
+                                    <th>Accepted</th>
+                                    <th>Rejected</th>
+                                    <th>Inspection</th>
+                                    <th>Inspection status</th>
+                                    <th>Rejection reason</th>
+                                    <th style="width: 3rem"></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-line let-rowIndex="rowIndex">
+                                <tr [formGroupName]="rowIndex">
+                                    <td>
+                                        <p-checkbox [binary]="true" [ngModel]="isLineSelected(rowIndex)"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            (onChange)="setLineSelected(rowIndex, $event.checked)">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>{{ line.get('LineNo')?.value }}</td>
+                                    <td style="min-width: 16rem">{{ getPurchaseOrderLineDescription(line.get('PurchaseOrderLineId')?.value) }}</td>
+                                    <td>{{ getOrderedQuantity(line.get('PurchaseOrderLineId')?.value) }}</td>
+                                    <td>{{ getUomLabel(line.get('UOMId')?.value) }}</td>
+                                    <td style="min-width: 7rem">
+                                        <p-inputNumber formControlName="ReceivedQuantity" [min]="0" size="small" styleClass="w-full"></p-inputNumber>
+                                    </td>
+                                    <td style="min-width: 7rem">
+                                        <p-inputNumber formControlName="AcceptedQuantity" [min]="0" size="small" styleClass="w-full"></p-inputNumber>
+                                    </td>
+                                    <td style="min-width: 7rem">
+                                        <p-inputNumber formControlName="RejectedQuantity" [min]="0" size="small" styleClass="w-full"></p-inputNumber>
+                                    </td>
+                                    <td>
+                                        <p-checkbox formControlName="InspectionRequired" [binary]="true"></p-checkbox>
+                                    </td>
+                                    <td style="min-width: 11rem">
+                                        <p-dropdown [options]="inspectionstatuscodeOptions" optionLabel="Text" optionValue="Value"
+                                            formControlName="InspectionStatusCode" placeholder="Select" appendTo="body"
+                                            styleClass="w-full p-inputtext-sm"></p-dropdown>
+                                    </td>
+                                    <td style="min-width: 14rem">
+                                        <input pInputText type="text" formControlName="RejectionReason" class="w-full p-inputtext-sm" />
+                                    </td>
+                                    <td>
+                                        <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text p-button-sm"
+                                            (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Remove receipt line ' + (rowIndex + 1)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="12" class="text-center">No purchase-order lines are available for this goods receipt.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
 					<app-audit-details [model]="goodsReceipt"></app-audit-details>
 					</div>
 				</div>

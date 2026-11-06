@@ -12,12 +12,15 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierQuotation } from './supplierQuotation';
 import { SupplierQuotationService } from './supplierQuotation.service';
+import { finalize } from 'rxjs';
+import { SupplierAwardService } from '../supplierAward/supplierAward.service';
 
 
 @Component({
   selector: 'app-supplierQuotation-edit',
   standalone: false,
   templateUrl: './supplierQuotation-edit.component.html',
+  styleUrls: ['./supplierQuotation-status-workflow.component.css'],
   providers: [ MessageService]
 })
 export class SupplierQuotationEditComponent implements OnInit {
@@ -28,6 +31,8 @@ export class SupplierQuotationEditComponent implements OnInit {
   supplierQuotation: ISupplierQuotation = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  supplierAwardId: number | null = null;
+  isSupplierAwardLoading: boolean = false;
   rfqidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
 quotationstatuscodeOptions: ISelectItem[] = [];
@@ -43,6 +48,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private supplierQuotationService: SupplierQuotationService, 
+	private supplierAwardService: SupplierAwardService,
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -100,6 +106,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 		this.permission = data.permission;
         this.objMaster = { ...this.supplierQuotation };
         this.populateUI(this.supplierQuotation);
+        this.loadSupplierAward();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -129,7 +136,158 @@ RecordStatus: obj.RecordStatus || '',
     );
 
 	 this.Caption = "SupplierQuotation Details #" + obj.Id;
+     this.applyEditability();
+     // Loading and disabling the workflow-controlled status must not be treated as a user edit.
+     this.editForm.markAsPristine();
+     this.editForm.markAsUntouched();
   } 
+
+  private applyEditability(): void {
+    if (this.quotationStatusCode === 'DRAFT') {
+      this.editForm.enable({ emitEvent: false });
+    } else {
+      this.editForm.disable({ emitEvent: false });
+    }
+    this.editForm.get('QuotationStatusCode')?.disable({ emitEvent: false });
+  }
+
+  get quotationStatusCode(): string {
+    return (this.supplierQuotation?.QuotationStatusCode || '').trim().toUpperCase();
+  }
+
+  get quotationStatusLabel(): string {
+    return this.formatQuotationStatus(this.quotationStatusCode || 'DRAFT');
+  }
+
+  get quotationStatusToneClass(): string {
+    switch (this.quotationStatusCode) {
+      case 'SUBMITTED': return 'is-submitted';
+      case 'ACCEPTED': return 'is-accepted';
+      case 'REJECTED': return 'is-rejected';
+      default: return 'is-draft';
+    }
+  }
+
+  get quotationStatusIconClass(): string {
+    switch (this.quotationStatusCode) {
+      case 'SUBMITTED': return 'pi pi-send';
+      case 'ACCEPTED': return 'pi pi-check-circle';
+      case 'REJECTED': return 'pi pi-times-circle';
+      default: return 'pi pi-file-edit';
+    }
+  }
+
+  get canSubmitQuotation(): boolean {
+    return this.quotationStatusCode === 'DRAFT' && !!this.supplierQuotation?.Id && !!this.permission?.CanUpdate;
+  }
+
+  get hasUnsavedQuotationChanges(): boolean {
+    if (!this.supplierQuotation || !this.editForm) return false;
+
+    const values = this.editForm.getRawValue();
+    const numericFields = ['RFQId', 'SupplierPartyId', 'VersionNo', 'Subtotal', 'TaxAmount', 'TotalAmount', 'DeliveryDays'];
+    const dateFields = ['QuoteDate', 'ValidUntil'];
+    const fields = [
+      'RFQId', 'SupplierPartyId', 'SupplierQuoteNo', 'VersionNo', 'QuoteDate', 'ValidUntil',
+      'CurrencyCode', 'Subtotal', 'TaxAmount', 'TotalAmount', 'PaymentTermCode', 'DeliveryDays',
+      'QuotationStatusCode', 'RecordStatus'
+    ];
+
+    return fields.some(field => {
+      const currentValue = values[field];
+      const originalValue = (this.supplierQuotation as any)[field];
+      if (numericFields.includes(field)) return Number(currentValue || 0) !== Number(originalValue || 0);
+      if (dateFields.includes(field)) return this.toDateOnly(currentValue) !== this.toDateOnly(originalValue);
+      return String(currentValue ?? '').trim() !== String(originalValue ?? '').trim();
+    });
+  }
+
+  get canDecideQuotation(): boolean {
+    return this.quotationStatusCode === 'SUBMITTED' && !!this.supplierQuotation?.Id && !!this.permission?.CanUpdate;
+  }
+
+  get canCreateSupplierAward(): boolean {
+    return this.quotationStatusCode === 'ACCEPTED' && !!this.supplierQuotation?.Id && !!this.permission?.CanUpdate;
+  }
+
+  get supplierAwardActionLabel(): string {
+    return this.supplierAwardId ? 'View Supplier Award' : 'Create Supplier Award';
+  }
+
+  private loadSupplierAward(): void {
+    if (!this.supplierQuotation?.Id) {
+      this.supplierAwardId = null;
+      return;
+    }
+
+    this.isSupplierAwardLoading = true;
+    this.supplierAwardService.getLatestForSupplierQuotation(this.supplierQuotation.Id).subscribe({
+      next: response => this.supplierAwardId = response.data ?? null,
+      error: error => this.messageService.showError(error),
+      complete: () => { this.isSupplierAwardLoading = false; }
+    });
+  }
+
+  openSupplierAward(): void {
+    if (!this.canCreateSupplierAward) return;
+
+    if (this.supplierAwardId) {
+      this.router.navigate(['/business/procurement/awards/edit', this.supplierAwardId]);
+      return;
+    }
+
+    this.router.navigate(['/business/procurement/awards/create'], {
+      queryParams: { supplierQuotationId: this.supplierQuotation.Id }
+    });
+  }
+
+  get quotationStatusHelperText(): string {
+    switch (this.quotationStatusCode) {
+      case 'SUBMITTED': return 'This supplier quote is ready for a direct acceptance or rejection decision.';
+      case 'ACCEPTED': return 'This supplier quote has been accepted.';
+      case 'REJECTED': return 'This supplier quote has been rejected.';
+      default: return 'Save any changes, then submit this supplier quote for a decision.';
+    }
+  }
+
+  quotationStepClass(step: number): string {
+    if (this.quotationStatusCode === 'SUBMITTED') return step === 1 ? 'is-complete' : step === 2 ? 'is-active' : '';
+    if (['ACCEPTED', 'REJECTED'].includes(this.quotationStatusCode)) return step < 3 ? 'is-complete' : 'is-active';
+    return step === 1 ? 'is-active' : '';
+  }
+
+  transitionStatus(statusCode: 'SUBMITTED' | 'ACCEPTED' | 'REJECTED'): void {
+    if (this.isLoading || !this.supplierQuotation?.Id) return;
+    if (this.hasUnsavedQuotationChanges) {
+      this.messageService.showError('Save the supplier quotation changes before changing its status.');
+      return;
+    }
+
+    this.isLoading = true;
+    this.spinner.show();
+    this.supplierQuotationService.transitionStatus(this.supplierQuotation.Id, statusCode, this.supplierQuotation.RowVersionStr)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.spinner.hide();
+      }))
+      .subscribe({
+        next: response => {
+          this.messageService.showSuccess(response.Message);
+          this.loadUI();
+        },
+        error: error => this.messageService.showError(error)
+      });
+  }
+
+  private formatQuotationStatus(status: string): string {
+    return status.replace(/[_-]+/g, ' ').toLowerCase().replace(/\b\w/g, character => character.toUpperCase());
+  }
+
+  private toDateOnly(value: unknown): string {
+    if (!value) return '';
+    const date = new Date(value as string | number | Date);
+    return Number.isNaN(date.getTime()) ? String(value) : date.toISOString().slice(0, 10);
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
@@ -184,7 +342,7 @@ RecordStatus: obj.RecordStatus || '',
             return;
         }
 
-     const formValues = this.editForm.value; 
+     const formValues = this.editForm.getRawValue();
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

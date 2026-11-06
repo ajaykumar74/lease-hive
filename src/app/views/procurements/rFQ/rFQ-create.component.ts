@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
+import { finalize, forkJoin } from 'rxjs';
 
 
 import { MessageService } from 'primeng/api';
@@ -12,6 +13,8 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IRFQ } from './rFQ';
 import { RFQService } from './rFQ.service';
+import { IPurchaseRequisition } from '../purchaseRequisition/purchaseRequisition';
+import { PurchaseRequisitionService } from '../purchaseRequisition/purchaseRequisition.service';
 
 @Component({
   selector: 'app-rFQ-create',
@@ -28,6 +31,8 @@ export class RFQCreateComponent implements OnInit {
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   rFQ: IRFQ = null;
+  sourceRequisition: IPurchaseRequisition | null = null;
+  isFromApprovedRequisition: boolean = false;
   purchaserequisitionidOptions: ISelectItem[] = [];
 buyingorganisationidOptions: ISelectItem[] = [];
 rfqstatuscodeOptions: ISelectItem[] = [];
@@ -40,8 +45,10 @@ rfqstatuscodeOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private rFQService: RFQService,
+	private purchaseRequisitionService: PurchaseRequisitionService,
 	private loggedInUserService : LoggedInUserService
 
   ) {
@@ -57,9 +64,9 @@ rfqstatuscodeOptions: ISelectItem[] = [];
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
 RFQNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
-PurchaseRequisitionId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+PurchaseRequisitionId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-RFQStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+RFQStatusCode: new FormControl('DRAFT', [Validators.required, Validators.maxLength(20), ]),
 IssueDateTime: new FormControl(new Date(), []),
 ResponseDueDateTime: new FormControl(new Date(), [Validators.required]),
 CurrencyCode: new FormControl('', [Validators.maxLength(20), ]), 
@@ -74,6 +81,40 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionId'
       options => this.purchaserequisitionidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.rfqstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQStatusCode');
+    this.loadRequisitionContext();
+  }
+
+  private loadRequisitionContext(): void {
+    const purchaseRequisitionId = Number(this.activatedRoute.snapshot.queryParamMap.get('purchaseRequisitionId'));
+    if (!Number.isInteger(purchaseRequisitionId) || purchaseRequisitionId <= 0) return;
+
+    this.isLoading = true;
+    forkJoin({
+      requisition: this.purchaseRequisitionService.getById(purchaseRequisitionId),
+      workflow: this.purchaseRequisitionService.getApprovalWorkflow(purchaseRequisitionId)
+    }).pipe(finalize(() => this.isLoading = false)).subscribe({
+      next: ({ requisition, workflow }) => {
+        const source = requisition?.data as IPurchaseRequisition | null;
+        if (!source || workflow?.data?.StatusCode !== 'APPROVED') {
+          this.messageService?.showError('An RFQ can only be generated from an Approved purchase requisition.');
+          return;
+        }
+
+        this.sourceRequisition = source;
+        this.isFromApprovedRequisition = true;
+        this.editForm.patchValue({
+          PurchaseRequisitionId: source.Id,
+          BuyingOrganisationId: source.BuyingOrganisationId,
+          CurrencyCode: source.CurrencyCode,
+          RFQStatusCode: 'DRAFT'
+        });
+        this.editForm.get('PurchaseRequisitionId')?.disable({ emitEvent: false });
+        this.editForm.get('BuyingOrganisationId')?.disable({ emitEvent: false });
+        this.editForm.get('CurrencyCode')?.disable({ emitEvent: false });
+        this.editForm.get('RFQStatusCode')?.disable({ emitEvent: false });
+      },
+      error: error => this.messageService?.showError(error)
+    });
   }
 
  loadUI(): void {
@@ -152,7 +193,7 @@ CommercialTerms: obj.CommercialTerms || '',
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

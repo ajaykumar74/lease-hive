@@ -1129,13 +1129,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     label: 'Procurement Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/business/procurement/dashboard']
-                                },
-                                {
-                                    label: 'My Worklist',
-                                    icon: 'pi pi-fw pi-inbox',
-                                    routerLink: ['/business/procurement/worklist']
-                                },
-
+                                }, 
                                 // =========================================================
                                 // SUPPLIERS
                                 // =========================================================

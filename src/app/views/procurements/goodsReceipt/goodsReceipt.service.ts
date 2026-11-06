@@ -44,6 +44,14 @@ export class GoodsReceiptService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  getPurchaseOrderLines(goodsReceiptId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${goodsReceiptId}/purchase-order-lines`, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
 }
 
 

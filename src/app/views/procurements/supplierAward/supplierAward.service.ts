@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 import { ISupplierAward } from './supplierAward';
+import { IPurchaseOrderLine } from '../purchaseOrderLine/purchaseOrderLine';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -39,6 +40,26 @@ export class SupplierAwardService extends BaseCrudService<any> {
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)
       );
+  }
+
+  getLatestForSupplierQuotation(supplierQuotationId: number): Observable<{ data: number | null }> {
+    return this.http.get<{ data: number | null }>(
+      `${this.baseUrl}/for-supplier-quotation/${supplierQuotationId}`,
+      { headers: this.headers }
+    ).pipe(
+      tap(data => this.baseService.onTapData(data)),
+      catchError(this.baseService.handleError)
+    );
+  }
+
+  getPurchaseOrderLineContext(supplierAwardId: number): Observable<{ data: IPurchaseOrderLine[] }> {
+    return this.http.get<{ data: IPurchaseOrderLine[] }>(
+      `${this.baseUrl}/${supplierAwardId}/purchase-order-lines`,
+      { headers: this.headers }
+    ).pipe(
+      tap(data => this.baseService.onTapData(data)),
+      catchError(this.baseService.handleError)
+    );
   }
 
   GetAll(IsDeleted: Boolean): Observable<any> {

@@ -1,48 +1,67 @@
-<div class="grid list-page generated-list-page">
-<div class="col-12">
-		<div class="card list-card generated-list-card">
+<div class="grid list-page leasehive-list-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card">
             <app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'ApprovalRequest List'"
-					[PageType]="'List'">
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div>
+            <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="pageTitle" [PageType]="'List'" [IsHideCreate]="true"></app-toolbar-buttons>
+            <app-spinner></app-spinner>
+
+            <div class="leasehive-list-toolbar" role="search" [attr.aria-label]="pageTitle + ' controls'">
+                <div class="leasehive-list-search">
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                    <input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search approval request number" aria-label="Search approval requests" />
+                    <button type="button" pButton icon="pi pi-search" label="Search" (click)="onSearch()" aria-label="Search approval requests"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" [disabled]="!searchTerm" (click)="clearSearch()" aria-label="Clear search" pTooltip="Clear search" tooltipPosition="top"></button>
+                </div>
+
+                <div class="leasehive-list-controls">
+                    <div class="record-count-inline" aria-live="polite"><i class="pi pi-list" aria-hidden="true"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div>
+                    <label class="leasehive-list-sort-label" for="approvalRequestSort">Sort by</label>
+                    <p-dropdown inputId="approvalRequestSort" [options]="sortOptions" optionLabel="label" optionValue="key" [(ngModel)]="selectedSortKey" (onChange)="onSortChanged()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
+                    <span class="leasehive-list-filter-toggle">
+                        <button type="button" pButton icon="pi pi-filter" [outlined]="!filterControlsVisible" [severity]="hasActiveFilters ? 'primary' : 'secondary'" (click)="toggleFilterControls()" [attr.aria-pressed]="filterControlsVisible" [attr.aria-label]="filterControlsVisible ? 'Hide filters' : 'Show filters'" [pTooltip]="filterControlsVisible ? 'Hide filters' : 'Show filters'" tooltipPosition="top"></button>
+                        <span *ngIf="activeFilterCount" class="leasehive-list-filter-count" [attr.aria-label]="activeFilterCount + ' active filters'">{{ activeFilterCount }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="leasehive-list-table-area" [attr.aria-label]="pageTitle + ' results'">
+                <div *ngIf="hasLoadError" class="list-empty leasehive-list-load-error" role="alert">
+                    <i class="pi pi-exclamation-circle" aria-hidden="true"></i><strong>Unable to load approval requests</strong><span>Please try again.</span>
+                    <button type="button" pButton label="Retry" icon="pi pi-refresh" (click)="searchData(pgEvent, true, true)"></button>
+                </div>
+
+                <ng-container *ngIf="!hasLoadError">
+                    <div *ngIf="emptyState as empty; else approvalTable" class="list-empty leasehive-list-empty-state">
+                        <i [class]="empty.icon" aria-hidden="true"></i><strong>{{ empty.title }}</strong><span>{{ empty.description }}</span>
+                        <button *ngIf="empty.actionLabel" type="button" pButton [label]="empty.actionLabel" icon="pi pi-filter-slash" (click)="clearSearchAndFilters()"></button>
+                    </div>
+
+                    <ng-template #approvalTable>
+                        <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table leasehive-list-table-compact" [tableStyle]="{ 'min-width': '760px' }">
+                            <ng-template pTemplate="header">
+                                <tr><th>Approval request</th><th>Document</th><th>Amount</th><th>Submitted</th><th>Status</th><th class="list-actions-column">Actions</th></tr>
+                                <tr *ngIf="filterControlsVisible" class="leasehive-list-filter-row">
+                                    <th><input type="search" pInputText [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Request number" aria-label="Filter by approval request number" /></th>
+                                    <th><p-dropdown [options]="referenceTypeOptions" optionLabel="label" optionValue="value" [(ngModel)]="filters.referenceType" (onChange)="onFiltersChanged()" [showClear]="true" appendTo="body" placeholder="Document type" ariaLabel="Filter by document type"></p-dropdown></th>
+                                    <th></th><th></th><th></th>
+                                    <th class="leasehive-list-filter-actions"><button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-request>
+                                <tr>
+                                    <td><button type="button" class="list-primary-link" (click)="onReview(request)" [attr.aria-label]="'Review approval request ' + request.ApprovalRequestId">{{ request.ApprovalRequestId || '—' }}</button></td>
+                                    <td><span class="list-chip">{{ getDocumentLabel(request) }}</span></td>
+                                    <td>{{ request.CurrencyId || '' }} {{ request.RequestedAmount | number:'1.2-2' }}</td>
+                                    <td>{{ request.RequestedOn | date:'dd MMM yyyy HH:mm' }}</td>
+                                    <td><app-status-pill [value]="request.ApprovalStatus"></app-status-pill></td>
+                                    <td><div class="list-actions"><button type="button" class="list-action success" (click)="onReview(request)" pTooltip="Review" tooltipPosition="top" aria-label="Review approval request"><i class="pi pi-arrow-right" aria-hidden="true"></i></button></div></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <p-paginator [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"></p-paginator>
+                    </ng-template>
+                </ng-container>
+            </section>
+        </div>
+    </div>
 </div>
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="list-table generated-list-table" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						 <th style="width:200px">Approval Request ID <p-sortIcon field="ApprovalRequestId" /> </th>
-<th style="width:200px">Reference Type <p-sortIcon field="ReferenceType" /> </th>
-<th style="width:200px">Reference ID <p-sortIcon field="ReferenceId" /> </th>
-<th style="width:200px">Workflow Definition ID <p-sortIcon field="WorkflowDefinitionId" /> </th>
-<th style="width:200px">Approval Status Code <p-sortIcon field="ApprovalStatusCode" /> </th>
-<th style="width:200px">Requested By <p-sortIcon field="RequestedBy" /> </th>
-<th style="width:200px">Requested On <p-sortIcon field="RequestedOn" /> </th>
-<th style="width:200px">Completed On <p-sortIcon field="CompletedOn" /> </th>
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn ><p-button label="{{obj.ApprovalRequestId}}" [link]="true"  (click)="onDetailsClick(obj)" /> </td>
-                         <td style="width:200px">{{obj.ApprovalRequestId}}</td>
- <td style="width:200px">{{obj.ReferenceType}}</td>
- <td style="width:200px">{{obj.ReferenceId | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.WorkflowDefinitionId | number:'1.0':'en-US' }}</td>
- <td style="width:200px"><app-status-pill [value]="obj.ApprovalStatusCode"></app-status-pill></td>
- <td style="width:200px">{{obj.RequestedBy | number:'1.0':'en-US' }}</td>
- <td style="width:200px">{{obj.RequestedOn | date:'dd-MMM-yyyy' }}</td>
- <td style="width:200px">{{obj.CompletedOn | date:'dd-MMM-yyyy' }}</td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-	</div>
-</div>
-

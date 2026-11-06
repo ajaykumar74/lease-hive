@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { IPurchaseOrder } from './purchaseOrder';
+import { IPurchaseOrder, IPurchaseOrderApprovalWorkflow } from './purchaseOrder';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -39,6 +39,33 @@ export class PurchaseOrderService extends BaseCrudService<any> {
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)
       );
+  }
+
+  getLatestActiveForSupplierAward(supplierAwardId: number): Observable<{ data: number | null }> {
+    return this.http.get<{ data: number | null }>(
+      `${this.baseUrl}/for-supplier-award/${supplierAwardId}`,
+      { headers: this.headers }
+    ).pipe(
+      tap(data => this.baseService.onTapData(data)),
+      catchError(this.baseService.handleError)
+    );
+  }
+
+  getApprovalWorkflow(id: number): Observable<{ data: IPurchaseOrderApprovalWorkflow }> {
+    return this.http.get<{ data: IPurchaseOrderApprovalWorkflow }>(`${this.baseUrl}/${id}/approval-workflow`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  submitForApproval(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/submit-for-approval`, {}, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  approvalAction(id: number, actionCode: 'APPROVE' | 'REJECT' | 'RETURN', comments: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/approval-action`, {
+      ActionCode: actionCode,
+      Comments: comments
+    }, { headers: this.headers }).pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }
 
   GetAll(IsDeleted: Boolean): Observable<any> {

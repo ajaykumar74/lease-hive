@@ -5,8 +5,42 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
+					<button type="button" pButton label="Submit Quote" icon="pi pi-send" class="p-button-outlined"
+						*ngIf="canSubmitQuotation" (click)="transitionStatus('SUBMITTED')" [disabled]="isLoading || hasUnsavedQuotationChanges"></button>
+					<button type="button" pButton label="Accept Quote" icon="pi pi-check"
+						*ngIf="canDecideQuotation" (click)="transitionStatus('ACCEPTED')" [disabled]="isLoading || editForm.dirty"></button>
+					<button type="button" pButton label="Reject Quote" icon="pi pi-times" class="p-button-danger p-button-outlined"
+						*ngIf="canDecideQuotation" (click)="transitionStatus('REJECTED')" [disabled]="isLoading || editForm.dirty"></button>
+					<button type="button" pButton [label]="supplierAwardActionLabel" icon="pi pi-trophy" class="p-button-outlined"
+						*ngIf="canCreateSupplierAward" (click)="openSupplierAward()" [disabled]="isLoading || isSupplierAwardLoading"></button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+
+				<section *ngIf="supplierQuotation" class="quotation-status-card mb-4" [ngClass]="quotationStatusToneClass">
+					<header class="quotation-status-header">
+						<div class="quotation-status-title">
+							<span class="quotation-status-icon"><i [class]="quotationStatusIconClass"></i></span>
+							<div><div class="quotation-status-eyebrow">Quotation status</div><h2 class="quotation-status-heading">Supplier quotation lifecycle</h2></div>
+						</div>
+						<span class="quotation-status-badge"><i [class]="quotationStatusIconClass"></i>{{ quotationStatusLabel }}</span>
+					</header>
+
+					<div class="quotation-status-body">
+						<div class="quotation-status-steps" aria-label="Supplier quotation status progress">
+							<div class="quotation-status-step" [ngClass]="quotationStepClass(1)"><span class="quotation-status-step-dot">1</span><span class="quotation-status-step-label">Draft</span></div>
+							<div class="quotation-status-step" [ngClass]="quotationStepClass(2)"><span class="quotation-status-step-dot">2</span><span class="quotation-status-step-label">Submitted</span></div>
+							<div class="quotation-status-step" [ngClass]="quotationStepClass(3)"><span class="quotation-status-step-dot">3</span><span class="quotation-status-step-label">Decision</span></div>
+						</div>
+
+						<div class="quotation-status-metrics">
+							<div class="quotation-status-metric"><span class="quotation-status-metric-label">Current status</span><div class="quotation-status-metric-value">{{ quotationStatusLabel }}</div></div>
+							<div class="quotation-status-metric"><span class="quotation-status-metric-label">Supplier quote</span><div class="quotation-status-metric-value">{{ supplierQuotation.SupplierQuoteNo || supplierQuotation.SupplierQuotationId || '—' }}</div></div>
+							<div class="quotation-status-metric"><span class="quotation-status-metric-label">Quote total</span><div class="quotation-status-metric-value">{{ supplierQuotation.CurrencyCode }} {{ supplierQuotation.TotalAmount | number:'1.2-2' }}</div></div>
+						</div>
+
+						<div class="quotation-status-note"><i class="pi pi-info-circle"></i><span>{{ quotationStatusHelperText }}</span></div>
+					</div>
+				</section>
 				
 		       <form [formGroup]="editForm" (ngSubmit)="Save()">
  				<p-fluid>

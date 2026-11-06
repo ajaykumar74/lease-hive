@@ -7,6 +7,10 @@
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+				<div *ngIf="isFromApprovedRequisition && sourceRequisition" class="p-3 mb-4 border-round surface-ground">
+					<div class="font-semibold"><i class="pi pi-check-circle text-green-500 mr-2"></i>Generating from approved PR {{ sourceRequisition.PRNo }}</div>
+					<small class="text-color-secondary">The purchase requisition, buying organisation, currency, and Draft status are set from the approved requisition.</small>
+				</div>
 				
 		      <form [formGroup]="editForm" (ngSubmit)="Save()">
   			<p-fluid>

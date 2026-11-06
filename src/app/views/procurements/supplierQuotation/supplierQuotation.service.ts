@@ -41,6 +41,25 @@ export class SupplierQuotationService extends BaseCrudService<any> {
       );
   }
 
+  getLatestActiveForRfq(rfqId: number): Observable<{ data: number | null }> {
+    const url = `${this.baseUrl}/for-rfq/${rfqId}`;
+    return this.http.get<{ data: number | null }>(url, { headers: this.headers })
+      .pipe(
+        tap(data => this.baseService.onTapData(data)),
+        catchError(this.baseService.handleError)
+      );
+  }
+
+  transitionStatus(id: number, statusCode: 'SUBMITTED' | 'ACCEPTED' | 'REJECTED', rowVersionStr: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/status-transition`, {
+      StatusCode: statusCode,
+      RowVersionStr: rowVersionStr
+    }, { headers: this.headers }).pipe(
+      tap(data => this.baseService.onTapData(data)),
+      catchError(this.baseService.handleError)
+    );
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }

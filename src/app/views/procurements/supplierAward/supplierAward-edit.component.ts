@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierAward } from './supplierAward';
 import { SupplierAwardService } from './supplierAward.service';
+import { PurchaseOrderService } from '../purchaseOrder/purchaseOrder.service';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class SupplierAwardEditComponent implements OnInit {
   supplierAward: ISupplierAward = null;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
+  purchaseOrderId: number | null = null;
+  isPurchaseOrderLoading: boolean = false;
   rfqidOptions: ISelectItem[] = [];
 supplierquotationidOptions: ISelectItem[] = [];
 supplierpartyidOptions: ISelectItem[] = [];
@@ -44,6 +47,7 @@ awardedbyOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private supplierAwardService: SupplierAwardService, 
+	private purchaseOrderService: PurchaseOrderService,
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -102,6 +106,7 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 
 		this.permission = data.permission;
         this.objMaster = { ...this.supplierAward };
         this.populateUI(this.supplierAward);
+        this.loadPurchaseOrder();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -127,6 +132,41 @@ AwardedBy: obj.AwardedBy || 0,
 
 	 this.Caption = "SupplierAward Details #" + obj.Id;
   } 
+
+  get canGeneratePurchaseOrder(): boolean {
+    return !!this.supplierAward?.Id && !!this.permission?.CanUpdate;
+  }
+
+  get purchaseOrderActionLabel(): string {
+    return this.purchaseOrderId ? 'View PO' : 'Generate PO';
+  }
+
+  private loadPurchaseOrder(): void {
+    if (!this.supplierAward?.Id) {
+      this.purchaseOrderId = null;
+      return;
+    }
+
+    this.isPurchaseOrderLoading = true;
+    this.purchaseOrderService.getLatestActiveForSupplierAward(this.supplierAward.Id).subscribe({
+      next: response => this.purchaseOrderId = response.data ?? null,
+      error: error => this.messageService.showError(error),
+      complete: () => { this.isPurchaseOrderLoading = false; }
+    });
+  }
+
+  openPurchaseOrder(): void {
+    if (!this.canGeneratePurchaseOrder) return;
+
+    if (this.purchaseOrderId) {
+      this.router.navigate(['/business/procurement/purchase-orders/edit', this.purchaseOrderId]);
+      return;
+    }
+
+    this.router.navigate(['/business/procurement/purchase-orders/create'], {
+      queryParams: { supplierAwardId: this.supplierAward.Id }
+    });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

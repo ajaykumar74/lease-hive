@@ -21,3 +21,29 @@ RecordStatus :string;
 LineItems: IPurchaseRequisitionLine[];
 
 }
+
+export interface IPurchaseRequisitionApprovalHistory {
+    StepNo: number;
+    ActionCode: string;
+    ActionDateTime: Date;
+    ApproverUserId: number;
+    ApproverName: string;
+    Comments: string;
+}
+
+export interface IPurchaseRequisitionApprovalWorkflow {
+    PurchaseRequisitionId: number;
+    PRNo: string;
+    StatusCode: string;
+    EstimatedTotal: number;
+    CurrencyCode: string;
+    ApprovalRequestId?: number;
+    ApprovalRequestNumber: string;
+    ApprovalStatus: string;
+    CanSubmit: boolean;
+    IsEditable: boolean;
+    CanCurrentUserAction: boolean;
+    PendingApprovalLevel?: number;
+    PendingApprovers: string[];
+    ApprovalHistory: IPurchaseRequisitionApprovalHistory[];
+}

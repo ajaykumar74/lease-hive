@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -13,6 +13,9 @@ import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseOrder } from './purchaseOrder';
 import { PurchaseOrderService } from './purchaseOrder.service';
 import { IPurchaseOrderLine } from '../purchaseOrderLine/purchaseOrderLine';
+import { SupplierAwardService } from '../supplierAward/supplierAward.service';
+import { SupplierQuotationService } from '../supplierQuotation/supplierQuotation.service';
+import { RFQService } from '../rFQ/rFQ.service';
 
 @Component({
   selector: 'app-purchaseOrder-create',
@@ -37,6 +40,7 @@ deliverylocationidOptions: ISelectItem[] = [];
 approvalrequestidOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
+  private supplierAwardContextActive: boolean = false;
 
   editForm: any; 
   objMaster : IPurchaseOrder = {} as IPurchaseOrder;
@@ -47,8 +51,12 @@ uomidOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private purchaseOrderService: PurchaseOrderService,
+	private supplierAwardService: SupplierAwardService,
+	private supplierQuotationService: SupplierQuotationService,
+	private rFQService: RFQService,
 	private loggedInUserService : LoggedInUserService
 
   ) {
@@ -95,7 +103,10 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', '
       options => this.deliverylocationidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderStatusId', 'purchase-order-statuses',
-      options => this.purchaseorderstatusidOptions = options, error => this.showLookupError(error),
+      options => {
+        this.purchaseorderstatusidOptions = options;
+        this.applyDefaultPurchaseOrderStatus();
+      }, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierAwardId', 'supplier-awards',
       options => this.supplierawardidOptions = options, error => this.showLookupError(error),
@@ -104,6 +115,100 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierPartyId', 'sup
       options => this.supplierpartyidOptions = options, error => this.showLookupError(error),
       this.entityLookupDestroyRef);
 this.loadLineItemOptions();
+    this.loadSupplierAwardContext();
+  }
+
+  private loadSupplierAwardContext(): void {
+    const supplierAwardId = Number(this.activatedRoute.snapshot.queryParamMap.get('supplierAwardId'));
+    if (!Number.isInteger(supplierAwardId) || supplierAwardId <= 0) return;
+
+    this.isLoading = true;
+    this.supplierAwardService.getById(supplierAwardId).subscribe({
+      next: awardResponse => {
+        const award = awardResponse.data;
+        if (!award?.SupplierQuotationId) {
+          this.messageService.showError('The selected supplier award does not have a supplier quotation.');
+          this.isLoading = false;
+          return;
+        }
+
+        this.supplierQuotationService.getById(award.SupplierQuotationId).subscribe({
+          next: quotationResponse => {
+            const quotation = quotationResponse.data;
+            if (!quotation || String(quotation.QuotationStatusCode || '').trim().toUpperCase() !== 'ACCEPTED') {
+              this.messageService.showError('The supplier award must be based on an accepted supplier quotation.');
+              this.isLoading = false;
+              return;
+            }
+
+            this.rFQService.getById(award.RFQId).subscribe({
+              next: rfqResponse => this.applySupplierAwardContext(award, quotation, rfqResponse.data),
+              error: error => this.messageService.showError(error),
+              complete: () => { this.isLoading = false; }
+            });
+          },
+          error: error => {
+            this.messageService.showError(error);
+            this.isLoading = false;
+          }
+        });
+      },
+      error: error => {
+        this.messageService.showError(error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private applySupplierAwardContext(award: any, quotation: any, rfq: any): void {
+    this.supplierAwardContextActive = true;
+    this.editForm.patchValue({
+      SupplierAwardId: award.Id,
+      BuyingOrganisationId: rfq.BuyingOrganisationId,
+      SupplierPartyId: award.SupplierPartyId,
+      CurrencyCode: award.CurrencyCode || quotation.CurrencyCode || '',
+      Subtotal: quotation.Subtotal || 0,
+      TaxAmount: quotation.TaxAmount || 0,
+      ChargeAmount: 0,
+      TotalAmount: award.AwardAmount || quotation.TotalAmount || 0,
+      PaymentTermCode: quotation.PaymentTermCode || '',
+      VersionNo: 1
+    });
+    this.applyDefaultPurchaseOrderStatus();
+    ['SupplierAwardId', 'BuyingOrganisationId', 'SupplierPartyId', 'CurrencyCode', 'Subtotal', 'TaxAmount', 'ChargeAmount', 'TotalAmount', 'PaymentTermCode']
+      .forEach(controlName => this.editForm.get(controlName)?.disable({ emitEvent: false }));
+    this.Caption = `Create Purchase Order for ${award.SupplierAwardId || award.Id}`;
+    this.populateSupplierNameSnapshot(award.SupplierPartyId);
+    this.loadSupplierAwardLineItems(award.Id);
+  }
+
+  private loadSupplierAwardLineItems(supplierAwardId: number): void {
+    this.supplierAwardService.getPurchaseOrderLineContext(supplierAwardId).subscribe({
+      next: response => {
+        const lines = response.data || [];
+        this.setLineItems(lines);
+        if (!lines.length) {
+          this.messageService.showError('No RFQ and purchase requisition line items are linked to this supplier award.');
+        }
+      },
+      error: error => this.messageService.showError(error)
+    });
+  }
+
+  private applyDefaultPurchaseOrderStatus(): void {
+    if (!this.supplierAwardContextActive || this.editForm.get('PurchaseOrderStatusId')?.value) return;
+    const draftStatus = this.purchaseorderstatusidOptions.find(option => String(option.Text || '').toUpperCase().includes('DRAFT'));
+    if (draftStatus) this.editForm.patchValue({ PurchaseOrderStatusId: Number(draftStatus.Value) });
+  }
+
+  private populateSupplierNameSnapshot(supplierPartyId: number): void {
+    this.loggedInUserService.getEntityLookupOptions('supplier-parties', supplierPartyId).subscribe({
+      next: options => {
+        const supplier = options.find(option => Number(option.Value) === supplierPartyId);
+        if (supplier?.Text) this.editForm.patchValue({ SupplierNameSnapshot: supplier.Text });
+      },
+      error: error => this.showLookupError(error)
+    });
   }
 
  loadUI(): void {
@@ -290,7 +395,7 @@ IssuedOn:  obj.IssuedOn || new Date(),
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

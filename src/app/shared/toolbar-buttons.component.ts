@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { IPermission } from './IPermission';
 import { PermissionService } from './security/permission.service';
-
+import { AbstractControl } from '@angular/forms';
 
 
 @Component({
@@ -121,7 +121,18 @@ export class ToolbarButtonsComponent implements OnInit {
 
     viewModelData() {
         console.log('Form Data:', this.form.value);
-        console.log('Form:', this.form);
+        //console.log('Form:', this.form);
+
+            console.table(
+            Object.keys(this.form.controls)
+            .map(name => ({
+            control: name,
+            value: this.form.get(name)?.value,
+            errors: JSON.stringify(this.form.get(name)?.errors)
+            }))
+            .filter(x => x.errors !== undefined)
+            );
+            
     }
 
 

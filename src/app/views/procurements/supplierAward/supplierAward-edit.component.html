@@ -5,6 +5,8 @@
 				<app-message [AlertType]="'message'"></app-message>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
+					<button type="button" pButton [label]="purchaseOrderActionLabel" icon="pi pi-file-plus" class="p-button-outlined"
+						*ngIf="canGeneratePurchaseOrder" (click)="openPurchaseOrder()" [disabled]="isLoading || isPurchaseOrderLoading"></button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				

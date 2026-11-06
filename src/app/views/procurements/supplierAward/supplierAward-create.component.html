@@ -7,6 +7,9 @@
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
+				<div *ngIf="editForm.get('SupplierQuotationId')?.disabled" class="mb-4 p-3 border-round surface-100 text-color-secondary">
+					RFQ, supplier, award amount, and currency were copied from the accepted supplier quotation. Complete the award details before saving.
+				</div>
 				
 		      <form [formGroup]="editForm" (ngSubmit)="Save()">
   			<p-fluid>
