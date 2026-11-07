@@ -8,12 +8,14 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IGoodsReceipt } from './goodsReceipt';
 import { GoodsReceiptService } from './goodsReceipt.service';
 import { IGoodsReceiptLine } from '../goodsReceiptLine/goodsReceiptLine';
 import { IPurchaseOrderLine } from '../purchaseOrderLine/purchaseOrderLine';
+import { GoodsReceiptSerialService } from '../goodsReceiptSerial/goodsReceiptSerial.service';
+import { ReceiptInspectionService } from '../receiptInspection/receiptInspection.service';
 
 
 @Component({
@@ -52,6 +54,8 @@ selectedLineIndexes: number[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private goodsReceiptService: GoodsReceiptService, 
+	private goodsReceiptSerialService: GoodsReceiptSerialService,
+	private receiptInspectionService: ReceiptInspectionService,
 	private loggedInUserService : LoggedInUserService
 	) {
   }
@@ -206,6 +210,74 @@ RecordStatus: obj.RecordStatus || '',
     this.renumberLineItems();
     this.lineItems.markAsDirty();
     this.editForm.markAsDirty();
+  }
+
+  openSerialAndAsset(line: FormGroup): void {
+    const goodsReceiptLineId = Number(line.get('Id')?.value);
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    const searchParam = {
+      Skip: 0,
+      Take: 2,
+      SortBy: 'Id',
+      IsDescending: false,
+      Conditions: [
+        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
+        { DBName: 'GoodsReceiptLineId', Value: goodsReceiptLineId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo }
+      ]
+    };
+
+    this.spinner?.show();
+    this.goodsReceiptSerialService.search(searchParam).subscribe({
+      next: response => {
+        const serials = response?.data?.Records || [];
+        const queryParams = { goodsReceiptLineId };
+
+        if (serials.length === 0) {
+          this.router.navigate(['/business/procurement/goods-receipts/serials/create'], { queryParams });
+        } else if (serials.length === 1) {
+          this.router.navigate(['/business/procurement/goods-receipts/serials/edit', serials[0].Id], { queryParams });
+        } else {
+          this.router.navigate(['/business/procurement/goods-receipts/serials/list'], { queryParams });
+        }
+      },
+      error: error => this.messageService.showError(this.getErrorMessage(error)),
+      complete: () => this.spinner?.hide()
+    });
+  }
+
+  openInspection(line: FormGroup): void {
+    const goodsReceiptLineId = Number(line.get('Id')?.value);
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    const searchParam = {
+      Skip: 0,
+      Take: 2,
+      SortBy: 'Id',
+      IsDescending: false,
+      Conditions: [
+        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
+        { DBName: 'GoodsReceiptLineId', Value: goodsReceiptLineId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo }
+      ]
+    };
+
+    this.spinner?.show();
+    this.receiptInspectionService.search(searchParam).subscribe({
+      next: response => {
+        const inspections = response?.data?.Records || [];
+        const queryParams = { goodsReceiptLineId };
+
+        if (inspections.length === 0) {
+          this.router.navigate(['/business/procurement/inspections/create'], { queryParams });
+        } else if (inspections.length === 1) {
+          this.router.navigate(['/business/procurement/inspections/edit', inspections[0].Id], { queryParams });
+        } else {
+          this.router.navigate(['/business/procurement/inspections/list'], { queryParams });
+        }
+      },
+      error: error => this.messageService.showError(this.getErrorMessage(error)),
+      complete: () => this.spinner?.hide()
+    });
   }
 
   isLineSelected(index: number): boolean {

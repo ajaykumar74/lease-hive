@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -19,6 +19,7 @@ export class GoodsReceiptSerialListComponent implements OnInit {
   constructor(
     private goodsReceiptSerialService: GoodsReceiptSerialService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,11 +33,17 @@ export class GoodsReceiptSerialListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  goodsReceiptLineId: number | null = null;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
+     const goodsReceiptLineId = Number(this.activatedRoute.snapshot.queryParamMap.get('goodsReceiptLineId'));
+     if (Number.isInteger(goodsReceiptLineId) && goodsReceiptLineId > 0) {
+      this.goodsReceiptLineId = goodsReceiptLineId;
+     }
+
      if (this.goodsReceiptSerialService.CacheData.IsLoaded) {
       this.currentPage = this.goodsReceiptSerialService.CacheData.CurrentPage;
       this.objSearch = this.goodsReceiptSerialService.CacheData.objSearch;
@@ -46,7 +53,7 @@ export class GoodsReceiptSerialListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.goodsReceiptSerialService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, this.goodsReceiptLineId !== null || !this.goodsReceiptSerialService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -117,6 +124,10 @@ export class GoodsReceiptSerialListComponent implements OnInit {
      
     ];
 
+    if (this.goodsReceiptLineId !== null) {
+      Items.push({ DBName: 'GoodsReceiptLineId', Value: this.goodsReceiptLineId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
     
@@ -136,18 +147,25 @@ export class GoodsReceiptSerialListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
+    const navigationExtras = this.goodsReceiptLineId !== null
+      ? { queryParams: { goodsReceiptLineId: this.goodsReceiptLineId } }
+      : {};
+
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/procurement/goods-receipts/serials/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/serials/edit/' + obj.Id], navigationExtras);
     }
     else {
-        this.router.navigate(['/business/procurement/goods-receipts/serials/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/goods-receipts/serials/view/' + obj.Id], navigationExtras);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/business/procurement/goods-receipts/serials/create']);
+      const navigationExtras = this.goodsReceiptLineId !== null
+        ? { queryParams: { goodsReceiptLineId: this.goodsReceiptLineId } }
+        : {};
+      this.router.navigate(['/business/procurement/goods-receipts/serials/create'], navigationExtras);
     } 
     else if (key == "Refresh") {
       this.search();

@@ -76,6 +76,15 @@ this.acceptancecodeOptions = this.loggedInUserService.getPicklistOptions('GoodsR
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialConditionCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     this.applyGoodsReceiptLineContext();
+  }
+
+  private applyGoodsReceiptLineContext(): void {
+    const goodsReceiptLineId = Number(this.activatedRouter.snapshot.queryParamMap.get('goodsReceiptLineId'));
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    this.editForm.get('GoodsReceiptLineId')?.setValue(goodsReceiptLineId, { emitEvent: false });
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   }
 
   ngAfterViewInit(): void {
@@ -115,6 +124,7 @@ ConditionCode: obj.ConditionCode || '',
     );
 
 	 this.Caption = "GoodsReceiptSerial Details #" + obj.Id;
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   } 
 
   onOptionItemClicked(key: string): void {
@@ -163,7 +173,7 @@ ConditionCode: obj.ConditionCode || '',
             return;
         }
 
-     const formValues = this.editForm.value; 
+     const formValues = this.editForm.getRawValue();
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

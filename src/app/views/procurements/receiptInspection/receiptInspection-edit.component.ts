@@ -83,6 +83,15 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'app
 this.resultcodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptInspectionResultCode');
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+     this.applyGoodsReceiptLineContext();
+  }
+
+  private applyGoodsReceiptLineContext(): void {
+    const goodsReceiptLineId = Number(this.activatedRouter.snapshot.queryParamMap.get('goodsReceiptLineId'));
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    this.editForm.get('GoodsReceiptLineId')?.setValue(goodsReceiptLineId, { emitEvent: false });
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   }
 
   ngAfterViewInit(): void {
@@ -123,6 +132,7 @@ DocumentId: obj.DocumentId || 0,
     );
 
 	 this.Caption = "ReceiptInspection Details #" + obj.Id;
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   } 
 
   onOptionItemClicked(key: string): void {
@@ -172,7 +182,7 @@ DocumentId: obj.DocumentId || 0,
             return;
         }
 
-     const formValues = this.editForm.value; 
+     const formValues = this.editForm.getRawValue();
 	 var updatedObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

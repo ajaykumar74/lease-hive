@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IPermission } from '@/shared/IPermission';
 import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
@@ -19,6 +19,7 @@ export class ReceiptInspectionListComponent implements OnInit {
   constructor(
     private receiptInspectionService: ReceiptInspectionService,
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     private loggedInUserService: LoggedInUserService
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
@@ -32,11 +33,17 @@ export class ReceiptInspectionListComponent implements OnInit {
   maxPageCount: number = 10;
   permission = {} as IPermission;
   objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
+  goodsReceiptLineId: number | null = null;
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
 
   ngOnInit(): void {
+     const goodsReceiptLineId = Number(this.activatedRoute.snapshot.queryParamMap.get('goodsReceiptLineId'));
+     if (Number.isInteger(goodsReceiptLineId) && goodsReceiptLineId > 0) {
+      this.goodsReceiptLineId = goodsReceiptLineId;
+     }
+
      if (this.receiptInspectionService.CacheData.IsLoaded) {
       this.currentPage = this.receiptInspectionService.CacheData.CurrentPage;
       this.objSearch = this.receiptInspectionService.CacheData.objSearch;
@@ -46,7 +53,7 @@ export class ReceiptInspectionListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, !this.receiptInspectionService.CacheData.IsLoaded);
+      this.searchData(this.pgEvent, this.goodsReceiptLineId !== null || !this.receiptInspectionService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -116,6 +123,10 @@ export class ReceiptInspectionListComponent implements OnInit {
      
     ];
 
+    if (this.goodsReceiptLineId !== null) {
+      Items.push({ DBName: 'GoodsReceiptLineId', Value: this.goodsReceiptLineId.toString(), DataType: DataType.Int, Operator: Operator.EqualTo });
+    }
+
 
     var auditCriteria = null;
     
@@ -135,18 +146,25 @@ export class ReceiptInspectionListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
+    const navigationExtras = this.goodsReceiptLineId !== null
+      ? { queryParams: { goodsReceiptLineId: this.goodsReceiptLineId } }
+      : {};
+
     if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/procurement/inspections/edit/' + obj.Id]);
+        this.router.navigate(['/business/procurement/inspections/edit/' + obj.Id], navigationExtras);
     }
     else {
-        this.router.navigate(['/business/procurement/inspections/view/' + obj.Id]);
+        this.router.navigate(['/business/procurement/inspections/view/' + obj.Id], navigationExtras);
     } 
   
   };
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
-      this.router.navigate(['/business/procurement/inspections/create']);
+      const navigationExtras = this.goodsReceiptLineId !== null
+        ? { queryParams: { goodsReceiptLineId: this.goodsReceiptLineId } }
+        : {};
+      this.router.navigate(['/business/procurement/inspections/create'], navigationExtras);
     } 
     else if (key == "Refresh") {
       this.search();

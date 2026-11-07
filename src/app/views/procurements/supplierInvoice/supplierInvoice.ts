@@ -5,6 +5,7 @@ export interface ISupplierInvoice extends IBase {
 	Id :number;
 SupplierInvoiceId :string;
 TenantId :number;
+PurchaseOrderId :number | null;
 SupplierPartyId :number;
 BuyingOrganisationId :number;
 SupplierInvoiceNo :string;
@@ -21,4 +22,24 @@ CapturedBy :number;
 RecordStatus :string;
 LineItems: ISupplierInvoiceLine[];
 
+}
+
+export interface ISupplierInvoicePurchaseOrderContext {
+    PurchaseOrderId: number;
+    SupplierPartyId: number;
+    BuyingOrganisationId: number;
+    CurrencyCode: string;
+    LineItems: ISupplierInvoiceEligibleLine[];
+}
+
+export interface ISupplierInvoiceEligibleLine {
+    PurchaseOrderLineId: number;
+    GoodsReceiptLineId: number;
+    GRNNo: string;
+    Description: string;
+    AcceptedQuantity: number;
+    EligibleQuantity: number;
+    UOMId: number;
+    UnitPrice: number;
+    DefaultTaxAmount: number;
 }

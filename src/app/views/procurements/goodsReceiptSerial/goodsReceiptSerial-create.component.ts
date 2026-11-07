@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -42,6 +42,7 @@ conditioncodeOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private goodsReceiptSerialService: GoodsReceiptSerialService,
 	private loggedInUserService : LoggedInUserService
@@ -76,7 +77,16 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'GoodsReceiptLineId', '
       this.entityLookupDestroyRef);
 this.acceptancecodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialAcceptanceCode');
 this.conditioncodeOptions = this.loggedInUserService.getPicklistOptions('GoodsReceiptSerialConditionCode');
+    this.applyGoodsReceiptLineContext();
 
+  }
+
+  private applyGoodsReceiptLineContext(): void {
+    const goodsReceiptLineId = Number(this.activatedRoute.snapshot.queryParamMap.get('goodsReceiptLineId'));
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    this.editForm.get('GoodsReceiptLineId')?.setValue(goodsReceiptLineId, { emitEvent: false });
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   }
 
  loadUI(): void {
@@ -153,7 +163,7 @@ ConditionCode: obj.ConditionCode || '',
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

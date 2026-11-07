@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SupplierInvoiceListComponent } from './supplierInvoice-list.component';
 import { SupplierInvoiceCreateComponent } from './supplierInvoice-create.component';
@@ -42,6 +43,7 @@ import { SupplierInvoiceRoutingModule } from './supplierInvoice-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		ConfirmDialogModule,
 		SupplierInvoiceRoutingModule,
 	],
 	declarations: [

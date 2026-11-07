@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { ISupplierInvoice } from './supplierInvoice';
+import { ISupplierInvoice, ISupplierInvoicePurchaseOrderContext } from './supplierInvoice';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -39,6 +39,16 @@ export class SupplierInvoiceService extends BaseCrudService<any> {
         tap(data => this.baseService.onTapData(data)),
         catchError(this.baseService.handleError)
       );
+  }
+
+  getPurchaseOrderContext(purchaseOrderId: number, excludeSupplierInvoiceId = 0): Observable<{ data: ISupplierInvoicePurchaseOrderContext }> {
+    return this.http.get<{ data: ISupplierInvoicePurchaseOrderContext }>(
+      `${this.baseUrl}/purchase-orders/${purchaseOrderId}/eligible-lines`,
+      { headers: this.headers, params: { excludeSupplierInvoiceId } }
+    ).pipe(
+      tap(data => this.baseService.onTapData(data)),
+      catchError(this.baseService.handleError)
+    );
   }
 
   GetAll(IsDeleted: Boolean): Observable<any> {

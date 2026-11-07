@@ -157,7 +157,7 @@
                             responsiveLayout="scroll" styleClass="p-datatable-sm">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 3rem"></th>
+                                    <th style="width: 9rem"></th>
                                     <th>#</th>
                                     <th>PO item</th>
                                     <th>Ordered</th>
@@ -205,7 +205,14 @@
                                     </td>
                                     <td>
                                         <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text p-button-sm"
+                                            pTooltip="Delete line item" tooltipPosition="top"
                                             (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Remove receipt line ' + (rowIndex + 1)"></button>
+                                        <button *ngIf="line.get('Id')?.value > 0" pButton type="button" icon="pi pi-barcode"
+                                            class="p-button-text p-button-sm" pTooltip="Serial & Asset" tooltipPosition="top"
+                                            (click)="openSerialAndAsset(line)" [attr.aria-label]="'Manage serial and asset for receipt line ' + (rowIndex + 1)"></button>
+                                        <button *ngIf="line.get('Id')?.value > 0" pButton type="button" icon="pi pi-clipboard"
+                                            class="p-button-text p-button-sm" pTooltip="Inspection" tooltipPosition="top"
+                                            (click)="openInspection(line)" [attr.aria-label]="'Manage inspection for receipt line ' + (rowIndex + 1)"></button>
                                     </td>
                                 </tr>
                             </ng-template>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -43,6 +43,7 @@ documentidOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private activatedRoute: ActivatedRoute,
 	private _location: Location, 
 	private receiptInspectionService: ReceiptInspectionService,
 	private loggedInUserService : LoggedInUserService
@@ -83,7 +84,16 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'InspectorUserId', 'app
       options => this.inspectoruseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.resultcodeOptions = this.loggedInUserService.getPicklistOptions('ReceiptInspectionResultCode');
+    this.applyGoodsReceiptLineContext();
 
+  }
+
+  private applyGoodsReceiptLineContext(): void {
+    const goodsReceiptLineId = Number(this.activatedRoute.snapshot.queryParamMap.get('goodsReceiptLineId'));
+    if (!Number.isInteger(goodsReceiptLineId) || goodsReceiptLineId <= 0) return;
+
+    this.editForm.get('GoodsReceiptLineId')?.setValue(goodsReceiptLineId, { emitEvent: false });
+    this.editForm.get('GoodsReceiptLineId')?.disable({ emitEvent: false });
   }
 
  loadUI(): void {
@@ -162,7 +172,7 @@ DocumentId: obj.DocumentId || 0,
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
