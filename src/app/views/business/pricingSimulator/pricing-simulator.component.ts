@@ -9,7 +9,8 @@ import {
   IPricingSimulatorInput,
   PricingSimulationChargeInput,
   PricingSimulationResult,
-  PricingSimulationServiceInput
+  PricingSimulationServiceInput,
+  PricingSimulationTaxComponent
 } from './pricing-simulator';
 import { PricingSimulatorService } from './pricing-simulator.service';
 
@@ -34,6 +35,7 @@ export class PricingSimulatorComponent implements OnInit {
   billingFrequencyOptions: ISelectItem[] = [];
   paymentTimingOptions: ISelectItem[] = [];
   chargeFrequencyOptions: ISelectItem[] = [];
+  taxCodeOptions: ISelectItem[] = [];
   result: PricingSimulationResult | null = null;
   calculating = false;
   form: FormGroup;
@@ -52,6 +54,10 @@ export class PricingSimulatorComponent implements OnInit {
 
   get charges(): FormArray<FormGroup> {
     return this.form.get('Charges') as FormArray<FormGroup>;
+  }
+
+  get taxComponents(): FormArray<FormGroup> {
+    return this.form.get('TaxComponents') as FormArray<FormGroup>;
   }
 
   get currencyCode(): string {
@@ -94,6 +100,7 @@ export class PricingSimulatorComponent implements OnInit {
     this.result = null;
     this.services.clear();
     this.charges.clear();
+    this.taxComponents.clear();
     this.form.reset(this.defaultFormValue());
     this.form.markAsPristine();
     this.form.markAsUntouched();
@@ -136,8 +143,37 @@ export class PricingSimulatorComponent implements OnInit {
     this.charges.removeAt(index);
   }
 
+  addTaxComponent(): void {
+    this.taxComponents.push(this.formBuilder.group({
+      TaxCode: ['', [Validators.required, Validators.maxLength(50)]],
+      TaxRate: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      AppliesToRental: [true],
+      AppliesToServices: [true],
+      AppliesToCharges: [true]
+    }));
+  }
+
+  removeTaxComponent(index: number): void {
+    this.taxComponents.removeAt(index);
+  }
+
+  onTaxExemptChanged(isTaxExempt: boolean): void {
+    this.taxComponents.controls.forEach(tax => {
+      if (isTaxExempt) {
+        tax.disable({ emitEvent: false });
+      } else {
+        tax.enable({ emitEvent: false });
+      }
+    });
+  }
+
   totalFinanceCharges(): number {
     return (this.result?.Schedule || []).reduce((total, line) => total + (Number(line.FinanceCharge) || 0), 0);
+  }
+
+  periodicTaxInclusivePayment(): number {
+    const firstInstallment = this.result?.Schedule?.find(line => line.PeriodNo === 1);
+    return Number(firstInstallment?.TaxInclusiveCustomerPaymentAmount) || 0;
   }
 
   private createForm(): FormGroup {
@@ -162,6 +198,8 @@ export class PricingSimulatorComponent implements OnInit {
       ExpectedUsage: [0, [Validators.min(0)]],
       ExcessUsageRate: [0, [Validators.min(0)]],
       ManualPeriodicRentalAmount: [0, [Validators.min(0)]],
+      IsTaxExempt: [false],
+      TaxComponents: this.formBuilder.array<FormGroup>([]),
       Services: this.formBuilder.array<FormGroup>([]),
       Charges: this.formBuilder.array<FormGroup>([])
     });
@@ -188,7 +226,8 @@ export class PricingSimulatorComponent implements OnInit {
       UsageAllowance: 0,
       ExpectedUsage: 0,
       ExcessUsageRate: 0,
-      ManualPeriodicRentalAmount: 0
+      ManualPeriodicRentalAmount: 0,
+      IsTaxExempt: false
     };
   }
 
@@ -212,6 +251,14 @@ export class PricingSimulatorComponent implements OnInit {
       EndPeriodNo: charge.EndPeriodNo || null,
       Amount: this.numberValue(charge.Amount)
     }));
+    const taxComponents: PricingSimulationTaxComponent[] = (value.TaxComponents || []).map((tax: any) => ({
+      TaxCode: String(tax.TaxCode || '').trim(),
+      TaxRate: this.numberValue(tax.TaxRate),
+      TaxJurisdictionId: 0,
+      AppliesToRental: Boolean(tax.AppliesToRental),
+      AppliesToServices: Boolean(tax.AppliesToServices),
+      AppliesToCharges: Boolean(tax.AppliesToCharges)
+    }));
 
     return {
       AssetCategoryId: this.numberValue(value.AssetCategoryId),
@@ -234,6 +281,8 @@ export class PricingSimulatorComponent implements OnInit {
       ExpectedUsage: this.numberValue(value.ExpectedUsage),
       ExcessUsageRate: this.numberValue(value.ExcessUsageRate),
       ManualPeriodicRentalAmount: this.numberValue(value.ManualPeriodicRentalAmount),
+      IsTaxExempt: Boolean(value.IsTaxExempt),
+      TaxComponents: taxComponents,
       Services: services,
       Charges: charges
     };
@@ -248,6 +297,7 @@ export class PricingSimulatorComponent implements OnInit {
     this.billingFrequencyOptions = this.withFallback(this.loggedInUserService.getPicklistOptions('BillingFrequency'), ['Monthly', 'Quarterly', 'Annually']);
     this.paymentTimingOptions = this.withFallback(this.loggedInUserService.getPicklistOptions('PaymentTimingCode'), ['Arrears', 'Advance']);
     this.chargeFrequencyOptions = this.withFallback(this.loggedInUserService.getPicklistOptions('ChargeFrequencyCode'), ['Monthly', 'Quarterly', 'Annually', 'Once']);
+    this.taxCodeOptions = this.loggedInUserService.getPicklistOptions('TaxType') || [];
   }
 
   private withFallback(options: ISelectItem[], fallback: string[]): ISelectItem[] {
