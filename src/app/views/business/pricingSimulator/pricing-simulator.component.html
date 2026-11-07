@@ -1,0 +1,125 @@
+<div class="pricing-simulator-page">
+  <app-message #messagePanel [AlertType]="'message'"></app-message>
+  <app-spinner></app-spinner>
+
+  <app-toolbar-buttons [form]="form" [Caption]="'Pricing Simulator'" [PageType]="'View'" [IsHideBack]="true">
+    <button pButton type="button" class="p-button-outlined p-button-secondary" icon="pi pi-refresh" label="Reset" (click)="reset()" [disabled]="calculating"></button>
+    <button pButton type="button" icon="pi pi-calculator" [label]="result ? 'Recalculate' : 'Calculate'" (click)="calculate()" [loading]="calculating"></button>
+  </app-toolbar-buttons>
+
+  <form [formGroup]="form" class="pricing-simulator-form" (ngSubmit)="calculate()">
+    <section class="pricing-hero">
+      <div>
+        <p class="pricing-kicker">Lease pricing</p>
+        <h1>Explore a lease price before creating a quotation</h1>
+        <p>Enter an asset and commercial assumptions. The active tenant policy validates every calculation; nothing is saved.</p>
+      </div>
+      <div class="pricing-hero-note">
+        <i class="pi pi-shield"></i>
+        <span>Pricing policy and asset-category checks are applied by LeaseHive.</span>
+      </div>
+    </section>
+
+    <section class="pricing-panel">
+      <div class="pricing-panel-heading">
+        <div><h2>Lease assumptions</h2><p>Define the asset, method, and policy context.</p></div>
+      </div>
+      <div class="pricing-grid pricing-grid--four">
+        <div class="pricing-field"><label for="assetCategory">Asset category *</label><p-dropdown inputId="assetCategory" [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" formControlName="AssetCategoryId" [filter]="true" filterBy="Text" placeholder="Select category"></p-dropdown><small *ngIf="form.get('AssetCategoryId')?.invalid && form.get('AssetCategoryId')?.touched">Select an active tenant category.</small></div>
+        <div class="pricing-field"><label for="leaseType">Lease type</label><p-dropdown inputId="leaseType" [options]="leaseTypeOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseTypeCode" [showClear]="true" placeholder="Select lease type"></p-dropdown></div>
+        <div class="pricing-field"><label for="pricingMethod">Pricing method *</label><p-dropdown inputId="pricingMethod" [options]="pricingMethodOptions" optionLabel="Text" optionValue="Value" formControlName="PricingModeCode"></p-dropdown></div>
+        <div class="pricing-field"><label for="effectiveDate">Effective date</label><p-calendar inputId="effectiveDate" formControlName="EffectiveDate" dateFormat="dd M yy" [showIcon]="true"></p-calendar></div>
+        <div class="pricing-field"><label for="paymentTiming">Payment timing *</label><p-dropdown inputId="paymentTiming" [options]="paymentTimingOptions" optionLabel="Text" optionValue="Value" formControlName="PaymentTimingCode"></p-dropdown></div>
+        <div class="pricing-field"><label for="billingFrequency">Billing frequency *</label><p-dropdown inputId="billingFrequency" [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency"></p-dropdown></div>
+        <div class="pricing-field"><label for="currency">Currency</label><app-currency-dropdown inputId="currency" formControlName="CurrencyCode" placeholder="Tenant default"></app-currency-dropdown></div>
+      </div>
+    </section>
+
+    <section class="pricing-panel">
+      <div class="pricing-panel-heading"><div><h2>Asset and financing</h2><p>All monetary values are sent to the pricing engine exactly as entered.</p></div></div>
+      <div class="pricing-grid pricing-grid--four">
+        <div class="pricing-field"><label for="unitAssetCost">Asset cost per unit *</label><p-inputNumber inputId="unitAssetCost" formControlName="UnitAssetCost" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="quantity">Quantity *</label><p-inputNumber inputId="quantity" formControlName="Quantity" [min]="1" [useGrouping]="false"></p-inputNumber></div>
+        <div class="pricing-field"><label for="termMonths">Tenure (months) *</label><p-inputNumber inputId="termMonths" formControlName="TermMonths" [min]="1" [max]="600" [useGrouping]="false"></p-inputNumber></div>
+        <div class="pricing-field"><label for="fundingRate">Funding rate</label><p-inputNumber inputId="fundingRate" formControlName="AnnualFundingRate" suffix="%" [min]="0" [maxFractionDigits]="6"></p-inputNumber></div>
+        <div class="pricing-field"><label for="residualPercent">Residual value (%)</label><p-inputNumber inputId="residualPercent" formControlName="EstimatedResidualValuePercent" suffix="%" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="residualAmount">Residual value (amount)</label><p-inputNumber inputId="residualAmount" formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="downPayment">Down payment</label><p-inputNumber inputId="downPayment" formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="bulletPayment">Bullet payment</label><p-inputNumber inputId="bulletPayment" formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="deposit">Refundable deposit</label><p-inputNumber inputId="deposit" formControlName="RefundableSecurityDepositAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+        <div *ngIf="isManual" class="pricing-field"><label for="manualRental">Manual periodic rental</label><p-inputNumber inputId="manualRental" formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+      </div>
+    </section>
+
+    <section class="pricing-panel pricing-panel--compact">
+      <div class="pricing-panel-heading"><div><h2>Usage assumptions</h2><p>Optional values used by the engine for end-of-term excess charges.</p></div></div>
+      <div class="pricing-grid pricing-grid--four">
+        <div class="pricing-field"><label for="usageAllowance">Usage allowance</label><p-inputNumber inputId="usageAllowance" formControlName="UsageAllowance" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="expectedUsage">Expected usage</label><p-inputNumber inputId="expectedUsage" formControlName="ExpectedUsage" [min]="0"></p-inputNumber></div>
+        <div class="pricing-field"><label for="excessRate">Excess usage rate</label><p-inputNumber inputId="excessRate" formControlName="ExcessUsageRate" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+      </div>
+    </section>
+
+    <section class="pricing-panel">
+      <div class="pricing-panel-heading pricing-panel-heading--actions"><div><h2>Services and charges</h2><p>Optional, calculation-only service and charge lines.</p></div><div class="flex gap-2 flex-wrap"><button pButton type="button" icon="pi pi-plus" label="Add service" class="p-button-sm p-button-outlined" (click)="addService()"></button><button pButton type="button" icon="pi pi-plus" label="Add charge" class="p-button-sm p-button-outlined" (click)="addCharge()"></button></div></div>
+
+      <div formArrayName="Services" class="pricing-line-list" *ngIf="services.length">
+        <article *ngFor="let service of services.controls; let index = index" [formGroupName]="index" class="pricing-line-card">
+          <div class="pricing-line-header"><h3>Service {{ index + 1 }}</h3><button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" (click)="removeService(index)" [attr.aria-label]="'Remove service ' + (index + 1)"></button></div>
+          <div class="pricing-grid pricing-grid--four">
+            <div class="pricing-field"><label>Lease service</label><p-dropdown [options]="leaseServiceOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseServiceId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Optional service" (onChange)="onServiceSelected(service)"></p-dropdown></div>
+            <div class="pricing-field"><label>Service name</label><input pInputText formControlName="ServiceName" maxlength="200" placeholder="Describe the service"></div>
+            <div class="pricing-field"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+            <div class="pricing-field"><label>Quantity</label><p-inputNumber formControlName="Quantity" [min]="0"></p-inputNumber></div>
+            <div class="pricing-field"><label>Frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode"></p-dropdown></div>
+            <div class="pricing-checks"><p-checkbox [inputId]="'included-' + index" formControlName="IsIncluded" [binary]="true"></p-checkbox><label [for]="'included-' + index">Included</label><p-checkbox [inputId]="'separate-' + index" formControlName="IsSeparatelyChargeable" [binary]="true"></p-checkbox><label [for]="'separate-' + index">Charge separately</label></div>
+          </div>
+        </article>
+      </div>
+
+      <div formArrayName="Charges" class="pricing-line-list" *ngIf="charges.length">
+        <article *ngFor="let charge of charges.controls; let index = index" [formGroupName]="index" class="pricing-line-card">
+          <div class="pricing-line-header"><h3>Charge {{ index + 1 }}</h3><button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" (click)="removeCharge(index)" [attr.aria-label]="'Remove charge ' + (index + 1)"></button></div>
+          <div class="pricing-grid pricing-grid--four">
+            <div class="pricing-field"><label>Description *</label><input pInputText formControlName="Description" maxlength="200" placeholder="Describe the charge"></div>
+            <div class="pricing-field"><label>Amount</label><p-inputNumber formControlName="Amount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+            <div class="pricing-field"><label>Frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode"></p-dropdown></div>
+            <div class="pricing-field"><label>Start period</label><p-inputNumber formControlName="StartPeriodNo" [min]="1" [useGrouping]="false"></p-inputNumber></div>
+            <div class="pricing-field"><label>End period</label><p-inputNumber formControlName="EndPeriodNo" [min]="1" [useGrouping]="false"></p-inputNumber></div>
+            <div class="pricing-checks"><p-checkbox [inputId]="'recurring-' + index" formControlName="IsRecurring" [binary]="true"></p-checkbox><label [for]="'recurring-' + index">Recurring charge</label></div>
+          </div>
+        </article>
+      </div>
+      <p *ngIf="!services.length && !charges.length" class="pricing-empty-note">No service or charge lines added. Add only values you want the pricing engine to include.</p>
+    </section>
+  </form>
+
+  <section *ngIf="result" class="pricing-results" aria-live="polite">
+    <div class="pricing-results-heading"><div><p class="pricing-kicker">Calculation result</p><h2>{{ result.PeriodicCustomerPayment | currency:currencyCode:'symbol':'1.2-2' }} periodic customer payment</h2><p>Calculation preview · {{ result.PricingModeCode | titlecase }} method</p></div><button pButton type="button" class="p-button-outlined" icon="pi pi-refresh" label="Recalculate" (click)="calculate()" [loading]="calculating"></button></div>
+
+    <div class="pricing-metric-grid">
+      <article class="pricing-metric pricing-metric--primary"><span>Periodic base rental</span><strong>{{ result.PeriodicBaseRental | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Net financed amount</span><strong>{{ result.NetFinancedAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Total rentals</span><strong>{{ result.TotalBaseRentalPayments | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Finance charges</span><strong>{{ totalFinanceCharges() | currency:currencyCode:'symbol':'1.2-2' }}</strong><small>From the returned schedule</small></article>
+      <article class="pricing-metric"><span>Periodic services</span><strong>{{ result.PeriodicServiceAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Recurring charges</span><strong>{{ result.PeriodicRecurringChargeAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Upfront reduction</span><strong>{{ result.UpfrontReductionAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Upfront charges</span><strong>{{ result.UpfrontChargeAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Refundable deposit</span><strong>{{ result.RefundableSecurityDepositAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>End-of-term amount</span><strong>{{ result.EndOfTermCustomerPaymentAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Total contractual payments</span><strong>{{ result.TotalContractualPayments | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+      <article class="pricing-metric"><span>Cash outflow incl. deposit</span><strong>{{ result.TotalCashOutflowIncludingRefundableDeposit | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
+    </div>
+
+    <div *ngIf="result.Warnings?.length" class="pricing-warnings" role="alert"><i class="pi pi-exclamation-triangle"></i><div><strong>Pricing notes</strong><ul><li *ngFor="let warning of result.Warnings">{{ warning }}</li></ul></div></div>
+
+    <section class="pricing-schedule-panel">
+      <div class="pricing-panel-heading"><div><h2>Detailed payment schedule</h2><p>All amounts are returned by the pricing engine. Scroll horizontally to inspect every payment component.</p></div></div>
+      <p-table [value]="result.Schedule" [scrollable]="true" scrollHeight="32rem" styleClass="p-datatable-sm pricing-schedule-table">
+        <ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Opening balance</th><th class="text-right">Finance charge</th><th class="text-right">Principal</th><th class="text-right">Base rental</th><th class="text-right">Service</th><th class="text-right">Recurring charge</th><th class="text-right">Upfront charge</th><th class="text-right">Bullet</th><th class="text-right">Residual recovery</th><th class="text-right">Excess usage</th><th class="text-right">Deposit</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template>
+        <ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.OpeningBalance | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.FinanceCharge | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.PrincipalRecovery | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ServiceAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.RecurringChargeAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.UpfrontChargeAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ContractualBulletAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ExpectedResidualRecoveryAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ProjectedExcessUsageAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.RefundableSecurityDepositAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ line.TotalCustomerPaymentAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template>
+      </p-table>
+    </section>
+  </section>
+</div>

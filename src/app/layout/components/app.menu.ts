@@ -787,6 +787,18 @@ export class AppMenu implements OnInit, OnDestroy {
                                     ]
                                 },
                                 {
+                                    label: 'Lease Pricing',
+                                    icon: 'pi pi-fw pi-calculator',
+                                    items: [
+                                        {
+                                            label: 'Pricing Simulator',
+                                            icon: 'pi pi-fw pi-calculator',
+                                            routerLink: ['/business/pricing/simulator'],
+                                            requiredPermission: 'origination.quote.price'
+                                        }
+                                    ]
+                                },
+                                {
                                     label: 'Win & Contract',
                                     icon: 'pi pi-fw pi-file-check',
                                     items: [

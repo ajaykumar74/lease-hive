@@ -210,6 +210,11 @@ export const BUSINESS_ROUTES: Routes = [
                 loadChildren: () => import('@/views/crm/leaseService/leaseService.module').then((m) => m.LeaseServiceModule)
             },
             {
+                path: 'pricing/simulator',
+                data: { title: 'Pricing Simulator', breadcrumb: 'Pricing Simulator' },
+                loadChildren: () => import('@/views/business/pricingSimulator/pricing-simulator.module').then((m) => m.PricingSimulatorModule)
+            },
+            {
                 path: 'origination/documents',
                 redirectTo: 'crm/leaseRequirements',
                 pathMatch: 'full'
