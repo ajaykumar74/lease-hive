@@ -315,6 +315,12 @@ const routes: Routes = [
         loadComponent: () => import('@/views/tenantSettings/tenant-settings.component').then(c => c.TenantSettingsComponent),
       },
       {
+        path: 'lease-pricing',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'Lease Pricing' },
+        loadComponent: () => import('@/views/tenantSettings/pricingMethodConfiguration/pricing-method-configuration.component').then(c => c.PricingMethodConfigurationComponent),
+      },
+      {
         path: 'ai-assistant',
         canActivate: [AuthGuard, PermissionGuard],
         data: { breadcrumb: 'AI assistant' },

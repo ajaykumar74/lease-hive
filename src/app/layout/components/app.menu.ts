@@ -542,18 +542,31 @@ export class AppMenu implements OnInit, OnDestroy {
                                 },
 
                                 {
-                                    label: 'Tenant Settings',
+                                    label: 'Settings',
                                     icon: 'pi pi-fw pi-sliders-h',
-                                    routerLink: ['/dashboard/tenant-settings'],
-                                    tooltip: 'Configure tenant-wide billing, finance, document, and appearance preferences',
-                                    requiredPermission: 'administration.tenantsettings.view'
-                                },
-                                {
+                                    items: [
+                                        {
+                                            label: 'Tenant Settings',
+                                            icon: 'pi pi-fw pi-sliders-h',
+                                            routerLink: ['/dashboard/tenant-settings'],
+                                            tooltip: 'Configure tenant-wide billing, finance, document, and appearance preferences',
+                                            requiredPermission: 'administration.tenantsettings.view'
+                                        },
+                                        {
+                                            label: 'Lease Pricing',
+                                            icon: 'pi pi-fw pi-calculator',
+                                            routerLink: ['/dashboard/lease-pricing'],
+                                            tooltip: 'Choose pricing methods available in the Pricing Simulator',
+                                            requiredPermission: 'administration.tenantsettings.view'
+                                        },
+                                         {
                                     label: 'AI settings',
                                     icon: 'pi pi-fw pi-sparkles',
                                     routerLink: ['/dashboard/ai-settings'],
                                     tooltip: 'Configure approved AI models and tenant limits'
                                 },
+                                    ]
+                                }, 
                                 {
                                     label: 'AI Usage',
                                     icon: 'pi pi-fw pi-chart-bar',

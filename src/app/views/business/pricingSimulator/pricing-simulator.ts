@@ -13,6 +13,15 @@ import {
 export interface IPricingSimulatorInput extends Omit<ILeasePricingInput, 'QuoteId' | 'QuoteAssetId'> {
   LeaseTypeCode?: string;
   EffectiveDate?: string;
+  RateFactorPerPeriod?: number;
+  AnnualFlatRate?: number;
+  RentalSteps?: PricingSimulationRentalStep[];
+  UsageUnit?: string;
+  ExpectedUsagePerPeriod?: number;
+  IncludedUsagePerPeriod?: number;
+  UsageRatePerUnit?: number;
+  FixedBaseRentalAmount?: number;
+  TargetAnnualIrr?: number;
   IsTaxExempt?: boolean;
   TaxComponents?: PricingSimulationTaxComponent[];
 }
@@ -26,6 +35,47 @@ export interface PricingSimulationTaxComponent {
   AppliesToCharges: boolean;
 }
 
+export interface PricingSimulatorMethodOption {
+  Code: string;
+  Name: string;
+}
+
+export interface PricingSimulatorMethodOptions {
+  DefaultPricingMethodCode: string;
+  Methods: PricingSimulatorMethodOption[];
+  Defaults: PricingSimulatorDefaults;
+  Limits: PricingSimulatorLimits;
+}
+
+export interface PricingSimulatorDefaults {
+  AnnualFundingRate: number;
+  TargetAnnualIrr: number;
+  EstimatedResidualValuePercent: number;
+  TermMonths: number;
+  BillingFrequency: string;
+  PaymentTimingCode: string;
+  MonetaryRoundingDecimalPlaces: number;
+}
+
+export interface PricingSimulatorLimits {
+  MinimumAnnualFundingRate: number;
+  MaximumAnnualFundingRate: number;
+  MinimumTargetAnnualIrr: number;
+  MaximumTargetAnnualIrr: number;
+  MinimumResidualValuePercent: number;
+  MaximumResidualValuePercent: number;
+  MinimumTermMonths: number;
+  MaximumTermMonths: number;
+  MinimumMonetaryRoundingDecimalPlaces: number;
+  MaximumMonetaryRoundingDecimalPlaces: number;
+}
+
+export interface PricingSimulationRentalStep {
+  FromPeriod: number;
+  ToPeriod: number;
+  RentalAmount: number;
+}
+
 export interface PricingSimulationTaxBreakdown {
   TaxCode: string;
   TaxRate: number;
@@ -35,6 +85,13 @@ export interface PricingSimulationTaxBreakdown {
 }
 
 export interface PricingSimulationScheduleLine extends ILeasePricingScheduleLine {
+  /** Included in BaseRentalAmount; shown separately to explain a usage projection. */
+  UsageChargeAmount: number;
+  CashFlowMonth: number;
+  LessorInvestmentAmount: number;
+  LessorRevenueAmount: number;
+  LessorCostAmount: number;
+  LessorNetCashFlowAmount: number;
   TaxExclusiveCustomerPaymentAmount: number;
   TaxAmount: number;
   TaxInclusiveCustomerPaymentAmount: number;
@@ -42,6 +99,14 @@ export interface PricingSimulationScheduleLine extends ILeasePricingScheduleLine
 }
 
 export interface PricingSimulationResult extends ILeasePricingResult {
+  /** Already included in PeriodicBaseRental and TotalBaseRentalPayments. */
+  PeriodicUsageChargeAmount: number;
+  TotalUsageChargePayments: number;
+  TargetAnnualIrr: number;
+  AchievedAnnualIrr: number;
+  TotalLessorRevenueAmount: number;
+  TotalLessorCostAmount: number;
+  TotalNetLessorCashFlowAmount: number;
   TaxExclusivePayableAmount: number;
   TotalTaxAmount: number;
   TaxInclusivePayableAmount: number;
@@ -50,5 +115,10 @@ export interface PricingSimulationResult extends ILeasePricingResult {
   Schedule: PricingSimulationScheduleLine[];
 }
 
-export type PricingSimulationServiceInput = ILeasePricingServiceInput;
-export type PricingSimulationChargeInput = ILeasePricingChargeInput;
+export interface PricingSimulationServiceInput extends ILeasePricingServiceInput {
+  LessorCostAmount?: number;
+}
+
+export interface PricingSimulationChargeInput extends ILeasePricingChargeInput {
+  LessorCostAmount?: number;
+}

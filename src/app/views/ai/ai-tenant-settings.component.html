@@ -1,69 +1,109 @@
-<section class="container" aria-labelledby="ai-settings-title">
-    <div class="grid">
-        <div class="col-12 md:col-10 lg:col-8">
-            <div class="card p-fluid">
-                <h1 id="ai-settings-title" class="text-3xl">AI tenant settings</h1>
-                <p class="mb-4">Configure the approved AI models and hard limits for this tenant. Provider credentials are never shown here.</p>
-
-                <p *ngIf="loading">Loading settings…</p>
-                <p *ngIf="error" class="text-red-600" role="alert">{{ error }}</p>
-                <p *ngIf="message" class="text-green-600" role="status">{{ message }}</p>
-
-                <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="save()" class="flex flex-col gap-4">
-                    <div class="flex items-center gap-2">
-                        <p-checkbox inputId="aiEnabled" binary="true" formControlName="IsEnabled"></p-checkbox>
-                        <label for="aiEnabled">Enable AI for this tenant</label>
-                    </div>
-                    <small class="text-color-secondary">AI is disabled by default. Enabling this setting does not expose provider credentials or bypass server-side authorization.</small>
-
-                    <div class="flex items-center gap-2">
-                        <p-checkbox inputId="storeConversationContent" binary="true" formControlName="StoreConversationContent"></p-checkbox>
-                        <label for="storeConversationContent">Store encrypted AI conversation content</label>
-                    </div>
-                    <small class="text-color-secondary">When disabled, Leasora retains only approved tool IDs and filters for follow-up business questions; prompt and response text is not retained.</small>
-
-                    <div class="grid">
-                        <div class="col-12 md:col-6 flex flex-col gap-2">
-                            <label for="providerCode">Provider</label>
-                            <p-dropdown inputId="providerCode" [options]="providerCodes" formControlName="ProviderCode" placeholder="Select provider"></p-dropdown>
-                        </div>
-                        <div class="col-12 md:col-6 flex flex-col gap-2">
-                            <label for="chatModelCode">Chat model</label>
-                            <p-dropdown inputId="chatModelCode" [options]="chatModelCodes" formControlName="ChatModelCode" placeholder="Select chat model"></p-dropdown>
-                        </div>
-                        <div class="col-12 md:col-6 flex flex-col gap-2">
-                            <label for="embeddingModelCode">Embedding model</label>
-                            <p-dropdown inputId="embeddingModelCode" [options]="embeddingModelCodes" formControlName="EmbeddingModelCode" [showClear]="true" placeholder="Not configured"></p-dropdown>
-                        </div>
-                        <div class="col-12 md:col-6 flex flex-col gap-2">
-                            <label for="maxOutputTokens">Maximum output tokens</label>
-                            <p-inputNumber inputId="maxOutputTokens" formControlName="MaxOutputTokens" [min]="1" [max]="4096" [useGrouping]="false"></p-inputNumber>
-                        </div>
-                    </div>
-
-                    <h2 class="text-xl mt-2 mb-0">Monthly limits</h2>
-                    <div class="grid">
-                        <div class="col-12 md:col-4 flex flex-col gap-2">
-                            <label for="monthlyRequestLimit">Requests</label>
-                            <p-inputNumber inputId="monthlyRequestLimit" formControlName="MonthlyRequestLimit" [min]="0" [useGrouping]="false"></p-inputNumber>
-                        </div>
-                        <div class="col-12 md:col-4 flex flex-col gap-2">
-                            <label for="monthlyTokenLimit">Tokens</label>
-                            <p-inputNumber inputId="monthlyTokenLimit" formControlName="MonthlyTokenLimit" [min]="0" [useGrouping]="false"></p-inputNumber>
-                        </div>
-                        <div class="col-12 md:col-4 flex flex-col gap-2">
-                            <label for="monthlyBudgetUsd">Budget USD</label>
-                            <p-inputNumber inputId="monthlyBudgetUsd" formControlName="MonthlyBudgetUsd" mode="decimal" [min]="0" [minFractionDigits]="2" [maxFractionDigits]="6"></p-inputNumber>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-content-end gap-2 mt-3">
-                        <button pButton type="button" class="p-button-secondary" label="Reload" (click)="load()" [disabled]="saving"></button>
-                        <button pButton type="submit" label="Save settings" [disabled]="saving || form.invalid || !canUpdate"></button>
-                    </div>
-                    <small *ngIf="!canUpdate" class="text-color-secondary">You can view these settings but do not have permission to update them.</small>
-                </form>
+<section class="p-3 md:p-5" aria-labelledby="ai-settings-title">
+    <form [formGroup]="form" (ngSubmit)="save()" class="p-fluid mx-auto flex w-full max-w-6xl flex-col gap-4">
+        <header class="flex flex-col gap-3 md:flex-row md:align-items-start">
+            <div>
+                <p class="m-0 text-sm font-medium text-primary">Settings</p>
+                <h1 id="ai-settings-title" class="mb-1 mt-1 text-3xl font-semibold text-900">AI tenant settings</h1>
+                <p class="m-0 line-height-3 text-color-secondary">Configure approved AI models and tenant safeguards. Provider credentials are never shown here.</p>
             </div>
-        </div>
-    </div>
+            <div *ngIf="!loading" class="ml-auto flex flex-wrap gap-2">
+                <button pButton type="button" class="p-button-outlined p-button-secondary" label="Reload" icon="pi pi-refresh" (click)="load()" [disabled]="saving"></button>
+                <button pButton type="submit" label="Save settings" icon="pi pi-check" [loading]="saving" [disabled]="saving || form.invalid || !canUpdate"></button>
+            </div>
+        </header>
+
+        <p *ngIf="loading" class="card m-0 p-5 text-color-secondary">Loading AI settings…</p>
+        <p *ngIf="error" class="m-0 rounded-md border border-red-200 bg-red-50 p-3 text-red-700" role="alert">{{ error }}</p>
+        <p *ngIf="message" class="m-0 rounded-md border border-green-200 bg-green-50 p-3 text-green-700" role="status">{{ message }}</p>
+
+        <ng-container *ngIf="!loading">
+            <article class="card m-0 overflow-hidden p-0">
+                <header class="flex align-items-start gap-3 border-bottom-1 surface-border p-4">
+                    <span class="flex h-2rem w-2rem flex-shrink-0 align-items-center justify-content-center border-circle bg-primary text-primary-reverse"><i class="pi pi-shield" aria-hidden="true"></i></span>
+                    <div>
+                        <h2 class="m-0 text-xl font-semibold text-900">AI access &amp; privacy</h2>
+                        <p class="mb-0 mt-2 line-height-3 text-sm text-color-secondary">Control whether AI is available to this tenant and whether encrypted conversation content is retained.</p>
+                    </div>
+                </header>
+                <div class="grid p-3 md:p-4">
+                    <div class="col-12 md:col-6">
+                        <div class="h-full border-1 surface-border border-round p-3">
+                            <div class="flex align-items-center gap-2">
+                                <p-checkbox inputId="aiEnabled" binary="true" formControlName="IsEnabled"></p-checkbox>
+                                <label for="aiEnabled" class="font-medium text-900">Enable AI for this tenant</label>
+                            </div>
+                            <small class="mt-3 block line-height-3 text-color-secondary">AI is disabled by default. Enabling it does not expose provider credentials or bypass server-side authorization.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <div class="h-full border-1 surface-border border-round p-3">
+                            <div class="flex align-items-center gap-2">
+                                <p-checkbox inputId="storeConversationContent" binary="true" formControlName="StoreConversationContent"></p-checkbox>
+                                <label for="storeConversationContent" class="font-medium text-900">Store encrypted conversation content</label>
+                            </div>
+                            <small class="mt-3 block line-height-3 text-color-secondary">When off, Leasora retains only approved tool IDs and filters for follow-up business questions; prompt and response text is not retained.</small>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card m-0 overflow-hidden p-0">
+                <header class="flex align-items-start gap-3 border-bottom-1 surface-border p-4">
+                    <span class="flex h-2rem w-2rem flex-shrink-0 align-items-center justify-content-center border-circle bg-blue-50 text-blue-700"><i class="pi pi-server" aria-hidden="true"></i></span>
+                    <div>
+                        <h2 class="m-0 text-xl font-semibold text-900">Provider configuration</h2>
+                        <p class="mb-0 mt-2 line-height-3 text-sm text-color-secondary">Select the approved provider, chat model and optional embedding model for this tenant.</p>
+                    </div>
+                </header>
+                <div class="grid p-3 md:p-4">
+                    <div class="col-12 md:col-6 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="providerCode">Provider</label>
+                        <p-dropdown inputId="providerCode" [options]="providerCodes" formControlName="ProviderCode" placeholder="Select provider" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="chatModelCode">Chat model</label>
+                        <p-dropdown inputId="chatModelCode" [options]="chatModelCodes" formControlName="ChatModelCode" placeholder="Select chat model" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="embeddingModelCode">Embedding model</label>
+                        <p-dropdown inputId="embeddingModelCode" [options]="embeddingModelCodes" formControlName="EmbeddingModelCode" [showClear]="true" placeholder="Not configured" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="maxOutputTokens">Maximum output tokens</label>
+                        <p-inputNumber inputId="maxOutputTokens" formControlName="MaxOutputTokens" [min]="1" [max]="4096" [useGrouping]="false"></p-inputNumber>
+                        <small class="text-color-secondary">Limits the size of an individual generated response.</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card m-0 overflow-hidden p-0">
+                <header class="flex align-items-start gap-3 border-bottom-1 surface-border p-4">
+                    <span class="flex h-2rem w-2rem flex-shrink-0 align-items-center justify-content-center border-circle bg-orange-50 text-orange-700"><i class="pi pi-chart-line" aria-hidden="true"></i></span>
+                    <div>
+                        <h2 class="m-0 text-xl font-semibold text-900">Monthly limits</h2>
+                        <p class="mb-0 mt-2 line-height-3 text-sm text-color-secondary">Set optional monthly ceilings to help manage usage and spend.</p>
+                    </div>
+                </header>
+                <div class="grid p-3 md:p-4">
+                    <div class="col-12 md:col-4 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="monthlyRequestLimit">Requests</label>
+                        <p-inputNumber inputId="monthlyRequestLimit" formControlName="MonthlyRequestLimit" [min]="0" [useGrouping]="false"></p-inputNumber>
+                        <small class="text-color-secondary">Leave blank for no request limit.</small>
+                    </div>
+                    <div class="col-12 md:col-4 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="monthlyTokenLimit">Tokens</label>
+                        <p-inputNumber inputId="monthlyTokenLimit" formControlName="MonthlyTokenLimit" [min]="0" [useGrouping]="false"></p-inputNumber>
+                        <small class="text-color-secondary">Leave blank for no token limit.</small>
+                    </div>
+                    <div class="col-12 md:col-4 flex flex-col gap-2">
+                        <label class="font-medium text-900" for="monthlyBudgetUsd">Budget (USD)</label>
+                        <p-inputNumber inputId="monthlyBudgetUsd" formControlName="MonthlyBudgetUsd" mode="decimal" [min]="0" [minFractionDigits]="2" [maxFractionDigits]="6"></p-inputNumber>
+                        <small class="text-color-secondary">Leave blank for no budget limit.</small>
+                    </div>
+                </div>
+            </article>
+
+            <small *ngIf="!canUpdate" class="px-1 text-color-secondary">You can view these settings but do not have permission to update them.</small>
+        </ng-container>
+    </form>
 </section>

@@ -1,0 +1,254 @@
+:host {
+    display: block;
+}
+
+.settings-page-heading,
+.settings-page-actions,
+.category-header,
+.category-add-control,
+.category-override-heading,
+.tenant-methods-heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.settings-page-actions,
+.category-add-control {
+    margin-left: auto;
+}
+
+.settings-page-actions,
+.category-add-control,
+.category-override-heading {
+    flex-wrap: wrap;
+}
+
+.method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 0.75rem;
+}
+
+.method-card {
+    display: flex;
+    min-height: 5.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 0.5rem;
+    background: var(--surface-card);
+    cursor: pointer;
+    padding: 1rem;
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.method-card.is-enabled {
+    border-color: color-mix(in srgb, var(--primary-color) 55%, var(--surface-border));
+    background: color-mix(in srgb, var(--primary-color) 6%, var(--surface-card));
+}
+
+.method-card:not(.is-disabled):hover {
+    box-shadow: 0 3px 10px rgb(15 23 42 / 0.08);
+}
+
+.method-card.is-disabled {
+    cursor: default;
+    opacity: 0.72;
+}
+
+.category-override-heading {
+    justify-content: space-between;
+}
+
+.tenant-methods-heading {
+    justify-content: space-between;
+}
+
+.pricing-defaults-limits {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.pricing-limits-section {
+    border-top: 1px solid var(--surface-border);
+    padding-top: 1.5rem;
+}
+
+.pricing-defaults-section-heading h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.pricing-defaults-section-heading p {
+    margin: 0.35rem 0 1rem;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.defaults-limits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
+}
+
+.defaults-limits-field {
+    display: grid;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.defaults-limits-field label {
+    color: var(--text-color);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.defaults-limits-field small {
+    color: var(--text-color-secondary);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+:host ::ng-deep .defaults-limits-field :is(.p-inputnumber, .p-select) {
+    width: 100%;
+}
+
+.pricing-methods-guide {
+    color: var(--text-color);
+}
+
+.guide-introduction {
+    margin: 0 0 1rem;
+    color: var(--text-color-secondary);
+    line-height: 1.55;
+}
+
+.guide-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--blue-100);
+    border-radius: 0.5rem;
+    background: var(--blue-50);
+    color: var(--blue-900);
+    line-height: 1.5;
+    padding: 0.875rem 1rem;
+}
+
+.guide-note i {
+    margin-top: 0.2rem;
+}
+
+.guide-comparison h3 {
+    margin: 0 0 0.75rem;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.guide-table-scroll {
+    overflow-x: auto;
+}
+
+.guide-table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+}
+
+.guide-table th,
+.guide-table td {
+    border: 1px solid var(--surface-border);
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.45;
+}
+
+.guide-table th {
+    background: var(--surface-100);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.guide-table td:first-child {
+    width: 9.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.guide-expand-hint {
+    margin: 1.25rem 0 0.75rem;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+}
+
+.guide-accordion-heading {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.guide-accordion-heading small {
+    color: var(--text-color-secondary);
+    font-size: 0.6875rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.guide-detail-list {
+    display: grid;
+    gap: 0.875rem;
+    margin: 0;
+}
+
+.guide-detail-list div {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.guide-detail-list dt {
+    color: var(--text-color);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.guide-detail-list dd {
+    margin: 0;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+    .settings-page-heading,
+    .category-header,
+    .tenant-methods-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .settings-page-actions,
+    .category-add-control {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .category-add-control > * {
+        flex: 1 1 100%;
+    }
+
+    .guide-accordion-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

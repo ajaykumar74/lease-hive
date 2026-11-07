@@ -1,0 +1,183 @@
+<p-toast></p-toast>
+
+<section class="p-3 md:p-5" aria-labelledby="lease-pricing-settings-title">
+    <header class="mb-5 settings-page-heading">
+        <div>
+            <p class="m-0 text-sm font-medium text-primary">Settings</p>
+            <h1 id="lease-pricing-settings-title" class="mb-1 mt-1 text-3xl font-semibold text-900">Lease Pricing</h1>
+            <p class="m-0 text-color-secondary">Choose the pricing methods available in the standalone simulator for this tenant.</p>
+        </div>
+        <div class="settings-page-actions" *ngIf="configuration">
+            <button pButton type="button" class="p-button-outlined p-button-secondary" label="Reset" icon="pi pi-refresh" (click)="reset()" [disabled]="saving"></button>
+            <button pButton type="button" label="Save Changes" icon="pi pi-check" (click)="save()" [loading]="saving" [disabled]="!canUpdate"></button>
+        </div>
+    </header>
+
+    <p *ngIf="loading" class="card m-0 p-5 text-color-secondary">Loading lease pricing settings…</p>
+    <p *ngIf="error" class="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-red-700" role="alert">{{ error }}</p>
+
+    <ng-container *ngIf="!loading && configuration">
+        <div class="mb-4 rounded-md border border-blue-100 bg-blue-50 p-3 text-sm line-height-3 text-blue-800">
+            These settings apply only to the Pricing Simulator. Quotation pricing continues to support calculated and manual rental methods.
+        </div>
+
+        <article class="card mb-4 p-0 overflow-hidden">
+            <header class="border-bottom-1 surface-border p-4">
+                <div class="tenant-methods-heading">
+                    <div>
+                        <h2 class="m-0 text-xl font-semibold text-900">Tenant-wide methods</h2>
+                        <p class="mb-0 mt-2 text-sm text-color-secondary">Enable the calculation approaches that users can choose unless an asset category has its own override.</p>
+                    </div>
+                    <button pButton type="button" class="p-button-rounded p-button-text p-button-secondary" icon="pi pi-info-circle" aria-label="Open Lease Pricing Methods Guide" pTooltip="Lease Pricing Methods Guide" tooltipPosition="left" (click)="guideVisible = true"></button>
+                </div>
+            </header>
+            <div class="method-grid p-3 md:p-4">
+                <label *ngFor="let method of supportedMethods" class="method-card" [class.is-enabled]="isEnabled(method.Code)" [class.is-disabled]="!canUpdate">
+                    <div>
+                        <span class="block font-medium text-900">{{ method.Name }}</span>
+                        <small class="mt-1 block text-color-secondary">{{ method.Code.replaceAll('_', ' ') }}</small>
+                    </div>
+                    <p-toggleswitch [ngModel]="isEnabled(method.Code)" (ngModelChange)="toggleMethod(method.Code, $event)" [disabled]="!canUpdate"></p-toggleswitch>
+                </label>
+            </div>
+            <div class="border-top-1 surface-border p-4 pt-3">
+                <label class="mb-2 block font-medium text-900" for="default-pricing-method">Default simulator method</label>
+                <p-select id="default-pricing-method" [options]="enabledMethods" optionLabel="Name" optionValue="Code" [(ngModel)]="defaultMethodCode" [disabled]="!canUpdate" appendTo="body" class="w-full md:w-24rem">
+                </p-select>
+                <small class="mt-2 block text-color-secondary">The default must be one of the enabled tenant-wide methods.</small>
+            </div>
+        </article>
+
+        <article class="card mb-4 p-0 overflow-hidden">
+            <header class="border-bottom-1 surface-border p-4">
+                <h2 class="m-0 text-xl font-semibold text-900">Pricing Defaults &amp; Limits</h2>
+                <p class="mb-0 mt-2 text-sm text-color-secondary">Set the starting assumptions for new simulations and the commercial ranges the simulator will enforce.</p>
+            </header>
+            <div class="pricing-defaults-limits p-3 md:p-4">
+                <section>
+                    <div class="pricing-defaults-section-heading">
+                        <h3>Financial defaults</h3>
+                        <p>Applied to a fresh simulator form. Existing user-entered values are never replaced.</p>
+                    </div>
+                    <div class="defaults-limits-grid">
+                        <div class="defaults-limits-field"><label for="default-funding-rate">Funding rate (%)</label><p-inputNumber inputId="default-funding-rate" [(ngModel)]="pricingDefaults.AnnualFundingRate" [min]="pricingLimits.MinimumAnnualFundingRate" [max]="pricingLimits.MaximumAnnualFundingRate" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="default-target-irr">Target IRR (%)</label><p-inputNumber inputId="default-target-irr" [(ngModel)]="pricingDefaults.TargetAnnualIrr" [min]="pricingLimits.MinimumTargetAnnualIrr" [max]="pricingLimits.MaximumTargetAnnualIrr" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="default-residual">Residual value (%)</label><p-inputNumber inputId="default-residual" [(ngModel)]="pricingDefaults.EstimatedResidualValuePercent" [min]="pricingLimits.MinimumResidualValuePercent" [max]="pricingLimits.MaximumResidualValuePercent" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="default-tenure">Tenure (months)</label><p-inputNumber inputId="default-tenure" [(ngModel)]="pricingDefaults.TermMonths" [min]="pricingLimits.MinimumTermMonths" [max]="pricingLimits.MaximumTermMonths" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="default-frequency">Payment frequency</label><p-select inputId="default-frequency" [options]="billingFrequencyOptions" optionLabel="Name" optionValue="Code" [(ngModel)]="pricingDefaults.BillingFrequency" appendTo="body" [disabled]="!canUpdate"></p-select></div>
+                        <div class="defaults-limits-field"><label for="default-timing">Payment timing</label><p-select inputId="default-timing" [options]="paymentTimingOptions" optionLabel="Name" optionValue="Code" [(ngModel)]="pricingDefaults.PaymentTimingCode" appendTo="body" [disabled]="!canUpdate"></p-select></div>
+                        <div class="defaults-limits-field"><label for="default-rounding">Monetary precision</label><p-inputNumber inputId="default-rounding" [(ngModel)]="pricingDefaults.MonetaryRoundingDecimalPlaces" [min]="pricingLimits.MinimumMonetaryRoundingDecimalPlaces" [max]="pricingLimits.MaximumMonetaryRoundingDecimalPlaces" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber><small>Applied once to monetary inputs; schedule calculations retain their reconciled precision.</small></div>
+                    </div>
+                </section>
+
+                <section class="pricing-limits-section">
+                    <div class="pricing-defaults-section-heading">
+                        <h3>Allowed ranges</h3>
+                        <p>Simulation requests outside these ranges are rejected by the backend.</p>
+                    </div>
+                    <div class="defaults-limits-grid defaults-limits-grid--limits">
+                        <div class="defaults-limits-field"><label for="minimum-funding-rate">Funding rate min (%)</label><p-inputNumber inputId="minimum-funding-rate" [(ngModel)]="pricingLimits.MinimumAnnualFundingRate" [min]="0" [max]="1000" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="maximum-funding-rate">Funding rate max (%)</label><p-inputNumber inputId="maximum-funding-rate" [(ngModel)]="pricingLimits.MaximumAnnualFundingRate" [min]="0" [max]="1000" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="minimum-target-irr">Target IRR min (%)</label><p-inputNumber inputId="minimum-target-irr" [(ngModel)]="pricingLimits.MinimumTargetAnnualIrr" [min]="0" [max]="1000" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="maximum-target-irr">Target IRR max (%)</label><p-inputNumber inputId="maximum-target-irr" [(ngModel)]="pricingLimits.MaximumTargetAnnualIrr" [min]="0" [max]="1000" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="minimum-residual">Residual min (%)</label><p-inputNumber inputId="minimum-residual" [(ngModel)]="pricingLimits.MinimumResidualValuePercent" [min]="0" [max]="100" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="maximum-residual">Residual max (%)</label><p-inputNumber inputId="maximum-residual" [(ngModel)]="pricingLimits.MaximumResidualValuePercent" [min]="0" [max]="100" suffix="%" [maxFractionDigits]="6" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="minimum-tenure">Tenure min (months)</label><p-inputNumber inputId="minimum-tenure" [(ngModel)]="pricingLimits.MinimumTermMonths" [min]="1" [max]="600" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="maximum-tenure">Tenure max (months)</label><p-inputNumber inputId="maximum-tenure" [(ngModel)]="pricingLimits.MaximumTermMonths" [min]="1" [max]="600" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="minimum-rounding">Precision min</label><p-inputNumber inputId="minimum-rounding" [(ngModel)]="pricingLimits.MinimumMonetaryRoundingDecimalPlaces" [min]="0" [max]="4" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber></div>
+                        <div class="defaults-limits-field"><label for="maximum-rounding">Precision max</label><p-inputNumber inputId="maximum-rounding" [(ngModel)]="pricingLimits.MaximumMonetaryRoundingDecimalPlaces" [min]="0" [max]="4" [useGrouping]="false" [disabled]="!canUpdate"></p-inputNumber></div>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <article class="card p-0 overflow-hidden">
+            <header class="category-header border-bottom-1 surface-border p-4">
+                <div>
+                    <h2 class="m-0 text-xl font-semibold text-900">Asset category overrides</h2>
+                    <p class="mb-0 mt-2 text-sm text-color-secondary">Optionally replace the tenant-wide list for a specific active asset category.</p>
+                </div>
+                <div class="category-add-control" *ngIf="canUpdate">
+                    <p-select [options]="categoryOptions" optionLabel="Name" optionValue="Id" [(ngModel)]="selectedCategoryId" placeholder="Select asset category" appendTo="body" class="w-full"></p-select>
+                    <button pButton type="button" label="Add override" icon="pi pi-plus" (click)="addCategoryOverride()" [disabled]="!selectedCategoryId"></button>
+                </div>
+            </header>
+
+            <div *ngIf="!categoryOverrides.length" class="p-5 text-center text-color-secondary">
+                <i class="pi pi-sitemap text-3xl"></i>
+                <p class="mb-0 mt-3">No category-specific overrides. All active categories use the tenant-wide methods above.</p>
+            </div>
+
+            <div *ngIf="categoryOverrides.length" class="p-3 md:p-4">
+                <article *ngFor="let overrideItem of categoryOverrides" class="category-override border-1 surface-border border-round p-3 mb-3 last:mb-0">
+                    <div class="category-override-heading mb-3">
+                        <div>
+                            <h3 class="m-0 text-base font-semibold text-900">{{ categoryName(overrideItem.AssetCategoryId) }}</h3>
+                            <small class="text-color-secondary">Only these methods are available when this category is selected.</small>
+                        </div>
+                        <button *ngIf="canUpdate" pButton type="button" class="p-button-text p-button-danger p-button-sm" label="Remove" icon="pi pi-trash" (click)="removeCategoryOverride(overrideItem.AssetCategoryId)"></button>
+                    </div>
+                    <p-multiselect [options]="supportedMethods" optionLabel="Name" optionValue="Code" [(ngModel)]="overrideItem.EnabledMethodCodes" [disabled]="!canUpdate" display="chip" placeholder="Select permitted methods" appendTo="body" class="w-full"></p-multiselect>
+                </article>
+            </div>
+        </article>
+
+        <footer *ngIf="!canUpdate" class="mt-4 text-sm text-color-secondary">You can view these settings but do not have permission to change them.</footer>
+    </ng-container>
+
+    <p-dialog [(visible)]="guideVisible" header="Lease Pricing Methods Guide" [modal]="true" [draggable]="false" [resizable]="false" appendTo="body" styleClass="pricing-methods-guide-dialog" [style]="{ width: 'min(66rem, calc(100vw - 2rem))', height: 'min(52rem, calc(100vh - 2rem))' }" [contentStyle]="{ overflow: 'auto' }">
+        <div class="pricing-methods-guide">
+            <p class="guide-introduction">This guide describes the Pricing Simulator’s current calculation logic. Asset-category suggestions are commercial guidance only; tenant method settings remain the source of availability.</p>
+
+            <section class="guide-note" aria-label="Shared pricing behaviour">
+                <i class="pi pi-lightbulb" aria-hidden="true"></i>
+                <span>Total asset cost always equals asset cost per unit × quantity. An entered residual amount takes priority over a residual percentage; it is expected end-of-term asset recovery, not a customer payment. A balloon is a final customer payment. Refundable deposits are shown separately.</span>
+            </section>
+
+            <section class="guide-comparison" aria-labelledby="pricing-method-comparison-title">
+                <h3 id="pricing-method-comparison-title">At a glance</h3>
+                <div class="guide-table-scroll">
+                    <table class="guide-table">
+                        <thead>
+                            <tr><th>Method</th><th>Primary driver</th><th>Typical guidance</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let guide of pricingMethodGuides">
+                                <td>{{ guide.name }}</td>
+                                <td>{{ guide.comparison }}</td>
+                                <td>{{ guide.guidance }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <p class="guide-expand-hint">Expand a method for its use case, example and supported adjustments.</p>
+
+            <p-accordion [multiple]="true" [value]="['CALCULATED']" styleClass="guide-accordion">
+                <p-accordion-panel *ngFor="let guide of pricingMethodGuides" [value]="guide.code">
+                    <p-accordion-header>
+                        <div class="guide-accordion-heading">
+                            <span>{{ guide.name }}</span>
+                            <small>{{ guide.code.replaceAll('_', ' ') }}</small>
+                        </div>
+                    </p-accordion-header>
+                    <p-accordion-content>
+                        <dl class="guide-detail-list">
+                            <div><dt>Purpose</dt><dd>{{ guide.purpose }}</dd></div>
+                            <div><dt>Calculation</dt><dd>{{ guide.calculation }}</dd></div>
+                            <div><dt>Example</dt><dd>{{ guide.example }}</dd></div>
+                            <div><dt>Supported inputs</dt><dd>{{ guide.inputs }}</dd></div>
+                            <div><dt>Adjustments</dt><dd>{{ guide.adjustments }}</dd></div>
+                            <div><dt>Asset-category guidance</dt><dd>{{ guide.guidance }}</dd></div>
+                        </dl>
+                    </p-accordion-content>
+                </p-accordion-panel>
+            </p-accordion>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <button pButton type="button" class="p-button-outlined p-button-secondary" label="Close" icon="pi pi-times" (click)="guideVisible = false"></button>
+        </ng-template>
+    </p-dialog>
+</section>
