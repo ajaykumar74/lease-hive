@@ -5,15 +5,15 @@
       <app-message #messagePanel [AlertType]="'message'"></app-message>
       <app-spinner></app-spinner>
 
-      <div class="flex flex-column xl:flex-row xl:align-items-start xl:justify-content-between gap-4 mb-3">
+      <div class="quote-workspace-header flex flex-column xl:flex-row xl:align-items-start xl:justify-content-between gap-4 mb-3">
         <div class="min-w-0">
-          <h2 class="m-0 text-3xl font-semibold line-height-2">{{ quoteId ? (isReviewRoute ? 'Review & issue quotation' : 'Edit quotation') : 'Create quotation' }}</h2>
+          <h2 class="m-0 text-2xl font-semibold line-height-2">{{ quoteId ? (isReviewRoute ? 'Review & issue quotation' : 'Edit quotation') : 'Create quotation' }}</h2>
           <div class="text-color-secondary mt-2">One draft saves every quotation tab together. Pricing calculations are validated by the LeaseHive pricing engine.</div>
         </div>
-        <div class="flex gap-2 flex-wrap xl:flex-nowrap xl:flex-shrink-0">
+        <div class="quote-workspace-header-actions flex gap-2 flex-wrap xl:flex-nowrap xl:flex-shrink-0">
           <button type="button" pButton icon="pi pi-eye" size="small" label="Preview PDF" class="p-button-sm p-button-outlined" [disabled]="isPdfAction" (click)="preview()"></button>
           <button type="button" pButton icon="pi pi-save" size="small" label="Save draft" class="p-button-sm" [disabled]="readOnly || isSaving" (click)="saveDraft()"></button>
-          <button type="button" pButton icon="pi pi-times" size="small" label="Cancel" class="p-button-sm p-button-text" (click)="cancel()"></button>
+          <button type="button" pButton icon="pi pi-arrow-left" size="small" label="Back" class="p-button-sm p-button-text" (click)="cancel()"></button>
         </div>
       </div>
 
@@ -119,9 +119,10 @@
             <div><h3 class="m-0">Lease pricing</h3><span class="text-color-secondary">Calculate a selected asset, save comparable scenarios, then apply the approved price without discarding other draft changes.</span></div>
             <span class="font-semibold">{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} per month</span>
           </div>
-          <div *ngIf="assets.length; else noPricingAssets" class="quote-pricing-layout">
+          <div *ngIf="assets.length; else noPricingAssets" class="quote-pricing-workspace">
+            <div class="quote-pricing-layout">
             <aside class="quote-pricing-asset-card">
-              <div class="quote-pricing-card-heading"><h4 class="m-0">Selected asset</h4><span class="text-color-secondary">Choose the line to price</span></div>
+              <div class="quote-pricing-card-heading flex flex-column gap-1 pb-3 mb-3 border-bottom-1 surface-border"><h4 class="m-0">Selected asset</h4><span class="text-color-secondary">Choose the line to price</span></div>
               <div class="quote-pricing-field">
                 <label for="pricingAsset">Asset line</label>
                 <p-dropdown inputId="pricingAsset" [options]="assetOptions()" optionLabel="Text" optionValue="Value" [(ngModel)]="selectedPricingAssetKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="selectPricingAsset($event)" placeholder="Select asset"></p-dropdown>
@@ -135,7 +136,7 @@
 
             <div *ngIf="pricingAsset" [formGroup]="pricingAsset" class="quote-pricing-content">
               <article class="quote-pricing-card">
-                <div class="quote-pricing-card-heading"><h4 class="m-0">Pricing assumptions</h4><span class="text-color-secondary">Enter or calculate the rental for this asset line.</span></div>
+                <div class="quote-pricing-card-heading flex flex-column gap-1 pb-3 mb-3 border-bottom-1 surface-border"><h4 class="m-0">Pricing assumptions</h4><span class="text-color-secondary">Enter or calculate the rental for this asset line.</span></div>
                 <div class="quote-pricing-grid">
                   <div class="quote-pricing-field"><label>Pricing mode</label><p-dropdown [options]="pricingMethodOptions" optionLabel="Text" optionValue="Value" formControlName="PricingMethodCode"></p-dropdown></div>
                   <div class="quote-pricing-field"><label>Payment timing</label><div class="quote-pricing-readonly">{{ header.value.PaymentTimingCode || 'ARREARS' }}</div></div>
@@ -169,18 +170,31 @@
             </div>
           </div>
 
-          <article *ngIf="calculationResult" class="surface-card border-1 border-200 border-round p-3 mt-3">
-            <div class="flex align-items-center justify-content-between gap-2 mb-3"><h4 class="m-0">Calculated result</h4><strong>{{ calculationResult.PeriodicCustomerPayment | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} monthly customer payment</strong></div>
-            <div class="grid text-sm"><div class="col-6 md:col-3"><span class="text-color-secondary">Base rental</span><div>{{ calculationResult.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Services / recurring</span><div>{{ (calculationResult.PeriodicServiceAmount + calculationResult.PeriodicRecurringChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Upfront reduction</span><div>{{ calculationResult.UpfrontReductionAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">End-of-term customer amount</span><div>{{ calculationResult.EndOfTermCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Estimated residual recovery</span><div>{{ calculationResult.EstimatedResidualValueAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Refundable deposit</span><div>{{ calculationResult.RefundableSecurityDepositAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Contractual payments</span><div>{{ calculationResult.TotalContractualPayments | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div><div class="col-6 md:col-3"><span class="text-color-secondary">Cash outflow incl. deposit</span><div>{{ calculationResult.TotalCashOutflowIncludingRefundableDeposit | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</div></div></div>
-            <ul *ngIf="calculationResult.Warnings?.length" class="mt-3 mb-0 text-orange-700"><li *ngFor="let warning of calculationResult.Warnings">{{ warning }}</li></ul>
-            <p-table [value]="calculationResult.Schedule" styleClass="p-datatable-sm" class="mt-3"><ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Base rental</th><th class="text-right">Services / charges</th><th class="text-right">Bullet / excess</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template><ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ServiceAmount + line.RecurringChargeAmount + line.UpfrontChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ContractualBulletAmount + line.ProjectedExcessUsageAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TotalCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
-          </article>
+            <article *ngIf="calculationResult" class="quote-pricing-result-card">
+              <div class="quote-pricing-result-heading">
+                <div><span class="quote-pricing-eyebrow">Pricing preview</span><h4 class="m-0">Calculated result</h4><p class="m-0 mt-1 text-color-secondary">Review the calculation before saving or applying a scenario.</p></div>
+                <div class="quote-pricing-periodic-total"><span>Monthly customer payment</span><strong>{{ calculationResult.PeriodicCustomerPayment | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+              </div>
+              <div class="quote-pricing-result-metrics">
+                <div><span>Base rental</span><strong>{{ calculationResult.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Services / recurring</span><strong>{{ (calculationResult.PeriodicServiceAmount + calculationResult.PeriodicRecurringChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Upfront reduction</span><strong>{{ calculationResult.UpfrontReductionAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>End-of-term amount</span><strong>{{ calculationResult.EndOfTermCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Residual recovery</span><strong>{{ calculationResult.EstimatedResidualValueAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Refundable deposit</span><strong>{{ calculationResult.RefundableSecurityDepositAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Contractual payments</span><strong>{{ calculationResult.TotalContractualPayments | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Cash outflow incl. deposit</span><strong>{{ calculationResult.TotalCashOutflowIncludingRefundableDeposit | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+              </div>
+              <ul *ngIf="calculationResult.Warnings?.length" class="surface-warning border-round p-3 mt-3 mb-0"><li *ngFor="let warning of calculationResult.Warnings">{{ warning }}</li></ul>
+              <p-table [value]="calculationResult.Schedule" styleClass="p-datatable-sm" class="quote-pricing-result-table"><ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Base rental</th><th class="text-right">Services / charges</th><th class="text-right">Bullet / excess</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template><ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ServiceAmount + line.RecurringChargeAmount + line.UpfrontChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ContractualBulletAmount + line.ProjectedExcessUsageAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TotalCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
+            </article>
 
-          <article *ngIf="pricingAsset && quoteId" class="surface-card border-1 border-200 border-round p-3 mt-3">
-            <h4 class="mt-0">Saved scenarios</h4>
+            <article *ngIf="pricingAsset && quoteId" class="quote-pricing-scenarios-card">
+            <div class="quote-pricing-scenarios-heading pb-3 mb-3 border-bottom-1 surface-border"><div><h4 class="m-0">Saved scenarios</h4><span class="text-color-secondary">Compare and apply a previously calculated option.</span></div></div>
             <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario || isSavingAndApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
             <div *ngIf="scenarios.length === 0" class="text-color-secondary p-3">No saved scenarios for this asset yet.</div>
           </article>
+          </div>
           <ng-template #noPricingAssets><div class="surface-ground p-5 text-center border-round text-color-secondary">Add and save an asset before using the pricing engine.</div></ng-template>
         </section>
 

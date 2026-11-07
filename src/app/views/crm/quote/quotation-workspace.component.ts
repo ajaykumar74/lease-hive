@@ -27,7 +27,8 @@ import {
 @Component({
   selector: 'app-quotation-workspace',
   standalone: false,
-  templateUrl: './quotation-workspace.component.html'
+  templateUrl: './quotation-workspace.component.html',
+  styleUrl: './quotation-workspace-pricing.component.scss'
 })
 export class QuotationWorkspaceComponent implements OnInit {
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;

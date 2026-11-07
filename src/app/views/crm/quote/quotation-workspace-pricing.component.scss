@@ -1,0 +1,21 @@
+:host { display: block; }
+
+.quote-workspace-header-actions .p-button { min-height: 2.5rem; padding: .5rem .8rem; font-size: .875rem; }
+.quote-pricing-workspace { display: grid; gap: 1.25rem; }
+.quote-pricing-layout { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(0, 2fr); align-items: start; gap: 1.25rem; }
+.quote-pricing-content { min-width: 0; }
+.quote-pricing-asset-card, .quote-pricing-card, .quote-pricing-result-card, .quote-pricing-scenarios-card { padding: 1.25rem; background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: .75rem; box-shadow: 0 3px 12px rgb(15 23 42 / 8%); }
+.quote-pricing-field { display: flex; flex-direction: column; min-width: 0; gap: .5rem; }
+.quote-pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.25rem; }
+.quote-pricing-readonly, .quote-pricing-note { display: flex; align-items: center; min-height: 2.75rem; padding: .625rem .75rem; border-radius: .375rem; }
+.quote-pricing-readonly { background: var(--surface-ground); border: 1px solid var(--surface-border); }.quote-pricing-note { color: var(--text-color-secondary); background: var(--surface-ground); line-height: 1.4; }
+.quote-pricing-asset-summary { display: grid; gap: .5rem; margin-top: 1rem; padding-top: 1rem; color: var(--text-color-secondary); border-top: 1px solid var(--surface-border); }.quote-pricing-stale { color: #b45309; }
+.quote-pricing-card-actions { display: flex; justify-content: flex-end; padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--surface-border); }
+.quote-scenario-controls { display: flex; align-items: flex-end; gap: .75rem; padding: 1rem 1.25rem; margin-top: 1rem; background: var(--surface-ground); border: 1px solid var(--surface-border); border-radius: .75rem; }.quote-scenario-controls .quote-pricing-field { flex: 1 1 18rem; }.quote-scenario-help { color: var(--text-color-secondary); line-height: 1.35; }.quote-scenario-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: .75rem; }
+.quote-pricing-result-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--surface-border); }.quote-pricing-eyebrow { display: block; margin-bottom: .25rem; color: var(--primary-color); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.quote-pricing-periodic-total { display: grid; flex: 0 0 auto; gap: .25rem; padding: .75rem 1rem; text-align: right; background: var(--primary-50); border: 1px solid var(--primary-100); border-radius: .625rem; }.quote-pricing-periodic-total span, .quote-pricing-result-metrics span { color: var(--text-color-secondary); font-size: .8125rem; }.quote-pricing-periodic-total strong { color: var(--primary-color); font-size: 1.125rem; }
+.quote-pricing-result-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }.quote-pricing-result-metrics > div { display: grid; gap: .35rem; padding: .875rem; background: var(--surface-ground); border: 1px solid var(--surface-border); border-radius: .5rem; }.quote-pricing-result-metrics strong { color: var(--text-color); font-size: .95rem; }
+.quote-pricing-result-table { display: block; margin-top: 1rem; overflow-x: auto; border: 1px solid var(--surface-border); border-radius: .5rem; }.quote-pricing-result-table :is(th, td) { white-space: nowrap; }
+
+@media (max-width: 1199px) { .quote-pricing-layout { grid-template-columns: minmax(15rem, .75fr) minmax(0, 1.5fr); }.quote-pricing-result-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .quote-pricing-layout, .quote-pricing-grid, .quote-pricing-result-metrics { grid-template-columns: minmax(0, 1fr); }.quote-pricing-asset-card, .quote-pricing-card, .quote-pricing-result-card, .quote-pricing-scenarios-card { padding: 1rem; }.quote-pricing-result-heading, .quote-scenario-controls { flex-direction: column; align-items: stretch; }.quote-pricing-periodic-total { text-align: left; }.quote-scenario-actions { width: 100%; }.quote-scenario-actions button { flex: 1 1 auto; } }
