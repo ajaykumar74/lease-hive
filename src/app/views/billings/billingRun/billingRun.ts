@@ -24,5 +24,7 @@ export interface IBillingRun extends IBase {
     ApprovedByUserName?: string;
     ApprovedAtUtc: Date;
     RecordStatus: string;
+    IncludedItemCount?: number;
+    ExcludedItemCount?: number;
     BillingRunItems: IBillingRunItem[];
 }

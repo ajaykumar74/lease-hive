@@ -140,6 +140,13 @@ validationstatusOptions: ISelectItem[] = [];
  
 
   ngOnInit(): void {
+   const runId = Number(this.activatedRouter.snapshot.params['id']);
+   if (Number.isInteger(runId) && runId > 0) {
+     // Draft contents are discovered server-side and selected on the details page.
+     // Keep legacy edit URLs usable without exposing the former manual-item editor.
+     this.router.navigate(['/billing-finance/billing/runs/view', runId], { replaceUrl: true });
+     return;
+   }
    this.objMaster = { ...this.billingRun };
 
     this.editForm = this.fb.group({

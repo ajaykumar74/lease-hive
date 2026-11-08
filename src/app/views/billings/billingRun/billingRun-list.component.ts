@@ -195,9 +195,6 @@ export class BillingRunListComponent implements OnInit {
             { label: 'View details', icon: 'pi pi-eye', command: () => this.viewDetails(obj) },
             { label: 'View invoices', icon: 'pi pi-file', command: () => this.viewInvoices(obj) }
         ];
-        if (this.permission.CanUpdate) {
-            this.actionMenuItems.push({ label: 'Edit billing run', icon: 'pi pi-pencil', command: () => this.edit(obj) });
-        }
         menu.toggle(event);
     }
 

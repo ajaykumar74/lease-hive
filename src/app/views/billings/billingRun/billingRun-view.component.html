@@ -209,45 +209,45 @@
                         </div>
                     </p-fluid>
 
-                    <section class="mt-5">
-                        <h5>Billing Run Items</h5>
-                        <p-table [value]="billingRun.BillingRunItems || []" responsiveLayout="scroll" styleClass="list-table">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Lease Contract</th>
-                                    <th>Schedule Line</th>
-                                    <th>Contract Charge</th>
-                                    <th>Source Type</th>
-                                    <th>Due Date</th>
-                                    <th>Amount</th>
-                                    <th>Currency</th>
-                                    <th>Validation Status</th>
-                                    <th>Customer Invoice</th>
-                                    <th>Exclusion Reason</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-item>
-                                <tr>
-                                    <td>{{ item.LeaseContractId }}</td>
-                                    <td>{{ item.LeasePaymentScheduleLineId }}</td>
-                                    <td>{{ item.LeaseContractChargeId }}</td>
-                                    <td>{{ item.SourceType }}</td>
-                                    <td>{{ item.DueDate | date: 'dd-MMM-yyyy' }}</td>
-                                    <td>{{ item.Amount | number: '1.2-2' }}</td>
-                                    <td>{{ item.CurrencyCode }}</td>
-                                    <td>{{ item.ValidationStatus }}</td>
-                                    <td>
-                                        <button *ngIf="item.CustomerInvoiceId > 0" type="button" pButton [text]="true" size="small" [label]="item.CustomerInvoiceId" (click)="viewInvoice(item.CustomerInvoiceId)"></button
-                                        ><span *ngIf="!item.CustomerInvoiceId">—</span>
-                                    </td>
-                                    <td>{{ item.ExclusionReason }}</td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage"
-                                ><tr>
-                                    <td colspan="10">No billing run items.</td>
-                                </tr></ng-template
-                            >
+                    <section class="billing-run-items mt-5">
+                        <div class="billing-run-items__header">
+                            <div>
+                                <span class="section-eyebrow">Discovered billing items</span>
+                                <h2>Eligible obligations</h2>
+                                <p>{{ billingRun.IncludedItemCount || billingRun.CandidateCount || 0 }} included · {{ billingRun.ExcludedItemCount || 0 }} excluded · {{ billingRun.CurrencyCode }} {{ billingRun.TotalAmount | number: '1.2-2' }} included total</p>
+                            </div>
+                            <div *ngIf="canEditItemSelection" class="billing-run-items__bulk-actions">
+                                <button type="button" pButton label="Include selected" icon="pi pi-check" severity="secondary" [disabled]="!selectedBillingRunItems.length || !permission?.CanUpdate" (click)="setItemsIncluded(selectedBillingRunItems, true)"></button>
+                                <button type="button" pButton label="Exclude selected" icon="pi pi-times" severity="secondary" [disabled]="!selectedBillingRunItems.length || !permission?.CanUpdate" (click)="setItemsIncluded(selectedBillingRunItems, false)"></button>
+                            </div>
+                        </div>
+                        <div class="billing-run-items__filters">
+                            <span class="p-input-icon-left"><i class="pi pi-search"></i><input pInputText [(ngModel)]="itemSearchTerm" [ngModelOptions]="{ standalone: true }" (keyup.enter)="applyItemFilters()" placeholder="Search contract or customer" /></span>
+                            <p-dropdown [(ngModel)]="itemSourceType" [ngModelOptions]="{ standalone: true }" [options]="[{ label: 'All sources', value: '' }, { label: 'Schedule', value: 'SCHEDULE' }, { label: 'Charge', value: 'CHARGE' }]" optionLabel="label" optionValue="value" (onChange)="applyItemFilters()"></p-dropdown>
+                            <p-dropdown [(ngModel)]="itemValidationStatus" [ngModelOptions]="{ standalone: true }" [options]="[{ label: 'All statuses', value: '' }, { label: 'Included', value: 'PENDING' }, { label: 'Valid', value: 'VALID' }, { label: 'Excluded', value: 'EXCLUDED' }, { label: 'Invalid', value: 'INVALID' }]" optionLabel="label" optionValue="value" (onChange)="applyItemFilters()"></p-dropdown>
+                            <button type="button" pButton label="Search" icon="pi pi-search" severity="secondary" (click)="applyItemFilters()"></button>
+                        </div>
+                        <p-table [value]="billingRunItems" [(selection)]="selectedBillingRunItems" dataKey="Id" [lazy]="true" (onLazyLoad)="loadBillingRunItems($event)" [paginator]="true" [rows]="50" [totalRecords]="billingRunItemsTotal" [loading]="isBillingRunItemsLoading" [rowsPerPageOptions]="[25, 50, 100]" responsiveLayout="scroll" styleClass="list-table billing-run-items__table">
+                            <ng-template pTemplate="header"><tr>
+                                <th *ngIf="canEditItemSelection" style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th>Contract</th><th>Customer</th><th>Source type</th><th>Due date</th><th class="text-right">Amount</th><th>Status</th><th class="text-right">Action</th>
+                            </tr></ng-template>
+                            <ng-template pTemplate="body" let-item><tr [class.billing-run-items__excluded]="validationStatus(item) === 'EXCLUDED'">
+                                <td *ngIf="canEditItemSelection"><p-tableCheckbox [value]="item"></p-tableCheckbox></td>
+                                <td><strong>{{ item.ContractNo || ('Contract #' + item.LeaseContractId) }}</strong></td>
+                                <td>{{ item.CustomerName || '—' }}</td>
+                                <td>{{ item.SourceType }}</td>
+                                <td>{{ item.DueDate | date: 'dd-MMM-yyyy' }}</td>
+                                <td class="text-right">{{ item.CurrencyCode }} {{ item.Amount | number: '1.2-2' }}</td>
+                                <td><span class="billing-run-items__status" [class.is-excluded]="validationStatus(item) === 'EXCLUDED'">{{ item.ValidationStatus || 'PENDING' }}</span></td>
+                                <td class="text-right">
+                                    <button *ngIf="canEditItemSelection && validationStatus(item) !== 'EXCLUDED'" type="button" pButton label="Exclude" size="small" [text]="true" severity="secondary" [disabled]="!permission?.CanUpdate" (click)="setItemsIncluded([item], false)"></button>
+                                    <button *ngIf="canEditItemSelection && validationStatus(item) === 'EXCLUDED'" type="button" pButton label="Include" size="small" [text]="true" [disabled]="!permission?.CanUpdate" (click)="setItemsIncluded([item], true)"></button>
+                                    <button *ngIf="item.CustomerInvoiceId > 0" type="button" pButton label="View invoice" size="small" [text]="true" (click)="viewInvoice(item.CustomerInvoiceId)"></button>
+                                    <span *ngIf="!canEditItemSelection && !item.CustomerInvoiceId">—</span>
+                                </td>
+                            </tr></ng-template>
+                            <ng-template pTemplate="emptymessage"><tr><td [attr.colspan]="canEditItemSelection ? 8 : 7">No discovered billing items match these filters.</td></tr></ng-template>
                         </p-table>
                     </section>
                 </form>

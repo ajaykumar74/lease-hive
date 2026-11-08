@@ -1969,11 +1969,6 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/billing-finance/billing/runs']
                                         },
                                         {
-                                            label: 'Billing Candidates',
-                                            icon: 'pi pi-fw pi-list-check',
-                                            routerLink: ['/billing-finance/billing/candidates']
-                                        },
-                                        {
                                             label: 'Billing Exceptions',
                                             icon: 'pi pi-fw pi-exclamation-triangle',
                                             routerLink: ['/billing-finance/billing/exceptions']

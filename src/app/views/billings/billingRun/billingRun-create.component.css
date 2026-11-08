@@ -1,0 +1,17 @@
+.billing-run-create__intro {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    background: var(--surface-50);
+}
+.billing-run-create__intro h2 { margin: .25rem 0; font-size: 1.2rem; }
+.billing-run-create__intro p { max-width: 54rem; margin: 0; color: var(--text-color-secondary); line-height: 1.5; }
+.billing-run-create__intro > i { padding: .75rem; border-radius: 10px; background: var(--primary-100); color: var(--primary-color); font-size: 1.2rem; }
+.billing-run-create__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.billing-run-create__fields .field { display: flex; min-width: 0; flex-direction: column; gap: .35rem; }
+@media (max-width: 700px) { .billing-run-create__fields { grid-template-columns: 1fr; } }

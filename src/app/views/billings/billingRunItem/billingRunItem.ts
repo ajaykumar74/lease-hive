@@ -15,5 +15,7 @@ ValidationStatus :string;
 ExclusionReason :string;
 CustomerInvoiceId :number;
 RecordStatus :string;
+ContractNo?: string;
+CustomerName?: string;
 
 }

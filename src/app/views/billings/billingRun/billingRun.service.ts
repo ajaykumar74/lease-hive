@@ -64,6 +64,13 @@ export class BillingRunService extends BaseCrudService<any> {
         );
     }
 
+    setItemInclusion(billingRunId: number, billingRunItemIds: number[], include: boolean): Observable<any> {
+        return this.http.put<any>(`${this.baseUrl}/${billingRunId}/items/inclusion`, { BillingRunItemIds: billingRunItemIds, Include: include }, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
+
     issueInvoices(billingRunId: number): Observable<any> {
         return this.http.post<any>(`${this.baseUrl}/${billingRunId}/issue-invoices`, {}, { headers: this.headers }).pipe(
             tap((data) => this.baseService.onTapData(data)),

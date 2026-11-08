@@ -1,171 +1,24 @@
- <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
-				</app-toolbar-buttons> 
-				<app-spinner></app-spinner>
-				
-		      <form [formGroup]="editForm" (ngSubmit)="Save()">
-					<div *ngIf="isContractBillingGeneration" class="mb-4 p-3 border-round bg-blue-50 text-blue-900">
-						Items will be generated from the active contract’s due, unbilled payment schedule lines and eligible one-off charges when this draft run is saved.
-					</div>
-  			<p-fluid>
-		      		<div class="flex mt-8">
-					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Billing Organisation Id" class="mb-1">BillingOrganisationId</label>
-        <p-dropdown
-            inputId="BillingOrganisationId" 
-            [options]="billingorganisationidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="BillingOrganisationId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('BillingOrganisationId')"
-											label="Billing Organisation Id">
-										</app-validation-errors></div><div class="flex flex-col w-full">			
-							<label for="BillingDate">Billing Date 
-							</label> 
-							<p-calendar id="BillingDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="BillingDate"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('BillingDate')"
-											label="Billing Date">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			
-							<label for="PeriodFrom">Period From 
-							</label> 
-							<p-calendar id="PeriodFrom"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="PeriodFrom"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('PeriodFrom')"
-											label="Period From">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">			
-							<label for="PeriodTo">Period To 
-							</label> 
-							<p-calendar id="PeriodTo"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="PeriodTo"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('PeriodTo')"
-											label="Period To">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Billing Run Status Id" class="mb-1">BillingRunStatusId</label>
-        <p-dropdown
-            inputId="BillingRunStatusId" 
-            [options]="billingrunstatusidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="BillingRunStatusId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('BillingRunStatusId')"
-											label="Billing Run Status Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Run Type" class="mb-1">RunType</label>
-        <p-dropdown
-            inputId="RunType" 
-            [options]="runtypeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RunType"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RunType')"
-											label="Run Type">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="CandidateCount">Candidate Count 
-							</label> 
-							<p-inputNumber id="CandidateCount"  pSize="small"	formControlName="CandidateCount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('CandidateCount')"
-											label="Candidate Count">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="InvoiceCount">Invoice Count 
-							</label> 
-							<p-inputNumber id="InvoiceCount"  pSize="small"	formControlName="InvoiceCount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('InvoiceCount')"
-											label="Invoice Count">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TotalAmount">Total Amount 
-							</label> 
-							<p-inputNumber id="TotalAmount"  pSize="small"	formControlName="TotalAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('TotalAmount')"
-											label="Total Amount">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
-        <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
-											label="Currency Code">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Approved By User Id" class="mb-1">ApprovedByUserId</label>
-        <p-dropdown
-            inputId="ApprovedByUserId" 
-            [options]="approvedbyuseridOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="ApprovedByUserId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('ApprovedByUserId')"
-											label="Approved By User Id">
-										</app-validation-errors></div><div class="flex flex-col w-full">			
-							<label for="ApprovedAtUtc">Approved At Utc 
-							</label> 
-							<p-calendar id="ApprovedAtUtc"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="ApprovedAtUtc"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('ApprovedAtUtc')"
-											label="Approved At Utc">
-										</app-validation-errors>
-						 </div></div>
-
-
-					</div>
-				</div>
- 			</p-fluid> 				 
-                    <section *ngIf="!isContractBillingGeneration" class="mt-5" formArrayName="BillingRunItems">
-                        <div class="flex justify-between items-center mb-3">
-                            <h5 class="m-0">Billing Run Items</h5>
-                            <button type="button" pButton label="Add Item" icon="pi pi-plus" size="small" (click)="addBillingRunItem()"></button>
-                        </div>
-                        <p class="text-sm text-color-secondary" *ngIf="billingRunItems.length === 0">Add at least one billing run item.</p>
-                        <div class="card mb-3" *ngFor="let item of billingRunItems.controls; let index = index" [formGroupName]="index">
-                            <div class="flex justify-between items-center mb-3">
-                                <strong>Item {{ index + 1 }}</strong>
-                                <button type="button" pButton icon="pi pi-trash" severity="danger" [text]="true" (click)="removeBillingRunItem(index)"></button>
-                            </div>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <div class="flex flex-col w-full"><label>Lease Contract</label><p-dropdown [options]="leasecontractidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractId" placeholder="Select One"></p-dropdown></div>
-                                <div class="flex flex-col w-full"><label>Schedule Line</label><p-dropdown [options]="leasepaymentschedulelineidOptions" optionLabel="Text" optionValue="Value" formControlName="LeasePaymentScheduleLineId" placeholder="Select One"></p-dropdown></div>
-                                <div class="flex flex-col w-full"><label>Contract Charge</label><p-dropdown [options]="leasecontractchargeidOptions" optionLabel="Text" optionValue="Value" formControlName="LeaseContractChargeId" placeholder="Select One"></p-dropdown></div>
-                            </div>
-                            <div class="flex flex-col md:flex-row gap-4 mt-3">
-                                <div class="flex flex-col w-full"><label>Source Type</label><p-dropdown [options]="sourcetypeOptions" optionLabel="Text" optionValue="Value" formControlName="SourceType" placeholder="Select One"></p-dropdown></div>
-                                <div class="flex flex-col w-full"><label>Due Date</label><p-calendar formControlName="DueDate" size="small" dateFormat="dd-MM-yy" [showIcon]="true"></p-calendar></div>
-                                <div class="flex flex-col w-full"><label>Amount</label><p-inputNumber formControlName="Amount" pSize="small"></p-inputNumber></div>
-                                <div class="flex flex-col w-full"><label>Currency</label><app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown></div>
-                            </div>
-                            <div class="flex flex-col md:flex-row gap-4 mt-3">
-                                <div class="flex flex-col w-full"><label>Validation Status</label><p-dropdown [options]="validationstatusOptions" optionLabel="Text" optionValue="Value" formControlName="ValidationStatus" placeholder="Select One"></p-dropdown></div>
-                                <div class="flex flex-col w-full"><label>Customer Invoice</label><p-dropdown [options]="customerinvoiceidOptions" optionLabel="Text" optionValue="Value" formControlName="CustomerInvoiceId" placeholder="Select One"></p-dropdown></div>
-                                <div class="flex flex-col w-full"><label>Exclusion Reason</label><input pInputText formControlName="ExclusionReason" /></div>
-                            </div>
-                        </div>
-                    </section>
-                     </form>
-
-			</div>
-		</div>
-	</div>
+<div class="container">
+    <div class="grid"><div class="col-12"><div class="card p-fluid billing-run-create">
+        <app-message [AlertType]="'message'"></app-message>
+        <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"></app-toolbar-buttons>
+        <app-spinner></app-spinner>
+        <form [formGroup]="editForm" (ngSubmit)="save()">
+            <section class="billing-run-create__intro">
+                <div>
+                    <span class="section-eyebrow">Automated discovery</span>
+                    <h2>Build a billing run from eligible obligations</h2>
+                    <p>LeaseHive finds due, unbilled schedule lines and one-off contract charges for the selected organisation. Amounts, currency, status and totals are calculated by the server.</p>
+                </div>
+                <i class="pi pi-sparkles" aria-hidden="true"></i>
+            </section>
+            <div class="billing-run-create__fields">
+                <div class="field"><label for="BillingOrganisationId">Organisation</label><p-dropdown inputId="BillingOrganisationId" [options]="billingorganisationidOptions" optionLabel="Text" optionValue="Value" formControlName="BillingOrganisationId" placeholder="Select organisation" class="w-full"></p-dropdown><app-validation-errors [type]="'text'" [control]="editForm.get('BillingOrganisationId')" label="Organisation"></app-validation-errors></div>
+                <div class="field"><label for="BillingDate">Billing date</label><p-calendar inputId="BillingDate" size="small" dateFormat="dd-M-yy" [showIcon]="true" formControlName="BillingDate"></p-calendar><app-validation-errors [type]="'date'" [control]="editForm.get('BillingDate')" label="Billing date"></app-validation-errors></div>
+                <div class="field"><label for="PeriodFrom">Period from</label><p-calendar inputId="PeriodFrom" size="small" dateFormat="dd-M-yy" [showIcon]="true" formControlName="PeriodFrom"></p-calendar><app-validation-errors [type]="'date'" [control]="editForm.get('PeriodFrom')" label="Period from"></app-validation-errors></div>
+                <div class="field"><label for="PeriodTo">Period to</label><p-calendar inputId="PeriodTo" size="small" dateFormat="dd-M-yy" [showIcon]="true" formControlName="PeriodTo"></p-calendar><app-validation-errors [type]="'date'" [control]="editForm.get('PeriodTo')" label="Period to"></app-validation-errors></div>
+                <div class="field"><label for="RunType">Run type</label><p-dropdown inputId="RunType" [options]="runtypeOptions" optionLabel="Text" optionValue="Value" formControlName="RunType" placeholder="ADHOC" class="w-full"></p-dropdown><app-validation-errors [type]="'text'" [control]="editForm.get('RunType')" label="Run type"></app-validation-errors></div>
+            </div>
+        </form>
+    </div></div></div>
 </div>
-
-
-

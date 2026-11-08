@@ -13,6 +13,8 @@ import { BillingRunService } from './billingRun.service';
 import { IBillingRun } from './billingRun';
 import { CustomerInvoiceService } from '../customerInvoice/customerInvoice.service';
 import { ICustomerInvoice } from '../customerInvoice/customerInvoice';
+import { BillingRunItemService } from '../billingRunItem/billingRunItem.service';
+import { IBillingRunItem } from '../billingRunItem/billingRunItem';
 
 @Component({
     templateUrl: './billingRun-view.component.html', 
@@ -36,12 +38,22 @@ export class BillingRunViewComponent implements OnInit {
     private invoiceIssuanceSummaryRequest = 0;
     isValidating = false;
     isApproving = false;
+    billingRunItems: IBillingRunItem[] = [];
+    selectedBillingRunItems: IBillingRunItem[] = [];
+    billingRunItemsTotal = 0;
+    isBillingRunItemsLoading = false;
+    itemSearchTerm = '';
+    itemSourceType = '';
+    itemValidationStatus = '';
+    private itemFirst = 0;
+    private itemRows = 50;
     
 
     constructor( 
         private router: Router,
         private activatedRouter: ActivatedRoute,
         private billingRunService: BillingRunService, 
+        private billingRunItemService: BillingRunItemService,
         private customerInvoiceService: CustomerInvoiceService,
         private _location: Location,
         private loggedInUserService: LoggedInUserService,
@@ -73,6 +85,7 @@ export class BillingRunViewComponent implements OnInit {
                 this.billingRun = data.data;
                 this.permission = data.permission; 
                 this.populateUI(this.billingRun);
+                this.loadBillingRunItems();
                 this.loadInvoiceIssuanceSummary();
             },
             error: err => {
@@ -104,20 +117,26 @@ export class BillingRunViewComponent implements OnInit {
         return this.billingRunStatusCode === 'APPROVED';
     }
 
+    get canEditItemSelection(): boolean {
+        return this.isDraft || this.isValidated;
+    }
+
     get isWorkflowActionInProgress(): boolean {
         return this.isValidating || this.isApproving || this.isGeneratingInvoices || this.isIssuingInvoices;
     }
 
     get workflowItems() {
-        return this.billingRun?.BillingRunItems || [];
+        return this.billingRunItems;
     }
 
     get validItemCount(): number {
-        return this.workflowItems.filter(item => this.validationStatus(item) === 'VALID').length;
+        return this.isValidated || this.isApprovedForInvoiceGeneration
+            ? Number(this.billingRun?.IncludedItemCount ?? this.billingRun?.CandidateCount ?? 0)
+            : this.workflowItems.filter(item => this.validationStatus(item) === 'VALID').length;
     }
 
     get excludedItemCount(): number {
-        return this.workflowItems.filter(item => this.validationStatus(item) === 'EXCLUDED').length;
+        return Number(this.billingRun?.ExcludedItemCount ?? 0);
     }
 
     get errorItemCount(): number {
@@ -148,8 +167,52 @@ export class BillingRunViewComponent implements OnInit {
     }
 
     get hasGeneratedInvoices(): boolean {
-        return Number(this.billingRun?.InvoiceCount || 0) > 0
-            || (this.billingRun?.BillingRunItems || []).some(item => Number(item.CustomerInvoiceId || 0) > 0);
+        return Number(this.billingRun?.InvoiceCount || 0) > 0;
+    }
+
+    loadBillingRunItems(event?: any): void {
+        if (!this.selectedId) return;
+        this.itemFirst = Number(event?.first ?? this.itemFirst ?? 0);
+        this.itemRows = Number(event?.rows ?? this.itemRows ?? 50);
+        this.isBillingRunItemsLoading = true;
+        this.billingRunItemService.search({
+            Skip: this.itemFirst,
+            Take: this.itemRows,
+            SortBy: 'DueDate',
+            IsDescending: false,
+            BillingRunId: this.selectedId,
+            SearchTerm: this.itemSearchTerm || null,
+            SourceType: this.itemSourceType || null,
+            ValidationStatus: this.itemValidationStatus || null
+        }).subscribe({
+            next: response => {
+                this.billingRunItems = response?.data?.Records || [];
+                this.billingRunItemsTotal = Number(response?.data?.TotalRecords || 0);
+                this.selectedBillingRunItems = [];
+            },
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => this.isBillingRunItemsLoading = false
+        });
+    }
+
+    applyItemFilters(): void {
+        this.itemFirst = 0;
+        this.loadBillingRunItems();
+    }
+
+    setItemsIncluded(items: IBillingRunItem[], include: boolean): void {
+        if (!this.canEditItemSelection || !this.permission?.CanUpdate || !items.length) return;
+        const itemIds = items.map(item => Number(item.Id)).filter(id => id > 0);
+        if (!itemIds.length) return;
+        this.isBillingRunItemsLoading = true;
+        this.billingRunService.setItemInclusion(this.selectedId, itemIds, include).subscribe({
+            next: response => {
+                this.messageService?.showSuccess(response?.Message || response?.message || `Item${itemIds.length === 1 ? '' : 's'} ${include ? 'included' : 'excluded'}.`);
+                this.loadUI();
+            },
+            error: error => this.messageService?.showError(this.getErrorMessage(error)),
+            complete: () => this.isBillingRunItemsLoading = false
+        });
     }
 
     validateBillingRun(): void {
@@ -271,11 +334,7 @@ export class BillingRunViewComponent implements OnInit {
     }
 
     viewGeneratedInvoices(): void {
-        const contractIds = Array.from(new Set((this.billingRun.BillingRunItems || [])
-            .map(item => Number(item.LeaseContractId))
-            .filter(contractId => Number.isInteger(contractId) && contractId > 0)));
         const queryParams: any = { billingRunId: this.selectedId };
-        if (contractIds.length === 1) queryParams.leaseContractId = contractIds[0];
         this.router.navigate(['/billing-finance/invoices'], { queryParams });
     }
 
@@ -321,7 +380,7 @@ export class BillingRunViewComponent implements OnInit {
             });
     }
 
-    private validationStatus(item: any): string {
+    validationStatus(item: any): string {
         return String(item?.ValidationStatus || '').trim().toUpperCase();
     }
 
