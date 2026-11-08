@@ -73,6 +73,16 @@ export class CustomerInvoiceService extends BaseCrudService<any> {
     return this.http.get<any>(`${this.baseService.C_APP_URL}/customer-invoice-documents/${invoiceId}/receivable`, { headers: this.headers })
       .pipe(catchError(this.baseService.handleError));
   }
+
+  getTaxBreakdown(invoiceId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/CustomerInvoiceTaxs/invoice/${invoiceId}`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  getTaxClassifications(invoiceId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseService.C_APP_URL}/CustomerInvoiceTaxs/invoice/${invoiceId}/classifications`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
 }
 
 

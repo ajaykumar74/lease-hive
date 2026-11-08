@@ -23,11 +23,18 @@ export interface IPricingSimulatorInput extends Omit<ILeasePricingInput, 'QuoteI
   FixedBaseRentalAmount?: number;
   TargetAnnualIrr?: number;
   IsTaxExempt?: boolean;
+  TaxCountryCode?: string;
+  TaxJurisdictionCode?: string;
+  TaxOverrideReason?: string;
   TaxComponents?: PricingSimulationTaxComponent[];
 }
 
 export interface PricingSimulationTaxComponent {
+  TaxRuleId?: number;
   TaxCode: string;
+  TaxName?: string;
+  TaxTreatmentCode?: string;
+  TaxJurisdictionCode?: string;
   TaxRate: number;
   TaxJurisdictionId?: number;
   AppliesToRental: boolean;
@@ -77,11 +84,24 @@ export interface PricingSimulationRentalStep {
 }
 
 export interface PricingSimulationTaxBreakdown {
+  TaxRuleId?: number;
   TaxCode: string;
+  TaxName?: string;
+  TaxTreatmentCode?: string;
+  TaxJurisdictionCode?: string;
   TaxRate: number;
   TaxJurisdictionId: number;
   TaxableAmount: number;
   TaxAmount: number;
+}
+
+export interface PricingSimulationTaxDetermination {
+  Status: 'DETERMINED' | 'EXEMPT' | 'ZERO_RATED' | 'OVERRIDDEN' | 'REQUIRED' | string;
+  Reason?: string;
+  CountryCode?: string;
+  JurisdictionCode?: string;
+  TaxTreatmentCode?: string;
+  IsOverrideApplied: boolean;
 }
 
 export interface PricingSimulationScheduleLine extends ILeasePricingScheduleLine {
@@ -112,6 +132,7 @@ export interface PricingSimulationResult extends ILeasePricingResult {
   TaxInclusivePayableAmount: number;
   TotalCashOutflowIncludingTaxAndRefundableDeposit: number;
   TaxBreakdown: PricingSimulationTaxBreakdown[];
+  TaxDetermination: PricingSimulationTaxDetermination;
   Schedule: PricingSimulationScheduleLine[];
 }
 

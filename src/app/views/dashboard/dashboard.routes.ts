@@ -321,6 +321,12 @@ const routes: Routes = [
         loadComponent: () => import('@/views/tenantSettings/pricingMethodConfiguration/pricing-method-configuration.component').then(c => c.PricingMethodConfigurationComponent),
       },
       {
+        path: 'tax-configuration',
+        canActivate: [AuthGuard, PermissionGuard],
+        data: { breadcrumb: 'Tax Configuration' },
+        loadComponent: () => import('@/views/tenantSettings/taxConfiguration/tax-configuration.component').then(c => c.TaxConfigurationComponent),
+      },
+      {
         path: 'ai-assistant',
         canActivate: [AuthGuard, PermissionGuard],
         data: { breadcrumb: 'AI assistant' },

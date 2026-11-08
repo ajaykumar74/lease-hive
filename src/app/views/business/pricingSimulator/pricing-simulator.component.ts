@@ -58,6 +58,7 @@ export class PricingSimulatorComponent implements OnInit {
   form: FormGroup;
   private configuredDefaultPricingMethod = 'CALCULATED';
   private methodOptionsRequestId = 0;
+  private taxRefreshTimer?: ReturnType<typeof setTimeout>;
   tenantDefaults: PricingSimulatorDefaults = this.defaultTenantDefaults();
   tenantLimits: PricingSimulatorLimits = this.defaultTenantLimits();
 
@@ -69,6 +70,9 @@ export class PricingSimulatorComponent implements OnInit {
     this.form = this.createForm();
     this.form.get('PricingModeCode')?.valueChanges.subscribe(() => this.updatePricingMethodValidators());
     this.form.get('AssetCategoryId')?.valueChanges.subscribe(assetCategoryId => this.loadPermittedMethods(Number(assetCategoryId) || 0));
+    ['TaxCountryCode', 'TaxJurisdictionCode', 'IsTaxExempt', 'IsTaxOverride', 'TaxOverrideReason', 'AssetCategoryId', 'LeaseTypeCode', 'EffectiveDate']
+      .forEach(controlName => this.form.get(controlName)?.valueChanges.subscribe(() => this.scheduleTaxRefresh()));
+    this.taxComponents.valueChanges.subscribe(() => this.scheduleTaxRefresh());
     this.updatePricingMethodValidators();
   }
 
@@ -244,6 +248,23 @@ export class PricingSimulatorComponent implements OnInit {
         tax.enable({ emitEvent: false });
       }
     });
+    if (isTaxExempt) {
+      this.taxComponents.clear();
+      this.form.get('IsTaxOverride')?.setValue(false, { emitEvent: false });
+      this.form.get('TaxOverrideReason')?.setValue('', { emitEvent: false });
+    }
+    this.scheduleTaxRefresh();
+  }
+
+  onTaxOverrideChanged(isOverride: boolean): void {
+    const reason = this.form.get('TaxOverrideReason');
+    reason?.setValidators(isOverride ? [Validators.required, Validators.minLength(5), Validators.maxLength(500)] : [Validators.maxLength(500)]);
+    reason?.updateValueAndValidity({ emitEvent: false });
+    if (!isOverride) {
+      this.taxComponents.clear();
+      reason?.setValue('', { emitEvent: false });
+    }
+    this.scheduleTaxRefresh();
   }
 
   totalFinanceCharges(): number {
@@ -263,6 +284,13 @@ export class PricingSimulatorComponent implements OnInit {
     const method = String(this.result?.PricingModeCode || this.form.get('PricingModeCode')?.value || '').toUpperCase();
     if (method === 'TARGET_IRR') return 'Required periodic rental';
     return method === 'USAGE_BASED' || method === 'HYBRID' ? 'Projected periodic rental' : 'Periodic base rental';
+  }
+
+  taxDeterminationLabel(): string {
+    const status = String(this.result?.TaxDetermination?.Status || 'REQUIRED').toUpperCase();
+    return status === 'REQUIRED'
+      ? 'Tax Determination Required'
+      : `Tax ${status.replaceAll('_', ' ').toLowerCase()}`;
   }
 
   private createForm(): FormGroup {
@@ -297,6 +325,10 @@ export class PricingSimulatorComponent implements OnInit {
       ManualPeriodicRentalAmount: [0, [Validators.min(0)]],
       RentalSteps: this.formBuilder.array<FormGroup>([]),
       IsTaxExempt: [false],
+      TaxCountryCode: ['', Validators.maxLength(3)],
+      TaxJurisdictionCode: ['', Validators.maxLength(50)],
+      IsTaxOverride: [false],
+      TaxOverrideReason: ['', Validators.maxLength(500)],
       TaxComponents: this.formBuilder.array<FormGroup>([]),
       Services: this.formBuilder.array<FormGroup>([]),
       Charges: this.formBuilder.array<FormGroup>([])
@@ -355,7 +387,11 @@ export class PricingSimulatorComponent implements OnInit {
       FixedBaseRentalAmount: 0,
       TargetAnnualIrr: this.tenantDefaults.TargetAnnualIrr,
       ManualPeriodicRentalAmount: 0,
-      IsTaxExempt: false
+      IsTaxExempt: false,
+      TaxCountryCode: '',
+      TaxJurisdictionCode: '',
+      IsTaxOverride: false,
+      TaxOverrideReason: ''
     };
   }
 
@@ -381,7 +417,7 @@ export class PricingSimulatorComponent implements OnInit {
       Amount: this.numberValue(charge.Amount),
       LessorCostAmount: this.numberValue(charge.LessorCostAmount)
     }));
-    const taxComponents: PricingSimulationTaxComponent[] = (value.TaxComponents || []).map((tax: any) => ({
+    const taxComponents: PricingSimulationTaxComponent[] = (value.IsTaxOverride && !value.IsTaxExempt ? value.TaxComponents || [] : []).map((tax: any) => ({
       TaxCode: String(tax.TaxCode || '').trim(),
       TaxRate: this.numberValue(tax.TaxRate),
       TaxJurisdictionId: 0,
@@ -426,6 +462,9 @@ export class PricingSimulatorComponent implements OnInit {
       ManualPeriodicRentalAmount: this.numberValue(value.ManualPeriodicRentalAmount),
       RentalSteps: rentalSteps,
       IsTaxExempt: Boolean(value.IsTaxExempt),
+      TaxCountryCode: String(value.TaxCountryCode || '').trim(),
+      TaxJurisdictionCode: String(value.TaxJurisdictionCode || '').trim(),
+      TaxOverrideReason: value.IsTaxOverride && !value.IsTaxExempt ? String(value.TaxOverrideReason || '').trim() : '',
       TaxComponents: taxComponents,
       Services: services,
       Charges: charges
@@ -518,6 +557,15 @@ export class PricingSimulatorComponent implements OnInit {
     ]);
     residualPercent?.updateValueAndValidity({ emitEvent: false });
     this.updatePricingMethodValidators();
+  }
+
+  private scheduleTaxRefresh(): void {
+    if (!this.result) return;
+    if (this.taxRefreshTimer) clearTimeout(this.taxRefreshTimer);
+    this.taxRefreshTimer = setTimeout(() => {
+      this.taxRefreshTimer = undefined;
+      if (this.form.valid && !this.calculating && !this.methodOptionsLoading) this.calculate();
+    }, 450);
   }
 
   private defaultTenantDefaults(): PricingSimulatorDefaults {

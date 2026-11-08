@@ -102,6 +102,7 @@ export class MenuPermissionService {
         { route: '/dashboard/ai-settings', resource: 'ai.aitenantsettings' },
         { route: '/dashboard/tenant-settings', resource: 'administration.tenantsettings' },
         { route: '/dashboard/lease-pricing', resource: 'administration.tenantsettings' },
+        { route: '/dashboard/tax-configuration', resource: 'administration.tenantsettings' },
         { route: '/dashboard/notificationrecipientrules', resource: 'notification.tenantnotificationrecipentrule' },
         { route: '/dashboard/emailjobqueues', resource: 'notification.emailjobqueue' },
         { route: '/dashboard/auditlogs', resource: 'audit.auditlog' },

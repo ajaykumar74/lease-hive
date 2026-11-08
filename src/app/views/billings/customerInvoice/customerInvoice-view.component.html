@@ -33,6 +33,24 @@
 							<small *ngIf="isIssued" class="block mt-3 text-color-secondary">This invoice is issued. Financial values and its final PDF are immutable.</small>
 							<small *ngIf="receivable?.ReceivableId" class="block mt-2 text-color-secondary">Receivable {{ receivable.ReceivableStatus }} · {{ receivable.CurrencyCode }} {{ receivable.OutstandingAmount | number:'1.2-2' }}</small>
 						</section>
+						<section class="border-1 border-round border-200 p-3 surface-50" *ngIf="customerInvoice.TaxDeterminationStatus || taxBreakdown.length">
+							<div class="flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+								<div><strong>Tax determination</strong><div class="text-sm text-color-secondary mt-1">{{ customerInvoice.PlaceOfSupplyCode || 'Place of supply not recorded' }}</div></div>
+								<span class="font-semibold" [class.text-red-600]="customerInvoice.TaxDeterminationStatus === 'REQUIRED'" [class.text-green-700]="customerInvoice.TaxDeterminationStatus === 'DETERMINED' || customerInvoice.TaxDeterminationStatus === 'EXEMPT' || customerInvoice.TaxDeterminationStatus === 'ZERO_RATED'">{{ customerInvoice.TaxDeterminationStatus || 'Historical snapshot' }}</span>
+							</div>
+							<small *ngIf="customerInvoice.TaxDeterminationReason" class="block mb-3 text-color-secondary">{{ customerInvoice.TaxDeterminationReason }}</small>
+							<p-table *ngIf="taxBreakdown.length" [value]="taxBreakdown" styleClass="p-datatable-sm">
+								<ng-template pTemplate="header"><tr><th>Tax code</th><th class="text-right">Rate</th><th class="text-right">Taxable amount</th><th class="text-right">Tax amount</th></tr></ng-template>
+								<ng-template pTemplate="body" let-tax><tr><td>{{ tax.TaxCode }}</td><td class="text-right">{{ tax.TaxRate | number:'1.0-4' }}%</td><td class="text-right">{{ tax.TaxableAmount | number:'1.2-4' }}</td><td class="text-right font-semibold">{{ tax.TaxAmount | number:'1.2-4' }}</td></tr></ng-template>
+							</p-table>
+						</section>
+						<section class="border-1 border-round border-200 p-3 surface-50" *ngIf="taxClassifications.length">
+							<div class="flex flex-column gap-1 mb-3"><strong>Tax classifications</strong><span class="text-sm text-color-secondary">HSN, SAC, or other statutory classification snapshots on invoice lines.</span></div>
+							<p-table [value]="taxClassifications" styleClass="p-datatable-sm">
+								<ng-template pTemplate="header"><tr><th>Line</th><th>Classification</th><th>Description</th></tr></ng-template>
+								<ng-template pTemplate="body" let-classification><tr><td>{{ classification.LineNo }}<span class="block text-sm text-color-secondary">{{ classification.Description }}</span></td><td class="font-semibold">{{ classification.ClassificationType }} · {{ classification.ClassificationCode }}</td><td>{{ classification.ClassificationDescription }}</td></tr></ng-template>
+							</p-table>
+						</section>
  						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<app-view-field label="Invoice number" [value]="customerInvoice.InvoiceId">
 								</app-view-field></div><div class="flex flex-col w-full">
 <app-view-field label="Invoice status" [value]="customerInvoice.InvoiceStatusName || customerInvoice.InvoiceStatusCode || (isIssued ? 'Issued' : 'Draft / pending issue')">

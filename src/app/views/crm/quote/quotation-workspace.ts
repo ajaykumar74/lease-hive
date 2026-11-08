@@ -249,9 +249,38 @@ export interface IQuotationCommercialStatus {
     ApprovalRequestId?: number | null;
     ApprovalStatus?: string;
     PricingSnapshotId?: number | null;
+    TaxDetermination?: IQuotationTaxDetermination;
+    TaxClassifications?: IQuotationTaxClassification[];
     PolicyEvaluations: IQuotationPolicyEvaluation[];
     ApprovalHistory: IQuotationApprovalHistory[];
     PaymentSchedule: IQuotationPaymentSchedule[];
+}
+
+export interface IQuotationTaxDetermination {
+    Status: string;
+    Reason?: string;
+    CountryCode?: string;
+    JurisdictionCode?: string;
+    Components: IQuotationTaxComponent[];
+}
+
+export interface IQuotationTaxComponent {
+    TaxCode: string;
+    TaxName?: string;
+    TaxTreatmentCode?: string;
+    TaxRate: number;
+    TaxableAmount: number;
+    TaxAmount: number;
+    JurisdictionCode?: string;
+}
+
+export interface IQuotationTaxClassification {
+    SourceType: string;
+    SourceId: number;
+    Description: string;
+    ClassificationType: string;
+    ClassificationCode: string;
+    ClassificationDescription: string;
 }
 
 export interface IQuotationPolicyEvaluation {

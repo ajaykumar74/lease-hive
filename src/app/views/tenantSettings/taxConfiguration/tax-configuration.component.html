@@ -1,0 +1,108 @@
+<p-toast></p-toast>
+
+<section class="p-3 md:p-5 tax-configuration" aria-labelledby="tax-configuration-title">
+    <header class="page-heading mb-5">
+        <div>
+            <p class="m-0 text-sm font-medium text-primary">Settings / Finance</p>
+            <h1 id="tax-configuration-title" class="mb-1 mt-1 text-3xl font-semibold text-900">Tax Configuration</h1>
+            <p class="m-0 text-color-secondary">Manage effective-dated tax rules and statutory HSN, SAC, or other classifications for this tenant.</p>
+        </div>
+        <div class="page-actions">
+            <button pButton type="button" class="p-button-outlined p-button-secondary" label="Refresh" icon="pi pi-refresh" (click)="load()" [loading]="loading"></button>
+            <button *ngIf="canUpdate" pButton type="button" label="New tax rule" icon="pi pi-plus" (click)="openCreate()"></button>
+        </div>
+    </header>
+
+    <nav class="configuration-navigator mb-4" aria-label="Tax configuration sections">
+        <button type="button" class="configuration-navigator__item" (click)="scrollToSection('tax-rules')">
+            <span class="configuration-navigator__icon surface-100"><i class="pi pi-percentage"></i></span>
+            <span><strong>1. Tax rules</strong><small>Set rates, jurisdictions and effective dates.</small></span><i class="pi pi-arrow-right configuration-navigator__arrow"></i>
+        </button>
+        <button type="button" class="configuration-navigator__item" (click)="scrollToSection('tax-classifications')">
+            <span class="configuration-navigator__icon surface-100"><i class="pi pi-tags"></i></span>
+            <span><strong>2. Tax classifications</strong><small>Maintain HSN, SAC and other statutory codes.</small></span><i class="pi pi-arrow-right configuration-navigator__arrow"></i>
+        </button>
+        <button type="button" class="configuration-navigator__item" (click)="scrollToSection('classification-mappings')">
+            <span class="configuration-navigator__icon surface-100"><i class="pi pi-sitemap"></i></span>
+            <span><strong>3. Classification mappings</strong><small>Connect assets, services and charges to a code.</small></span><i class="pi pi-arrow-right configuration-navigator__arrow"></i>
+        </button>
+    </nav>
+
+    <p *ngIf="error && !dialogVisible" class="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-red-700" role="alert">{{ error }}</p>
+
+    <article id="tax-rules" class="card p-0 overflow-hidden">
+        <header class="rule-list-header border-bottom-1 surface-border p-4">
+            <div>
+                <h2 class="m-0 text-xl font-semibold text-900">Tax rules</h2>
+                <p class="mb-0 mt-2 text-sm text-color-secondary">Rules are isolated by tenant. Active rules with the same country, jurisdiction, code and effective period cannot overlap.</p>
+            </div>
+            <span class="record-count"><i class="pi pi-list"></i>{{ totalRecords }} rule{{ totalRecords === 1 ? '' : 's' }}</span>
+        </header>
+
+        <div class="filter-bar border-bottom-1 surface-border p-3 md:p-4">
+            <span class="p-input-icon-left search-field"><i class="pi pi-search"></i><input pInputText type="text" [(ngModel)]="filters.SearchTerm" placeholder="Search code, name or group" (keyup.enter)="load()" /></span>
+            <input pInputText class="filter-input" type="text" maxlength="3" [(ngModel)]="filters.CountryCode" placeholder="Country (ISO)" (keyup.enter)="load()" />
+            <input pInputText class="filter-input" type="text" [(ngModel)]="filters.JurisdictionCode" placeholder="Jurisdiction" (keyup.enter)="load()" />
+            <p-select [options]="taxTypeOptions" optionLabel="label" optionValue="value" [(ngModel)]="filters.TaxTypeCode" placeholder="All tax types" [showClear]="true" appendTo="body"></p-select>
+            <p-select [options]="statusOptions" optionLabel="label" optionValue="value" [(ngModel)]="filters.RecordStatus" placeholder="All statuses" [showClear]="true" appendTo="body"></p-select>
+            <button pButton type="button" label="Apply" icon="pi pi-filter" (click)="load()"></button>
+            <button pButton type="button" class="p-button-text p-button-secondary" label="Clear" (click)="resetFilters()"></button>
+        </div>
+
+        <div class="table-scroll">
+            <p-table [value]="records" [loading]="loading" [tableStyle]="{ 'min-width': '74rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Country / jurisdiction</th><th>Tax rule</th><th>Type</th><th class="text-right">Rate</th><th>Effective period</th><th>Status</th><th class="text-right">Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rule>
+                    <tr>
+                        <td><strong>{{ rule.CountryCode }}</strong><span *ngIf="rule.JurisdictionCode" class="block text-sm text-color-secondary">{{ rule.JurisdictionCode }}</span><span *ngIf="!rule.JurisdictionCode" class="block text-sm text-color-secondary">All jurisdictions</span></td>
+                        <td><button type="button" class="rule-link" (click)="openDetails(rule)">{{ rule.TaxCode }}</button><span class="block text-sm text-color-secondary">{{ rule.TaxName }}</span><small *ngIf="rule.TaxGroupCode" class="group-chip">{{ rule.TaxGroupCode }}</small></td>
+                        <td><span class="block">{{ rule.TaxTypeCode.replaceAll('_', ' ') }}</span><small class="text-color-secondary">{{ treatmentLabel(rule.TaxTreatmentCode) }}</small></td>
+                        <td class="text-right font-medium">{{ rule.TaxRate | number:'1.0-4' }}%</td>
+                        <td>{{ rule.EffectiveFrom | date:'mediumDate' }}<span class="block text-sm text-color-secondary">{{ rule.EffectiveTo ? ('Until ' + (rule.EffectiveTo | date:'mediumDate')) : 'No end date' }}</span></td>
+                        <td><p-tag [value]="rule.RecordStatus === 'ACTIVE' ? 'Active' : 'Inactive'" [severity]="statusSeverity(rule.RecordStatus)"></p-tag></td>
+                        <td class="text-right actions"><button pButton type="button" class="p-button-text p-button-secondary p-button-sm" icon="pi pi-eye" pTooltip="View details" (click)="openDetails(rule)"></button><button *ngIf="canUpdate" pButton type="button" class="p-button-text p-button-secondary p-button-sm" icon="pi pi-pencil" pTooltip="Edit rule" (click)="openEdit(rule)"></button><button *ngIf="canUpdate" pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-trash" pTooltip="Delete rule" (click)="delete(rule)"></button></td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage"><tr><td colspan="7" class="text-center p-6 text-color-secondary">No tax rules match the selected filters.</td></tr></ng-template>
+            </p-table>
+        </div>
+    </article>
+
+    <app-tax-classification-management></app-tax-classification-management>
+</section>
+
+<p-dialog [(visible)]="dialogVisible" [header]="editingId ? 'Edit tax rule' : 'New tax rule'" [modal]="true" [draggable]="false" [resizable]="false" appendTo="body" [style]="{ width: 'min(52rem, calc(100vw - 2rem))' }" [contentStyle]="{ overflow: 'auto' }">
+    <p *ngIf="error" class="mb-3 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{{ error }}</p>
+    <div class="form-introduction mb-4"><i class="pi pi-info-circle"></i><span>Use a common tax group to link components such as CGST and SGST. This is configuration only; it does not alter existing quotation or billing calculations.</span></div>
+    <div class="rule-form">
+        <div class="form-field"><label for="tax-country">Country code <span>*</span></label><input pInputText id="tax-country" maxlength="3" [(ngModel)]="form.CountryCode" placeholder="IN" /></div>
+        <div class="form-field"><label for="tax-jurisdiction">Jurisdiction</label><input pInputText id="tax-jurisdiction" maxlength="50" [(ngModel)]="form.JurisdictionCode" placeholder="State, region or province" /></div>
+        <div class="form-field"><label for="tax-type">Tax type <span>*</span></label><p-select inputId="tax-type" [options]="taxTypeOptions" optionLabel="label" optionValue="value" [(ngModel)]="form.TaxTypeCode" appendTo="body"></p-select></div>
+        <div class="form-field"><label for="tax-code">Tax code <span>*</span></label><input pInputText id="tax-code" maxlength="50" [(ngModel)]="form.TaxCode" placeholder="CGST" /></div>
+        <div class="form-field form-field--wide"><label for="tax-name">Tax name <span>*</span></label><input pInputText id="tax-name" maxlength="120" [(ngModel)]="form.TaxName" placeholder="Central Goods and Services Tax" /></div>
+        <div class="form-field"><label for="tax-group">Tax group</label><input pInputText id="tax-group" maxlength="50" [(ngModel)]="form.TaxGroupCode" placeholder="GST_STANDARD" /></div>
+        <div class="form-field"><label for="tax-asset-category">Asset category scope</label><p-select inputId="tax-asset-category" [options]="assetCategoryOptions" optionLabel="Text" optionValue="Id" [(ngModel)]="form.AssetCategoryId" [showClear]="true" appendTo="body" placeholder="All categories"></p-select></div>
+        <div class="form-field"><label for="tax-lease-type">Lease type scope</label><input pInputText id="tax-lease-type" maxlength="50" [(ngModel)]="form.LeaseTypeCode" placeholder="All lease types" /></div>
+        <div class="form-field"><label for="tax-transaction-type">Transaction type scope</label><input pInputText id="tax-transaction-type" maxlength="30" [(ngModel)]="form.TransactionTypeCode" placeholder="LEASE" /></div>
+        <div class="form-field"><label for="tax-priority">Rule priority</label><p-inputNumber inputId="tax-priority" [(ngModel)]="form.RulePriority" [min]="1" [max]="10000" [useGrouping]="false" placeholder="Only for competing groups"></p-inputNumber></div>
+        <div class="form-field"><label for="tax-treatment">Tax treatment <span>*</span></label><p-select inputId="tax-treatment" [options]="treatmentOptions" optionLabel="label" optionValue="value" [(ngModel)]="form.TaxTreatmentCode" (onChange)="treatmentChanged()" appendTo="body"></p-select></div>
+        <div class="form-field"><label for="tax-rate">Rate (%) <span>*</span></label><p-inputNumber inputId="tax-rate" [(ngModel)]="form.TaxRate" [min]="0" [max]="100" [maxFractionDigits]="4" suffix="%" [disabled]="form.TaxTreatmentCode !== 'STANDARD'"></p-inputNumber></div>
+        <div class="form-field"><label for="tax-effective-from">Effective from <span>*</span></label><input pInputText id="tax-effective-from" type="date" [(ngModel)]="form.EffectiveFrom" /></div>
+        <div class="form-field"><label for="tax-effective-to">Effective to</label><input pInputText id="tax-effective-to" type="date" [(ngModel)]="form.EffectiveTo" /></div>
+        <div class="form-field"><label for="tax-status">Status <span>*</span></label><p-select inputId="tax-status" [options]="statusOptions" optionLabel="label" optionValue="value" [(ngModel)]="form.RecordStatus" appendTo="body"></p-select></div>
+        <fieldset class="form-field form-field--wide applicability"><legend>Applies to <span>*</span></legend><label for="tax-rental"><p-checkbox inputId="tax-rental" [(ngModel)]="form.AppliesToRental" [binary]="true"></p-checkbox><span>Rental</span></label><label for="tax-services"><p-checkbox inputId="tax-services" [(ngModel)]="form.AppliesToServices" [binary]="true"></p-checkbox><span>Services</span></label><label for="tax-charges"><p-checkbox inputId="tax-charges" [(ngModel)]="form.AppliesToCharges" [binary]="true"></p-checkbox><span>Charges</span></label></fieldset>
+    </div>
+    <ng-template pTemplate="footer"><button pButton type="button" class="p-button-outlined p-button-secondary" label="Cancel" icon="pi pi-times" (click)="dialogVisible = false" [disabled]="saving"></button><button pButton type="button" label="Save tax rule" icon="pi pi-check" (click)="save()" [loading]="saving"></button></ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="detailVisible" header="Tax rule details" [modal]="true" [draggable]="false" [resizable]="false" appendTo="body" [style]="{ width: 'min(42rem, calc(100vw - 2rem))' }">
+    <ng-container *ngIf="selectedRule as rule">
+        <div class="detail-heading"><div><p class="m-0 text-sm text-color-secondary">{{ rule.CountryCode }}{{ rule.JurisdictionCode ? ' / ' + rule.JurisdictionCode : '' }}</p><h2 class="m-0 mt-1 text-2xl text-900">{{ rule.TaxCode }}</h2><p class="m-0 mt-1 text-color-secondary">{{ rule.TaxName }}</p></div><p-tag [value]="rule.RecordStatus === 'ACTIVE' ? 'Active' : 'Inactive'" [severity]="statusSeverity(rule.RecordStatus)"></p-tag></div>
+        <dl class="detail-grid"><div><dt>Tax type</dt><dd>{{ rule.TaxTypeCode.replaceAll('_', ' ') }}</dd></div><div><dt>Treatment</dt><dd>{{ treatmentLabel(rule.TaxTreatmentCode) }}</dd></div><div><dt>Rate</dt><dd>{{ rule.TaxRate | number:'1.0-4' }}%</dd></div><div><dt>Tax group</dt><dd>{{ rule.TaxGroupCode || 'Not grouped' }}</dd></div><div><dt>Asset category</dt><dd>{{ rule.AssetCategoryId || 'All categories' }}</dd></div><div><dt>Lease / transaction scope</dt><dd>{{ rule.LeaseTypeCode || 'All lease types' }} / {{ rule.TransactionTypeCode || 'All transactions' }}</dd></div><div><dt>Rule priority</dt><dd>{{ rule.RulePriority || 'Not set' }}</dd></div><div><dt>Effective from</dt><dd>{{ rule.EffectiveFrom | date:'mediumDate' }}</dd></div><div><dt>Effective to</dt><dd>{{ rule.EffectiveTo ? (rule.EffectiveTo | date:'mediumDate') : 'No end date' }}</dd></div><div class="detail-wide"><dt>Applies to</dt><dd>{{ rule.AppliesToRental ? 'Rental' : '' }}{{ rule.AppliesToServices ? (rule.AppliesToRental ? ', Services' : 'Services') : '' }}{{ rule.AppliesToCharges ? ((rule.AppliesToRental || rule.AppliesToServices) ? ', Charges' : 'Charges') : '' }}</dd></div></dl>
+    </ng-container>
+    <ng-template pTemplate="footer"><button pButton type="button" class="p-button-outlined p-button-secondary" label="Close" icon="pi pi-times" (click)="detailVisible = false"></button><button *ngIf="canUpdate && selectedRule" pButton type="button" label="Edit" icon="pi pi-pencil" (click)="detailVisible = false; openEdit(selectedRule)"></button></ng-template>
+</p-dialog>

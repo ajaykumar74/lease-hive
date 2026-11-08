@@ -26,6 +26,8 @@ export class CustomerInvoiceViewComponent implements OnInit {
     Caption: string = 'Loading...';
     isWorkflowActionInProgress = false;
     receivable: any = null;
+    taxBreakdown: any[] = [];
+    taxClassifications: any[] = [];
     
 
     constructor( 
@@ -62,6 +64,8 @@ export class CustomerInvoiceViewComponent implements OnInit {
                 this.permission = data.permission; 
                 this.populateUI(this.customerInvoice);
                 this.loadReceivable();
+                this.loadTaxBreakdown();
+                this.loadTaxClassifications();
             },
             error: err => { },
             complete: () => { this.spinner.hide(); this.isLoading = false; }
@@ -144,6 +148,22 @@ export class CustomerInvoiceViewComponent implements OnInit {
     private loadReceivable(): void {
         if (!this.isIssued) { this.receivable = null; return; }
         this.customerInvoiceService.getReceivable(this.selectedId).subscribe({ next: response => this.receivable = response?.data || null });
+    }
+
+    private loadTaxBreakdown(): void {
+        if (!this.selectedId) { this.taxBreakdown = []; return; }
+        this.customerInvoiceService.getTaxBreakdown(this.selectedId).subscribe({
+            next: response => this.taxBreakdown = response?.data || [],
+            error: () => this.taxBreakdown = []
+        });
+    }
+
+    private loadTaxClassifications(): void {
+        if (!this.selectedId) { this.taxClassifications = []; return; }
+        this.customerInvoiceService.getTaxClassifications(this.selectedId).subscribe({
+            next: response => this.taxClassifications = response?.data || [],
+            error: () => this.taxClassifications = []
+        });
     }
 
     private openPdf(blob: Blob, filename: string): void {

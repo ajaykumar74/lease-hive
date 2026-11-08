@@ -1,0 +1,50 @@
+:host { display: block; }
+
+.page-heading, .page-actions, .rule-list-header, .filter-bar, .detail-heading { display: flex; align-items: center; gap: 1rem; }
+.page-heading, .rule-list-header, .detail-heading { justify-content: space-between; }
+.page-actions { flex-wrap: wrap; justify-content: flex-end; }
+.configuration-navigator { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.configuration-navigator__item { align-items: center; background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: .75rem; color: var(--text-color); cursor: pointer; display: flex; font: inherit; gap: .75rem; min-height: 5.6rem; padding: .9rem 1rem; text-align: left; transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; width: 100%; }
+.configuration-navigator__item:hover { border-color: var(--primary-color); box-shadow: 0 .3rem .9rem rgba(15, 23, 42, .08); transform: translateY(-1px); }
+.configuration-navigator__item strong, .configuration-navigator__item small { display: block; }
+.configuration-navigator__item strong { font-size: .95rem; }
+.configuration-navigator__item small { color: var(--text-color-secondary); font-size: .78rem; line-height: 1.35; margin-top: .2rem; }
+.configuration-navigator__icon { align-items: center; border-radius: .55rem; color: var(--primary-color); display: inline-flex; flex: 0 0 2.25rem; height: 2.25rem; justify-content: center; }
+.configuration-navigator__arrow { color: var(--text-color-secondary); font-size: .8rem; margin-left: auto; }
+.tax-configuration :is(#tax-rules, #tax-classifications, #classification-mappings) { scroll-margin-top: 1rem; }
+.record-count { color: var(--text-color-secondary); font-size: .875rem; white-space: nowrap; }
+.record-count i { margin-right: .4rem; }
+.filter-bar { flex-wrap: wrap; }
+.search-field { min-width: min(100%, 17rem); }
+.search-field input, .filter-input { width: 100%; }
+.filter-input { width: 10rem; }
+.table-scroll { overflow-x: auto; }
+.rule-link { background: transparent; border: 0; color: var(--primary-color); cursor: pointer; font: inherit; font-weight: 600; padding: 0; text-align: left; }
+.rule-link:hover { text-decoration: underline; }
+.group-chip { background: var(--surface-100); border-radius: 999px; color: var(--text-color-secondary); display: inline-block; margin-top: .25rem; padding: .1rem .45rem; }
+.actions { white-space: nowrap; }
+.form-introduction { align-items: flex-start; background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: .5rem; color: var(--blue-900); display: flex; font-size: .875rem; gap: .6rem; line-height: 1.4; padding: .75rem; }
+.rule-form { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-field { display: flex; flex-direction: column; gap: .45rem; min-width: 0; }
+.form-field > label, .applicability legend { color: var(--text-color); font-size: .875rem; font-weight: 600; }
+.form-field span, .applicability span { color: var(--red-500); }
+.form-field--wide { grid-column: 1 / -1; }
+.form-field :is(input, .p-select, .p-inputnumber) { width: 100%; }
+.applicability { border: 1px solid var(--surface-border); border-radius: .5rem; display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; padding: .8rem 1rem 1rem; }
+.applicability legend { padding: 0 .25rem; }
+.applicability label { align-items: center; color: var(--text-color); display: inline-flex; gap: .45rem; }
+.applicability label span { color: inherit; }
+.detail-heading { border-bottom: 1px solid var(--surface-border); padding-bottom: 1rem; }
+.detail-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 1.25rem 0 0; }
+.detail-grid div { background: var(--surface-50); border-radius: .5rem; padding: .75rem; }
+.detail-grid dt { color: var(--text-color-secondary); font-size: .75rem; font-weight: 600; text-transform: uppercase; }
+.detail-grid dd { color: var(--text-color); font-weight: 500; margin: .3rem 0 0; }
+.detail-wide { grid-column: 1 / -1; }
+
+@media (max-width: 640px) {
+    .page-heading, .rule-list-header { align-items: flex-start; flex-direction: column; }
+    .page-actions { justify-content: flex-start; }
+    .configuration-navigator { grid-template-columns: 1fr; }
+    .search-field, .filter-input, .filter-bar > .p-select { width: 100%; }
+    .rule-form, .detail-grid { grid-template-columns: 1fr; }
+}

@@ -13,6 +13,7 @@
 .pricing-grid { display: grid; gap: 1rem; }
 .pricing-grid--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .pricing-field { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.pricing-field--wide { grid-column: span 2; }
 .pricing-field label { color: var(--text-color); font-size: .825rem; font-weight: 600; }
 .pricing-field small { color: var(--red-500); }
 :host ::ng-deep .pricing-field .p-dropdown, :host ::ng-deep .pricing-field .p-inputnumber, :host ::ng-deep .pricing-field .p-calendar, :host ::ng-deep .pricing-field app-currency-dropdown { width: 100%; }
@@ -25,6 +26,9 @@
 .pricing-empty-note { margin: .75rem 0 0; padding: .8rem; border-radius: 8px; background: var(--surface-ground); color: var(--text-color-secondary); font-size: .875rem; }
 .pricing-results { margin-top: 1rem; padding: 1.25rem; }
 .pricing-results-heading h2 { font-size: 1.55rem; }
+.tax-determination { display: flex; gap: .75rem; align-items: flex-start; padding: .85rem 1rem; margin-bottom: 1rem; border: 1px solid var(--green-200); border-radius: 10px; background: var(--green-50); color: var(--green-900); }
+.tax-determination--required { border-color: var(--orange-200); background: var(--orange-50); color: var(--orange-900); }
+.tax-determination i { margin-top: .15rem; }.tax-determination strong { display: block; font-size: .9rem; }.tax-determination p { margin: .25rem 0 0; font-size: .85rem; }
 .pricing-metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
 .pricing-metric { padding: 1rem; border: 1px solid var(--surface-border); border-radius: 10px; display: grid; gap: .35rem; }
 .pricing-metric span, .pricing-metric small { color: var(--text-color-secondary); font-size: .8rem; }
@@ -35,4 +39,4 @@
 .pricing-schedule-panel { min-width: 0; }.pricing-schedule-table :is(th, td) { min-width: 8.5rem; white-space: nowrap; }.pricing-schedule-table :is(th:first-child, td:first-child) { min-width: 5.5rem; }
 @media (max-width: 1200px) { .pricing-grid--four, .pricing-metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }.pricing-checks { padding-top: 0; } }
 @media (max-width: 800px) { .pricing-simulator-page { padding: .75rem; }.pricing-hero, .pricing-panel-heading, .pricing-results-heading { flex-direction: column; }.pricing-hero-note { max-width: none; }.pricing-grid--four, .pricing-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .pricing-grid--four, .pricing-metric-grid { grid-template-columns: 1fr; }.pricing-panel, .pricing-results, .pricing-hero { padding: 1rem; } }
+@media (max-width: 520px) { .pricing-grid--four, .pricing-metric-grid { grid-template-columns: 1fr; }.pricing-field--wide { grid-column: span 1; }.pricing-panel, .pricing-results, .pricing-hero { padding: 1rem; } }

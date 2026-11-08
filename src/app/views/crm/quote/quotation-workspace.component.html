@@ -381,6 +381,26 @@
             </div>
             <ng-template #compliantPolicies><div class="quote-commercial-compliant-message">No active commercial policy exceptions were found for the current quotation state.</div></ng-template>
 
+            <section *ngIf="commercialStatus.TaxDetermination" class="mb-4 surface-50 border-1 surface-border border-round p-3">
+              <div class="flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+                <div><h5 class="mt-0 mb-1">Tax determination</h5><span class="text-color-secondary">{{ commercialStatus.TaxDetermination.CountryCode || 'Country required' }}<ng-container *ngIf="commercialStatus.TaxDetermination.JurisdictionCode"> · {{ commercialStatus.TaxDetermination.JurisdictionCode }}</ng-container></span></div>
+                <span class="font-semibold" [class.text-red-600]="commercialStatus.TaxDetermination.Status === 'REQUIRED'" [class.text-green-700]="commercialStatus.TaxDetermination.Status === 'DETERMINED' || commercialStatus.TaxDetermination.Status === 'EXEMPT' || commercialStatus.TaxDetermination.Status === 'ZERO_RATED'">{{ commercialStatus.TaxDetermination.Status | titlecase }}</span>
+              </div>
+              <p *ngIf="commercialStatus.TaxDetermination.Reason" class="mt-0 mb-3 text-color-secondary">{{ commercialStatus.TaxDetermination.Reason }}</p>
+              <p-table *ngIf="commercialStatus.TaxDetermination.Components?.length" [value]="commercialStatus.TaxDetermination.Components" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header"><tr><th>Tax code</th><th>Treatment</th><th class="text-right">Rate</th><th class="text-right">Taxable amount</th><th class="text-right">Tax amount</th></tr></ng-template>
+                <ng-template pTemplate="body" let-tax><tr><td>{{ tax.TaxName || tax.TaxCode }}</td><td>{{ tax.TaxTreatmentCode || 'STANDARD' }}</td><td class="text-right">{{ tax.TaxRate | number:'1.0-4' }}%</td><td class="text-right">{{ tax.TaxableAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ tax.TaxAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+              </p-table>
+            </section>
+
+            <section *ngIf="commercialStatus.TaxClassifications?.length" class="mb-4 surface-50 border-1 surface-border border-round p-3">
+              <div class="mb-3"><h5 class="mt-0 mb-1">Tax classifications</h5><span class="text-color-secondary">Finalized HSN, SAC, or other statutory classification snapshots.</span></div>
+              <p-table [value]="commercialStatus.TaxClassifications" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header"><tr><th>Line</th><th>Classification</th><th>Description</th></tr></ng-template>
+                <ng-template pTemplate="body" let-classification><tr><td>{{ classification.SourceType }} #{{ classification.SourceId }}<span *ngIf="classification.Description" class="block text-sm text-color-secondary">{{ classification.Description }}</span></td><td class="font-semibold">{{ classification.ClassificationType }} · {{ classification.ClassificationCode }}</td><td>{{ classification.ClassificationDescription }}</td></tr></ng-template>
+              </p-table>
+            </section>
+
             <div class="mb-4">
               <h5 class="mt-0 mb-2">Contractual payment schedule</h5>
               <p-table [value]="commercialStatus.PaymentSchedule" styleClass="p-datatable-sm">

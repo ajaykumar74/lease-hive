@@ -559,6 +559,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                             tooltip: 'Choose pricing methods available in the Pricing Simulator',
                                             requiredPermission: 'administration.tenantsettings.view'
                                         },
+                                        {
+                                            label: 'Tax Configuration',
+                                            icon: 'pi pi-fw pi-percentage',
+                                            routerLink: ['/dashboard/tax-configuration'],
+                                            tooltip: 'Configure tenant tax rules, jurisdictions, and effective dates',
+                                            requiredPermission: 'administration.tenantsettings.view'
+                                        },
                                          {
                                     label: 'AI settings',
                                     icon: 'pi pi-fw pi-sparkles',

@@ -126,11 +126,17 @@
     </section>
 
     <section class="pricing-panel">
-      <div class="pricing-panel-heading pricing-panel-heading--actions"><div><h2>Tax treatment</h2><p>Add the applicable, effective tax components for this preview. They are never saved and no tax rate is assumed by LeaseHive.</p></div><button pButton type="button" icon="pi pi-plus" label="Add tax component" class="p-button-sm p-button-outlined" (click)="addTaxComponent()" [disabled]="form.get('IsTaxExempt')?.value"></button></div>
-      <div class="pricing-checks pt-0 mb-3"><p-checkbox inputId="taxExempt" formControlName="IsTaxExempt" [binary]="true" (onChange)="onTaxExemptChanged($event.checked)"></p-checkbox><label for="taxExempt">Tax-exempt treatment</label><span>Refundable deposits are excluded from the taxable base.</span></div>
-      <div formArrayName="TaxComponents" class="pricing-line-list" *ngIf="taxComponents.length && !form.get('IsTaxExempt')?.value">
+      <div class="pricing-panel-heading pricing-panel-heading--actions"><div><h2>Tax treatment</h2><p>Tax is resolved automatically from the tenant’s effective TAX-01 rules. Refundable deposits are excluded from the taxable base.</p></div><button *ngIf="form.get('IsTaxOverride')?.value" pButton type="button" icon="pi pi-plus" label="Add override component" class="p-button-sm p-button-outlined" (click)="addTaxComponent()" [disabled]="form.get('IsTaxExempt')?.value"></button></div>
+      <div class="pricing-grid pricing-grid--four mb-3">
+        <div class="pricing-field"><label for="taxCountryCode">Place-of-supply country</label><input pInputText id="taxCountryCode" formControlName="TaxCountryCode" maxlength="3" placeholder="ISO code, e.g. IN"></div>
+        <div class="pricing-field"><label for="taxJurisdictionCode">Jurisdiction / state</label><input pInputText id="taxJurisdictionCode" formControlName="TaxJurisdictionCode" maxlength="50" placeholder="Optional state or region"></div>
+      </div>
+      <div class="pricing-checks pt-0 mb-3"><p-checkbox inputId="taxExempt" formControlName="IsTaxExempt" [binary]="true" (onChange)="onTaxExemptChanged($event.checked)"></p-checkbox><label for="taxExempt">Tax-exempt treatment</label><span>Requires a matching active exempt rule; it is not a zero-tax shortcut.</span></div>
+      <div class="pricing-checks pt-0 mb-3"><p-checkbox inputId="taxOverride" formControlName="IsTaxOverride" [binary]="true" (onChange)="onTaxOverrideChanged($event.checked)" [disabled]="form.get('IsTaxExempt')?.value"></p-checkbox><label for="taxOverride">Override resolved tax</label><span>Restricted to authorized users and recorded in the audit log.</span></div>
+      <div *ngIf="form.get('IsTaxOverride')?.value" class="pricing-grid pricing-grid--four mb-3"><div class="pricing-field pricing-field--wide"><label for="taxOverrideReason">Override reason *</label><input pInputText id="taxOverrideReason" formControlName="TaxOverrideReason" maxlength="500" placeholder="Explain why the configured tax rule cannot be used"></div></div>
+      <div formArrayName="TaxComponents" class="pricing-line-list" *ngIf="form.get('IsTaxOverride')?.value && taxComponents.length && !form.get('IsTaxExempt')?.value">
         <article *ngFor="let tax of taxComponents.controls; let index = index" [formGroupName]="index" class="pricing-line-card">
-          <div class="pricing-line-header"><h3>Tax component {{ index + 1 }}</h3><button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" (click)="removeTaxComponent(index)" [attr.aria-label]="'Remove tax component ' + (index + 1)"></button></div>
+          <div class="pricing-line-header"><h3>Override component {{ index + 1 }}</h3><button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-text p-button-danger" (click)="removeTaxComponent(index)" [attr.aria-label]="'Remove override component ' + (index + 1)"></button></div>
           <div class="pricing-grid pricing-grid--four">
             <div class="pricing-field"><label>Tax code *</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [editable]="true" [filter]="true" filterBy="Text" placeholder="Select or enter tax code"></p-dropdown></div>
             <div class="pricing-field"><label>Rate *</label><p-inputNumber formControlName="TaxRate" suffix="%" [min]="0" [max]="100" [maxFractionDigits]="4"></p-inputNumber></div>
@@ -138,12 +144,18 @@
           </div>
         </article>
       </div>
-      <p *ngIf="!taxComponents.length && !form.get('IsTaxExempt')?.value" class="pricing-empty-note">No tax component has been supplied. Results will remain tax-exclusive until you add the applicable configured rate.</p>
+      <p *ngIf="form.get('IsTaxOverride')?.value && !taxComponents.length" class="pricing-empty-note">Add at least one component and an override reason. The server will verify your permission and record the override.</p>
+      <p *ngIf="!form.get('IsTaxOverride')?.value" class="pricing-empty-note">Enter the place of supply, then calculate. If no single effective rule can be resolved, the result will show Tax Determination Required rather than assuming 0%.</p>
     </section>
   </form>
 
   <section *ngIf="result" class="pricing-results" aria-live="polite">
     <div class="pricing-results-heading"><div><p class="pricing-kicker">Calculation result</p><h2>{{ periodicTaxInclusivePayment() | currency:currencyCode:'symbol':'1.2-2' }} periodic payable</h2><p>Tax-inclusive first installment · {{ pricingMethodLabel(result.PricingModeCode) }}</p></div><button pButton type="button" class="p-button-outlined" icon="pi pi-refresh" label="Recalculate" (click)="calculate()" [loading]="calculating" [disabled]="methodOptionsLoading"></button></div>
+
+    <div class="tax-determination" [class.tax-determination--required]="result.TaxDetermination?.Status === 'REQUIRED'" [class.tax-determination--resolved]="result.TaxDetermination?.Status !== 'REQUIRED'">
+      <i [class]="result.TaxDetermination?.Status === 'REQUIRED' ? 'pi pi-exclamation-triangle' : 'pi pi-check-circle'"></i>
+      <div><strong>{{ taxDeterminationLabel() }}</strong><p>{{ result.TaxDetermination?.Reason || ('Resolved for ' + (result.TaxDetermination?.CountryCode || 'the supplied place of supply') + (result.TaxDetermination?.JurisdictionCode ? ' / ' + result.TaxDetermination?.JurisdictionCode : '')) }}</p></div>
+    </div>
 
     <div class="pricing-metric-grid">
       <article class="pricing-metric pricing-metric--primary"><span>{{ periodicRentalLabel() }}</span><strong>{{ result.PeriodicBaseRental | currency:currencyCode:'symbol':'1.2-2' }}</strong></article>
@@ -169,8 +181,8 @@
     </div>
 
     <section *ngIf="result.TaxBreakdown?.length" class="pricing-panel">
-      <div class="pricing-panel-heading"><div><h2>Tax breakdown</h2><p>Component totals from the transient pricing preview.</p></div></div>
-      <div class="pricing-metric-grid"><article *ngFor="let tax of result.TaxBreakdown" class="pricing-metric"><span>{{ tax.TaxCode }} · {{ tax.TaxRate }}%</span><small>Taxable {{ tax.TaxableAmount | currency:currencyCode:'symbol':'1.2-2' }}</small><strong>{{ tax.TaxAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article></div>
+      <div class="pricing-panel-heading"><div><h2>Tax breakdown</h2><p>Effective tax code, treatment, taxable amount and calculated component total.</p></div></div>
+      <div class="pricing-metric-grid"><article *ngFor="let tax of result.TaxBreakdown" class="pricing-metric"><span>{{ tax.TaxCode }} · {{ tax.TaxRate }}%</span><small>{{ tax.TaxName || tax.TaxTreatmentCode || 'Configured component' }}{{ tax.TaxJurisdictionCode ? ' · ' + tax.TaxJurisdictionCode : '' }}</small><small>Taxable {{ tax.TaxableAmount | currency:currencyCode:'symbol':'1.2-2' }}</small><strong>{{ tax.TaxAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></article></div>
     </section>
 
     <div *ngIf="result.Warnings?.length" class="pricing-warnings" role="alert"><i class="pi pi-exclamation-triangle"></i><div><strong>Pricing notes</strong><ul><li *ngFor="let warning of result.Warnings">{{ warning }}</li></ul></div></div>

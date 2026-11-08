@@ -24,6 +24,8 @@ BillingAddressSnapshot :string;
 CustomerTaxRegistrationSnapshot :string;
 OrganisationTaxRegistrationSnapshot :string;
 PlaceOfSupplyCode :string;
+TaxDeterminationStatus?: string;
+TaxDeterminationReason?: string;
 IssuedAtUtc :Date;
 ExternalEInvoiceRef :string;
 RecordStatus :string;
