@@ -24,6 +24,9 @@ SupplierTaxSnapshot :string;
 ApprovalRequestId :number;
 IssuedOn :Date;
 RecordStatus :string;
+SupplierAcknowledgementStatus?: string;
+SupplierAcknowledgementRemarks?: string;
+SupplierAcknowledgedAtUtc?: Date;
 LineItems: IPurchaseOrderLine[];
 
 }

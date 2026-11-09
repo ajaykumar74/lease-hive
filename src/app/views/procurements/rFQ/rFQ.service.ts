@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { IRFQ } from './rFQ';
+import { IRFQ, IRFQPurchaseRequisitionContext } from './rFQ';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -43,6 +43,12 @@ export class RFQService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  getPurchaseRequisitionContext(purchaseRequisitionId: number): Observable<{ data: IRFQPurchaseRequisitionContext }> {
+    const url = `${this.baseUrl}/purchase-requisitions/${purchaseRequisitionId}/items`;
+    return this.http.get<{ data: IRFQPurchaseRequisitionContext }>(url, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
   }
 }
 

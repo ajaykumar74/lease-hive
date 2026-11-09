@@ -1,0 +1,63 @@
+<section class="flex flex-col gap-3 w-full mt-4" aria-label="RFQ items">
+    <p-confirmDialog key="rfq-items-delete"></p-confirmDialog>
+    <div class="flex align-items-center justify-content-between gap-3">
+        <div>
+            <h3 class="m-0">RFQ Items</h3>
+            <small class="text-color-secondary">Items are sourced from the selected approved purchase requisition.</small>
+        </div>
+        <div class="flex gap-2">
+            <button pButton type="button" icon="pi pi-plus" class="p-button-text p-button-sm" aria-label="Add RFQ items"
+                pTooltip="Add eligible items" tooltipPosition="top" (click)="openAddDialog()"
+                [disabled]="!editable || !purchaseRequisitionSelected || availableItems.length === 0"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-danger p-button-sm" aria-label="Delete selected RFQ items"
+                pTooltip="Delete selected items" tooltipPosition="top" (click)="confirmDelete()"
+                [disabled]="!editable || selectedItems.length === 0"></button>
+        </div>
+    </div>
+
+    <p-table [value]="items" [(selection)]="selectedItems" dataKey="PurchaseRequisitionLineId" responsiveLayout="scroll" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngIf="editable" style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                <th>Item / Description</th>
+                <th>Asset Category</th>
+                <th class="text-right">PR Quantity</th>
+                <th style="min-width: 9rem">RFQ Quantity</th>
+                <th>UOM</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td *ngIf="editable"><p-tableCheckbox [value]="item"></p-tableCheckbox></td>
+                <td><div class="font-medium">{{ item.Description }}</div><small class="text-color-secondary">PR line {{ item.LineNo }}</small></td>
+                <td>{{ item.AssetCategoryName || '—' }}</td>
+                <td class="text-right">{{ item.PRQuantity | number:'1.0-4' }}</td>
+                <td>
+                    <p-inputNumber [(ngModel)]="item.Quantity" [ngModelOptions]="{standalone: true}" [min]="0.0001" [max]="item.PRQuantity"
+                        [minFractionDigits]="0" [maxFractionDigits]="4" size="small" styleClass="w-full" (onInput)="quantityChanged(item)"
+                        [disabled]="!editable"></p-inputNumber>
+                </td>
+                <td>{{ item.UOMName || item.UOMId }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr><td [attr.colspan]="editable ? 6 : 5" class="text-center p-4 text-color-secondary">
+                {{ purchaseRequisitionSelected ? 'No RFQ items selected. Use Add to select eligible requisition items.' : 'Select a purchase requisition to load RFQ items.' }}
+            </td></tr>
+        </ng-template>
+    </p-table>
+</section>
+
+<p-dialog [(visible)]="addDialogVisible" header="Add RFQ items" [modal]="true" [draggable]="false" [resizable]="false" appendTo="body"
+    [style]="{ width: 'min(65rem, calc(100vw - 2rem))' }">
+    <p class="mt-0 text-color-secondary">Choose additional eligible items from the selected purchase requisition.</p>
+    <p-table [value]="availableItems" [(selection)]="selectedEligibleItems" dataKey="PurchaseRequisitionLineId" responsiveLayout="scroll" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header"><tr><th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th><th>Item / Description</th><th>Asset Category</th><th class="text-right">PR Quantity</th><th>UOM</th></tr></ng-template>
+        <ng-template pTemplate="body" let-item><tr><td><p-tableCheckbox [value]="item"></p-tableCheckbox></td><td>{{ item.Description }}</td><td>{{ item.AssetCategoryName || '—' }}</td><td class="text-right">{{ item.PRQuantity | number:'1.0-4' }}</td><td>{{ item.UOMName || item.UOMId }}</td></tr></ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="5" class="text-center p-4 text-color-secondary">All eligible requisition items are already included.</td></tr></ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <button pButton type="button" label="Cancel" class="p-button-text" (click)="addDialogVisible = false"></button>
+        <button pButton type="button" label="Add selected" icon="pi pi-plus" (click)="addSelectedItems()" [disabled]="selectedEligibleItems.length === 0"></button>
+    </ng-template>
+</p-dialog>

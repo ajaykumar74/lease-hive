@@ -45,7 +45,7 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
             { path: 'users', ...workspace('Customer Users', 'Manage customer users for your party here.') },
             { path: 'profile', ...workspace('Profile', 'Review your portal profile and contact preferences here.') },
             // This staff-only route is further restricted to tenant administrators.
-            { path: 'invite', component: CustomerPortalInvitationComponent, canActivate: [PermissionGuard], data: { title: 'Invite customer user' } }
+            { path: 'invite', component: CustomerPortalInvitationComponent, canActivate: [PermissionGuard], data: { title: 'Invite Portal User' } }
         ]
     }
 ];

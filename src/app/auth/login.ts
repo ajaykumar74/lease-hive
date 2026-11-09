@@ -159,6 +159,13 @@ export class Login {
                 return;
               }
 
+              if (this.isSupplierPortalRole(user.Role)) {
+                user.AccountType = 'SupplierPortal';
+                this.loggedInUserService.updateloggedInUser(user);
+                this.router.navigate(['/supplier/dashboard']);
+                return;
+              }
+
               if (this.isCustomerPortalRole(user.Role)) {
                 user.AccountType = 'CustomerPortal';
                 this.loggedInUserService.updateloggedInUser(user);
@@ -231,6 +238,10 @@ export class Login {
 
   private isCustomerPortalRole(role: string | undefined): boolean {
     return /(^|[,\s])(customer_portal_admin|customer_portal_user|customerportaladmin|customerportaluser)(?=$|[,\s])/i.test(role || '');
+  }
+
+  private isSupplierPortalRole(role: string | undefined): boolean {
+    return /(^|[,\s])(supplier_portal_admin|supplier_portal_user|supplierportaladmin|supplierportaluser)(?=$|[,\s])/i.test(role || '');
   }
 
   private isPlatformAdminRole(role: string | undefined): boolean {

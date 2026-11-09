@@ -46,6 +46,21 @@
 
 						<div class="approval-workflow-note"><i class="pi pi-info-circle"></i><span>{{ workflowHelperText }}</span></div>
 
+						<section *ngIf="hasSupplierAcknowledgement" class="supplier-acknowledgement">
+							<header class="supplier-acknowledgement-header">
+								<div>
+									<h3 class="approval-history-heading mb-1">Supplier acknowledgement</h3>
+									<div class="text-sm text-color-secondary">Response recorded by the supplier for this issued purchase order.</div>
+								</div>
+								<div [ngClass]="supplierAcknowledgementToneClass"><span class="approval-status-badge">{{ supplierAcknowledgementLabel }}</span></div>
+							</header>
+							<div class="approval-workflow-metrics supplier-acknowledgement-metrics mt-3">
+								<div class="approval-metric"><span class="approval-metric-label">Supplier response</span><div class="approval-metric-value">{{ supplierAcknowledgementLabel }}</div></div>
+								<div class="approval-metric"><span class="approval-metric-label">Acknowledged on</span><div class="approval-metric-value">{{ purchaseOrder.SupplierAcknowledgedAtUtc ? (purchaseOrder.SupplierAcknowledgedAtUtc | date:'dd MMM yyyy HH:mm') : '—' }}</div></div>
+								<div class="approval-metric"><span class="approval-metric-label">Remarks</span><div class="approval-metric-value" [title]="purchaseOrder.SupplierAcknowledgementRemarks || '—'">{{ purchaseOrder.SupplierAcknowledgementRemarks || '—' }}</div></div>
+							</div>
+						</section>
+
 						<div *ngIf="approvalWorkflow.CanCurrentUserAction && approvalWorkflow.ApprovalStatus === 'PENDING'" class="approval-decision-panel">
 							<label for="approvalRemarks" class="approval-decision-label"><span>Decision remarks</span><span class="approval-decision-hint">Required for return or reject</span></label>
 							<textarea id="approvalRemarks" pTextarea [(ngModel)]="approvalRemarks" [ngModelOptions]="{standalone: true}" rows="2" class="w-full" [disabled]="isLoading" placeholder="Add the decision context or required correction"></textarea>

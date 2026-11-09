@@ -64,7 +64,7 @@ SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Val
 SupplierServiceAreaId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 InvitationStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 InvitedOn: new FormControl(new Date(), [Validators.required]),
-RespondedOn: new FormControl(new Date(), []),
+RespondedOn: new FormControl(null, []),
 SupplierContactId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });

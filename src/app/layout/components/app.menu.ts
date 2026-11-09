@@ -7,6 +7,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { AppMenuItem, MenuPermissionService } from '@/shared/security/menu-permission.service';
 import { PermissionService } from '@/shared/security/permission.service';
 import { buildCustomerPortalMenu } from '@/views/customerPortal/customer-portal.menu';
+import { buildSupplierPortalMenu } from '@/views/supplierPortal/supplier-portal.menu';
 
 @Component({
     selector: 'app-menu',
@@ -33,6 +34,8 @@ export class AppMenu implements OnInit, OnDestroy {
         const isCustomerPortalUser = this.loggedInUserService.isCustomerPortalUser;
         if (isCustomerPortalUser) {
             this.model = buildCustomerPortalMenu(this.loggedInUserService.isCustomerPortalAdmin);
+        } else if (this.loggedInUserService.isSupplierPortalUser) {
+            this.model = buildSupplierPortalMenu(this.loggedInUserService.isSupplierPortalAdmin);
         } else if (this.loggedInUserService.isPlatformAdmin) {
             this.model = [
                 {
@@ -408,7 +411,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'See your fleet/ actions and costs here'
                                 },
                                 {
-                                    label: 'Invite customer user',
+                                    label: 'Invite portal user',
                                     icon: 'pi pi-fw pi-user-plus',
                                     routerLink: ['/customer-portal/invite'],
                                     requiredPermission: 'customerportal.invitation.create',
@@ -1228,6 +1231,11 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Create RFQ',
                                             icon: 'pi pi-fw pi-plus',
                                             routerLink: ['/business/procurement/rfqs/create']
+                                        },
+                                        {
+                                            label: 'RFQ Supplier Assignments',
+                                            icon: 'pi pi-fw pi-send',
+                                            routerLink: ['/business/procurement/rfqs/suppliers']
                                         },
                                         {
                                             label: 'Supplier Quotations',

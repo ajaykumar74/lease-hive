@@ -15,11 +15,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { RFQListComponent } from './rFQ-list.component';
 import { RFQCreateComponent } from './rFQ-create.component';
 import { RFQEditComponent } from './rFQ-edit.component';
 import { RFQViewComponent } from './rFQ-view.component';
+import { RFQItemsComponent } from './rFQ-items.component';
 import { RFQRoutingModule } from './rFQ-routing.module';
 
 
@@ -42,13 +46,17 @@ import { RFQRoutingModule } from './rFQ-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		ConfirmDialogModule,
+		DialogModule,
+		TooltipModule,
 		RFQRoutingModule,
 	],
 	declarations: [
 		RFQCreateComponent,
 		RFQListComponent,
 		RFQEditComponent,
-		RFQViewComponent
+		RFQViewComponent,
+		RFQItemsComponent
 	]
 })
 export class RFQModule { }

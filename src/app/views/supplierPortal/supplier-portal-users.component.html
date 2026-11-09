@@ -1,0 +1,35 @@
+<section class="supplier-users">
+    <div class="supplier-users__heading">
+        <div><p class="eyebrow">Supplier Portal</p><h1>User Management</h1><p>Manage only users and authorised contacts belonging to supplier parties where you hold administrator access.</p></div>
+    </div>
+
+    <form class="supplier-users__form" [formGroup]="form" (ngSubmit)="invite()">
+        <label>Supplier party
+            <select formControlName="PartyId"><option [ngValue]="null">Select supplier party</option><option *ngFor="let party of partyOptions" [ngValue]="party.Id">{{ party.DisplayText }}</option></select>
+        </label>
+        <label>Authorised contact
+            <select formControlName="PartyContactId" [disabled]="!form.controls.PartyId.value"><option [ngValue]="null">Select contact</option><option *ngFor="let contact of contactOptions" [ngValue]="contact.Id">{{ contact.DisplayText }}</option></select>
+        </label>
+        <label>Supplier role
+            <select formControlName="PortalRole"><option value="SUPPLIER_PORTAL_USER">Supplier user</option><option value="SUPPLIER_PORTAL_ADMIN">Supplier administrator</option></select>
+        </label>
+        <p class="supplier-users__notice"><i class="pi pi-shield"></i> Access is granted only to the selected supplier party. The contact receives a one-time activation email.</p>
+        <p *ngIf="message" class="supplier-users__success">{{ message }}</p><p *ngIf="error" class="supplier-users__error">{{ error }}</p>
+        <button type="submit" [disabled]="submitting">{{ submitting ? 'Sending…' : 'Send activation invite' }}</button>
+    </form>
+
+    <section class="supplier-users__list" *ngIf="form.controls.PartyId.value">
+        <div class="list-heading"><div><h2>Supplier users</h2><p>Only active supplier portal access for the selected party is shown.</p></div></div>
+        <div class="table-wrap" *ngIf="users.length; else emptyUsers">
+            <table><thead><tr><th>User</th><th>Role</th><th>Status</th><th>Invitation</th><th class="actions">Actions</th></tr></thead>
+                <tbody><tr *ngFor="let user of users">
+                    <td><strong>{{ user.DisplayName || '—' }}</strong><small>{{ user.Email }}</small></td>
+                    <td>{{ user.Role }}</td><td><span class="status">{{ user.Status }}</span></td>
+                    <td><span *ngIf="user.InvitationStatus; else noInvitation">{{ user.InvitationStatus }}</span><ng-template #noInvitation>—</ng-template></td>
+                    <td class="actions"><button type="button" class="link-button" *ngIf="user.CanResend" [disabled]="resendingInvitationId === user.InvitationId" (click)="resend(user)">{{ resendingInvitationId === user.InvitationId ? 'Resending…' : 'Resend' }}</button><button type="button" class="danger-button" [disabled]="deactivatingUserId === user.ApplicationUserId" (click)="deactivate(user)">{{ deactivatingUserId === user.ApplicationUserId ? 'Deactivating…' : 'Deactivate' }}</button></td>
+                </tr></tbody>
+            </table>
+        </div>
+        <ng-template #emptyUsers><p class="empty-state">No active supplier portal users are assigned to this supplier party.</p></ng-template>
+    </section>
+</section>

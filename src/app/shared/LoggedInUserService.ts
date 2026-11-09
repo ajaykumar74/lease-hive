@@ -59,6 +59,17 @@ export class LoggedInUserService {
     return /(^|[,\s])(customer_portal_admin|customerportaladmin)(?=$|[,\s])/i.test(role);
   }
 
+  /** Identity roles choose the supplier-only shell and route guard. */
+  public get isSupplierPortalUser(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /(^|[,\s])(supplier_portal_admin|supplier_portal_user|supplierportaladmin|supplierportaluser)(?=$|[,\s])/i.test(role);
+  }
+
+  public get isSupplierPortalAdmin(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /(^|[,\s])(supplier_portal_admin|supplierportaladmin)(?=$|[,\s])/i.test(role);
+  }
+
   public get isPlatformAdmin(): boolean {
     const role = this.loggedInUser?.Role || '';
     return /platform[\s_-]*admin/i.test(role);

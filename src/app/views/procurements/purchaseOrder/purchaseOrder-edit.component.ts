@@ -232,6 +232,20 @@ RecordStatus: obj.RecordStatus || '',
     }
   }
 
+  get hasSupplierAcknowledgement(): boolean {
+    return !!this.purchaseOrder?.SupplierAcknowledgementStatus?.trim();
+  }
+
+  get supplierAcknowledgementLabel(): string {
+    return this.formatWorkflowStatus(this.purchaseOrder?.SupplierAcknowledgementStatus);
+  }
+
+  get supplierAcknowledgementToneClass(): string {
+    return this.purchaseOrder?.SupplierAcknowledgementStatus?.trim().toUpperCase() === 'REJECTED'
+      ? 'is-rejected'
+      : 'is-approved';
+  }
+
   workflowStepClass(step: number): string {
     const status = this.approvalWorkflow?.StatusCode;
     if (status === 'SUBMITTED' || status === 'IN_REVIEW') return step === 1 ? 'is-complete' : step === 2 ? 'is-active' : '';
