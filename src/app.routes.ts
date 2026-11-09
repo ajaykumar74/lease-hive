@@ -88,6 +88,12 @@ export const appRoutes: Routes = [
         data: { breadcrumb: 'Customer Portal' },
         canActivate: [AuthGuard]
     },
+    {
+        path: 'supplier',
+        loadChildren: () => import('./app/views/supplierPortal/supplier-portal.routes').then(m => m.SUPPLIER_PORTAL_ROUTES),
+        data: { breadcrumb: 'Supplier Portal' },
+        canActivate: [AuthGuard]
+    },
     
     /*   { path: 'notfound', component: Notfound }, */
 

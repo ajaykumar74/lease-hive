@@ -3,6 +3,7 @@
 		<div class="col-12 md:col-12">
 			<div class="card p-fluid">
 				<app-message [AlertType]="'message'"></app-message>
+				<p-confirmDialog key="rfq-create-requisition"></p-confirmDialog>
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
 					[PageType]="'Details'" [form]="editForm">
 				</app-toolbar-buttons> 
@@ -30,6 +31,7 @@
             optionLabel="Text"
 	    optionValue="Value"
 	    formControlName="PurchaseRequisitionId"
+			(onChange)="onPurchaseRequisitionChanged($event.value)"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
@@ -92,6 +94,9 @@
 
 
                </div></div>
+				<app-rfq-items [items]="lineItems" [eligibleItems]="eligibleLineItems" [editable]="true"
+					[purchaseRequisitionSelected]="!!currentPurchaseRequisitionId" (itemsChange)="onLineItemsChanged($event)">
+				</app-rfq-items>
 
 					</div>
 				</div>

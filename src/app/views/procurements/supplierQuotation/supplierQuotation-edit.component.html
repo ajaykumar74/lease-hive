@@ -8,9 +8,9 @@
 					<button type="button" pButton label="Submit Quote" icon="pi pi-send" class="p-button-outlined"
 						*ngIf="canSubmitQuotation" (click)="transitionStatus('SUBMITTED')" [disabled]="isLoading || hasUnsavedQuotationChanges"></button>
 					<button type="button" pButton label="Accept Quote" icon="pi pi-check"
-						*ngIf="canDecideQuotation" (click)="transitionStatus('ACCEPTED')" [disabled]="isLoading || editForm.dirty"></button>
+						*ngIf="canDecideQuotation" (click)="transitionStatus('ACCEPTED')" [disabled]="isLoading || hasUnsavedQuotationChanges"></button>
 					<button type="button" pButton label="Reject Quote" icon="pi pi-times" class="p-button-danger p-button-outlined"
-						*ngIf="canDecideQuotation" (click)="transitionStatus('REJECTED')" [disabled]="isLoading || editForm.dirty"></button>
+						*ngIf="canDecideQuotation" (click)="transitionStatus('REJECTED')" [disabled]="isLoading || hasUnsavedQuotationChanges"></button>
 					<button type="button" pButton [label]="supplierAwardActionLabel" icon="pi pi-trophy" class="p-button-outlined"
 						*ngIf="canCreateSupplierAward" (click)="openSupplierAward()" [disabled]="isLoading || isSupplierAwardLoading"></button>
 				</app-toolbar-buttons> 

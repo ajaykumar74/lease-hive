@@ -1,10 +1,13 @@
 <section class="invite-page">
     <div class="invite-heading">
-        <div><p class="eyebrow">Customer Portal</p><h1>Invite customer user</h1><p>Select an existing party and authorised contact. They will set their own password from a one-time activation link.</p></div>
+        <div><p class="eyebrow">Portal Access</p><h1>Invite Portal User</h1><p>Select an existing party and authorised contact. They will set their own password from a one-time activation link.</p></div>
         <a routerLink="/business/parties">Back to parties</a>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="invite-form">
+        <label>Portal type
+            <select formControlName="PortalType"><option value="Customer">Customer</option><option value="Supplier">Supplier</option></select>
+        </label>
         <label>Party
             <select formControlName="PartyId"><option [ngValue]="null">Select party</option><option *ngFor="let party of partyOptions" [value]="party.Id">{{ party.Text }}</option></select>
             <small *ngIf="form.controls.PartyId.touched && form.controls.PartyId.invalid">Party is required.</small>
@@ -14,10 +17,15 @@
             <small *ngIf="form.controls.PartyContactId.touched && form.controls.PartyContactId.invalid">Contact is required.</small>
         </label>
         <label>Portal role
-            <select formControlName="PortalRole"><option value="CUSTOMER_PORTAL_ADMIN">Customer administrator</option><option value="CUSTOMER_PORTAL_USER">Customer user</option></select>
-            <span>Administrators can manage their party contacts and customer users.</span>
+            <select formControlName="PortalRole">
+                <ng-container *ngIf="isSupplierPortal; else customerRoles">
+                    <option value="SUPPLIER_PORTAL_ADMIN">Supplier administrator</option><option value="SUPPLIER_PORTAL_USER">Supplier user</option>
+                </ng-container>
+                <ng-template #customerRoles><option value="CUSTOMER_PORTAL_ADMIN">Customer administrator</option><option value="CUSTOMER_PORTAL_USER">Customer user</option></ng-template>
+            </select>
+            <span>Administrators can manage users belonging to their assigned party.</span>
         </label>
-        <p class="info"><i class="pi pi-shield"></i> The account receives explicit access only to this party. No password is shown or emailed.</p>
+        <p class="info"><i class="pi pi-shield"></i> The account receives explicit {{ isSupplierPortal ? 'supplier' : 'customer' }} access only to this party. No password is shown or emailed.</p>
         <p *ngIf="message" class="success">{{ message }}</p><p *ngIf="error" class="error">{{ error }}</p>
         <div class="actions"><button type="button" (click)="cancel()">Cancel</button><button type="submit" [disabled]="submitting">{{ submitting ? 'Sending…' : 'Send activation invite' }}</button></div>
     </form>

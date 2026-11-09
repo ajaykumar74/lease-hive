@@ -1,0 +1,44 @@
+<section class="supplier-dashboard">
+    <div class="supplier-hero">
+        <div>
+            <p class="eyebrow">Supplier Portal</p>
+            <h1>Welcome back, {{ name }}</h1>
+            <p>Your workspace is limited to the supplier parties assigned to your account.</p>
+        </div>
+        <a class="supplier-action" routerLink="/supplier/profile">View profile</a>
+    </div>
+
+    <div *ngIf="loading" class="supplier-card">Loading supplier access…</div>
+    <p *ngIf="error" class="supplier-error">{{ error }}</p>
+
+    <ng-container *ngIf="dashboard">
+        <div class="supplier-metrics">
+            <article class="supplier-card"><i class="pi pi-file-edit"></i><small>Pending RFQs</small><strong>{{ dashboard.PendingRfqCount }}</strong></article>
+            <article class="supplier-card"><i class="pi pi-shopping-cart"></i><small>Open purchase orders</small><strong>{{ dashboard.OpenPurchaseOrderCount }}</strong></article>
+            <article class="supplier-card"><i class="pi pi-truck"></i><small>Pending deliveries</small><strong>{{ dashboard.PendingDeliveryCount }}</strong></article>
+            <article class="supplier-card"><i class="pi pi-receipt"></i><small>Submitted invoices</small><strong>{{ dashboard.SubmittedInvoiceCount }}</strong></article>
+        </div>
+
+        <div class="supplier-sections">
+            <section class="supplier-panel">
+                <div class="panel-heading"><div><h2>Recent purchase orders</h2><p>Latest purchase orders issued to your assigned supplier parties.</p></div></div>
+                <div class="table-wrap" *ngIf="dashboard.RecentPurchaseOrders.length; else noOrders">
+                    <table><thead><tr><th>Purchase order</th><th>Status</th><th>Issued</th><th class="amount">Amount</th></tr></thead>
+                        <tbody><tr *ngFor="let order of dashboard.RecentPurchaseOrders"><td>{{ order.PurchaseOrderNo || '—' }}</td><td><span class="status">{{ order.Status }}</span></td><td>{{ order.PurchaseOrderDate | date:'mediumDate' }}</td><td class="amount">{{ order.TotalAmount | currency:(order.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td></tr></tbody>
+                    </table>
+                </div>
+                <ng-template #noOrders><p class="empty-state">No purchase orders are available for your assigned supplier parties.</p></ng-template>
+            </section>
+
+            <section class="supplier-panel">
+                <div class="panel-heading"><div><h2>Pending actions</h2><p>Items that need attention as supplier workspaces become available.</p></div></div>
+                <div *ngIf="dashboard.PendingActions.length; else noActions" class="action-list">
+                    <article *ngFor="let action of dashboard.PendingActions"><span>{{ action.Count }}</span><div><strong>{{ action.Title }}</strong><p>{{ action.Description }}</p></div></article>
+                </div>
+                <ng-template #noActions><p class="empty-state">There are no pending supplier actions at this time.</p></ng-template>
+            </section>
+        </div>
+
+        <div *ngIf="dashboard.IsAdministrator" class="supplier-note"><i class="pi pi-shield"></i><div><strong>Supplier administrator</strong><br />Manage supplier users only for parties where you hold administrator access.</div><a routerLink="/supplier/users">Manage users</a></div>
+    </ng-container>
+</section>

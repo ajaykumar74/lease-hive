@@ -1,0 +1,24 @@
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SupplierPortalDelivery, SupplierPortalDeliveryCreate, SupplierPortalDeliveryLine, SupplierPortalPurchaseOrderListItem, SupplierPortalService } from './supplier-portal.service';
+import { SupplierPortalDocumentsComponent } from './supplier-portal-documents.component';
+
+@Component({ selector: 'app-supplier-portal-deliveries', standalone: true, imports: [CommonModule, DatePipe, RouterLink, ReactiveFormsModule, SupplierPortalDocumentsComponent], templateUrl: './supplier-portal-deliveries.component.html', styleUrls: ['./supplier-portal-rfqs.component.css'] })
+export class SupplierPortalDeliveriesComponent implements OnInit {
+  private readonly destroyRef=inject(DestroyRef); readonly id:number; readonly isNew:boolean;
+  deliveries:SupplierPortalDelivery[]=[]; detail?:SupplierPortalDelivery; purchaseOrders:SupplierPortalPurchaseOrderListItem[]=[]; loading=true; saving=false; error='';
+  readonly form:any;
+  constructor(private readonly service:SupplierPortalService,private readonly route:ActivatedRoute,private readonly router:Router,private readonly fb:FormBuilder){this.id=Number(route.snapshot.paramMap.get('id'));this.isNew=route.snapshot.routeConfig?.path==='deliveries/new';this.form=fb.group({ PurchaseOrderId:[0,[Validators.required,Validators.min(1)]],DeliveryDate:[new Date().toISOString().slice(0,10),Validators.required],DispatchReference:['',Validators.maxLength(100)],Transporter:['',Validators.maxLength(200)],TrackingNumber:['',Validators.maxLength(100)],Remarks:['',Validators.maxLength(1000)],Lines:fb.array([]) });}
+  get lines():FormArray{return this.form.controls.Lines as FormArray;}
+  ngOnInit():void{if(this.isNew){this.loadCreate();return;}if(this.id){this.loadDetail();return;}this.loadList();}
+  loadList():void{this.service.deliveries().pipe(finalize(()=>this.loading=false),takeUntilDestroyed(this.destroyRef)).subscribe({next:x=>this.deliveries=x,error:()=>this.error='Unable to load deliveries.'});}
+  loadDetail():void{this.service.delivery(this.id).pipe(finalize(()=>this.loading=false),takeUntilDestroyed(this.destroyRef)).subscribe({next:x=>this.detail=x,error:()=>this.error='Unable to load this delivery.'});}
+  loadCreate():void{this.service.deliveryEligiblePurchaseOrders().pipe(finalize(()=>this.loading=false),takeUntilDestroyed(this.destroyRef)).subscribe({next:x=>this.purchaseOrders=x,error:()=>this.error='Unable to load accepted purchase orders with remaining delivery quantities.'});}
+  loadLines():void{const poId=Number(this.form.controls.PurchaseOrderId.value);this.lines.clear();if(!poId)return;this.service.deliveryEligibleLines(poId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({next:lines=>lines.forEach(line=>this.lines.push(this.lineGroup(line))),error:()=>this.error='Unable to load remaining delivery quantities.'});}
+  lineGroup(line:SupplierPortalDeliveryLine){return this.fb.group({PurchaseOrderLineId:[line.PurchaseOrderLineId],LineNo:[line.LineNo],Description:[line.Description],OrderedQuantity:[line.OrderedQuantity],DeliveredQuantity:[line.DeliveredQuantity],ReceivedQuantity:[line.ReceivedQuantity],RemainingDeliveryQuantity:[line.RemainingDeliveryQuantity],UomId:[line.UomId],SubmittedQuantity:[0,[Validators.min(0),Validators.max(line.RemainingDeliveryQuantity)]],Remarks:['',Validators.maxLength(1000)]});}
+  submit():void{if(this.form.invalid||this.saving){this.form.markAllAsTouched();return;}const value=this.form.getRawValue();const payload:SupplierPortalDeliveryCreate={PurchaseOrderId:Number(value.PurchaseOrderId),DeliveryDate:String(value.DeliveryDate),DispatchReference:value.DispatchReference||'',Transporter:value.Transporter||'',TrackingNumber:value.TrackingNumber||'',Remarks:value.Remarks||'',Lines:(value.Lines||[]).map(x=>x as SupplierPortalDeliveryLine).filter(x=>Number(x.SubmittedQuantity)>0)};if(!payload.Lines.length){this.error='Enter a delivered quantity for at least one line.';return;}this.saving=true;this.error='';this.service.createDelivery(payload).pipe(finalize(()=>this.saving=false),takeUntilDestroyed(this.destroyRef)).subscribe({next:r=>this.router.navigate(['/supplier/deliveries',r.id]),error:e=>this.error=e?.error?.message||e?.error?.Message||'Delivery could not be submitted.'});}
+}
