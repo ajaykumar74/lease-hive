@@ -9,7 +9,7 @@ import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ISupplierInvoice, ISupplierInvoiceEligibleLine, ISupplierInvoicePurchaseOrderContext } from './supplierInvoice';
-import { SupplierInvoiceService } from './supplierInvoice.service';
+import { SupplierInvoiceReview, SupplierInvoiceService } from './supplierInvoice.service';
 import { ISupplierInvoiceLine } from '../supplierInvoiceLine/supplierInvoiceLine';
 
 type SupplierInvoiceLineContext = Partial<ISupplierInvoiceLine> & { GRNNo?: string; AcceptedQuantity?: number; EligibleQuantity?: number; };
@@ -35,6 +35,9 @@ export class SupplierInvoiceEditComponent implements OnInit {
   currentPurchaseOrderId: number | null = null;
   editForm: any;
   objMaster: ISupplierInvoice = {} as ISupplierInvoice;
+  review?: SupplierInvoiceReview;
+  reviewActionInProgress = false;
+  reviewRemarks = new FormControl('', [Validators.maxLength(1000)]);
 
   constructor(private readonly activatedRouter: ActivatedRoute, private readonly fb: FormBuilder, private readonly router: Router, private readonly location: Location, private readonly supplierInvoiceService: SupplierInvoiceService, private readonly loggedInUserService: LoggedInUserService, private readonly confirmationService: ConfirmationService) {}
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
@@ -63,7 +66,7 @@ export class SupplierInvoiceEditComponent implements OnInit {
   loadUI(): void {
     this.isLoading = true;
     this.supplierInvoiceService.getById(this.selectedId).subscribe({
-      next: data => { this.supplierInvoice = data.data; this.permission = data.permission; this.objMaster = { ...this.supplierInvoice, LineItems: (this.supplierInvoice.LineItems || []).map(line => ({ ...line })) }; this.populateUI(this.supplierInvoice); this.enrichExistingPurchaseOrderLines(); },
+      next: data => { this.supplierInvoice = data.data; this.permission = data.permission; this.objMaster = { ...this.supplierInvoice, LineItems: (this.supplierInvoice.LineItems || []).map(line => ({ ...line })) }; this.populateUI(this.supplierInvoice); this.enrichExistingPurchaseOrderLines(); this.loadReview(); },
       error: err => this.messageService.showError(err), complete: () => this.isLoading = false
     });
   }
@@ -101,7 +104,30 @@ export class SupplierInvoiceEditComponent implements OnInit {
   onOptionItemClicked(key: string): void { if (key === 'Create') this.router.navigate(['/business/procurement/supplier-invoices/create']); else if (key === 'Save') this.Save(); else if (key === 'Cancel') this.onCancel(); }
   onCancel(): void { this.supplierInvoice = { ...this.objMaster, LineItems: (this.objMaster.LineItems || []).map(line => ({ ...line })) }; this.populateUI(this.supplierInvoice); this.editForm.markAsPristine(); }
 
+  reviewInvoice(action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION'): void {
+    const remarks = String(this.reviewRemarks.value || '').trim();
+    if ((action === 'REJECT' || action === 'REQUEST_CORRECTION') && !remarks) {
+      this.messageService.showError('Enter a reason before rejecting an invoice or requesting correction.');
+      return;
+    }
+    if (this.reviewActionInProgress) return;
+    this.reviewActionInProgress = true;
+    this.supplierInvoiceService.review(this.selectedId, action, remarks).subscribe({
+      next: response => { this.messageService.showSuccess(`Supplier invoice ${response.status.toLowerCase().replace(/_/g, ' ')}.`); this.reviewRemarks.setValue(''); this.loadUI(); },
+      error: error => this.messageService.showError(error),
+      complete: () => this.reviewActionInProgress = false
+    });
+  }
+
+  private loadReview(): void {
+    this.supplierInvoiceService.getReview(this.selectedId).subscribe({
+      next: response => { this.review = response.data; this.editForm.disable({ emitEvent: false }); },
+      error: () => undefined
+    });
+  }
+
   Save(): void {
+    if (this.review) { this.messageService.showError('Supplier portal invoices are updated through the supplier correction workflow, not this generic edit form.'); return; }
     if (!this.editForm.valid || this.lineItems.length === 0) { this.messageService.showError('One or more validation failed. Please clear error to continue...'); return; }
     const value = this.editForm.getRawValue();
     const updatedObj = {

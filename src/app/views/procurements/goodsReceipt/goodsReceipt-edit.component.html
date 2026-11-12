@@ -143,10 +143,10 @@
                             </div>
                             <div class="flex gap-1">
                                 <button pButton type="button" icon="pi pi-plus" class="p-button-text p-button-sm"
-                                    title="Add the next purchase-order line" [disabled]="availablePurchaseOrderLines.length === 0"
+                                    title="Add the next purchase-order line" [disabled]="isDeliveryLinked || availablePurchaseOrderLines.length === 0"
                                     (click)="addNextPurchaseOrderLine()" aria-label="Add purchase-order line"></button>
                                 <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-danger p-button-sm"
-                                    title="Remove selected line items" [disabled]="selectedLineIndexes.length === 0"
+                                    title="Remove selected line items" [disabled]="isDeliveryLinked || selectedLineIndexes.length === 0"
                                     (click)="removeSelectedLineItems()" aria-label="Remove selected line items"></button>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                                     <td>
                                         <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text p-button-sm"
                                             pTooltip="Delete line item" tooltipPosition="top"
-                                            (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Remove receipt line ' + (rowIndex + 1)"></button>
+                                            (click)="removeLineItem(rowIndex)" [disabled]="isDeliveryLinked" [attr.aria-label]="'Remove receipt line ' + (rowIndex + 1)"></button>
                                         <button *ngIf="line.get('Id')?.value > 0" pButton type="button" icon="pi pi-barcode"
                                             class="p-button-text p-button-sm" pTooltip="Serial & Asset" tooltipPosition="top"
                                             (click)="openSerialAndAsset(line)" [attr.aria-label]="'Manage serial and asset for receipt line ' + (rowIndex + 1)"></button>

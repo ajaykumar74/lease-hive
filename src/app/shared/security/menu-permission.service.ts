@@ -137,6 +137,7 @@ export class MenuPermissionService {
         { route: '/business/procurement/purchase-requisitions', resource: 'procurement.purchaserequisition' },
         { route: '/business/procurement/purchase-orders', resource: 'procurement.purchaseorder' },
         { route: '/business/procurement/goods-receipts', resource: 'procurement.goodsreceipt' },
+        { route: '/business/procurement/supplier-deliveries', resource: 'procurement.goodsreceipt' },
         { route: '/business/procurement/supplier-invoices', resource: 'procurement.supplierinvoice' },
         { route: '/business/procurement', resource: 'procurement.purchaseorder' },
         { route: '/contracts/amendments', resource: 'contract.contractamendment' },

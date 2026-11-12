@@ -8,6 +8,7 @@ TenantId :number;
 GRNNo :string;
 PurchaseOrderId :number;
 SupplierPartyId :number;
+SupplierDeliveryId? :number | null;
 ReceivingOrganisationUnitId :number;
 ReceiptLocationId :number;
 GoodsReceiptStatusId :number;

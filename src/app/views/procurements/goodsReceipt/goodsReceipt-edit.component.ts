@@ -73,6 +73,7 @@ selectedLineIndexes: number[] = [];
 GRNNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
 PurchaseOrderId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+SupplierDeliveryId: new FormControl(null),
 ReceivingOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 ReceiptLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 GoodsReceiptStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
@@ -137,6 +138,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
 	  GRNNo: obj.GRNNo || '',
 PurchaseOrderId: obj.PurchaseOrderId || 0,
 SupplierPartyId: obj.SupplierPartyId || 0,
+SupplierDeliveryId: obj.SupplierDeliveryId || null,
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 ReceiptLocationId: obj.ReceiptLocationId || 0,
 GoodsReceiptStatusId: obj.GoodsReceiptStatusId || 0,
@@ -160,6 +162,10 @@ RecordStatus: obj.RecordStatus || '',
   get availablePurchaseOrderLines(): IPurchaseOrderLine[] {
     const includedLineIds = new Set(this.lineItems.getRawValue().map((line: any) => Number(line.PurchaseOrderLineId)));
     return this.purchaseOrderLines.filter(line => !includedLineIds.has(Number(line.Id)));
+  }
+
+  get isDeliveryLinked(): boolean {
+    return Number(this.goodsReceipt?.SupplierDeliveryId || 0) > 0;
   }
 
   private loadPurchaseOrderLines(): void {
@@ -325,6 +331,7 @@ RecordStatus: obj.RecordStatus || '',
       GoodsReceiptLineId: new FormControl(lineItem.GoodsReceiptLineId || ''),
       GoodsReceiptId: new FormControl(lineItem.GoodsReceiptId || this.selectedId),
       PurchaseOrderLineId: new FormControl(lineItem.PurchaseOrderLineId || 0, [Validators.required, Validators.min(1)]),
+      SupplierDeliveryLineId: new FormControl(lineItem.SupplierDeliveryLineId || null),
       LineNo: new FormControl(lineItem.LineNo || this.lineItems.length + 1),
       ReceivedQuantity: new FormControl(lineItem.ReceivedQuantity ?? 0, [Validators.required, Validators.min(0)]),
       AcceptedQuantity: new FormControl(lineItem.AcceptedQuantity ?? 0, [Validators.required, Validators.min(0)]),
@@ -389,6 +396,7 @@ RecordStatus: obj.RecordStatus || '',
 	  GRNNo: obj.GRNNo || '',
 PurchaseOrderId: obj.PurchaseOrderId || 0,
 SupplierPartyId: obj.SupplierPartyId || 0,
+SupplierDeliveryId: obj.SupplierDeliveryId || null,
 ReceivingOrganisationUnitId: obj.ReceivingOrganisationUnitId || 0,
 ReceiptLocationId: obj.ReceiptLocationId || 0,
 GoodsReceiptStatusId: obj.GoodsReceiptStatusId || 0,
@@ -432,6 +440,7 @@ RecordStatus: obj.RecordStatus || '',
      GRNNo:  formValues.GRNNo || null,
 PurchaseOrderId:  formValues.PurchaseOrderId || 0,
 SupplierPartyId:  formValues.SupplierPartyId || 0,
+SupplierDeliveryId: formValues.SupplierDeliveryId || null,
 ReceivingOrganisationUnitId:  formValues.ReceivingOrganisationUnitId || 0,
 ReceiptLocationId:  formValues.ReceiptLocationId || 0,
 GoodsReceiptStatusId:  formValues.GoodsReceiptStatusId || 0,
@@ -446,6 +455,7 @@ LineItems: this.lineItems.getRawValue().map((line: any) => ({
   GoodsReceiptLineId: line.GoodsReceiptLineId || '',
   GoodsReceiptId: this.goodsReceipt.Id,
   PurchaseOrderLineId: line.PurchaseOrderLineId || 0,
+  SupplierDeliveryLineId: line.SupplierDeliveryLineId || null,
   LineNo: line.LineNo || 0,
   ReceivedQuantity: line.ReceivedQuantity ?? 0,
   AcceptedQuantity: line.AcceptedQuantity ?? 0,

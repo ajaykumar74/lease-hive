@@ -27,6 +27,7 @@ export const SUPPLIER_PORTAL_ROUTES: Routes = [
             { path: 'deliveries/:id', component: SupplierPortalDeliveriesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Delivery', breadcrumb: 'Delivery' } },
             { path: 'deliveries', component: SupplierPortalDeliveriesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Supplier Deliveries', breadcrumb: 'Deliveries' } },
             { path: 'invoices/new', component: SupplierPortalInvoicesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Submit Invoice', breadcrumb: 'Submit invoice' } },
+            { path: 'invoices/:id/edit', component: SupplierPortalInvoicesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Correct Invoice', breadcrumb: 'Correct invoice' } },
             { path: 'invoices/:id', component: SupplierPortalInvoicesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Invoice', breadcrumb: 'Invoice' } },
             { path: 'invoices', component: SupplierPortalInvoicesComponent, canActivate: [SupplierPortalGuard], data: { title: 'Supplier Invoices', breadcrumb: 'Invoices' } },
             { path: 'goods-receipts', component: SupplierPortalGoodsReceiptsComponent, canActivate: [SupplierPortalGuard], data: { title: 'Goods Receipts', breadcrumb: 'Goods Receipts' } },

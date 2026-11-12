@@ -51,9 +51,51 @@ export class SupplierInvoiceService extends BaseCrudService<any> {
     );
   }
 
+  getReview(supplierInvoiceId: number): Observable<{ data: SupplierInvoiceReview }> {
+    return this.http.get<{ data: SupplierInvoiceReview }>(
+      `${this.baseService.C_APP_URL}/supplier-invoice-review/${supplierInvoiceId}`,
+      { headers: this.headers }
+    ).pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  review(supplierInvoiceId: number, action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION', remarks: string): Observable<{ success: boolean; status: string }> {
+    return this.http.post<{ success: boolean; status: string }>(
+      `${this.baseService.C_APP_URL}/supplier-invoice-review/${supplierInvoiceId}/actions`,
+      { action, remarks },
+      { headers: this.headers }
+    ).pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+}
+
+export interface SupplierInvoiceReview {
+  SupplierInvoiceId: number;
+  SupplierInvoiceNo: string;
+  Status: string;
+  RevisionNo: number;
+  HasInvoicePdf: boolean;
+  Exceptions: SupplierInvoiceValidationException[];
+  History: SupplierInvoiceReviewHistory[];
+}
+
+export interface SupplierInvoiceValidationException {
+  ExceptionTypeCode: string;
+  SeverityCode: string;
+  Description: string;
+  StatusCode: string;
+  IsBlocking: boolean;
+}
+
+export interface SupplierInvoiceReviewHistory {
+  FromStatusCode: string;
+  ToStatusCode: string;
+  ActionCode: string;
+  Remarks: string;
+  CreatedByCode: string;
+  CreatedDateTime: string;
 }
 
 

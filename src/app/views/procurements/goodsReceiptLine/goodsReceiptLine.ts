@@ -6,6 +6,7 @@ GoodsReceiptLineId :string;
 TenantId :number;
 GoodsReceiptId :number;
 PurchaseOrderLineId :number;
+SupplierDeliveryLineId? :number | null;
 LineNo :number;
 ReceivedQuantity :number;
 AcceptedQuantity :number;

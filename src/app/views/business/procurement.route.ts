@@ -120,6 +120,11 @@ export const PROCUREMENT_ROUTES: Routes = [
 
     { path: 'procurement/goods-receipts/new', redirectTo: 'procurement/goods-receipts/create', pathMatch: 'full' },
     moduleRoute(
+        'procurement/supplier-deliveries',
+        'Supplier Deliveries',
+        () => import('@/views/procurements/supplierDelivery/supplierDelivery.module').then(m => m.SupplierDeliveryModule)
+    ),
+    moduleRoute(
         'procurement/goods-receipts/lines',
         'Goods Receipt Lines',
         () => import('@/views/procurements/goodsReceiptLine/goodsReceiptLine.module').then(m => m.GoodsReceiptLineModule)

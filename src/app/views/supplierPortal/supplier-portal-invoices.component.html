@@ -1,4 +1,115 @@
-<section class="supplier-workspace"><div class="toolbar"><div><p class="eyebrow">Supplier Portal</p><h1>{{isNew?'Submit invoice':id?'Supplier invoice':'Invoices'}}</h1></div><a *ngIf="isNew||id" routerLink="/supplier/invoices" class="secondary">Back to invoices</a><a *ngIf="!isNew&&!id" routerLink="/supplier/invoices/new" class="supplier-action">Submit invoice</a></div><p *ngIf="error" class="error">{{error}}</p><div *ngIf="loading" class="card">Loading…</div>
-<ng-container *ngIf="!loading&&!isNew&&!id"><div *ngIf="invoices.length;else empty" class="card table-wrap"><table><thead><tr><th>Invoice</th><th>Purchase order</th><th>Date</th><th>Total</th><th>Review status</th><th></th></tr></thead><tbody><tr *ngFor="let invoice of invoices"><td>{{invoice.SupplierInvoiceNo}}</td><td>{{invoice.PurchaseOrderNo}}</td><td>{{invoice.InvoiceDate|date:'mediumDate'}}</td><td>{{invoice.TotalAmount|currency:(invoice.CurrencyCode||'INR'):'symbol':'1.2-2'}}</td><td><span class="status">{{invoice.MatchStatus}}</span></td><td><a class="secondary" [routerLink]="['/supplier/invoices',invoice.SupplierInvoiceId]">View</a></td></tr></tbody></table></div><ng-template #empty><div class="card empty">No supplier invoices have been submitted.</div></ng-template></ng-container>
-<form *ngIf="!loading&&isNew" [formGroup]="form" (ngSubmit)="submit()" class="card"><div class="quote-notes"><label>Accepted purchase order<select formControlName="PurchaseOrderId" (change)="loadLines()"><option [ngValue]="0">Select purchase order</option><option *ngFor="let order of purchaseOrders" [ngValue]="order.PurchaseOrderId">{{order.PurchaseOrderNo}}</option></select></label><label>Supplier invoice number<input formControlName="SupplierInvoiceNo"></label><label>Invoice date<input type="date" formControlName="InvoiceDate"></label><label>Currency<input formControlName="CurrencyCode" readonly></label></div><div formArrayName="Lines" *ngIf="lines.length" class="table-wrap"><h2>Accepted receipt quantities</h2><p class="notice">Invoices are submitted for internal matching and approval; they are not approved automatically.</p><table><thead><tr><th>Line</th><th>Accepted</th><th>Previously invoiced</th><th>Remaining</th><th>Invoice qty.</th><th>PO price</th><th>Invoice price</th><th>Tax</th></tr></thead><tbody><tr *ngFor="let line of lines.controls;let i=index" [formGroupName]="i"><td>{{line.value.LineNo}}. {{line.value.Description}}</td><td>{{line.value.AcceptedQuantity}}</td><td>{{line.value.PreviouslyInvoicedQuantity}}</td><td>{{line.value.RemainingInvoiceQuantity}}</td><td><input type="number" min="0" [max]="line.value.RemainingInvoiceQuantity" formControlName="InvoicedQuantity"></td><td>{{line.value.PurchaseOrderUnitPrice}}</td><td><input type="number" min="0" formControlName="UnitPrice"></td><td><input type="number" min="0" formControlName="TaxAmount"></td></tr></tbody></table></div><div class="actions"><button type="submit" [disabled]="saving">Submit invoice for review</button></div></form>
-<ng-container *ngIf="!loading&&detail"><div class="card metadata"><div><small>Invoice</small><strong>{{detail.SupplierInvoiceNo}}</strong></div><div><small>Purchase order</small><strong>{{detail.PurchaseOrderNo}}</strong></div><div><small>Total</small><strong>{{detail.TotalAmount|currency:(detail.CurrencyCode||'INR'):'symbol':'1.2-2'}}</strong></div><div><small>Review status</small><strong>{{detail.MatchStatus}}</strong></div></div><div class="card table-wrap"><h2>Invoice lines</h2><table><thead><tr><th>Item</th><th>Invoiced</th><th>Unit price</th><th>Tax</th><th>Total</th></tr></thead><tbody><tr *ngFor="let line of detail.Lines"><td>{{line.LineNo}}. {{line.Description}}</td><td>{{line.InvoicedQuantity}}</td><td>{{line.UnitPrice|currency:(detail.CurrencyCode||'INR'):'symbol':'1.2-2'}}</td><td>{{line.TaxAmount|currency:(detail.CurrencyCode||'INR'):'symbol':'1.2-2'}}</td><td>{{line.LineTotal|currency:(detail.CurrencyCode||'INR'):'symbol':'1.2-2'}}</td></tr></tbody></table><app-supplier-portal-documents ownerType="SupplierInvoice" [ownerId]="detail.SupplierInvoiceId" [canUpload]="true"></app-supplier-portal-documents></div></ng-container></section>
+<section class="supplier-workspace">
+  <div class="toolbar">
+    <div>
+      <p class="eyebrow">Supplier Portal</p>
+      <h1>{{ isNew ? 'Submit invoice' : isEdit ? 'Correct invoice' : id ? 'Supplier invoice' : 'Invoices' }}</h1>
+    </div>
+    <a *ngIf="isNew || id" routerLink="/supplier/invoices" class="secondary">Back to invoices</a>
+    <a *ngIf="!isNew && !id" routerLink="/supplier/invoices/new" class="supplier-action">Submit invoice</a>
+  </div>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+  <div *ngIf="loading" class="card">Loading…</div>
+
+  <ng-container *ngIf="!loading && !isNew && !isEdit && !id">
+    <div *ngIf="invoices.length; else empty" class="card table-wrap">
+      <table>
+        <thead><tr><th>Invoice</th><th>Purchase order</th><th>Date</th><th>Total</th><th>Review status</th><th></th></tr></thead>
+        <tbody>
+          <tr *ngFor="let invoice of invoices">
+            <td>{{ invoice.SupplierInvoiceNo }}</td>
+            <td>{{ invoice.PurchaseOrderNo }}</td>
+            <td>{{ invoice.InvoiceDate | date:'mediumDate' }}</td>
+            <td>{{ invoice.TotalAmount | currency:(invoice.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td>
+            <td><span class="status">{{ invoice.MatchStatus }}</span></td>
+            <td><a class="secondary" [routerLink]="['/supplier/invoices', invoice.SupplierInvoiceId]">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #empty><div class="card empty">No supplier invoices have been submitted.</div></ng-template>
+  </ng-container>
+
+  <form *ngIf="!loading && (isNew || isEdit)" [formGroup]="form" (ngSubmit)="submit()" class="card">
+    <div class="quote-notes">
+      <label>Accepted purchase order
+        <select formControlName="PurchaseOrderId" (change)="loadLines()" [disabled]="isEdit">
+          <option [ngValue]="0">Select purchase order</option>
+          <option *ngFor="let order of purchaseOrders" [ngValue]="order.PurchaseOrderId">{{ order.PurchaseOrderNo }}</option>
+        </select>
+      </label>
+      <label>Supplier invoice number<input formControlName="SupplierInvoiceNo"></label>
+      <label>Invoice date<input type="date" formControlName="InvoiceDate"></label>
+      <label>Currency<input formControlName="CurrencyCode" readonly></label>
+      <label *ngIf="isNew">Invoice PDF
+        <input type="file" accept="application/pdf,.pdf" (change)="onInvoicePdfSelected($event)">
+        <small *ngIf="invoicePdf">{{ invoicePdf.name }}</small>
+      </label>
+    </div>
+
+    <p *ngIf="loadingLines" class="notice">Loading purchase-order quantities…</p>
+    <p *ngIf="!loadingLines && eligibleLinesMessage" class="notice">{{ eligibleLinesMessage }}</p>
+    <div formArrayName="Lines" *ngIf="lines.length" class="table-wrap">
+      <h2>Purchase order quantities</h2>
+      <p class="notice">You can submit an invoice before goods are received. Receipt, price and tax matching are completed during internal review.</p>
+      <p class="notice">Purchase order amount: {{ selectedPurchaseOrderTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }} · Current invoice total: {{ currentInvoiceTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }}</p>
+      <p *ngIf="exceedsPurchaseOrderTotal" class="error">The invoice total cannot exceed the selected purchase order amount.</p>
+      <table>
+        <thead><tr><th>Line</th><th>Accepted</th><th>Previously invoiced</th><th>Remaining</th><th>Invoice qty.</th><th>PO price</th><th>Invoice price</th><th>Tax</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let line of lines.controls; let i = index" [formGroupName]="i">
+            <td>{{ line.value.LineNo }}. {{ line.value.Description }}</td>
+            <td>{{ line.value.AcceptedQuantity }}</td>
+            <td>{{ line.value.PreviouslyInvoicedQuantity }}</td>
+            <td>{{ line.value.RemainingInvoiceQuantity }}</td>
+            <td><input type="number" min="0" [max]="line.value.RemainingInvoiceQuantity" formControlName="InvoicedQuantity"></td>
+            <td>{{ line.value.PurchaseOrderUnitPrice }}</td>
+            <td><input type="number" min="0" formControlName="UnitPrice"></td>
+            <td><input type="number" min="0" formControlName="TaxAmount"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <button type="submit" [disabled]="saving || loadingLines || !lines.length || (isNew && !invoicePdf) || exceedsPurchaseOrderTotal">{{ isEdit ? 'Save correction' : 'Submit invoice for review' }}</button>
+    </div>
+  </form>
+
+  <ng-container *ngIf="!loading && detail && !isEdit">
+    <div class="card metadata">
+      <div><small>Invoice</small><strong>{{ detail.SupplierInvoiceNo }}</strong></div>
+      <div><small>Purchase order</small><strong>{{ detail.PurchaseOrderNo }}</strong></div>
+      <div><small>Total</small><strong>{{ detail.TotalAmount | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</strong></div>
+      <div><small>Review status</small><strong>{{ review?.Status || detail.MatchStatus }}</strong></div>
+    </div>
+
+    <div *ngIf="review" class="card table-wrap">
+      <h2>Validation and review</h2>
+      <p class="notice">Revision {{ review.RevisionNo }} · <span *ngIf="review.HasInvoicePdf; else missingPdf">Invoice PDF received.</span><ng-template #missingPdf><span class="error">Invoice PDF is missing.</span></ng-template></p>
+      <p *ngIf="!review.Exceptions.length" class="notice">No open validation exceptions.</p>
+      <table *ngIf="review.Exceptions.length">
+        <thead><tr><th>Exception</th><th>Severity</th><th>Details</th></tr></thead>
+        <tbody><tr *ngFor="let exception of review.Exceptions"><td>{{ exception.ExceptionTypeCode }}</td><td>{{ exception.SeverityCode }}</td><td>{{ exception.Description }}</td></tr></tbody>
+      </table>
+      <p *ngIf="review.Status === 'DRAFT'" class="notice">Upload the invoice PDF below, then submit the draft for internal review.</p>
+      <p *ngIf="review.Status === 'CORRECTION_REQUIRED'" class="notice">Edit invoice details or upload a corrected PDF below, then resubmit to create the next revision.</p>
+      <div class="actions" *ngIf="review.Status === 'DRAFT' || review.Status === 'CORRECTION_REQUIRED'">
+        <a class="secondary" [routerLink]="['/supplier/invoices', detail.SupplierInvoiceId, 'edit']">Edit invoice lines</a>
+        <button type="button" (click)="resubmit()" [disabled]="saving || !review.HasInvoicePdf">{{ review.Status === 'DRAFT' ? 'Submit invoice for review' : 'Resubmit corrected invoice' }}</button>
+      </div>
+      <table *ngIf="review.History.length">
+        <thead><tr><th>Action</th><th>Status</th><th>Remarks</th><th>Date</th></tr></thead>
+        <tbody><tr *ngFor="let item of review.History"><td>{{ item.ActionCode }}</td><td>{{ item.FromStatusCode || '—' }} → {{ item.ToStatusCode }}</td><td>{{ item.Remarks || '—' }}</td><td>{{ item.CreatedDateTime | date:'medium' }}</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card table-wrap">
+      <h2>Invoice lines</h2>
+      <table>
+        <thead><tr><th>Item</th><th>Invoiced</th><th>Unit price</th><th>Tax</th><th>Total</th></tr></thead>
+        <tbody><tr *ngFor="let line of detail.Lines"><td>{{ line.LineNo }}. {{ line.Description }}</td><td>{{ line.InvoicedQuantity }}</td><td>{{ line.UnitPrice | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td><td>{{ line.TaxAmount | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td><td>{{ line.LineTotal | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td></tr></tbody>
+      </table>
+      <app-supplier-portal-documents ownerType="SupplierInvoice" [ownerId]="detail.SupplierInvoiceId" [canUpload]="review?.Status === 'DRAFT' || review?.Status === 'CORRECTION_REQUIRED'"></app-supplier-portal-documents>
+    </div>
+  </ng-container>
+</section>
