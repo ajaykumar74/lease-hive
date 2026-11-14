@@ -228,6 +228,12 @@ const routes: Routes = [
         loadChildren: () => import('@/views/settings/settings.module').then(c => c.SettingsModule),
       },
       {
+        path: 'plan-and-subscription',
+        canActivate: [AuthGuard],
+        data: { breadcrumb: 'Plan and Subscription' },
+        loadComponent: () => import('@/views/tenantPlanSubscription/tenant-plan-subscription.component').then(c => c.TenantPlanSubscriptionComponent),
+      },
+      {
         path: 'documents',
         data: { breadcrumb: 'Documents' },
         loadChildren: () => import('@/views/documents/document/document.module').then(c => c.DocumentModule),

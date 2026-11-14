@@ -31,6 +31,7 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
     assetmakeidOptions: ISelectItem[] = [];
     assetmodelidOptions: ISelectItem[] = [];
     newusedcodeOptions: ISelectItem[] = [];
+    uomcodeOptions: ISelectItem[] = [];
     servicepackagecodeOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
 
@@ -78,10 +79,19 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes', options => this.assetmakeidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { AssetCategoryId: 'AssetCategoryId', AssetTypeId: 'AssetTypeId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models', options => this.assetmodelidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { AssetMakeId: 'AssetMakeId' });
         this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
+        this.uomcodeOptions = this.loggedInUserService.getPicklistOptions('UOMCode');
         this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
+    }
+
+    onAssetCategoryChange(): void {
+        this.editForm.patchValue({
+            AssetTypeId: 0,
+            AssetMakeId: 0,
+            AssetModelId: 0
+        });
     }
 
     ngAfterViewInit(): void {
@@ -130,7 +140,7 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
             EffectiveTo: obj.EffectiveTo || null
         });
 
-        this.Caption = 'LeaseRequirementAsset Details #' + obj.Id;
+        this.Caption = 'Lease Requirement Asset Details #' + obj.Id;
     }
 
     onOptionItemClicked(key: string): void {

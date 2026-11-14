@@ -1,0 +1,104 @@
+<section class="tenant-plan-subscription p-3 md:p-5" aria-labelledby="tenant-plan-subscription-title">
+    <header class="mb-4 flex flex-column gap-3 md:flex-row md:align-items-start md:justify-content-between">
+        <div>
+            <p class="m-0 text-sm font-medium text-primary">Account</p>
+            <h1 id="tenant-plan-subscription-title" class="mb-1 mt-1 text-3xl font-semibold text-900">Plan and Subscription</h1>
+            <p class="m-0 text-color-secondary">Review your tenant's plan, subscription, current usage, and configured settings.</p>
+        </div>
+        <button pButton type="button" class="p-button-outlined" label="Refresh" icon="pi pi-refresh" (click)="load()" [loading]="loading" [disabled]="loading || !canView"></button>
+    </header>
+
+    <p *ngIf="!canView" class="card m-0 p-4 text-color-secondary">Plan and Subscription is available to tenant administrators only.</p>
+    <p *ngIf="error" class="card m-0 border-left-3 border-red-500 p-4 text-red-700" role="alert">{{ error }}</p>
+    <p *ngIf="loading && canView" class="card m-0 p-5 text-color-secondary">Loading plan and subscription information…</p>
+
+    <ng-container *ngIf="snapshot as data">
+        <p-tabs value="plan">
+            <p-tablist>
+                <p-tab value="plan"><i class="pi pi-tag mr-2"></i>Plan</p-tab>
+                <p-tab value="subscription"><i class="pi pi-calendar mr-2"></i>Subscription</p-tab>
+                <p-tab value="usage"><i class="pi pi-chart-bar mr-2"></i>Usage</p-tab>
+                <p-tab value="settings"><i class="pi pi-cog mr-2"></i>Settings</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+                <p-tabpanel value="plan">
+                    <ng-container *ngIf="data.Plan as plan; else noPlan">
+                        <div class="grid pt-3">
+                            <div class="col-12 lg:col-7">
+                                <article class="card h-full">
+                                    <div class="flex align-items-start justify-content-between gap-3">
+                                        <div>
+                                            <span class="text-sm text-color-secondary">Current application plan</span>
+                                            <h2 class="mb-1 mt-2 text-2xl">{{ plan.PlanName }}</h2>
+                                            <code>{{ plan.PlanCode }}</code>
+                                        </div>
+                                        <i class="pi pi-tags text-4xl text-primary"></i>
+                                    </div>
+                                    <p *ngIf="plan.Description" class="mb-0 mt-4 text-color-secondary">{{ plan.Description }}</p>
+                                    <div class="grid mt-3">
+                                        <div class="col-12 sm:col-4"><div class="plan-limit"><span>Users</span><strong>{{ plan.MaxUsers | number }}</strong></div></div>
+                                        <div class="col-12 sm:col-4"><div class="plan-limit"><span>Assets</span><strong>{{ plan.MaxAssets | number }}</strong></div></div>
+                                        <div class="col-12 sm:col-4"><div class="plan-limit"><span>Storage</span><strong>{{ plan.StorageGB | number }} GB</strong></div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="col-12 lg:col-5">
+                                <article class="card h-full">
+                                    <h2 class="mb-3 mt-0 text-xl">Included features</h2>
+                                    <ul *ngIf="data.Features.length; else noFeatures" class="feature-list">
+                                        <li *ngFor="let feature of data.Features"><i class="pi pi-check-circle text-green-500"></i><span>{{ feature.FeatureName }}</span><code>{{ feature.FeatureCode }}</code></li>
+                                    </ul>
+                                    <ng-template #noFeatures><p class="m-0 text-color-secondary">No included features are configured for this plan.</p></ng-template>
+                                </article>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #noPlan><p class="card m-0 mt-3 p-4 text-color-secondary">No application plan is assigned to this tenant.</p></ng-template>
+                </p-tabpanel>
+
+                <p-tabpanel value="subscription">
+                    <ng-container *ngIf="data.Subscription as subscription; else noSubscription">
+                        <article class="card mt-3">
+                            <div class="flex flex-column gap-3 md:flex-row md:align-items-start md:justify-content-between">
+                                <div>
+                                    <span class="text-sm text-color-secondary">Current subscription</span>
+                                    <h2 class="mb-0 mt-2 text-2xl">{{ data.Plan?.PlanName || 'Application plan' }}</h2>
+                                </div>
+                                <p-tag [value]="subscription.SubscriptionStatus" [severity]="statusSeverity(subscription.SubscriptionStatus)"></p-tag>
+                            </div>
+                            <dl class="detail-grid mt-5">
+                                <div><dt>Status</dt><dd>{{ subscription.SubscriptionStatus }}</dd></div>
+                                <div><dt>Start date</dt><dd>{{ subscription.StartDate | date:'mediumDate' }}</dd></div>
+                                <div><dt>End date</dt><dd>{{ subscription.EndDate ? (subscription.EndDate | date:'mediumDate') : 'No end date' }}</dd></div>
+                            </dl>
+                        </article>
+                    </ng-container>
+                    <ng-template #noSubscription><p class="card m-0 mt-3 p-4 text-color-secondary">No subscription is assigned to this tenant.</p></ng-template>
+                </p-tabpanel>
+
+                <p-tabpanel value="usage">
+                    <ng-container *ngIf="data.Usage as usage; else noUsage">
+                        <div class="grid pt-3">
+                            <div class="col-12 md:col-4"><article class="usage-card"><span>Active users</span><strong>{{ usage.ActiveUsers | number }}<small *ngIf="data.Plan"> / {{ data.Plan.MaxUsers | number }}</small></strong><p *ngIf="userPercentage !== null">{{ userPercentage }}% of plan limit</p></article></div>
+                            <div class="col-12 md:col-4"><article class="usage-card"><span>Active assets</span><strong>{{ usage.ActiveAssets | number }}<small *ngIf="data.Plan"> / {{ data.Plan.MaxAssets | number }}</small></strong><p *ngIf="assetPercentage !== null">{{ assetPercentage }}% of plan limit</p></article></div>
+                            <div class="col-12 md:col-4"><article class="usage-card"><span>AI requests this month</span><strong>{{ usage.AiRequestsThisMonth | number }}</strong><p>Current billing month</p></article></div>
+                        </div>
+                        <p class="mt-2 text-sm text-color-secondary">Last calculated: {{ usage.LastCalculatedAt ? (usage.LastCalculatedAt | date:'medium') : 'Not available' }}</p>
+                    </ng-container>
+                    <ng-template #noUsage><p class="card m-0 mt-3 p-4 text-color-secondary">Usage data is not available for this tenant yet.</p></ng-template>
+                </p-tabpanel>
+
+                <p-tabpanel value="settings">
+                    <article class="card mt-3">
+                        <div class="mb-4"><h2 class="mb-1 mt-0 text-xl">Tenant settings</h2><p class="m-0 text-color-secondary">These values are read-only on this page. Use Tenant Settings to make permitted changes.</p></div>
+                        <p-table [value]="data.Settings" [tableStyle]="{ 'min-width': '42rem' }">
+                            <ng-template pTemplate="header"><tr><th>Category</th><th>Setting</th><th>Current value</th><th>Description</th></tr></ng-template>
+                            <ng-template pTemplate="body" let-setting><tr><td>{{ setting.CategoryCode }}</td><td>{{ setting.SettingName }}</td><td class="setting-value">{{ setting.SettingValue || 'Not set' }}</td><td>{{ setting.Description || '—' }}</td></tr></ng-template>
+                            <ng-template pTemplate="emptymessage"><tr><td colspan="4">No tenant settings are configured.</td></tr></ng-template>
+                        </p-table>
+                    </article>
+                </p-tabpanel>
+            </p-tabpanels>
+        </p-tabs>
+    </ng-container>
+</section>

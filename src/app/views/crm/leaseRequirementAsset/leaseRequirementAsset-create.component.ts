@@ -30,6 +30,7 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
     assetmakeidOptions: ISelectItem[] = [];
     assetmodelidOptions: ISelectItem[] = [];
     newusedcodeOptions: ISelectItem[] = [];
+    uomcodeOptions: ISelectItem[] = [];
     servicepackagecodeOptions: ISelectItem[] = [];
 
     editForm: any;
@@ -69,14 +70,23 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
-        this.Caption = 'Create LeaseRequirementAsset';
+        this.Caption = 'Create Lease Requirement Asset';
         this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types', options => this.assettypeidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes', options => this.assetmakeidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetCategoryId: 'AssetCategoryId', AssetTypeId: 'AssetTypeId' });
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models', options => this.assetmodelidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { AssetMakeId: 'AssetMakeId' });
         this.newusedcodeOptions = this.loggedInUserService.getPicklistOptions('NewUsedCode');
+        this.uomcodeOptions = this.loggedInUserService.getPicklistOptions('UOMCode');
         this.servicepackagecodeOptions = this.loggedInUserService.getPicklistOptions('ServicePackageCode');
+    }
+
+    onAssetCategoryChange(): void {
+        this.editForm.patchValue({
+            AssetTypeId: 0,
+            AssetMakeId: 0,
+            AssetModelId: 0
+        });
     }
 
     loadUI(): void {

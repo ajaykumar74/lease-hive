@@ -12,7 +12,7 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Lease RequirementId" class="mb-1">LeaseRequirementId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="LeaseRequirementId" class="mb-1">Lease Requirement</label>
         <p-dropdown
             inputId="LeaseRequirementId" 
             [options]="leaserequirementidOptions"
@@ -23,7 +23,7 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('LeaseRequirementId')"
-											label="Lease RequirementId">
+											label="Lease Requirement">
 										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="LineNo">Line No 
 							</label> 
 							<p-inputNumber id="LineNo"  pSize="small"	formControlName="LineNo"  >
@@ -32,19 +32,20 @@
 											label="Line No">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset CategoryId" class="mb-1">AssetCategoryId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetCategoryId" class="mb-1">Asset Category</label>
         <p-dropdown
             inputId="AssetCategoryId" 
             [options]="assetcategoryidOptions"
             optionLabel="Text"
 	    optionValue="Value"
 	    formControlName="AssetCategoryId"
+	    (onChange)="onAssetCategoryChange()"
             placeholder="Select One"
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetCategoryId')"
-											label="Asset CategoryId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset TypeId" class="mb-1">AssetTypeId</label>
+											label="Asset Category">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="AssetTypeId" class="mb-1">Asset Type</label>
         <p-dropdown
             inputId="AssetTypeId" 
             [options]="assettypeidOptions"
@@ -55,9 +56,9 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetTypeId')"
-											label="Asset TypeId">
+											label="Asset Type">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Asset MakeId" class="mb-1">AssetMakeId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="AssetMakeId" class="mb-1">Asset Make</label>
         <p-dropdown
             inputId="AssetMakeId" 
             [options]="assetmakeidOptions"
@@ -68,8 +69,8 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetMakeId')"
-											label="Asset MakeId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Asset ModelId" class="mb-1">AssetModelId</label>
+											label="Asset Make">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="AssetModelId" class="mb-1">Asset Model</label>
         <p-dropdown
             inputId="AssetModelId" 
             [options]="assetmodelidOptions"
@@ -80,7 +81,7 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('AssetModelId')"
-											label="Asset ModelId">
+											label="Asset Model">
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="Quantity">Quantity 
 							</label> 
@@ -89,7 +90,7 @@
 <app-validation-errors [type]="'number'" [control]="editForm.get('Quantity')"
 											label="Quantity">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="New Used Code" class="mb-1">NewUsedCode</label>
+						 </div><div class="flex flex-col w-full"> <label for="NewUsedCode" class="mb-1">New Used Code</label>
         <p-dropdown
             inputId="NewUsedCode" 
             [options]="newusedcodeOptions"
@@ -102,17 +103,17 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('NewUsedCode')"
 											label="New Used Code">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="EstimatedUnitCost">Estimated UnitCost 
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="EstimatedUnitCost">Estimated Unit Cost 
 							</label> 
 							<p-inputNumber id="EstimatedUnitCost"  pSize="small"	formControlName="EstimatedUnitCost"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('EstimatedUnitCost')"
-											label="Estimated UnitCost">
+											label="Estimated Unit Cost">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full"> <label for="CurrencyCode" class="mb-1">CurrencyCode</label>
+						 </div><div class="flex flex-col w-full"> <label for="CurrencyCode" class="mb-1">Currency Code</label>
         <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
-											label="CurrencyCode">
+											label="Currency Code">
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="ExpectedAnnualUsage">Expected Annual Usage 
 							</label> 
@@ -121,15 +122,21 @@
 <app-validation-errors [type]="'number'" [control]="editForm.get('ExpectedAnnualUsage')"
 											label="Expected Annual Usage">
 										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="UsageUOMId">Usage UOMId 
-							</label> 
-							<p-inputNumber id="UsageUOMId"  pSize="small"	formControlName="UsageUOMId"  >
-</p-inputNumber>
+						 </div><div class="flex flex-col w-full">							<label for="UsageUOMId" class="mb-1">Usage UOM</label>
+							<p-dropdown
+								inputId="UsageUOMId"
+								[options]="uomcodeOptions"
+								optionLabel="Text"
+								optionValue="Id"
+								formControlName="UsageUOMId"
+								placeholder="Select One"
+								class="w-full">
+							</p-dropdown>
 <app-validation-errors [type]="'number'" [control]="editForm.get('UsageUOMId')"
-											label="Usage UOMId">
+											label="Usage UOM">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Service PackageCode" class="mb-1">ServicePackageCode</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="ServicePackageCode" class="mb-1">Service Package Code</label>
         <p-dropdown
             inputId="ServicePackageCode" 
             [options]="servicepackagecodeOptions"
@@ -140,7 +147,7 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('ServicePackageCode')"
-											label="Service PackageCode">
+											label="Service Package Code">
 										</app-validation-errors></div><div class="flex flex-col w-full">                 <label for="address">Remarks</label>
                     <textarea size="small" pTextarea placeholder="Type Remarks" [autoResize]="true" rows="3" class="w-full"
 										cols="30" formControlName="Remarks"

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: '[app-profilesidebar]',
     imports: [
+        CommonModule,
         ButtonModule,
         DrawerModule,
         BadgeModule,
@@ -80,6 +82,15 @@ export class AppProfileSidebar implements OnInit {
         this.onDrawerHide();
         this.router.navigate(['/dashboard/settings']);
 
+    }
+
+    get canViewPlanAndSubscription(): boolean {
+        return this.loggedInUserService.isTenantAdministrator;
+    }
+
+    onPlanAndSubscriptionClick() {
+        this.onDrawerHide();
+        this.router.navigate(['/dashboard/plan-and-subscription']);
     }
 
     onSupportClick() {

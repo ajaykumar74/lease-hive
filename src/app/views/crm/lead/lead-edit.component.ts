@@ -69,6 +69,8 @@ OwnerUserId: new FormControl(0, [Validators.min(-2147483648), Validators.max(214
 LeadSourceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 LeadStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 ProspectName: new FormControl('', [Validators.required, Validators.maxLength(150), ]),
+PAN: new FormControl('', [Validators.maxLength(10), ]),
+GSTIN: new FormControl('', [Validators.maxLength(15), ]),
 ContactName: new FormControl('', [Validators.maxLength(100), ]), 
 Email: new FormControl('', [Validators.maxLength(100), ]), 
 Phone: new FormControl('', [Validators.maxLength(20), ]), 
@@ -94,7 +96,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   private loadLookups(): void {
     this.loggedInUserService.bindEntityLookup(this.editForm, 'OriginatingOrganisationId', 'organisations', options => this.originatingorganisationidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
     this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.destroyRef, { OrganisationId: 'OriginatingOrganisationId' });
-    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
+    // Keep the owner selector tenant-wide so every active application user is available.
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.destroyRef);
     this.loggedInUserService.getLookupOptions('lead-sources')
       .subscribe(options => this.leadsourceidOptions = options);
     this.loggedInUserService.getLookupOptions('lead-statuses')
@@ -136,6 +139,8 @@ OwnerUserId: obj.OwnerUserId || 0,
 LeadSourceId: obj.LeadSourceId || 0,
 LeadStatusId: obj.LeadStatusId || 0,
 ProspectName: obj.ProspectName || '',
+PAN: obj.PAN || '',
+GSTIN: obj.GSTIN || '',
 ContactName: obj.ContactName || '',
 Email: obj.Email || '',
 Phone: obj.Phone || '',
@@ -184,6 +189,8 @@ OwnerUserId: obj.OwnerUserId || 0,
 LeadSourceId: obj.LeadSourceId || 0,
 LeadStatusId: obj.LeadStatusId || 0,
 ProspectName: obj.ProspectName || '',
+PAN: obj.PAN || '',
+GSTIN: obj.GSTIN || '',
 ContactName: obj.ContactName || '',
 Email: obj.Email || '',
 Phone: obj.Phone || '',
@@ -224,6 +231,8 @@ OwnerUserId:  formValues.OwnerUserId || 0,
 LeadSourceId:  formValues.LeadSourceId || 0,
 LeadStatusId:  formValues.LeadStatusId || 0,
 ProspectName:  formValues.ProspectName || null,
+PAN: formValues.PAN || null,
+GSTIN: formValues.GSTIN || null,
 ContactName:  formValues.ContactName || null,
 Email:  formValues.Email || null,
 Phone:  formValues.Phone || null,

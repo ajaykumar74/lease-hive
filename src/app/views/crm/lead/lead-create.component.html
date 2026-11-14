@@ -12,7 +12,7 @@
                             <div class="card flex flex-col gap-4 w-full">
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="Originating Organisation" class="mb-1">OriginatingOrganisationId</label>
+                                        <label for="OriginatingOrganisationId" class="mb-1">Originating Organisation</label>
                                         <p-dropdown
                                             inputId="OriginatingOrganisationId"
                                             [options]="originatingorganisationidOptions"
@@ -26,7 +26,7 @@
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('OriginatingOrganisationId')" label="Originating Organisation"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="Owner Organisation Unit" class="mb-1">OwnerOrganisationUnitId</label>
+                                        <label for="OwnerOrganisationUnitId" class="mb-1">Owner Organisation Unit</label>
                                         <p-dropdown inputId="OwnerOrganisationUnitId" [options]="ownerorganisationunitidOptions" optionLabel="Text" optionValue="Id" formControlName="OwnerOrganisationUnitId" placeholder="Select One" class="w-full">
                                         </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('OwnerOrganisationUnitId')" label="Owner Organisation Unit"> </app-validation-errors>
@@ -34,19 +34,31 @@
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="Owner User" class="mb-1">OwnerUserId</label>
+                                        <label for="PAN">PAN</label>
+                                        <input pInputText id="PAN" type="text" pSize="small" formControlName="PAN" maxlength="10" />
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('PAN')" label="PAN"></app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="GSTIN">GSTIN</label>
+                                        <input pInputText id="GSTIN" type="text" pSize="small" formControlName="GSTIN" maxlength="15" />
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('GSTIN')" label="GSTIN"></app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="OwnerUserId" class="mb-1">Owner User</label>
                                         <p-dropdown inputId="OwnerUserId" [options]="owneruseridOptions" optionLabel="Text" optionValue="Id" formControlName="OwnerUserId" placeholder="Select One" class="w-full"> </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('OwnerUserId')" label="Owner User"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="Lead Source" class="mb-1">LeadSourceId</label>
+                                        <label for="LeadSourceId" class="mb-1">Lead Source</label>
                                         <p-dropdown inputId="LeadSourceId" [options]="leadsourceidOptions" optionLabel="Text" optionValue="Id" formControlName="LeadSourceId" placeholder="Select One" class="w-full"> </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('LeadSourceId')" label="Lead Source"> </app-validation-errors>
                                     </div>
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="Lead Status" class="mb-1">LeadStatusId</label>
+                                        <label for="LeadStatusId" class="mb-1">Lead Status</label>
                                         <p-dropdown inputId="LeadStatusId" [options]="leadstatusidOptions" optionLabel="Text" optionValue="Id" formControlName="LeadStatusId" placeholder="Select One" class="w-full"> </p-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('LeadStatusId')" label="Lead Status"> </app-validation-errors>
                                     </div>
@@ -76,13 +88,13 @@
                                     </div>
                                     <div class="flex flex-col w-full">
                                         <label for="CountryCode">Country Code </label>
-                                        <input pInputText id="CountryCode" type="text" pSize="small" formControlName="CountryCode" />
+                                        <app-country-dropdown inputId="CountryCode" formControlName="CountryCode"></app-country-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('CountryCode')" label="Country Code"> </app-validation-errors>
                                     </div>
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="Interested Asset CategoryId" class="mb-1">InterestedAssetCategoryId</label>
+                                        <label for="InterestedAssetCategoryId" class="mb-1">Interested Asset Category</label>
                                         <p-dropdown
                                             inputId="InterestedAssetCategoryId"
                                             [options]="interestedassetcategoryidOptions"
@@ -93,7 +105,7 @@
                                             class="w-full"
                                         >
                                         </p-dropdown>
-                                        <app-validation-errors [type]="'text'" [control]="editForm.get('InterestedAssetCategoryId')" label="Interested Asset CategoryId"> </app-validation-errors>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('InterestedAssetCategoryId')" label="Interested Asset Category"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
                                         <label for="EstimatedValue">Estimated Value </label>
@@ -103,7 +115,7 @@
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="Currency Code" class="mb-1">CurrencyCode</label>
+                                        <label for="CurrencyCode" class="mb-1">Currency Code</label>
                                         <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode" [organisationControl]="editForm.get('OriginatingOrganisationId')"></app-currency-dropdown>
                                         <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')" label="Currency Code"> </app-validation-errors>
                                     </div>

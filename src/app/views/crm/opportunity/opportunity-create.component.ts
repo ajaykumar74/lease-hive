@@ -1,7 +1,9 @@
 import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
@@ -11,6 +13,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IOpportunity } from './opportunity';
 import { OpportunityService } from './opportunity.service';
+import { LeadService } from '../lead/lead.service';
 
 @Component({
     selector: 'app-opportunity-create',
@@ -42,6 +45,7 @@ export class OpportunityCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private opportunityService: OpportunityService,
+        private leadService: LeadService,
         private loggedInUserService: LoggedInUserService,
         private destroyRef: DestroyRef
     ) {}
@@ -82,7 +86,18 @@ export class OpportunityCreateComponent implements OnInit {
             'id',
             true
         );
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityStageId', 'opportunity-stages', options => this.opportunitystageidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'OpportunityStageId',
+            'opportunity-stages',
+            options => {
+                this.opportunitystageidOptions = options;
+                this.setDefaultOpportunityStage(options);
+            },
+            error => this.messageService?.showError(error),
+            this.destroyRef
+        );
+        this.bindLeadOrganisation();
         this.populateOwnerWithCurrentUser();
     }
 
@@ -126,6 +141,35 @@ export class OpportunityCreateComponent implements OnInit {
             next: ownerUserId => this.editForm.get('OwnerUserId')?.setValue(ownerUserId),
             error: error => this.messageService?.showError(error)
         });
+    }
+
+    private bindLeadOrganisation(): void {
+        this.editForm.get('LeadId')?.valueChanges.pipe(
+            map((leadId: unknown) => Number(leadId) || 0),
+            filter((leadId): leadId is number => Number(leadId) > 0),
+            distinctUntilChanged(),
+            switchMap(leadId => this.leadService.getById(Number(leadId))),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
+            next: response => {
+                const lead = response?.data ?? response;
+                this.editForm.get('OriginatingOrganisationId')?.setValue(Number(lead?.OriginatingOrganisationId) || 0);
+            },
+            error: error => this.messageService?.showError(error)
+        });
+    }
+
+    private setDefaultOpportunityStage(options: ISelectItem[]): void {
+        const control = this.editForm.get('OpportunityStageId');
+        if (Number(control?.value) > 0) return;
+
+        const newStage = options.find(option =>
+            option.Category?.trim().toLowerCase() === 'new' ||
+            option.Text?.trim().toLowerCase() === 'new' ||
+            /^new\s*-/i.test(option.Text || '') ||
+            /-\s*new$/i.test(option.Text || '')
+        );
+        if (newStage?.Id) control?.setValue(newStage.Id);
     }
 
     onOptionItemClicked(key: string): void {

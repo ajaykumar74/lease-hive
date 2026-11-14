@@ -31,6 +31,15 @@ export class LeadListComponent implements OnInit {
   isLoading: boolean = false;
   maxPageCount: number = 10;
   permission = {} as IPermission;
+  conversionDialogVisible = false;
+  conversionLead: ILead | null = null;
+  conversionCandidates: any[] = [];
+  selectedPartyId = 0;
+  createNewParty = false;
+  opportunityName = '';
+  isConverting = false;
+  conversionError = '';
+  qualifiedLeadStatusIds = new Set<number>();
   objSearch: any = { Name: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
 
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
@@ -42,6 +51,15 @@ export class LeadListComponent implements OnInit {
       this.objSearch = this.leadService.CacheData.objSearch;
       this.permission = this.leadService.CacheData.permission;
     }
+
+    this.loggedInUserService.getLookupOptions('lead-statuses').subscribe({
+      next: statuses => {
+        this.qualifiedLeadStatusIds = new Set(
+          statuses.filter(status => status.IsQualified).map(status => Number(status.Id))
+        );
+      },
+      error: error => this.messageService?.showError(error)
+    });
   }
 
   ngAfterViewInit(): void {
@@ -159,6 +177,81 @@ export class LeadListComponent implements OnInit {
       quote: ['/business/origination/quotes']
     };
     this.router.navigate(routes[action], { queryParams: { leadId: lead.Id }, state: { lead } });
+  }
+
+  openConversion(lead: ILead): void {
+    this.conversionLead = lead;
+    this.conversionCandidates = [];
+    this.selectedPartyId = 0;
+    this.createNewParty = false;
+    this.opportunityName = `${lead.ProspectName || 'Customer'} Opportunity`;
+    this.conversionError = '';
+    this.isLoading = true;
+    this.leadService.getConversionCandidates(lead.Id).subscribe({
+      next: response => {
+        this.conversionCandidates = response.data || [];
+        this.conversionDialogVisible = true;
+      },
+      error: error => {
+        this.isLoading = false;
+        this.conversionError = this.getErrorMessage(error);
+        this.conversionDialogVisible = true;
+      },
+      complete: () => this.isLoading = false
+    });
+  }
+
+  isQualifiedUnconvertedLead(lead: ILead): boolean {
+    return !lead.QualifiedPartyId && this.qualifiedLeadStatusIds.has(Number(lead.LeadStatusId));
+  }
+
+  selectExistingParty(partyId: number): void {
+    this.selectedPartyId = partyId;
+    this.createNewParty = false;
+  }
+
+  selectNewParty(): void {
+    this.selectedPartyId = 0;
+    this.createNewParty = true;
+  }
+
+  canSubmitConversion(): boolean {
+    return !this.conversionError && (this.selectedPartyId > 0 || this.createNewParty);
+  }
+
+  convertLead(): void {
+    if (!this.conversionLead || (!this.selectedPartyId && !this.createNewParty)) {
+      this.messageService.showError('Select an existing customer or choose to create a new customer.');
+      return;
+    }
+
+    this.isConverting = true;
+    this.leadService.convert(this.conversionLead.Id, {
+      SelectedPartyId: this.selectedPartyId,
+      CreateNewParty: this.createNewParty,
+      OpportunityName: this.opportunityName
+    }).subscribe({
+      next: response => {
+        const result = response.data;
+        this.conversionDialogVisible = false;
+        this.router.navigate(['/business/crm/opportunities'], { queryParams: { leadId: result.LeadId } });
+      },
+      error: error => {
+        this.isConverting = false;
+        this.conversionError = this.getErrorMessage(error);
+      },
+      complete: () => this.isConverting = false
+    });
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string' && error.trim()) return error.trim();
+    const value = error as any;
+    return value?.error?.ErrorMessage
+      ?? value?.error?.Message
+      ?? value?.ErrorMessage
+      ?? value?.Message
+      ?? 'The lead could not be converted.';
   }
 
   getInitials(lead: ILead): string {

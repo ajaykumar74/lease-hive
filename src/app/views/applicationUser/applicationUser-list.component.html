@@ -18,8 +18,9 @@
 					<tr>
 
 						<th style="width:200px">App User ID <p-sortIcon field="AppUserId" /> </th>
+							<th style="width:200px">DisplayName<p-sortIcon field="DisplayName" /> </th>
 						<th style="width:200px">Mobile Number <p-sortIcon field="MobileNumber" /> </th>
-						<th style="width:200px">Identity Provider <p-sortIcon field="IdentityProvider" /> </th>
+					
 						<th style="width:200px">User Type <p-sortIcon field="UserType" /> </th>
 						<th style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
 					</tr>
@@ -28,8 +29,8 @@
 					<tr>
 						<td style="width:200px" pFrozenColumn><p-button label="{{obj.AppUserId}}" [link]="true"
 								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.MobileNumber}}</td>
-						<td style="width:200px">{{obj.IdentityProvider}}</td>
+						<td style="width:200px">{{obj.DisplayName}}</td>
+						<td style="width:200px">{{obj.MobileNumber}}</td>							
 						<td style="width:200px">{{obj.UserType}}</td>
 						<td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
 

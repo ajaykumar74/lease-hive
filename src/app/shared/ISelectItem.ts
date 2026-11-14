@@ -4,4 +4,5 @@ export interface ISelectItem {
 	Text : string;   
 	Category? : string;
 	ParentId?: number;
+	IsQualified?: boolean;
 }

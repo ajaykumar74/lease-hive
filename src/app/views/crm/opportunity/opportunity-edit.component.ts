@@ -1,7 +1,9 @@
 import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
@@ -11,6 +13,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IOpportunity } from './opportunity';
 import { OpportunityService } from './opportunity.service';
+import { LeadService } from '../lead/lead.service';
 
 @Component({
     selector: 'app-opportunity-edit',
@@ -42,6 +45,7 @@ export class OpportunityEditComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private opportunityService: OpportunityService,
+        private leadService: LeadService,
         private loggedInUserService: LoggedInUserService
     ) {}
 
@@ -75,11 +79,37 @@ export class OpportunityEditComponent implements OnInit {
         this.loggedInUserService.bindEntityLookup(this.editForm, 'PartyId', 'parties', options => this.partyidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { LeadId: 'LeadId' });
         this.loggedInUserService.getOrganisationOptions().subscribe((options) => (this.originatingorganisationidOptions = options));
         this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerOrganisationUnitId', 'organisation-units', options => this.ownerorganisationunitidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { OrganisationId: 'OriginatingOrganisationId' });
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef, { DefaultOrganisationUnitId: 'OwnerOrganisationUnitId' });
-        this.loggedInUserService.bindEntityLookup(this.editForm, 'OpportunityStageId', 'opportunity-stages', options => this.opportunitystageidOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        // An opportunity can be owned by any active application user in the tenant;
+        // do not hide users whose default organisation unit differs from the owner unit.
+        this.loggedInUserService.bindEntityLookup(this.editForm, 'OwnerUserId', 'application-users', options => this.owneruseridOptions = options, error => this.messageService?.showError(error), this.entityLookupDestroyRef);
+        this.loggedInUserService.bindEntityLookup(
+            this.editForm,
+            'OpportunityStageId',
+            'opportunity-stages',
+            options => this.opportunitystageidOptions = options,
+            error => this.messageService?.showError(error),
+            this.entityLookupDestroyRef
+        );
+        this.bindLeadOrganisation();
         this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 
         this.selectedId = this.activatedRouter.snapshot.params['id'];
+    }
+
+    private bindLeadOrganisation(): void {
+        this.editForm.get('LeadId')?.valueChanges.pipe(
+            map((leadId: unknown) => Number(leadId) || 0),
+            filter((leadId): leadId is number => Number(leadId) > 0),
+            distinctUntilChanged(),
+            switchMap(leadId => this.leadService.getById(Number(leadId))),
+            takeUntilDestroyed(this.entityLookupDestroyRef)
+        ).subscribe({
+            next: response => {
+                const lead = response?.data ?? response;
+                this.editForm.get('OriginatingOrganisationId')?.setValue(Number(lead?.OriginatingOrganisationId) || 0);
+            },
+            error: error => this.messageService?.showError(error)
+        });
     }
 
     ngAfterViewInit(): void {

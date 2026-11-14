@@ -44,6 +44,16 @@ export class LeadService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  getConversionCandidates(leadId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${leadId}/conversion-candidates`, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
+
+  convert(leadId: number, conversion: { SelectedPartyId: number; CreateNewParty: boolean; OpportunityName?: string }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${leadId}/convert`, conversion, { headers: this.headers })
+      .pipe(tap(data => this.baseService.onTapData(data)), catchError(this.baseService.handleError));
+  }
 }
 
 

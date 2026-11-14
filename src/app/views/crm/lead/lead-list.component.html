@@ -32,6 +32,7 @@
           <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
           <td><div class="list-actions">
             <button type="button" class="list-action edit" title="Edit lead" aria-label="Edit lead" (click)="onLeadAction('edit', obj)"><i class="pi pi-pencil"></i></button>
+            <button *ngIf="isQualifiedUnconvertedLead(obj)" type="button" class="list-action success" title="Convert lead" aria-label="Convert lead" (click)="openConversion(obj)"><i class="pi pi-user-plus"></i></button>
             <button type="button" class="list-action view" title="View opportunities" aria-label="View opportunities" (click)="onLeadAction('opportunity', obj)"><i class="pi pi-chart-line"></i></button>
             <button type="button" class="list-action info" title="Lease requirements" aria-label="Lease requirements" (click)="onLeadAction('requirement', obj)"><i class="pi pi-file-edit"></i></button>
             <button type="button" class="list-action success" title="Quotes" aria-label="Quotes" (click)="onLeadAction('quote', obj)"><i class="pi pi-receipt"></i></button>
@@ -43,3 +44,31 @@
     </div>
   </div>
 </div>
+
+<p-dialog [(visible)]="conversionDialogVisible" [modal]="true" [style]="{ width: '42rem' }" header="Convert Lead" [draggable]="false">
+  <div class="flex flex-col gap-4" *ngIf="conversionLead">
+    <p>Convert <strong>{{ conversionLead.ProspectName }}</strong> into a customer and opportunity.</p>
+    <div *ngIf="conversionError" class="p-3 border-round bg-red-50 text-red-700" role="alert">{{ conversionError }}</div>
+    <div class="flex flex-col gap-2">
+      <label for="opportunityName">Opportunity name</label>
+      <input id="opportunityName" type="text" pInputText [(ngModel)]="opportunityName" maxlength="256" />
+    </div>
+    <div class="flex flex-col gap-2" *ngIf="conversionCandidates.length">
+      <span class="font-semibold">Potential existing customers</span>
+      <button *ngFor="let candidate of conversionCandidates" type="button" class="p-3 text-left border-round border-1 surface-border"
+        [class.surface-100]="selectedPartyId === candidate.PartyId" (click)="selectExistingParty(candidate.PartyId)">
+        <strong>{{ candidate.PartyName }}</strong><br />
+        <small>{{ candidate.PartyCode }} · {{ candidate.MatchReasons?.join(', ') }}</small>
+      </button>
+    </div>
+    <div *ngIf="!conversionCandidates.length" class="p-3 border-round surface-100 text-600">
+      No matching customer party was found. Select the option below to create one from this lead.
+    </div>
+    <button type="button" pButton [outlined]="true" [label]="createNewParty ? 'New customer party selected' : 'Create new customer party'" icon="pi pi-plus"
+      [severity]="createNewParty ? 'success' : 'secondary'" [attr.aria-pressed]="createNewParty" (click)="selectNewParty()"></button>
+  </div>
+  <ng-template pTemplate="footer">
+    <button type="button" pButton label="Cancel" [text]="true" (click)="conversionDialogVisible = false"></button>
+    <button type="button" pButton label="Convert lead" icon="pi pi-check" [loading]="isConverting" [disabled]="!canSubmitConversion()" (click)="convertLead()"></button>
+  </ng-template>
+</p-dialog>

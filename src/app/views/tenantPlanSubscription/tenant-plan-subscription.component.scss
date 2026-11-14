@@ -1,0 +1,33 @@
+:host { display: block; }
+
+.plan-limit, .usage-card {
+    height: 100%;
+    border: 1px solid var(--surface-border);
+    border-radius: 0.5rem;
+    background: var(--surface-ground);
+    padding: 1rem;
+}
+
+.plan-limit span, .usage-card span, .detail-grid dt {
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+}
+
+.plan-limit strong, .usage-card strong {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 1.4rem;
+}
+
+.usage-card { background: var(--surface-card); }
+.usage-card small { color: var(--text-color-secondary); font-size: 1rem; font-weight: 400; }
+.usage-card p { margin: 0.5rem 0 0; color: var(--text-color-secondary); font-size: 0.875rem; }
+
+.feature-list { display: flex; flex-direction: column; gap: 0.9rem; list-style: none; margin: 0; padding: 0; }
+.feature-list li { align-items: center; display: flex; gap: 0.65rem; }
+.feature-list code { color: var(--text-color-secondary); font-size: 0.75rem; margin-left: auto; }
+
+.detail-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); margin-bottom: 0; }
+.detail-grid div { border-left: 3px solid var(--primary-color); padding-left: 0.75rem; }
+.detail-grid dd { font-size: 1.1rem; font-weight: 600; margin: 0.35rem 0 0; }
+.setting-value { max-width: 24rem; overflow-wrap: anywhere; }

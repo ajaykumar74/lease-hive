@@ -12,7 +12,7 @@
   			<p-fluid>
 		      		<div class="flex mt-8">
 					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="LeadId" class="mb-1">LeadId</label>
+ 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="LeadId" class="mb-1">Lead</label>
         <p-dropdown
             inputId="LeadId" 
             [options]="leadidOptions"
@@ -23,8 +23,8 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('LeadId')"
-											label="LeadId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">PartyId</label>
+											label="Lead">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="PartyId" class="mb-1">Party</label>
         <p-dropdown
             inputId="PartyId" 
             [options]="partyidOptions"
@@ -35,9 +35,9 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('PartyId')"
-											label="PartyId">
+											label="Party">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Originating OrganisationId" class="mb-1">OriginatingOrganisationId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="OriginatingOrganisationId" class="mb-1">Originating Organisation</label>
         <p-dropdown
             inputId="OriginatingOrganisationId" 
             [options]="originatingorganisationidOptions"
@@ -48,8 +48,8 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('OriginatingOrganisationId')"
-											label="Originating OrganisationId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Owner Organisation UnitId" class="mb-1">OwnerOrganisationUnitId</label>
+											label="Originating Organisation">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="OwnerOrganisationUnitId" class="mb-1">Owner Organisation Unit</label>
         <p-dropdown
             inputId="OwnerOrganisationUnitId" 
             [options]="ownerorganisationunitidOptions"
@@ -60,9 +60,9 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('OwnerOrganisationUnitId')"
-											label="Owner Organisation UnitId">
+											label="Owner Organisation Unit">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Owner UserId" class="mb-1">OwnerUserId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="OwnerUserId" class="mb-1">Owner User</label>
         <p-dropdown
             inputId="OwnerUserId" 
             [options]="owneruseridOptions"
@@ -73,8 +73,8 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('OwnerUserId')"
-											label="Owner UserId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Opportunity StageId" class="mb-1">OpportunityStageId</label>
+											label="Owner User">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="OpportunityStageId" class="mb-1">Opportunity Stage</label>
         <p-dropdown
             inputId="OpportunityStageId" 
             [options]="opportunitystageidOptions"
@@ -85,7 +85,7 @@
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('OpportunityStageId')"
-											label="Opportunity StageId">
+											label="Opportunity Stage">
 										</app-validation-errors></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">                 <label for="address">Opportunity Name</label>
                     <textarea size="small" pTextarea placeholder="Type Opportunity Name" [autoResize]="true" rows="3" class="w-full"
@@ -104,20 +104,20 @@
 											label="Estimated Amount">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CurrencyCode" class="mb-1">Currency</label>
         <app-currency-dropdown
             inputId="CurrencyCode"
             formControlName="CurrencyCode"
             [organisationControl]="editForm.get('OriginatingOrganisationId')">
         </app-currency-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
-											label="Currency Code">
-										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="ProbabilityPct">Probability Pct 
+											label="Currency">
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="ProbabilityPct">Probability (%)
 							</label> 
 							<p-inputNumber id="ProbabilityPct"  pSize="small"	formControlName="ProbabilityPct"  >
 </p-inputNumber>
 <app-validation-errors [type]="'number'" [control]="editForm.get('ProbabilityPct')"
-											label="Probability Pct">
+											label="Probability (%)">
 										</app-validation-errors>
 						 </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">			

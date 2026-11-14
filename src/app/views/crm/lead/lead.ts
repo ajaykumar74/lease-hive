@@ -10,6 +10,8 @@ OwnerUserId :number;
 LeadSourceId :number;
 LeadStatusId :number;
 ProspectName :string;
+PAN :string;
+GSTIN :string;
 ContactName :string;
 Email :string;
 Phone :string;

@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { PaginatorModule } from 'primeng/paginator';
+import { DialogModule } from 'primeng/dialog';
 
 import { LeadListComponent } from './lead-list.component';
 import { LeadCreateComponent } from './lead-create.component';
@@ -44,6 +45,7 @@ import { LeadRoutingModule } from './lead-routing.module';
 		MySharedModule, 
 		FluidModule,
 		PaginatorModule,
+		DialogModule,
 		LeadRoutingModule,
 	],
 	declarations: [

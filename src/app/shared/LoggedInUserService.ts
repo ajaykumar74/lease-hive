@@ -74,6 +74,12 @@ export class LoggedInUserService {
     const role = this.loggedInUser?.Role || '';
     return /platform[\s_-]*admin/i.test(role);
   }
+
+  /** Tenant subscription details are visible only to tenant administrators and owners. */
+  public get isTenantAdministrator(): boolean {
+    const role = this.loggedInUser?.Role || '';
+    return /tenant[\s_-]*(admin|administrator)|partner[\s_-]*(owner|admin)|member[\s_-]*(owner|admin)/i.test(role);
+  }
   
   public get getRecordId(): number {
     if (this.loggedInUser.AccountType == 'Customer') {
@@ -234,7 +240,13 @@ export class LoggedInUserService {
   }
 
   /** Load every page so entity dropdown filtering is not limited to the first 100 rows. */
-  getEntityLookupOptions(lookupType: string, selectedId?: number | string, filters: Record<string, number> = {}, valueMode: 'id' | 'reference' = 'id'): Observable<ISelectItem[]> {
+  getEntityLookupOptions(
+    lookupType: string,
+    selectedId?: number | string,
+    filters: Record<string, number> = {},
+    valueMode: 'id' | 'reference' = 'id',
+    preserveServerOrder = false
+  ): Observable<ISelectItem[]> {
     const tenant = this.loggedInUser?.Tenant;
     const tenantId = tenant?.Id ?? tenant?.TenantId;
     if (!tenantId) return throwError(() => 'Tenant information is not available for the logged-in user.');
@@ -252,15 +264,20 @@ export class LoggedInUserService {
     return page(0).pipe(
       expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
       reduce((items, result) => [...items, ...result.rows], [] as any[]),
-      map(items => this.sortSelectItems([...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
-        Id: item.Id,
-        Value: valueMode === 'reference'
-          ? (item.ReferenceValue || item.ProfileCode || item.Code || item.Value)
-          : item.Id,
-        Text: item.DisplayText,
-        Category: item.Code,
-        ParentId: item.ParentId
-      }))))
+      map(items => {
+        const options = [...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
+          Id: item.Id,
+          Value: valueMode === 'reference'
+            ? (item.ReferenceValue || item.ProfileCode || item.Code || item.Value)
+            : item.Id,
+          Text: item.DisplayText,
+          Category: item.Code,
+          ParentId: item.ParentId,
+          IsQualified: item.IsQualified === true
+        }));
+
+        return preserveServerOrder ? options : this.sortSelectItems(options);
+      })
     );
   }
 
@@ -312,7 +329,13 @@ export class LoggedInUserService {
           if (selectedId && !preserveSelectionWhenParentsMissing) form.get(field)?.setValue(null, { emitEvent: false });
           return EMPTY;
         }
-        return this.getEntityLookupOptions(lookupType, selectedId, parentsMissing ? {} : filters, valueMode).pipe(
+        return this.getEntityLookupOptions(
+          lookupType,
+          selectedId,
+          parentsMissing ? {} : filters,
+          valueMode,
+          ['lead-statuses', 'opportunity-stages'].includes(lookupType.trim().toLowerCase())
+        ).pipe(
           map(options => {
             assign(options);
             const selectionExists = options.some(option => valueMode === 'reference'
@@ -374,7 +397,13 @@ export class LoggedInUserService {
     if (filters?.partyId) entityFilters['PartyId'] = filters.partyId;
     if (filters?.organisationId) entityFilters['OrganisationId'] = filters.organisationId;
     if (filters?.organisationUnitId) entityFilters['DefaultOrganisationUnitId'] = filters.organisationUnitId;
-    return this.getEntityLookupOptions(lookupType, selectedId, entityFilters);
+    return this.getEntityLookupOptions(
+      lookupType,
+      selectedId,
+      entityFilters,
+      'id',
+      ['lead-statuses', 'opportunity-stages'].includes(lookupType.trim().toLowerCase())
+    );
   }
 
   getPartyOptions(selectedId?: number): Observable<ISelectItem[]> {
