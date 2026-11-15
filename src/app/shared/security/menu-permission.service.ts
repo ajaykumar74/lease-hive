@@ -49,6 +49,9 @@ export class MenuPermissionService {
         // Platform setting definitions are protected by the PlatformAdmin role
         // at the API boundary, not by a tenant-scoped resource permission.
         '/dashboard/platform-settings',
+        // Tenant plan and subscription data is protected by the tenant-admin
+        // role at the API boundary rather than a tenant RolePermission row.
+        '/dashboard/plan-and-subscription',
         // Product help requires an authenticated session, but no resource permission.
         '/dashboard/crmhelpdoc'
     ];

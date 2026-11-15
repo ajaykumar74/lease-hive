@@ -81,6 +81,7 @@ export class CurrencyDefaultService {
       modelCurrencyCode,
       parentTransaction?.['CurrencyCode'],
       party?.['PreferredCurrencyCode'],
+      organisation?.['FunctionalCurrency'],
       organisation?.['BaseCurrencyCode'],
       this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrencyCode,
       this.loggedInUserService.loggedInUser?.Tenant?.DefaultCurrency,
@@ -189,6 +190,12 @@ export class CurrencyDefaultService {
 
   private loadOrganisation(id?: number | string | null): Observable<Record<string, unknown> | null> {
     if (!this.isRecordId(id)) return this.loadLoggedInOrganisation();
+
+    const loggedInOrganisation = this.getLoggedInOrganisation();
+    if (loggedInOrganisation && this.matchesOrganisationId(loggedInOrganisation, id)) {
+      return of(loggedInOrganisation);
+    }
+
     return this.organisationService.getById(Number(id)).pipe(
       map(response => this.unwrap(response)),
       catchError(() => this.loadLoggedInOrganisation())
@@ -196,11 +203,8 @@ export class CurrencyDefaultService {
   }
 
   private loadLoggedInOrganisation(): Observable<Record<string, unknown> | null> {
-    const user = this.loggedInUserService.loggedInUser as Record<string, any> | null;
-    const organisation = user?.['OrganisationData']
-      ?? user?.['Organisation']
-      ?? user?.['DefaultOrganisation'];
-    if (organisation && typeof organisation === 'object') return of(organisation);
+    const organisation = this.getLoggedInOrganisation();
+    if (organisation) return of(organisation);
 
     return this.applicationUserService.getCurrent().pipe(
       map(response => this.unwrap(response) as Record<string, any> | null),
@@ -245,5 +249,20 @@ export class CurrencyDefaultService {
 
   private isRecordId(value: unknown): boolean {
     return Number(value) > 0;
+  }
+
+  private getLoggedInOrganisation(): Record<string, unknown> | null {
+    const user = this.loggedInUserService.loggedInUser as unknown as Record<string, unknown> | null;
+    const organisation = user?.['OrganisationData']
+      ?? user?.['Organisation']
+      ?? user?.['DefaultOrganisation'];
+    return organisation && typeof organisation === 'object'
+      ? organisation as Record<string, unknown>
+      : null;
+  }
+
+  private matchesOrganisationId(organisation: Record<string, unknown>, id: number | string): boolean {
+    return [organisation['Id'], organisation['OrganisationId']]
+      .some(candidate => Number(candidate) === Number(id));
   }
 }

@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
@@ -11,6 +13,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ICreditApplication } from './creditApplication';
 import { CreditApplicationService } from './creditApplication.service';
+import { OpportunityService } from '../opportunity/opportunity.service';
 
 @Component({
     selector: 'app-creditApplication-create',
@@ -43,6 +46,7 @@ export class CreditApplicationCreateComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private creditApplicationService: CreditApplicationService,
+        private opportunityService: OpportunityService,
         private loggedInUserService: LoggedInUserService
     ) {}
 
@@ -78,8 +82,28 @@ export class CreditApplicationCreateComponent implements OnInit {
             (error) => setTimeout(() => this.messageService?.showError(error)),
             this.entityLookupDestroyRef
         );
+        this.bindOpportunityContext();
         this.loadRiskSegmentOptions();
         this.loggedInUserService.getApplicationUserOptions().subscribe((options) => (this.assignedanalystuseridOptions = options));
+    }
+
+    private bindOpportunityContext(): void {
+        this.editForm.get('OpportunityId')?.valueChanges.pipe(
+            map((opportunityId: unknown) => Number(opportunityId) || 0),
+            filter((opportunityId): opportunityId is number => Number(opportunityId) > 0),
+            distinctUntilChanged(),
+            switchMap(opportunityId => this.opportunityService.getById(Number(opportunityId))),
+            takeUntilDestroyed(this.entityLookupDestroyRef)
+        ).subscribe({
+            next: response => {
+                const opportunity = response?.data ?? response;
+                this.editForm.patchValue({
+                    PartyId: Number(opportunity?.PartyId) || 0,
+                    OriginatingOrganisationId: Number(opportunity?.OriginatingOrganisationId) || 0
+                }, { emitEvent: false });
+            },
+            error: error => this.messageService?.showError(error)
+        });
     }
 
     private loadRiskSegmentOptions(): void {

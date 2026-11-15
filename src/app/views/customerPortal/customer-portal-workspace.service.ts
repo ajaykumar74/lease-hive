@@ -23,7 +23,50 @@ export interface CustomerPortalContract {
     CurrencyCode: string;
     AssetCount: number;
     ExternalReference?: string;
-    Assets?: CustomerPortalAsset[];
+    CustomerName?: string;
+    TenureMonths?: number;
+    RentalAmount?: number;
+    BillingFrequency?: string;
+    DepositAmount?: number;
+    DownPaymentAmount?: number;
+    ApplicableTaxAmount?: number;
+    HasIssuedAgreement?: boolean;
+    IssuedAgreementFileName?: string;
+    ExecutionStatus?: string;
+    CustomerSignatureStatus?: string;
+    SignatureRequestSentOnUtc?: string;
+    IsCustomerActionPending?: boolean;
+    CustomerActionMessage?: string;
+    Assets?: CustomerPortalContractAsset[];
+    Charges?: CustomerPortalContractCharge[];
+    PaymentSchedule?: CustomerPortalPaymentScheduleItem[];
+}
+
+export interface CustomerPortalContractAsset {
+    ContractAssetId: number;
+    Description: string;
+    AssetCategory: string;
+    AssetType: string;
+    Quantity: number;
+    AllocationStatus: string;
+}
+
+export interface CustomerPortalContractCharge {
+    ChargeType: string;
+    Description: string;
+    Amount: number;
+    TaxAmount: number;
+    Frequency: string;
+    DueEvent: string;
+}
+
+export interface CustomerPortalPaymentScheduleItem {
+    InstallmentNo: number;
+    DueDate: string;
+    RentalAmount: number;
+    TaxAmount: number;
+    ChargeAmount: number;
+    TotalDueAmount: number;
 }
 
 export interface CustomerPortalAsset {
@@ -168,6 +211,11 @@ export class CustomerPortalWorkspaceService {
     dashboard(): Observable<CustomerPortalDashboard> { return this.get<CustomerPortalDashboard>('dashboard'); }
     contracts(): Observable<CustomerPortalContract[]> { return this.get<CustomerPortalContract[]>('contracts'); }
     contract(id: number): Observable<CustomerPortalContract> { return this.get<CustomerPortalContract>(`contracts/${id}`); }
+    contractAgreement(id: number): Observable<Blob> {
+        return this.http.get(`${this.endpoint}/contracts/${id}/agreement`, {
+            headers: this.baseService.getHeaders(), responseType: 'blob'
+        }).pipe(catchError(this.baseService.handleError));
+    }
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
     invoicePdf(customerInvoiceId: number): Observable<Blob> {

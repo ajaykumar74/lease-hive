@@ -855,6 +855,8 @@ export class AppMenu implements OnInit, OnDestroy {
                                     items: [
                                         {
                                             label: 'Credit Statuses',
+                                            icon: 'pi pi-fw pi-list',
+                                            alwaysVisible: true,
                                             routerLink: ['/business/origination/config/credit-statuses']
                                         },
                                         {
@@ -880,7 +882,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Quote Statuses',
                                             icon: 'pi pi-fw pi-chart-line',
                                             routerLink: ['/business/origination/config/quote-statuses']
-                                        }
+                                        },
                                     ]
                                 }
                             ]

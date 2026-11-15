@@ -80,6 +80,20 @@ export interface IQuotationWorkspaceAsset {
     TaxCode?: string;
 }
 
+export interface IQuotationWorkspaceRequirementAsset {
+    Id: number;
+    LineNo: number;
+    AssetCategoryId: number;
+    AssetTypeId: number;
+    AssetMakeId: number;
+    AssetModelId: number;
+    Quantity: number;
+    EstimatedUnitCost: number;
+    ExpectedAnnualUsage: number;
+    SpecificationsJson?: string;
+    Remarks?: string;
+}
+
 export interface IQuotationWorkspaceService {
     Id: number;
     ClientKey: string;

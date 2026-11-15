@@ -57,7 +57,7 @@
             </div>
             <div class="quote-details-field">
               <label for="currency" class="font-medium">Currency *</label>
-              <input id="currency" class="w-full" pInputText formControlName="CurrencyCode" maxlength="20" />
+              <input id="currency" class="w-full" pInputText formControlName="CurrencyCode" readonly />
             </div>
             <div class="quote-details-field">
               <label for="term" class="font-medium">Requested term (months) *</label>
@@ -77,7 +77,7 @@
             </div>
             <div class="quote-details-field">
               <label for="deposit" class="font-medium">Security deposit</label>
-              <p-inputNumber inputId="deposit" formControlName="SecurityDepositAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber>
+              <p-inputNumber inputId="deposit" formControlName="SecurityDepositAmount" mode="currency" [currency]="currencyCode"></p-inputNumber>
             </div>
             <div class="quote-details-field quote-details-field-wide">
               <label for="remarks" class="font-medium">Internal remarks</label>
@@ -104,7 +104,7 @@
                 <div class="quote-asset-field"><label>Model</label><p-dropdown [options]="assetModelOptions" optionLabel="Text" optionValue="Id" formControlName="AssetModelId" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Select model"></p-dropdown></div>
                 <div class="quote-asset-field"><label>Description</label><input class="w-full" pInputText formControlName="Description" maxlength="500" /></div>
                 <div class="quote-asset-field"><label>Quantity *</label><p-inputNumber formControlName="Quantity" [min]="1"></p-inputNumber></div>
-                <div class="quote-asset-field"><label>Unit asset cost</label><p-inputNumber formControlName="UnitAssetCost" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-asset-field"><label>Unit asset cost</label><p-inputNumber formControlName="UnitAssetCost" mode="currency" [currency]="currencyCode"></p-inputNumber></div>
                 <div class="quote-asset-field"><label>Term (months) *</label><p-inputNumber formControlName="TermMonths" [min]="1" [max]="600"></p-inputNumber></div>
                 <div class="quote-asset-field"><label>Billing frequency *</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency" placeholder="Select frequency"></p-dropdown></div>
                 <div class="quote-asset-field"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
@@ -117,7 +117,7 @@
         <section *ngIf="activeTab === 2">
           <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between gap-3 mb-3">
             <div><h3 class="m-0">Lease pricing</h3><span class="text-color-secondary">Calculate a selected asset, save comparable scenarios, then apply the approved price without discarding other draft changes.</span></div>
-            <span class="font-semibold">{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }} per month</span>
+            <span class="font-semibold">{{ totalPeriodicRental() | currency:currencyCode:'symbol':'1.2-2' }} per month</span>
           </div>
           <div *ngIf="assets.length; else noPricingAssets" class="quote-pricing-workspace">
             <div class="quote-pricing-layout">
@@ -143,18 +143,18 @@
                   <div class="quote-pricing-field"><label>Billing frequency</label><p-dropdown [options]="billingFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="BillingFrequency"></p-dropdown></div>
 
                   <ng-container *ngIf="(pricingAsset.value.PricingMethodCode || 'MANUAL').toUpperCase() === 'MANUAL'; else calculatedInputs">
-                    <div class="quote-pricing-field"><label>Manual periodic rental *</label><p-inputNumber formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Manual periodic rental *</label><p-inputNumber formControlName="ManualPeriodicRentalAmount" mode="currency" [currency]="currencyCode"></p-inputNumber></div>
                     <div class="quote-pricing-note">Manual mode stays fully available and does not invoke a funding calculation.</div>
                   </ng-container>
                   <ng-template #calculatedInputs>
                     <div class="quote-pricing-field"><label>Annual funding rate (%)</label><p-inputNumber formControlName="AnnualFundingRate" suffix="%" [min]="0" [maxFractionDigits]="6"></p-inputNumber></div>
-                    <div class="quote-pricing-field"><label>Estimated residual value</label><p-inputNumber formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                    <div class="quote-pricing-field"><label>Non-refundable down payment</label><p-inputNumber formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                    <div class="quote-pricing-field"><label>Contractual bullet payment</label><p-inputNumber formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Estimated residual value</label><p-inputNumber formControlName="EstimatedResidualValueAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Non-refundable down payment</label><p-inputNumber formControlName="NonRefundableDownPaymentAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-field"><label>Contractual bullet payment</label><p-inputNumber formControlName="ContractualBulletPaymentAmount" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
                     <div class="quote-pricing-field"><label>Usage allowance</label><p-inputNumber formControlName="UsageAllowance" [min]="0"></p-inputNumber></div>
                     <div class="quote-pricing-field"><label>Expected usage</label><p-inputNumber formControlName="ExpectedUsage" [min]="0"></p-inputNumber></div>
-                    <div class="quote-pricing-field"><label>Excess usage rate</label><p-inputNumber formControlName="ExcessUsageRate" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'" [min]="0"></p-inputNumber></div>
-                    <div class="quote-pricing-note">Refundable deposit: {{ (header.value.SecurityDepositAmount || 0) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}. It is reported separately and never reduces the finance amount.</div>
+                    <div class="quote-pricing-field"><label>Excess usage rate</label><p-inputNumber formControlName="ExcessUsageRate" mode="currency" [currency]="currencyCode" [min]="0"></p-inputNumber></div>
+                    <div class="quote-pricing-note">Refundable deposit: {{ (header.value.SecurityDepositAmount || 0) | currency:currencyCode:'symbol':'1.2-2' }}. It is reported separately and never reduces the finance amount.</div>
                   </ng-template>
                 </div>
                 <div class="quote-pricing-card-actions"><button type="button" pButton icon="pi pi-calculator" label="Calculate rental" [disabled]="readOnly || isCalculating || isSavingAndApplyingScenario || isApplyingScenario" (click)="calculateRental()"></button></div>
@@ -173,25 +173,25 @@
             <article *ngIf="calculationResult" class="quote-pricing-result-card">
               <div class="quote-pricing-result-heading">
                 <div><span class="quote-pricing-eyebrow">Pricing preview</span><h4 class="m-0">Calculated result</h4><p class="m-0 mt-1 text-color-secondary">Review the calculation before saving or applying a scenario.</p></div>
-                <div class="quote-pricing-periodic-total"><span>Monthly customer payment</span><strong>{{ calculationResult.PeriodicCustomerPayment | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-pricing-periodic-total"><span>Monthly customer payment</span><strong>{{ calculationResult.PeriodicCustomerPayment | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
               </div>
               <div class="quote-pricing-result-metrics">
-                <div><span>Base rental</span><strong>{{ calculationResult.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Services / recurring</span><strong>{{ (calculationResult.PeriodicServiceAmount + calculationResult.PeriodicRecurringChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Upfront reduction</span><strong>{{ calculationResult.UpfrontReductionAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>End-of-term amount</span><strong>{{ calculationResult.EndOfTermCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Residual recovery</span><strong>{{ calculationResult.EstimatedResidualValueAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Refundable deposit</span><strong>{{ calculationResult.RefundableSecurityDepositAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Contractual payments</span><strong>{{ calculationResult.TotalContractualPayments | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div><span>Cash outflow incl. deposit</span><strong>{{ calculationResult.TotalCashOutflowIncludingRefundableDeposit | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div><span>Base rental</span><strong>{{ calculationResult.PeriodicBaseRental | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Services / recurring</span><strong>{{ (calculationResult.PeriodicServiceAmount + calculationResult.PeriodicRecurringChargeAmount) | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Upfront reduction</span><strong>{{ calculationResult.UpfrontReductionAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>End-of-term amount</span><strong>{{ calculationResult.EndOfTermCustomerPaymentAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Residual recovery</span><strong>{{ calculationResult.EstimatedResidualValueAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Refundable deposit</span><strong>{{ calculationResult.RefundableSecurityDepositAmount | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Contractual payments</span><strong>{{ calculationResult.TotalContractualPayments | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div><span>Cash outflow incl. deposit</span><strong>{{ calculationResult.TotalCashOutflowIncludingRefundableDeposit | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
               </div>
               <ul *ngIf="calculationResult.Warnings?.length" class="surface-warning border-round p-3 mt-3 mb-0"><li *ngFor="let warning of calculationResult.Warnings">{{ warning }}</li></ul>
-              <p-table [value]="calculationResult.Schedule" styleClass="p-datatable-sm" class="quote-pricing-result-table"><ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Base rental</th><th class="text-right">Services / charges</th><th class="text-right">Bullet / excess</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template><ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ServiceAmount + line.RecurringChargeAmount + line.UpfrontChargeAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ContractualBulletAmount + line.ProjectedExcessUsageAmount) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TotalCustomerPaymentAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
+              <p-table [value]="calculationResult.Schedule" styleClass="p-datatable-sm" class="quote-pricing-result-table"><ng-template pTemplate="header"><tr><th>Period</th><th class="text-right">Base rental</th><th class="text-right">Services / charges</th><th class="text-right">Bullet / excess</th><th class="text-right">Customer payment</th><th class="text-right">Closing balance</th></tr></ng-template><ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td class="text-right">{{ line.BaseRentalAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ServiceAmount + line.RecurringChargeAmount + line.UpfrontChargeAmount) | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ (line.ContractualBulletAmount + line.ProjectedExcessUsageAmount) | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TotalCustomerPaymentAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.ClosingBalance | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template></p-table>
             </article>
 
             <article *ngIf="pricingAsset && quoteId" class="quote-pricing-scenarios-card">
             <div class="quote-pricing-scenarios-heading pb-3 mb-3 border-bottom-1 surface-border"><div><h4 class="m-0">Saved scenarios</h4><span class="text-color-secondary">Compare and apply a previously calculated option.</span></div></div>
-            <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario || isSavingAndApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
+            <p-table [value]="scenarios" styleClass="p-datatable-sm"><ng-template pTemplate="header"><tr><th>Name</th><th>Mode</th><th class="text-right">Base rental</th><th class="text-right">Contract value</th><th>Calculated</th><th></th></tr></ng-template><ng-template pTemplate="body" let-scenario><tr><td>{{ scenario.ScenarioNo }} · {{ scenario.ScenarioName }}<span *ngIf="scenario.IsSelected" class="ml-2 text-green-700">Applied</span></td><td>{{ scenario.PricingModeCode }}</td><td class="text-right">{{ scenario.PeriodicBaseRental | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ scenario.TotalContractValue | currency:currencyCode:'symbol':'1.2-2' }}</td><td>{{ scenario.CalculatedAt | date:'dd MMM yyyy HH:mm' }}</td><td class="text-right"><button type="button" pButton icon="pi pi-check" label="Apply price" class="p-button-sm" [disabled]="readOnly || isApplyingScenario || isSavingAndApplyingScenario" (click)="applyScenario(scenario)"></button></td></tr></ng-template></p-table>
             <div *ngIf="scenarios.length === 0" class="text-color-secondary p-3">No saved scenarios for this asset yet.</div>
           </article>
           </div>
@@ -214,7 +214,7 @@
               <div class="quote-line-form-grid">
                 <div class="quote-line-field"><label>Lease service *</label><p-dropdown [options]="leaseServiceOptions" optionLabel="Text" optionValue="Id" formControlName="LeaseServiceId" [filter]="true" filterBy="Text" placeholder="Select service"></p-dropdown></div>
                 <div class="quote-line-field"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="service.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(service, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div>
-                <div class="quote-line-field"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-line-field"><label>Unit amount</label><p-inputNumber formControlName="UnitAmount" mode="currency" [currency]="currencyCode"></p-inputNumber></div>
                 <div class="quote-line-field"><label>Quantity</label><p-inputNumber formControlName="Quantity" [min]="0.000001"></p-inputNumber></div>
                 <div class="quote-line-field"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true" placeholder="Select frequency"></p-dropdown></div>
                 <div class="quote-line-toggles"><p-checkbox formControlName="IsIncluded" [binary]="true" inputId="included-{{index}}" label="Included"></p-checkbox><p-checkbox formControlName="IsSeparatelyChargeable" [binary]="true" inputId="chargeable-{{index}}" label="Separate charge"></p-checkbox></div>
@@ -231,7 +231,7 @@
                 <div class="quote-line-field"><label>Charge type *</label><input class="w-full" pInputText formControlName="ChargeType" maxlength="50" /></div>
                 <div class="quote-line-field"><label>Description *</label><input class="w-full" pInputText formControlName="ChargeDescription" maxlength="200" /></div>
                 <div class="quote-line-field"><label>Applies to asset</label><p-dropdown [options]="assetOptions()" optionLabel="Text" optionValue="Value" [ngModel]="charge.value.QuoteAssetClientKey" [ngModelOptions]="{standalone: true}" (ngModelChange)="bindAssetToRow(charge, $event)" [showClear]="true" placeholder="Quote level"></p-dropdown></div>
-                <div class="quote-line-field"><label>Amount *</label><p-inputNumber formControlName="RateOrAmount" mode="currency" [currency]="header.value.CurrencyCode || 'GBP'"></p-inputNumber></div>
+                <div class="quote-line-field"><label>Amount *</label><p-inputNumber formControlName="RateOrAmount" mode="currency" [currency]="currencyCode"></p-inputNumber></div>
                 <div class="quote-line-field"><label>Tax code</label><p-dropdown [options]="taxCodeOptions" optionLabel="Text" optionValue="Value" formControlName="TaxCode" [showClear]="true" placeholder="Optional tax"></p-dropdown></div>
                 <div class="quote-line-field"><label>Charge frequency</label><p-dropdown [options]="chargeFrequencyOptions" optionLabel="Text" optionValue="Value" formControlName="ChargeFrequencyCode" [showClear]="true" placeholder="Select frequency"></p-dropdown></div>
                 <div class="quote-line-toggles quote-line-field-wide"><p-checkbox formControlName="IsRecurring" [binary]="true" inputId="recurring-{{index}}" label="Recurring charge"></p-checkbox></div>
@@ -340,7 +340,7 @@
               </div>
               <p-table [value]="assets.getRawValue()" styleClass="p-datatable-sm quote-review-assets-table">
                 <ng-template pTemplate="header"><tr><th>Asset</th><th>Pricing</th><th class="text-right">Qty</th><th class="text-right">Monthly rental</th></tr></ng-template>
-                <ng-template pTemplate="body" let-asset><tr><td>{{ asset.Description || ('Asset line ' + asset.LineNo) }}</td><td>{{ pricingMethodLabel(asset) }}</td><td class="text-right">{{ asset.Quantity }}</td><td class="text-right">{{ rentalForAsset(asset) | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="body" let-asset><tr><td>{{ asset.Description || ('Asset line ' + asset.LineNo) }}</td><td>{{ pricingMethodLabel(asset) }}</td><td class="text-right">{{ asset.Quantity }}</td><td class="text-right">{{ rentalForAsset(asset) | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template>
                 <ng-template pTemplate="emptymessage"><tr><td colspan="4" class="quote-review-empty-state">No assets have been added to this draft quotation.</td></tr></ng-template>
               </p-table>
             </section>
@@ -359,9 +359,9 @@
 
               <aside class="quote-review-totals-card">
                 <div class="quote-review-subsection-heading"><h4 class="m-0">Quotation totals</h4><span class="text-color-secondary">Estimated customer commitment.</span></div>
-                <div class="quote-review-total-row"><span>Periodic rental</span><strong>{{ totalPeriodicRental() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div class="quote-review-total-row"><span>Upfront charges</span><strong>{{ totalOneOff() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
-                <div class="quote-review-total-row quote-review-total-row-emphasis"><span>Estimated contract value</span><strong>{{ estimatedContractValue() | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-review-total-row"><span>Periodic rental</span><strong>{{ totalPeriodicRental() | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-review-total-row"><span>Upfront charges</span><strong>{{ totalOneOff() | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
+                <div class="quote-review-total-row quote-review-total-row-emphasis"><span>Estimated contract value</span><strong>{{ estimatedContractValue() | currency:currencyCode:'symbol':'1.2-2' }}</strong></div>
               </aside>
             </div>
           </article>
@@ -389,7 +389,7 @@
               <p *ngIf="commercialStatus.TaxDetermination.Reason" class="mt-0 mb-3 text-color-secondary">{{ commercialStatus.TaxDetermination.Reason }}</p>
               <p-table *ngIf="commercialStatus.TaxDetermination.Components?.length" [value]="commercialStatus.TaxDetermination.Components" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header"><tr><th>Tax code</th><th>Treatment</th><th class="text-right">Rate</th><th class="text-right">Taxable amount</th><th class="text-right">Tax amount</th></tr></ng-template>
-                <ng-template pTemplate="body" let-tax><tr><td>{{ tax.TaxName || tax.TaxCode }}</td><td>{{ tax.TaxTreatmentCode || 'STANDARD' }}</td><td class="text-right">{{ tax.TaxRate | number:'1.0-4' }}%</td><td class="text-right">{{ tax.TaxableAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ tax.TaxAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="body" let-tax><tr><td>{{ tax.TaxName || tax.TaxCode }}</td><td>{{ tax.TaxTreatmentCode || 'STANDARD' }}</td><td class="text-right">{{ tax.TaxRate | number:'1.0-4' }}%</td><td class="text-right">{{ tax.TaxableAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ tax.TaxAmount | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template>
               </p-table>
             </section>
 
@@ -405,8 +405,8 @@
               <h5 class="mt-0 mb-2">Contractual payment schedule</h5>
               <p-table [value]="commercialStatus.PaymentSchedule" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header"><tr><th>Payment</th><th>Due date</th><th>Description</th><th class="text-right">Net</th><th class="text-right">Tax</th><th class="text-right">Total</th></tr></ng-template>
-                <ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td>{{ line.DueDate | date:'dd MMM yyyy' }}</td><td>{{ line.Description }}</td><td class="text-right">{{ line.NetAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TaxAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ line.GrossAmount | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
-                <ng-template pTemplate="footer"><tr><td colspan="5" class="text-right font-semibold">Quotation total</td><td class="text-right font-semibold">{{ commercialStatus.TotalContractValue | currency:(header.value.CurrencyCode || 'GBP'):'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="body" let-line><tr><td>{{ line.PeriodNo === 0 ? 'Upfront' : line.PeriodNo }}</td><td>{{ line.DueDate | date:'dd MMM yyyy' }}</td><td>{{ line.Description }}</td><td class="text-right">{{ line.NetAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right">{{ line.TaxAmount | currency:currencyCode:'symbol':'1.2-2' }}</td><td class="text-right font-semibold">{{ line.GrossAmount | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template>
+                <ng-template pTemplate="footer"><tr><td colspan="5" class="text-right font-semibold">Quotation total</td><td class="text-right font-semibold">{{ commercialStatus.TotalContractValue | currency:currencyCode:'symbol':'1.2-2' }}</td></tr></ng-template>
               </p-table>
             </div>
 

@@ -70,6 +70,25 @@ describe('Entity lookups', () => {
     expect(items[0].Id).toBe(42);
   });
 
+  it('preserves configured sort order for credit application statuses', fakeAsync(() => {
+    const form = new FormGroup({ CreditApplicationStatusId: new FormControl(0) });
+    const destroyRef = { onDestroy: () => () => {} } as DestroyRef;
+    const fetch = spyOn(service, 'getEntityLookupOptions').and.returnValue(of([
+      { Id: 3, Value: '3', Text: 'Submitted' },
+      { Id: 1, Value: '1', Text: 'Draft' }
+    ]));
+    const assign = jasmine.createSpy('assign');
+
+    service.bindEntityLookup(form, 'CreditApplicationStatusId', 'credit-application-statuses', assign, fail, destroyRef);
+    tick();
+
+    expect(fetch).toHaveBeenCalledWith('credit-application-statuses', undefined, {}, 'id', true);
+    expect(assign).toHaveBeenCalledWith([
+      { Id: 3, Value: '3', Text: 'Submitted' },
+      { Id: 1, Value: '1', Text: 'Draft' }
+    ]);
+  }));
+
   it('hydrates edits, cancels stale parent requests, survives errors, and unsubscribes on destruction', fakeAsync(() => {
     const form = new FormGroup({ AssetId: new FormControl<number | null>(null), LeaseContractId: new FormControl(0), Notes: new FormControl('') });
     const requests: Subject<ISelectItem[]>[] = [];

@@ -75,10 +75,10 @@ export class LoggedInUserService {
     return /platform[\s_-]*admin/i.test(role);
   }
 
-  /** Tenant subscription details are visible only to tenant administrators and owners. */
+  /** Tenant subscription details are visible only to tenant administrators. */
   public get isTenantAdministrator(): boolean {
     const role = this.loggedInUser?.Role || '';
-    return /tenant[\s_-]*(admin|administrator)|partner[\s_-]*(owner|admin)|member[\s_-]*(owner|admin)/i.test(role);
+    return /tenant[\s_-]*(admin|administrator)/i.test(role);
   }
   
   public get getRecordId(): number {
@@ -334,7 +334,7 @@ export class LoggedInUserService {
           selectedId,
           parentsMissing ? {} : filters,
           valueMode,
-          ['lead-statuses', 'opportunity-stages'].includes(lookupType.trim().toLowerCase())
+          ['lead-statuses', 'opportunity-stages', 'credit-application-statuses'].includes(lookupType.trim().toLowerCase())
         ).pipe(
           map(options => {
             assign(options);
