@@ -16,6 +16,7 @@ import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TagModule } from 'primeng/tag';
 
 import { SupplierInvoiceListComponent } from './supplierInvoice-list.component';
 import { SupplierInvoiceCreateComponent } from './supplierInvoice-create.component';
@@ -44,6 +45,7 @@ import { SupplierInvoiceRoutingModule } from './supplierInvoice-routing.module';
 		MySharedModule, 
 		FluidModule,
 		ConfirmDialogModule,
+		TagModule,
 		SupplierInvoiceRoutingModule,
 	],
 	declarations: [

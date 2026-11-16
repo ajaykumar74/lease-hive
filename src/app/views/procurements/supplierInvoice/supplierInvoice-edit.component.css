@@ -1,0 +1,63 @@
+.supplier-invoice-review {
+    padding: 1.5rem;
+}
+
+.supplier-invoice-review__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.supplier-invoice-review__status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+    font-size: .875rem;
+}
+
+.supplier-invoice-review__validated {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--green-600);
+    margin: 0 0 1rem;
+}
+
+.supplier-invoice-review__decision {
+    border-top: 1px solid var(--surface-border);
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+}
+
+.supplier-invoice-review__decision label {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.supplier-invoice-review__decision textarea {
+    min-height: 7rem;
+    resize: vertical;
+}
+
+.supplier-invoice-review__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: .5rem;
+}
+
+@media screen and (max-width: 640px) {
+    .supplier-invoice-review__header {
+        flex-direction: column;
+    }
+
+    .supplier-invoice-review__actions > button {
+        width: 100%;
+    }
+}

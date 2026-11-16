@@ -10,7 +10,7 @@ import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
-import { ISupplierQuotation } from './supplierQuotation';
+import { ISupplierQuotation, ISupplierQuotationDocument } from './supplierQuotation';
 import { SupplierQuotationService } from './supplierQuotation.service';
 import { finalize } from 'rxjs';
 import { SupplierAwardService } from '../supplierAward/supplierAward.service';
@@ -114,6 +114,8 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   populateUI(obj: ISupplierQuotation): void {  
+    obj.Lines ??= [];
+    obj.Documents ??= [];
     this.editForm.patchValue(
       {
 	   Id: obj.Id || 0,
@@ -141,6 +143,21 @@ RecordStatus: obj.RecordStatus || '',
      this.editForm.markAsPristine();
      this.editForm.markAsUntouched();
   } 
+
+  viewDocument(document: ISupplierQuotationDocument, download: boolean): void {
+    this.supplierQuotationService.downloadDocument(this.supplierQuotation.Id, document.DocumentId).subscribe({
+      next: blob => {
+        const url = URL.createObjectURL(blob);
+        const anchor = window.document.createElement('a');
+        anchor.href = url;
+        if (download) anchor.download = document.Name;
+        else anchor.target = '_blank';
+        anchor.click();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+      error: () => this.messageService?.showError('Unable to open the quotation document.')
+    });
+  }
 
   private applyEditability(): void {
     if (this.quotationStatusCode === 'DRAFT') {

@@ -20,6 +20,7 @@ APReferenceId :number;
 CapturedOn :Date;
 CapturedBy :number;
 RecordStatus :string;
+SupplierPortalSubmission: boolean;
 LineItems: ISupplierInvoiceLine[];
 
 }

@@ -14,7 +14,7 @@ import { ISupplierInvoiceLine } from '../supplierInvoiceLine/supplierInvoiceLine
 
 type SupplierInvoiceLineContext = Partial<ISupplierInvoiceLine> & { GRNNo?: string; AcceptedQuantity?: number; EligibleQuantity?: number; };
 
-@Component({ selector: 'app-supplierInvoice-edit', standalone: false, templateUrl: './supplierInvoice-edit.component.html', providers: [MessageService, ConfirmationService] })
+@Component({ selector: 'app-supplierInvoice-edit', standalone: false, templateUrl: './supplierInvoice-edit.component.html', styleUrl: './supplierInvoice-edit.component.css', providers: [MessageService, ConfirmationService] })
 export class SupplierInvoiceEditComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
   selectedId: number;
@@ -66,7 +66,7 @@ export class SupplierInvoiceEditComponent implements OnInit {
   loadUI(): void {
     this.isLoading = true;
     this.supplierInvoiceService.getById(this.selectedId).subscribe({
-      next: data => { this.supplierInvoice = data.data; this.permission = data.permission; this.objMaster = { ...this.supplierInvoice, LineItems: (this.supplierInvoice.LineItems || []).map(line => ({ ...line })) }; this.populateUI(this.supplierInvoice); this.enrichExistingPurchaseOrderLines(); this.loadReview(); },
+      next: data => { this.supplierInvoice = data.data; this.permission = data.permission; this.objMaster = { ...this.supplierInvoice, LineItems: (this.supplierInvoice.LineItems || []).map(line => ({ ...line })) }; this.populateUI(this.supplierInvoice); this.enrichExistingPurchaseOrderLines(); if (this.supplierInvoice.SupplierPortalSubmission) this.editForm.disable({ emitEvent: false }); this.loadReview(); },
       error: err => this.messageService.showError(err), complete: () => this.isLoading = false
     });
   }
@@ -127,7 +127,7 @@ export class SupplierInvoiceEditComponent implements OnInit {
   }
 
   Save(): void {
-    if (this.review) { this.messageService.showError('Supplier portal invoices are updated through the supplier correction workflow, not this generic edit form.'); return; }
+    if (this.supplierInvoice.SupplierPortalSubmission || this.review) { this.messageService.showError('Supplier portal invoices are managed by their workflow and cannot be changed in this generic edit form.'); return; }
     if (!this.editForm.valid || this.lineItems.length === 0) { this.messageService.showError('One or more validation failed. Please clear error to continue...'); return; }
     const value = this.editForm.getRawValue();
     const updatedObj = {

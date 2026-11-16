@@ -32,6 +32,23 @@
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Record Status" [value]="supplierQuotation.RecordStatus">
 								</app-view-field></div></div>
 
+                        <div class="mt-4">
+                            <h3 class="mb-3">Quotation Line Items</h3>
+                            <p-table [value]="supplierQuotation.Lines" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                <ng-template pTemplate="header"><tr><th>Item</th><th>Requested qty</th><th>Quoted qty</th><th>Unit price</th><th>Discount</th><th>Tax</th><th>Line total</th><th>Delivery date</th></tr></ng-template>
+                                <ng-template pTemplate="body" let-line><tr><td>{{ line.LineNo }}. {{ line.Description }}</td><td>{{ line.RequestedQuantity | number:'1.0-2' }}</td><td>{{ line.QuotedQuantity | number:'1.0-2' }}</td><td>{{ line.UnitPrice | number:'1.2-2' }}</td><td>{{ line.DiscountAmount | number:'1.2-2' }}</td><td>{{ line.TaxAmount | number:'1.2-2' }}</td><td>{{ line.LineTotal | number:'1.2-2' }}</td><td>{{ line.DeliveryDate | date:'mediumDate' }}</td></tr></ng-template>
+                                <ng-template pTemplate="emptymessage"><tr><td colspan="8">No submitted quotation line items are available.</td></tr></ng-template>
+                            </p-table>
+                        </div>
+                        <div class="mt-5">
+                            <h3 class="mb-3">Supplier Quotation Documents</h3>
+                            <p-table [value]="supplierQuotation.Documents" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                <ng-template pTemplate="header"><tr><th>Document name</th><th>Upload date</th><th>Supplier</th><th>Actions</th></tr></ng-template>
+                                <ng-template pTemplate="body" let-document><tr><td>{{ document.Name }}</td><td>{{ document.UploadedAtUtc | date:'medium' }}</td><td>{{ document.SupplierName }}</td><td><button pButton type="button" label="View" class="p-button-text p-button-sm" (click)="viewDocument(document, false)"></button><button pButton type="button" label="Download" class="p-button-text p-button-sm" (click)="viewDocument(document, true)"></button></td></tr></ng-template>
+                                <ng-template pTemplate="emptymessage"><tr><td colspan="4">No supplier quotation documents have been uploaded.</td></tr></ng-template>
+                            </p-table>
+                        </div>
+
 						<app-audit-details [model]="supplierQuotation"></app-audit-details>
 						</div>
 					</div>

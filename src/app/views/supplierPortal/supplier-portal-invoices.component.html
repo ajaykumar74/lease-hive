@@ -48,7 +48,9 @@
     </div>
 
     <p *ngIf="loadingLines" class="notice">Loading purchase-order quantities…</p>
-    <p *ngIf="!loadingLines && eligibleLinesMessage" class="notice">{{ eligibleLinesMessage }}</p>
+    <p *ngIf="!loadingLines && eligibleLinesMessage" class="notice warning-notice">
+      {{ eligibleLinesMessage }} Open the existing draft from Back to invoices to upload its PDF or submit it for review.
+    </p>
     <div formArrayName="Lines" *ngIf="lines.length" class="table-wrap">
       <h2>Purchase order quantities</h2>
       <p class="notice">You can submit an invoice before goods are received. Receipt, price and tax matching are completed during internal review.</p>
@@ -80,7 +82,7 @@
       <div><small>Invoice</small><strong>{{ detail.SupplierInvoiceNo }}</strong></div>
       <div><small>Purchase order</small><strong>{{ detail.PurchaseOrderNo }}</strong></div>
       <div><small>Total</small><strong>{{ detail.TotalAmount | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</strong></div>
-      <div><small>Review status</small><strong>{{ review?.Status || detail.MatchStatus }}</strong></div>
+      <div><small>Review status</small><strong>{{ workflowStatus }}</strong></div>
     </div>
 
     <div *ngIf="review" class="card table-wrap">
@@ -103,13 +105,18 @@
       </table>
     </div>
 
+    <div *ngIf="!review && canEditSupplierInvoice" class="card">
+      <p class="notice warning-notice">Upload the invoice PDF below, then submit this {{ workflowStatus.toLowerCase().replace('_', ' ') }} invoice for internal review.</p>
+      <div class="actions"><button type="button" (click)="resubmit()" [disabled]="saving">Submit invoice for review</button></div>
+    </div>
+
     <div class="card table-wrap">
       <h2>Invoice lines</h2>
       <table>
         <thead><tr><th>Item</th><th>Invoiced</th><th>Unit price</th><th>Tax</th><th>Total</th></tr></thead>
         <tbody><tr *ngFor="let line of detail.Lines"><td>{{ line.LineNo }}. {{ line.Description }}</td><td>{{ line.InvoicedQuantity }}</td><td>{{ line.UnitPrice | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td><td>{{ line.TaxAmount | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td><td>{{ line.LineTotal | currency:(detail.CurrencyCode || 'INR'):'symbol':'1.2-2' }}</td></tr></tbody>
       </table>
-      <app-supplier-portal-documents ownerType="SupplierInvoice" [ownerId]="detail.SupplierInvoiceId" [canUpload]="review?.Status === 'DRAFT' || review?.Status === 'CORRECTION_REQUIRED'"></app-supplier-portal-documents>
+      <app-supplier-portal-documents ownerType="SupplierInvoice" [ownerId]="detail.SupplierInvoiceId" [canUpload]="canEditSupplierInvoice" accept="application/pdf,.pdf"></app-supplier-portal-documents>
     </div>
   </ng-container>
 </section>

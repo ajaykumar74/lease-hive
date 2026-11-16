@@ -60,6 +60,13 @@ export class SupplierQuotationService extends BaseCrudService<any> {
     );
   }
 
+  downloadDocument(quotationId: number, documentId: number): Observable<Blob> {
+    return this.http.get(
+      `${this.baseService.C_APP_URL}/document-attachments/SupplierQuotation/${quotationId}/${documentId}/download`,
+      { headers: this.headers, responseType: 'blob' }
+    ).pipe(catchError(this.baseService.handleError));
+  }
+
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }

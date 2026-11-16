@@ -11,7 +11,7 @@ import { MessageComponent } from '@/shared/message.component';
 
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { SupplierQuotationService } from './supplierQuotation.service';
-import { ISupplierQuotation } from './supplierQuotation';
+import { ISupplierQuotation, ISupplierQuotationDocument } from './supplierQuotation';
 
 @Component({
     templateUrl: './supplierQuotation-view.component.html', 
@@ -66,7 +66,24 @@ export class SupplierQuotationViewComponent implements OnInit {
     }
 
     populateUI(obj: ISupplierQuotation): void { 
+        obj.Lines ??= [];
+        obj.Documents ??= [];
         this.Caption = "SupplierQuotation Details #" + obj.Id;
+    }
+
+    viewDocument(document: ISupplierQuotationDocument, download: boolean): void {
+        this.supplierQuotationService.downloadDocument(this.supplierQuotation.Id, document.DocumentId).subscribe({
+            next: blob => {
+                const url = URL.createObjectURL(blob);
+                const anchor = window.document.createElement('a');
+                anchor.href = url;
+                if (download) anchor.download = document.Name;
+                else anchor.target = '_blank';
+                anchor.click();
+                window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+            },
+            error: () => this.messageService?.showError('Unable to open the quotation document.')
+        });
     }
 
     onOptionItemClicked(key: string): void {
