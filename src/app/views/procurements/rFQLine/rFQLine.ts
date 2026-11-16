@@ -7,6 +7,8 @@ TenantId :number;
 RFQId :number;
 PurchaseRequisitionLineId :number;
 LineNo :number;
+AssetMakeId :number;
+AssetModelId :number;
 Description :string;
 Quantity :number;
 UOMId :number;

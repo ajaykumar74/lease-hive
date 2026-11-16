@@ -6,6 +6,8 @@ SupplierQuotationLineId :string;
 TenantId :number;
 SupplierQuotationId :number;
 RFQLineId :number;
+AssetMakeId :number;
+AssetModelId :number;
 Quantity :number;
 UnitPrice :number;
 DiscountAmount :number;

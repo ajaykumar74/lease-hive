@@ -9,6 +9,8 @@ LineNo :number;
 LineTypeCode :string;
 AssetCategoryId :number;
 AssetTypeId :number;
+AssetMakeId :number;
+AssetModelId :number;
 Description :string;
 Quantity :number;
 UOMId :number;

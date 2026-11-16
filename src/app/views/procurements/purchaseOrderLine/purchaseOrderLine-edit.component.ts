@@ -34,6 +34,8 @@ supplierquotationlineidOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
 assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
+assetmakeidOptions: ISelectItem[] = [];
+assetmodelidOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -67,6 +69,8 @@ SupplierQuotationLineId: new FormControl(0, [Validators.min(-2147483648), Valida
 LineTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetMakeId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+AssetModelId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 OrderedQuantity: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
@@ -76,6 +80,7 @@ TaxAmount: new FormControl(0, [Validators.required]),
 LineTotal: new FormControl(0, [Validators.required]),
 RequiredByDate: new FormControl(new Date(), []),
 SpecificationsJson: new FormControl('', [Validators.maxLength(8000), ]), 
+AssetSpecificationCorrectionReason: new FormControl('', [Validators.maxLength(800)]),
 
     });
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories',
@@ -84,6 +89,12 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'ass
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
+      options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
+      options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'AssetMakeId': 'AssetMakeId', 'AssetTypeId': 'AssetTypeId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseOrderId', 'purchase-orders',
       options => this.purchaseorderidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -133,6 +144,8 @@ SupplierQuotationLineId: obj.SupplierQuotationLineId || 0,
 LineTypeCode: obj.LineTypeCode || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 AssetTypeId: obj.AssetTypeId || 0,
+AssetMakeId: obj.AssetMakeId || 0,
+AssetModelId: obj.AssetModelId || 0,
 Description: obj.Description || '',
 OrderedQuantity: obj.OrderedQuantity || 0,
 UOMId: obj.UOMId || 0,
@@ -215,6 +228,8 @@ SupplierQuotationLineId:  formValues.SupplierQuotationLineId || 0,
 LineTypeCode:  formValues.LineTypeCode || null,
 AssetCategoryId:  formValues.AssetCategoryId || 0,
 AssetTypeId:  formValues.AssetTypeId || 0,
+AssetMakeId: formValues.AssetMakeId || 0,
+AssetModelId: formValues.AssetModelId || 0,
 Description:  formValues.Description || null,
 OrderedQuantity:  formValues.OrderedQuantity || 0,
 UOMId:  formValues.UOMId || 0,
@@ -224,6 +239,7 @@ TaxAmount:  formValues.TaxAmount || 0,
 LineTotal:  formValues.LineTotal || 0,
 RequiredByDate:  formValues.RequiredByDate || null,
 SpecificationsJson:  formValues.SpecificationsJson || null,
+AssetSpecificationCorrectionReason: formValues.AssetSpecificationCorrectionReason || null,
 
     } as IPurchaseOrderLine ;
 

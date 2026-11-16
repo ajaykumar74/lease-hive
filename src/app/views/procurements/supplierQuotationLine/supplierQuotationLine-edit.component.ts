@@ -30,6 +30,8 @@ export class SupplierQuotationLineEditComponent implements OnInit {
   Caption: string = 'Loading...';
   supplierquotationidOptions: ISelectItem[] = [];
 rfqlineidOptions: ISelectItem[] = [];
+assetmakeidOptions: ISelectItem[] = [];
+assetmodelidOptions: ISelectItem[] = [];
 compliancecodeOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -58,6 +60,8 @@ compliancecodeOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 SupplierQuotationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RFQLineId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+AssetMakeId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+AssetModelId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 Quantity: new FormControl(0, [Validators.required]),
 UnitPrice: new FormControl(0, [Validators.required]),
 DiscountAmount: new FormControl(0, [Validators.required]),
@@ -71,6 +75,12 @@ DeviationNotes: new FormControl('', [Validators.maxLength(1000), ]),
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQLineId', 'rfq-lines',
       options => this.rfqlineidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
+      options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'RFQLineId': 'RFQLineId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
+      options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'RFQLineId': 'RFQLineId', 'AssetMakeId': 'AssetMakeId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierQuotationId', 'supplier-quotations',
       options => this.supplierquotationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -106,6 +116,8 @@ this.compliancecodeOptions = this.loggedInUserService.getPicklistOptions('Suppli
 	   Id: obj.Id || 0,
 	  SupplierQuotationId: obj.SupplierQuotationId || 0,
 RFQLineId: obj.RFQLineId || 0,
+AssetMakeId: obj.AssetMakeId || 0,
+AssetModelId: obj.AssetModelId || 0,
 Quantity: obj.Quantity || 0,
 UnitPrice: obj.UnitPrice || 0,
 DiscountAmount: obj.DiscountAmount || 0,
@@ -176,6 +188,8 @@ DeviationNotes: obj.DeviationNotes || '',
       RowVersionStr : this.objMaster.RowVersionStr,
      SupplierQuotationId:  formValues.SupplierQuotationId || 0,
 RFQLineId:  formValues.RFQLineId || 0,
+AssetMakeId: formValues.AssetMakeId || 0,
+AssetModelId: formValues.AssetModelId || 0,
 Quantity:  formValues.Quantity || 0,
 UnitPrice:  formValues.UnitPrice || 0,
 DiscountAmount:  formValues.DiscountAmount || 0,

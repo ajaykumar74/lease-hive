@@ -60,8 +60,8 @@ depositstatusOptions: ISelectItem[] = [];
 
     this.editForm = this.fb.group({
      Id: new FormControl(0, []),
-LeaseContractId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-LeaseContractDepositId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+LeaseContractId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+LeaseContractDepositId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 CustomerPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 BillingOrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
 DepositTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),

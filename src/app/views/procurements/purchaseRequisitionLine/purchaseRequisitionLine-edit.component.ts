@@ -32,6 +32,8 @@ export class PurchaseRequisitionLineEditComponent implements OnInit {
 linetypecodeOptions: ISelectItem[] = [];
 assetcategoryidOptions: ISelectItem[] = [];
 assettypeidOptions: ISelectItem[] = [];
+assetmakeidOptions: ISelectItem[] = [];
+assetmodelidOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
 deliverylocationidOptions: ISelectItem[] = [];
 
@@ -64,6 +66,8 @@ LineNo: new FormControl(0, [Validators.required, Validators.min(-32768), Validat
 LineTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AssetCategoryId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 AssetTypeId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+AssetMakeId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
+AssetModelId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 Description: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 Quantity: new FormControl(0, [Validators.required]),
 UOMId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
@@ -80,6 +84,12 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'ass
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetTypeId', 'asset-types',
       options => this.assettypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetMakeId', 'asset-makes',
+      options => this.assetmakeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'AssetCategoryId': 'AssetCategoryId'});
+this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetModelId', 'asset-models',
+      options => this.assetmodelidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, {'AssetMakeId': 'AssetMakeId', 'AssetTypeId': 'AssetTypeId'});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'DeliveryLocationId', 'locations',
       options => this.deliverylocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -123,6 +133,8 @@ LineNo: obj.LineNo || 0,
 LineTypeCode: obj.LineTypeCode || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 AssetTypeId: obj.AssetTypeId || 0,
+AssetMakeId: obj.AssetMakeId || 0,
+AssetModelId: obj.AssetModelId || 0,
 Description: obj.Description || '',
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
@@ -164,6 +176,8 @@ LineNo: obj.LineNo || 0,
 LineTypeCode: obj.LineTypeCode || '',
 AssetCategoryId: obj.AssetCategoryId || 0,
 AssetTypeId: obj.AssetTypeId || 0,
+AssetMakeId: obj.AssetMakeId || 0,
+AssetModelId: obj.AssetModelId || 0,
 Description: obj.Description || '',
 Quantity: obj.Quantity || 0,
 UOMId: obj.UOMId || 0,
@@ -199,6 +213,8 @@ LineNo:  formValues.LineNo || 0,
 LineTypeCode:  formValues.LineTypeCode || null,
 AssetCategoryId:  formValues.AssetCategoryId || 0,
 AssetTypeId:  formValues.AssetTypeId || 0,
+AssetMakeId: formValues.AssetMakeId || 0,
+AssetModelId: formValues.AssetModelId || 0,
 Description:  formValues.Description || null,
 Quantity:  formValues.Quantity || 0,
 UOMId:  formValues.UOMId || 0,

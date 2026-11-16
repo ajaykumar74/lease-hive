@@ -1,203 +1,256 @@
 <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<p-confirmDialog key="supplier-invoice-purchase-order"></p-confirmDialog>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
-				</app-toolbar-buttons> 
-				<app-spinner></app-spinner>
-				<div *ngIf="review" class="card mb-4 supplier-invoice-review">
-					<div class="supplier-invoice-review__header">
-						<div>
-							<h3 class="m-0">Supplier invoice review</h3>
-							<div class="supplier-invoice-review__status mt-2"><span>Current status</span><p-tag [value]="review.Status" [severity]="review.Status === 'VALIDATED' ? 'success' : review.Status === 'SUBMITTED' ? 'info' : review.Status === 'NEEDS_REVIEW' ? 'warn' : review.Status === 'REJECTED' ? 'danger' : 'secondary'" [rounded]="true"></p-tag><span class="text-600">Revision {{review.RevisionNo}}</span></div>
-						</div>
-						<span class="text-red-500" *ngIf="!review.HasInvoicePdf">Invoice PDF is missing.</span>
-					</div>
-					<p *ngIf="!review.Exceptions.length" class="supplier-invoice-review__validated"><i class="pi pi-check-circle"></i>No open validation exceptions.</p>
-					<p-table *ngIf="review.Exceptions.length" [value]="review.Exceptions" styleClass="p-datatable-sm mb-3"><ng-template pTemplate="header"><tr><th>Exception</th><th>Severity</th><th>Details</th></tr></ng-template><ng-template pTemplate="body" let-exception><tr><td>{{exception.ExceptionTypeCode}}</td><td>{{exception.SeverityCode}}</td><td>{{exception.Description}}</td></tr></ng-template></p-table>
-					<div *ngIf="review.Status === 'SUBMITTED' || review.Status === 'VALIDATED' || review.Status === 'NEEDS_REVIEW'" class="supplier-invoice-review__decision">
-						<label for="supplierInvoiceReviewRemarks">Review remarks <small>(required when requesting correction or rejecting)</small></label>
-						<textarea pInputTextarea id="supplierInvoiceReviewRemarks" [formControl]="reviewRemarks" class="w-full" rows="4" placeholder="Add a note for the supplier or your internal review record"></textarea>
-						<div class="supplier-invoice-review__actions"><button pButton type="button" label="Approve" icon="pi pi-check" class="p-button-success" (click)="reviewInvoice('APPROVE')" [disabled]="reviewActionInProgress"></button><button pButton type="button" label="Request correction" icon="pi pi-replay" class="p-button-warning" (click)="reviewInvoice('REQUEST_CORRECTION')" [disabled]="reviewActionInProgress"></button><button pButton type="button" label="Reject" icon="pi pi-times" class="p-button-danger" (click)="reviewInvoice('REJECT')" [disabled]="reviewActionInProgress"></button></div>
-					</div>
-					<p-table *ngIf="review.History.length" [value]="review.History" styleClass="p-datatable-sm mt-3"><ng-template pTemplate="header"><tr><th>Action</th><th>Transition</th><th>Remarks</th><th>Date</th></tr></ng-template><ng-template pTemplate="body" let-entry><tr><td>{{entry.ActionCode}}</td><td>{{entry.FromStatusCode || '—'}} → {{entry.ToStatusCode}}</td><td>{{entry.Remarks || '—'}}</td><td>{{entry.CreatedDateTime | date:'medium'}}</td></tr></ng-template></p-table>
-				</div>
-				
-		       <form [formGroup]="editForm" (ngSubmit)="Save()">
- 				<p-fluid>
-		      		<div class="flex mt-8">
-					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Supplier Party Id" class="mb-1">SupplierPartyId</label>
-        <p-dropdown
-            inputId="SupplierPartyId" 
-            [options]="supplierpartyidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="SupplierPartyId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierPartyId')"
-											label="Supplier Party Id">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Buying Organisation Id" class="mb-1">BuyingOrganisationId</label>
-        <p-dropdown
-            inputId="BuyingOrganisationId" 
-            [options]="buyingorganisationidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="BuyingOrganisationId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('BuyingOrganisationId')"
-											label="Buying Organisation Id">
-										</app-validation-errors></div><div class="flex flex-col w-full">
-        <label for="PurchaseOrderId" class="mb-1">Purchase Order</label>
-        <p-dropdown inputId="PurchaseOrderId" [options]="purchaseorderidOptions" optionLabel="Text" optionValue="Value"
-          formControlName="PurchaseOrderId" [filter]="true" filterBy="Text" [showClear]="true"
-          placeholder="Select Purchase Order" class="w-full">
-        </p-dropdown>
-      </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
-							<label for="SupplierInvoiceNo">Supplier Invoice No 
-							</label> 
-							<input pInputText id="SupplierInvoiceNo" type="text" pSize="small"	formControlName="SupplierInvoiceNo"  />
-							<app-validation-errors [type]="'text'" [control]="editForm.get('SupplierInvoiceNo')"
-											label="Supplier Invoice No">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">			
-							<label for="InvoiceDate">Invoice Date 
-							</label> 
-							<p-calendar id="InvoiceDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="InvoiceDate"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('InvoiceDate')"
-											label="Invoice Date">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Currency Code" class="mb-1">CurrencyCode</label>
-        <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
-											label="Currency Code">
-										</app-validation-errors></div><div class="flex flex-col w-full">							<label for="Subtotal">Subtotal 
-							</label> 
-							<p-inputNumber id="Subtotal"  pSize="small"	formControlName="Subtotal"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('Subtotal')"
-											label="Subtotal">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="TaxAmount">Tax Amount 
-							</label> 
-							<p-inputNumber id="TaxAmount"  pSize="small"	formControlName="TaxAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('TaxAmount')"
-											label="Tax Amount">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">							<label for="TotalAmount">Total Amount 
-							</label> 
-							<p-inputNumber id="TotalAmount"  pSize="small"	formControlName="TotalAmount"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('TotalAmount')"
-											label="Total Amount">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Match Status Code" class="mb-1">MatchStatusCode</label>
-        <p-dropdown
-            inputId="MatchStatusCode" 
-            [options]="matchstatuscodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="MatchStatusCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('MatchStatusCode')"
-											label="Match Status Code">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Invoice Document Id" class="mb-1">InvoiceDocumentId</label>
-        <p-dropdown
-            inputId="InvoiceDocumentId" 
-            [options]="invoicedocumentidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="InvoiceDocumentId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('InvoiceDocumentId')"
-											label="Invoice Document Id">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">							<label for="APReferenceId">AP Reference Id 
-							</label> 
-							<p-inputNumber id="APReferenceId"  pSize="small"	formControlName="APReferenceId"  >
-</p-inputNumber>
-<app-validation-errors [type]="'number'" [control]="editForm.get('APReferenceId')"
-											label="AP Reference Id">
-										</app-validation-errors>
-						 </div><div class="flex flex-col w-full">			
-							<label for="CapturedOn">Captured On 
-							</label> 
-							<p-calendar id="CapturedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="CapturedOn"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('CapturedOn')"
-											label="Captured On">
-										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Captured By" class="mb-1">CapturedBy</label>
-        <p-dropdown
-            inputId="CapturedBy" 
-            [options]="capturedbyOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="CapturedBy"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('CapturedBy')"
-											label="Captured By">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="Record Status" class="mb-1">RecordStatus</label>
-        <p-dropdown
-            inputId="RecordStatus" 
-            [options]="recordstatusOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RecordStatus"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')"
-										label="Record Status">
-										</app-validation-errors></div></div>
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <app-message [AlertType]="'message'"></app-message>
+                <p-confirmDialog key="supplier-invoice-purchase-order"></p-confirmDialog>
+                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+                    <button *ngIf="canCreateInvoiceMatch" pButton type="button" icon="pi pi-check-square" label="Create Invoice Match" class="p-button-sm p-button-success" (click)="createInvoiceMatch()"></button>
+                </app-toolbar-buttons>
+                <app-spinner></app-spinner>
+                <div *ngIf="review" class="card mb-4 supplier-invoice-review">
+                    <div class="supplier-invoice-review__header">
+                        <div>
+                            <h3 class="m-0">Supplier invoice review</h3>
+                            <div class="supplier-invoice-review__status mt-2">
+                                <span>Current status</span
+                                ><p-tag
+                                    [value]="review.Status"
+                                    [severity]="review.Status === 'VALIDATED' ? 'success' : review.Status === 'SUBMITTED' ? 'info' : review.Status === 'NEEDS_REVIEW' ? 'warn' : review.Status === 'REJECTED' ? 'danger' : 'secondary'"
+                                    [rounded]="true"
+                                ></p-tag
+                                ><span class="text-600">Revision {{ review.RevisionNo }}</span>
+                            </div>
+                        </div>
+                        <span class="text-red-500" *ngIf="!review.HasInvoicePdf">Invoice PDF is missing.</span>
+                    </div>
+                    <p *ngIf="!review.Exceptions.length" class="supplier-invoice-review__validated"><i class="pi pi-check-circle"></i>No open validation exceptions.</p>
+                    <p-table *ngIf="review.Exceptions.length" [value]="review.Exceptions" styleClass="p-datatable-sm mb-3"
+                        ><ng-template pTemplate="header"
+                            ><tr>
+                                <th>Exception</th>
+                                <th>Severity</th>
+                                <th>Details</th>
+                            </tr></ng-template
+                        ><ng-template pTemplate="body" let-exception
+                            ><tr>
+                                <td>{{ exception.ExceptionTypeCode }}</td>
+                                <td>{{ exception.SeverityCode }}</td>
+                                <td>{{ exception.Description }}</td>
+                            </tr></ng-template
+                        ></p-table
+                    >
+                    <div *ngIf="review.Status === 'SUBMITTED' || review.Status === 'VALIDATED' || review.Status === 'NEEDS_REVIEW'" class="supplier-invoice-review__decision">
+                        <label for="supplierInvoiceReviewRemarks">Review remarks <small>(required when requesting correction or rejecting)</small></label>
+                        <textarea pInputTextarea id="supplierInvoiceReviewRemarks" [formControl]="reviewRemarks" class="w-full" rows="4" placeholder="Add a note for the supplier or your internal review record"></textarea>
+                        <div class="supplier-invoice-review__actions">
+                            <button pButton type="button" label="Approve" icon="pi pi-check" class="p-button-success" (click)="reviewInvoice('APPROVE')" [disabled]="reviewActionInProgress"></button
+                            ><button pButton type="button" label="Request correction" icon="pi pi-replay" class="p-button-warning" (click)="reviewInvoice('REQUEST_CORRECTION')" [disabled]="reviewActionInProgress"></button
+                            ><button pButton type="button" label="Reject" icon="pi pi-times" class="p-button-danger" (click)="reviewInvoice('REJECT')" [disabled]="reviewActionInProgress"></button>
+                        </div>
+                    </div>
+                    <p-table *ngIf="review.History.length" [value]="review.History" styleClass="p-datatable-sm mt-3"
+                        ><ng-template pTemplate="header"
+                            ><tr>
+                                <th>Action</th>
+                                <th>Transition</th>
+                                <th>Remarks</th>
+                                <th>Date</th>
+                            </tr></ng-template
+                        ><ng-template pTemplate="body" let-entry
+                            ><tr>
+                                <td>{{ entry.ActionCode }}</td>
+                                <td>{{ entry.FromStatusCode || '—' }} → {{ entry.ToStatusCode }}</td>
+                                <td>{{ entry.Remarks || '—' }}</td>
+                                <td>{{ entry.CreatedDateTime | date: 'medium' }}</td>
+                            </tr></ng-template
+                        ></p-table
+                    >
+                </div>
 
-								<div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
-									<div class="flex align-items-center justify-content-between gap-3"><h3 class="m-0">Line items</h3><button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()" [disabled]="!!currentPurchaseOrderId"></button></div>
-									<small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line item and complete its required fields before saving.</small>
-									<p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll" styleClass="p-datatable-sm">
-										<ng-template pTemplate="header"><tr><th>#</th><th>Description</th><th>PO line</th><th>Receipt line</th><th>GRN</th><th>Accepted / eligible</th><th>Qty</th><th>UOM</th><th>Unit price</th><th>Tax</th><th>Line total</th><th></th></tr></ng-template>
-										<ng-template pTemplate="body" let-line let-rowIndex="rowIndex"><tr [formGroupName]="rowIndex"><td>{{ line.get('LineNo')?.value }}</td><td style="min-width: 12rem"><input pInputText type="text" formControlName="Description" class="w-full p-inputtext-sm" /></td><td style="min-width: 9rem"><p-dropdown [options]="purchaseorderlineidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="PurchaseOrderLineId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 9rem"><p-dropdown [options]="goodsreceiptlineidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="GoodsReceiptLineId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td>{{ line.get('GRNNo')?.value || '—' }}</td><td>{{ line.get('AcceptedQuantity')?.value || 0 }} / {{ line.get('EligibleQuantity')?.value || '—' }}</td><td style="min-width: 6rem"><p-inputNumber formControlName="InvoicedQuantity" [min]="1" [max]="line.get('EligibleQuantity')?.value || null" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-dropdown [options]="uomidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="UOMId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown></td><td style="min-width: 8rem"><p-inputNumber formControlName="UnitPrice" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 7rem"><p-inputNumber formControlName="TaxAmount" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td style="min-width: 8rem"><p-inputNumber formControlName="LineTotal" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td><td><button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Delete line item ' + (rowIndex + 1)"></button></td></tr></ng-template>
-										<ng-template pTemplate="emptymessage"><tr><td colspan="12" class="text-center">Add at least one line item.</td></tr></ng-template>
-									</p-table>
-								</div>
+                <form [formGroup]="editForm" (ngSubmit)="Save()">
+                    <p-fluid>
+                        <div class="flex mt-8">
+                            <div class="card flex flex-col gap-4 w-full">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="Supplier Party Id" class="mb-1">SupplierPartyId</label>
+                                        <p-dropdown inputId="SupplierPartyId" [options]="supplierpartyidOptions" optionLabel="Text" optionValue="Value" formControlName="SupplierPartyId" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierPartyId')" label="Supplier Party Id"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="Buying Organisation Id" class="mb-1">BuyingOrganisationId</label>
+                                        <p-dropdown inputId="BuyingOrganisationId" [options]="buyingorganisationidOptions" optionLabel="Text" optionValue="Value" formControlName="BuyingOrganisationId" placeholder="Select One" class="w-full">
+                                        </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('BuyingOrganisationId')" label="Buying Organisation Id"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="PurchaseOrderId" class="mb-1">Purchase Order</label>
+                                        <p-dropdown
+                                            inputId="PurchaseOrderId"
+                                            [options]="purchaseorderidOptions"
+                                            optionLabel="Text"
+                                            optionValue="Value"
+                                            formControlName="PurchaseOrderId"
+                                            [filter]="true"
+                                            filterBy="Text"
+                                            [showClear]="true"
+                                            placeholder="Select Purchase Order"
+                                            class="w-full"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="SupplierInvoiceNo">Supplier Invoice No </label>
+                                        <input pInputText id="SupplierInvoiceNo" type="text" pSize="small" formControlName="SupplierInvoiceNo" />
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierInvoiceNo')" label="Supplier Invoice No"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="InvoiceDate">Invoice Date </label>
+                                        <p-calendar id="InvoiceDate" size="small" dateFormat="dd-MM-yy" [showIcon]="true" formControlName="InvoiceDate"></p-calendar>
+                                        <app-validation-errors [type]="'date'" [control]="editForm.get('InvoiceDate')" label="Invoice Date"> </app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="Currency Code" class="mb-1">CurrencyCode</label>
+                                        <app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')" label="Currency Code"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="Subtotal">Subtotal </label>
+                                        <p-inputNumber id="Subtotal" pSize="small" formControlName="Subtotal"> </p-inputNumber>
+                                        <app-validation-errors [type]="'number'" [control]="editForm.get('Subtotal')" label="Subtotal"> </app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="TaxAmount">Tax Amount </label>
+                                        <p-inputNumber id="TaxAmount" pSize="small" formControlName="TaxAmount"> </p-inputNumber>
+                                        <app-validation-errors [type]="'number'" [control]="editForm.get('TaxAmount')" label="Tax Amount"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="TotalAmount">Total Amount </label>
+                                        <p-inputNumber id="TotalAmount" pSize="small" formControlName="TotalAmount"> </p-inputNumber>
+                                        <app-validation-errors [type]="'number'" [control]="editForm.get('TotalAmount')" label="Total Amount"> </app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="Match Status Code" class="mb-1">MatchStatusCode</label>
+                                        <p-dropdown inputId="MatchStatusCode" [options]="matchstatuscodeOptions" optionLabel="Text" optionValue="Value" formControlName="MatchStatusCode" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('MatchStatusCode')" label="Match Status Code"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="Invoice Document Id" class="mb-1">InvoiceDocumentId</label>
+                                        <p-dropdown inputId="InvoiceDocumentId" [options]="invoicedocumentidOptions" optionLabel="Text" optionValue="Value" formControlName="InvoiceDocumentId" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('InvoiceDocumentId')" label="Invoice Document Id"> </app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="APReferenceId">AP Reference Id </label>
+                                        <p-inputNumber id="APReferenceId" pSize="small" formControlName="APReferenceId"> </p-inputNumber>
+                                        <app-validation-errors [type]="'number'" [control]="editForm.get('APReferenceId')" label="AP Reference Id"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="CapturedOn">Captured On </label>
+                                        <p-calendar id="CapturedOn" size="small" dateFormat="dd-MM-yy" [showIcon]="true" formControlName="CapturedOn"></p-calendar>
+                                        <app-validation-errors [type]="'date'" [control]="editForm.get('CapturedOn')" label="Captured On"> </app-validation-errors>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="Captured By" class="mb-1">CapturedBy</label>
+                                        <p-dropdown inputId="CapturedBy" [options]="capturedbyOptions" optionLabel="Text" optionValue="Value" formControlName="CapturedBy" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('CapturedBy')" label="Captured By"> </app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="Record Status" class="mb-1">RecordStatus</label>
+                                        <p-dropdown inputId="RecordStatus" [options]="recordstatusOptions" optionLabel="Text" optionValue="Value" formControlName="RecordStatus" placeholder="Select One" class="w-full"> </p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="editForm.get('RecordStatus')" label="Record Status"> </app-validation-errors>
+                                    </div>
+                                </div>
 
-					<app-audit-details [model]="supplierInvoice"></app-audit-details>
-					</div>
-				</div>
- 			</p-fluid> 	
-                     </form>			 
+                                <div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
+                                    <div class="flex align-items-center justify-content-between gap-3">
+                                        <h3 class="m-0">Line items</h3>
+                                        <button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()" [disabled]="!!currentPurchaseOrderId"></button>
+                                    </div>
+                                    <small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line item and complete its required fields before saving.</small>
+                                    <p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                        <ng-template pTemplate="header"
+                                            ><tr>
+                                                <th>#</th>
+                                                <th>Description</th>
+                                                <th>PO line</th>
+                                                <th>Receipt line</th>
+                                                <th>GRN</th>
+                                                <th>Accepted / eligible</th>
+                                                <th>Qty</th>
+                                                <th>UOM</th>
+                                                <th>Unit price</th>
+                                                <th>Tax</th>
+                                                <th>Line total</th>
+                                                <th></th></tr
+                                        ></ng-template>
+                                        <ng-template pTemplate="body" let-line let-rowIndex="rowIndex"
+                                            ><tr [formGroupName]="rowIndex">
+                                                <td>{{ line.get('LineNo')?.value }}</td>
+                                                <td style="min-width: 12rem"><input pInputText type="text" formControlName="Description" class="w-full p-inputtext-sm" /></td>
+                                                <td style="min-width: 9rem">
+                                                    <p-dropdown
+                                                        [options]="purchaseorderlineidOptions"
+                                                        optionLabel="Text"
+                                                        optionValue="Value"
+                                                        size="small"
+                                                        formControlName="PurchaseOrderLineId"
+                                                        placeholder="Select"
+                                                        appendTo="body"
+                                                        styleClass="w-full p-inputtext-sm"
+                                                    ></p-dropdown>
+                                                </td>
+                                                <td style="min-width: 9rem">
+                                                    <p-dropdown
+                                                        [options]="goodsreceiptlineidOptions"
+                                                        optionLabel="Text"
+                                                        optionValue="Value"
+                                                        size="small"
+                                                        formControlName="GoodsReceiptLineId"
+                                                        placeholder="Select"
+                                                        appendTo="body"
+                                                        styleClass="w-full p-inputtext-sm"
+                                                    ></p-dropdown>
+                                                </td>
+                                                <td>{{ line.get('GRNNo')?.value || '—' }}</td>
+                                                <td>{{ line.get('AcceptedQuantity')?.value || 0 }} / {{ line.get('EligibleQuantity')?.value || '—' }}</td>
+                                                <td style="min-width: 6rem"><p-inputNumber formControlName="InvoicedQuantity" [min]="1" [max]="line.get('EligibleQuantity')?.value || null" size="small" styleClass="w-full"></p-inputNumber></td>
+                                                <td style="min-width: 8rem">
+                                                    <p-dropdown [options]="uomidOptions" optionLabel="Text" optionValue="Value" size="small" formControlName="UOMId" placeholder="Select" appendTo="body" styleClass="w-full p-inputtext-sm"></p-dropdown>
+                                                </td>
+                                                <td style="min-width: 8rem"><p-inputNumber formControlName="UnitPrice" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td>
+                                                <td style="min-width: 7rem"><p-inputNumber formControlName="TaxAmount" [min]="0" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td>
+                                                <td style="min-width: 8rem"><p-inputNumber formControlName="LineTotal" mode="decimal" [minFractionDigits]="2" size="small" styleClass="w-full"></p-inputNumber></td>
+                                                <td><button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeLineItem(rowIndex)" [attr.aria-label]="'Delete line item ' + (rowIndex + 1)"></button></td></tr
+                                        ></ng-template>
+                                        <ng-template pTemplate="emptymessage"
+                                            ><tr>
+                                                <td colspan="12" class="text-center">Add at least one line item.</td>
+                                            </tr></ng-template
+                                        >
+                                    </p-table>
+                                </div>
 
-                     <app-document-attachment-requirements [ownerType]="'SupplierInvoice'"
-                         [ownerId]="supplierInvoice?.Id" [allowUpload]="true" [allowRemove]="true">
-                     </app-document-attachment-requirements>
+                                <app-audit-details [model]="supplierInvoice"></app-audit-details>
+                            </div>
+                        </div>
+                    </p-fluid>
+                </form>
 
-			</div>
-		</div>
-	</div>
+                <app-document-attachment-requirements [ownerType]="'SupplierInvoice'" [ownerId]="supplierInvoice?.Id" [allowUpload]="true" [allowRemove]="true"> </app-document-attachment-requirements>
+            </div>
+        </div>
+    </div>
 </div>
-
- 
-
-
-
-
