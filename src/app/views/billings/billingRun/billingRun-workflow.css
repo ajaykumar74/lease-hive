@@ -49,6 +49,12 @@
     flex: 0 0 auto;
     padding: 0.5rem 0.75rem;
 }
+.billing-workflow__toolbar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: .75rem;
+}
 .billing-workflow__status {
     padding: 0.38rem 0.62rem;
 }
@@ -65,6 +71,10 @@
 .is-pending {
     background: #ffedd5;
     color: #9a3412;
+}
+.is-discarded {
+    background: #fee2e2;
+    color: #991b1b;
 }
 
 .billing-workflow__grid {
@@ -233,6 +243,8 @@
     .billing-workflow__header {
         flex-direction: column;
     }
+    .billing-workflow__toolbar { align-items: stretch; flex-direction: column; width: 100%; }
+    .billing-workflow__toolbar .p-button { width: 100%; }
     .billing-workflow__grid {
         grid-template-columns: minmax(0, 1fr);
         padding: 0.875rem;

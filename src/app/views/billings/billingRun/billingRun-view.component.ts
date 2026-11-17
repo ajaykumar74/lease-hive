@@ -38,6 +38,7 @@ export class BillingRunViewComponent implements OnInit {
     private invoiceIssuanceSummaryRequest = 0;
     isValidating = false;
     isApproving = false;
+    isDiscarding = false;
     billingRunItems: IBillingRunItem[] = [];
     selectedBillingRunItems: IBillingRunItem[] = [];
     billingRunItemsTotal = 0;
@@ -117,12 +118,20 @@ export class BillingRunViewComponent implements OnInit {
         return this.billingRunStatusCode === 'APPROVED';
     }
 
+    get isDiscarded(): boolean {
+        return this.billingRunStatusCode === 'DISCARDED';
+    }
+
+    get canDiscard(): boolean {
+        return !this.isDiscarded && (this.isDraft || this.isValidated || this.isApprovedForInvoiceGeneration);
+    }
+
     get canEditItemSelection(): boolean {
         return this.isDraft || this.isValidated;
     }
 
     get isWorkflowActionInProgress(): boolean {
-        return this.isValidating || this.isApproving || this.isGeneratingInvoices || this.isIssuingInvoices;
+        return this.isValidating || this.isApproving || this.isGeneratingInvoices || this.isIssuingInvoices || this.isDiscarding;
     }
 
     get workflowItems() {
@@ -144,18 +153,22 @@ export class BillingRunViewComponent implements OnInit {
     }
 
     get validationStatusLabel(): string {
+        if (this.isDiscarded) return 'Discarded';
         return this.isDraft ? (this.errorItemCount ? 'Action required' : 'Ready to validate') : 'Validated';
     }
 
     get approvalStatusLabel(): string {
+        if (this.isDiscarded) return 'Discarded';
         return this.isApprovedForInvoiceGeneration ? 'Approved' : this.isValidated ? 'Ready for approval' : 'Pending validation';
     }
 
     get invoiceGenerationStatusLabel(): string {
+        if (this.isDiscarded) return 'Discarded';
         return this.hasGeneratedInvoices ? 'Draft invoices generated' : this.isApprovedForInvoiceGeneration ? 'Ready to execute' : 'Awaiting approval';
     }
 
     get invoiceIssuanceStatusLabel(): string {
+        if (this.isDiscarded) return 'Discarded';
         if (!this.hasGeneratedInvoices) return 'Awaiting draft invoices';
         if (this.isInvoiceIssuanceSummaryLoading) return 'Loading invoice status';
         if (this.draftInvoiceCount > 0) return 'Invoices ready to issue';
@@ -167,7 +180,7 @@ export class BillingRunViewComponent implements OnInit {
     }
 
     get hasGeneratedInvoices(): boolean {
-        return Number(this.billingRun?.InvoiceCount || 0) > 0;
+        return !this.isDiscarded && Number(this.billingRun?.InvoiceCount || 0) > 0;
     }
 
     loadBillingRunItems(event?: any): void {
@@ -257,6 +270,45 @@ export class BillingRunViewComponent implements OnInit {
             },
             complete: () => {
                 this.isApproving = false;
+                this.spinner.hide();
+            }
+        });
+    }
+
+    confirmDiscard(): void {
+        if (!this.canDiscard || !this.permission?.CanUpdate || this.isWorkflowActionInProgress) return;
+
+        this.confirmationService.confirm({
+            key: 'billing-run-execution',
+            header: 'Discard billing run',
+            icon: 'pi pi-exclamation-triangle',
+            message: 'Discard this billing run? Any unissued draft invoices will be discarded and its billing items released for a new run. Existing records and audit history are retained.',
+            acceptLabel: 'Discard billing run',
+            rejectLabel: 'Keep billing run',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => this.discardBillingRun()
+        });
+    }
+
+    private discardBillingRun(): void {
+        if (!this.canDiscard || !this.permission?.CanUpdate || this.isDiscarding) return;
+
+        this.isDiscarding = true;
+        this.spinner.show();
+        this.billingRunService.discardBillingRun(this.selectedId).subscribe({
+            next: response => {
+                this.confirmationService.close();
+                this.messageService?.showSuccess(response?.Message || response?.message || 'Billing run discarded and billing items released.');
+                this.loadUI();
+            },
+            error: error => {
+                this.confirmationService.close();
+                this.isDiscarding = false;
+                this.spinner.hide();
+                this.messageService?.showError(this.getErrorMessage(error));
+            },
+            complete: () => {
+                this.isDiscarding = false;
                 this.spinner.hide();
             }
         });

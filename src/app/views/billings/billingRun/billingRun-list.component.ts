@@ -226,6 +226,8 @@ export class BillingRunListComponent implements OnInit {
                 return 'is-validated';
             case 'DRAFT':
                 return 'is-draft';
+            case 'DISCARDED':
+                return 'is-discarded';
             default:
                 return 'is-default';
         }

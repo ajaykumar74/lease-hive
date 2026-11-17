@@ -38,6 +38,10 @@ defaultgstregistrationidOptions: ISelectItem[] = [];
 defaultbillinglocationidOptions: ISelectItem[] = [];
 defaultdeliverylocationidOptions: ISelectItem[] = [];
 preferredbillingfrequencyOptions: ISelectItem[] = [];
+billingPreferenceOptions: ISelectItem[] = [
+  { Text: 'Per contract', Value: 'PER_CONTRACT' },
+  { Text: 'Consolidated', Value: 'CONSOLIDATED' }
+];
 recordstatusOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -75,6 +79,7 @@ DefaultBillingLocationId: new FormControl(0, [Validators.min(-2147483648), Valid
 DefaultDeliveryLocationId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 DefaultPaymentTermsDays: new FormControl(0, [Validators.min(0), Validators.max(255)]),
 PreferredBillingFrequency: new FormControl('', [Validators.maxLength(20), ]), 
+BillingPreference: new FormControl('PER_CONTRACT', [Validators.required]),
 PurchaseOrderRequired: new FormControl(false), 
 CustomerSinceDate: new FormControl(new Date(), [Validators.required]),
 RecordStatus: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
@@ -155,6 +160,7 @@ DefaultBillingLocationId: obj.DefaultBillingLocationId || 0,
 DefaultDeliveryLocationId: obj.DefaultDeliveryLocationId || 0,
 DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
+BillingPreference: obj.BillingPreference || 'PER_CONTRACT',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || null,
 RecordStatus: obj.RecordStatus || '',
@@ -202,6 +208,7 @@ DefaultBillingLocationId: obj.DefaultBillingLocationId || 0,
 DefaultDeliveryLocationId: obj.DefaultDeliveryLocationId || 0,
 DefaultPaymentTermsDays: obj.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency: obj.PreferredBillingFrequency || '',
+BillingPreference: obj.BillingPreference || 'PER_CONTRACT',
 PurchaseOrderRequired:  obj.PurchaseOrderRequired || false,
 CustomerSinceDate:  obj.CustomerSinceDate || null,
 RecordStatus: obj.RecordStatus || '',
@@ -239,6 +246,7 @@ DefaultBillingLocationId:  formValues.DefaultBillingLocationId || 0,
 DefaultDeliveryLocationId:  formValues.DefaultDeliveryLocationId || 0,
 DefaultPaymentTermsDays:  formValues.DefaultPaymentTermsDays || 0,
 PreferredBillingFrequency:  formValues.PreferredBillingFrequency || null,
+BillingPreference: formValues.BillingPreference || 'PER_CONTRACT',
 PurchaseOrderRequired:  formValues.PurchaseOrderRequired || false,
 CustomerSinceDate:  formValues.CustomerSinceDate || null,
 RecordStatus:  formValues.RecordStatus || null,

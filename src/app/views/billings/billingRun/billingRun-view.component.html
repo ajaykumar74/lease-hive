@@ -14,7 +14,10 @@
                             <h2>Billing Run Workflow</h2>
                             <p>Validate candidates, approve the run, generate draft invoices, then issue each eligible invoice.</p>
                         </div>
-                        <span class="billing-workflow__run-status" [ngClass]="{ 'is-ready': isApprovedForInvoiceGeneration, 'is-progress': isValidated, 'is-pending': isDraft }">{{ billingRunStatusCode || 'DRAFT' }}</span>
+                        <div class="billing-workflow__toolbar">
+                            <span class="billing-workflow__run-status" [ngClass]="{ 'is-ready': isApprovedForInvoiceGeneration, 'is-progress': isValidated, 'is-pending': isDraft, 'is-discarded': isDiscarded }">{{ billingRunStatusCode || 'DRAFT' }}</span>
+                            <button *ngIf="canDiscard" type="button" pButton label="Discard Billing Run" icon="pi pi-times-circle" severity="secondary" [outlined]="true" [loading]="isDiscarding" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="confirmDiscard()"></button>
+                        </div>
                     </header>
                     <div class="billing-workflow__grid">
                         <article class="billing-workflow__card">
@@ -43,7 +46,7 @@
                             <p class="billing-workflow__note">Validation date: not recorded by the existing workflow.</p>
                             <div class="billing-workflow__action">
                                 <button *ngIf="isDraft" type="button" pButton label="Validate" icon="pi pi-check-circle" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="validateBillingRun()"></button
-                                ><span *ngIf="!isDraft">Validation is complete.</span>
+                                ><span *ngIf="!isDraft">{{ isDiscarded ? 'This run was discarded.' : 'Validation is complete.' }}</span>
                             </div>
                         </article>
                         <article class="billing-workflow__card">
@@ -67,7 +70,7 @@
                             </dl>
                             <div class="billing-workflow__action">
                                 <button *ngIf="isValidated" type="button" pButton label="Approve" icon="pi pi-check" [disabled]="!permission?.CanUpdate || isWorkflowActionInProgress" (click)="approveBillingRun()"></button
-                                ><span *ngIf="!isValidated">{{ isApprovedForInvoiceGeneration ? 'Approval is complete.' : 'Available after validation.' }}</span>
+                                ><span *ngIf="!isValidated">{{ isDiscarded ? 'This run was discarded.' : (isApprovedForInvoiceGeneration ? 'Approval is complete.' : 'Available after validation.') }}</span>
                             </div>
                         </article>
                         <article class="billing-workflow__card">
@@ -102,7 +105,7 @@
                                     (click)="confirmExecution()"
                                 ></button
                                 ><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button
-                                ><span *ngIf="!isApprovedForInvoiceGeneration">Available after approval.</span>
+                                ><span *ngIf="!isApprovedForInvoiceGeneration">{{ isDiscarded ? 'This run was discarded.' : 'Available after approval.' }}</span>
                             </div>
                         </article>
                         <article class="billing-workflow__card">
@@ -147,7 +150,7 @@
                                     (click)="confirmIssueAllInvoices()"
                                 ></button
                                 ><button *ngIf="hasGeneratedInvoices" type="button" pButton label="View invoices" icon="pi pi-external-link" severity="secondary" (click)="viewGeneratedInvoices()"></button
-                                ><span *ngIf="!hasGeneratedInvoices">Available after draft generation.</span>
+                                ><span *ngIf="!hasGeneratedInvoices">{{ isDiscarded ? 'This run was discarded.' : 'Available after draft generation.' }}</span>
                             </div>
                         </article>
                     </div>

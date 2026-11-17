@@ -15,6 +15,7 @@ DefaultBillingLocationId :number;
 DefaultDeliveryLocationId :number;
 DefaultPaymentTermsDays :number;
 PreferredBillingFrequency :string;
+BillingPreference : 'PER_CONTRACT' | 'CONSOLIDATED';
 PurchaseOrderRequired : boolean;
 CustomerSinceDate :Date;
 RecordStatus :string;
