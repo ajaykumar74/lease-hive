@@ -767,12 +767,12 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-fw pi-plus',
                                             routerLink: ['/business/origination/quotes/create']
                                         },
-                                        {
+                                       /*  {
                                             label: 'Quote Items (Vehicles & Pricing)',
                                             icon: 'pi pi-fw pi-box',
                                             routerLink: ['/business/origination/quotes/assets']
-                                        },
-                                        {
+                                        }, */
+                                     /*    {
                                             label: 'Quote Services',
                                             icon: 'pi pi-fw pi-briefcase',
                                             routerLink: ['/business/origination/quotes/services']
@@ -786,7 +786,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Pricing Schedules',
                                             icon: 'pi pi-fw pi-calendar',
                                             routerLink: ['/business/origination/quotes/pricing-schedules']
-                                        },
+                                        }, */
                                         {
                                             label: 'Lease Services',
                                             icon: 'pi pi-fw pi-list-check',
@@ -1506,12 +1506,12 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-list',
                                     routerLink: ['/contracts']
                                 },
-                                {
+                              /*   {
                                     label: 'Create Contract',
                                     icon: 'pi pi-plus-circle',
                                     routerLink: ['/contracts/create']
-                                },
-                                {
+                                }, */
+                           /*      {
                                     label: 'Contract work',
                                     icon: 'pi pi-briefcase',
                                     items: [
@@ -1541,7 +1541,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/contracts/active']
                                         }
                                     ]
-                                },
+                                }, */
                                 {
                                     label: 'Approvals',
                                     icon: 'pi pi-check-circle',
@@ -1587,7 +1587,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                     label: 'Define contract',
                                     icon: 'pi pi-sliders-h',
                                     items: [
-                                        {
+                                      /*   {
                                             label: 'Parties',
                                             icon: 'pi pi-users',
                                             routerLink: ['/contracts/parties']
@@ -1601,7 +1601,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Charges & Fees',
                                             icon: 'pi pi-wallet',
                                             routerLink: ['/contracts/charges']
-                                        },
+                                        }, */
                                         {
                                             label: 'Security Deposits',
                                             icon: 'pi pi-shield',
@@ -1629,7 +1629,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         }
                                     ]
                                 },
-                                {
+                             /*    {
                                     label: 'Assets',
                                     icon: 'pi pi-box',
                                     items: [
@@ -1664,8 +1664,8 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/contracts/assets/release']
                                         }
                                     ]
-                                },
-                                {
+                                }, */
+                              /*   {
                                     label: 'Documents & Signing',
                                     icon: 'pi pi-file',
                                     items: [
@@ -1705,8 +1705,8 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/contracts/executed']
                                         }
                                     ]
-                                },
-                                {
+                                }, */
+                              /*   {
                                     label: 'Activation & Checklist',
                                     icon: 'pi pi-verified',
                                     items: [
@@ -1730,7 +1730,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-exclamation-triangle',
                                             routerLink: ['/contracts/conditions/waivers']
                                         },
-                                      /*   {
+                                        {
                                             label: 'Activation Readiness',
                                             icon: 'pi pi-check-circle',
                                             routerLink: ['/contracts/activation-readiness']
@@ -1744,7 +1744,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Activation Exceptions',
                                             icon: 'pi pi-exclamation-circle',
                                             routerLink: ['/contracts/activation/exceptions']
-                                        }, */
+                                        }, 
                                         {
                                             label: 'Activation History',
                                             icon: 'pi pi-history',
@@ -1756,7 +1756,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/contracts/handoffs']
                                         }
                                     ]
-                                },
+                                },*/
                                 {
                                     label: 'Manage Contracts',
                                     icon: 'pi pi-cog',
@@ -1875,7 +1875,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                         }
                                     ]
                                 },
-                                {
+                            /*     {
                                     label: 'Activity & Audit',
                                     icon: 'pi pi-search',
                                     items: [
@@ -1905,9 +1905,9 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/contracts/audit']
                                         }
                                     ]
-                                },
+                                }, */
                                 {
-                                    label: 'Settings',
+                                    label: 'Configurations',
                                     icon: 'pi pi-cog',
                                     items: [
                                         {
@@ -1915,7 +1915,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-list',
                                             routerLink: ['/contracts/config/statuses']
                                         },
-                                        {
+                                       /*  {
                                             label: 'Contract Numbering',
                                             icon: 'pi pi-sort-numeric-up',
                                             routerLink: ['/contracts/config/numbering']
@@ -1954,7 +1954,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Approval Rules',
                                             icon: 'pi pi-sitemap',
                                             routerLink: ['/contracts/config/approval-rules']
-                                        }
+                                        } */
                                     ]
                                 }
                             ]
@@ -1968,32 +1968,33 @@ export class AppMenu implements OnInit, OnDestroy {
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/billing-finance/dashboard']
                                 },
-                                {
-                                    label: 'Billing',
-                                    icon: 'pi pi-fw pi-calendar',
-                                    items: [
-                                        {
-                                            label: 'Billing Workbench',
-                                            icon: 'pi pi-fw pi-desktop',
-                                            routerLink: ['/billing-finance/billing/workbench']
-                                        },
-                                        {
+                                 {
                                             label: 'Billing Runs',
                                             icon: 'pi pi-fw pi-play-circle',
                                             routerLink: ['/billing-finance/billing/runs']
                                         },
-                                        {
+                              /*   {
+                                    label: 'Billing',
+                                    icon: 'pi pi-fw pi-calendar',
+                                    items: [
+                                       {
+                                            label: 'Billing Workbench',
+                                            icon: 'pi pi-fw pi-desktop',
+                                            routerLink: ['/billing-finance/billing/workbench']
+                                        },  
+                                       
+                                         {
                                             label: 'Billing Exceptions',
                                             icon: 'pi pi-fw pi-exclamation-triangle',
                                             routerLink: ['/billing-finance/billing/exceptions']
-                                        },
+                                        }, 
                                         {
                                             label: 'Billing History',
                                             icon: 'pi pi-fw pi-history',
                                             routerLink: ['/billing-finance/billing/history']
-                                        }
+                                        } 
                                     ]
-                                },
+                                }, */
                                 {
                                     label: 'Invoices',
                                     icon: 'pi pi-fw pi-file',
@@ -2003,7 +2004,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-fw pi-file',
                                             routerLink: ['/billing-finance/invoices']
                                         },
-                                        {
+                                       /*  {
                                             label: 'Invoice Lines',
                                             icon: 'pi pi-fw pi-list',
                                             routerLink: ['/billing-finance/invoices/lines']
@@ -2027,27 +2028,27 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Issued Invoices',
                                             icon: 'pi pi-fw pi-check-circle',
                                             routerLink: ['/billing-finance/invoices/issued']
-                                        },
+                                        }, */
                                         {
                                             label: 'Credit Notes',
                                             icon: 'pi pi-fw pi-minus-circle',
                                             routerLink: ['/billing-finance/credit-notes']
                                         },
-                                        {
+                                     /*    {
                                             label: 'Credit Note Lines',
                                             icon: 'pi pi-fw pi-list',
                                             routerLink: ['/billing-finance/credit-notes/lines']
-                                        },
+                                        }, */
                                         {
                                             label: 'Debit Notes',
                                             icon: 'pi pi-fw pi-plus-circle',
                                             routerLink: ['/billing-finance/debit-notes']
                                         },
-                                        {
+                                       /*  {
                                             label: 'Debit Note Lines',
                                             icon: 'pi pi-fw pi-list',
                                             routerLink: ['/billing-finance/debit-notes/lines']
-                                        }
+                                        } */
                                     ]
                                 },
                                 {
@@ -2131,7 +2132,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             icon: 'pi pi-fw pi-list',
                                             routerLink: ['/billing-finance/deposits/transactions']
                                         },
-                                        {
+                                       /*  {
                                             label: 'Deposit Utilization',
                                             icon: 'pi pi-fw pi-arrow-right',
                                             routerLink: ['/billing-finance/deposits/utilization']
@@ -2145,7 +2146,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Deposit Forfeitures',
                                             icon: 'pi pi-fw pi-times-circle',
                                             routerLink: ['/billing-finance/deposits/forfeitures']
-                                        }
+                                        } */
                                     ]
                                 },
                                 {

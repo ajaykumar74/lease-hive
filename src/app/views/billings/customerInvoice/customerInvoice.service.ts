@@ -6,6 +6,18 @@ import { ICustomerInvoice } from './customerInvoice';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
+export interface CustomerInvoiceLineAssetAllocation {
+  CustomerInvoiceLineId: number;
+  LeaseContractId: number;
+  AssetId: number;
+  RentalAmount?: number;
+  ServiceAmount?: number;
+  ChargeAmount?: number;
+  DiscountAmount?: number;
+  TaxAmount?: number;
+  TotalAmount?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +55,11 @@ export class CustomerInvoiceService extends BaseCrudService<any> {
 
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
+  }
+
+  getAssetAllocations(): Observable<CustomerInvoiceLineAssetAllocation[]> {
+    return this.http.get<CustomerInvoiceLineAssetAllocation[]>(`${this.baseService.C_APP_URL}/customer-invoice-documents/asset-allocations`, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
   }
 
   previewInvoicePdf(invoiceId: number): Observable<Blob> {

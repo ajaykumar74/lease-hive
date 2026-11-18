@@ -18,12 +18,13 @@ import { AssetCategoryService } from '@/views/assets/assetCategory/assetCategory
 import { AssetStatusService } from '@/views/assets/assetStatus/assetStatus.service';
 import { AssetStatusHistoryService } from '@/views/assets/assetStatusHistory/assetStatusHistory.service';
 import { AssetTypeService } from '@/views/assets/assetType/assetType.service';
-import { CustomerInvoiceService } from '@/views/billings/customerInvoice/customerInvoice.service';
+import { CustomerInvoiceLineAssetAllocation, CustomerInvoiceService } from '@/views/billings/customerInvoice/customerInvoice.service';
 import { CustomerInvoiceLineService } from '@/views/billings/CustomerInvoiceLine/customerInvoiceLine/customerInvoiceLine.service';
 import { CreditNoteService } from '@/views/billings/creditNote/creditNote.service';
 import { CreditNoteLineService } from '@/views/billings/creditNoteLine/creditNoteLine.service';
 import { LeaseContractService } from '@/views/leaseContracts/leaseContract/leaseContract.service';
 import { LeaseContractAssetService } from '@/views/leaseContracts/leaseContractAsset/leaseContractAsset.service';
+import { LeaseAssetAllocationEventService } from '@/views/leaseContracts/leaseAssetAllocationEvent/leaseAssetAllocationEvent.service';
 import { LeasePaymentScheduleService } from '@/views/leaseContracts/leasePaymentSchedule/leasePaymentSchedule.service';
 import { LeasePaymentScheduleLineService } from '@/views/leaseContracts/leasePaymentScheduleLine/leasePaymentScheduleLine.service';
 import { AssetDowntimeService } from '@/views/maintenanceInsurances/assetDowntime/assetDowntime.service';
@@ -85,6 +86,7 @@ export class AssetProfitabilityComponent implements OnInit {
     private readonly statusHistoryService = inject(AssetStatusHistoryService);
     private readonly contractService = inject(LeaseContractService);
     private readonly contractAssetService = inject(LeaseContractAssetService);
+    private readonly allocationEventService = inject(LeaseAssetAllocationEventService);
     private readonly paymentScheduleService = inject(LeasePaymentScheduleService);
     private readonly paymentScheduleLineService = inject(LeasePaymentScheduleLineService);
     private readonly invoiceService = inject(CustomerInvoiceService);
@@ -143,10 +145,12 @@ export class AssetProfitabilityComponent implements OnInit {
     statusHistory: any[] = [];
     contracts: any[] = [];
     contractAssets: any[] = [];
+    allocationEvents: any[] = [];
     paymentSchedules: any[] = [];
     paymentScheduleLines: any[] = [];
     invoices: any[] = [];
     invoiceLines: any[] = [];
+    invoiceAssetAllocations: CustomerInvoiceLineAssetAllocation[] = [];
     creditNotes: any[] = [];
     creditNoteLines: any[] = [];
     workOrders: any[] = [];
@@ -181,7 +185,7 @@ export class AssetProfitabilityComponent implements OnInit {
     }
 
     get typeOptions(): any[] {
-        return this.types.filter(item => this.isActive(item) && (this.selectedCategoryId === null || Number(item.AssetCategoryId) === this.selectedCategoryId)).map(item => ({ label: item.AssetTypeName || item.AssetTypeCode || `Type ${item.Id}`, value: Number(item.Id) })).sort(this.optionSort);
+        return this.types.filter(item => this.isActive(item) && this.matchesSelectedCategory(item.AssetCategoryId)).map(item => ({ label: item.AssetTypeName || item.AssetTypeCode || `Type ${item.Id}`, value: Number(item.Id) })).sort(this.optionSort);
     }
 
     get customerOptions(): any[] {
@@ -217,11 +221,11 @@ export class AssetProfitabilityComponent implements OnInit {
         this.hasLoadError = false;
         forkJoin({
             assets: this.assetService.GetAll(false).pipe(catchError(() => this.failedFeed())), categories: this.categoryService.GetAll(false).pipe(catchError(() => this.failedFeed())), types: this.typeService.GetAll(false).pipe(catchError(() => this.failedFeed())), statuses: this.statusService.GetAll(false).pipe(catchError(() => this.failedFeed())), statusHistory: this.statusHistoryService.GetAll(false).pipe(catchError(() => this.failedFeed())),
-            contracts: this.contractService.GetAll(false).pipe(catchError(() => this.failedFeed())), contractAssets: this.contractAssetService.GetAll(false).pipe(catchError(() => this.failedFeed())), paymentSchedules: this.paymentScheduleService.GetAll(false).pipe(catchError(() => this.failedFeed())), paymentScheduleLines: this.paymentScheduleLineService.GetAll(false).pipe(catchError(() => this.failedFeed())), invoices: this.invoiceService.GetAll(false).pipe(catchError(() => this.failedFeed())), invoiceLines: this.invoiceLineService.GetAll(false).pipe(catchError(() => this.failedFeed())), creditNotes: this.creditNoteService.GetAll(false).pipe(catchError(() => this.failedFeed())), creditNoteLines: this.creditNoteLineService.GetAll(false).pipe(catchError(() => this.failedFeed())),
+            contracts: this.contractService.GetAll(false).pipe(catchError(() => this.failedFeed())), contractAssets: this.contractAssetService.GetAll(false).pipe(catchError(() => this.failedFeed())), allocationEvents: this.allocationEventService.GetAll(false).pipe(catchError(() => this.failedFeed())), paymentSchedules: this.paymentScheduleService.GetAll(false).pipe(catchError(() => this.failedFeed())), paymentScheduleLines: this.paymentScheduleLineService.GetAll(false).pipe(catchError(() => this.failedFeed())), invoices: this.invoiceService.GetAll(false).pipe(catchError(() => this.failedFeed())), invoiceLines: this.invoiceLineService.GetAll(false).pipe(catchError(() => this.failedFeed())), invoiceAssetAllocations: this.invoiceService.getAssetAllocations().pipe(catchError(() => this.failedFeed())), creditNotes: this.creditNoteService.GetAll(false).pipe(catchError(() => this.failedFeed())), creditNoteLines: this.creditNoteLineService.GetAll(false).pipe(catchError(() => this.failedFeed())),
             workOrders: this.workOrderService.GetAll(false).pipe(catchError(() => this.failedFeed())), downtimes: this.downtimeService.GetAll(false).pipe(catchError(() => this.failedFeed())), workOrderParts: this.workOrderPartService.GetAll(false).pipe(catchError(() => this.failedFeed())), workOrderLabour: this.workOrderLabourService.GetAll(false).pipe(catchError(() => this.failedFeed())), workOrderServices: this.workOrderServiceService.GetAll(false).pipe(catchError(() => this.failedFeed())),
             policies: this.policyService.GetAll(false).pipe(catchError(() => this.failedFeed())), policyAssets: this.policyAssetService.GetAll(false).pipe(catchError(() => this.failedFeed())), organisations: this.organisationService.GetAll(false).pipe(catchError(() => this.failedFeed())), organisationUnits: this.unitService.GetAll(false).pipe(catchError(() => this.failedFeed())), parties: this.partyService.GetAll(false).pipe(catchError(() => this.failedFeed()))
         }).pipe(finalize(() => this.isLoading = false)).subscribe(result => {
-            this.assets = this.recordsOf(result.assets); this.categories = this.recordsOf(result.categories); this.types = this.recordsOf(result.types); this.statuses = this.recordsOf(result.statuses); this.statusHistory = this.recordsOf(result.statusHistory); this.contracts = this.recordsOf(result.contracts); this.contractAssets = this.recordsOf(result.contractAssets); this.paymentSchedules = this.recordsOf(result.paymentSchedules); this.paymentScheduleLines = this.recordsOf(result.paymentScheduleLines); this.invoices = this.recordsOf(result.invoices); this.invoiceLines = this.recordsOf(result.invoiceLines); this.creditNotes = this.recordsOf(result.creditNotes); this.creditNoteLines = this.recordsOf(result.creditNoteLines); this.workOrders = this.recordsOf(result.workOrders); this.downtimes = this.recordsOf(result.downtimes); this.workOrderParts = this.recordsOf(result.workOrderParts); this.workOrderLabour = this.recordsOf(result.workOrderLabour); this.workOrderServices = this.recordsOf(result.workOrderServices); this.policies = this.recordsOf(result.policies); this.policyAssets = this.recordsOf(result.policyAssets); this.organisations = this.recordsOf(result.organisations); this.organisationUnits = this.recordsOf(result.organisationUnits); this.parties = this.recordsOf(result.parties);
+            this.assets = this.recordsOf(result.assets); this.categories = this.recordsOf(result.categories); this.types = this.recordsOf(result.types); this.statuses = this.recordsOf(result.statuses); this.statusHistory = this.recordsOf(result.statusHistory); this.contracts = this.recordsOf(result.contracts); this.contractAssets = this.recordsOf(result.contractAssets); this.allocationEvents = this.recordsOf(result.allocationEvents); this.paymentSchedules = this.recordsOf(result.paymentSchedules); this.paymentScheduleLines = this.recordsOf(result.paymentScheduleLines); this.invoices = this.recordsOf(result.invoices); this.invoiceLines = this.recordsOf(result.invoiceLines); this.invoiceAssetAllocations = this.recordsOf(result.invoiceAssetAllocations) as CustomerInvoiceLineAssetAllocation[]; this.creditNotes = this.recordsOf(result.creditNotes); this.creditNoteLines = this.recordsOf(result.creditNoteLines); this.workOrders = this.recordsOf(result.workOrders); this.downtimes = this.recordsOf(result.downtimes); this.workOrderParts = this.recordsOf(result.workOrderParts); this.workOrderLabour = this.recordsOf(result.workOrderLabour); this.workOrderServices = this.recordsOf(result.workOrderServices); this.policies = this.recordsOf(result.policies); this.policyAssets = this.recordsOf(result.policyAssets); this.organisations = this.recordsOf(result.organisations); this.organisationUnits = this.recordsOf(result.organisationUnits); this.parties = this.recordsOf(result.parties);
             this.refreshReport();
         });
     }
@@ -274,25 +278,61 @@ export class AssetProfitabilityComponent implements OnInit {
         const events: FinancialEvent[] = [];
         const invoiceById = new Map(this.invoices.map(item => [Number(item.Id), item]));
         const invoiceLineById = new Map(this.invoiceLines.map(item => [Number(item.Id), item]));
-        const contractAssetById = new Map(this.contractAssets.map(item => [Number(item.Id), item]));
+        // CustomerInvoiceLineAssets is an immutable snapshot made when the invoice is
+        // issued. Prefer it over reconstructing allocations from the current contract
+        // state, because a quantity-based contract requirement does not retain AssetId.
+        const invoiceAllocationsByLineId = new Map<number, CustomerInvoiceLineAssetAllocation[]>();
+        this.invoiceAssetAllocations.forEach(allocation => {
+            const lineId = Number(allocation.CustomerInvoiceLineId);
+            const assetId = Number(allocation.AssetId);
+            if (lineId <= 0 || assetId <= 0) return;
+            const allocations = invoiceAllocationsByLineId.get(lineId) || [];
+            allocations.push(allocation);
+            invoiceAllocationsByLineId.set(lineId, allocations);
+        });
         const billedRevenueAssetContracts = new Set<string>();
         this.invoiceLines.forEach(line => {
             const invoice = invoiceById.get(Number(line.CustomerInvoiceId));
-            const contractAsset = contractAssetById.get(Number(line.LeaseContractAssetId));
-            if (!invoice || !contractAsset || !this.isFinalInvoice(invoice) || !this.withinRange(this.asDate(invoice.InvoiceDate)) || !this.isRentalLine(line)) return;
+            if (!invoice || !this.isFinalInvoice(invoice) || !this.withinRange(this.asDate(invoice.InvoiceDate)) || !this.isRentalLine(line)) return;
             const contractId = Number(invoice.LeaseContractId || line.LeaseContractId);
-            this.addEvent(events, { assetId: Number(contractAsset.AssetId), kind: 'revenue', amount: this.invoiceLineNetAmount(line), currency: invoice.CurrencyCode, date: this.asDate(invoice.InvoiceDate)!, contractId, customerId: Number(invoice.CustomerPartyId) });
-            billedRevenueAssetContracts.add(this.assetContractKey(contractAsset.AssetId, contractId));
+            const snapshotAllocations = invoiceAllocationsByLineId.get(Number(line.Id)) || [];
+            if (snapshotAllocations.length) {
+                snapshotAllocations.forEach(allocation => {
+                    const amount = Number(allocation.RentalAmount || 0);
+                    const assetId = Number(allocation.AssetId);
+                    if (!amount || assetId <= 0) return;
+                    const allocationContractId = Number(allocation.LeaseContractId || contractId);
+                    this.addEvent(events, {
+                        assetId,
+                        kind: 'revenue',
+                        amount,
+                        currency: invoice.CurrencyCode,
+                        date: this.asDate(invoice.InvoiceDate)!,
+                        contractId: allocationContractId,
+                        customerId: Number(invoice.CustomerPartyId)
+                    });
+                    billedRevenueAssetContracts.add(this.assetContractKey(assetId, allocationContractId));
+                });
+                return;
+            }
+            const linkedAssets = this.assetsForContract(contractId, this.asDate(invoice.InvoiceDate)!, Number(line.LeaseContractAssetId));
+            linkedAssets.forEach((assetId, index) => {
+                this.addEvent(events, { assetId, kind: 'revenue', amount: this.allocatedAmount(this.invoiceLineNetAmount(line), linkedAssets.length, index), currency: invoice.CurrencyCode, date: this.asDate(invoice.InvoiceDate)!, contractId, customerId: Number(invoice.CustomerPartyId) });
+                billedRevenueAssetContracts.add(this.assetContractKey(assetId, contractId));
+            });
         });
         const creditById = new Map(this.creditNotes.map(item => [Number(item.Id), item]));
         this.creditNoteLines.forEach(line => {
             const credit = creditById.get(Number(line.CreditNoteId));
             const sourceLine = invoiceLineById.get(Number(line.CustomerInvoiceLineId));
-            const contractAsset = sourceLine && contractAssetById.get(Number(sourceLine.LeaseContractAssetId));
-            if (!credit || !sourceLine || !contractAsset || !this.isFinalCredit(credit) || !this.withinRange(this.asDate(credit.CreditNoteDate)) || !this.isRentalLine(sourceLine)) return;
+            if (!credit || !sourceLine || !this.isFinalCredit(credit) || !this.withinRange(this.asDate(credit.CreditNoteDate)) || !this.isRentalLine(sourceLine)) return;
             const contractId = Number(credit.LeaseContractId || sourceLine.LeaseContractId);
-            this.addEvent(events, { assetId: Number(contractAsset.AssetId), kind: 'revenue', amount: -Number(line.NetAmount || 0), currency: credit.CurrencyCode, date: this.asDate(credit.CreditNoteDate)!, contractId, customerId: Number(credit.CustomerPartyId) });
-            billedRevenueAssetContracts.add(this.assetContractKey(contractAsset.AssetId, contractId));
+            const sourceInvoice = invoiceById.get(Number(sourceLine.CustomerInvoiceId));
+            const linkedAssets = this.assetsForContract(contractId, this.asDate(sourceInvoice?.InvoiceDate) || this.asDate(credit.CreditNoteDate)!, Number(sourceLine.LeaseContractAssetId));
+            linkedAssets.forEach((assetId, index) => {
+                this.addEvent(events, { assetId, kind: 'revenue', amount: -this.allocatedAmount(Number(line.NetAmount || 0), linkedAssets.length, index), currency: credit.CurrencyCode, date: this.asDate(credit.CreditNoteDate)!, contractId, customerId: Number(credit.CustomerPartyId) });
+                billedRevenueAssetContracts.add(this.assetContractKey(assetId, contractId));
+            });
         });
         const scheduleById = new Map(this.paymentSchedules.map(item => [Number(item.Id), item]));
         this.paymentScheduleLines.forEach(line => {
@@ -300,12 +340,12 @@ export class AssetProfitabilityComponent implements OnInit {
             const dueDate = this.asDate(line.DueDate);
             if (!schedule || !dueDate || !this.withinRange(dueDate) || !this.isUsableRentalSchedule(schedule, line) || !Number(line.RentalAmount || 0)) return;
             const contractId = Number(schedule.LeaseContractId);
-            const linkedContractAsset = contractAssetById.get(Number((line as any).LeaseContractAssetId));
-            const contractAssets = this.contractAssets.filter(item => Number(item.LeaseContractId) === contractId && this.isActive(item) && Number(item.AssetId));
-            const contractAsset = linkedContractAsset || (contractAssets.length === 1 ? contractAssets[0] : undefined);
-            if (!contractAsset || billedRevenueAssetContracts.has(this.assetContractKey(contractAsset.AssetId, contractId))) return;
+            const linkedAssets = this.assetsForContract(contractId, dueDate, Number((line as any).LeaseContractAssetId));
             const contract = this.contractById(contractId);
-            this.addEvent(events, { assetId: Number(contractAsset.AssetId), kind: 'revenue', amount: Number(line.RentalAmount || 0), currency: schedule.CurrencyCode, date: dueDate, contractId, customerId: Number(contract?.CustomerPartyId) });
+            linkedAssets.forEach((assetId, index) => {
+                if (billedRevenueAssetContracts.has(this.assetContractKey(assetId, contractId))) return;
+                this.addEvent(events, { assetId, kind: 'revenue', amount: this.allocatedAmount(Number(line.RentalAmount || 0), linkedAssets.length, index), currency: schedule.CurrencyCode, date: dueDate, contractId, customerId: Number(contract?.CustomerPartyId) });
+            });
         });
         this.workOrders.filter(order => this.isRecognizedWorkOrder(order)).forEach(order => {
             const date = this.asDate(order.ActualEndAt || order.PlannedStartAt);
@@ -321,6 +361,56 @@ export class AssetProfitabilityComponent implements OnInit {
             if (insuredTotal > 0) covered.forEach(item => this.addEvent(events, { assetId: Number(item.AssetId), kind: 'insurance', amount: Number(policy.PremiumAmount || 0) * Number(item.InsuredValue || 0) / insuredTotal, currency: policy.CurrencyCode || item.CurrencyCode, date: date!, contractId: Number(item.LeaseContractId) }));
         });
         return events.filter(item => Number.isFinite(item.amount) && item.amount !== 0 && item.assetId > 0);
+    }
+
+    /**
+     * Finds the physical assets associated with a contract as at the financial event date.
+     * LeaseContractAssets.AssetId is deliberately zero for quantity-based requirements, so
+     * allocation events are the authoritative association in that case.
+     */
+    private assetsForContract(contractId: number, asAt: Date, leaseContractAssetId = 0): number[] {
+        const contractAssets = this.contractAssets.filter(item =>
+            Number(item.LeaseContractId) === contractId
+            && this.isActive(item)
+            && this.isCurrentAt(item, asAt)
+            && this.allocationIsActive(item)
+            && (!leaseContractAssetId || Number(item.Id) === leaseContractAssetId));
+        const assetIds = new Set<number>();
+        contractAssets.forEach(contractAsset => {
+            const directAssetId = Number(contractAsset.AssetId);
+            if (directAssetId > 0) assetIds.add(directAssetId);
+
+            this.allocationEvents
+                .filter(event => Number(event.LeaseContractAssetId) === Number(contractAsset.Id)
+                    && this.isActive(event)
+                    && this.isAllocationEvent(event)
+                    && this.asDate(event.EventDateTime) !== null
+                    && this.asDate(event.EventDateTime)! <= asAt
+                    && Number(event.ToAssetId) > 0
+                    && !this.assetWasReleased(contractAsset.Id, Number(event.ToAssetId), this.asDate(event.EventDateTime)!, asAt))
+                .forEach(event => assetIds.add(Number(event.ToAssetId)));
+        });
+        return [...assetIds].sort((left, right) => left - right);
+    }
+
+    private isAllocationEvent(event: any): boolean {
+        return /^(allocated|allocate)$/i.test(String(event.EventCode || '').trim());
+    }
+
+    private assetWasReleased(contractAssetId: number, assetId: number, allocationDate: Date, asAt: Date): boolean {
+        return this.allocationEvents.some(event => Number(event.LeaseContractAssetId) === contractAssetId
+            && this.isActive(event)
+            && /^(deallocated|unallocated|released)$/i.test(String(event.EventCode || '').trim())
+            && (Number(event.FromAssetId) === assetId || Number(event.ToAssetId) === assetId)
+            && this.asDate(event.EventDateTime) !== null
+            && this.asDate(event.EventDateTime)! >= allocationDate
+            && this.asDate(event.EventDateTime)! <= asAt);
+    }
+
+    /** Mirrors the invoice snapshot allocation so the per-asset report reconciles to its source line. */
+    private allocatedAmount(amount: number, assetCount: number, assetIndex: number): number {
+        const share = Math.round((amount / assetCount) * 10_000) / 10_000;
+        return assetIndex === assetCount - 1 ? amount - (share * (assetCount - 1)) : share;
     }
 
     private buildRow(asset: any): ProfitabilityRow {
@@ -345,7 +435,7 @@ export class AssetProfitabilityComponent implements OnInit {
     }
 
     private assetIsInScope(asset: any): boolean {
-        return this.isActive(asset) && this.isCurrentAt(asset, this.endOfDay(this.dateTo)) && (this.selectedOrganisationId === null || Number(asset.OwningOrganisationId) === this.selectedOrganisationId) && (this.selectedOrganisationUnitId === null || Number(asset.ResponsibleOrganisationUnitId) === this.selectedOrganisationUnitId) && (this.selectedCategoryId === null || Number(asset.AssetCategoryId) === this.selectedCategoryId) && (this.selectedTypeId === null || Number(asset.AssetTypeId) === this.selectedTypeId);
+        return this.isActive(asset) && this.isCurrentAt(asset, this.endOfDay(this.dateTo)) && (this.selectedOrganisationId === null || Number(asset.OwningOrganisationId) === this.selectedOrganisationId) && (this.selectedOrganisationUnitId === null || Number(asset.ResponsibleOrganisationUnitId) === this.selectedOrganisationUnitId) && this.matchesSelectedCategory(this.assetCategoryId(asset)) && (this.selectedTypeId === null || Number(asset.AssetTypeId) === this.selectedTypeId);
     }
 
     private deriveStatus(asset: any): PortfolioStatus {
@@ -411,15 +501,52 @@ export class AssetProfitabilityComponent implements OnInit {
     private assetStatusAt(asset: any, asOf: Date): string { const history = this.statusHistory.filter(item => Number(item.AssetId) === Number(asset.Id) && this.isActive(item) && this.isCurrentAt(item, asOf)).sort((left, right) => this.timeOf(this.asDate(right.EffectiveFrom)) - this.timeOf(this.asDate(left.EffectiveFrom)))[0]; return history ? this.statuses.find(item => Number(item.Id) === Number(history.ToStatusId))?.StatusName || history.ToStatusDisplayName || '' : this.statuses.find(item => Number(item.Id) === Number(asset.AssetStatusId))?.StatusName || asset.AssetStatusDisplayName || asset.AssetStatusName || ''; }
     private contractIsActive(contract: any, asOf: Date): boolean { return !!contract && this.isActive(contract) && !/cancel|terminate|expired|reject/.test(String(contract.LeaseContractStatusName || contract.StatusName || contract.StatusCode || '').toLowerCase()) && this.isCurrentAt({ EffectiveFrom: contract.CommencementDate, EffectiveTo: contract.MaturityDate }, asOf); }
     private allocationIsActive(item: any): boolean { return !/unallocat|release|return|cancel|reject/.test(String(item.AllocationStatusCode || '').toLowerCase()); }
-    private isFinalInvoice(invoice: any): boolean { const status = String(invoice.InvoiceStatusCode || invoice.InvoiceStatusName || '').toLowerCase(); return this.isActive(invoice) && !/draft|cancel|void/.test(status) && (invoice.IsIssued === true || /posted|final|issued|paid/.test(status)); }
+    private isFinalInvoice(invoice: any): boolean {
+        const status = String(invoice.InvoiceStatusCode || invoice.InvoiceStatusName || '').toLowerCase();
+        // The generic invoice list is backed by CustomerInvoices and does not join
+        // InvoiceStatuss. An issued document still has its immutable INV number and
+        // issued timestamp, which are reliable issued-state facts.
+        return this.isActive(invoice)
+            && !/draft|cancel|void|discard/.test(status)
+            && (invoice.IsIssued === true || /posted|final|issued|paid/.test(status)
+                || !!this.asDate(invoice.IssuedAtUtc)
+                || /^inv-/i.test(String(invoice.InvoiceId || '').trim()));
+    }
     private isFinalCredit(credit: any): boolean { const status = String(credit.StatusCode || '').toLowerCase(); return this.isActive(credit) && !/draft|cancel|void/.test(status) && /posted|final|issued|approved|paid/.test(status); }
-    private isUsableRentalSchedule(schedule: any, line: any): boolean { const status = `${schedule.ScheduleStatusCode || ''} ${line.BillingStatusCode || ''}`.toLowerCase(); return !/cancel|void|draft/.test(status); }
+    private isUsableRentalSchedule(schedule: any, line: any): boolean {
+        // A schedule can retain its quote-generation DRAFT status after the contract is
+        // active. BillingStatusCode is the line-level source of truth; PENDING lines are
+        // valid revenue fallbacks until the corresponding invoice is issued.
+        const status = `${schedule.ScheduleStatusCode || ''} ${line.BillingStatusCode || ''}`.toLowerCase();
+        return !/cancel|void|discard|revers/.test(status);
+    }
     private isRentalLine(line: any): boolean { return /rent/.test(`${line.ChargeTypeCode || ''} ${line.Description || ''}`.toLowerCase()); }
     private invoiceLineNetAmount(line: any): number { return Number(line.TaxableAmount ?? ((Number(line.UnitPrice || 0) * Number(line.Quantity || 0)) - Number(line.DiscountAmount || 0))); }
     private assetContractKey(assetId: any, contractId: any): string { return `${Number(assetId)}:${Number(contractId)}`; }
     private isRecognizedWorkOrder(order: any): boolean { const status = String(order.WorkOrderStatusCode || '').toLowerCase(); return this.isActive(order) && /complete|closed|resolved|posted/.test(status); }
     private contractCustomerMatch(contractIds: number[], customerId: number): boolean { return contractIds.some(id => Number(this.contractById(id)?.CustomerPartyId) === customerId); }
-    private categoryLabel(asset: any): string { return this.categories.find(item => Number(item.Id) === Number(asset.AssetCategoryId))?.CategoryName || asset.AssetCategoryDisplayName || 'Unclassified'; }
+    private matchesSelectedCategory(categoryId: any): boolean {
+        if (this.selectedCategoryId === null || this.selectedCategoryId === undefined) return true;
+        return this.selectedCategoryAndDescendants().has(Number(categoryId));
+    }
+    private selectedCategoryAndDescendants(): Set<number> {
+        const selected = Number(this.selectedCategoryId);
+        const ids = new Set<number>(Number.isFinite(selected) && selected > 0 ? [selected] : []);
+        let changed = true;
+        while (changed) {
+            changed = false;
+            this.categories.forEach(category => {
+                const id = Number(category.Id);
+                if (id > 0 && ids.has(Number(category.ParentCategoryId)) && !ids.has(id)) {
+                    ids.add(id);
+                    changed = true;
+                }
+            });
+        }
+        return ids;
+    }
+    private assetCategoryId(asset: any): number { return Number(asset?.AssetCategoryId ?? asset?.CategoryId ?? 0); }
+    private categoryLabel(asset: any): string { return this.categories.find(item => Number(item.Id) === this.assetCategoryId(asset))?.CategoryName || asset.AssetCategoryDisplayName || 'Unclassified'; }
     private organisationLabel(id: any): string { const item = this.organisations.find(organisation => Number(organisation.Id) === Number(id)); return item?.TradeName || item?.LegalName || item?.OrganisationCode || 'Not recorded'; }
     private partyLabel(id: any): string { const item = this.parties.find(party => Number(party.Id) === Number(id)); return item?.TradeName || item?.LegalName || item?.PartyCode || `Customer ${id}`; }
     private contractLabel(id: any): string { const item = this.contractById(id); return item?.ContractNo || item?.ContractTitle || `Contract ${id}`; }

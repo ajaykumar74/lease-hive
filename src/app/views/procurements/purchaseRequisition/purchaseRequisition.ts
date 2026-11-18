@@ -18,6 +18,10 @@ CurrencyCode :string;
 EstimatedTotal :number;
 Justification :string;
 RecordStatus :string;
+RequestedByName?: string;
+BuyingOrganisationName?: string;
+PurchaseRequisitionStatusName?: string;
+ApprovalStatus?: string;
 LineItems: IPurchaseRequisitionLine[];
 
 }

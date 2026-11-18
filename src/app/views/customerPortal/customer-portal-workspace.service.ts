@@ -86,6 +86,7 @@ export interface CustomerPortalAsset {
 
 export interface CustomerPortalInvoice {
     InvoiceId: number;
+    CustomerPartyId: number;
     ContractId: number;
     ContractNo: string;
     InvoiceNo: string;
@@ -96,7 +97,12 @@ export interface CustomerPortalInvoice {
     GrossAmount: number;
     OutstandingAmount: number;
     HasIssuedPdf: boolean;
+    PaymentStatus: string;
+    CanPay: boolean;
 }
+
+export interface CustomerPortalPaymentTransaction { Id:number; PartyId:number; CustomerInvoiceId:number; Amount:number; CurrencyCode:string; PaymentMethod:string; GatewayTransactionId?:string; Status:string; PaymentReceiptId?:number; AttemptedAtUtc:string; }
+export interface CustomerPortalPaymentHistory { TransactionId:number; TransactionReference:string; InvoiceId:number; InvoiceNo:string; AttemptedAtUtc:string; Amount:number; CurrencyCode:string; PaymentMethod:string; Status:string; PaymentReceiptId?:number; }
 
 export interface CustomerPortalQuote {
     QuoteId: number;
@@ -218,6 +224,9 @@ export class CustomerPortalWorkspaceService {
     }
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
+    initiatePayment(input: { InvoiceId:number; Amount:number; PaymentMethod:string }): Observable<CustomerPortalPaymentTransaction> { return this.post<CustomerPortalPaymentTransaction>('payments', input); }
+    completePayment(id: number, outcome: 'SUCCESS'|'FAILED'|'CANCELLED'): Observable<CustomerPortalPaymentTransaction> { return this.post<CustomerPortalPaymentTransaction>(`payments/${id}/complete`, { Outcome: outcome }); }
+    paymentHistory(): Observable<CustomerPortalPaymentHistory[]> { return this.get<CustomerPortalPaymentHistory[]>('payments/history'); }
     invoicePdf(customerInvoiceId: number): Observable<Blob> {
         return this.http.get(`${this.endpoint}/invoices/${customerInvoiceId}/pdf`, {
             headers: this.baseService.getHeaders(),
