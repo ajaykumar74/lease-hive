@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container purchase-order-page">
     <div class="grid">
         <div class="col-12 md:col-12">
             <div class="card p-fluid">
@@ -265,13 +265,14 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
+                                <div class="purchase-order-line-items flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
                                     <div class="flex align-items-center justify-content-between gap-3">
                                         <h3 class="m-0">Line items</h3>
                                         <button pButton type="button" label="Add line item" icon="pi pi-plus" size="small" style="width: auto" (click)="addLineItem()"></button>
                                     </div>
                                     <small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line item and complete its required fields before saving.</small>
-                                    <p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                                    <div class="purchase-order-line-items__scroll">
+                                    <p-table [value]="lineItems.controls" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '125rem' }" styleClass="purchase-order-line-items__table p-datatable-sm">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>#</th>
@@ -375,6 +376,7 @@
                                             </tr>
                                         </ng-template>
                                     </p-table>
+                                    </div>
                                 </div>
                                 <app-audit-details [model]="purchaseOrder"></app-audit-details>
                             </div>

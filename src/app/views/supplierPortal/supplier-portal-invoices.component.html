@@ -88,6 +88,12 @@
     <div *ngIf="review" class="card table-wrap">
       <h2>Validation and review</h2>
       <p class="notice">Revision {{ review.RevisionNo }} · <span *ngIf="review.HasInvoicePdf; else missingPdf">Invoice PDF received.</span><ng-template #missingPdf><span class="error">Invoice PDF is missing.</span></ng-template></p>
+      <div *ngIf="review.DocumentValidation" class="notice">
+        <strong>Document validation: {{ review.DocumentValidation.Status }}</strong> · {{ review.DocumentValidation.Message }}
+        <table *ngIf="review.DocumentValidation.Checks?.length"><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr *ngFor="let check of review.DocumentValidation.Checks"><td>{{ check.Label }}</td><td>{{ check.Passed ? 'Passed' : 'Failed' }}</td></tr></tbody></table>
+        <table *ngIf="review.DocumentValidation.Discrepancies.length"><thead><tr><th>Field</th><th>Submitted</th><th>Extracted</th><th>Review reason</th></tr></thead><tbody><tr *ngFor="let item of review.DocumentValidation.Discrepancies"><td>{{ item.Field }}</td><td>{{ item.ExpectedValue || '—' }}</td><td>{{ item.ExtractedValue || '—' }}</td><td>{{ item.Severity }}<span *ngIf="item.PageReferences?.length"> · page {{ item.PageReferences.join(', ') }}</span></td></tr></tbody></table>
+      </div>
+      <p *ngIf="review.FinancialMatch" class="notice"><strong>PO / receipt match: {{ review.FinancialMatch.Status }}</strong> · {{ review.FinancialMatch.MatchType }} · {{ review.FinancialMatch.TolerancePassed ? 'Within tolerance' : 'Needs review' }}</p>
       <p *ngIf="!review.Exceptions.length" class="notice">No open validation exceptions.</p>
       <table *ngIf="review.Exceptions.length">
         <thead><tr><th>Exception</th><th>Severity</th><th>Details</th></tr></thead>

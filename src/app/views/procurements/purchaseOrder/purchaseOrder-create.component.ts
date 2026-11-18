@@ -20,6 +20,7 @@ import { RFQService } from '../rFQ/rFQ.service';
     selector: 'app-purchaseOrder-create',
     standalone: false,
     templateUrl: './purchaseOrder-create.component.html',
+    styleUrls: ['./purchaseOrder-line-items.component.css'],
     providers: [MessageService]
 })
 export class PurchaseOrderCreateComponent implements OnInit {

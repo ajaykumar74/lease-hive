@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, tap } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 
 export interface SupplierPortalDashboard {
@@ -345,9 +345,15 @@ export interface SupplierInvoiceReview {
     Status: string;
     RevisionNo: number;
     HasInvoicePdf: boolean;
+    DocumentValidation?: SupplierInvoiceDocumentValidation;
+    FinancialMatch?: SupplierInvoiceFinancialMatch;
     Exceptions: SupplierInvoiceValidationException[];
     History: SupplierInvoiceReviewHistory[];
 }
+export interface SupplierInvoiceFinancialMatch { MatchType: string; Status: string; TolerancePassed: boolean; QuantityVariance: number; AmountVariance: number; MatchedOn?: string; }
+export interface SupplierInvoiceDocumentValidation { Status: string; ReasonCode: string; Message: string; ValidatedAtUtc?: string; Checks: SupplierInvoiceDocumentCheck[]; Discrepancies: SupplierInvoiceDocumentDiscrepancy[]; }
+export interface SupplierInvoiceDocumentCheck { Field: string; Label: string; Passed: boolean; Severity: string; }
+export interface SupplierInvoiceDocumentDiscrepancy { Field: string; ExpectedValue?: string; ExtractedValue?: string; Severity: string; PageReferences: number[]; }
 export interface SupplierPortalGoodsReceiptLine {
     PurchaseOrderLineId: number;
     LineNo: number;
@@ -521,7 +527,7 @@ export class SupplierPortalService {
         data.append('documentRequirementId', String(requirementId));
         data.append('title', file.name);
         data.append('file', file);
-        return this.http.post<any>(`${this.baseService.C_APP_URL}/supplier/documents/supplier-quotation/${quotationId}`, data, { headers: this.baseService.getHeaders().delete('Content-Type') }).pipe(catchError(this.baseService.handleError));
+        return this.http.post<any>(`${this.baseService.C_APP_URL}/supplier/documents/supplier-quotation/${quotationId}`, data, { headers: this.baseService.getHeaders().delete('Content-Type') }).pipe(catchError((error) => this.documentUploadError(error)));
     }
     deliveries(): Observable<SupplierPortalDelivery[]> {
         return this.getData<SupplierPortalDelivery[]>('deliveries', []);
@@ -579,7 +585,15 @@ export class SupplierPortalService {
         data.append('documentRequirementId', String(requirementId));
         data.append('title', file.name);
         data.append('file', file);
-        return this.http.post<any>(`${this.baseService.C_APP_URL}/supplier/documents/${ownerType}/${ownerId}`, data, { headers: this.baseService.getHeaders().delete('Content-Type') }).pipe(catchError(this.baseService.handleError));
+        return this.http.post<any>(`${this.baseService.C_APP_URL}/supplier/documents/${ownerType}/${ownerId}`, data, { headers: this.baseService.getHeaders().delete('Content-Type') }).pipe(catchError((error) => this.documentUploadError(error)));
+    }
+
+    private documentUploadError(error: any): Observable<never> {
+        const payload = error?.error ?? error;
+        const message = typeof payload === 'string'
+            ? payload
+            : payload?.ErrorMessage ?? payload?.Message ?? 'The document could not be uploaded. Please try again.';
+        return throwError(() => message);
     }
 
     private getData<T>(path: string, empty?: T): Observable<T> {

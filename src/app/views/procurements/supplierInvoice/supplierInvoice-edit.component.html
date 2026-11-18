@@ -24,6 +24,23 @@
                         </div>
                         <span class="text-red-500" *ngIf="!review.HasInvoicePdf">Invoice PDF is missing.</span>
                     </div>
+                    <div *ngIf="review.DocumentValidation" class="mb-3">
+                        <h4 class="m-0 mb-2">Uploaded document validation</h4>
+                        <p class="m-0">Status: <strong>{{ review.DocumentValidation.Status }}</strong> · {{ review.DocumentValidation.Message }}</p>
+                        <p-table *ngIf="review.DocumentValidation.Checks?.length" [value]="review.DocumentValidation.Checks" styleClass="p-datatable-sm mt-2">
+                            <ng-template pTemplate="header"><tr><th>Check</th><th>Result</th><th>Severity</th></tr></ng-template>
+                            <ng-template pTemplate="body" let-check><tr><td>{{ check.Label }}</td><td>{{ check.Passed ? 'Passed' : 'Failed' }}</td><td>{{ check.Severity }}</td></tr></ng-template>
+                        </p-table>
+                        <p-table *ngIf="review.DocumentValidation.Discrepancies.length" [value]="review.DocumentValidation.Discrepancies" styleClass="p-datatable-sm mt-2">
+                            <ng-template pTemplate="header"><tr><th>Field</th><th>Submitted</th><th>Extracted</th><th>Severity</th><th>Evidence</th></tr></ng-template>
+                            <ng-template pTemplate="body" let-item><tr><td>{{ item.Field }}</td><td>{{ item.ExpectedValue || '—' }}</td><td>{{ item.ExtractedValue || '—' }}</td><td>{{ item.Severity }}</td><td>Page {{ item.PageReferences?.join(', ') || '—' }}</td></tr></ng-template>
+                        </p-table>
+                    </div>
+                    <div *ngIf="review.FinancialMatch" class="mb-3">
+                        <h4 class="m-0 mb-2">PO / goods receipt match</h4>
+                        <p class="m-0">{{ review.FinancialMatch.MatchType }} · <strong>{{ review.FinancialMatch.Status }}</strong> · {{ review.FinancialMatch.TolerancePassed ? 'Within tolerance' : 'Needs review' }}</p>
+                        <p class="m-0 text-600">Quantity variance: {{ review.FinancialMatch.QuantityVariance }} · Amount variance: {{ review.FinancialMatch.AmountVariance }}</p>
+                    </div>
                     <p *ngIf="!review.Exceptions.length" class="supplier-invoice-review__validated"><i class="pi pi-check-circle"></i>No open validation exceptions.</p>
                     <p-table *ngIf="review.Exceptions.length" [value]="review.Exceptions" styleClass="p-datatable-sm mb-3"
                         ><ng-template pTemplate="header"
@@ -44,9 +61,10 @@
                         <label for="supplierInvoiceReviewRemarks">Review remarks <small>(required when requesting correction or rejecting)</small></label>
                         <textarea pInputTextarea id="supplierInvoiceReviewRemarks" [formControl]="reviewRemarks" class="w-full" rows="4" placeholder="Add a note for the supplier or your internal review record"></textarea>
                         <div class="supplier-invoice-review__actions">
-                            <button pButton type="button" label="Approve" icon="pi pi-check" class="p-button-success" (click)="reviewInvoice('APPROVE')" [disabled]="reviewActionInProgress"></button
-                            ><button pButton type="button" label="Request correction" icon="pi pi-replay" class="p-button-warning" (click)="reviewInvoice('REQUEST_CORRECTION')" [disabled]="reviewActionInProgress"></button
-                            ><button pButton type="button" label="Reject" icon="pi pi-times" class="p-button-danger" (click)="reviewInvoice('REJECT')" [disabled]="reviewActionInProgress"></button>
+                            <button pButton type="button" label="Confirm document valid" icon="pi pi-check" class="p-button-success" (click)="reviewInvoice('CONFIRM_VALID')" [disabled]="reviewActionInProgress"></button
+                            ><button pButton type="button" label="Approve invoice" icon="pi pi-check-circle" class="p-button-success" (click)="reviewInvoice('APPROVE')" [disabled]="reviewActionInProgress"></button
+                            ><button *ngIf="review.Status === 'NEEDS_REVIEW'" pButton type="button" label="Request correction" icon="pi pi-replay" class="p-button-warning" (click)="reviewInvoice('REQUEST_CORRECTION')" [disabled]="reviewActionInProgress"></button
+                            ><button pButton type="button" label="Reject document" icon="pi pi-times" class="p-button-danger" (click)="reviewInvoice('REJECT_DOCUMENT')" [disabled]="reviewActionInProgress"></button>
                         </div>
                     </div>
                     <p-table *ngIf="review.History.length" [value]="review.History" styleClass="p-datatable-sm mt-3"

@@ -64,7 +64,7 @@ export class SupplierInvoiceService extends BaseCrudService<any> {
         );
     }
 
-    review(supplierInvoiceId: number, action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION', remarks: string): Observable<{ success: boolean; status: string }> {
+    review(supplierInvoiceId: number, action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION' | 'CONFIRM_VALID' | 'REJECT_DOCUMENT', remarks: string): Observable<{ success: boolean; status: string }> {
         return this.http.post<{ success: boolean; status: string }>(`${this.baseService.C_APP_URL}/supplier-invoice-review/${supplierInvoiceId}/actions`, { action, remarks }, { headers: this.headers }).pipe(
             tap((data) => this.baseService.onTapData(data)),
             catchError(this.baseService.handleError)
@@ -82,9 +82,15 @@ export interface SupplierInvoiceReview {
     Status: string;
     RevisionNo: number;
     HasInvoicePdf: boolean;
+    DocumentValidation?: SupplierInvoiceDocumentValidation;
+    FinancialMatch?: SupplierInvoiceFinancialMatch;
     Exceptions: SupplierInvoiceValidationException[];
     History: SupplierInvoiceReviewHistory[];
 }
+export interface SupplierInvoiceFinancialMatch { MatchType: string; Status: string; TolerancePassed: boolean; QuantityVariance: number; AmountVariance: number; MatchedOn?: string; }
+export interface SupplierInvoiceDocumentValidation { Status: string; ReasonCode: string; Message: string; ValidatedAtUtc?: string; Checks: SupplierInvoiceDocumentCheck[]; Discrepancies: SupplierInvoiceDocumentDiscrepancy[]; }
+export interface SupplierInvoiceDocumentCheck { Field: string; Label: string; Passed: boolean; Severity: string; }
+export interface SupplierInvoiceDocumentDiscrepancy { Field: string; ExpectedValue?: string; ExtractedValue?: string; Severity: string; PageReferences: number[]; }
 
 export interface SupplierInvoiceValidationException {
     ExceptionTypeCode: string;

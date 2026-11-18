@@ -182,9 +182,9 @@ export class SupplierInvoiceEditComponent implements OnInit {
         this.editForm.markAsPristine();
     }
 
-    reviewInvoice(action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION'): void {
+    reviewInvoice(action: 'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION' | 'CONFIRM_VALID' | 'REJECT_DOCUMENT'): void {
         const remarks = String(this.reviewRemarks.value || '').trim();
-        if ((action === 'REJECT' || action === 'REQUEST_CORRECTION') && !remarks) {
+        if ((action === 'REJECT' || action === 'REJECT_DOCUMENT' || action === 'REQUEST_CORRECTION') && !remarks) {
             this.messageService.showError('Enter a reason before rejecting an invoice or requesting correction.');
             return;
         }

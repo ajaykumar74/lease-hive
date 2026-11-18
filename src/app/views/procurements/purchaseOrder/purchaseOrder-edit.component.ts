@@ -19,7 +19,7 @@ import { finalize } from 'rxjs';
     selector: 'app-purchaseOrder-edit',
     standalone: false,
     templateUrl: './purchaseOrder-edit.component.html',
-    styleUrls: ['../purchaseRequisition/purchaseRequisition-approval-workflow.component.css', './purchaseOrder-approval-workflow.component.css'],
+    styleUrls: ['../purchaseRequisition/purchaseRequisition-approval-workflow.component.css', './purchaseOrder-approval-workflow.component.css', './purchaseOrder-line-items.component.css'],
     providers: [MessageService]
 })
 export class PurchaseOrderEditComponent implements OnInit {

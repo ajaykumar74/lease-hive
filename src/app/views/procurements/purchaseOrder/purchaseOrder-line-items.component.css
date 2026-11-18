@@ -1,0 +1,61 @@
+:host {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.purchase-order-page,
+.purchase-order-page > .grid,
+.purchase-order-page > .grid > [class~='col-12'],
+.purchase-order-page > .grid > [class~='col-12'] > .card,
+.purchase-order-page form,
+.purchase-order-page p-fluid,
+.purchase-order-page form > p-fluid,
+.purchase-order-page form .flex {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.purchase-order-page .approval-workflow-card,
+.purchase-order-page app-toolbar-buttons {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.purchase-order-line-items {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.purchase-order-line-items__scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+:host ::ng-deep .purchase-order-line-items__table,
+:host ::ng-deep .purchase-order-line-items__table .p-datatable {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+:host ::ng-deep .purchase-order-line-items__table .p-datatable-table-container,
+:host ::ng-deep .purchase-order-line-items__table .p-datatable-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+}
