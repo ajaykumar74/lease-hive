@@ -52,6 +52,7 @@ const moduleRoutes: Routes = [
         data: { title: 'Billing & Finance Dashboard', breadcrumb: 'Billing & Finance Dashboard' }
     },
     route('billing/runs', 'Billing Runs', () => import('@/views/billings/billingRun/billingRun.module').then(m => m.BillingRunModule)),
+    route('funding', 'Asset Funding', () => import('@/views/billings/assetFunding/assetFunding.module').then(m => m.AssetFundingModule)),
     route('billing/exceptions', 'Billing Exceptions', () => import('@/views/billings/financeException/financeException.module').then(m => m.FinanceExceptionModule)),
     route('invoices/lines', 'Invoice Lines', () => import('@/views/billings/CustomerInvoiceLine/customerInvoiceLine/customerInvoiceLine.module').then(m => m.CustomerInvoiceLineModule)),
     route('invoices/taxes', 'Invoice Taxes', () => import('@/views/billings/customerInvoiceTax/customerInvoiceTax.module').then(m => m.CustomerInvoiceTaxModule)),

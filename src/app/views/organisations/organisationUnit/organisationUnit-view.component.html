@@ -11,7 +11,11 @@
 		      			<div class="flex mt-8">
 						<div class="card flex flex-col gap-4 w-full"> 
  						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Parent Organisation UnitId" [value]="organisationUnit.ParentOrganisationUnitId">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Unit Code" [value]="organisationUnit.UnitCode">
+								</app-view-field></div><div class="flex flex-col w-full">
+<app-view-field label="Organisation ID" [value]="organisationUnit.OrganisationId">
+								</app-view-field></div></div>
+						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">
+<app-view-field label="Unit Code" [value]="organisationUnit.UnitCode">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Unit Name" [value]="organisationUnit.UnitName">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="UnitType" [value]="organisationUnit.UnitType">

@@ -1,0 +1,110 @@
+<div class="grid list-page leasehive-list-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card">
+            <app-toolbar-buttons [Caption]="'Asset Funding'" [PageType]="'List'" [createAccessPermission]="'finance.assetfunding.create'" (onItemClicked)="create()"></app-toolbar-buttons>
+            <div class="leasehive-list-utility">
+                <span class="text-color-secondary">Manage funding facilities, allocations and repayment activity.</span>
+            </div>
+
+            <div class="leasehive-list-toolbar" role="search" aria-label="Asset funding list controls">
+                <div class="leasehive-list-search">
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                    <input type="search" pInputText placeholder="Search funding number or agreement..." [(ngModel)]="searchTerm" (keyup.enter)="load()" aria-label="Search funding" />
+                    <button type="button" pButton label="Search" icon="pi pi-search" (click)="load()"></button>
+                    <button type="button" pButton icon="pi pi-times" [text]="true" [disabled]="!searchTerm" (click)="clearSearch()" aria-label="Clear search"></button>
+                </div>
+
+                <div class="leasehive-list-controls">
+                    <div class="record-count-inline" aria-live="polite" aria-label="Total funding facilities">
+                        <i class="pi pi-wallet" aria-hidden="true"></i><strong>{{ total }}</strong
+                        ><span>facilities</span>
+                    </div>
+                    <label class="leasehive-list-sort-label" for="assetFundingSort">Sort by</label>
+                    <p-dropdown inputId="assetFundingSort" [options]="sortOptions" [(ngModel)]="sortBy" optionLabel="label" optionValue="value" (onChange)="load()" appendTo="body" styleClass="leasehive-list-sort"></p-dropdown>
+                    <span class="leasehive-list-filter-toggle">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-filter"
+                            [outlined]="!filtersVisible"
+                            [severity]="hasActiveFilters ? 'primary' : 'secondary'"
+                            (click)="filtersVisible = !filtersVisible"
+                            [attr.aria-pressed]="filtersVisible"
+                            [attr.aria-label]="filtersVisible ? 'Hide filters' : 'Show filters'"
+                        ></button>
+                        <span *ngIf="hasActiveFilters" class="leasehive-list-filter-count" aria-label="One active filter">1</span>
+                    </span>
+                </div>
+            </div>
+
+            <section class="leasehive-list-table-area" aria-label="Asset funding results">
+                <p-table [value]="records" [loading]="loading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1080px' }"
+                    ><ng-template pTemplate="header"
+                        ><tr>
+                            <th>Funding number</th>
+                            <th>Lender</th>
+                            <th>Type</th>
+                            <th class="text-right">Approved amount</th>
+                            <th class="text-right">Outstanding amount</th>
+                            <th>Status</th>
+                            <th class="list-actions-column">Actions</th>
+                        </tr>
+                        <tr *ngIf="filtersVisible" class="leasehive-list-filter-row">
+                            <th colspan="5"></th>
+                            <th>
+                                <p-dropdown
+                                    inputId="funding-status"
+                                    [options]="statuses"
+                                    [(ngModel)]="fundingStatus"
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    (onChange)="load()"
+                                    [showClear]="true"
+                                    appendTo="body"
+                                    placeholder="Funding status"
+                                    ariaLabel="Filter by funding status"
+                                ></p-dropdown>
+                            </th>
+                            <th class="leasehive-list-filter-actions"><button *ngIf="hasActiveFilters" type="button" pButton label="Clear filters" [text]="true" size="small" (click)="clearFilters()"></button></th></tr></ng-template
+                    ><ng-template pTemplate="body" let-row
+                        ><tr>
+                            <td>
+                                <button type="button" class="list-primary-link" (click)="open(row)">{{ row.fundingNumber }}</button><span class="list-secondary block">{{ row.organisationName }}</span>
+                            </td>
+                            <td>
+                                <button type="button" class="list-primary-link" (click)="open(row)">{{ row.lenderName || 'Self funded' }}</button>
+                            </td>
+                            <td>
+                                <button type="button" class="list-primary-link" (click)="open(row)">{{ row.fundingType }}</button>
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="list-primary-link" (click)="open(row)">{{ row.approvedAmount | currency: row.currencyCode : 'symbol' : '1.2-2' }}</button>
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="list-primary-link" (click)="open(row)">{{ row.outstandingAmount | currency: row.currencyCode : 'symbol' : '1.2-2' }}</button>
+                            </td>
+                            <td>
+                                <button type="button" class="list-primary-link" (click)="open(row)">
+                                    <span class="list-status"><i class="list-status-dot"></i>{{ row.fundingStatus.replaceAll('_', ' ') }}</span>
+                                </button>
+                            </td>
+                            <td>
+                                <div class="list-actions">
+                                    <button *appPermission="'finance.assetfunding.view'" type="button" class="list-action view" title="View funding" (click)="open(row)"><i class="pi pi-eye"></i></button
+                                    ><button *appPermission="'finance.assetfunding.update'" type="button" class="list-action edit" title="Edit funding" (click)="edit(row)">
+                                        <i class="pi pi-pencil"></i>
+                                    </button>
+                                </div>
+                            </td></tr></ng-template
+                    ><ng-template pTemplate="emptymessage"
+                        ><tr>
+                            <td colspan="7">
+                                <div class="list-empty"><i class="pi pi-wallet"></i><strong>No funding facilities found</strong><span>Try a different search or create a facility.</span></div>
+                            </td>
+                        </tr></ng-template
+                    ></p-table
+                >
+            </section>
+        </div>
+    </div>
+</div>

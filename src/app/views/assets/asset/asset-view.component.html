@@ -1,145 +1,157 @@
 <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-					[Caption]="Caption" [PageType]="'View'">
-					<p-splitbutton size="small" label="Options" [model]="menuItems"></p-splitbutton>
-				</app-toolbar-buttons>
-				<app-spinner></app-spinner>
-				<form>
-					<p-fluid>
-						<div class="flex mt-8">
-							<div class="card flex flex-col gap-4 w-full">
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="AssetNo" [value]="asset.AssetNo">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Asset CategoryId" [value]="asset.AssetCategoryId">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Asset TypeId" [value]="asset.AssetTypeId">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Asset MakeId" [value]="asset.AssetMakeId">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Asset ModelId" [value]="asset.AssetModelId">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Owning OrganisationId"
-											[value]="asset.OwningOrganisationId">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Responsible OrganisationUnitId"
-											[value]="asset.ResponsibleOrganisationUnitId">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Current LocationId" [value]="asset.CurrentLocationId">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Current PartyId" [value]="asset.CurrentPartyId">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Current PartyLocationId"
-											[value]="asset.CurrentPartyLocationId">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Primary SerialNo" [value]="asset.PrimarySerialNo">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Acquisition Date" [value]="asset.AcquisitionDate">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="InService Date" [value]="asset.InServiceDate">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Acquisition CurrencyCode"
-											[value]="asset.AcquisitionCurrencyCode">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Acquisition Cost" [value]="asset.AcquisitionCost">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Residual Value Amount"
-											[value]="asset.ResidualValueAmount">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Asset Status Code" [value]="asset.AssetStatusId">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="ConditionGrade Code" [value]="asset.ConditionGradeCode">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="IsLeaseable" [value]="asset.IsLeaseable">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Effective From" [value]="asset.EffectiveFrom">
-										</app-view-field>
-									</div>
-								</div>
-								<div class="flex flex-col md:flex-row gap-4">
-									<div class="flex flex-col w-full">
-										<app-view-field label="Effective To" [value]="asset.EffectiveTo">
-										</app-view-field>
-									</div>
-									<div class="flex flex-col w-full">
-										<app-view-field label="Record Status" [value]="asset.RecordStatus">
-										</app-view-field>
-									</div>
-								</div>
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <app-message [AlertType]="'message'"></app-message>
+                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'View'">
+                    <p-splitbutton size="small" label="Options" [model]="menuItems"></p-splitbutton>
+                </app-toolbar-buttons>
+                <app-spinner></app-spinner>
+                <div class="flex gap-2 border-bottom-1 surface-border mb-3">
+                    <button type="button" pButton class="p-button-text" [class.p-button-primary]="activeTab === 'details'" label="Overview" (click)="selectTab('details')"></button
+                    ><button *appPermission="'finance.assetfunding.view'" type="button" pButton class="p-button-text" [class.p-button-primary]="activeTab === 'funding'" label="Funding" (click)="selectTab('funding')"></button>
+                </div>
+                <form *ngIf="activeTab === 'details'">
+                    <p-fluid>
+                        <div class="flex mt-8">
+                            <div class="card flex flex-col gap-4 w-full">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="AssetNo" [value]="asset.AssetNo"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Asset CategoryId" [value]="asset.AssetCategoryId"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Asset TypeId" [value]="asset.AssetTypeId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Asset MakeId" [value]="asset.AssetMakeId"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Asset ModelId" [value]="asset.AssetModelId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Owning OrganisationId" [value]="asset.OwningOrganisationId"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Responsible OrganisationUnitId" [value]="asset.ResponsibleOrganisationUnitId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Current LocationId" [value]="asset.CurrentLocationId"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Current PartyId" [value]="asset.CurrentPartyId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Current PartyLocationId" [value]="asset.CurrentPartyLocationId"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Primary SerialNo" [value]="asset.PrimarySerialNo"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Acquisition Date" [value]="asset.AcquisitionDate"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="InService Date" [value]="asset.InServiceDate"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Acquisition CurrencyCode" [value]="asset.AcquisitionCurrencyCode"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Acquisition Cost" [value]="asset.AcquisitionCost"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Residual Value Amount" [value]="asset.ResidualValueAmount"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Asset Status Code" [value]="asset.AssetStatusId"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="ConditionGrade Code" [value]="asset.ConditionGradeCode"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="IsLeaseable" [value]="asset.IsLeaseable"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Effective From" [value]="asset.EffectiveFrom"> </app-view-field>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Effective To" [value]="asset.EffectiveTo"> </app-view-field>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <app-view-field label="Record Status" [value]="asset.RecordStatus"> </app-view-field>
+                                    </div>
+                                </div>
 
-							<app-audit-details [model]="asset"></app-audit-details>
-							</div>
-						</div>
-					</p-fluid>
+                                <app-audit-details [model]="asset"></app-audit-details>
+                            </div>
+                        </div>
+                    </p-fluid>
+                </form>
+                <ng-container *appPermission="'finance.assetfunding.view'"
+                    ><section *ngIf="activeTab === 'funding'" class="mt-4">
+                        <div class="flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h3 class="m-0">Funding facilities</h3>
+                                <small>Facilities allocated to this asset.</small>
+                            </div>
+                            <button type="button" pButton class="p-button-text" label="Refresh" icon="pi pi-refresh" (click)="loadFunding()"></button>
+                        </div>
+                        <p-table [value]="fundingFacilities" [loading]="fundingLoading" responsiveLayout="scroll"
+                            ><ng-template pTemplate="header"
+                                ><tr>
+                                    <th>Funding Number</th>
+                                    <th>Lender</th>
+                                    <th>Funding Type</th>
+                                    <th>Allocated Amount</th>
+                                    <th>Principal Outstanding</th>
+                                    <th>Funding Status</th>
+                                </tr></ng-template
+                            ><ng-template pTemplate="body" let-facility
+                                ><tr>
+                                    <td><a [routerLink]="['/billing-finance/funding', facility.fundingId]">{{ facility.fundingNumber }}</a></td>
+                                    <td>{{ facility.lenderName || 'Self funded' }}</td>
+                                    <td>{{ facility.fundingType || '—' }}</td>
+                                    <td>{{ facility.allocatedAmount | currency: facility.currencyCode : 'symbol' : '1.2-2' }}</td>
+                                    <td>{{ facility.outstandingAmount | currency: facility.currencyCode : 'symbol' : '1.2-2' }}</td>
+                                    <td>{{ (facility.fundingStatus || '—').replaceAll('_', ' ') }}</td>
+                                </tr></ng-template
+                            ><ng-template pTemplate="emptymessage"
+                                ><tr>
+                                    <td colspan="6" class="text-center p-5">
+                                        <i class="pi pi-wallet text-2xl text-500 block mb-2"></i>
+                                        <strong class="block text-700 mb-1">No funding allocated</strong>
+                                        <span class="text-500">This asset is not currently allocated to a funding facility.</span>
+                                    </td>
+                                </tr></ng-template
+                            ></p-table
+                        >
+                    </section></ng-container
+                >
 
-
-				</form>
-
-				<app-document-attachment-requirements [ownerType]="'Asset'"
-				    [ownerId]="asset?.Id" [allowUpload]="false" [allowRemove]="false">
-				</app-document-attachment-requirements>
-			</div>
-		</div>
-	</div>
+                <app-document-attachment-requirements [ownerType]="'Asset'" [ownerId]="asset?.Id" [allowUpload]="false" [allowRemove]="false"> </app-document-attachment-requirements>
+            </div>
+        </div>
+    </div>
 </div>

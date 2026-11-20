@@ -1,0 +1,190 @@
+:host { display: block; }
+
+.funding-details-page { padding: 1.25rem 1.5rem 1.75rem; }
+
+.funding-hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: end;
+    margin: 0.5rem 0 1.25rem;
+    padding: 1.5rem;
+    color: #f8fafc;
+    border-radius: 0.85rem;
+    background: linear-gradient(118deg, #0f2747, #164b7c);
+}
+
+.funding-eyebrow {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.funding-hero .funding-eyebrow { color: #bfdbfe; }
+.funding-title-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.funding-title-row h2 { margin: 0; font-size: 1.75rem; letter-spacing: -0.025em; }
+.funding-hero p { margin: 0.5rem 0 0; color: #dbeafe; }
+
+.funding-status {
+    padding: 0.3rem 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.funding-hero-meta { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem 2rem; margin: 0; }
+.funding-hero-meta dt { margin-bottom: 0.3rem; color: #dbeafe; font-size: 0.95rem; }
+.funding-hero-meta dd { margin: 0; color: #fff; font-size: 1.1rem; font-weight: 600; line-height: 1.3; }
+.funding-hero-amount dd { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.funding-workflow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dbe6f3;
+    border-radius: 0.6rem;
+    background: #f8fbff;
+    color: #334155;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.funding-workflow > div { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.funding-tabs {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    margin: 0 -0.25rem;
+    padding: 0 0.25rem;
+    border-bottom: 1px solid #dbe3ef;
+}
+.funding-tabs button {
+    position: relative;
+    padding: 0.8rem 0.9rem;
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.funding-tabs button:hover { color: #1d4ed8; }
+.funding-tabs button.active { color: #123f70; }
+.funding-tabs button.active::after { position: absolute; right: 0.9rem; bottom: -1px; left: 0.9rem; height: 3px; border-radius: 3px 3px 0 0; background: #2563eb; content: ''; }
+
+.funding-tab-content { padding-top: 1.5rem; }
+.funding-section-heading, .funding-table-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1rem; }
+.funding-section-heading h3, .funding-table-heading h3, .funding-table-heading h4 { margin: 0; color: #102a43; font-size: 1.2rem; }
+.funding-section-heading p, .funding-table-heading p { margin: 0.25rem 0 0; color: #475569; font-size: 1rem; }
+
+.funding-info-card { padding: 1.15rem; border: 1px solid #dce6f1; border-radius: 0.7rem; background: #fff; box-shadow: 0 2px 8px rgba(15, 39, 71, 0.05); }
+.funding-card-heading { display: flex; gap: 0.6rem; align-items: center; padding-bottom: 0.8rem; border-bottom: 1px solid #e7edf4; }
+.funding-card-heading i { color: #2563eb; font-size: 1rem; }
+.funding-card-heading h4 { margin: 0; color: #102a43; font-size: 1.12rem; }
+.funding-info-card dl { margin: 0.85rem 0 0; }
+.funding-info-card dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0; }
+.funding-info-card dt { color: #475569; font-size: 1rem; }
+.funding-info-card dd { min-width: 0; margin: 0; color: #1e293b; font-size: 1.06rem; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+
+.funding-table-shell { overflow-x: auto; border: 1px solid #dce6f1; border-radius: 0.7rem; }
+.funding-allocation-table { width: 100%; min-width: 760px; border-collapse: collapse; }
+.funding-allocation-table th { padding: 0.85rem 1rem; border-bottom: 1px solid #dce6f1; background: #f8fafc; color: #475569; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-align: left; text-transform: uppercase; }
+.funding-allocation-table td { padding: 0.9rem 1rem; border-bottom: 1px solid #e8eef5; color: #1e293b; font-size: 0.9rem; }
+.funding-allocation-table tbody tr:last-child td { border-bottom: 0; }
+.funding-payment-allocations { margin-top: 0.65rem; }
+.funding-payment-allocations th:nth-child(n + 4) { width: 17%; }
+.funding-payment-allocations td { vertical-align: middle; }
+.funding-payment-allocations .funding-use-balance { display: flex; margin-top: 0.25rem; white-space: nowrap; }
+.funding-table-empty { color: #64748b !important; text-align: center; }
+.funding-entry-panel { margin-bottom: 1rem; padding: 1rem; border: 1px solid #dce6f1; border-radius: 0.7rem; background: #f8fafc; }
+.funding-subtable-heading { margin-top: 1.75rem; }
+
+.funding-import {
+    margin-bottom: 1.5rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: 1px solid #dce6f1;
+    border-radius: 0.75rem;
+    background: #fff;
+}
+.funding-import h5 { margin: 0; color: #102a43; font-size: 1.05rem; }
+.funding-import-hint { margin: 0.4rem 0 1.15rem; color: #475569; overflow-wrap: anywhere; }
+.funding-import-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin: 0 0 1.25rem;
+    padding: 0 0 1rem;
+    border-bottom: 1px solid #dce6f1;
+    list-style: none;
+}
+.funding-import-steps li { display: flex; align-items: center; gap: 0.45rem; color: #475569; font-size: 0.85rem; }
+.funding-import-steps li span {
+    display: grid;
+    place-items: center;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 50%;
+    background: #eef2f7;
+    font-weight: 700;
+}
+.funding-import-steps [aria-current] { color: #123f70; font-weight: 700; }
+.funding-import-steps [aria-current] span { background: #123f70; color: #fff; }
+.funding-import-inputs, .funding-import-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.funding-import-inputs label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+.funding-import-actions { justify-content: flex-end; margin-top: 1rem; }
+.funding-mapping { border: 1px solid #dce6f1; border-radius: 0.6rem; }
+.funding-mapping-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.7fr);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+}
+.funding-mapping-row + .funding-mapping-row { border-top: 1px solid #e8eef5; }
+.funding-mapping-header { border-radius: 0.6rem 0.6rem 0 0; background: #f1f5f9; color: #475569; font-size: 0.82rem; font-weight: 700; }
+.funding-mapping-row label { color: #1e293b; font-weight: 600; }
+.funding-mapping-row label small { margin-inline-start: 0.25rem; color: #475569; font-weight: 400; }
+.funding-mapping-sample { color: #475569; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.funding-mapping-conflict { display: block; margin-top: 0.25rem; color: #854d0e; }
+.funding-import-notice {
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid;
+    border-inline-start-width: 4px;
+    border-radius: 0.45rem;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+.funding-import-error { border-color: #f3adb6; background: #fff1f2; color: #881337; }
+.funding-import-warning { border-color: #e8c77e; background: #fffbeb; color: #713f12; }
+.funding-import-notice ul { margin: 0.4rem 0 0; padding-inline-start: 1.5rem; list-style: disc; }
+.funding-import-notice p { margin: 0.5rem 0 0; }
+.funding-import td { font-variant-numeric: tabular-nums; }
+.funding-import td:nth-child(n + 3), .funding-import th:nth-child(n + 3) { text-align: right; }
+
+@media screen and (max-width: 768px) {
+    .funding-details-page { padding: 1rem; }
+    .funding-hero { display: block; padding: 1.2rem; }
+    .funding-hero-meta { margin-top: 1.25rem; gap: 1rem; flex-wrap: wrap; }
+    .funding-workflow, .funding-table-heading { align-items: flex-start; flex-direction: column; }
+}
+
+@media screen and (max-width: 540px) {
+    .funding-mapping-header { display: none; }
+    .funding-mapping-row { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
+    .funding-mapping-sample::before { content: 'Sample: '; }
+}

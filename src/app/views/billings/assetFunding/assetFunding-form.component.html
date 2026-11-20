@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <app-message [AlertType]="'message'"></app-message>
+                <app-toolbar-buttons
+                    (onItemClicked)="onOptionItemClicked($event)"
+                    [Caption]="caption"
+                    [PageType]="'Details'"
+                    [form]="form">
+                </app-toolbar-buttons>
+                <app-spinner></app-spinner>
+
+                <form [formGroup]="form" (ngSubmit)="save()">
+                    <div class="p-fluid">
+                        <div class="flex mt-8">
+                            <div class="card flex flex-col gap-4 w-full">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="organisationId">Organisation</label>
+                                        <p-dropdown inputId="organisationId" formControlName="organisationId" [options]="organisationOptions" optionLabel="Text" optionValue="Value" placeholder="Select organisation" class="w-full"></p-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="form.get('organisationId')" label="Organisation"></app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="lenderPartyId">Lender</label>
+                                        <p-dropdown inputId="lenderPartyId" formControlName="lenderPartyId" [options]="lenderOptions" optionLabel="Text" optionValue="Value" [showClear]="true" placeholder="Select lender (optional)" class="w-full"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="fundingNumber">Funding number</label>
+                                        <input pInputText id="fundingNumber" type="text" pSize="small" formControlName="fundingNumber" maxlength="30" />
+                                        <app-validation-errors [type]="'text'" [control]="form.get('fundingNumber')" label="Funding number"></app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="fundingType">Funding type</label>
+                                        <p-dropdown inputId="fundingType" formControlName="fundingType" [options]="types" class="w-full"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="fundingStatus">Status</label>
+                                        <p-dropdown inputId="fundingStatus" formControlName="fundingStatus" [options]="statuses" class="w-full"></p-dropdown>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="currencyCode">Currency</label>
+                                        <app-currency-dropdown inputId="currencyCode" formControlName="currencyCode" [organisationControl]="form.get('organisationId')"></app-currency-dropdown>
+                                        <app-validation-errors [type]="'text'" [control]="form.get('currencyCode')" label="Currency"></app-validation-errors>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="approvedAmount">Approved amount</label>
+                                        <p-inputNumber inputId="approvedAmount" formControlName="approvedAmount" mode="decimal" [minFractionDigits]="2"></p-inputNumber>
+                                        <app-validation-errors [type]="'number'" [control]="form.get('approvedAmount')" label="Approved amount"></app-validation-errors>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="agreementReference">Agreement reference</label>
+                                        <input pInputText id="agreementReference" type="text" pSize="small" formControlName="agreementReference" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="interestRate">Interest rate (%)</label>
+                                        <p-inputNumber inputId="interestRate" formControlName="interestRate" [min]="0" [max]="100" [maxFractionDigits]="4"></p-inputNumber>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="interestType">Interest type</label>
+                                        <input pInputText id="interestType" type="text" pSize="small" formControlName="interestType" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="tenureMonths">Tenure (months)</label>
+                                        <p-inputNumber inputId="tenureMonths" formControlName="tenureMonths" [min]="1"></p-inputNumber>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="repaymentFrequency">Repayment frequency</label>
+                                        <p-dropdown inputId="repaymentFrequency" formControlName="repaymentFrequency" [options]="frequencies" class="w-full"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="startDate">Start date</label>
+                                        <p-calendar inputId="startDate" formControlName="startDate" [showIcon]="true"></p-calendar>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="maturityDate">Maturity date</label>
+                                        <p-calendar inputId="maturityDate" formControlName="maturityDate" [showIcon]="true"></p-calendar>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-full">
+                                    <label for="remarks">Remarks</label>
+                                    <textarea pInputTextarea id="remarks" formControlName="remarks" rows="2"></textarea>
+                                </div>
+
+                                <div class="flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
+                                    <h4 class="m-0">Allocated assets</h4>
+                                    <button type="button" pButton class="p-button-outlined" icon="pi pi-plus" label="Add asset" (click)="addAllocation()"></button>
+                                </div>
+                                <small>Allocations are available only after the facility is approved. Use the asset ID from Asset Management.</small>
+
+                                <div formArrayName="allocations" class="flex flex-col gap-3">
+                                    <div *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i" class="flex flex-col md:flex-row gap-4 border-1 surface-border border-round p-3 align-items-end">
+                                        <div class="flex flex-col w-full">
+                                            <label [for]="'assetId-' + i">Asset ID</label>
+                                            <p-inputNumber [inputId]="'assetId-' + i" formControlName="assetId" [useGrouping]="false"></p-inputNumber>
+                                        </div>
+                                        <div class="flex flex-col w-full">
+                                            <label [for]="'allocatedAmount-' + i">Allocated amount</label>
+                                            <p-inputNumber [inputId]="'allocatedAmount-' + i" formControlName="allocatedAmount" [minFractionDigits]="2"></p-inputNumber>
+                                        </div>
+                                        <div class="flex flex-col w-full">
+                                            <label [for]="'allocationDate-' + i">Allocation date</label>
+                                            <p-calendar [inputId]="'allocationDate-' + i" formControlName="allocationDate" [showIcon]="true"></p-calendar>
+                                        </div>
+                                        <div class="flex flex-col w-full">
+                                            <label [for]="'allocationRemarks-' + i">Remarks</label>
+                                            <input pInputText [id]="'allocationRemarks-' + i" type="text" formControlName="remarks" />
+                                        </div>
+                                        <button type="button" pButton icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeAllocation(i)" [attr.aria-label]="'Remove allocation ' + (i + 1)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

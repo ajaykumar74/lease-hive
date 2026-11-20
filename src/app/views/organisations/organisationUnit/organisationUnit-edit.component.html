@@ -28,6 +28,10 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('ParentOrganisationUnitId')"
 											label="Parent Organisation UnitId">
 										</app-validation-errors></div><div class="flex flex-col w-full">
+							<label for="OrganisationId">Organisation ID</label>
+							<input pInputText id="OrganisationId" type="text" pSize="small" [value]="organisationUnit?.OrganisationId || ''" readonly />
+						</div></div>
+						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">
 					
 							<label for="UnitCode">Unit Code 
 							</label> 

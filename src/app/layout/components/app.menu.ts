@@ -1964,6 +1964,12 @@ export class AppMenu implements OnInit, OnDestroy {
                             icon: 'pi pi-fw pi-wallet',
                             items: [
                                 {
+                                    label: 'Asset Funding',
+                                    icon: 'pi pi-fw pi-money-bill',
+                                    routerLink: ['/billing-finance/funding'],
+                                    requiredPermission: 'finance.assetfunding.view'
+                                },
+                                {
                                     label: 'Dashboard',
                                     icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['/billing-finance/dashboard']

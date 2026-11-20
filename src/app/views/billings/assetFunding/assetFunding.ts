@@ -1,0 +1,16 @@
+export interface IAssetFundingAllocation {
+    id?: number; assetId: number; assetNo?: string; acquisitionCost?: number; allocatedAmount: number; allocationDate?: Date; remarks?: string;
+}
+export interface IAssetFunding {
+    id: number; organisationId: number; organisationName?: string; lenderPartyId?: number; lenderName?: string; fundingType: string; fundingNumber: string; agreementReference?: string; currencyCode: string; approvedAmount: number; allocatedAmount: number; outstandingAmount: number; availableAmount: number; interestRate?: number; interestType?: string; tenureMonths?: number; startDate?: Date; maturityDate?: Date; repaymentFrequency?: string; fundingStatus: string; remarks?: string; rowVersionStr?: string; allocations: IAssetFundingAllocation[];
+}
+export interface IAssetFundingListResponse { records: IAssetFunding[]; totalRecords: number; canUpdate: boolean; }
+export interface IAssetFundingAssetSummary { fundingId: number; fundingNumber: string; fundingType: string; fundingStatus: string; currencyCode: string; lenderName?: string; allocatedAmount: number; outstandingAmount: number; allocationDate: Date | string; }
+export interface IAssetFundingScheduleLine { id?: number; fundingId?: number; scheduleVersion?: number; installmentNumber: number; dueDate: Date | string | null; openingPrincipal?: number | null; principalDue?: number | null; interestDue?: number | null; chargesDue?: number | null; totalDue?: number | null; closingPrincipal?: number | null; recordStatus?: string; }
+export interface IAssetFundingScheduleVersion { scheduleVersion: number; recordStatus: string; confirmedAt?: Date | string | null; lines: IAssetFundingScheduleLine[]; }
+export interface ISpreadsheetInspection { worksheets: string[]; worksheet?: string; headerRow?: number; headers: string[]; sampleRows: string[][]; suggestedMappings: Record<string, string>; }
+export interface IAssetFundingSchedulePreview { lines: IAssetFundingScheduleLine[]; errors: string[]; warnings: string[]; isValid: boolean; }
+export interface IAssetFundingPaymentAllocation { scheduleId: number; principalAmount: number; interestAmount: number; chargesAmount: number; }
+export interface IAssetFundingTransaction { id: number; transactionType: string; transactionDate: Date | string; referenceNumber?: string; amount: number; currencyCode: string; paymentMethod?: string; principalComponent: number; interestComponent: number; chargesComponent: number; remarks?: string; transactionStatus: string; reversedTransactionId?: number; allocations: Array<IAssetFundingPaymentAllocation & { installmentNumber: number; dueDate: Date | string; allocatedAmount: number }>; }
+export interface IAssetFundingPaymentSummary { approvedFunding: number; disbursed: number; principalOutstanding: number; principalPaid: number; interestPaid: number; chargesPaid: number; dueAmount: number; overdueAmount: number; currencyCode: string; }
+export interface IAssetFundingInstallmentBalance { scheduleId: number; installmentNumber: number; dueDate: Date | string; principalDue: number; interestDue: number; chargesDue: number; totalDue: number; principalPaid: number; interestPaid: number; chargesPaid: number; totalPaid: number; principalRemaining: number; interestRemaining: number; chargesRemaining: number; remainingAmount: number; status: string; }

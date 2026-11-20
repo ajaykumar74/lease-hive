@@ -1,0 +1,389 @@
+<div *ngIf="funding" class="grid">
+    <div class="col-12">
+        <div class="card funding-details-page">
+            <app-toolbar-buttons [Caption]="caption" [PageType]="'View'">
+                <button *appPermission="'finance.assetfunding.update'" pButton label="Edit" icon="pi pi-pencil" size="small" (click)="edit()"></button>
+            </app-toolbar-buttons>
+
+            <section class="funding-hero">
+                <div>
+                    <span class="funding-eyebrow">Funding facility</span>
+                    <div class="funding-title-row">
+                        <h2>{{ funding.fundingNumber }}</h2>
+                        <span class="funding-status">{{ funding.fundingStatus.replaceAll('_', ' ') }}</span>
+                    </div>
+                    <p>{{ funding.organisationName || ('Organisation #' + funding.organisationId) }} · {{ funding.fundingType.replaceAll('_', ' ') }}</p>
+                </div>
+                <dl class="funding-hero-meta">
+                    <div class="funding-hero-amount"><dt>Funding amount</dt><dd>{{ funding.approvedAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</dd></div>
+                    <div><dt>Start date</dt><dd>{{ formatDate(funding.startDate) }}</dd></div>
+                    <div><dt>Maturity date</dt><dd>{{ formatDate(funding.maturityDate) }}</dd></div>
+                    <div><dt>Currency</dt><dd>{{ funding.currencyCode }}</dd></div>
+                </dl>
+            </section>
+
+            <ng-container *appPermission="'finance.assetfunding.update'">
+                <section *ngIf="nextStatuses().length" class="funding-workflow">
+                    <span>Workflow actions</span>
+                    <div><button *ngFor="let status of nextStatuses()" type="button" pButton class="p-button-sm p-button-outlined" [label]="status.replaceAll('_', ' ')" (click)="moveToStatus(status)"></button></div>
+                </section>
+            </ng-container>
+
+            <nav class="funding-tabs" aria-label="Asset funding sections" role="tablist">
+                <button type="button" [class.active]="activeTab === 'overview'" [attr.aria-selected]="activeTab === 'overview'" (click)="selectTab('overview')">Overview</button>
+                <button type="button" [class.active]="activeTab === 'assets'" [attr.aria-selected]="activeTab === 'assets'" (click)="selectTab('assets')">Allocated Assets <span>{{ funding.allocations?.length || 0 }}</span></button>
+                <button type="button" [class.active]="activeTab === 'schedule'" [attr.aria-selected]="activeTab === 'schedule'" (click)="selectTab('schedule')">Repayment Schedule</button>
+                <button type="button" [class.active]="activeTab === 'payments'" [attr.aria-selected]="activeTab === 'payments'" (click)="selectTab('payments')">Transactions</button>
+                <button type="button" [class.active]="activeTab === 'documents'" [attr.aria-selected]="activeTab === 'documents'" (click)="selectTab('documents')">Documents</button>
+            </nav>
+
+            <section class="funding-tab-content">
+                <ng-container *ngIf="activeTab === 'overview'">
+                    <div class="funding-section-heading"><div><span class="funding-eyebrow">Overview</span><h3>Funding details</h3><p>Facility values, lender information and repayment terms.</p></div></div>
+                    <div class="grid funding-card-grid">
+                        <div class="col-12 lg:col-4"><article class="funding-info-card"><div class="funding-card-heading"><i class="pi pi-wallet"></i><h4>Funding summary</h4></div><dl><div><dt>Approved amount</dt><dd>{{ funding.approvedAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</dd></div><div><dt>Allocated amount</dt><dd>{{ funding.allocatedAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</dd></div><div><dt>Outstanding amount</dt><dd>{{ funding.outstandingAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</dd></div><div class="funding-emphasis"><dt>Available amount</dt><dd>{{ funding.availableAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</dd></div></dl></article></div>
+                        <div class="col-12 lg:col-4"><article class="funding-info-card"><div class="funding-card-heading"><i class="pi pi-building"></i><h4>Lender details</h4></div><dl><div><dt>Lender</dt><dd>{{ funding.lenderName || 'Self funded' }}</dd></div><div><dt>Funding type</dt><dd>{{ funding.fundingType.replaceAll('_', ' ') }}</dd></div><div><dt>Agreement reference</dt><dd>{{ funding.agreementReference || 'Not provided' }}</dd></div><div><dt>Remarks</dt><dd>{{ funding.remarks || 'No remarks' }}</dd></div></dl></article></div>
+                        <div class="col-12 lg:col-4"><article class="funding-info-card"><div class="funding-card-heading"><i class="pi pi-calendar"></i><h4>Terms</h4></div><dl><div><dt>Interest rate</dt><dd>{{ funding.interestRate ?? 0 }}% {{ funding.interestType || '—' }}</dd></div><div><dt>Tenure</dt><dd>{{ funding.tenureMonths || '—' }} months</dd></div><div><dt>Repayment frequency</dt><dd>{{ funding.repaymentFrequency?.replaceAll('_', ' ') || '—' }}</dd></div><div><dt>Term dates</dt><dd>{{ formatDate(funding.startDate) }} – {{ formatDate(funding.maturityDate) }}</dd></div></dl></article></div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab === 'assets'">
+                    <div class="funding-table-heading"><div><span class="funding-eyebrow">Allocation register</span><h3>Allocated assets</h3><p>Funding applied to each asset acquisition.</p></div><button *appPermission="'finance.assetfunding.update'" pButton class="p-button-outlined" label="Edit allocations" icon="pi pi-pencil" (click)="edit()"></button></div>
+                    <div class="funding-table-shell">
+                        <table class="funding-allocation-table">
+                            <thead><tr><th>Asset</th><th>Acquisition cost</th><th>Allocated funding</th><th>Allocation date</th><th>Remarks</th></tr></thead>
+                            <tbody>
+                                <tr *ngFor="let allocation of funding.allocations || []">
+                                    <td>{{ allocation.assetNo || 'Asset' }} (#{{ allocation.assetId }})</td>
+                                    <td>{{ allocation.acquisitionCost | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</td>
+                                    <td>{{ allocation.allocatedAmount | currency: funding.currencyCode : 'symbol' : '1.2-2' }}</td>
+                                    <td>{{ formatDate(allocation.allocationDate) }}</td>
+                                    <td>{{ allocation.remarks || '—' }}</td>
+                                </tr>
+                                <tr *ngIf="!(funding.allocations?.length)"><td colspan="5" class="funding-table-empty">No assets have been allocated to this facility.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-container>
+            <ng-container *ngIf="activeTab === 'documents'"
+                ><div *appPermission="'document.document.view'"><app-document-attachment-requirements [ownerType]="'AssetFunding'" [ownerId]="funding.id" [allowUpload]="true" [allowRemove]="true"></app-document-attachment-requirements></div
+            ></ng-container>
+            <ng-container *ngIf="activeTab === 'payments'"
+                ><div class="funding-table-heading">
+                    <div>
+                        <h4 class="m-0">Payments & transactions</h4>
+                        <small>Payments allocate against the confirmed bank schedule without changing it.</small>
+                    </div>
+                    <div class="flex gap-2">
+                        <button *appPermission="'finance.assetfunding.update'" pButton class="p-button-outlined" label="Record Disbursement" icon="pi pi-wallet" (click)="openPayment('DISBURSEMENT')"></button
+                        ><button *appPermission="'finance.assetfunding.update'" pButton label="Record Repayment" icon="pi pi-plus" (click)="openPayment('REPAYMENT')"></button>
+                    </div>
+                </div>
+                <div *ngIf="error" class="p-3 mb-3 border-round bg-red-50 text-red-700">{{ error }}</div>
+                <div class="grid" *ngIf="paymentSummary">
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="surface-100 p-3 border-round">
+                            <small>Approved funding</small>
+                            <div class="text-xl font-semibold">{{ paymentSummary.approvedFunding | number: '1.2-2' }} {{ paymentSummary.currencyCode }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="surface-100 p-3 border-round">
+                            <small>Disbursed</small>
+                            <div class="text-xl font-semibold">{{ paymentSummary.disbursed | number: '1.2-2' }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="surface-100 p-3 border-round">
+                            <small>Principal outstanding</small>
+                            <div class="text-xl font-semibold">{{ paymentSummary.principalOutstanding | number: '1.2-2' }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="surface-100 p-3 border-round">
+                            <small>Due / overdue</small>
+                            <div class="text-xl font-semibold">
+                                {{ paymentSummary.dueAmount | number: '1.2-2' }} <span class="text-red-600">/ {{ paymentSummary.overdueAmount | number: '1.2-2' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="paymentOpen" class="border-1 surface-border border-round p-3 mb-4">
+                    <div class="flex justify-content-between align-items-center">
+                        <h5 class="m-0">{{ paymentForm.value.transactionType === 'DISBURSEMENT' ? 'Record disbursement' : 'Record repayment' }}</h5>
+                        <button pButton class="p-button-text" label="Cancel" (click)="paymentOpen = false"></button>
+                    </div>
+                    <form [formGroup]="paymentForm">
+                        <div class="grid mt-2">
+                            <div class="col-12 md:col-3"><label>Transaction date</label><p-calendar class="w-full" formControlName="transactionDate" [showIcon]="true"></p-calendar></div>
+                            <div class="col-12 md:col-3"><label>Reference number</label><input pInputText class="w-full" formControlName="referenceNumber" /></div>
+                            <div class="col-12 md:col-2"><label>Amount</label><p-inputNumber class="w-full" formControlName="amount" [minFractionDigits]="2" [maxFractionDigits]="4" (onInput)="onPaymentAmount()"></p-inputNumber></div>
+                            <div class="col-12 md:col-2"><label>Payment method</label><input pInputText class="w-full" formControlName="paymentMethod" /></div>
+                            <div class="col-12 md:col-2"><label>Principal</label><p-inputNumber class="w-full" formControlName="principalComponent" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></div>
+                            <div class="col-12 md:col-2"><label>Interest</label><p-inputNumber class="w-full" formControlName="interestComponent" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></div>
+                            <div class="col-12 md:col-2"><label>Charges</label><p-inputNumber class="w-full" formControlName="chargesComponent" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></div>
+                            <div class="col-12"><label>Remarks</label><textarea pInputTextarea class="w-full" rows="2" formControlName="remarks"></textarea></div>
+                        </div>
+                        <div *ngIf="paymentForm.value.transactionType === 'REPAYMENT'" formArrayName="allocations" class="mt-3">
+                            <h6>Installment allocations</h6>
+                            <small class="text-600">Enter principal, interest, and charges in their corresponding columns. Allocations must fit the remaining balances and the transaction split.</small>
+                            <div class="funding-table-shell funding-payment-allocations">
+                                <table class="funding-allocation-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">Installment</th>
+                                            <th class="text-left">Due date</th>
+                                            <th class="text-right">Remaining</th>
+                                            <th class="text-right">Principal</th>
+                                            <th class="text-right">Interest</th>
+                                            <th class="text-right">Charges</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let allocation of paymentAllocations.controls; let i = index" [formGroupName]="i">
+                                            <td>
+                                                <strong>#{{ allocation.value.installmentNumber }}</strong>
+                                                <button type="button" pButton size="small" class="p-button-text funding-use-balance"
+                                                    label="Use remaining" [attr.aria-label]="'Use remaining balance for installment ' + allocation.value.installmentNumber"
+                                                    [disabled]="loadingPayments" (click)="useInstallmentBalance(i)"></button>
+                                            </td>
+                                            <td>{{ formatDate(allocation.value.dueDate) }}</td>
+                                            <td class="text-right">
+                                                <strong>{{ allocation.value.remainingAmount | number: '1.2-4' }}</strong>
+                                                <small class="block">Principal {{ allocation.value.principalRemaining | number: '1.2-4' }}</small>
+                                                <small class="block">Interest {{ allocation.value.interestRemaining | number: '1.2-4' }}</small>
+                                                <small class="block">Charges {{ allocation.value.chargesRemaining | number: '1.2-4' }}</small>
+                                            </td>
+                                            <td><p-inputNumber formControlName="principalAmount" [ariaLabel]="'Principal for installment ' + allocation.value.installmentNumber" [fluid]="true" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></td>
+                                            <td><p-inputNumber formControlName="interestAmount" [ariaLabel]="'Interest for installment ' + allocation.value.installmentNumber" [fluid]="true" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></td>
+                                            <td><p-inputNumber formControlName="chargesAmount" [ariaLabel]="'Charges for installment ' + allocation.value.installmentNumber" [fluid]="true" [minFractionDigits]="2" [maxFractionDigits]="4"></p-inputNumber></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex flex-wrap gap-3 text-sm">
+                                <span>Transaction amount <strong>{{ (paymentForm.value.amount ?? 0) | number: '1.2-4' }} {{ funding.currencyCode }}</strong></span>
+                                <span>Component total <strong>{{ paymentComponentTotal | number: '1.2-4' }} {{ funding.currencyCode }}</strong></span>
+                            </div>
+                            <p *ngIf="paymentValidationMessage as message" class="funding-import-notice funding-import-error mt-2" role="alert">{{ message }}</p>
+                        </div>
+                        <div class="flex justify-content-end mt-3">
+                            <button type="button" pButton label="Post transaction" [disabled]="paymentForm.invalid || !!paymentValidationMessage" [loading]="loadingPayments" (click)="recordPayment()"></button>
+                        </div>
+                    </form>
+                </div>
+                <h5>Installment balances</h5>
+                <p-table [value]="installments" responsiveLayout="scroll"
+                    ><ng-template pTemplate="header"
+                        ><tr>
+                            <th>#</th>
+                            <th>Due date</th>
+                            <th>Total due</th>
+                            <th>Paid</th>
+                            <th>Remaining</th>
+                            <th>Status</th>
+                        </tr></ng-template
+                    ><ng-template pTemplate="body" let-line
+                        ><tr>
+                            <td>{{ line.installmentNumber }}</td>
+                            <td>{{ formatDate(line.dueDate) }}</td>
+                            <td>{{ line.totalDue | number: '1.2-2' }}</td>
+                            <td>{{ line.totalPaid | number: '1.2-2' }}</td>
+                            <td>{{ line.remainingAmount | number: '1.2-2' }}</td>
+                            <td>{{ line.status.replace('_', ' ') }}</td>
+                        </tr></ng-template
+                    ></p-table
+                >
+                <h5 class="mt-4">Transaction history</h5>
+                <p-table [value]="transactions" responsiveLayout="scroll"
+                    ><ng-template pTemplate="header"
+                        ><tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Reference</th>
+                            <th>Amount</th>
+                            <th>Components</th>
+                            <th>Installment allocations</th>
+                            <th>Status</th>
+                        </tr></ng-template
+                    ><ng-template pTemplate="body" let-payment
+                        ><tr>
+                            <td>{{ formatDate(payment.transactionDate) }}</td>
+                            <td>{{ payment.transactionType }}</td>
+                            <td>{{ payment.referenceNumber || '—' }}</td>
+                            <td>{{ payment.amount | number: '1.2-2' }} {{ payment.currencyCode }}</td>
+                            <td>P {{ payment.principalComponent | number: '1.2-2' }} · I {{ payment.interestComponent | number: '1.2-2' }} · C {{ payment.chargesComponent | number: '1.2-2' }}</td>
+                            <td>
+                                <div *ngFor="let allocation of payment.allocations">#{{ allocation.installmentNumber }}: {{ allocation.allocatedAmount | number: '1.2-2' }}</div>
+                                <span *ngIf="!payment.allocations.length">—</span>
+                            </td>
+                            <td>{{ payment.transactionStatus }}</td>
+                        </tr></ng-template
+                    ></p-table
+                >
+            </ng-container>
+            <ng-container *ngIf="activeTab === 'schedule'"
+                ><div class="funding-table-heading">
+                    <div>
+                        <h4 class="m-0">Bank repayment schedule</h4>
+                        <small>Bank-provided values are retained exactly; LeaseHive does not calculate EMI.</small>
+                    </div>
+                    <div class="flex gap-2">
+                        <button pButton class="p-button-outlined" label="Manual entry" icon="pi pi-plus" (click)="startManual()"></button
+                        ><label class="p-button p-button-primary cursor-pointer"><i class="pi pi-upload mr-2"></i>Import Excel<input type="file" accept=".xlsx" [disabled]="loadingSchedule" class="hidden" (change)="onFile($event)" /></label>
+                    </div>
+                </div>
+                <div *ngIf="error" class="funding-import-notice funding-import-error" role="alert">{{ error }}</div>
+                <p *ngIf="attachedScheduleFile" role="status">{{ attachedScheduleFile }} was attached under Documents.</p>
+                <div *ngFor="let attachment of pendingScheduleAttachments">
+                    <p *ngIf="attachment.uploading" role="status">Attaching {{ attachment.file.name }}…</p>
+                    <div *ngIf="attachment.error" class="funding-import-notice funding-import-warning">
+                        <p role="alert">Schedule version {{ attachment.version }} was confirmed. {{ attachment.file.name }} could not be attached. {{ attachment.error }}</p>
+                        <button type="button" pButton class="p-button-outlined mt-2" label="Retry attachment" (click)="attachScheduleWorkbook(attachment)"></button>
+                    </div>
+                </div>
+                <section *ngIf="wizardStep" class="funding-import" aria-label="Import repayment schedule" [attr.aria-busy]="loadingSchedule">
+                    <ol class="funding-import-steps" aria-label="Import steps">
+                        <li *ngFor="let step of ['Select worksheet', 'Map columns', 'Review and confirm']; let i = index"
+                            [attr.aria-current]="wizardStep === i + 1 ? 'step' : null"><span>{{ i + 1 }}</span>{{ step }}</li>
+                    </ol>
+                    <ng-container *ngIf="wizardStep === 1">
+                        <h5>Select the worksheet</h5>
+                        <p class="funding-import-hint">{{ file?.name }}</p>
+                        <div class="funding-import-inputs">
+                            <div><label for="schedule-sheet">Worksheet</label><p-dropdown inputId="schedule-sheet" [(ngModel)]="selectedSheet" [options]="inspection?.worksheets || []"></p-dropdown></div>
+                            <div><label for="schedule-header">Excel header row</label><p-inputNumber inputId="schedule-header" [(ngModel)]="headerRow" [min]="1" [useGrouping]="false"></p-inputNumber></div>
+                        </div>
+                        <div class="funding-import-actions">
+                            <button pButton label="Read columns" [disabled]="!selectedSheet || !headerRow" [loading]="loadingSchedule" (click)="readHeaders()"></button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="wizardStep === 2">
+                        <h5>Map schedule columns</h5>
+                        <p class="funding-import-hint">Match each required field to an Excel column. Leave optional fields unmapped if there is no matching column.</p>
+                        <div class="funding-mapping">
+                            <div class="funding-mapping-row funding-mapping-header" aria-hidden="true">
+                                <span>Schedule field</span><span>Excel column</span><span>Sample value</span>
+                            </div>
+                            <div class="funding-mapping-row" *ngFor="let field of fields">
+                                <label [for]="'schedule-map-' + field.key">{{ field.label }} <small *ngIf="field.required">Required</small></label>
+                                <div>
+                                    <p-dropdown [inputId]="'schedule-map-' + field.key" [style]="{ width: '100%' }" [(ngModel)]="mappings[field.key]" [options]="mappingOptions()" optionLabel="label" optionValue="value"></p-dropdown>
+                                    <small *ngIf="mappingConflict(field.key)" class="funding-mapping-conflict">This Excel column is also mapped to another field.</small>
+                                </div>
+                                <span class="funding-mapping-sample">{{ sampleFor(mappings[field.key]) || '—' }}</span>
+                            </div>
+                        </div>
+                        <div class="funding-import-actions">
+                            <button pButton class="p-button-outlined" label="Back" [disabled]="loadingSchedule" (click)="wizardStep = 1"></button>
+                            <button pButton label="Preview & validate" [disabled]="!mappingsComplete" [loading]="loadingSchedule" (click)="previewImport()"></button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="wizardStep === 3 && preview as review">
+                        <h5>Review repayment schedule</h5>
+                        <p class="funding-import-hint">{{ review.lines.length }} installments in preview · Worksheet {{ selectedSheet }} · Header on Excel row {{ headerRow }}</p>
+                        <div *ngIf="review.errors.length" class="funding-import-notice funding-import-error" role="alert">
+                            <strong><i class="pi pi-times-circle" aria-hidden="true"></i> {{ review.errors.length }} {{ review.errors.length === 1 ? 'error blocks' : 'errors block' }} confirmation</strong>
+                            <ul><li *ngFor="let issue of review.errors">{{ worksheetIssue(issue) }}</li></ul>
+                            <p *ngIf="hasWorksheetErrors">Excel row numbers refer to the worksheet, including rows above the schedule. Check the listed rows for invalid installment values or extra totals and notes below the schedule, then re-upload the corrected workbook.</p>
+                        </div>
+                        <div *ngIf="review.warnings.length" class="funding-import-notice funding-import-warning" role="status">
+                            <strong><i class="pi pi-exclamation-triangle" aria-hidden="true"></i> {{ review.warnings.length }} {{ review.warnings.length === 1 ? 'warning' : 'warnings' }}</strong>
+                            <ul><li *ngFor="let warning of review.warnings">{{ worksheetIssue(warning) }}</li></ul>
+                        </div>
+                        <div class="funding-table-shell">
+                            <p-table [value]="review.lines" [scrollable]="true" scrollHeight="360px" [tableStyle]="{ 'min-width': '48rem' }">
+                                <ng-template pTemplate="header">
+                                    <tr><th>Installment</th><th>Due date</th><th>Opening</th><th>Principal</th><th>Interest</th><th>Charges</th><th>Total</th><th>Closing</th></tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-line>
+                                    <tr>
+                                        <td>{{ line.installmentNumber }}</td>
+                                        <td>{{ formatDate(line.dueDate) }}</td>
+                                        <td>{{ line.openingPrincipal ?? '—' }}</td>
+                                        <td>{{ line.principalDue ?? '—' }}</td>
+                                        <td>{{ line.interestDue ?? '—' }}</td>
+                                        <td>{{ line.chargesDue ?? '—' }}</td>
+                                        <td><strong>{{ line.totalDue }}</strong></td>
+                                        <td>{{ line.closingPrincipal ?? '—' }}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr><td colspan="8" class="funding-table-empty">No installments to preview.</td></tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="funding-import-actions">
+                            <button pButton class="p-button-outlined" label="Edit mapping" [disabled]="loadingSchedule" (click)="wizardStep = 2"></button>
+                            <button pButton label="Confirm schedule" [disabled]="!review.isValid" [loading]="loadingSchedule" (click)="confirmImport()"></button>
+                        </div>
+                    </ng-container>
+                </section>
+                <div *ngIf="manual" class="funding-entry-panel">
+                    <div class="funding-table-heading">
+                        <div><span class="funding-eyebrow">Schedule editor</span><h4>Manual schedule entry</h4></div>
+                        <div class="flex gap-2"><button type="button" pButton class="p-button-outlined" label="Add installment" icon="pi pi-plus" (click)="addManualLine()"></button><button pButton class="p-button-text" label="Cancel" (click)="manual = false"></button></div>
+                    </div>
+                    <form [formGroup]="manualForm">
+                        <div formArrayName="lines" class="overflow-auto">
+                            <div *ngFor="let line of lines.controls; let i = index" [formGroupName]="i" class="grid align-items-end min-w-max border-bottom-1 surface-border py-2">
+                                <div class="col"><label>#</label><p-inputNumber formControlName="installmentNumber" [useGrouping]="false"></p-inputNumber></div>
+                                <div class="col"><label>Due date</label><p-calendar formControlName="dueDate" [showIcon]="true"></p-calendar></div>
+                                <div class="col"><label>Opening</label><p-inputNumber formControlName="openingPrincipal"></p-inputNumber></div>
+                                <div class="col"><label>Principal</label><p-inputNumber formControlName="principalDue"></p-inputNumber></div>
+                                <div class="col"><label>Interest</label><p-inputNumber formControlName="interestDue"></p-inputNumber></div>
+                                <div class="col"><label>Charges</label><p-inputNumber formControlName="chargesDue"></p-inputNumber></div>
+                                <div class="col"><label>Total</label><p-inputNumber formControlName="totalDue"></p-inputNumber></div>
+                                <div class="col"><label>Closing</label><p-inputNumber formControlName="closingPrincipal"></p-inputNumber></div>
+                                <div class="col-fixed"><button type="button" pButton icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeManualLine(i)"></button></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-end mt-3">
+                            <div class="flex gap-2">
+                                <button type="button" pButton class="p-button-outlined" label="Save draft" [loading]="loadingSchedule" (click)="saveManual(false)"></button
+                                ><button type="button" pButton label="Confirm schedule" [loading]="loadingSchedule" (click)="saveManual(true)"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div *ngFor="let schedule of schedules" class="mb-4">
+                    <div class="flex justify-content-between align-items-center">
+                        <h5>
+                            Version {{ schedule.scheduleVersion }} <span class="text-sm font-normal">· {{ schedule.recordStatus }}</span>
+                        </h5>
+                        <small *ngIf="schedule.confirmedAt">Confirmed {{ formatDate(schedule.confirmedAt) }}</small>
+                    </div>
+                    <p-table [value]="schedule.lines" responsiveLayout="scroll"
+                        ><ng-template pTemplate="header"
+                            ><tr>
+                                <th>#</th>
+                                <th>Due date</th>
+                                <th>Opening principal</th>
+                                <th>Principal due</th>
+                                <th>Interest due</th>
+                                <th>Charges</th>
+                                <th>Total due</th>
+                                <th>Closing principal</th>
+                            </tr></ng-template
+                        ><ng-template pTemplate="body" let-line
+                            ><tr>
+                                <td>{{ line.installmentNumber }}</td>
+                                <td>{{ formatDate(line.dueDate) }}</td>
+                                <td>{{ line.openingPrincipal ?? '—' }}</td>
+                                <td>{{ line.principalDue ?? '—' }}</td>
+                                <td>{{ line.interestDue ?? '—' }}</td>
+                                <td>{{ line.chargesDue }}</td>
+                                <td>{{ line.totalDue }}</td>
+                                <td>{{ line.closingPrincipal ?? '—' }}</td>
+                            </tr></ng-template
+                        ></p-table
+                    >
+                </div>
+                <p *ngIf="!schedules.length && !manual && !wizardStep" class="text-600 text-center p-4">No repayment schedule has been entered.</p></ng-container
+            >
+            </section>
+        </div>
+    </div>
+</div>
