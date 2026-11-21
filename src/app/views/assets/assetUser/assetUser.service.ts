@@ -44,6 +44,11 @@ export class AssetUserService extends BaseCrudService<any> {
   GetAll(IsDeleted: Boolean): Observable<any> {
     return this.getAll();
   }
+
+  getCompliance(assetUserId: number, assetId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${assetUserId}/compliance/${assetId}`, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
+  }
 }
 
 

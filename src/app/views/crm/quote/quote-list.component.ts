@@ -90,8 +90,24 @@ export class QuoteListComponent extends ListPageController<IQuoteList, QuoteFilt
         }
     }
 
+    onCreatePurchaseRequisitionClick(obj: IQuoteList): void {
+        if (!this.isAccepted(obj)) return;
+
+        this.router.navigate(['/business/procurement/requisitions/create'], {
+            queryParams: {
+                sourceRefType: 'QUOTE',
+                sourceRefId: obj.Id,
+                currencyCode: obj.CurrencyCode
+            }
+        });
+    }
+
     isEditable(obj: IQuoteList): boolean {
         return obj.IsEditable === true;
+    }
+
+    isAccepted(obj: IQuoteList): boolean {
+        return (obj.StatusCode || obj.StatusName || '').trim().toUpperCase() === 'ACCEPTED';
     }
 
     getStatusClass(status: string): string {

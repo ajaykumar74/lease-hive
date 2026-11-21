@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
     DocumentAttachmentService,
     IDocumentAttachmentRequirement
@@ -16,6 +16,7 @@ export class DocumentAttachmentRequirementsComponent implements OnChanges {
     @Input() allowUpload = true;
     @Input() allowRemove = true;
     @Input() usePrimeRemoveConfirmation = true;
+    @Output() attachmentsChanged = new EventEmitter<void>();
 
     requirements: IDocumentAttachmentRequirement[] = [];
     isLoading = false;

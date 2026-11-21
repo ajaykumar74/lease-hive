@@ -11,12 +11,19 @@ import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 
-import { LoggedInUserService } from '@/shared/LoggedInUserService'
+import { DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService'
 import { AssetService } from './asset.service';
 import { IAsset } from './asset';
 import { createAssetQuickOptions } from './asset-quick-options';
 import { AssetFundingService } from '@/views/billings/assetFunding/assetFunding.service';
 import { IAssetFundingAssetSummary } from '@/views/billings/assetFunding/assetFunding';
+import { AssetAssignmentService } from '@/views/assets/assetAssignment/assetAssignment.service';
+import { IAssetAssignment } from '@/views/assets/assetAssignment/assetAssignment';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { InsurancePolicyAssetService } from '@/views/maintenanceInsurances/insurancePolicyAsset/insurancePolicyAsset.service';
+import { IInsurancePolicyAsset } from '@/views/maintenanceInsurances/insurancePolicyAsset/insurancePolicyAsset';
+import { DeliveryChecklistService } from '@/views/leaseContracts/deliveryChecklist/delivery-checklist.service';
+import { IDeliveryChecklistSnapshot } from '@/views/leaseContracts/deliveryChecklist/delivery-checklist.models';
 
 @Component({
     templateUrl: './asset-view.component.html', 
@@ -30,9 +37,16 @@ export class AssetViewComponent implements OnInit {
     asset: IAsset = {} as IAsset;
     Caption: string = 'Loading...';
     menuItems: MenuItem[] = [];
-    activeTab: 'details' | 'funding' = 'details';
+    activeTab: 'details' | 'funding' | 'assignments' | 'insurance' | 'delivery-checks' = 'details';
     fundingFacilities: IAssetFundingAssetSummary[] = [];
     fundingLoading: boolean = false;
+    assignments: IAssetAssignment[] = [];
+    assignmentsLoading = false;
+    assignmentStatusOptions: ISelectItem[] = [];
+    insuranceCoverages: IInsurancePolicyAsset[] = [];
+    insuranceLoading = false;
+    deliveryChecklists: IDeliveryChecklistSnapshot[] = [];
+    deliveryChecklistsLoading = false;
     
 
     constructor( 
@@ -41,7 +55,10 @@ export class AssetViewComponent implements OnInit {
         private assetService: AssetService, 
         private _location: Location,
         private loggedInUserService: LoggedInUserService,
-        private fundingService: AssetFundingService
+        private fundingService: AssetFundingService,
+        private assignmentService: AssetAssignmentService,
+        private insurancePolicyAssetService: InsurancePolicyAssetService,
+        private deliveryChecklistService: DeliveryChecklistService
     ) {
         this.menuItems = createAssetQuickOptions(
             () => this.asset?.Id,
@@ -82,9 +99,12 @@ export class AssetViewComponent implements OnInit {
         this.Caption = "Asset Details #" + obj.Id;
     }
 
-    selectTab(tab: 'details' | 'funding'): void {
+    selectTab(tab: 'details' | 'funding' | 'assignments' | 'insurance' | 'delivery-checks'): void {
         this.activeTab = tab;
         if (tab === 'funding') this.loadFunding();
+        if (tab === 'assignments') this.loadAssignments();
+        if (tab === 'insurance') this.loadInsurance();
+        if (tab === 'delivery-checks') this.loadDeliveryChecklists();
     }
 
     loadFunding(): void {
@@ -98,6 +118,77 @@ export class AssetViewComponent implements OnInit {
             next: rows => this.fundingFacilities = Array.isArray(rows) ? rows : [],
             error: () => this.fundingFacilities = []
         });
+    }
+
+    loadAssignments(): void {
+        const assetId = Number(this.asset?.Id);
+        if (!Number.isInteger(assetId) || assetId <= 0 || this.assignmentsLoading) return;
+
+        this.assignmentsLoading = true;
+        this.assignmentStatusOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentStatus');
+        this.assignmentService.search({
+            Skip: 0,
+            Take: 100,
+            SortBy: 'AssignedFrom',
+            IsDescending: true,
+            Conditions: [
+                { DBName: 'TenantId', Value: String(this.loggedInUserService.loggedInUser.Tenant.Id), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'AssetId', Value: String(assetId), DataType: DataType.Int, Operator: Operator.EqualTo }
+            ]
+        }).pipe(finalize(() => this.assignmentsLoading = false)).subscribe({
+            next: response => this.assignments = response?.data?.Records || [],
+            error: () => this.assignments = []
+        });
+    }
+
+    loadInsurance(): void {
+        const assetId = Number(this.asset?.Id);
+        if (!Number.isInteger(assetId) || assetId <= 0 || this.insuranceLoading) return;
+        this.insuranceLoading = true;
+        this.insurancePolicyAssetService.search({
+            Skip: 0,
+            Take: 100,
+            SortBy: 'CoverageEndDate',
+            IsDescending: true,
+            Conditions: [
+                { DBName: 'TenantId', Value: String(this.loggedInUserService.loggedInUser.Tenant.Id), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'AssetId', Value: String(assetId), DataType: DataType.Int, Operator: Operator.EqualTo }
+            ]
+        }).pipe(finalize(() => this.insuranceLoading = false)).subscribe({
+            next: response => this.insuranceCoverages = response?.data?.Records || [],
+            error: () => this.insuranceCoverages = []
+        });
+    }
+
+    loadDeliveryChecklists(): void {
+        const assetId = Number(this.asset?.Id);
+        if (!Number.isInteger(assetId) || assetId <= 0 || this.deliveryChecklistsLoading) return;
+        this.deliveryChecklistsLoading = true;
+        this.deliveryChecklistService.getForAsset(assetId).pipe(finalize(() => this.deliveryChecklistsLoading = false)).subscribe({
+            next: response => this.deliveryChecklists = response?.data?.Records || [],
+            error: () => this.deliveryChecklists = []
+        });
+    }
+
+    insuranceStatus(coverage: IInsurancePolicyAsset): string {
+        const status = String(coverage.StatusCode || '').replace(/[ _-]/g, '').toUpperCase();
+        if (status === 'NOTREQUIRED') return 'Not Required';
+        const end = coverage.CoverageEndDate ? new Date(coverage.CoverageEndDate) : null;
+        if (end && !Number.isNaN(end.getTime()) && end < new Date(new Date().setHours(0, 0, 0, 0))) return 'Expired';
+        if (['COVERED', 'ACTIVE', 'VERIFIED'].includes(status)) return 'Covered';
+        return 'Pending Verification';
+    }
+
+    assignmentStatus(assignment: IAssetAssignment): string {
+        return this.assignmentStatusOptions.find(option => option.Id === assignment.AssignmentStatusId)?.Text
+            || assignment.RecordStatus
+            || 'Pending';
+    }
+
+    get currentAssignment(): IAssetAssignment | null {
+        return this.assignments.find(assignment => assignment.IsPrimary && String(assignment.RecordStatus || 'Active').toUpperCase() === 'ACTIVE' && !assignment.AssignedTo)
+            || this.assignments.find(assignment => String(assignment.RecordStatus || 'Active').toUpperCase() === 'ACTIVE')
+            || null;
     }
 
     onOptionItemClicked(key: string): void {

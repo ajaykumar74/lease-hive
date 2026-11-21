@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="p-fluid">
+  <div class="grid">
+    <div class="col-12"><p class="m-0 text-color-secondary">Link coverage to <strong>{{ context.AssetLabel }}</strong>. Asset and contract are fixed from this delivery.</p></div>
+    <div *ngIf="error" class="col-12"><small class="text-red-500">{{ error }}</small></div>
+    <div class="col-12 md:col-8"><label for="deliveryInsurancePolicy">Insurance policy</label><p-dropdown inputId="deliveryInsurancePolicy" [options]="policyOptions" optionLabel="Text" optionValue="Value" formControlName="InsurancePolicyId" [filter]="true" placeholder="Select an existing policy" styleClass="w-full"></p-dropdown><small *ngIf="loadingPolicy" class="text-color-secondary">Loading policy defaults…</small></div>
+    <div class="col-12 md:col-4 flex align-items-end"><button type="button" pButton class="p-button-text" label="Create policy" icon="pi pi-external-link" (click)="openPolicyCreation()"></button></div>
+    <div class="col-12 md:col-6"><label>Asset</label><input pInputText formControlName="AssetId" readonly /></div>
+    <div class="col-12 md:col-6"><label>Lease contract</label><input pInputText formControlName="LeaseContractId" readonly /></div>
+    <div class="col-12 md:col-6"><label for="deliveryCoverageType">Coverage type</label><p-dropdown inputId="deliveryCoverageType" [options]="coverageTypeOptions" optionLabel="Text" optionValue="Value" formControlName="CoverageTypeId" placeholder="Select coverage type" styleClass="w-full"></p-dropdown></div>
+    <div class="col-12 md:col-6"><label for="deliveryStatus">Coverage status</label><p-dropdown inputId="deliveryStatus" [options]="statusOptions" optionLabel="Text" optionValue="Value" formControlName="StatusCode" placeholder="Pending verification" styleClass="w-full"></p-dropdown></div>
+    <div class="col-12 md:col-6"><label for="deliveryCoverageStart">Coverage start</label><p-calendar inputId="deliveryCoverageStart" formControlName="CoverageStartDate" [showIcon]="true" dateFormat="dd-mm-yy" styleClass="w-full"></p-calendar></div>
+    <div class="col-12 md:col-6"><label for="deliveryCoverageEnd">Coverage end</label><p-calendar inputId="deliveryCoverageEnd" formControlName="CoverageEndDate" [showIcon]="true" dateFormat="dd-mm-yy" styleClass="w-full"></p-calendar></div>
+    <div class="col-12 md:col-4"><label for="deliveryInsuredValue">Insured value</label><p-inputNumber inputId="deliveryInsuredValue" formControlName="InsuredValue" mode="decimal" [minFractionDigits]="2" styleClass="w-full"></p-inputNumber></div>
+    <div class="col-12 md:col-4"><label for="deliveryDeductible">Deductible</label><p-inputNumber inputId="deliveryDeductible" formControlName="DeductibleAmount" mode="decimal" [minFractionDigits]="2" styleClass="w-full"></p-inputNumber></div>
+    <div class="col-12 md:col-4"><label for="deliveryCurrency">Currency</label><input id="deliveryCurrency" pInputText formControlName="CurrencyCode" maxlength="20" /></div>
+    <div class="col-12"><label for="deliveryBeneficiary">Beneficiary / lender</label><p-dropdown inputId="deliveryBeneficiary" [options]="beneficiaryOptions" optionLabel="Text" optionValue="Value" formControlName="BeneficiaryPartyId" [showClear]="true" placeholder="Select beneficiary when required" styleClass="w-full"></p-dropdown></div>
+    <div *ngIf="coverage?.Id" class="col-12"><app-document-attachment-requirements ownerType="InsurancePolicyAsset" [ownerId]="coverage.Id" [allowUpload]="true" [allowRemove]="true"></app-document-attachment-requirements></div>
+    <div *ngIf="!coverage?.Id" class="col-12"><small class="text-color-secondary">Save the coverage first to attach the policy certificate or beneficiary endorsement. It remains pending verification until the required evidence is approved.</small></div>
+    <div class="col-12 flex justify-content-end gap-2"><button type="button" pButton label="Cancel" class="p-button-text" (click)="cancelled.emit()" [disabled]="saving"></button><button type="submit" pButton [label]="coverage ? 'Save insurance' : 'Add insurance'" icon="pi pi-check" [loading]="saving"></button></div>
+  </div>
+</form>

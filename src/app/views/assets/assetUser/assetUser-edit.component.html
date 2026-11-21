@@ -37,19 +37,20 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('PartyLocationId')"
 											label="Party LocationId">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Customer DepartmentId" class="mb-1">CustomerDepartmentId</label>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"> <label for="CustomerDepartmentId" class="mb-1">Customer Department <span class="text-color-secondary">(optional)</span></label>
         <p-dropdown
             inputId="CustomerDepartmentId" 
             [options]="customerdepartmentidOptions"
             optionLabel="Text"
 	    optionValue="Value"
 	    formControlName="CustomerDepartmentId"
-            placeholder="Select One"
+            placeholder="Select department (optional)"
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerDepartmentId')"
 											label="Customer DepartmentId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="User Type" class="mb-1">UserType</label>
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="UserType" class="mb-1">Asset User Type</label>
         <p-dropdown
             inputId="UserType" 
             [options]="usertypeOptions"
@@ -61,8 +62,12 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('UserType')"
 											label="User Type">
-										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+										</app-validation-errors>
+      <small class="text-color-secondary">The person’s relationship to the asset, such as Employee, Driver, Contractor, or Custodian.</small>
+      </div></div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+					
 							<label for="EmployeeCode">Employee Code 
 							</label> 
 							<input pInputText id="EmployeeCode" type="text" pSize="small"	formControlName="EmployeeCode"  />
@@ -108,11 +113,12 @@
 							<app-validation-errors [type]="'text'" [control]="editForm.get('MobileNumber')"
 											label="Mobile Number">
 										</app-validation-errors>
-						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+							 </div></div>
+<div *ngIf="canViewKyc" class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">					
 							<label for="DrivingLicenceNumber">Driving Licence Number 
 							</label> 
-							<input pInputText id="DrivingLicenceNumber" type="text" pSize="small"	formControlName="DrivingLicenceNumber"  />
+							<input pInputText id="DrivingLicenceNumber" type="text" pSize="small"	formControlName="DrivingLicenceNumber" [readonly]="!canEditKyc" />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('DrivingLicenceNumber')"
 											label="Driving Licence Number">
 										</app-validation-errors>
@@ -120,15 +126,16 @@
 							<label for="DrivingLicenceExpiryDate">Driving Licence ExpiryDate 
 							</label> 
 							<p-calendar id="DrivingLicenceExpiryDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="DrivingLicenceExpiryDate"  ></p-calendar>
+	formControlName="DrivingLicenceExpiryDate" [disabled]="!canEditKyc" ></p-calendar>
 	<app-validation-errors [type]="'date'" [control]="editForm.get('DrivingLicenceExpiryDate')"
 											label="Driving Licence ExpiryDate">
 										</app-validation-errors>
 						 </div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
+<div class="flex flex-col md:flex-row gap-4"><div *ngIf="canViewKyc" class="flex flex-col w-full">
+					
 							<label for="NationalIdMasked">NationalId Masked 
 							</label> 
-							<input pInputText id="NationalIdMasked" type="text" pSize="small"	formControlName="NationalIdMasked"  />
+							<input pInputText id="NationalIdMasked" type="text" pSize="small"	formControlName="NationalIdMasked" [readonly]="!canEditKyc" />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('NationalIdMasked')"
 											label="NationalId Masked">
 										</app-validation-errors>
@@ -177,6 +184,13 @@
 											label="Effective To">
 										</app-validation-errors>
 						 </div></div>
+<section *ngIf="canViewKyc" class="border-top-1 surface-border pt-4 mt-3" aria-label="KYC and driving eligibility">
+  <div class="flex align-items-center justify-content-between mb-3"><div><h3 class="m-0">KYC &amp; Driving Eligibility</h3><small class="text-color-secondary">Sensitive verification data is limited to authorised users.</small></div><p-tag [value]="editForm.get('IdentityVerificationStatus')?.value || 'Pending'" [severity]="editForm.get('IdentityVerificationStatus')?.value === 'Verified' ? 'success' : editForm.get('IdentityVerificationStatus')?.value === 'Rejected' || editForm.get('IdentityVerificationStatus')?.value === 'Expired' ? 'danger' : 'warn'"></p-tag></div>
+  <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label for="IdentityVerificationStatus">Identity verification status</label><p-dropdown inputId="IdentityVerificationStatus" [options]="kycStatusOptions" optionLabel="Text" optionValue="Value" formControlName="IdentityVerificationStatus" [disabled]="!canEditKyc" placeholder="Select status"></p-dropdown></div><div class="flex flex-col w-full"><label for="DrivingLicenceClass">Licence class</label><input pInputText id="DrivingLicenceClass" formControlName="DrivingLicenceClass" [readonly]="!canEditKyc" placeholder="e.g. LMV" /></div></div>
+  <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><label for="DrivingLicenceVerificationDate">Licence verification date</label><p-calendar inputId="DrivingLicenceVerificationDate" dateFormat="dd-mm-yy" [showIcon]="true" formControlName="DrivingLicenceVerificationDate" [disabled]="!canEditKyc"></p-calendar></div><div class="flex flex-col w-full"><label for="KycVerificationDate">Identity verification date</label><p-calendar inputId="KycVerificationDate" dateFormat="dd-mm-yy" [showIcon]="true" formControlName="KycVerificationDate" [disabled]="!canEditKyc"></p-calendar></div></div>
+  <div class="flex flex-col w-full"><label for="KycRemarks">Verification remarks</label><textarea pInputTextarea id="KycRemarks" rows="3" formControlName="KycRemarks" [readonly]="!canEditKyc"></textarea></div>
+  <div class="mt-4"><app-document-attachment-requirements ownerType="AssetUser" [ownerId]="assetUser?.Id || 0" [allowUpload]="canEditKyc" [allowRemove]="canEditKyc"></app-document-attachment-requirements></div>
+</section>
 
 					<app-audit-details [model]="assetUser"></app-audit-details>
 					</div>

@@ -14,12 +14,25 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { PermissionService } from '@/shared/security/permission.service';
 import { LeaseContractService } from './leaseContract.service';
 import { ILeaseContract } from './leaseContract';
-import { finalize } from 'rxjs';
+import { catchError, finalize, forkJoin, of } from 'rxjs';
 import { DocumentTemplateService } from '@/views/documents/documentTemplate/document-template.service';
 import { DocumentTemplate } from '@/views/documents/documentTemplate/document-template.models';
 import { ILeaseContractReadiness } from './leaseContract-readiness';
 import { ILeaseContractExecutionWorkflow } from './leaseContract-execution';
 import { ILeaseContractActivationAsset, ILeaseContractActivationReadiness, ILeaseContractActivationRequirement } from './leaseContract-activation';
+import { AssetAssignmentService } from '@/views/assets/assetAssignment/assetAssignment.service';
+import { IAssetAssignment, IAssetAssignmentDeliveryContext } from '@/views/assets/assetAssignment/assetAssignment';
+import { ISelectItem } from '@/shared/ISelectItem';
+import { DataType, Operator } from '@/shared/LoggedInUserService';
+import { AssetService } from '@/views/assets/asset/asset.service';
+import { AssetCategoryService } from '@/views/assets/assetCategory/assetCategory.service';
+import { IAssetCategory } from '@/views/assets/assetCategory/assetCategory';
+import { InsurancePolicyAssetService } from '@/views/maintenanceInsurances/insurancePolicyAsset/insurancePolicyAsset.service';
+import { IInsurancePolicyAsset } from '@/views/maintenanceInsurances/insurancePolicyAsset/insurancePolicyAsset';
+import { IInsurancePolicyAssetDeliveryContext } from '@/views/maintenanceInsurances/insurancePolicyAsset/insurancePolicyAsset-delivery-form.component';
+import { DeliveryChecklistService } from '../deliveryChecklist/delivery-checklist.service';
+import { IDeliveryChecklistContext, IDeliveryChecklistSnapshot } from '../deliveryChecklist/delivery-checklist.models';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
     templateUrl: './leaseContract-view.component.html', 
@@ -55,6 +68,23 @@ export class LeaseContractViewComponent implements OnInit {
     deliveryForm: any;
     acceptanceForm: any;
     quickOptionItems: MenuItem[] = [];
+    assignmentDialogVisible = false;
+    assignmentContext: IAssetAssignmentDeliveryContext | null = null;
+    selectedAssignment: IAssetAssignment | null = null;
+    deliveryAssignments: Record<number, IAssetAssignment[]> = {};
+    assignmentStatusOptions: ISelectItem[] = [];
+    assignmentLoading = false;
+    assignmentPermission = {} as IPermission;
+    insuranceDialogVisible = false;
+    insuranceContext: IInsurancePolicyAssetDeliveryContext | null = null;
+    selectedInsuranceCoverage: IInsurancePolicyAsset | null = null;
+    deliveryInsurance: Record<number, IInsurancePolicyAsset[]> = {};
+    insurancePermission = {} as IPermission;
+    insuranceLoading = false;
+    checklistDialogVisible = false;
+    checklistContext: IDeliveryChecklistContext | null = null;
+    deliveryChecklists: Record<number, IDeliveryChecklistSnapshot | null> = {};
+    checklistLoading = false;
     Caption: string = 'Loading...';
     
 
@@ -66,7 +96,12 @@ export class LeaseContractViewComponent implements OnInit {
         private loggedInUserService: LoggedInUserService,
         private permissionService: PermissionService,
         private documentTemplateService: DocumentTemplateService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private assetAssignmentService: AssetAssignmentService,
+        private assetService: AssetService,
+        private assetCategoryService: AssetCategoryService,
+        private insurancePolicyAssetService: InsurancePolicyAssetService,
+        private deliveryChecklistService: DeliveryChecklistService
     ) {
         this.signatureRequestForm = this.formBuilder.group({
             RecipientEmail: ['', [Validators.required, Validators.email]]
@@ -179,11 +214,7 @@ export class LeaseContractViewComponent implements OnInit {
     }
 
     downloadAgreement(): void {
-        this.downloadPdfAction(
-            this.leaseContractService.downloadAgreement(this.leaseContract.Id),
-            this.agreement?.FileName || `Lease-Agreement-${this.leaseContract.Id}.pdf`,
-            'Lease agreement downloaded.'
-        );
+        this.downloadPdfAction(this.leaseContractService.downloadAgreement(this.leaseContract.Id), this.agreement?.FileName || `Lease-Agreement-${this.leaseContract.Id}.pdf`, 'Lease agreement downloaded.');
     }
 
     editContract(): void {
@@ -336,6 +367,32 @@ export class LeaseContractViewComponent implements OnInit {
     recordDelivery(): void {
         if (!this.canRecordDelivery) return;
 
+        const assetId = Number(this.deliveryForm.getRawValue().AssetId || 0);
+        if (assetId && this.requiresInsuranceFor(assetId) && !this.hasRequiredInsurance(assetId)) {
+            this.messageService.showError('Delivery is blocked because this asset requires verified insurance coverage. Add or verify insurance before recording delivery.');
+            return;
+        }
+        // Attachment uploads change evidence counts outside the checklist form.
+        // Refresh the server snapshot immediately before deciding whether the
+        // client may submit; the API performs the same check transactionally.
+        if (assetId && this.requiresChecklistFor(assetId)) {
+            const requirement = this.activationReadiness?.AssetRequirements.find(item => item.AllocatedAssets.some(candidate => candidate.AssetId === assetId));
+            if (!requirement) { this.messageService.showError('The allocated asset requirement could not be resolved.'); return; }
+            this.deliveryChecklistService.getOrCreate({ LeaseContractId: this.leaseContract.Id, LeaseContractAssetId: requirement.LeaseContractAssetId, AssetId: assetId, AssetLabel: '', AssetCategoryName: requirement.AssetCategoryName }).subscribe({
+                next: response => {
+                    const checklist = response?.data || null;
+                    this.deliveryChecklists[assetId] = checklist;
+                    if (!checklist?.IsReadyForDelivery) { this.messageService.showError('Delivery is blocked until the mandatory delivery checklist is complete.'); return; }
+                    this.submitDelivery();
+                },
+                error: () => this.messageService.showError('Delivery checklist validation is unavailable. Delivery remains blocked.')
+            });
+            return;
+        }
+        this.submitDelivery();
+    }
+
+    private submitDelivery(): void {
         if (this.deliveryForm.invalid) {
             this.deliveryForm.markAllAsTouched();
             this.messageService.showError('Enter delivery location, delivering person, and receiving person.');
@@ -343,6 +400,217 @@ export class LeaseContractViewComponent implements OnInit {
         }
         const value = this.deliveryForm.getRawValue();
         this.runActivationAction(this.leaseContractService.recordAssetDelivery(this.leaseContract.Id, value), 'Asset delivery recorded. Confirm customer acceptance when available.', () => this.cancelDelivery());
+    }
+
+    openAssetAssignment(asset: ILeaseContractActivationAsset): void {
+        if (!this.leaseContract?.CustomerPartyId || !asset?.AssetId) return;
+        this.selectedAssignment = this.currentDeliveryAssignment(asset.AssetId) || null;
+        this.assignmentContext = {
+            AssetId: asset.AssetId,
+            AssetLabel: `${asset.AssetNumber}${asset.Identifier ? ' — ' + asset.Identifier : ''}`,
+            PartyId: this.leaseContract.CustomerPartyId,
+            ReferenceType: 'Contract',
+            ReferenceId: String(this.leaseContract.Id)
+        };
+        this.assignmentDialogVisible = true;
+        this.loadAssetCategoryCompliance(asset.AssetId);
+    }
+
+    private loadAssetCategoryCompliance(assetId: number): void {
+        this.assetService.getById(assetId).pipe(
+            switchMap((assetResponse: any) => {
+                const asset = assetResponse?.data || assetResponse;
+                return asset?.AssetCategoryId ? this.assetCategoryService.getById(asset.AssetCategoryId) : of(null);
+            }),
+            catchError(() => of(null))
+        ).subscribe((categoryResponse: any) => {
+            const category = (categoryResponse?.data || categoryResponse || null) as IAssetCategory | null;
+            if (!category || !this.assignmentContext || this.assignmentContext.AssetId !== assetId) return;
+            // False is the safe default: category policy, not an asset name, controls vehicle KYC.
+            this.assignmentContext = {
+                ...this.assignmentContext,
+                RequiresDriverKyc: category.RequiresDriverKyc === true,
+                RequiredDrivingLicenceClass: category.RequiredDrivingLicenceClass || undefined
+            };
+        });
+    }
+
+    closeAssetAssignment(): void {
+        this.assignmentDialogVisible = false;
+        this.assignmentContext = null;
+        this.selectedAssignment = null;
+    }
+
+    onAssetAssignmentSaved(): void {
+        this.closeAssetAssignment();
+        this.messageService.showSuccess('Asset custodian assignment saved.');
+        this.loadActivationReadiness();
+    }
+
+    assignmentFor(assetId: number): IAssetAssignment | null {
+        return this.currentDeliveryAssignment(assetId);
+    }
+
+    assignmentStatus(assignment: IAssetAssignment | null): string {
+        if (!assignment) return 'Unassigned';
+        return this.assignmentStatusOptions.find(option => option.Id === assignment.AssignmentStatusId)?.Text
+            || assignment.RecordStatus
+            || 'Pending';
+    }
+
+    assignmentHistoryFor(assetId: number): IAssetAssignment[] {
+        const currentId = this.currentDeliveryAssignment(assetId)?.Id;
+        return (this.deliveryAssignments[assetId] || []).filter(item => item.Id !== currentId);
+    }
+
+    canManageAssetAssignment(assetId: number): boolean {
+        const existing = this.assignmentFor(assetId);
+        return this.canRecordDelivery && (existing ? this.assignmentPermission.CanUpdate === true : this.assignmentPermission.CanCreate === true);
+    }
+
+    insuranceFor(assetId: number): IInsurancePolicyAsset[] {
+        return this.deliveryInsurance[assetId] || [];
+    }
+
+    insuranceStatus(assetId: number): 'Covered' | 'Missing' | 'Expired' | 'Pending Verification' | 'Not Required' {
+        const coverage = this.insuranceFor(assetId).filter(item => String(item.RecordStatus || 'Active').toUpperCase() === 'ACTIVE');
+        if (!coverage.length) return 'Missing';
+        if (coverage.some(item => String(item.StatusCode || '').replace(/[ _-]/g, '').toUpperCase() === 'NOTREQUIRED')) return 'Not Required';
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const current = coverage.filter(item => {
+            const start = this.insuranceDate(item.CoverageStartDate);
+            const end = this.insuranceDate(item.CoverageEndDate);
+            return !!start && !!end && start <= today && end >= today;
+        });
+        if (current.some(item => this.isCoveredInsurance(item))) return 'Covered';
+        if (current.length) return 'Pending Verification';
+        return 'Expired';
+    }
+
+    insuranceStatusSeverity(assetId: number): 'success' | 'warn' | 'danger' | 'info' {
+        switch (this.insuranceStatus(assetId)) {
+            case 'Covered': return 'success';
+            case 'Not Required': return 'info';
+            case 'Pending Verification': return 'warn';
+            default: return 'danger';
+        }
+    }
+
+    openAssetInsurance(asset: ILeaseContractActivationAsset): void {
+        if (!asset?.AssetId || !this.leaseContract?.Id) return;
+        const records = this.insuranceFor(asset.AssetId);
+        this.selectedInsuranceCoverage = records.find(item => this.isCoveredInsurance(item)) || records[0] || null;
+        this.insuranceContext = {
+            AssetId: asset.AssetId,
+            LeaseContractId: this.leaseContract.Id,
+            AssetLabel: `${asset.AssetNumber}${asset.Identifier ? ' — ' + asset.Identifier : ''}`
+        };
+        this.insuranceDialogVisible = true;
+    }
+
+    addAssetInsurance(asset: ILeaseContractActivationAsset): void {
+        this.openAssetInsurance(asset);
+        this.selectedInsuranceCoverage = null;
+    }
+
+    closeAssetInsurance(): void {
+        this.insuranceDialogVisible = false;
+        this.insuranceContext = null;
+        this.selectedInsuranceCoverage = null;
+    }
+
+    onAssetInsuranceSaved(): void {
+        this.closeAssetInsurance();
+        this.messageService.showSuccess('Insurance coverage saved and delivery readiness refreshed.');
+        this.loadActivationReadiness();
+    }
+
+    canManageAssetInsurance(assetId: number): boolean {
+        const existing = this.insuranceFor(assetId)[0];
+        return existing ? this.insurancePermission.CanUpdate === true : this.insurancePermission.CanCreate === true;
+    }
+
+    deliveryChecklistFor(assetId: number): IDeliveryChecklistSnapshot | null {
+        return this.deliveryChecklists[assetId] || null;
+    }
+
+    checklistStatus(assetId: number): string {
+        const checklist = this.deliveryChecklistFor(assetId);
+        if (!checklist) return this.requiresChecklistFor(assetId) ? 'Not started' : 'Not required';
+        if (checklist.IsReadyForDelivery) return 'Complete';
+        if (checklist.Status === 'BLOCKED') return 'Blocked';
+        return checklist.Status === 'NOT_STARTED' ? 'Not started' : 'In progress';
+    }
+
+    checklistStatusSeverity(assetId: number): 'success' | 'warn' | 'danger' | 'info' {
+        const status = this.checklistStatus(assetId);
+        return status === 'Complete' ? 'success' : status === 'Not required' ? 'info' : status === 'Blocked' ? 'danger' : 'warn';
+    }
+
+    openDeliveryChecklist(requirement: ILeaseContractActivationRequirement, asset: ILeaseContractActivationAsset): void {
+        if (!this.canRecordDelivery || !asset?.AssetId) return;
+        this.checklistContext = {
+            LeaseContractId: this.leaseContract.Id,
+            LeaseContractAssetId: requirement.LeaseContractAssetId,
+            AssetId: asset.AssetId,
+            AssetLabel: `${asset.AssetNumber}${asset.Identifier ? ' — ' + asset.Identifier : ''}`,
+            AssetCategoryName: requirement.AssetCategoryName
+        };
+        this.checklistDialogVisible = true;
+    }
+
+    closeDeliveryChecklist(): void {
+        this.checklistDialogVisible = false;
+        this.checklistContext = null;
+    }
+
+    onDeliveryChecklistSaved(): void {
+        this.closeDeliveryChecklist();
+        this.messageService.showSuccess('Delivery checklist saved and readiness refreshed.');
+        this.loadActivationReadiness();
+    }
+
+    private requiresInsuranceFor(assetId: number): boolean {
+        const asset = this.activationAssets.find(item => item.AssetId === assetId);
+        // Newer APIs can provide an asset/contract requirement flag. Existing
+        // tenants retain their current delivery behaviour until that policy is set.
+        return asset?.InsuranceRequired === true || (this.leaseContract as any)?.InsuranceRequired === true;
+    }
+
+    private hasRequiredInsurance(assetId: number): boolean {
+        const asset = this.activationAssets.find(item => item.AssetId === assetId);
+        const requiredCoverageTypeId = asset?.RequiredInsuranceCoverageTypeId;
+        return this.insuranceFor(assetId).some(item => this.isCoveredInsurance(item) && this.isCurrentInsurance(item)
+            && (!requiredCoverageTypeId || item.CoverageTypeId === requiredCoverageTypeId)
+        );
+    }
+
+    private requiresChecklistFor(assetId: number): boolean {
+        const asset = this.activationAssets.find(item => item.AssetId === assetId) as any;
+        const requirement = this.activationReadiness?.AssetRequirements.find(item => item.AllocatedAssets.some(candidate => candidate.AssetId === assetId));
+        const category = String(requirement?.AssetCategoryName || '').toUpperCase();
+        return asset?.DeliveryChecklistRequired === true || /VEHICLE|IT|PLANT|EQUIPMENT/.test(category) || !!this.deliveryChecklists[assetId]?.Items?.length;
+    }
+
+    private isCoveredInsurance(item: IInsurancePolicyAsset): boolean {
+        return ['COVERED', 'ACTIVE', 'VERIFIED'].includes(String(item.StatusCode || '').replace(/[ _-]/g, '').toUpperCase());
+    }
+
+    private isCurrentInsurance(item: IInsurancePolicyAsset): boolean {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const start = this.insuranceDate(item.CoverageStartDate);
+        const end = this.insuranceDate(item.CoverageEndDate);
+        return !!start && !!end && start <= today && end >= today;
+    }
+
+    private insuranceDate(value: unknown): Date | null {
+        if (!value) return null;
+        const date = value instanceof Date ? value : new Date(String(value));
+        if (Number.isNaN(date.getTime())) return null;
+        date.setHours(0, 0, 0, 0);
+        return date;
     }
 
     beginAcceptance(requirement: ILeaseContractActivationRequirement, asset: ILeaseContractActivationAsset): void {
@@ -615,7 +883,112 @@ export class LeaseContractViewComponent implements OnInit {
                 this.allocationSelections[requirement.LeaseContractAssetId] = null;
             }
         });
+        this.loadDeliveryAssignments(readiness);
+        this.loadDeliveryInsurance(readiness);
+        this.loadDeliveryChecklists(readiness);
         this.refreshQuickOptions();
+    }
+
+    private loadDeliveryAssignments(readiness: ILeaseContractActivationReadiness): void {
+        const assetIds = [...new Set(readiness.AssetRequirements.flatMap(requirement => requirement.AllocatedAssets.map(asset => asset.AssetId)))];
+        this.assignmentStatusOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentStatus');
+        if (!assetIds.length) {
+            this.deliveryAssignments = {};
+            return;
+        }
+
+        const tenantId = this.loggedInUserService.loggedInUser?.Tenant?.Id;
+        this.assignmentLoading = true;
+        const requests = assetIds.map(assetId => this.assetAssignmentService.search({
+            Skip: 0, Take: 100, SortBy: 'AssignedFrom', IsDescending: true,
+            Conditions: [
+                { DBName: 'TenantId', Value: String(tenantId), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'AssetId', Value: String(assetId), DataType: DataType.Int, Operator: Operator.EqualTo }
+            ]
+        }).pipe(catchError(() => of(null))));
+        forkJoin(requests).subscribe({
+            next: responses => {
+                const records: Record<number, IAssetAssignment[]> = {};
+                responses.forEach((response: any, index: number) => {
+                    records[assetIds[index]] = response?.data?.Records || [];
+                    if (response?.permission) this.assignmentPermission = response.permission;
+                });
+                this.deliveryAssignments = records;
+            },
+            complete: () => this.assignmentLoading = false
+        });
+    }
+
+    private loadDeliveryInsurance(readiness: ILeaseContractActivationReadiness): void {
+        const assetIds = [...new Set(readiness.AssetRequirements.flatMap(requirement => requirement.AllocatedAssets.map(asset => asset.AssetId)))];
+        if (!assetIds.length) {
+            this.deliveryInsurance = {};
+            return;
+        }
+        const tenantId = this.loggedInUserService.loggedInUser?.Tenant?.Id;
+        this.insuranceLoading = true;
+        const requests = assetIds.map(assetId => this.insurancePolicyAssetService.search({
+            Skip: 0, Take: 100, SortBy: 'CoverageEndDate', IsDescending: true,
+            Conditions: [
+                { DBName: 'TenantId', Value: String(tenantId), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'AssetId', Value: String(assetId), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'LeaseContractId', Value: String(this.leaseContract.Id), DataType: DataType.Int, Operator: Operator.EqualTo }
+            ]
+        }).pipe(catchError(() => of(null))));
+        forkJoin(requests).subscribe({
+            next: responses => {
+                const records: Record<number, IInsurancePolicyAsset[]> = {};
+                responses.forEach((response: any, index: number) => {
+                    records[assetIds[index]] = response?.data?.Records || [];
+                    if (response?.permission) this.insurancePermission = response.permission;
+                });
+                this.deliveryInsurance = records;
+                readiness.AssetRequirements.forEach(requirement => requirement.AllocatedAssets.forEach(asset => asset.InsuranceStatus = this.insuranceStatus(asset.AssetId)));
+            },
+            complete: () => this.insuranceLoading = false
+        });
+    }
+
+    private loadDeliveryChecklists(readiness: ILeaseContractActivationReadiness): void {
+        const contexts: IDeliveryChecklistContext[] = [];
+        for (const requirement of readiness.AssetRequirements) {
+            for (const asset of requirement.AllocatedAssets) {
+                contexts.push({
+                    LeaseContractId: this.leaseContract.Id,
+                    LeaseContractAssetId: requirement.LeaseContractAssetId,
+                    AssetId: asset.AssetId,
+                    AssetLabel: `${asset.AssetNumber}${asset.Identifier ? ' — ' + asset.Identifier : ''}`,
+                    AssetCategoryName: requirement.AssetCategoryName
+                });
+            }
+        }
+        if (!contexts.length) {
+            this.deliveryChecklists = {};
+            return;
+        }
+        this.checklistLoading = true;
+        const requests = contexts.map(context => this.deliveryChecklistService.getOrCreate(context).pipe(catchError(() => of(null))));
+        forkJoin(requests).subscribe({
+            next: responses => {
+                const records: Record<number, IDeliveryChecklistSnapshot | null> = {};
+                responses.forEach((response: any, index: number) => records[contexts[index].AssetId] = response?.data || null);
+                this.deliveryChecklists = records;
+            },
+            complete: () => this.checklistLoading = false
+        });
+    }
+
+    private currentDeliveryAssignment(assetId: number): IAssetAssignment | null {
+        // Keep the delivery form tied to its own contract. Other active
+        // assignments stay in the candidate list so overlap validation (and
+        // the server's validation) can prevent a conflicting new primary.
+        const assignments = (this.deliveryAssignments[assetId] || []).filter(assignment =>
+            String(assignment.ReferenceType || '').toUpperCase() === 'CONTRACT'
+            && String(assignment.ReferenceId || '') === String(this.leaseContract.Id));
+        return assignments.find(assignment => assignment.IsPrimary && String(assignment.RecordStatus || 'Active').toUpperCase() === 'ACTIVE' && !assignment.AssignedTo)
+            || assignments.find(assignment => String(assignment.RecordStatus || 'Active').toUpperCase() === 'ACTIVE')
+            || assignments[0]
+            || null;
     }
 
     private refreshQuickOptions(): void {

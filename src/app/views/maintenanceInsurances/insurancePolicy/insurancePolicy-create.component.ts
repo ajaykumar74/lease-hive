@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
-import { SpinnerComponent } from '@/shared/spinner.component'; 
+import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IInsurancePolicy } from './insurancePolicy';
@@ -16,135 +16,160 @@ import { InsurancePolicyService } from './insurancePolicy.service';
 @Component({
   selector: 'app-insurancePolicy-create',
   standalone: false,
-  templateUrl: './insurancePolicy-create.component.html' ,
-   providers: [ MessageService]
+  templateUrl: './insurancePolicy-create.component.html',
+  providers: [MessageService]
 })
 export class InsurancePolicyCreateComponent implements OnInit {
   private readonly entityLookupDestroyRef = inject(DestroyRef);
 
-   
-  selectedId: number; 
-  isLoading : boolean = false;
+
+  selectedId: number;
+  isLoading: boolean = false;
   permission = {} as IPermission;
   Caption: string = 'Loading...';
   insurancePolicy: IInsurancePolicy = null;
   organisationidOptions: ISelectItem[] = [];
-insurerpartyidOptions: ISelectItem[] = [];
-brokerpartyidOptions: ISelectItem[] = [];
-insurancepolicystatusidOptions: ISelectItem[] = [];
-policytypecodeOptions: ISelectItem[] = [];
-coveragetypeidOptions: ISelectItem[] = [];
-paymentreferenceidOptions: ISelectItem[] = [];
-previouspolicyidOptions: ISelectItem[] = [];
+  insurerpartyidOptions: ISelectItem[] = [];
+  brokerpartyidOptions: ISelectItem[] = [];
+  insurancepolicystatusidOptions: ISelectItem[] = [];
+  policytypecodeOptions: ISelectItem[] = [];
+  coveragetypeidOptions: ISelectItem[] = [];
+  paymentreferenceidOptions: ISelectItem[] = [];
+  previouspolicyidOptions: ISelectItem[] = [];
 
-  editForm: any; 
-  objMaster : IInsurancePolicy = {} as IInsurancePolicy;
-  
-    @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
-    @ViewChild(MessageComponent) messageService: MessageComponent;
+  editForm: any;
+  objMaster: IInsurancePolicy = {} as IInsurancePolicy;
+
+  @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
+  @ViewChild(MessageComponent) messageService: MessageComponent;
 
   constructor(
-	private fb: FormBuilder,
-	private router: Router, 	
-	private _location: Location, 
-	private insurancePolicyService: InsurancePolicyService,
-	private loggedInUserService : LoggedInUserService
-	
+    private fb: FormBuilder,
+    private router: Router,
+    private _location: Location,
+    private insurancePolicyService: InsurancePolicyService,
+    private loggedInUserService: LoggedInUserService
+
   ) {
   }
- 
 
- 
 
-  
+
+
+
   ngOnInit(): void {
-   this.objMaster = { ...this.insurancePolicy };
+    this.objMaster = { ...this.insurancePolicy };
 
     this.editForm = this.fb.group({
-     Id: new FormControl(0, []),
-PolicyNo: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
-OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-InsurerPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-BrokerPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-InsurancePolicyStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PolicyTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-CoverageTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
-PolicyStartDate: new FormControl(new Date(), [Validators.required]),
-PolicyEndDate: new FormControl(new Date(), [Validators.required]),
-CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-TotalInsuredValue: new FormControl(0, []),
-PremiumAmount: new FormControl(0, []),
-TaxAmount: new FormControl(0, []),
-PaymentReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-PreviousPolicyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-IssuedDate: new FormControl(new Date(), []),
+      Id: new FormControl(0, []),
+      PolicyNo: new FormControl('', [Validators.required, Validators.maxLength(50),]),
+      OrganisationId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      InsurerPartyId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      BrokerPartyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      InsurancePolicyStatusId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      PolicyTypeCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      CoverageTypeId: new FormControl(0, [Validators.required, Validators.min(-2147483648), Validators.max(2147483647)]),
+      PolicyStartDate: new FormControl(new Date(), [Validators.required]),
+      PolicyEndDate: new FormControl(new Date(), [Validators.required]),
+      CurrencyCode: new FormControl('', [Validators.required, Validators.maxLength(20),]),
+      TotalInsuredValue: new FormControl(0, []),
+      PremiumAmount: new FormControl(0, []),
+      TaxAmount: new FormControl(0, []),
+      PaymentReferenceId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      PreviousPolicyId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
+      IssuedDate: new FormControl(new Date(), []),
 
     });
     this.Caption = 'Create InsurancePolicy';
     this.loggedInUserService.bindEntityLookup(this.editForm, 'OrganisationId', 'organisations',
       options => this.organisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurerPartyId', 'parties',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurerPartyId', 'parties',
       options => this.insurerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'BrokerPartyId', 'parties',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'BrokerPartyId', 'parties',
       options => this.brokerpartyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurancePolicyStatusId', 'insurance-policy-statuses',
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'InsurancePolicyStatusId', 'insurance-policy-statuses',
       options => this.insurancepolicystatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.policytypecodeOptions = this.loggedInUserService.getPicklistOptions('PolicyTypeCode');
-this.loggedInUserService.bindEntityLookup(this.editForm, 'CoverageTypeId', 'insurance-coverage-types',
+    this.loadPolicyTypeOptions();
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CoverageTypeId', 'insurance-coverage-types',
       options => this.coveragetypeidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
-this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId1', Value: 'PaymentReferenceId1' });
-this.paymentreferenceidOptions.push({Text: 'PaymentReferenceId2', Value: 'PaymentReferenceId2' });
-this.loggedInUserService.bindEntityLookup(this.editForm, 'PreviousPolicyId', 'insurance-policies',
+    this.paymentreferenceidOptions.push({ Text: 'PaymentReferenceId1', Value: 'PaymentReferenceId1' });
+    this.paymentreferenceidOptions.push({ Text: 'PaymentReferenceId2', Value: 'PaymentReferenceId2' });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'PreviousPolicyId', 'insurance-policies',
       options => this.previouspolicyidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef, {"OrganisationId":"OrganisationId"});
+      this.entityLookupDestroyRef, { "OrganisationId": "OrganisationId" });
 
   }
- 
- loadUI(): void {
-    this.isLoading = true;    
+
+  /**
+   * InsurancePolicyType is the canonical picklist. The temporary fallback
+   * keeps existing tenants usable until their legacy PolicyTypeCode values
+   * have been migrated to the new category.
+   */
+  private loadPolicyTypeOptions(): void {
+    this.loggedInUserService.getAvailablePicklistOptions('InsurancePolicyType').subscribe({
+      next: options => {
+        if (options.length) {
+          this.policytypecodeOptions = options;
+          return;
+        }
+        this.loadLegacyPolicyTypeOptions();
+      },
+      error: () => this.loadLegacyPolicyTypeOptions()
+    });
+  }
+
+  private loadLegacyPolicyTypeOptions(): void {
+    this.loggedInUserService.getAvailablePicklistOptions('PolicyTypeCode').subscribe({
+      next: options => this.policytypecodeOptions = options,
+      error: error => setTimeout(() => this.messageService?.showError(error))
+    });
+  }
+
+  loadUI(): void {
+    this.isLoading = true;
     this.insurancePolicyService.getById(this.selectedId).subscribe({
       next: data => {
         this.insurancePolicy = data;
         this.objMaster = { ...this.insurancePolicy };
         this.populateUI(data);
       },
-      error: err => {  this.messageService.showSuccess(err); },
+      error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
-    }); 
-  }  
+    });
+  }
 
 
   populateUI(obj: IInsurancePolicy): void {
-     this.editForm.patchValue(
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  PolicyNo: obj.PolicyNo || '',
-OrganisationId: obj.OrganisationId || 0,
-InsurerPartyId: obj.InsurerPartyId || 0,
-BrokerPartyId: obj.BrokerPartyId || 0,
-InsurancePolicyStatusId: obj.InsurancePolicyStatusId || 0,
-PolicyTypeCode: obj.PolicyTypeCode || '',
-CoverageTypeId: obj.CoverageTypeId || 0,
-PolicyStartDate:  obj.PolicyStartDate || new Date(),
-PolicyEndDate:  obj.PolicyEndDate || new Date(),
-CurrencyCode: obj.CurrencyCode || '',
-TotalInsuredValue: obj.TotalInsuredValue || 0,
-PremiumAmount: obj.PremiumAmount || 0,
-TaxAmount: obj.TaxAmount || 0,
-PaymentReferenceId: obj.PaymentReferenceId || 0,
-PreviousPolicyId: obj.PreviousPolicyId || 0,
-IssuedDate:  obj.IssuedDate || new Date(),
- 
+        Id: obj.Id || 0,
+        PolicyNo: obj.PolicyNo || '',
+        OrganisationId: obj.OrganisationId || 0,
+        InsurerPartyId: obj.InsurerPartyId || 0,
+        BrokerPartyId: obj.BrokerPartyId || 0,
+        InsurancePolicyStatusId: obj.InsurancePolicyStatusId || 0,
+        PolicyTypeCode: obj.PolicyTypeCode || '',
+        CoverageTypeId: obj.CoverageTypeId || 0,
+        PolicyStartDate: obj.PolicyStartDate || new Date(),
+        PolicyEndDate: obj.PolicyEndDate || new Date(),
+        CurrencyCode: obj.CurrencyCode || '',
+        TotalInsuredValue: obj.TotalInsuredValue || 0,
+        PremiumAmount: obj.PremiumAmount || 0,
+        TaxAmount: obj.TaxAmount || 0,
+        PaymentReferenceId: obj.PaymentReferenceId || 0,
+        PreviousPolicyId: obj.PreviousPolicyId || 0,
+        IssuedDate: obj.IssuedDate || new Date(),
+
       }
     );
   }
 
- 
+
   onOptionItemClicked(key: string): void {
     if (key == "Create") {
       this.router.navigate(['/insurancePolicys/create']);
@@ -162,78 +187,78 @@ IssuedDate:  obj.IssuedDate || new Date(),
 
   onCancel(): void {
     this.insurancePolicy = { ...this.objMaster };
-    var obj  = this.insurancePolicy;
-   this.editForm.patchValue(
+    var obj = this.insurancePolicy;
+    this.editForm.patchValue(
       {
-	   Id: obj.Id || 0,
-	  PolicyNo: obj.PolicyNo || '',
-OrganisationId: obj.OrganisationId || 0,
-InsurerPartyId: obj.InsurerPartyId || 0,
-BrokerPartyId: obj.BrokerPartyId || 0,
-InsurancePolicyStatusId: obj.InsurancePolicyStatusId || 0,
-PolicyTypeCode: obj.PolicyTypeCode || '',
-CoverageTypeId: obj.CoverageTypeId || 0,
-PolicyStartDate:  obj.PolicyStartDate || new Date(),
-PolicyEndDate:  obj.PolicyEndDate || new Date(),
-CurrencyCode: obj.CurrencyCode || '',
-TotalInsuredValue: obj.TotalInsuredValue || 0,
-PremiumAmount: obj.PremiumAmount || 0,
-TaxAmount: obj.TaxAmount || 0,
-PaymentReferenceId: obj.PaymentReferenceId || 0,
-PreviousPolicyId: obj.PreviousPolicyId || 0,
-IssuedDate:  obj.IssuedDate || new Date(),
- 
+        Id: obj.Id || 0,
+        PolicyNo: obj.PolicyNo || '',
+        OrganisationId: obj.OrganisationId || 0,
+        InsurerPartyId: obj.InsurerPartyId || 0,
+        BrokerPartyId: obj.BrokerPartyId || 0,
+        InsurancePolicyStatusId: obj.InsurancePolicyStatusId || 0,
+        PolicyTypeCode: obj.PolicyTypeCode || '',
+        CoverageTypeId: obj.CoverageTypeId || 0,
+        PolicyStartDate: obj.PolicyStartDate || new Date(),
+        PolicyEndDate: obj.PolicyEndDate || new Date(),
+        CurrencyCode: obj.CurrencyCode || '',
+        TotalInsuredValue: obj.TotalInsuredValue || 0,
+        PremiumAmount: obj.PremiumAmount || 0,
+        TaxAmount: obj.TaxAmount || 0,
+        PaymentReferenceId: obj.PaymentReferenceId || 0,
+        PreviousPolicyId: obj.PreviousPolicyId || 0,
+        IssuedDate: obj.IssuedDate || new Date(),
+
       }
     );
-    this.editForm.reset(); 
-  } 
+    this.editForm.reset();
+  }
 
-  Save(): void {    
-   
-        if (!this.editForm.valid) {
-            this.messageService.showError('One or more validation failed. Please clear error to continue...');
-            return;
-        }	
-  
-  
-	const formValues  = this.editForm.value ;
-	var createdObj = { 
+  Save(): void {
+
+    if (!this.editForm.valid) {
+      this.messageService.showError('One or more validation failed. Please clear error to continue...');
+      return;
+    }
+
+
+    const formValues = this.editForm.value;
+    var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
       Id: this.objMaster.Id,
-      RowVersionStr : this.objMaster.RowVersionStr,
-     PolicyNo: formValues.PolicyNo || null,
-OrganisationId: formValues.OrganisationId || 0,
-InsurerPartyId: formValues.InsurerPartyId || 0,
-BrokerPartyId: formValues.BrokerPartyId || 0,
-InsurancePolicyStatusId: formValues.InsurancePolicyStatusId || 0,
-PolicyTypeCode: formValues.PolicyTypeCode || null,
-CoverageTypeId: formValues.CoverageTypeId || 0,
-PolicyStartDate: formValues.PolicyStartDate || null,
-PolicyEndDate: formValues.PolicyEndDate || null,
-CurrencyCode: formValues.CurrencyCode || null,
-TotalInsuredValue: formValues.TotalInsuredValue || 0,
-PremiumAmount: formValues.PremiumAmount || 0,
-TaxAmount: formValues.TaxAmount || 0,
-PaymentReferenceId: formValues.PaymentReferenceId || 0,
-PreviousPolicyId: formValues.PreviousPolicyId || 0,
-IssuedDate: formValues.IssuedDate || null,
-RecordStatus: 'Active',
+      RowVersionStr: this.objMaster.RowVersionStr,
+      PolicyNo: formValues.PolicyNo || null,
+      OrganisationId: formValues.OrganisationId || 0,
+      InsurerPartyId: formValues.InsurerPartyId || 0,
+      BrokerPartyId: formValues.BrokerPartyId || 0,
+      InsurancePolicyStatusId: formValues.InsurancePolicyStatusId || 0,
+      PolicyTypeCode: formValues.PolicyTypeCode || null,
+      CoverageTypeId: formValues.CoverageTypeId || 0,
+      PolicyStartDate: formValues.PolicyStartDate || null,
+      PolicyEndDate: formValues.PolicyEndDate || null,
+      CurrencyCode: formValues.CurrencyCode || null,
+      TotalInsuredValue: formValues.TotalInsuredValue || 0,
+      PremiumAmount: formValues.PremiumAmount || 0,
+      TaxAmount: formValues.TaxAmount || 0,
+      PaymentReferenceId: formValues.PaymentReferenceId || 0,
+      PreviousPolicyId: formValues.PreviousPolicyId || 0,
+      IssuedDate: formValues.IssuedDate || null,
+      RecordStatus: 'Active',
 
-    } as IInsurancePolicy ; 
-	
-	  this.spinner.show(); 
+    } as IInsurancePolicy;
+
+    this.spinner.show();
     this.insurancePolicyService.create(createdObj).subscribe({
-      next: data => {	   
-         // this.messageService.showSuccess(InsurancePolicy +  'Details Updated sucessfully.');
-		 this._location.back();     
+      next: data => {
+      this.messageService.showSuccess('Policy Details Updated sucessfully.');
+        this._location.back();
       },
-      error: err => { 
-	   this.messageService.showError(err);
-       this.spinner.hide(); 
-	  },
+      error: err => {
+        this.messageService.showError(err);
+        this.spinner.hide();
+      },
       complete: () => { this.spinner.hide(); }
     });
-  } 
+  }
 
 }
 

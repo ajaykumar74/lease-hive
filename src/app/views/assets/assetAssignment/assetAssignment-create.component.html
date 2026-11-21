@@ -27,7 +27,7 @@
                                             label="AssetId"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="PartyId" class="mb-1">PartyId</label>
+                                        <label for="PartyId" class="mb-1">Customer</label>
                                         <p-dropdown inputId="PartyId" [options]="partyidOptions" optionLabel="Text"
                                             optionValue="Value" formControlName="PartyId" placeholder="Select One"
                                             class="w-full"> </p-dropdown>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="PartyLocationId" class="mb-1">PartyLocationId</label>
+                                        <label for="PartyLocationId" class="mb-1">Customer Location</label>
                                         <p-dropdown inputId="PartyLocationId" [options]="partylocationidOptions"
                                             optionLabel="Text" optionValue="Value" formControlName="PartyLocationId"
                                             placeholder="Select One" class="w-full"> </p-dropdown>
@@ -46,7 +46,7 @@
                                         </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="CustomerDepartmentId" class="mb-1">CustomerDepartmentId</label>
+                                        <label for="CustomerDepartmentId" class="mb-1">Department</label>
                                         <p-dropdown inputId="CustomerDepartmentId"
                                             [options]="customerdepartmentidOptions" optionLabel="Text"
                                             optionValue="Value" formControlName="CustomerDepartmentId"
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="AssetUserId" class="mb-1">AssetUserId</label>
+                                        <label for="AssetUserId" class="mb-1">Assigned User</label>
                                         <p-dropdown inputId="AssetUserId" [options]="assetuseridOptions"
                                             optionLabel="Text" optionValue="Value" formControlName="AssetUserId"
                                             placeholder="Select One" class="w-full"> </p-dropdown>
@@ -67,7 +67,7 @@
                                             label="AssetUserId"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="AssignmentType" class="mb-1">AssignmentType</label>
+                                        <label for="AssignmentType" class="mb-1">Assignment Type</label>
                                         <p-dropdown inputId="AssignmentType" [options]="assignmenttypeOptions"
                                             optionLabel="Text" optionValue="Value" formControlName="AssignmentType"
                                             placeholder="Select One" class="w-full"> </p-dropdown>
@@ -78,14 +78,14 @@
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-4">
                                     <div class="flex flex-col w-full">
-                                        <label for="AssignedFrom">AssignedFrom </label>
+                                        <label for="AssignedFrom">Assignment Start Date</label>
                                         <p-calendar id="AssignedFrom" size="small" dateFormat="dd-MM-yy"
                                             [showIcon]="true" formControlName="AssignedFrom"></p-calendar>
                                         <app-validation-errors [type]="'date'" [control]="editForm.get('AssignedFrom')"
                                             label="AssignedFrom"> </app-validation-errors>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="AssignedTo">AssignedTo </label>
+                                        <label for="AssignedTo">Assignment End Date (optional)</label>
                                         <p-calendar id="AssignedTo" size="small" dateFormat="dd-MM-yy" [showIcon]="true"
                                             formControlName="AssignedTo"></p-calendar>
                                         <app-validation-errors [type]="'date'" [control]="editForm.get('AssignedTo')"
@@ -103,11 +103,10 @@
                                         <div class="validation-space"></div>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="AssignmentStatusId">AssignmentStatusId </label>
-                                        <p-inputNumber id="AssignmentStatusId" pSize="small"
-                                            formControlName="AssignmentStatusId"> </p-inputNumber>
-                                        <app-validation-errors [type]="'number'"
-                                            [control]="editForm.get('AssignmentStatusId')" label="AssignmentStatusId">
+                                        <label for="AssignmentStatusId">Assignment Status</label>
+                                        <p-dropdown inputId="AssignmentStatusId" [options]="assignmentstatusidOptions" optionLabel="Text" optionValue="Id" formControlName="AssignmentStatusId" placeholder="Select status" class="w-full"></p-dropdown>
+                                        <app-validation-errors [type]="'text'"
+                                            [control]="editForm.get('AssignmentStatusId')" label="Assignment Status">
                                         </app-validation-errors>
                                     </div>
                                 </div>

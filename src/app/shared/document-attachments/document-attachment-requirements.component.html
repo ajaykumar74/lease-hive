@@ -17,6 +17,7 @@
         [documentRequirement]="requirement"
         [allowUpload]="allowUpload"
         [allowRemove]="allowRemove"
-        [usePrimeRemoveConfirmation]="usePrimeRemoveConfirmation">
+        [usePrimeRemoveConfirmation]="usePrimeRemoveConfirmation"
+        (attachmentsChanged)="attachmentsChanged.emit()">
     </app-document-attachments>
 </section>

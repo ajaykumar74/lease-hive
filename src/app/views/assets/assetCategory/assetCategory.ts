@@ -11,6 +11,12 @@ ParentCategoryDisplayName?: string;
 SupportsRegistration : boolean;
 SupportsMeasure : boolean;
 ExtensionTypeCode :string;
+/** Vehicle-only compliance policy. These remain false/empty for unrelated categories. */
+RequiresDriverKyc?: boolean;
+RequiresIdentityProof?: boolean;
+RequiresDrivingLicence?: boolean;
+RequiresEmployerAuthorization?: boolean;
+RequiredDrivingLicenceClass?: string;
 EffectiveFrom :Date;
 EffectiveTo :Date | null;
 RecordStatus :string;

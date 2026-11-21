@@ -20,6 +20,7 @@ import { InsurancePolicyAssetListComponent } from './insurancePolicyAsset-list.c
 import { InsurancePolicyAssetCreateComponent } from './insurancePolicyAsset-create.component';
 import { InsurancePolicyAssetEditComponent } from './insurancePolicyAsset-edit.component';
 import { InsurancePolicyAssetViewComponent } from './insurancePolicyAsset-view.component';
+import { InsurancePolicyAssetDeliveryFormModule } from './insurancePolicyAsset-delivery-form.module';
 import { InsurancePolicyAssetRoutingModule } from './insurancePolicyAsset-routing.module';
 
 
@@ -42,6 +43,7 @@ import { InsurancePolicyAssetRoutingModule } from './insurancePolicyAsset-routin
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		InsurancePolicyAssetDeliveryFormModule,
 		InsurancePolicyAssetRoutingModule,
 	],
 	declarations: [

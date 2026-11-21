@@ -1,19 +1,22 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
+import { catchError, forkJoin, of } from 'rxjs';
 
 
 import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService';
 import { CurrencyDefaultService } from '@/shared/currency-default.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IPurchaseRequisition } from './purchaseRequisition';
 import { PurchaseRequisitionService } from './purchaseRequisition.service';
 import { IPurchaseRequisitionLine } from '../purchaseRequisitionLine/purchaseRequisitionLine';
+import { IQuoteAsset } from '@/views/crm/quoteAsset/quoteAsset';
+import { QuoteAssetService } from '@/views/crm/quoteAsset/quoteAsset.service';
 
 @Component({
   selector: 'app-purchaseRequisition-create',
@@ -37,6 +40,7 @@ purchaserequisitionstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
+quoteAssetItemsLoading = false;
 
   editForm: any; 
   objMaster : IPurchaseRequisition = {} as IPurchaseRequisition;
@@ -47,8 +51,10 @@ uomidOptions: ISelectItem[] = [];
   constructor(
 	private fb: FormBuilder,
 	private router: Router, 	
+	private route: ActivatedRoute,
 	private _location: Location, 
 	private purchaseRequisitionService: PurchaseRequisitionService,
+	private quoteAssetService: QuoteAssetService,
 	private loggedInUserService : LoggedInUserService,
   private currencyDefaultService: CurrencyDefaultService
 
@@ -93,8 +99,74 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestingOrganisation
       options => this.requestingorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.sourcereferencetypeOptions = this.loggedInUserService.getPicklistOptions('PurchaseRequisitionSourceReferenceType');
+this.applySourceReferenceContext();
 this.loadLineItemOptions();
 
+  }
+
+  private applySourceReferenceContext(): void {
+    const sourceReferenceType = this.route.snapshot.queryParamMap.get('sourceRefType')?.trim();
+    const sourceReferenceId = Number(this.route.snapshot.queryParamMap.get('sourceRefId'));
+    const currencyCode = this.route.snapshot.queryParamMap.get('currencyCode')?.trim();
+
+    if (sourceReferenceType && Number.isInteger(sourceReferenceId) && sourceReferenceId > 0) {
+      this.editForm.patchValue({
+        SourceReferenceType: sourceReferenceType,
+        SourceReferenceId: sourceReferenceId,
+        CurrencyCode: currencyCode || this.editForm.get('CurrencyCode')?.value
+      });
+
+      if (sourceReferenceType.toUpperCase() === 'QUOTE') this.addQuoteAssetLineItems(sourceReferenceId, currencyCode);
+    }
+  }
+
+  private addQuoteAssetLineItems(quoteId: number, currencyCode?: string): void {
+    const tenantId = this.loggedInUserService.loggedInUser?.Tenant?.Id;
+    const conditions = [
+      { DBName: 'QuoteId', Value: String(quoteId), DataType: DataType.Int, Operator: Operator.EqualTo }
+    ];
+    if (tenantId) conditions.unshift({ DBName: 'TenantId', Value: String(tenantId), DataType: DataType.Int, Operator: Operator.EqualTo });
+
+    this.quoteAssetItemsLoading = true;
+    forkJoin({
+      quoteAssetResponse: this.quoteAssetService.search({ Skip: 0, Take: 500, SortBy: 'Id', IsDescending: false, Conditions: conditions }),
+      assetMakes: this.loggedInUserService.getEntityLookupOptions('asset-makes').pipe(catchError(() => of([]))),
+      assetModels: this.loggedInUserService.getEntityLookupOptions('asset-models').pipe(catchError(() => of([])))
+    }).subscribe({
+      next: ({ quoteAssetResponse, assetMakes, assetModels }) => {
+        const quoteAssets = ((quoteAssetResponse?.data?.Records || []) as IQuoteAsset[])
+          .sort((left, right) => (left.LineNo || 0) - (right.LineNo || 0));
+        quoteAssets.forEach(asset => this.addLineItem({
+          LineNo: asset.LineNo,
+          LineTypeCode: 'ASSET',
+          Description: this.getQuoteAssetDescription(asset, assetMakes, assetModels),
+          Quantity: asset.Quantity || 1,
+          EstimatedUnitCost: asset.UnitAssetCost || 0,
+          CurrencyCode: currencyCode || this.editForm.get('CurrencyCode')?.value || this.currencyDefaultService.getDefaultCurrencyCode(),
+          RequiredByDate: this.editForm.get('RequiredByDate')?.value,
+          AssetCategoryId: asset.AssetCategoryId || 0,
+          AssetTypeId: asset.AssetTypeId || 0,
+          AssetMakeId: asset.AssetMakeId || 0,
+          AssetModelId: asset.AssetModelId || 0,
+          SpecificationsJson: JSON.stringify({ QuoteAssetId: asset.Id, AssetMakeId: asset.AssetMakeId || null, AssetModelId: asset.AssetModelId || null })
+        }));
+        this.recalculateLineItems();
+      },
+      error: error => this.messageService?.showError(error),
+      complete: () => this.quoteAssetItemsLoading = false
+    });
+  }
+
+  private getQuoteAssetDescription(asset: IQuoteAsset, assetMakes: ISelectItem[], assetModels: ISelectItem[]): string {
+    const make = this.getLookupName(assetMakes, asset.AssetMakeId);
+    const model = this.getLookupName(assetModels, asset.AssetModelId);
+    return [make, model].filter(Boolean).join(' ') || asset.Description || `Quote asset ${asset.LineNo}`;
+  }
+
+  private getLookupName(options: ISelectItem[], id: number): string {
+    const displayText = options.find(option => Number(option.Id ?? option.Value) === Number(id))?.Text || '';
+    const name = displayText.includes(' - ') ? displayText.substring(displayText.indexOf(' - ') + 3) : displayText;
+    return name.replace(/\s*\/\s*/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
  loadUI(): void {
@@ -153,7 +225,9 @@ Justification: obj.Justification || '',
       RequiredByDate: new FormControl(lineItem?.RequiredByDate ? new Date(lineItem.RequiredByDate) : null),
       DeliveryLocationId: new FormControl(lineItem?.DeliveryLocationId || 0),
       AssetCategoryId: new FormControl(lineItem?.AssetCategoryId || 0),
-      AssetTypeId: new FormControl(lineItem?.AssetTypeId || 0)
+       AssetTypeId: new FormControl(lineItem?.AssetTypeId || 0),
+       AssetMakeId: new FormControl(lineItem?.AssetMakeId || 0),
+       AssetModelId: new FormControl(lineItem?.AssetModelId || 0)
     });
     line.valueChanges.subscribe(() => this.recalculateLineItems());
     this.lineItems.push(line);
@@ -246,6 +320,11 @@ Justification: obj.Justification || '',
   } 
 
   Save(): void {    
+
+        if (this.quoteAssetItemsLoading) {
+            this.messageService.showError('Quote assets are still loading. Please wait before saving.');
+            return;
+        }
 
         if (!this.editForm.valid || this.lineItems.length === 0) {
             this.messageService.showError('One or more validation failed. Please clear error to continue...');

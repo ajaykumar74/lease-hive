@@ -35,6 +35,7 @@ partylocationidOptions: ISelectItem[] = [];
 customerdepartmentidOptions: ISelectItem[] = [];
 assetuseridOptions: ISelectItem[] = [];
 assignmenttypeOptions: ISelectItem[] = [];
+assignmentstatusidOptions: ISelectItem[] = [];
 referencetypeOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
 
@@ -69,9 +70,9 @@ CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(1)
 AssetUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 AssignmentType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 AssignedFrom: new FormControl(new Date(), [Validators.required]),
-AssignedTo: new FormControl(new Date(), [Validators.required]),
+AssignedTo: new FormControl(null, []),
 IsPrimary: new FormControl(false), 
-AssignmentStatusId: new FormControl(0, [Validators.min(0), Validators.max(255)]),
+AssignmentStatusId: new FormControl(null, [Validators.required, Validators.min(1)]),
 ReferenceType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 ReferenceId: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EffectiveFrom: new FormControl(new Date(), [Validators.required]),
@@ -94,8 +95,9 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerDepartmentId',
       this.entityLookupDestroyRef, {"PartyId":"PartyId"});
 this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetUserId', 'asset-users',
       options => this.assetuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, {"PartyId":"PartyId"});
 this.assignmenttypeOptions = this.loggedInUserService.getPicklistOptions('AssignmentType');
+this.assignmentstatusidOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentStatus');
 this.referencetypeOptions = this.loggedInUserService.getPicklistOptions('AssetAssignmentReferenceType');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 

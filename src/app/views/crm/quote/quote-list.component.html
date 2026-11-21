@@ -192,6 +192,17 @@
                                             >
                                                 <i class="pi pi-pencil" aria-hidden="true"></i>
                                             </button>
+                                            <button
+                                                type="button"
+                                                class="list-action"
+                                                [disabled]="!isAccepted(obj)"
+                                                (click)="onCreatePurchaseRequisitionClick(obj)"
+                                                [pTooltip]="isAccepted(obj) ? 'Create purchase requisition' : 'A purchase requisition can be created only for an accepted quotation'"
+                                                tooltipPosition="top"
+                                                [attr.aria-label]="'Create purchase requisition for quotation ' + (obj.QuoteId || obj.Id)"
+                                            >
+                                                <i class="pi pi-cart-plus" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

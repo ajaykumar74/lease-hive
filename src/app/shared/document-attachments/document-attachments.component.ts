@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {
     DocumentAttachmentService,
     IDocumentAttachment,
@@ -20,6 +20,7 @@ export class DocumentAttachmentsComponent implements OnChanges {
     @Input() allowUpload = true;
     @Input() allowRemove = true;
     @Input() usePrimeRemoveConfirmation = true;
+    @Output() attachmentsChanged = new EventEmitter<void>();
 
     @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
     @ViewChild('removeConfirmation') removeConfirmation?: ConfirmationMessageComponent;
@@ -111,6 +112,7 @@ export class DocumentAttachmentsComponent implements OnChanges {
                     if (event.type === HttpEventType.Response) {
                         this.resetUploadForm();
                         this.loadDocuments();
+                        this.attachmentsChanged.emit();
                     }
                 },
                 error: (error) => {
@@ -176,7 +178,10 @@ export class DocumentAttachmentsComponent implements OnChanges {
         this.warningMessage = '';
         this.errorMessage = '';
         this.documentAttachmentService.remove(this.ownerType, this.ownerId, document.LinkId).subscribe({
-            next: () => this.loadDocuments(),
+            next: () => {
+                this.loadDocuments();
+                this.attachmentsChanged.emit();
+            },
             error: (error) => (this.errorMessage = this.toErrorMessage(error))
         });
     }

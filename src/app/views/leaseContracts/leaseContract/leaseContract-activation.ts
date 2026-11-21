@@ -16,6 +16,13 @@ export interface ILeaseContractActivationAsset {
     AcceptedOnUtc?: string | null;
     AcceptanceStatusCode: string;
     AcceptanceSummary: string;
+    /** Client-enriched from InsurancePolicyAsset records for the delivery UI. */
+    InsuranceStatus?: 'Covered' | 'Missing' | 'Expired' | 'Pending Verification' | 'Not Required';
+    /** Optional delivery policy supplied by LC-04 readiness. */
+    InsuranceRequired?: boolean;
+    RequiredInsuranceCoverageTypeId?: number | null;
+    /** Optional category/template policy supplied by LC-04 readiness. */
+    DeliveryChecklistRequired?: boolean;
 }
 
 export interface ILeaseContractActivationAssetOption { AssetId: number; Label: string; }

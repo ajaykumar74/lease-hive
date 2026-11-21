@@ -13,10 +13,13 @@
  						<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer ProfileId" [value]="assetUser.CustomerProfileId">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Party LocationId" [value]="assetUser.PartyLocationId">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Customer DepartmentId" [value]="assetUser.CustomerDepartmentId">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full"><app-view-field label="Customer DepartmentId" [value]="assetUser.CustomerDepartmentId">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="User Type" [value]="assetUser.UserType">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Employee Code" [value]="assetUser.EmployeeCode">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex flex-col w-full">
+<app-view-field label="Employee Code" [value]="assetUser.EmployeeCode">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Full Name" [value]="assetUser.FullName">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Designation" [value]="assetUser.Designation">
@@ -25,10 +28,10 @@
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Mobile CountryCode" [value]="assetUser.MobileCountryCode">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Mobile Number" [value]="assetUser.MobileNumber">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Driving Licence Number" [value]="assetUser.DrivingLicenceNumber">
-								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Driving Licence ExpiryDate" [value]="assetUser.DrivingLicenceExpiryDate">
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field *ngIf="canViewKyc" label="Driving Licence Number" [value]="assetUser.DrivingLicenceNumber">
+								</app-view-field></div><div class="flex flex-col w-full"><app-view-field *ngIf="canViewKyc" label="Driving Licence ExpiryDate" [value]="assetUser.DrivingLicenceExpiryDate">
 								</app-view-field></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="NationalId Masked" [value]="assetUser.NationalIdMasked">
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field *ngIf="canViewKyc" label="NationalId Masked" [value]="assetUser.NationalIdMasked">
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Emergency Contact Name" [value]="assetUser.EmergencyContactName">
 								</app-view-field></div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"><app-view-field label="Emergency Contact Mobile" [value]="assetUser.EmergencyContactMobile">
@@ -38,6 +41,7 @@
 								</app-view-field></div><div class="flex flex-col w-full"><app-view-field label="Effective To" [value]="assetUser.EffectiveTo">
 								</app-view-field></div></div>
 
+						<section *ngIf="canViewKyc" class="border-top-1 surface-border pt-4 mt-3" aria-label="KYC and driving eligibility"><h3 class="mt-0">KYC &amp; Driving Eligibility</h3><div class="flex flex-col md:flex-row gap-4"><app-view-field label="Identity verification" [value]="assetUser.IdentityVerificationStatus || assetUser.KycStatus || 'Pending'"></app-view-field><app-view-field label="Driving eligibility" [value]="assetUser.DrivingEligibilityStatus || 'Pending'"></app-view-field></div><div class="flex flex-col md:flex-row gap-4"><app-view-field label="Licence class" [value]="assetUser.DrivingLicenceClass"></app-view-field><app-view-field label="Licence verified" [value]="assetUser.DrivingLicenceVerificationDate"></app-view-field></div><app-view-field label="Verification remarks" [value]="assetUser.KycRemarks"></app-view-field><app-document-attachment-requirements ownerType="AssetUser" [ownerId]="assetUser.Id" [allowUpload]="false" [allowRemove]="false"></app-document-attachment-requirements></section>
 						<app-audit-details [model]="assetUser"></app-audit-details>
 						</div>
 					</div>

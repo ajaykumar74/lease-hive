@@ -20,6 +20,7 @@ import { AssetAssignmentListComponent } from './assetAssignment-list.component';
 import { AssetAssignmentCreateComponent } from './assetAssignment-create.component';
 import { AssetAssignmentEditComponent } from './assetAssignment-edit.component';
 import { AssetAssignmentViewComponent } from './assetAssignment-view.component';
+import { AssetAssignmentDeliveryFormModule } from './assetAssignment-delivery-form.module';
 import { AssetAssignmentRoutingModule } from './assetAssignment-routing.module';
 import { SplitButtonModule } from 'primeng/splitbutton';
 
@@ -43,6 +44,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		AssetAssignmentDeliveryFormModule,
 		AssetAssignmentRoutingModule,
 		SplitButtonModule
 	],
@@ -51,7 +53,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 		AssetAssignmentListComponent,
 		AssetAssignmentEditComponent,
 		AssetAssignmentViewComponent
-	]
+	],
+	exports: [AssetAssignmentDeliveryFormModule]
 })
 export class AssetAssignmentModule { }
 

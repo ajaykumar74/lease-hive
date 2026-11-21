@@ -37,19 +37,19 @@
       <app-validation-errors [type]="'text'" [control]="editForm.get('PartyLocationId')"
 											label="Party LocationId">
 										</app-validation-errors></div></div>
-<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="Customer DepartmentId" class="mb-1">CustomerDepartmentId</label>
+<div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full"> <label for="CustomerDepartmentId" class="mb-1">Customer Department <span class="text-color-secondary">(optional)</span></label>
         <p-dropdown
             inputId="CustomerDepartmentId" 
             [options]="customerdepartmentidOptions"
             optionLabel="Text"
 	    optionValue="Value"
 	    formControlName="CustomerDepartmentId"
-            placeholder="Select One"
+            placeholder="Select department (optional)"
             class="w-full">
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('CustomerDepartmentId')"
 											label="Customer DepartmentId">
-										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="User Type" class="mb-1">UserType</label>
+										</app-validation-errors></div><div class="flex flex-col w-full"> <label for="UserType" class="mb-1">Asset User Type</label>
         <p-dropdown
             inputId="UserType" 
             [options]="usertypeOptions"
@@ -61,7 +61,9 @@
         </p-dropdown>
       <app-validation-errors [type]="'text'" [control]="editForm.get('UserType')"
 											label="User Type">
-										</app-validation-errors></div></div>
+										</app-validation-errors>
+      <small class="text-color-secondary">The person’s relationship to the asset, such as Employee, Driver, Contractor, or Custodian.</small>
+      </div></div>
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="EmployeeCode">Employee Code 
 							</label> 
@@ -112,14 +114,14 @@
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="DrivingLicenceNumber">Driving Licence Number 
 							</label> 
-							<input pInputText id="DrivingLicenceNumber" type="text" pSize="small"	formControlName="DrivingLicenceNumber"  />
+<input *ngIf="canManageKyc" pInputText id="DrivingLicenceNumber" type="text" pSize="small"	formControlName="DrivingLicenceNumber"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('DrivingLicenceNumber')"
 											label="Driving Licence Number">
 										</app-validation-errors>
 						 </div><div class="flex flex-col w-full">			
 							<label for="DrivingLicenceExpiryDate">Driving Licence ExpiryDate 
 							</label> 
-							<p-calendar id="DrivingLicenceExpiryDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
+<p-calendar *ngIf="canManageKyc" id="DrivingLicenceExpiryDate"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
 	formControlName="DrivingLicenceExpiryDate"  ></p-calendar>
 	<app-validation-errors [type]="'date'" [control]="editForm.get('DrivingLicenceExpiryDate')"
 											label="Driving Licence ExpiryDate">
@@ -128,7 +130,7 @@
 <div class="flex flex-col md:flex-row gap-4"><div class="flex flex-col w-full">					
 							<label for="NationalIdMasked">NationalId Masked 
 							</label> 
-							<input pInputText id="NationalIdMasked" type="text" pSize="small"	formControlName="NationalIdMasked"  />
+<input *ngIf="canManageKyc" pInputText id="NationalIdMasked" type="text" pSize="small"	formControlName="NationalIdMasked"  />
 							<app-validation-errors [type]="'text'" [control]="editForm.get('NationalIdMasked')"
 											label="NationalId Masked">
 										</app-validation-errors>

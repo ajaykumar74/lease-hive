@@ -168,6 +168,91 @@
 .execution-metric strong { overflow: hidden; margin-top: 0.35rem; font-size: 0.88rem; text-overflow: ellipsis; white-space: nowrap; }
 .execution-metric small { margin-top: 0.28rem; color: var(--text-color-secondary); font-size: 0.72rem; }
 
+.activation-asset-card {
+    margin-top: 0.85rem;
+    padding: 1rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    background: var(--surface-card);
+}
+
+.activation-asset-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.activation-asset-header strong,
+.activation-asset-header span {
+    display: block;
+}
+
+.activation-asset-header strong { font-size: 0.96rem; }
+.activation-asset-header span { margin-top: 0.18rem; color: var(--text-color-secondary); font-size: 0.8rem; }
+.asset-detail { margin: 0.55rem 0 0; color: var(--text-color-secondary); font-size: 0.8rem; }
+.asset-assignment-summary { margin-top: 0.5rem; font-size: 0.84rem; }
+
+.asset-activation-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--surface-border);
+}
+
+.asset-progress {
+    display: flex;
+    flex: 1 1 26rem;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+}
+
+.asset-progress-label {
+    color: var(--text-color-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.asset-statuses,
+.asset-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.asset-statuses { min-width: 0; }
+.asset-actions { flex: 1 1 31rem; gap: 0.2rem; }
+
+:host ::ng-deep .asset-statuses .p-tag {
+    min-height: 2rem;
+    padding: 0.42rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+:host ::ng-deep .asset-statuses .p-tag.p-tag-success { border-color: #86efac; }
+:host ::ng-deep .asset-statuses .p-tag.p-tag-warn { border-color: #fcd34d; }
+:host ::ng-deep .asset-statuses .p-tag.p-tag-danger { border-color: #fca5a5; }
+:host ::ng-deep .asset-statuses .p-tag .p-tag-icon { margin-right: 0.35rem; }
+
+@media screen and (max-width: 991px) {
+    .asset-progress { flex-basis: 100%; }
+}
+
+@media screen and (max-width: 640px) {
+    .asset-progress { align-items: flex-start; flex-direction: column; }
+    .asset-actions { flex-basis: 100%; }
+}
+
 @media screen and (max-width: 991px) {
     .execution-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

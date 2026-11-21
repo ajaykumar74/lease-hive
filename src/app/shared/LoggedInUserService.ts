@@ -208,6 +208,19 @@ export class LoggedInUserService {
     );
   }
 
+  /** Returns the tenant's effective values, including active system defaults. */
+  getAvailablePicklistOptions(category: string): Observable<ISelectItem[]> {
+    const encodedCategory = encodeURIComponent(category);
+    const url = `${this.baseService.C_APP_URL}/PicklistItems/GetByCategory/${encodedCategory}`;
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
+      map(response => this.sortSelectItems((response.data || []).map((item: any) => ({
+        Id: item.Id,
+        Value: item.ItemName,
+        Text: item.Description || item.ItemName
+      }))))
+    );
+  }
+
   clearPicklistCache(): void {
     this.picklistCache.clear();
     sessionStorage.removeItem('picklistCache');

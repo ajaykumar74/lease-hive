@@ -80,6 +80,10 @@ export interface CustomerPortalAsset {
     Model: string;
     AssetReference: string;
     AllocationStatus: string;
+    CustodianName: string;
+    LeaseCommencementDate?: string;
+    LeaseMaturityDate?: string;
+    LeaseType: string;
     EffectiveFrom?: string;
     EffectiveTo?: string;
 }

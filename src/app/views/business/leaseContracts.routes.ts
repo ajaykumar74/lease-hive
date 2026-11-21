@@ -86,6 +86,11 @@ const placeholderPages: LeaseContractPage[] = [
 
 const moduleRoutes: Routes = [
     {
+        path: 'config/delivery-checklists',
+        data: { title: 'Delivery Checklist Templates', breadcrumb: 'Delivery Checklist Templates' },
+        loadChildren: () => import('@/views/leaseContracts/deliveryChecklist/delivery-checklist-template.module').then(m => m.DeliveryChecklistTemplateModule)
+    },
+    {
         path: 'dashboard',
         component: LeaseContractDashboardComponent,
         data: { title: 'Contract Dashboard', breadcrumb: 'Contract Dashboard' }

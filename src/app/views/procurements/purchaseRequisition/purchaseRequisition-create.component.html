@@ -158,6 +158,7 @@
 											label="Add line item" icon="pi pi-plus" size="small" style="width: auto"
 											(click)="addLineItem()"></button>
 									</div>
+									<small *ngIf="quoteAssetItemsLoading" class="text-color-secondary">Loading items from the quotation assets…</small>
 									<small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line
 										item and complete its required fields before saving.</small>
 									<p-table [value]="lineItems.controls" [scrollable]="true" scrollHeight="400px"

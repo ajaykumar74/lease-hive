@@ -21,6 +21,11 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
   @Input() party: Record<string, unknown> | null = null;
   @Input() parentTransaction: Record<string, unknown> | null = null;
   @Input() organisation: Record<string, unknown> | null = null;
+  /**
+   * Use the owning organisation's functional currency instead of a
+   * counterparty's preferred currency when that is the transaction rule.
+   */
+  @Input() preferOrganisationCurrency = false;
   @Input() inputId = 'CurrencyCode';
   @Input() placeholder = 'Select One';
 
@@ -181,8 +186,10 @@ export class CurrencyDropdownComponent implements ControlValueAccessor, OnInit, 
 
     return {
       modelCurrencyCode: this.savedCurrencyCode,
-      party: this.party,
-      partyId: partyControlName ? form?.get(partyControlName)?.value : null,
+      party: this.preferOrganisationCurrency ? null : this.party,
+      partyId: this.preferOrganisationCurrency || !partyControlName
+        ? null
+        : form?.get(partyControlName)?.value,
       parentTransaction: this.parentTransaction,
       parentTransactionId: parentControlName
         ? form?.get(parentControlName)?.value

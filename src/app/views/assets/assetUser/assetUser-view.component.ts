@@ -12,6 +12,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService'
 import { AssetUserService } from './assetUser.service';
 import { IAssetUser } from './assetUser';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
     templateUrl: './assetUser-view.component.html', 
@@ -31,7 +32,8 @@ export class AssetUserViewComponent implements OnInit {
         private activatedRouter: ActivatedRoute,
         private assetUserService: AssetUserService, 
         private _location: Location,
-        private loggedInUserService: LoggedInUserService
+        private loggedInUserService: LoggedInUserService,
+        private permissionService: PermissionService
     ) {
 
     }
@@ -67,6 +69,10 @@ export class AssetUserViewComponent implements OnInit {
 
     populateUI(obj: IAssetUser): void { 
         this.Caption = "AssetUser Details #" + obj.Id;
+    }
+
+    get canViewKyc(): boolean {
+        return this.permissionService.hasAnyPermission(['asset.assetuserkyc.view', 'asset.assetuserkyc.update']);
     }
 
     onOptionItemClicked(key: string): void {

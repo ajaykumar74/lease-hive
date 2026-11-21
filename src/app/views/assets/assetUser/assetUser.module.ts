@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { TagModule } from 'primeng/tag';
 
 import { AssetUserListComponent } from './assetUser-list.component';
 import { AssetUserCreateComponent } from './assetUser-create.component';
@@ -42,6 +43,7 @@ import { AssetUserRoutingModule } from './assetUser-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		TagModule,
 		AssetUserRoutingModule,
 	],
 	declarations: [

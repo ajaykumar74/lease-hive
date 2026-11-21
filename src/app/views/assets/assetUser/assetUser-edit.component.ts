@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';  
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetUser } from './assetUser';
 import { AssetUserService } from './assetUser.service';
+import { PermissionService } from '@/shared/security/permission.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { AssetUserService } from './assetUser.service';
   providers: [ MessageService]
 })
 export class AssetUserEditComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
   selectedId: number;
   isLoading: boolean = false;
@@ -30,9 +32,25 @@ export class AssetUserEditComponent implements OnInit {
   customerprofileidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 customerdepartmentidOptions: ISelectItem[] = [];
-usertypeOptions: ISelectItem[] = [];
+readonly usertypeOptions: ISelectItem[] = [
+  { Text: 'Employee', Value: 'Employee' },
+  { Text: 'Driver', Value: 'Driver' },
+  { Text: 'Contractor', Value: 'Contractor' },
+  { Text: 'Custodian', Value: 'Custodian' },
+  { Text: 'Customer', Value: 'Customer' },
+  { Text: 'Shared pool', Value: 'SharedPool' },
+  { Text: 'Department', Value: 'Department' },
+  { Text: 'Internal', Value: 'Internal' },
+  { Text: 'Supplier', Value: 'Supplier' },
+  { Text: 'Auditor', Value: 'Auditor' },
+  { Text: 'API service', Value: 'APIService' }
+];
 designationOptions: ISelectItem[] = [];
 recordstatusOptions: ISelectItem[] = [];
+  readonly kycStatusOptions: ISelectItem[] = [
+    { Text: 'Pending', Value: 'Pending' }, { Text: 'Verified', Value: 'Verified' },
+    { Text: 'Rejected', Value: 'Rejected' }, { Text: 'Expired', Value: 'Expired' }
+  ];
 mobilecountrycodeOptions: ISelectItem[] = [];
 
    editForm: any; 
@@ -45,7 +63,8 @@ mobilecountrycodeOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private assetUserService: AssetUserService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+  private permissionService: PermissionService
 	) {
   }
   
@@ -61,7 +80,7 @@ mobilecountrycodeOptions: ISelectItem[] = [];
      Id: new FormControl(0, [Validators.required]),
 CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+CustomerDepartmentId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 UserType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EmployeeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 FullName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
@@ -69,8 +88,13 @@ Designation: new FormControl('', [Validators.maxLength(20)]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
-DrivingLicenceNumber: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DrivingLicenceExpiryDate: new FormControl(new Date(), [Validators.required]),
+DrivingLicenceNumber: new FormControl('', [Validators.maxLength(20), ]),
+DrivingLicenceExpiryDate: new FormControl(null),
+IdentityVerificationStatus: new FormControl('Pending', [Validators.required]),
+DrivingLicenceClass: new FormControl('', [Validators.maxLength(50)]),
+DrivingLicenceVerificationDate: new FormControl(null),
+KycVerificationDate: new FormControl(null),
+KycRemarks: new FormControl('', [Validators.maxLength(500)]),
 NationalIdMasked: new FormControl('', [Validators.maxLength(20), ]), 
 EmergencyContactName: new FormControl('', [Validators.maxLength(50), ]), 
 EmergencyContactMobile: new FormControl('', [Validators.maxLength(10), ]), 
@@ -79,12 +103,23 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
 this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
 this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordStatus');
 this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerDepartmentId', 'customer-departments',
+      options => this.customerdepartmentidOptions = options,
+      error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { CustomerProfileId: 'CustomerProfileId' });
 
      this.selectedId = this.activatedRouter.snapshot.params['id'];
+  }
+
+  get canViewKyc(): boolean {
+    return this.permissionService.hasAnyPermission(['asset.assetuserkyc.view', 'asset.assetuserkyc.update']);
+  }
+
+  get canEditKyc(): boolean {
+    return this.permissionService.hasPermission('asset.assetuserkyc.update');
   }
 
   ngAfterViewInit(): void {
@@ -109,10 +144,6 @@ this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('Mob
   } 
 
   populateUI(obj: IAssetUser): void {
-    this.loggedInUserService.getLookupOptions('customer-departments', obj.CustomerDepartmentId).subscribe({
-      next: options => this.customerdepartmentidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
     this.loggedInUserService.getLookupOptions('customer-profiles', obj.CustomerProfileId).subscribe({
       next: options => this.customerprofileidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -136,6 +167,11 @@ MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
 DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
+IdentityVerificationStatus: obj.IdentityVerificationStatus || obj.KycStatus || 'Pending',
+DrivingLicenceClass: obj.DrivingLicenceClass || '',
+DrivingLicenceVerificationDate: obj.DrivingLicenceVerificationDate || null,
+KycVerificationDate: obj.KycVerificationDate || null,
+KycRemarks: obj.KycRemarks || '',
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
@@ -182,6 +218,11 @@ MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
 DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
+IdentityVerificationStatus: obj.IdentityVerificationStatus || obj.KycStatus || 'Pending',
+DrivingLicenceClass: obj.DrivingLicenceClass || '',
+DrivingLicenceVerificationDate: obj.DrivingLicenceVerificationDate || null,
+KycVerificationDate: obj.KycVerificationDate || null,
+KycRemarks: obj.KycRemarks || '',
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
@@ -219,9 +260,16 @@ Designation:  formValues.Designation || null,
 Email:  formValues.Email || null,
 MobileCountryCode:  formValues.MobileCountryCode || null,
 MobileNumber:  formValues.MobileNumber || null,
-DrivingLicenceNumber:  formValues.DrivingLicenceNumber || null,
-DrivingLicenceExpiryDate:  formValues.DrivingLicenceExpiryDate || null,
-NationalIdMasked:  formValues.NationalIdMasked || null,
+...(this.canEditKyc ? {
+  DrivingLicenceNumber: formValues.DrivingLicenceNumber || null,
+  DrivingLicenceExpiryDate: formValues.DrivingLicenceExpiryDate || null,
+  NationalIdMasked: formValues.NationalIdMasked || null,
+  IdentityVerificationStatus: formValues.IdentityVerificationStatus || 'Pending',
+  DrivingLicenceClass: formValues.DrivingLicenceClass || null,
+  DrivingLicenceVerificationDate: formValues.DrivingLicenceVerificationDate || null,
+  KycVerificationDate: formValues.KycVerificationDate || null,
+  KycRemarks: formValues.KycRemarks || null
+} : {}),
 EmergencyContactName:  formValues.EmergencyContactName || null,
 EmergencyContactMobile:  formValues.EmergencyContactMobile || null,
 RecordStatus:  formValues.RecordStatus || null,

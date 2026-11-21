@@ -137,6 +137,7 @@
 											label="Record Status">
 										</app-validation-errors></div></div>
 
+					<app-document-attachment-requirements ownerType="InsurancePolicyAsset" [ownerId]="insurancePolicyAsset?.Id || 0" [allowUpload]="true" [allowRemove]="true"></app-document-attachment-requirements>
 					<app-audit-details [model]="insurancePolicyAsset"></app-audit-details>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'; 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetUser } from './assetUser';
 import { AssetUserService } from './assetUser.service';
+import { PermissionService } from '@/shared/security/permission.service';
 
 @Component({
   selector: 'app-assetUser-create',
@@ -20,6 +21,7 @@ import { AssetUserService } from './assetUser.service';
    providers: [ MessageService]
 })
 export class AssetUserCreateComponent implements OnInit {
+  private readonly entityLookupDestroyRef = inject(DestroyRef);
 
    
   selectedId: number; 
@@ -30,7 +32,19 @@ export class AssetUserCreateComponent implements OnInit {
   customerprofileidOptions: ISelectItem[] = [];
 partylocationidOptions: ISelectItem[] = [];
 customerdepartmentidOptions: ISelectItem[] = [];
-usertypeOptions: ISelectItem[] = [];
+readonly usertypeOptions: ISelectItem[] = [
+  { Text: 'Employee', Value: 'Employee' },
+  { Text: 'Driver', Value: 'Driver' },
+  { Text: 'Contractor', Value: 'Contractor' },
+  { Text: 'Custodian', Value: 'Custodian' },
+  { Text: 'Customer', Value: 'Customer' },
+  { Text: 'Shared pool', Value: 'SharedPool' },
+  { Text: 'Department', Value: 'Department' },
+  { Text: 'Internal', Value: 'Internal' },
+  { Text: 'Supplier', Value: 'Supplier' },
+  { Text: 'Auditor', Value: 'Auditor' },
+  { Text: 'API service', Value: 'APIService' }
+];
 designationOptions: ISelectItem[] = [];
 mobilecountrycodeOptions: ISelectItem[] = [];
 
@@ -45,9 +59,14 @@ mobilecountrycodeOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private assetUserService: AssetUserService,
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+  private permissionService: PermissionService
 	
   ) {
+  }
+
+  get canManageKyc(): boolean {
+    return this.permissionService.hasPermission('asset.assetuserkyc.update');
   }
  
 
@@ -61,7 +80,7 @@ mobilecountrycodeOptions: ISelectItem[] = [];
      Id: new FormControl(0, []),
 CustomerProfileId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PartyLocationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-CustomerDepartmentId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+CustomerDepartmentId: new FormControl(0, [Validators.min(0), Validators.max(2147483647)]),
 UserType: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 EmployeeCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
 FullName: new FormControl('', [Validators.required, Validators.maxLength(50), ]),
@@ -69,8 +88,8 @@ Designation: new FormControl('', [Validators.maxLength(20)]),
 Email: new FormControl('', [Validators.required, Validators.maxLength(100), ]),
 MobileCountryCode: new FormControl('+91', [Validators.required, Validators.maxLength(5), ]),
 MobileNumber: new FormControl('', [Validators.required, Validators.maxLength(10), ]),
-DrivingLicenceNumber: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
-DrivingLicenceExpiryDate: new FormControl(new Date(), [Validators.required]),
+DrivingLicenceNumber: new FormControl('', [Validators.maxLength(20), ]),
+DrivingLicenceExpiryDate: new FormControl(null),
 NationalIdMasked: new FormControl('', [Validators.maxLength(20), ]), 
 EmergencyContactName: new FormControl('', [Validators.maxLength(50), ]), 
 EmergencyContactMobile: new FormControl('', [Validators.maxLength(10), ]), 
@@ -78,13 +97,12 @@ EffectiveFrom: new FormControl(new Date(), [Validators.required]),
 EffectiveTo: new FormControl(new Date(), []),
 
     });
-this.usertypeOptions = this.loggedInUserService.getPicklistOptions('UserType');
 this.mobilecountrycodeOptions = this.loggedInUserService.getPicklistOptions('MobileCountryCode');
 this.designationOptions = this.loggedInUserService.getPicklistOptions('Designation');
-    this.loggedInUserService.getLookupOptions('customer-departments').subscribe({
-      next: options => this.customerdepartmentidOptions = options,
-      error: err => setTimeout(() => this.messageService?.showError(err))
-    });
+    this.loggedInUserService.bindEntityLookup(this.editForm, 'CustomerDepartmentId', 'customer-departments',
+      options => this.customerdepartmentidOptions = options,
+      error => setTimeout(() => this.messageService?.showError(error)),
+      this.entityLookupDestroyRef, { CustomerProfileId: 'CustomerProfileId' });
     this.loggedInUserService.getLookupOptions('customer-profiles').subscribe({
       next: options => this.customerprofileidOptions = options,
       error: err => setTimeout(() => this.messageService?.showError(err))
@@ -125,7 +143,7 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
-DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
+DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
@@ -167,7 +185,7 @@ Email: obj.Email || '',
 MobileCountryCode: obj.MobileCountryCode || '+91',
 MobileNumber: obj.MobileNumber || '',
 DrivingLicenceNumber: obj.DrivingLicenceNumber || '',
-DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || new Date(),
+DrivingLicenceExpiryDate:  obj.DrivingLicenceExpiryDate || null,
 NationalIdMasked: obj.NationalIdMasked || '',
 EmergencyContactName: obj.EmergencyContactName || '',
 EmergencyContactMobile: obj.EmergencyContactMobile || '',
@@ -201,9 +219,11 @@ Designation: formValues.Designation || null,
 Email: formValues.Email || null,
 MobileCountryCode: formValues.MobileCountryCode || null,
 MobileNumber: formValues.MobileNumber || null,
-DrivingLicenceNumber: formValues.DrivingLicenceNumber || null,
-DrivingLicenceExpiryDate: formValues.DrivingLicenceExpiryDate || null,
-NationalIdMasked: formValues.NationalIdMasked || null,
+...(this.canManageKyc ? {
+  DrivingLicenceNumber: formValues.DrivingLicenceNumber || null,
+  DrivingLicenceExpiryDate: formValues.DrivingLicenceExpiryDate || null,
+  NationalIdMasked: formValues.NationalIdMasked || null
+} : {}),
 EmergencyContactName: formValues.EmergencyContactName || null,
 EmergencyContactMobile: formValues.EmergencyContactMobile || null,
 RecordStatus: 'Active',
