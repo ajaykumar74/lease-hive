@@ -1,0 +1,17 @@
+.asset-profile { min-height: calc(100vh - 7rem); }
+.asset-profile__header { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 1.5rem; padding: 1rem 1.25rem; background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: .75rem; box-shadow: 0 .25rem .85rem rgba(0,0,0,.04); }
+.asset-profile__identity { display: flex; align-items: center; gap: .85rem; min-width: 15rem; }
+.asset-profile__image { display: grid; place-items: center; width: 3.35rem; height: 3.35rem; border-radius: .65rem; background: color-mix(in srgb, var(--primary-color) 14%, var(--surface-card)); color: var(--primary-color); font-size: 1.25rem; }
+.asset-profile h1 { margin: .1rem 0; font-size: 1.38rem; line-height: 1.25; }
+.asset-profile p, .asset-profile__eyebrow { margin: 0; color: var(--text-color-secondary); font-size: .92rem; }
+.asset-profile__eyebrow { font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.asset-profile__facts { display: grid; grid-template-columns: repeat(4, minmax(9rem, 1fr)); flex: 1; gap: .8rem; }
+.asset-profile__facts div { min-width: 0; }
+.asset-profile__facts span { display: block; margin-bottom: .22rem; color: var(--text-color-secondary); font-size: .78rem; text-transform: uppercase; }
+.asset-profile__facts strong { display: block; overflow: hidden; font-size: .95rem; text-overflow: ellipsis; white-space: nowrap; }
+.asset-profile__actions { display: flex; align-items: center; gap: .45rem; }
+.asset-profile__status { align-items:center; border:1px solid transparent; border-radius:99px; display:inline-flex; gap:.4rem; padding:.42rem .72rem; font-size:.84rem; font-weight:700; white-space:nowrap; } .asset-profile__status i { font-size:.48rem; } .asset-profile__status--success { background:#dcfce7; border-color:#86efac; color:#166534; } .asset-profile__status--warning { background:#fef3c7; border-color:#fcd34d; color:#92400e; } .asset-profile__status--danger { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+.asset-profile__content { padding: 1rem 0 2rem; }
+.asset-profile__loading { display: flex; align-items: center; justify-content: center; min-height: 16rem; gap: .6rem; color: var(--text-color-secondary); }
+@media (max-width: 1200px) { .asset-profile__header { align-items: flex-start; flex-wrap: wrap; } .asset-profile__facts { order: 3; flex-basis: 100%; grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .asset-profile__header { padding: .85rem; gap: .85rem; } .asset-profile__actions { width: 100%; flex-wrap: wrap; } .asset-profile__facts { grid-template-columns: 1fr; } }

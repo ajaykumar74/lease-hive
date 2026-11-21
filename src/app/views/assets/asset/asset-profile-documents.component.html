@@ -1,0 +1,12 @@
+<section class="asset-profile-documents">
+  <header class="asset-profile-documents__heading">
+    <div><div class="asset-profile-documents__title"><i class="pi pi-folder-open"></i><h2>Documents</h2><span *ngIf="!loading">{{ documents.length }}</span></div><p>Asset, quotation, contract, lease agreement, and delivery acknowledgement documents.</p></div>
+  </header>
+  <div class="asset-profile-documents__card">
+    <p-table [value]="documents" [loading]="loading" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '760px' }">
+      <ng-template pTemplate="header"><tr><th>Document</th><th>Category</th><th>Source</th><th>Added</th><th class="asset-profile-documents__action-column">Download</th></tr></ng-template>
+      <ng-template pTemplate="body" let-document><tr><td><div class="asset-profile-documents__file"><i [class]="icon(document)"></i><div><strong>{{ document.Title }}</strong><small>{{ document.OriginalFileName || 'File name not recorded' }}</small></div></div></td><td><span class="asset-profile-documents__category">{{ document.Category }}</span></td><td>{{ document.Source }}</td><td>{{ document.UploadedAtUtc | date:'mediumDate' }}</td><td class="asset-profile-documents__action-column"><button type="button" pButton class="p-button-rounded p-button-text p-button-sm" icon="pi pi-download" aria-label="Download document" title="Download document" [loading]="downloadingId === document.DocumentId" (click)="download(document)"></button></td></tr></ng-template>
+      <ng-template pTemplate="emptymessage"><tr><td colspan="5"><div class="asset-profile-documents__empty"><i class="pi pi-folder-open"></i><strong>No documents found for this asset.</strong><span>Documents from linked quotations, contracts, delivery acknowledgements, and the asset itself will appear here.</span></div></td></tr></ng-template>
+    </p-table>
+  </div>
+</section>

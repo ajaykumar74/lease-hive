@@ -1,0 +1,10 @@
+<section class="profile-records" *ngIf="section as view">
+  <header class="profile-records__heading"><div><div class="profile-records__title"><i [class]="view.icon"></i><h2>{{ view.title }}</h2><span *ngIf="!loading">{{ total }}</span></div><p>{{ view.description }}</p></div><button *ngIf="view.route" type="button" pButton class="p-button-outlined p-button-sm" label="Open full workspace" icon="pi pi-external-link" (click)="openFullList()"></button></header>
+  <div class="profile-records__card">
+    <p-table [value]="records" [loading]="loading" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '720px' }">
+      <ng-template pTemplate="header"><tr><th *ngFor="let column of view.columns">{{ column.label }}</th><th *ngIf="view.detailRoute" class="profile-records__actions"><span class="sr-only">Actions</span></th></tr></ng-template>
+      <ng-template pTemplate="body" let-record><tr><td *ngFor="let column of view.columns"><p-tag *ngIf="isStatus(column)" [value]="format(record[column.field], column.field)" [severity]="statusSeverity(record[column.field])"></p-tag><ng-container *ngIf="!isStatus(column)">{{ format(record[column.field], column.field) }}</ng-container></td><td *ngIf="view.detailRoute" class="profile-records__actions"><button *ngIf="hasDetails(record)" type="button" pButton icon="pi pi-eye" class="p-button-text p-button-rounded p-button-sm" aria-label="View record details" title="View details" (click)="openDetails(record)"></button></td></tr></ng-template>
+      <ng-template pTemplate="emptymessage"><tr><td [attr.colspan]="view.columns.length + (view.detailRoute ? 1 : 0)"><div class="profile-records__empty"><i [class]="view.icon"></i><strong>{{ view.empty }}</strong><span>Records will appear here as they are added through the relevant LeaseHive workflow.</span></div></td></tr></ng-template>
+    </p-table>
+  </div>
+</section>

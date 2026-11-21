@@ -17,11 +17,16 @@ import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { PaginatorModule } from 'primeng/paginator';
+import { TagModule } from 'primeng/tag';
 
 import { AssetListComponent } from './asset-list.component';
 import { AssetCreateComponent } from './asset-create.component';
 import { AssetEditComponent } from './asset-edit.component';
 import { AssetViewComponent } from './asset-view.component';
+import { AssetProfileComponent } from './asset-profile.component';
+import { AssetProfileOverviewComponent } from './asset-profile-overview.component';
+import { AssetProfileRecordsComponent } from './asset-profile-records.component';
+import { AssetProfileDocumentsComponent } from './asset-profile-documents.component';
 import { AssetRoutingModule } from './asset-routing.module';
 
 
@@ -46,13 +51,18 @@ import { AssetRoutingModule } from './asset-routing.module';
 		FluidModule,
 		SplitButtonModule,
 		PaginatorModule,
+		TagModule,
 		AssetRoutingModule,
 	],
 	declarations: [
 		AssetCreateComponent,
 		AssetListComponent,
 		AssetEditComponent,
-		AssetViewComponent
+		AssetViewComponent,
+		AssetProfileComponent,
+		AssetProfileOverviewComponent,
+		AssetProfileRecordsComponent,
+		AssetProfileDocumentsComponent
 	]
 })
 export class AssetModule { }

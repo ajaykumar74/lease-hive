@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
-import { IAsset } from './asset';
+import { IAsset, IAssetProfileDocument } from './asset';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 
@@ -49,6 +49,11 @@ export class AssetService extends BaseCrudService<any> {
     }).pipe(
       catchError(this.baseService.handleError)
     );
+  }
+
+  profileDocuments(assetId: number): Observable<{ data: IAssetProfileDocument[] }> {
+    return this.http.get<{ data: IAssetProfileDocument[] }>(`${this.baseUrl}/${assetId}/documents`, { headers: this.headers })
+      .pipe(catchError(this.baseService.handleError));
   }
 
   GetAll(IsDeleted: Boolean): Observable<any> {

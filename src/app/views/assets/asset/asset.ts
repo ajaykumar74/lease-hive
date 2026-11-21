@@ -38,3 +38,16 @@ CurrentPartyLocationDisplayName?: string;
 AssetStatusDisplayName?: string;
 
 }
+
+export interface IAssetProfileDocument {
+  OwnerType: string;
+  OwnerId: number;
+  DocumentId: number;
+  DocumentVersionId: number;
+  Source: string;
+  Category: string;
+  Title: string;
+  OriginalFileName: string;
+  ContentType: string;
+  UploadedAtUtc: string;
+}

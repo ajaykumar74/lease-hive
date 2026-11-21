@@ -7,6 +7,7 @@ import { AppSidebar } from './app.sidebar';
 import { LayoutService } from '@/layout/service/layout.service';
 import { AppConfigurator } from './app.configurator';
 import { AppProfileSidebar } from './app.profilesidebar';
+import { AssetProfileSidebar } from './asset-profile-sidebar';
 
 @Component({
     selector: 'app-layout',
@@ -18,9 +19,11 @@ import { AppProfileSidebar } from './app.profilesidebar';
         RouterModule,
         AppConfigurator,
         AppProfileSidebar,
+        AssetProfileSidebar,
     ],
     template: `<div class="layout-container" [ngClass]="containerClass">
-        <div app-sidebar></div>
+        <div *ngIf="!isAssetProfile" app-sidebar></div>
+        <app-asset-profile-sidebar *ngIf="isAssetProfile"></app-asset-profile-sidebar>
         <div class="layout-content-wrapper">
             <div app-topbar></div>
             <div class="layout-content">
@@ -57,7 +60,8 @@ export class AppLayout {
                 });
             }
             if ((this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus()) && !this.menuScrollListener) {
-                this.menuScrollListener = this.renderer.listen(this.appSidebar.menuContainer.nativeElement, 'scroll', (event) => {
+                const menuContainer = document.querySelector('.layout-sidebar .layout-menu-container');
+                if (menuContainer) this.menuScrollListener = this.renderer.listen(menuContainer, 'scroll', (event) => {
                     if (this.layoutService.isDesktop()) {
                         this.hideMenu();
                     }
@@ -150,7 +154,12 @@ export class AppLayout {
             'layout-mobile-active': layoutState.staticMenuMobileActive,
             'layout-sidebar-active': layoutState.sidebarActive,
             'layout-sidebar-anchored': layoutState.anchored,
+            'asset-profile-layout': this.isAssetProfile,
         };
+    }
+
+    get isAssetProfile(): boolean {
+        return /^\/business\/assets\/profile\/\d+(?:\/|$)/.test(this.router.url);
     }
 
     ngOnDestroy() {

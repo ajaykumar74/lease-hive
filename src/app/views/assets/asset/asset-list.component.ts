@@ -140,17 +140,11 @@ export class AssetListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/assets/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['/business/assets/view/' + obj.Id]);
-    } 
-  
+    this.router.navigate(['/business/assets/profile', obj.Id, 'overview'], { state: { asset: obj } });
   };
 
   onViewClick(asset: IAsset): void {
-    this.router.navigate(['/business/assets/view', asset.Id], { state: { asset } });
+    this.router.navigate(['/business/assets/profile', asset.Id, 'overview'], { state: { asset } });
   }
 
   onEditClick(asset: IAsset): void {

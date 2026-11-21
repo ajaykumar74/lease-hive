@@ -1,0 +1,25 @@
+<section class="asset-profile" *ngIf="asset; else loadingState">
+  <header class="asset-profile__header">
+    <div class="asset-profile__identity">
+      <div class="asset-profile__image"><i class="pi pi-box"></i></div>
+      <div>
+        <div class="asset-profile__eyebrow">{{ asset.AssetId || ('Asset #' + asset.Id) }}</div>
+        <h1>{{ asset.AssetNo || 'Unnamed asset' }}</h1>
+        <p>{{ asset.AssetCategoryDisplayName || 'Uncategorised' }}<span *ngIf="asset.AssetTypeDisplayName"> · {{ asset.AssetTypeDisplayName }}</span></p>
+      </div>
+    </div>
+    <div class="asset-profile__facts">
+      <div><span>Make / model</span><strong>{{ asset.AssetMakeDisplayName || '—' }} {{ asset.AssetModelDisplayName || '' }}</strong></div>
+      <div><span>Serial / registration</span><strong>{{ asset.PrimarySerialNo || 'Not recorded' }}</strong></div>
+      <div><span>Customer</span><strong>{{ asset.CurrentPartyDisplayName || 'Unassigned' }}</strong></div>
+      <div><span>Current location</span><strong>{{ asset.CurrentLocationDisplayName || asset.CurrentPartyLocationDisplayName || 'Not recorded' }}</strong></div>
+    </div>
+    <div class="asset-profile__actions">
+      <span class="asset-profile__status" [ngClass]="statusClass(asset.AssetStatusDisplayName || asset.RecordStatus)"><i class="pi pi-circle-fill"></i>{{ asset.AssetStatusDisplayName || asset.RecordStatus || 'Pending' }}</span>
+      <button *appPermission="'asset.asset.update'" pButton type="button" label="Edit" icon="pi pi-pencil" class="p-button-outlined p-button-sm" (click)="edit()"></button>
+      <button pButton type="button" label="Back to list" icon="pi pi-arrow-left" class="p-button-text p-button-sm" (click)="backToAssets()"></button>
+    </div>
+  </header>
+  <main class="asset-profile__content"><router-outlet></router-outlet></main>
+</section>
+<ng-template #loadingState><div class="asset-profile__loading"><i class="pi pi-spin pi-spinner"></i> Loading asset profile…</div></ng-template>
