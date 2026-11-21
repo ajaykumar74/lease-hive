@@ -23,13 +23,12 @@ export class SupplierQuotationService extends BaseCrudService<any> {
     });
   }
 
-  setCache(result: any, permission: any, objsearch: any, curPage: number): void {
+  setCache(result: any, permission: any, stateData: any): void {
     this.CacheData.Data = result.Records;
     this.CacheData.TotalRecords = result.TotalRecords;
     this.CacheData.permission = permission;
-    this.CacheData.IsLoaded = (result.TotalRecords > 0);
-    this.CacheData.CurrentPage = curPage;
-    this.CacheData.objSearch = objsearch;
+    this.CacheData.IsLoaded = true;
+    this.CacheData.stateData = stateData;
   } 
  
  search(  searchParam: any): Observable<any> {

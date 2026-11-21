@@ -45,6 +45,7 @@ export class CustomerProfileListComponent implements OnInit {
       this.currentPage = this.customerProfileService.CacheData.CurrentPage;
       this.objSearch = this.customerProfileService.CacheData.objSearch;
       this.permission = this.customerProfileService.CacheData.permission;
+      this.pgEvent = { first: this.currentPage * 10, rows: 10, page: this.currentPage, pageCount: 0 } as PageEvent;
     }  
   }
 
@@ -143,11 +144,7 @@ export class CustomerProfileListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
-    const route = this.partyId
-      ? ['/business/parties/customer-profiles/party', this.partyId, page, obj.Id]
-      : ['/business/parties/customer-profiles', page, obj.Id];
-    this.router.navigate(route);
+    this.router.navigate(['/business/parties/profile', obj.PartyId, 'overview'], { queryParams: { origin: 'customer' } });
   
   };
 

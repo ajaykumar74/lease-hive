@@ -41,12 +41,13 @@ export class PartyListComponent implements OnInit {
       this.currentPage = this.partyService.CacheData.CurrentPage;
       this.objSearch = this.partyService.CacheData.objSearch;
       this.permission = this.partyService.CacheData.permission;
+      this.pgEvent = { first: this.currentPage * 10, rows: 10, page: this.currentPage, pageCount: 0 };
     }  
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.searchData(this.pgEvent, true);
+      this.searchData(this.pgEvent, !this.partyService.CacheData.IsLoaded);
     }, 500);
   }
 
@@ -136,11 +137,11 @@ export class PartyListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    this.router.navigate(['/business/parties/view', obj.Id]);
+    this.router.navigate(['/business/parties/profile', obj.Id, 'overview'], { queryParams: { origin: 'party' }, state: { party: obj } });
   };
 
   onViewClick(party: IParty): void {
-    this.router.navigate(['/business/parties/view', party.Id], { state: { party } });
+    this.router.navigate(['/business/parties/profile', party.Id, 'overview'], { queryParams: { origin: 'party' }, state: { party } });
   }
 
   onEditClick(party: IParty): void {

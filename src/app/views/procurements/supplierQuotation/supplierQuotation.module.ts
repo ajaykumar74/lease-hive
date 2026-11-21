@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { SupplierQuotationListComponent } from './supplierQuotation-list.component';
 import { SupplierQuotationCreateComponent } from './supplierQuotation-create.component';
@@ -33,6 +35,8 @@ import { SupplierQuotationRoutingModule } from './supplierQuotation-routing.modu
 		CalendarModule, 
 		DropdownModule, 
 		TableModule,
+		PaginatorModule,
+		TooltipModule,
 		InputNumberModule, 
 		TextareaModule,
 		RadioButtonModule,

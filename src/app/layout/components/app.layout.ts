@@ -8,6 +8,7 @@ import { LayoutService } from '@/layout/service/layout.service';
 import { AppConfigurator } from './app.configurator';
 import { AppProfileSidebar } from './app.profilesidebar';
 import { AssetProfileSidebar } from './asset-profile-sidebar';
+import { PartyProfileSidebar } from './party-profile-sidebar';
 
 @Component({
     selector: 'app-layout',
@@ -20,10 +21,12 @@ import { AssetProfileSidebar } from './asset-profile-sidebar';
         AppConfigurator,
         AppProfileSidebar,
         AssetProfileSidebar,
+        PartyProfileSidebar,
     ],
     template: `<div class="layout-container" [ngClass]="containerClass">
-        <div *ngIf="!isAssetProfile" app-sidebar></div>
+        <div *ngIf="!isAssetProfile && !isPartyProfile" app-sidebar></div>
         <app-asset-profile-sidebar *ngIf="isAssetProfile"></app-asset-profile-sidebar>
+        <app-party-profile-sidebar *ngIf="isPartyProfile"></app-party-profile-sidebar>
         <div class="layout-content-wrapper">
             <div app-topbar></div>
             <div class="layout-content">
@@ -155,11 +158,16 @@ export class AppLayout {
             'layout-sidebar-active': layoutState.sidebarActive,
             'layout-sidebar-anchored': layoutState.anchored,
             'asset-profile-layout': this.isAssetProfile,
+            'party-profile-layout': this.isPartyProfile,
         };
     }
 
     get isAssetProfile(): boolean {
         return /^\/business\/assets\/profile\/\d+(?:\/|$)/.test(this.router.url);
+    }
+
+    get isPartyProfile(): boolean {
+        return /^\/business\/parties\/profile\/\d+(?:\/|$)/.test(this.router.url);
     }
 
     ngOnDestroy() {

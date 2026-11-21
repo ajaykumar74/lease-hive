@@ -1,0 +1,17 @@
+<section class="party-profile" *ngIf="party; else loadingState">
+  <header class="party-profile__header">
+    <div class="party-profile__identity">
+      <div class="party-profile__image"><i class="pi pi-building"></i></div>
+      <div><div class="party-profile__eyebrow">{{ title }} · {{ party.PartyId || party.PartyCode || ('Party #' + party.Id) }}</div><h1>{{ primaryName }}</h1><p>{{ party.PartyKind || 'Party type not recorded' }}<span *ngIf="party.LegalName && party.TradeName"> · {{ party.LegalName }}</span></p></div>
+    </div>
+    <div class="party-profile__facts">
+      <div><span>Roles</span><strong>{{ roles.length ? roles.join(', ') : 'Not assigned' }}</strong></div>
+      <div><span>Primary contact</span><strong>{{ primaryContact ? (primaryContact.FirstName + ' ' + primaryContact.LastName) : 'Not recorded' }}</strong><small *ngIf="primaryContact">{{ primaryContact.Email || primaryContact.MobileNumber || primaryContact.PhoneNumber }}</small></div>
+      <div><span>GSTIN / PAN</span><strong>{{ primaryGst?.GSTIN || party.PAN || 'Not recorded' }}</strong></div>
+      <div><span>Primary location</span><strong>{{ primaryLocation?.LocationName || primaryLocation?.City || party.CountryOfRegistration || 'Not recorded' }}</strong></div>
+    </div>
+    <div class="party-profile__actions"><span class="party-profile__status" [ngClass]="statusClass(party.RecordStatus)"><i class="pi pi-circle-fill"></i>{{ party.RecordStatus || 'Pending' }}</span><button *ngIf="permission.CanUpdate && party.CanUpdate" pButton type="button" label="Edit" icon="pi pi-pencil" class="p-button-outlined p-button-sm" (click)="edit()"></button><button pButton type="button" label="Back to list" icon="pi pi-arrow-left" class="p-button-text p-button-sm" (click)="back()"></button></div>
+  </header>
+  <main class="party-profile__content"><router-outlet></router-outlet></main>
+</section>
+<ng-template #loadingState><div class="party-profile__loading"><i class="pi pi-spin pi-spinner"></i> Loading party profile…</div></ng-template>

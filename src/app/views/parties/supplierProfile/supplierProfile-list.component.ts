@@ -45,6 +45,7 @@ export class SupplierProfileListComponent implements OnInit {
       this.currentPage = this.supplierProfileService.CacheData.CurrentPage;
       this.objSearch = this.supplierProfileService.CacheData.objSearch;
       this.permission = this.supplierProfileService.CacheData.permission;
+      this.pgEvent = { first: this.currentPage * 10, rows: 10, page: this.currentPage, pageCount: 0 } as PageEvent;
     }  
   }
 
@@ -143,11 +144,7 @@ export class SupplierProfileListComponent implements OnInit {
   }
 
   onDetailsClick(obj: any): void {
-    const page = this.permission.CanCreate || this.permission.CanUpdate ? 'edit' : 'view';
-    const route = this.partyId
-      ? ['/business/parties/supplier-profiles/party', this.partyId, page, obj.Id]
-      : ['/business/parties/supplier-profiles', page, obj.Id];
-    this.router.navigate(route);
+    this.router.navigate(['/business/parties/profile', obj.PartyId, 'overview'], { queryParams: { origin: 'supplier' } });
   
   };
 

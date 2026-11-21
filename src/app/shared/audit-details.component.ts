@@ -12,7 +12,7 @@ export class AuditDetailsComponent implements OnInit {
  
   constructor() { }
   
-   @Input() model: any;
+   @Input({ alias: 'model' }) model: any = null;
   
     ngOnInit(): void {
 

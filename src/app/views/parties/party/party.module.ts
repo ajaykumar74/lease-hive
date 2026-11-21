@@ -21,6 +21,9 @@ import { PartyListComponent } from './party-list.component';
 import { PartyCreateComponent } from './party-create.component';
 import { PartyEditComponent } from './party-edit.component';
 import { PartyViewComponent } from './party-view.component';
+import { PartyProfileComponent } from './party-profile.component';
+import { PartyProfileOverviewComponent } from './party-profile-overview.component';
+import { PartyProfileRecordsComponent } from './party-profile-records.component';
 import { PartyRoutingModule } from './party-routing.module';
 
 
@@ -51,7 +54,10 @@ import { PartyRoutingModule } from './party-routing.module';
 		PartyCreateComponent,
 		PartyListComponent,
 		PartyEditComponent,
-		PartyViewComponent
+		PartyViewComponent,
+		PartyProfileComponent,
+		PartyProfileOverviewComponent,
+		PartyProfileRecordsComponent
 	]
 })
 export class PartyModule { }
