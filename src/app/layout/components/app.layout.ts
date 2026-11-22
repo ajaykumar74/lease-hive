@@ -9,6 +9,8 @@ import { AppConfigurator } from './app.configurator';
 import { AppProfileSidebar } from './app.profilesidebar';
 import { AssetProfileSidebar } from './asset-profile-sidebar';
 import { PartyProfileSidebar } from './party-profile-sidebar';
+import { SettingsWorkspaceSidebar } from './settings-workspace-sidebar';
+import { isSettingsWorkspaceRoute } from './settings-workspace.config';
 
 @Component({
     selector: 'app-layout',
@@ -22,11 +24,13 @@ import { PartyProfileSidebar } from './party-profile-sidebar';
         AppProfileSidebar,
         AssetProfileSidebar,
         PartyProfileSidebar,
+        SettingsWorkspaceSidebar,
     ],
     template: `<div class="layout-container" [ngClass]="containerClass">
-        <div *ngIf="!isAssetProfile && !isPartyProfile" app-sidebar></div>
+        <div *ngIf="!isAssetProfile && !isPartyProfile && !isSettingsWorkspace" app-sidebar></div>
         <app-asset-profile-sidebar *ngIf="isAssetProfile"></app-asset-profile-sidebar>
         <app-party-profile-sidebar *ngIf="isPartyProfile"></app-party-profile-sidebar>
+        <app-settings-workspace-sidebar *ngIf="isSettingsWorkspace"></app-settings-workspace-sidebar>
         <div class="layout-content-wrapper">
             <div app-topbar></div>
             <div class="layout-content">
@@ -159,6 +163,7 @@ export class AppLayout {
             'layout-sidebar-anchored': layoutState.anchored,
             'asset-profile-layout': this.isAssetProfile,
             'party-profile-layout': this.isPartyProfile,
+            'settings-workspace-layout': this.isSettingsWorkspace,
         };
     }
 
@@ -168,6 +173,10 @@ export class AppLayout {
 
     get isPartyProfile(): boolean {
         return /^\/business\/parties\/profile\/\d+(?:\/|$)/.test(this.router.url);
+    }
+
+    get isSettingsWorkspace(): boolean {
+        return isSettingsWorkspaceRoute(this.router.url);
     }
 
     ngOnDestroy() {

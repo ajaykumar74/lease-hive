@@ -13,6 +13,8 @@ import { ISelectItem } from '@/shared/ISelectItem';
 import { IRFQ, IRFQLineItem, IRFQPurchaseRequisitionContext } from './rFQ';
 import { RFQService } from './rFQ.service';
 import { SupplierQuotationService } from '../supplierQuotation/supplierQuotation.service';
+import { RFQSupplierService } from '../rFQSupplier/rFQSupplier.service';
+import { DataType, Operator } from '@/shared/LoggedInUserService';
 
 
 @Component({
@@ -31,6 +33,8 @@ export class RFQEditComponent implements OnInit {
   Caption: string = 'Loading...';
   supplierQuotationId: number | null = null;
   isSupplierQuotationLoading: boolean = false;
+  hasAssignedSuppliers = false;
+  isSupplierAssignmentLoading = false;
   isEditable: boolean = false;
   lineItems: IRFQLineItem[] = [];
   eligibleLineItems: IRFQLineItem[] = [];
@@ -51,6 +55,7 @@ recordstatusOptions: ISelectItem[] = [];
 	private _location: Location,
 	private rFQService: RFQService, 
 	private supplierQuotationService: SupplierQuotationService,
+	private rFQSupplierService: RFQSupplierService,
 	private loggedInUserService : LoggedInUserService,
   private readonly confirmationService: ConfirmationService
 	) {
@@ -112,6 +117,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
         }
         if (!this.isEditable) this.editForm.disable({ emitEvent: false });
         this.loadSupplierQuotation();
+        this.loadSupplierAssignments();
       },
       error: err => { this.messageService.showSuccess(err); },
       complete: () => { this.isLoading = false; }
@@ -149,6 +155,30 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     this.router.navigate(['/business/procurement/supplier-quotations/create'], {
       queryParams: { rfqId: this.rFQ.Id }
     });
+  }
+
+  get supplierAssignmentActionLabel(): string {
+    return this.hasAssignedSuppliers ? 'View Suppliers' : 'Assign Supplier';
+  }
+
+  private loadSupplierAssignments(): void {
+    if (!this.rFQ?.Id) return;
+    this.isSupplierAssignmentLoading = true;
+    this.rFQSupplierService.search({ Skip: 0, Take: 1, SortBy: 'Id', IsDescending: false, Conditions: [
+      { DBName: 'RFQId', Value: String(this.rFQ.Id), DataType: DataType.Int, Operator: Operator.EqualTo }
+    ] }).subscribe({
+      next: response => this.hasAssignedSuppliers = (response?.data?.TotalRecords || 0) > 0,
+      error: error => this.messageService.showError(error),
+      complete: () => this.isSupplierAssignmentLoading = false
+    });
+  }
+
+  openSupplierAssignments(): void {
+    if (!this.rFQ?.Id) return;
+    const queryParams = { rfqId: this.rFQ.Id };
+    this.router.navigate(
+      [this.hasAssignedSuppliers ? '/business/procurement/rfqs/suppliers' : '/business/procurement/rfqs/suppliers/create'],
+      { queryParams });
   }
 
   populateUI(obj: IRFQ): void {  

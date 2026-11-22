@@ -9,6 +9,9 @@
 					<button type="button" pButton [label]="supplierQuoteActionLabel" icon="pi pi-file-plus" size="small"
 						severity="secondary" [outlined]="true" [disabled]="isLoading || isSupplierQuotationLoading || !rFQ?.Id"
 						(click)="openSupplierQuote()"></button>
+					<button type="button" pButton [label]="supplierAssignmentActionLabel" icon="pi pi-users" size="small"
+						severity="secondary" [outlined]="true" [disabled]="isLoading || isSupplierAssignmentLoading || !rFQ?.Id"
+						(click)="openSupplierAssignments()"></button>
 				</app-toolbar-buttons> 
 				<app-spinner></app-spinner>
 				

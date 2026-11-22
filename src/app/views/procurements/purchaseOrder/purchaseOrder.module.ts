@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { PurchaseOrderListComponent } from './purchaseOrder-list.component';
 import { PurchaseOrderCreateComponent } from './purchaseOrder-create.component';
@@ -42,6 +43,7 @@ import { PurchaseOrderRoutingModule } from './purchaseOrder-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		PurchaseOrderRoutingModule,
 	],
 	declarations: [

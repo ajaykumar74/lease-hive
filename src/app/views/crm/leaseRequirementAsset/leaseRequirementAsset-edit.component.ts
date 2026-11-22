@@ -94,6 +94,15 @@ export class LeaseRequirementAssetEditComponent implements OnInit {
         });
     }
 
+    createQuote(): void {
+        this.router.navigate(['/business/origination/quotes/create'], {
+            queryParams: {
+                leaseRequirementId: this.leaseRequirementAsset?.LeaseRequirementId,
+                leaseRequirementAssetId: this.leaseRequirementAsset?.Id
+            }
+        });
+    }
+
     ngAfterViewInit(): void {
         setTimeout(() => {
             this.loadUI();

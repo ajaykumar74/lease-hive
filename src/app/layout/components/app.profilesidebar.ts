@@ -80,7 +80,7 @@ export class AppProfileSidebar implements OnInit {
 
     onSettingsClick() {
         this.onDrawerHide();
-        this.router.navigate(['/dashboard/settings']);
+        this.router.navigate(['/settings']);
 
     }
 

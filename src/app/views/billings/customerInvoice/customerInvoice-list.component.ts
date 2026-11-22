@@ -76,8 +76,10 @@ export class CustomerInvoiceListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(arg: any): void {
+    this.pgEvent = { ...this.pgEvent, ...arg } as PageEvent;
+    this.currentPage = (arg.page ?? Math.floor((arg.first ?? 0) / (arg.rows ?? this.pgEvent.rows)) + 1) + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 

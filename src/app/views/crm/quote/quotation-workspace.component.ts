@@ -10,6 +10,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { MessageComponent } from '@/shared/message.component';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { CurrencyDefaultService } from '@/shared/currency-default.service';
+import { LeaseRequirementService } from '@/views/crm/leaseRequirement/leaseRequirement.service';
 import { QuoteService } from './quote.service';
 import {
     IApplyLeasePricingResult,
@@ -66,6 +67,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     private requirementAssetPrefillRequest = 0;
     private currencyResolutionRequest = 0;
     private pricingScenarioLoadRequest = 0;
+    private contextRequirementAssetId: number | null = null;
     private appliedPricingInputSignatures = new Map<string, string>();
     removedAssetIds: number[] = [];
     removedServiceIds: number[] = [];
@@ -95,6 +97,7 @@ export class QuotationWorkspaceComponent implements OnInit {
         private readonly router: Router,
         private readonly location: Location,
         private readonly quoteService: QuoteService,
+        private readonly leaseRequirementService: LeaseRequirementService,
         private readonly loggedInUserService: LoggedInUserService,
         private readonly currencyDefaultService: CurrencyDefaultService,
         private readonly destroyRef: DestroyRef
@@ -136,7 +139,11 @@ export class QuotationWorkspaceComponent implements OnInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.syncCurrencyWithOriginatingOrganisation());
         ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount'].forEach((name) => this.header.get(name)?.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness()));
-        if (this.quoteId > 0) this.loadWorkspace();
+        if (this.quoteId > 0) {
+            this.loadWorkspace();
+        } else {
+            this.applyRequirementAssetContext();
+        }
     }
 
     selectTab(index: number): void {
@@ -1095,20 +1102,55 @@ export class QuotationWorkspaceComponent implements OnInit {
         const requestId = ++this.requirementAssetPrefillRequest;
         this.quoteService.getRequirementAssets(leaseRequirementId).subscribe({
             next: (response) => {
-                if (requestId !== this.requirementAssetPrefillRequest || Number(this.header.value.LeaseRequirementId) !== leaseRequirementId || this.assets.length > 0) return;
+                if (requestId !== this.requirementAssetPrefillRequest || Number(this.header.getRawValue().LeaseRequirementId) !== leaseRequirementId || this.assets.length > 0) return;
 
                 const requirementAssets = response?.data || [];
-                requirementAssets.forEach((asset) => this.addAsset(this.requirementAssetToQuoteAsset(asset)));
-                if (requirementAssets.length) {
-                    this.requirementAssetPrefillIsResolved = true;
-                    this.messageService.showSuccess(`${requirementAssets.length} asset${requirementAssets.length === 1 ? '' : 's'} added from the lease requirement. You can edit or remove them.`);
+                const assetsToPrefill = this.contextRequirementAssetId
+                    ? requirementAssets.filter((asset) => Number(asset.Id) === this.contextRequirementAssetId)
+                    : requirementAssets;
+
+                assetsToPrefill.forEach((asset) => this.addAsset(this.requirementAssetToQuoteAsset(asset)));
+                this.requirementAssetPrefillIsResolved = true;
+
+                if (assetsToPrefill.length) {
+                    const message = this.contextRequirementAssetId
+                        ? 'The selected requirement asset was added to the quotation.'
+                        : `${assetsToPrefill.length} asset${assetsToPrefill.length === 1 ? '' : 's'} added from the lease requirement. You can edit or remove them.`;
+                    this.messageService?.showSuccess(message);
+                } else if (this.contextRequirementAssetId) {
+                    this.messageService?.showError('The selected requirement asset is not available for this lease requirement.');
                 }
             },
             error: () => {
-                if (requestId === this.requirementAssetPrefillRequest && Number(this.header.value.LeaseRequirementId) === leaseRequirementId) {
-                    this.messageService.showError('Requirement assets could not be loaded. You can still add quotation assets manually.');
+                if (requestId === this.requirementAssetPrefillRequest && Number(this.header.getRawValue().LeaseRequirementId) === leaseRequirementId) {
+                    this.messageService?.showError('Requirement assets could not be loaded. You can still add quotation assets manually.');
                 }
             }
+        });
+    }
+
+    private applyRequirementAssetContext(): void {
+        const leaseRequirementId = Number(this.route.snapshot.queryParamMap.get('leaseRequirementId')) || 0;
+        const leaseRequirementAssetId = Number(this.route.snapshot.queryParamMap.get('leaseRequirementAssetId')) || 0;
+        if (leaseRequirementId <= 0 || leaseRequirementAssetId <= 0) return;
+
+        this.contextRequirementAssetId = leaseRequirementAssetId;
+        this.leaseRequirementService.getById(leaseRequirementId).subscribe({
+            next: (response) => {
+                const requirement = response?.data;
+                if (!requirement?.Id || !requirement.PartyId || !requirement.OpportunityId) {
+                    this.messageService?.showError('The lease requirement does not include a customer and opportunity for this quotation.');
+                    return;
+                }
+
+                this.header.patchValue({
+                    PartyId: requirement.PartyId,
+                    OpportunityId: requirement.OpportunityId,
+                    LeaseRequirementId: requirement.Id
+                });
+                ['PartyId', 'OpportunityId', 'LeaseRequirementId'].forEach((controlName) => this.header.get(controlName)?.disable({ emitEvent: false }));
+            },
+            error: (error) => this.messageService?.showError(error)
         });
     }
 

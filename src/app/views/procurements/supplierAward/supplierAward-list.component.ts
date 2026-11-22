@@ -1,162 +1,51 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; 
-
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CombineCriteriaType, DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService';
 import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
+import { ListFilterCondition, ListQueryParameters, ListSortOption } from '@/shared/list-page.models';
+import { PageEvent } from '@/shared/IBase';
 import { SupplierAwardService } from './supplierAward.service';
 import { ISupplierAward } from './supplierAward';
-import { PageEvent } from '@/shared/IBase';
 
-@Component({
-  selector: 'app-customer-list',
-  standalone: false,
-  templateUrl: './supplierAward-list.component.html'
-})
-export class SupplierAwardListComponent implements OnInit {
-
-  constructor(
-    private supplierAwardService: SupplierAwardService,
-    private router: Router, 
-    private loggedInUserService: LoggedInUserService
-  ) { }
-  pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
-  lstMain: ISupplierAward[]; 
-  sortBy: string = 'Id';
-  IsDescending: boolean;
-  totalNoOfRecords = 0; 
-  currentPage: number = 1;
-  isAdvanceView: boolean = true;
-  isLoading: boolean = false;
-  maxPageCount: number = 10;
-  permission = {} as IPermission;
-  objSearch: any = { Name: '',  RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
-
+@Component({ selector: 'app-supplier-award-list', standalone: false, templateUrl: './supplierAward-list.component.html' })
+export class SupplierAwardListComponent implements OnInit, AfterViewInit, OnDestroy {
+  pgEvent: PageEvent = { first: 0, rows: 20, page: 0, pageCount: 0 };
+  lstMain: ISupplierAward[] = []; totalNoOfRecords = 0; isLoading = false; hasLoadError = false;
+  permission = {} as IPermission; searchTerm = ''; selectedSortKey = 'awardDate-desc';
+  readonly sortOptions: ListSortOption[] = [
+    { key: 'awardDate-desc', label: 'Award Date — Newest first', field: 'AwardDateTime', descending: true },
+    { key: 'awardDate-asc', label: 'Award Date — Oldest first', field: 'AwardDateTime', descending: false },
+    { key: 'award-asc', label: 'Award ID — A to Z', field: 'SupplierAwardId', descending: false },
+    { key: 'supplier-asc', label: 'Supplier — A to Z', field: 'SupplierPartyDisplayName', descending: false },
+    { key: 'amount-desc', label: 'Award Amount — High to low', field: 'AwardAmount', descending: true }
+  ];
+  private subscription?: Subscription;
   @ViewChild(SpinnerComponent) spinner: SpinnerComponent;
   @ViewChild(MessageComponent) messageService: MessageComponent;
-
-  ngOnInit(): void {
-     if (this.supplierAwardService.CacheData.IsLoaded) {
-      this.currentPage = this.supplierAwardService.CacheData.CurrentPage;
-      this.objSearch = this.supplierAwardService.CacheData.objSearch;
-      this.permission = this.supplierAwardService.CacheData.permission;
-    }  
+  constructor(private supplierAwardService: SupplierAwardService, private router: Router, private loggedInUserService: LoggedInUserService) {}
+  ngOnInit(): void {}
+  ngAfterViewInit(): void { this.searchData(this.pgEvent, true); }
+  ngOnDestroy(): void { this.subscription?.unsubscribe(); }
+  onSearch(): void { this.pgEvent = { ...this.pgEvent, first: 0, page: 0 }; this.searchData(this.pgEvent, true); }
+  clearSearch(): void { this.searchTerm = ''; this.onSearch(); }
+  onSortChanged(): void { this.onSearch(); }
+  pageChanged(event: Partial<PageEvent>): void { this.pgEvent = { first: event.first ?? 0, rows: event.rows ?? 20, page: event.page ?? 0, pageCount: event.pageCount ?? 0 }; this.searchData(this.pgEvent, true); }
+  searchData(event: PageEvent, force: boolean): void {
+    const sort = this.sortOptions.find(x => x.key === this.selectedSortKey) || this.sortOptions[0];
+    const query: ListQueryParameters = { Skip: event.first, Take: event.rows, SortBy: sort.field, IsDescending: sort.descending, Conditions: this.getSearchParams() };
+    this.subscription?.unsubscribe(); this.isLoading = true; this.hasLoadError = false;
+    this.subscription = this.supplierAwardService.search(query).subscribe({ next: response => { this.permission = response.permission; this.lstMain = response.data.Records || []; this.totalNoOfRecords = response.data.TotalRecords || 0; this.supplierAwardService.setCache(response.data, this.permission, { pagination: this.pgEvent }); }, error: error => { this.lstMain = []; this.totalNoOfRecords = 0; this.hasLoadError = true; this.messageService.showError(error); this.isLoading = false; }, complete: () => this.isLoading = false });
   }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.searchData(this.pgEvent, !this.supplierAwardService.CacheData.IsLoaded);
-    }, 500);
+  getSearchParams(): ListFilterCondition[] {
+    const term = this.searchTerm.trim(); if (!term) return [];
+    return ['SupplierAwardId', 'RFQDisplayName', 'SupplierQuotationDisplayName', 'SupplierPartyDisplayName', 'AwardedByDisplayName'].map(DBName => ({ DBName, Value: term, DataType: DataType.Text, Operator: Operator.Contains, CombineCriteria: CombineCriteriaType.CombineOR, GroupName: 'AwardSearch' }));
   }
-
-  onAdvSearchClicked(obj: any): void {
-    this.objSearch = obj;
-    this.search();
-  }
-
-  onHideAdvSearch(): void {
-    this.isAdvanceView = !this.isAdvanceView;
-  }
-
-
-  search(): void {
-    this.searchData(this.pgEvent, true);
-  }
-
-  clearSearch(): void {
-    this.objSearch = { Name: '', Code: '', RecordStatus: 'Active', CreatedByName: '', AuditType: '', Days: 1, RecordsFromDate: new Date() };
-    this.searchData(this.pgEvent, true);
-  }
-
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
-  }
-
-	searchData(pgEvent: PageEvent, isReload: boolean): void { 
-
-    if (isReload || this.supplierAwardService.CacheData.CurrentPage != pgEvent.page) {
-
-      var searchParam = {
-        Skip: pgEvent.first,
-        Take: pgEvent.rows,
-        SortBy: this.sortBy,
-        IsDescending: this.IsDescending  ,
-        Conditions: this.getSearchParams()  
-      }
-      this.isLoading = true;
-      this.supplierAwardService.search(searchParam).subscribe({
-        next: res => {
-          this.permission = res.permission; 
-          this.SetListData(res.data.Records, res.data.TotalRecords);
-          this.supplierAwardService.setCache(res.data, this.permission, this.objSearch, pgEvent.page);
-        },
-        error: err => { this.lstMain = []; this.messageService.showError(err); this.isLoading = false; },
-        complete: () => { this.isLoading = false; }
-      });
-    }
-    else {
-      this.SetListData(this.supplierAwardService.CacheData.Data, this.supplierAwardService.CacheData.TotalRecords);
-    }
-  }
-
-   
-
-  SetListData(data: any, totalrecords: number): void {
-    this.lstMain = data;
-    this.totalNoOfRecords = totalrecords; 
-  }
-
-  getSearchParams() {
-    var Items = [];
-    Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-   //    { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-   //   { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-  //    { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
-     
-    ];
-
-
-    var auditCriteria = null;
-    
-
-    if (this.objSearch.AuditType == 'Created') {
-      auditCriteria = 'CreatedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    else if (this.objSearch.AuditType == 'Modified') {
-      auditCriteria = 'ModifiedDateTime;' + this.objSearch.Days + ';' + this.loggedInUserService.formatDate(this.objSearch.RecordsFromDate);
-    }
-    if (auditCriteria != null) {
-      Items.push({ DBName: 'Records', Value: auditCriteria, DataType: DataType.Text, Operator: Operator.EqualTo })
-    }
-
-    return Items;
-
-  }
-
-  onDetailsClick(obj: any): void {
-    if (this.permission.CanCreate || this.permission.CanUpdate) {
-        this.router.navigate(['/business/procurement/awards/edit/' + obj.Id]);
-    }
-    else {
-        this.router.navigate(['/business/procurement/awards/view/' + obj.Id]);
-    } 
-  
-  };
-
-  onOptionItemClicked(key: string): void {
-    if (key == "Create") {
-      this.router.navigate(['/business/procurement/awards/create']);
-    } 
-    else if (key == "Refresh") {
-      this.search();
-    }
-    else if (key == "Cancel") {
-    }    
-  }
+  onViewClick(obj: ISupplierAward): void { this.router.navigate(['/business/procurement/awards/view', obj.Id]); }
+  onEditClick(obj: ISupplierAward): void { if (this.permission.CanUpdate) this.router.navigate(['/business/procurement/awards/edit', obj.Id]); }
+  createPurchaseOrder(obj: ISupplierAward): void { this.router.navigate(['/business/procurement/purchase-orders/create'], { queryParams: { supplierAwardId: obj.Id } }); }
+  formatAmount(obj: ISupplierAward): string { return new Intl.NumberFormat('en-US', { style: 'currency', currency: obj.CurrencyCode || 'INR', minimumFractionDigits: 2 }).format(obj.AwardAmount || 0); }
+  onOptionItemClicked(key: string): void { if (key === 'Create') this.router.navigate(['/business/procurement/awards/create']); else if (key === 'Refresh') this.searchData(this.pgEvent, true); }
 }
-
-
-
-

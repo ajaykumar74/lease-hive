@@ -1,6 +1,6 @@
 import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { MessageService } from 'primeng/api';
@@ -11,6 +11,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ILeaseRequirement } from './leaseRequirement';
 import { LeaseRequirementService } from './leaseRequirement.service';
+import { OpportunityService } from '../opportunity/opportunity.service';
 
 @Component({
     selector: 'app-leaseRequirement-create',
@@ -38,8 +39,10 @@ export class LeaseRequirementCreateComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private _location: Location,
         private leaseRequirementService: LeaseRequirementService,
+        private opportunityService: OpportunityService,
         private loggedInUserService: LoggedInUserService,
         private destroyRef: DestroyRef
     ) {}
@@ -70,6 +73,7 @@ export class LeaseRequirementCreateComponent implements OnInit {
             this.loadPartyLocations(partyId);
         });
         this.requirementstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RequirementStatusCode');
+        this.applyOpportunityContext();
     }
 
     loadUI(): void {
@@ -115,6 +119,29 @@ export class LeaseRequirementCreateComponent implements OnInit {
             .subscribe((options) => (this.partylocationidOptions = options));
     }
 
+    private applyOpportunityContext(): void {
+        const opportunityId = Number(this.activatedRoute.snapshot.queryParamMap.get('opportunityId')) || 0;
+        if (opportunityId <= 0) return;
+
+        this.opportunityService.getById(opportunityId).subscribe({
+            next: (response) => {
+                const opportunity = response?.data;
+                if (!opportunity?.Id || !opportunity.PartyId) {
+                    this.messageService?.showError('The selected opportunity does not include a customer.');
+                    return;
+                }
+
+                this.editForm.patchValue({
+                    OpportunityId: opportunity.Id,
+                    PartyId: opportunity.PartyId,
+                    CurrencyCode: opportunity.CurrencyCode || ''
+                });
+                ['OpportunityId', 'PartyId'].forEach((controlName) => this.editForm.get(controlName)?.disable({ emitEvent: false }));
+            },
+            error: (error) => this.messageService?.showError(error)
+        });
+    }
+
     onOptionItemClicked(key: string): void {
         if (key == 'Create') {
             this.router.navigate(['/business/crm/leaseRequirements/create']);
@@ -152,7 +179,7 @@ export class LeaseRequirementCreateComponent implements OnInit {
             return;
         }
 
-        const formValues = this.editForm.value;
+        const formValues = this.editForm.getRawValue();
         var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,

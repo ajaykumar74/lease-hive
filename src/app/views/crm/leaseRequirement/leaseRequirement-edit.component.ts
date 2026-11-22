@@ -7,10 +7,11 @@ import { MessageService } from 'primeng/api';
 import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
-import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { DataType, LoggedInUserService, Operator } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ILeaseRequirement } from './leaseRequirement';
 import { LeaseRequirementService } from './leaseRequirement.service';
+import { LeaseRequirementAssetService } from '../leaseRequirementAsset/leaseRequirementAsset.service';
 
 @Component({
     selector: 'app-leaseRequirement-edit',
@@ -30,6 +31,8 @@ export class LeaseRequirementEditComponent implements OnInit {
     partylocationidOptions: ISelectItem[] = [];
     requirementstatuscodeOptions: ISelectItem[] = [];
     recordstatusOptions: ISelectItem[] = [];
+    requirementAssetId: number | null = null;
+    isRequirementAssetLoading = false;
 
     editForm: any;
     objMaster: ILeaseRequirement = {} as ILeaseRequirement;
@@ -40,6 +43,7 @@ export class LeaseRequirementEditComponent implements OnInit {
         private router: Router,
         private _location: Location,
         private leaseRequirementService: LeaseRequirementService,
+        private leaseRequirementAssetService: LeaseRequirementAssetService,
         private loggedInUserService: LoggedInUserService
     ) {}
 
@@ -93,6 +97,7 @@ export class LeaseRequirementEditComponent implements OnInit {
                 this.permission = data.permission;
                 this.objMaster = { ...this.leaseRequirement };
                 this.populateUI(this.leaseRequirement);
+                this.loadRequirementAsset();
             },
             error: (err) => {
                 this.messageService.showSuccess(err);
@@ -133,6 +138,48 @@ export class LeaseRequirementEditComponent implements OnInit {
         this.loggedInUserService
             .getLookupOptions('party-locations', selectedId, { partyId })
             .subscribe((options) => (this.partylocationidOptions = options));
+    }
+
+    private loadRequirementAsset(): void {
+        if (!this.leaseRequirement?.Id) {
+            this.requirementAssetId = null;
+            return;
+        }
+
+        this.isRequirementAssetLoading = true;
+        this.leaseRequirementAssetService.search({
+            Skip: 0,
+            Take: 1,
+            SortBy: 'LineNo',
+            IsDescending: false,
+            Conditions: [
+                { DBName: 'TenantId', Value: String(this.loggedInUserService.loggedInUser.Tenant.Id), DataType: DataType.Int, Operator: Operator.EqualTo },
+                { DBName: 'LeaseRequirementId', Value: String(this.leaseRequirement.Id), DataType: DataType.Int, Operator: Operator.EqualTo }
+            ]
+        }).subscribe({
+            next: (response) => {
+                const asset = response?.data?.Records?.[0];
+                this.requirementAssetId = Number(asset?.Id) || null;
+            },
+            error: () => {
+                this.requirementAssetId = null;
+                this.isRequirementAssetLoading = false;
+            },
+            complete: () => {
+                this.isRequirementAssetLoading = false;
+            }
+        });
+    }
+
+    openRequirementAsset(): void {
+        if (this.requirementAssetId) {
+            this.router.navigate(['/business/crm/leaseRequirementAssets/view', this.requirementAssetId]);
+            return;
+        }
+
+        this.router.navigate(['/business/crm/leaseRequirementAssets/create'], {
+            queryParams: { leaseRequirementId: this.leaseRequirement.Id }
+        });
     }
 
     onOptionItemClicked(key: string): void {

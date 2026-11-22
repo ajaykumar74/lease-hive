@@ -15,7 +15,7 @@ import { LayoutService } from '@/layout/service/layout.service';
     imports: [CommonModule, RouterModule, RippleModule, TooltipModule],
     template: `
         <ng-container>
-            <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">
+            <div *ngIf="root && !item.routerLink && item.visible !== false" class="layout-menuitem-root-text">
                 {{ item.label }}
             </div>
             <a
@@ -200,6 +200,12 @@ export class AppMenuitem implements OnInit, OnDestroy {
     }
 
     private isCurrentRouteForItem(): boolean {
+        // Workflow shortcuts can intentionally open another menu item's route.
+        // They must not compete with that item's active-state indicator.
+        if (this.item.disableRouteActive) {
+            return false;
+        }
+
         const itemRoute = this.getNormalizedRoute(this.item.routerLink);
         if (!itemRoute) {
             return false;

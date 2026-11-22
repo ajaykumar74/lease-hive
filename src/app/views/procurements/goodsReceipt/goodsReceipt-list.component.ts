@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
+import { CombineCriteriaType, DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { GoodsReceiptService } from './goodsReceipt.service';
@@ -69,8 +69,10 @@ export class GoodsReceiptListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(arg: Partial<PageEvent>): void {
+    this.pgEvent = { ...this.pgEvent, ...arg } as PageEvent;
+    this.currentPage = (arg.page ?? Math.floor((arg.first ?? 0) / (arg.rows ?? this.pgEvent.rows)) + 1) + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -112,8 +114,7 @@ export class GoodsReceiptListComponent implements OnInit {
     Items = [
        { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
        { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-      { DBName: 'Name', Value: this.objSearch.Name, DataType: DataType.Text, Operator: Operator.Contains },
-      { DBName: 'Code', Value: this.objSearch.Code, DataType: DataType.Text, Operator: Operator.Contains },
+      { DBName: 'GoodsReceiptId;GRNNo;SupplierDeliveryNoteNo', Value: Array(3).fill(this.objSearch.Name || '').join(';'), DataType: DataType.Text, Operator: Operator.Contains, CombineCriteria: CombineCriteriaType.CombineOR },
      
     ];
 
@@ -144,6 +145,10 @@ export class GoodsReceiptListComponent implements OnInit {
     } 
   
   };
+
+  onViewClick(obj: IGoodsReceipt): void {
+    this.router.navigate(['/business/procurement/goods-receipts/view/' + obj.Id]);
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

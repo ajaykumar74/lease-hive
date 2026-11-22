@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { PermissionService } from './permission.service';
 import { TenantContextService } from './tenant-context.service';
+import { SETTINGS_WORKSPACE_ROUTES } from '@/layout/components/settings-workspace.config';
 
 export interface AppMenuItem {
     label?: string;
@@ -210,6 +211,10 @@ export class MenuPermissionService {
             return null;
         }
 
+        if (item['settingsWorkspace'] === true && !this.hasSettingsWorkspaceAccess()) {
+            return null;
+        }
+
         // Explicit permissions are intentional exceptions to the otherwise
         // broadly visible People & Access section (for example, party-scoped
         // customer portal invitations).
@@ -228,6 +233,13 @@ export class MenuPermissionService {
             ...item,
             ...(children ? { items: children } : {})
         };
+    }
+
+    private hasSettingsWorkspaceAccess(): boolean {
+        return SETTINGS_WORKSPACE_ROUTES.some(route => {
+            const permission = this.getRequiredPermission(route);
+            return !permission || this.permissionService.hasPermission(permission);
+        });
     }
 
     hasActiveAssetCategory(categoryCode: string): boolean {

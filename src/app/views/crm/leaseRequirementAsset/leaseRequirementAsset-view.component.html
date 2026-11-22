@@ -6,6 +6,10 @@
 				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
 					[Caption]="Caption" [PageType]="'View'"></app-toolbar-buttons>
 					<app-spinner></app-spinner>
+					<div class="flex justify-content-end px-4 pt-2">
+						<button pButton type="button" size="small" [style]="{ width: 'auto' }" icon="pi pi-file-plus" label="Create Quote"
+							[disabled]="!leaseRequirementAsset?.Id" (click)="createQuote()"></button>
+					</div>
 					<form> 
 				<p-fluid>
 		      			<div class="flex mt-8">

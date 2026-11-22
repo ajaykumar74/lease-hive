@@ -1,107 +1,14 @@
- <div class="container">
-	<div class="grid">
-		<div class="col-12 md:col-12">
-			<div class="card p-fluid">
-				<app-message [AlertType]="'message'"></app-message>
-				<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption"
-					[PageType]="'Details'" [form]="editForm">
-				</app-toolbar-buttons> 
-				<app-spinner></app-spinner>
-				
-		      <form [formGroup]="editForm" (ngSubmit)="Save()">
-  			<p-fluid>
-		      		<div class="flex mt-8">
-					<div class="card flex flex-col gap-4 w-full"> 
- 					<div class="flex flex-wrap" >  <label for="RFQ Id" class="mb-1">RFQId</label>
-        <p-dropdown
-            inputId="RFQId" 
-            [options]="rfqidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="RFQId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('RFQId')"
-											label="RFQ Id">
-										</app-validation-errors></div>
-<div class="flex flex-wrap" >  <label for="Supplier Party Id" class="mb-1">SupplierPartyId</label>
-        <p-dropdown
-            inputId="SupplierPartyId" 
-            [options]="supplierpartyidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="SupplierPartyId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierPartyId')"
-											label="Supplier Party Id">
-										</app-validation-errors></div>
-<div class="flex flex-wrap" >  <label for="Supplier Service Area Id" class="mb-1">SupplierServiceAreaId</label>
-        <p-dropdown
-            inputId="SupplierServiceAreaId" 
-            [options]="supplierserviceareaidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="SupplierServiceAreaId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierServiceAreaId')"
-											label="Supplier Service Area Id">
-										</app-validation-errors></div>
-<div class="flex flex-wrap" >  <label for="Invitation Status Code" class="mb-1">InvitationStatusCode</label>
-        <p-dropdown
-            inputId="InvitationStatusCode" 
-            [options]="invitationstatuscodeOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="InvitationStatusCode"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('InvitationStatusCode')"
-											label="Invitation Status Code">
-										</app-validation-errors></div>
-<div class="flex flex-wrap" > 			
-							<label for="InvitedOn">Invited On 
-							</label> 
-							<p-calendar id="InvitedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="InvitedOn"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('InvitedOn')"
-											label="Invited On">
-										</app-validation-errors>
-						 </div>
-<div class="flex flex-wrap" > 			
-							<label for="RespondedOn">Responded On 
-							</label> 
-							<p-calendar id="RespondedOn"  size="small" dateFormat="dd-MM-yy" [showIcon]="true"
-	formControlName="RespondedOn"  ></p-calendar>
-	<app-validation-errors [type]="'date'" [control]="editForm.get('RespondedOn')"
-											label="Responded On">
-										</app-validation-errors>
-						 </div>
-<div class="flex flex-wrap" >  <label for="Supplier Contact Id" class="mb-1">SupplierContactId</label>
-        <p-dropdown
-            inputId="SupplierContactId" 
-            [options]="suppliercontactidOptions"
-            optionLabel="Text"
-	    optionValue="Value"
-	    formControlName="SupplierContactId"
-            placeholder="Select One"
-            class="w-full">
-        </p-dropdown>
-      <app-validation-errors [type]="'text'" [control]="editForm.get('SupplierContactId')"
-											label="Supplier Contact Id">
-										</app-validation-errors></div>
-
-					</div>
-				</div>
- 			</p-fluid> 				 
-                     </form>				 
-
-			</div>
-		</div>
-	</div>
-</div>
+<div class="container"><div class="grid"><div class="col-12"><div class="card p-fluid">
+  <app-message [AlertType]="'message'"></app-message>
+  <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"></app-toolbar-buttons>
+  <app-spinner></app-spinner>
+  <form [formGroup]="editForm" (ngSubmit)="Save()"><p-fluid><div class="flex mt-8"><div class="card flex flex-col gap-4 w-full">
+    <section *ngIf="rfqContextLabel" class="surface-50 border-round p-3 flex align-items-center gap-3" aria-label="RFQ context"><i class="pi pi-file text-primary text-xl"></i><div><small class="text-color-secondary">Assigning supplier for</small><div class="font-semibold">{{ rfqContextLabel }}</div></div></section>
+    <div class="flex flex-col gap-2"><label for="RFQId">RFQ</label><p-dropdown inputId="RFQId" [options]="rfqidOptions" optionLabel="Text" optionValue="Value" formControlName="RFQId" placeholder="Select RFQ" class="w-full"></p-dropdown><app-validation-errors [type]="'text'" [control]="editForm.get('RFQId')" label="RFQ"></app-validation-errors></div>
+    <div class="flex flex-col gap-2"><label for="SupplierPartyId">Supplier</label><p-dropdown inputId="SupplierPartyId" [options]="supplierpartyidOptions" optionLabel="Text" optionValue="Value" formControlName="SupplierPartyId" placeholder="Select supplier" class="w-full"></p-dropdown><app-validation-errors [type]="'text'" [control]="editForm.get('SupplierPartyId')" label="Supplier"></app-validation-errors></div>
+    <div class="flex flex-col gap-2"><label for="SupplierServiceAreaId">Service Area</label><p-dropdown inputId="SupplierServiceAreaId" [options]="supplierserviceareaidOptions" optionLabel="Text" optionValue="Value" formControlName="SupplierServiceAreaId" placeholder="Select service area" class="w-full"></p-dropdown></div>
+    <div class="flex flex-col gap-2"><label for="SupplierContactId">Supplier Contact</label><p-dropdown inputId="SupplierContactId" [options]="suppliercontactidOptions" optionLabel="Text" optionValue="Value" formControlName="SupplierContactId" placeholder="Select supplier contact" class="w-full"></p-dropdown></div>
+    <div class="flex flex-col gap-2"><label for="InvitedOn">Invitation Date</label><p-calendar id="InvitedOn" size="small" dateFormat="dd-MM-yy" [showIcon]="true" formControlName="InvitedOn"></p-calendar><app-validation-errors [type]="'date'" [control]="editForm.get('InvitedOn')" label="Invitation Date"></app-validation-errors></div>
+    <div class="surface-50 border-round p-3 text-color-secondary"><i class="pi pi-send mr-2"></i>This supplier will be created with an <strong>Invited</strong> status. A response can be recorded later.</div>
+  </div></div></p-fluid></form>
+</div></div></div></div>

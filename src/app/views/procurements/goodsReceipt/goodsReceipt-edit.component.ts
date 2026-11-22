@@ -22,6 +22,7 @@ import { ReceiptInspectionService } from '../receiptInspection/receiptInspection
   selector: 'app-goodsReceipt-edit',
   standalone: false,
   templateUrl: './goodsReceipt-edit.component.html',
+  styleUrls: ['./goodsReceipt-line-items.component.css'],
   providers: [ MessageService]
 })
 export class GoodsReceiptEditComponent implements OnInit {

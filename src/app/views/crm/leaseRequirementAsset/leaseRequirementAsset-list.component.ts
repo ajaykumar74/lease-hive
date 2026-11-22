@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 
 import { IPermission } from '@/shared/IPermission';
-import { DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
+import { CombineCriteriaType, DataType, LoggedInUserService, Operator } from  '@/shared/LoggedInUserService';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { MessageComponent } from '@/shared/message.component';
 import { LeaseRequirementAssetService } from './leaseRequirementAsset.service';
@@ -69,8 +69,10 @@ export class LeaseRequirementAssetListComponent implements OnInit {
     this.searchData(this.pgEvent, true);
   }
 
-  pageChanged(arg): void {
-    this.searchData(arg.page, true);
+  pageChanged(arg: Partial<PageEvent>): void {
+    this.pgEvent = { ...this.pgEvent, ...arg } as PageEvent;
+    this.currentPage = (arg.page ?? Math.floor((arg.first ?? 0) / (arg.rows ?? this.pgEvent.rows)) + 1) + 1;
+    this.searchData(this.pgEvent, true);
   }
 
 	searchData(pgEvent: PageEvent, isReload: boolean): void { 
@@ -110,10 +112,15 @@ export class LeaseRequirementAssetListComponent implements OnInit {
   getSearchParams() {
     var Items = [];
     Items = [
-       { DBName: 'TenantId', Value: this.loggedInUserService.loggedInUser.Tenant.Id.toString(), DataType: DataType.Int, Operator: Operator.EqualTo },
-       { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo },
-     
+      { DBName: 'RecordStatus', Value: this.objSearch.RecordStatus, DataType: DataType.Text, Operator: Operator.EqualTo }
     ];
+
+    const searchTerm = this.objSearch.Name?.trim();
+    if (searchTerm) {
+      const searchFields = 'LeaseRequirementAssetId;LeaseRequirementDisplayName;AssetDisplayName;AssetMakeDisplayName;AssetModelDisplayName';
+      const searchValues = Array(5).fill(searchTerm).join(';');
+      Items.push({ DBName: searchFields, Value: searchValues, DataType: DataType.Text, Operator: Operator.Contains, CombineCriteria: CombineCriteriaType.CombineOR });
+    }
 
 
     var auditCriteria = null;
@@ -142,6 +149,23 @@ export class LeaseRequirementAssetListComponent implements OnInit {
     } 
   
   };
+
+  onViewClick(asset: ILeaseRequirementAsset): void {
+    this.router.navigate(['/business/crm/leaseRequirementAssets/view', asset.Id]);
+  }
+
+  onEditClick(asset: ILeaseRequirementAsset): void {
+    this.router.navigate(['/business/crm/leaseRequirementAssets/edit', asset.Id]);
+  }
+
+  createQuote(asset: ILeaseRequirementAsset): void {
+    this.router.navigate(['/business/origination/quotes/create'], {
+      queryParams: {
+        leaseRequirementId: asset.LeaseRequirementId,
+        leaseRequirementAssetId: asset.Id
+      }
+    });
+  }
 
   onOptionItemClicked(key: string): void {
     if (key == "Create") {

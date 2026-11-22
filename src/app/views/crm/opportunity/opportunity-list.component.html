@@ -1,47 +1,25 @@
-<div class="grid list-page">
-  <div class="col-12"><div class="card list-card">
+<div class="grid list-page leasehive-list-page">
+  <div class="col-12"><div class="card list-card leasehive-list-card">
     <app-message [AlertType]="'message'"></app-message>
     <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="listCaption" [PageType]="'List'"></app-toolbar-buttons>
     <app-spinner></app-spinner>
-
-    <div class="list-heading">
-      <div><span class="eyebrow">CRM pipeline</span><h2>{{ listCaption }}</h2><p>Track opportunity value, probability, ownership and expected closure.</p></div>
-      <div class="record-count"><strong>{{ totalNoOfRecords }}</strong><span>Total opportunities</span></div>
-    </div>
-
-    <div class="list-search">
-      <i class="pi pi-search"></i>
-      <input type="search" pInputText placeholder="Search by opportunity name..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search opportunities" />
-      <button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button>
-      <button type="button" pButton label="Clear" [text]="true" icon="pi pi-times" (click)="clearSearch()"></button>
-    </div>
-
-    <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" responsiveLayout="scroll" styleClass="list-table" [tableStyle]="{ 'min-width': '1120px' }">
-      <ng-template pTemplate="header"><tr>
-        <th pSortableColumn="OpportunityName">Opportunity <p-sortIcon field="OpportunityName" /></th><th>Stage</th>
-        <th pSortableColumn="EstimatedAmount">Estimated value <p-sortIcon field="EstimatedAmount" /></th>
-        <th pSortableColumn="ProbabilityPct">Probability <p-sortIcon field="ProbabilityPct" /></th>
-        <th pSortableColumn="ExpectedCloseDate">Expected close <p-sortIcon field="ExpectedCloseDate" /></th>
-        <th>Owner</th><th>Status</th><th class="list-actions-column">Quick actions</th>
-      </tr></ng-template>
-      <ng-template pTemplate="body" let-obj><tr>
-        <td><div class="list-primary-cell"><span class="list-avatar">{{ getInitials(obj) }}</span><div>
-          <button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.OpportunityName || 'Unnamed opportunity' }}</button>
-          <span class="list-secondary">{{ obj.OpportunityId || ('#' + obj.Id) }}</span>
-        </div></div></td>
-        <td><span class="list-chip"><i class="pi pi-chart-line"></i>Stage {{ obj.OpportunityStageId || '—' }}</span></td>
-        <td class="list-cell"><strong>{{ obj.EstimatedAmount | currency:(obj.CurrencyCode || 'USD'):'symbol':'1.0-0' }}</strong><span class="list-secondary">{{ obj.CurrencyCode || 'USD' }}</span></td>
-        <td class="list-cell"><strong>{{ obj.ProbabilityPct ?? 0 }}%</strong><span class="list-secondary">Weighted: {{ getWeightedValue(obj) | currency:(obj.CurrencyCode || 'USD'):'symbol':'1.0-0' }}</span></td>
-        <td>{{ obj.ExpectedCloseDate ? (obj.ExpectedCloseDate | date:'dd MMM yyyy') : 'Not set' }}</td>
-        <td class="list-cell"><strong>User {{ obj.OwnerUserId || '—' }}</strong><span class="list-secondary">Organisation unit {{ obj.OwnerOrganisationUnitId || '—' }}</span></td>
-        <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
-        <td><div class="list-actions">
-          <button type="button" class="list-action view" title="View opportunity" aria-label="View opportunity" (click)="onViewClick(obj)"><i class="pi pi-eye"></i></button>
-          <button *ngIf="permission.CanUpdate" type="button" class="list-action edit" title="Edit opportunity" aria-label="Edit opportunity" (click)="onEditClick(obj)"><i class="pi pi-pencil"></i></button>
-        </div></td>
-      </tr></ng-template>
-      <ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-chart-line"></i><strong>No opportunities found</strong><span>Try changing your search or create a new opportunity.</span></div></td></tr></ng-template>
-    </p-table>
-    <p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)" />
+    <div class="leasehive-list-toolbar" role="search" aria-label="Opportunity list controls"><div class="leasehive-list-search"><i class="pi pi-search"></i><input type="search" pInputText placeholder="Search opportunities" [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search opportunities" /><button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button><button type="button" pButton [text]="true" icon="pi pi-times" [disabled]="!objSearch.Name" (click)="clearSearch()" pTooltip="Clear search" tooltipPosition="top" aria-label="Clear search"></button></div><div class="leasehive-list-controls"><div class="record-count-inline" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div></div></div>
+    <section class="leasehive-list-table-area" aria-label="Opportunity results">
+      <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1120px' }">
+        <ng-template pTemplate="header"><tr><th>Opportunity</th><th>Stage</th><th>Estimated value</th><th>Probability</th><th>Expected close</th><th>Owner</th><th>Status</th><th class="list-actions-column">Actions</th></tr></ng-template>
+        <ng-template pTemplate="body" let-obj><tr>
+          <td><div class="list-primary-cell"><span class="list-avatar">{{ getInitials(obj) }}</span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.OpportunityName || 'Unnamed opportunity' }}</button><span class="list-secondary">{{ obj.OpportunityId || ('#' + obj.Id) }}</span></div></div></td>
+          <td><span class="list-chip"><i class="pi pi-chart-line"></i>Stage {{ obj.OpportunityStageId || '—' }}</span></td>
+          <td class="list-cell"><strong>{{ obj.EstimatedAmount | currency:(obj.CurrencyCode || 'USD'):'symbol':'1.0-0' }}</strong><span class="list-secondary">{{ obj.CurrencyCode || 'USD' }}</span></td>
+          <td class="list-cell"><strong>{{ obj.ProbabilityPct ?? 0 }}%</strong><span class="list-secondary">Weighted {{ getWeightedValue(obj) | currency:(obj.CurrencyCode || 'USD'):'symbol':'1.0-0' }}</span></td>
+          <td>{{ obj.ExpectedCloseDate ? (obj.ExpectedCloseDate | date:'dd MMM yyyy') : 'Not set' }}</td>
+          <td><span class="list-chip"><i class="pi pi-user"></i>User {{ obj.OwnerUserId || '—' }}</span></td>
+          <td><span class="list-status" [ngClass]="getStatusClass(obj.RecordStatus)"><i class="list-status-dot"></i>{{ obj.RecordStatus || 'Pending' }}</span></td>
+          <td><div class="list-actions"><button type="button" class="list-action success" (click)="createRequirement(obj)" pTooltip="Create requirement" tooltipPosition="top" aria-label="Create requirement for this opportunity"><i class="pi pi-file-plus"></i></button><button type="button" class="list-action view" (click)="onViewClick(obj)" pTooltip="View opportunity" tooltipPosition="top" aria-label="View opportunity"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" (click)="onEditClick(obj)" pTooltip="Edit opportunity" tooltipPosition="top" aria-label="Edit opportunity"><i class="pi pi-pencil"></i></button></div></td>
+        </tr></ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-chart-line"></i><strong>No opportunities found</strong><span>Try changing your search or create a new opportunity.</span></div></td></tr></ng-template>
+      </p-table>
+      <p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"></p-paginator>
+    </section>
   </div></div>
 </div>

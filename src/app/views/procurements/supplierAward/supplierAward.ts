@@ -15,5 +15,9 @@ CurrencyCode :string;
 SelectionReason :string;
 ApprovalRequestId :number;
 AwardedBy :number;
+RFQDisplayName?: string;
+SupplierQuotationDisplayName?: string;
+SupplierPartyDisplayName?: string;
+AwardedByDisplayName?: string;
 
 }

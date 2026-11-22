@@ -69,6 +69,15 @@ export class LeaseRequirementAssetViewComponent implements OnInit {
         this.Caption = "LeaseRequirementAsset Details #" + obj.Id;
     }
 
+    createQuote(): void {
+        this.router.navigate(['/business/origination/quotes/create'], {
+            queryParams: {
+                leaseRequirementId: this.leaseRequirementAsset?.LeaseRequirementId,
+                leaseRequirementAssetId: this.leaseRequirementAsset?.Id
+            }
+        });
+    }
+
     onOptionItemClicked(key: string): void {
         if (key == "Refresh") {             
             this.router.navigate(['/leaseRequirementAsset/create']);

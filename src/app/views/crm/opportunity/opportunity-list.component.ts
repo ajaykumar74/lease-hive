@@ -183,6 +183,12 @@ export class OpportunityListComponent implements OnInit {
     this.router.navigate(['/business/crm/opportunities/edit', opportunity.Id]);
   }
 
+  createRequirement(opportunity: IOpportunity): void {
+    this.router.navigate(['/business/crm/leaseRequirements/create'], {
+      queryParams: { opportunityId: opportunity.Id }
+    });
+  }
+
   getInitials(opportunity: IOpportunity): string {
     const value = opportunity.OpportunityName || opportunity.OpportunityId || 'Opportunity';
     return value.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();

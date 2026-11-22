@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common'; 
 
 
@@ -12,6 +12,7 @@ import { LoggedInUserService } from '@/shared/LoggedInUserService';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IRFQSupplier } from './rFQSupplier';
 import { RFQSupplierService } from './rFQSupplier.service';
+import { RFQService } from '../rFQ/rFQ.service';
 
 @Component({
   selector: 'app-rFQSupplier-create',
@@ -33,6 +34,7 @@ supplierpartyidOptions: ISelectItem[] = [];
 supplierserviceareaidOptions: ISelectItem[] = [];
 invitationstatuscodeOptions: ISelectItem[] = [];
 suppliercontactidOptions: ISelectItem[] = [];
+  rfqContextLabel = '';
 
   editForm: any; 
   objMaster : IRFQSupplier = {} as IRFQSupplier;
@@ -45,6 +47,8 @@ suppliercontactidOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location, 
 	private rFQSupplierService: RFQSupplierService,
+	private rFQService: RFQService,
+	private activatedRoute: ActivatedRoute,
 	private loggedInUserService : LoggedInUserService
 
   ) {
@@ -62,13 +66,13 @@ suppliercontactidOptions: ISelectItem[] = [];
 RFQId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierPartyId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 SupplierServiceAreaId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-InvitationStatusCode: new FormControl('', [Validators.required, Validators.maxLength(20), ]),
+InvitationStatusCode: new FormControl('INVITED', [Validators.required, Validators.maxLength(20), ]),
 InvitedOn: new FormControl(new Date(), [Validators.required]),
 RespondedOn: new FormControl(null, []),
 SupplierContactId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
 
     });
-    this.Caption = 'Create RFQSupplier';
+    this.Caption = 'Assign Supplier to RFQ';
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RFQId', 'rfqs',
       options => this.rfqidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
@@ -82,6 +86,14 @@ this.loggedInUserService.bindEntityLookup(this.editForm, 'SupplierServiceAreaId'
       options => this.supplierserviceareaidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef, {'PartyId':'SupplierPartyId'});
 this.invitationstatuscodeOptions = this.loggedInUserService.getPicklistOptions('RFQSupplierInvitationStatusCode');
+    const rfqId = Number(this.activatedRoute.snapshot.queryParamMap.get('rfqId'));
+    if (rfqId > 0) {
+      this.editForm.patchValue({ RFQId: rfqId });
+      this.rFQService.getById(rfqId).subscribe({
+        next: response => this.rfqContextLabel = response?.data?.RFQNo || `RFQ #${rfqId}`,
+        error: () => this.rfqContextLabel = `RFQ #${rfqId}`
+      });
+    }
 
   }
 
@@ -159,7 +171,7 @@ SupplierContactId: obj.SupplierContactId || 0,
         }	
 
 
-	const formValues  = this.editForm.value ;
+    const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,
@@ -167,9 +179,9 @@ SupplierContactId: obj.SupplierContactId || 0,
      RFQId: formValues.RFQId || 0,
 SupplierPartyId: formValues.SupplierPartyId || 0,
 SupplierServiceAreaId: formValues.SupplierServiceAreaId || 0,
-InvitationStatusCode: formValues.InvitationStatusCode || null,
+InvitationStatusCode: 'INVITED',
 InvitedOn: formValues.InvitedOn || null,
-RespondedOn: formValues.RespondedOn || null,
+RespondedOn: null,
 SupplierContactId: formValues.SupplierContactId || 0,
 
     } as IRFQSupplier ; 

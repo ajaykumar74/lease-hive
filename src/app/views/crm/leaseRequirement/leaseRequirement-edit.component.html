@@ -3,8 +3,16 @@
         <div class="col-12 md:col-12">
             <div class="card p-fluid">
                 <app-message [AlertType]="'message'"></app-message>
-                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm"> </app-toolbar-buttons>
+                <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="Caption" [PageType]="'Details'" [form]="editForm">
+                     <button pButton type="button" size="small" [style]="{ width: 'auto' }"
+                        [icon]="requirementAssetId ? 'pi pi-eye' : 'pi pi-plus'"
+                        [label]="requirementAssetId ? 'View Requirement Asset' : 'Add Requirement Asset'"
+                        [disabled]="isRequirementAssetLoading || !leaseRequirement?.Id"
+                        (click)="openRequirementAsset()">
+                    </button>
+                 </app-toolbar-buttons>
                 <app-spinner></app-spinner>
+               
 
                 <form [formGroup]="editForm" (ngSubmit)="Save()">
                     <p-fluid>

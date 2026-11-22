@@ -8,6 +8,7 @@ import { AppMenuItem, MenuPermissionService } from '@/shared/security/menu-permi
 import { PermissionService } from '@/shared/security/permission.service';
 import { buildCustomerPortalMenu } from '@/views/customerPortal/customer-portal.menu';
 import { buildSupplierPortalMenu } from '@/views/supplierPortal/supplier-portal.menu';
+import { SETTINGS_WORKSPACE_ROUTES } from './settings-workspace.config';
 
 @Component({
     selector: 'app-menu',
@@ -476,13 +477,19 @@ export class AppMenu implements OnInit, OnDestroy {
                                     label: 'Audit log',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/auditLogs/list/'],
-                                    tooltip: 'See your fleet/ actions and costs here'
+                                    tooltip: 'See your app audit trail here'
                                 },
                                 {
                                     label: 'Login history',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/admin/'],
                                     tooltip: 'See your fleet/ actions and costs here'
+                                },
+                                 {
+                                    label: 'Document Audit',
+                                    icon: 'pi pi-fw pi-home',
+                                    routerLink: ['/dashboard/documentAuditEvents/list/'],
+                                    tooltip: 'See your document audit trail here'
                                 },
                                 {
                                     label: 'Master-data changes',
@@ -670,25 +677,15 @@ export class AppMenu implements OnInit, OnDestroy {
                                             routerLink: ['/business/crm/opportunities/pipeline']
                                         },
                                         {
-                                            label: 'All Opportunities',
+                                            label: 'Opportunities',
                                             icon: 'pi pi-fw pi-list',
                                             routerLink: ['/business/crm/opportunities']
-                                        },
-                                        {
-                                            label: 'New Opportunity',
-                                            icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/crm/opportunities/create']
-                                        },
+                                        }, 
                                         {
                                             label: 'Lease Requirements',
                                             icon: 'pi pi-fw pi-file-edit',
                                             routerLink: ['/business/crm/leaseRequirements']
-                                        },
-                                        {
-                                            label: 'New Lease Requirement',
-                                            icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['/business/crm/leaseRequirements/create']
-                                        },
+                                        }, 
                                         {
                                             label: 'Requirement Assets',
                                             icon: 'pi pi-fw pi-box',
@@ -829,6 +826,7 @@ export class AppMenu implements OnInit, OnDestroy {
                                             label: 'Mark Opportunity Won',
                                             icon: 'pi pi-fw pi-trophy',
                                             routerLink: ['/business/crm/opportunities'],
+                                            disableRouteActive: true,
                                             tooltip: 'Open the accepted opportunity and set its stage to Won.'
                                         },
                                         {
@@ -2622,7 +2620,9 @@ export class AppMenu implements OnInit, OnDestroy {
         }
 
         //this.flattenLeaseContractMenu();
-        this.sourceModel = this.model;
+        this.sourceModel = this.loggedInUserService.loggedInUser?.AccountType === 'Tenant'
+            ? this.consolidateSettingsNavigation(this.model)
+            : this.model;
         this.model = [];
 
         this.permissionSubscription = combineLatest([
@@ -2677,6 +2677,37 @@ export class AppMenu implements OnInit, OnDestroy {
                 }
             ]
         });
+    }
+
+    /** Keep configuration screens in the contextual workspace rather than duplicating them in the app menu. */
+    private consolidateSettingsNavigation(items: AppMenuItem[]): AppMenuItem[] {
+        const settingsRoutes = new Set(SETTINGS_WORKSPACE_ROUTES.map(route => this.normalizeMenuRoute(route)));
+        const configurationContainers = new Set(['Configurations and masters', 'Configuration', 'Settings']);
+
+        const visit = (entries: AppMenuItem[]): AppMenuItem[] => entries
+            .filter(entry => !configurationContainers.has(entry.label || ''))
+            .filter(entry => !settingsRoutes.has(this.normalizeMenuRoute(entry.routerLink)))
+            .map(entry => ({
+                ...entry,
+                ...(entry.items ? { items: visit(entry.items) } : {})
+            }))
+            .filter(entry => !entry.items || entry.items.length > 0);
+
+        return [
+            ...visit(items),
+            {
+                label: 'Settings',
+                icon: 'pi pi-fw pi-sliders-h',
+                routerLink: ['/settings'],
+                settingsWorkspace: true,
+                tooltip: 'Configure LeaseHive'
+            }
+        ];
+    }
+
+    private normalizeMenuRoute(routerLink: string | string[] | undefined): string {
+        const route = Array.isArray(routerLink) ? routerLink.join('/') : routerLink;
+        return `/${String(route || '').replace(/^\/+|\/+$/g, '').toLowerCase()}`;
     }
 
     private configureRouteMatching(): void {

@@ -1,6 +1,6 @@
 import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { MessageService } from 'primeng/api';
@@ -32,6 +32,7 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
     newusedcodeOptions: ISelectItem[] = [];
     uomcodeOptions: ISelectItem[] = [];
     servicepackagecodeOptions: ISelectItem[] = [];
+    isLeaseRequirementContextLocked = false;
 
     editForm: any;
     objMaster: ILeaseRequirementAsset = {} as ILeaseRequirementAsset;
@@ -42,6 +43,7 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private _location: Location,
         private leaseRequirementAssetService: LeaseRequirementAssetService,
         private loggedInUserService: LoggedInUserService,
@@ -70,6 +72,12 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             EffectiveFrom: new FormControl(new Date(), [Validators.required]),
             EffectiveTo: new FormControl(new Date(), [])
         });
+        const leaseRequirementId = Number(this.activatedRoute.snapshot.queryParamMap.get('leaseRequirementId'));
+        if (Number.isInteger(leaseRequirementId) && leaseRequirementId > 0) {
+            this.editForm.patchValue({ LeaseRequirementId: leaseRequirementId });
+            this.isLeaseRequirementContextLocked = true;
+            this.editForm.get('LeaseRequirementId')?.disable({ emitEvent: false });
+        }
         this.Caption = 'Create Lease Requirement Asset';
         this.loggedInUserService.bindEntityLookup(this.editForm, 'LeaseRequirementId', 'lease-requirements', options => this.leaserequirementidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
         this.loggedInUserService.bindEntityLookup(this.editForm, 'AssetCategoryId', 'asset-categories', options => this.assetcategoryidOptions = options, error => this.messageService?.showError(error), this.destroyRef);
@@ -167,7 +175,7 @@ export class LeaseRequirementAssetCreateComponent implements OnInit {
             return;
         }
 
-        const formValues = this.editForm.value;
+        const formValues = this.editForm.getRawValue();
         var createdObj = {
       TenantId: this.loggedInUserService.loggedInUser.Tenant.Id,
             Id: this.objMaster.Id,

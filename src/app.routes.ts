@@ -40,6 +40,13 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard, PermissionGuard]
     },
+    // Settings is a contextual navigation entry. Feature pages retain their
+    // established URLs so existing guards, bookmarks and CRUD routes remain intact.
+    {
+        path: 'settings',
+        loadChildren: () => import('./app/layout/components/settings-workspace.routes').then(m => m.SETTINGS_WORKSPACE_CHILD_ROUTES),
+        canActivate: [AuthGuard]
+    },
     {
         path: 'business',
         loadChildren: () => import('./app/views/business/business.routes').then(m => m.BUSINESS_ROUTES),

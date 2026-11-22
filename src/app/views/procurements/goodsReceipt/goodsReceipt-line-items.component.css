@@ -1,0 +1,60 @@
+:host {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.goods-receipt-page,
+.goods-receipt-page > .grid,
+.goods-receipt-page > .grid > [class~='col-12'],
+.goods-receipt-page > .grid > [class~='col-12'] > .card,
+.goods-receipt-page form,
+.goods-receipt-page p-fluid,
+.goods-receipt-page form > p-fluid,
+.goods-receipt-page form .flex {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.goods-receipt-page app-toolbar-buttons {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.goods-receipt-line-items,
+.goods-receipt-line-items__scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.goods-receipt-line-items {
+    overflow: hidden;
+}
+
+.goods-receipt-line-items__scroll {
+    overflow: hidden;
+}
+
+:host ::ng-deep .goods-receipt-line-items__table,
+:host ::ng-deep .goods-receipt-line-items__table .p-datatable {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+:host ::ng-deep .goods-receipt-line-items__table .p-datatable-table-container,
+:host ::ng-deep .goods-receipt-line-items__table .p-datatable-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+}

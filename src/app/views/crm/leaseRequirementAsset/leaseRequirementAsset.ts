@@ -22,5 +22,11 @@ Remarks :string;
 RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date | null;
+LeaseRequirementDisplayName?: string;
+AssetDisplayName?: string;
+AssetCategoryDisplayName?: string;
+AssetTypeDisplayName?: string;
+AssetMakeDisplayName?: string;
+AssetModelDisplayName?: string;
 
 }

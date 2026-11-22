@@ -197,6 +197,12 @@ const routes: Routes = [
         loadChildren: () => import('@/views/auditLog/auditLog.module').then(c => c.AuditLogModule),
       },
       {
+        path: 'documentAuditEvents',
+        data: { breadcrumb: 'Document Audit Events' },
+        loadChildren: () => import('@/views/documents/documentAuditEvent/documentAuditEvent.module').then(c => c.DocumentAuditEventModule),
+      },
+
+      {
         path: 'planFeatures',
         data: { breadcrumb: 'plan Features' },
         loadChildren: () => import('@/views/tenants/planFeature/planFeature.module').then(c => c.PlanFeatureModule),

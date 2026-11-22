@@ -1,58 +1,21 @@
-<div class="grid list-page generated-list-page">
-	<div class="col-12">
-		<div class="card list-card generated-list-card">
-			<app-message [AlertType]="'message'"></app-message>
-			<app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission"
-				[Caption]="'LeaseRequirement List'" [PageType]="'List'">
-			</app-toolbar-buttons>
-			<app-spinner></app-spinner><div class="generated-list-search">
-    <input type="search" class="p-inputtext-sm generated-list-input" pInputText placeholder="Search..." [(ngModel)]="objSearch.Name" (keyup.enter)="search()" aria-label="Search records" />
-    <button type="button" pButton icon="pi pi-search" class="generated-list-action" (click)="search()" aria-label="Search records" title="Search"></button>
-    <button type="button" pButton icon="pi pi-times" class="generated-list-action generated-list-clear" (click)="clearSearch()" aria-label="Clear search" title="Clear search"></button>
-    <div class="record-count-inline generated-list-count" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>records</span></div></div>
-
-
-
-			<p-table [value]="lstMain" scrollDirection="both" [scrollable]="true" styleClass="list-table generated-list-table"
-				scrollHeight="400px" responsiveLayout="scroll">
-				<ng-template pTemplate="header">
-					<tr>
-						<th pFrozenColumn pSortableColumn="Id" style="width:200px">ID <p-sortIcon field="Id" /> </th>
-						<th pSortableColumn="PartyName" style="width:200px">Party Name <p-sortIcon field="PartyName" /> </th>
-						<th pSortableColumn="PartyLocationName" style="width:200px">Party Location Name <p-sortIcon field="PartyLocationName" /> </th>
-						<th pSortableColumn="RequirementDate" style="width:200px">Requirement Date <p-sortIcon field="RequirementDate" /> </th>
-						<th pSortableColumn="PreferredStartDate" style="width:200px">Preferred Start Date <p-sortIcon field="PreferredStartDate" /> </th>
-						<th pSortableColumn="RequestedTermMonths" style="width:200px">Requested Term Months <p-sortIcon field="RequestedTermMonths" /> </th>
-						<th pSortableColumn="RequirementStatusCode" style="width:200px">Requirement Status Code <p-sortIcon field="RequirementStatusCode" />
-						</th>
-						<th pSortableColumn="RecordStatus" style="width:200px">Record Status <p-sortIcon field="RecordStatus" /> </th>
-
-
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-obj>
-					<tr>
-						<td style="width:200px" pFrozenColumn><p-button label="{{obj.LeaseRequirementId}}" [link]="true"
-								(click)="onDetailsClick(obj)" /> </td>
-						<td style="width:200px">{{obj.PartyName || '—'}}</td>
-						<td style="width:200px">{{obj.PartyLocationName || '—'}}</td>
-						<td style="width:200px">{{obj.RequirementDate | date:'dd-MMM-yyyy' }}</td>
-						<td style="width:200px">{{obj.PreferredStartDate | date:'dd-MMM-yyyy' }}</td>
-						<td style="width:200px">{{obj.RequestedTermMonths | number:'1.0':'en-US' }}</td>
-						<td style="width:200px"><app-status-pill [value]="obj.RequirementStatusCode"></app-status-pill></td>
-						<td style="width:200px"><app-status-pill [value]="obj.RecordStatus"></app-status-pill></td>
-
-					</tr>
-				</ng-template>
-			</p-table>
-			<p-paginator *ngIf="totalNoOfRecords > 0"
-				[first]="pgEvent.first"
-				[rows]="pgEvent.rows"
-				[totalRecords]="totalNoOfRecords"
-				[rowsPerPageOptions]="[10, 20, 50]"
-				[showCurrentPageReport]="true"
-				currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-				(onPageChange)="pageChanged($event)" />
-		</div>
-	</div>
+<div class="grid list-page leasehive-list-page">
+  <div class="col-12"><div class="card list-card leasehive-list-card">
+    <app-message [AlertType]="'message'"></app-message>
+    <app-toolbar-buttons (onItemClicked)="onOptionItemClicked($event)" [permission]="permission" [Caption]="'Lease Requirements'" [PageType]="'List'"></app-toolbar-buttons>
+    <app-spinner></app-spinner>
+    <div class="leasehive-list-toolbar" role="search" aria-label="Lease requirement list controls"><div class="leasehive-list-search"><i class="pi pi-search"></i><input type="search" pInputText placeholder="Search requirement status" [(ngModel)]="objSearch.Code" (keyup.enter)="search()" aria-label="Search lease requirements" /><button type="button" pButton label="Search" icon="pi pi-search" (click)="search()"></button><button type="button" pButton [text]="true" icon="pi pi-times" [disabled]="!objSearch.Code" (click)="clearSearch()" pTooltip="Clear search" tooltipPosition="top" aria-label="Clear search"></button></div><div class="leasehive-list-controls"><div class="record-count-inline" aria-live="polite"><i class="pi pi-list"></i><strong>{{ totalNoOfRecords }}</strong><span>matching</span></div></div></div>
+    <section class="leasehive-list-table-area" aria-label="Lease requirement results">
+      <p-table [value]="lstMain" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1060px' }">
+        <ng-template pTemplate="header"><tr><th>Lease requirement</th><th>Customer</th><th>Location</th><th>Requirement date</th><th>Preferred start</th><th>Requested term</th><th>Requirement status</th><th class="list-actions-column">Actions</th></tr></ng-template>
+        <ng-template pTemplate="body" let-obj><tr>
+          <td><div class="list-primary-cell"><span class="list-avatar"><i class="pi pi-file-edit"></i></span><div><button type="button" class="list-primary-link" (click)="onDetailsClick(obj)">{{ obj.LeaseRequirementId || ('Requirement #' + obj.Id) }}</button><span class="list-secondary">{{ obj.OpportunityName || obj.CustomerReference || 'No linked opportunity' }}</span></div></div></td>
+          <td>{{ obj.PartyName || '—' }}</td><td>{{ obj.PartyLocationName || '—' }}</td><td>{{ obj.RequirementDate ? (obj.RequirementDate | date:'dd MMM yyyy') : '—' }}</td><td>{{ obj.PreferredStartDate ? (obj.PreferredStartDate | date:'dd MMM yyyy') : '—' }}</td><td>{{ obj.RequestedTermMonths ? (obj.RequestedTermMonths + ' months') : '—' }}</td>
+          <td><app-status-pill [value]="obj.RequirementStatusCode || obj.RecordStatus"></app-status-pill></td>
+          <td><div class="list-actions"><button type="button" class="list-action view" (click)="onDetailsClick(obj)" pTooltip="View lease requirement" tooltipPosition="top" aria-label="View lease requirement"><i class="pi pi-eye"></i></button><button *ngIf="permission.CanUpdate" type="button" class="list-action edit" (click)="onDetailsClick(obj)" pTooltip="Edit lease requirement" tooltipPosition="top" aria-label="Edit lease requirement"><i class="pi pi-pencil"></i></button></div></td>
+        </tr></ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="8"><div class="list-empty"><i class="pi pi-file-edit"></i><strong>No lease requirements found</strong><span>Try changing your search or create a new lease requirement.</span></div></td></tr></ng-template>
+      </p-table>
+      <p-paginator *ngIf="totalNoOfRecords > 0" [first]="pgEvent.first" [rows]="pgEvent.rows" [totalRecords]="totalNoOfRecords" [rowsPerPageOptions]="[10, 20, 50]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" (onPageChange)="pageChanged($event)"></p-paginator>
+    </section>
+  </div></div>
 </div>

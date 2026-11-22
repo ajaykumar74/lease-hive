@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MySharedModule } from '@/shared/shared.module';
 import { TableModule } from 'primeng/table';
 import { FluidModule } from 'primeng/fluid';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { CustomerInvoiceListComponent } from './customerInvoice-list.component';
 import { CustomerInvoiceCreateComponent } from './customerInvoice-create.component';
@@ -42,6 +43,7 @@ import { CustomerInvoiceRoutingModule } from './customerInvoice-routing.module';
 		InputGroupModule, 
 		MySharedModule, 
 		FluidModule,
+		PaginatorModule,
 		CustomerInvoiceRoutingModule,
 	],
 	declarations: [
