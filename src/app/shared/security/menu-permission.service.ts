@@ -127,6 +127,7 @@ export class MenuPermissionService {
         { route: '/business/origination/quotes', resource: 'origination.quote' },
         { route: '/business/origination/credit', resource: 'credit.creditapplication' },
         { route: '/business/assets/acquisitions', resource: 'asset.assetacquisition' },
+        { route: '/business/assets/catalogue', resource: 'asset.assetcatalogueitem' },
         { route: '/business/assets/warranties', resource: 'asset.assetwarranty' },
         { route: '/business/assets/classification/categories', resource: 'asset.assetcategory' },
         { route: '/business/assets/classification/types', resource: 'asset.assettype' },

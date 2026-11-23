@@ -900,6 +900,13 @@ export class AppMenu implements OnInit, OnDestroy {
                                     routerLink: ['/business/assets']
                                 },
                                 {
+                                    label: 'Asset Catalogue',
+                                    icon: 'pi pi-fw pi-shopping-bag',
+                                    routerLink: ['/business/assets/catalogue'],
+                                    requiredPermission: 'asset.assetcatalogueitem.view',
+                                    tooltip: 'Create and publish leaseable offerings without creating physical assets'
+                                },
+                                {
                                     label: 'Create Asset',
                                     icon: 'pi pi-fw pi-plus-circle',
                                     routerLink: ['/business/assets/create']

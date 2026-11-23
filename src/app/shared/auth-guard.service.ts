@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return false;
     }
 
-    if (this.loggedInUserService.isCustomerPortalUser && !state.url.startsWith('/customer-portal')) {
+    if (this.loggedInUserService.isCustomerPortalUser && !state.url.startsWith('/customer-portal') && !state.url.startsWith('/customer/')) {
       this.router.navigate(['/customer-portal/dashboard']);
       return false;
     }

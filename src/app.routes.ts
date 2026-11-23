@@ -95,6 +95,13 @@ export const appRoutes: Routes = [
         data: { breadcrumb: 'Customer Portal' },
         canActivate: [AuthGuard]
     },
+    // Short customer-facing URLs retained alongside the established portal URLs.
+    {
+        path: 'customer',
+        loadChildren: () => import('./app/views/customerPortal/customer-portal.routes').then(m => m.CUSTOMER_PORTAL_ROUTES),
+        data: { breadcrumb: 'Customer Portal' },
+        canActivate: [AuthGuard]
+    },
     {
         path: 'supplier',
         loadChildren: () => import('./app/views/supplierPortal/supplier-portal.routes').then(m => m.SUPPLIER_PORTAL_ROUTES),

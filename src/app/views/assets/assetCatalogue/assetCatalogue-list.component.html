@@ -1,0 +1,117 @@
+<div class="grid list-page leasehive-list-page">
+    <div class="col-12">
+        <div class="card list-card leasehive-list-card">
+            <div class="list-heading">
+                <div>
+                    <h2>Asset Catalogue</h2>
+                    <p>Published offerings are independent of physical assets.</p>
+                </div>
+                <button *ngIf="canCreate" pButton type="button" label="New offering" icon="pi pi-plus" (click)="create()"></button>
+            </div>
+
+            <div class="leasehive-list-toolbar" role="search" aria-label="Asset catalogue list controls">
+                <div class="leasehive-list-search">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="search" [(ngModel)]="searchText" (keyup.enter)="load(true)" placeholder="Search code or name" aria-label="Search catalogue" />
+                    <button pButton type="button" label="Search" icon="pi pi-search" (click)="load(true)"></button>
+                    <button pButton type="button" label="Clear" [text]="true" icon="pi pi-times" (click)="clear()"></button>
+                </div>
+                <div class="leasehive-list-controls">
+                    <p-dropdown
+                        [options]="[
+                            { label: 'All statuses', value: '' },
+                            { label: 'Draft', value: 'DRAFT' },
+                            { label: 'Published', value: 'PUBLISHED' },
+                            { label: 'Unpublished', value: 'UNPUBLISHED' },
+                            { label: 'Archived', value: 'ARCHIVED' }
+                        ]"
+                        [(ngModel)]="publicationStatus"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Publication status"
+                        aria-label="Publication status"
+                    ></p-dropdown>
+                    <p-dropdown
+                        class="leasehive-list-sort"
+                        [options]="[
+                            { label: 'Name', value: 'CatalogueName' },
+                            { label: 'Code', value: 'CatalogueCode' },
+                            { label: 'Status', value: 'PublicationStatus' },
+                            { label: 'Lead time', value: 'LeadTimeDays' }
+                        ]"
+                        [(ngModel)]="sortBy"
+                        optionLabel="label"
+                        optionValue="value"
+                        aria-label="Sort by"
+                    ></p-dropdown>
+                    <div class="record-count-inline" aria-live="polite">
+                        <i class="pi pi-list"></i><strong>{{ total }}</strong
+                        ><span>offerings</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="leasehive-list-table-area" aria-label="Asset catalogue results">
+                <p-table [value]="rows" [loading]="loading" [scrollable]="true" scrollHeight="flex" responsiveLayout="scroll" styleClass="list-table leasehive-list-table" [tableStyle]="{ 'min-width': '1080px' }">
+                    <ng-template pTemplate="header"
+                        ><tr>
+                            <th>Offering</th>
+                            <th>Category / type</th>
+                            <th>Make / model</th>
+                            <th>Fulfilment</th>
+                            <th>Lead time</th>
+                            <th>Status</th>
+                            <th class="list-actions-column">Actions</th>
+                        </tr></ng-template
+                    >
+                    <ng-template pTemplate="body" let-row
+                        ><tr>
+                            <td>
+                                <button type="button" class="list-primary-link" (click)="view(row)">{{ row.CatalogueCode }}</button>
+                                <div class="list-secondary">{{ row.CatalogueName }}</div>
+                            </td>
+                            <td>
+                                {{ row.AssetCategoryName }} <span class="text-color-secondary">/ {{ row.AssetTypeName }}</span>
+                            </td>
+                            <td>
+                                {{ row.AssetMakeName }} <span class="text-color-secondary">/ {{ row.AssetModelName }}</span>
+                            </td>
+                            <td>{{ row.FulfilmentMode }}</td>
+                            <td>{{ row.LeadTimeDays == null ? '—' : row.LeadTimeDays + ' days' }}</td>
+                            <td>
+                                <span class="list-status">{{ row.PublicationStatus }}</span>
+                            </td>
+                            <td>
+                                <div class="list-actions">
+                                    <button type="button" class="list-action view" title="View" aria-label="View offering" (click)="view(row)"><i class="pi pi-eye"></i></button
+                                    ><button *ngIf="canUpdate && row.PublicationStatus !== 'ARCHIVED'" type="button" class="list-action edit" title="Edit" aria-label="Edit offering" (click)="edit(row)"><i class="pi pi-pencil"></i></button
+                                    ><button
+                                        *ngIf="canPublish && row.PublicationStatus !== 'PUBLISHED' && row.PublicationStatus !== 'ARCHIVED'"
+                                        type="button"
+                                        class="list-action"
+                                        title="Publish"
+                                        aria-label="Publish offering"
+                                        (click)="changeStatus(row, 'publish')"
+                                    >
+                                        <i class="pi pi-send"></i></button
+                                    ><button *ngIf="canPublish && row.PublicationStatus === 'PUBLISHED'" type="button" class="list-action" title="Unpublish" aria-label="Unpublish offering" (click)="changeStatus(row, 'unpublish')">
+                                        <i class="pi pi-eye-slash"></i></button
+                                    ><button *ngIf="canPublish && row.PublicationStatus !== 'ARCHIVED'" type="button" class="list-action" title="Archive" aria-label="Archive offering" (click)="changeStatus(row, 'archive')">
+                                        <i class="pi pi-folder"></i>
+                                    </button>
+                                </div>
+                            </td></tr
+                    ></ng-template>
+                    <ng-template pTemplate="emptymessage"
+                        ><tr>
+                            <td colspan="7">
+                                <div class="list-empty"><strong>No catalogue offerings found</strong><span>Use Search or create a new offering.</span></div>
+                            </td>
+                        </tr></ng-template
+                    >
+                </p-table>
+                <p-paginator *ngIf="total" [first]="first" [rows]="pageSize" [totalRecords]="total" [rowsPerPageOptions]="[20, 50, 100]" (onPageChange)="page($event)"></p-paginator>
+            </section>
+        </div>
+    </div>
+</div>

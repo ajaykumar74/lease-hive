@@ -10,11 +10,15 @@ import { CustomerPortalInvitationComponent } from './customer-portal-invitation.
 import { CustomerPortalContractsComponent } from './customer-portal-contracts.component';
 import { CustomerPortalContractDetailComponent } from './customer-portal-contract-detail.component';
 import { CustomerPortalAssetsComponent } from './customer-portal-assets.component';
+import { CustomerPortalCatalogueComponent } from './customer-portal-catalogue.component';
 import { CustomerPortalInvoicesComponent } from './customer-portal-invoices.component';
 import { CustomerPortalDocumentsComponent } from './customer-portal-documents.component';
 import { CustomerPortalSupportComponent } from './customer-portal-support.component';
 import { CustomerPortalSupportCreateComponent } from './customer-portal-support-create.component';
 import { CustomerPortalSupportDetailComponent } from './customer-portal-support-detail.component';
+import { CustomerMarketplaceExploreComponent } from './customer-marketplace-explore.component';
+import { CustomerMarketplaceConfigureComponent } from './customer-marketplace-configure.component';
+import { CustomerMarketplaceRequestsComponent } from './customer-marketplace-requests.component';
 
 const workspace = (title: string, description: string) => ({
     component: CustomerPortalWorkspaceComponent,
@@ -34,6 +38,11 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
             { path: 'contracts', component: CustomerPortalContractsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Contracts' } },
             { path: 'contracts/:id', component: CustomerPortalContractDetailComponent, canActivate: [CustomerPortalGuard], data: { title: 'Contract' } },
             { path: 'assets', component: CustomerPortalAssetsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Leased assets' } },
+            { path: 'catalogue', component: CustomerPortalCatalogueComponent, canActivate: [CustomerPortalGuard], data: { title: 'Lease catalogue' } },
+            { path: 'assets/explore', component: CustomerMarketplaceExploreComponent, canActivate: [CustomerPortalGuard], data: { title: 'Explore Assets' } },
+            { path: 'assets/explore/:id', component: CustomerMarketplaceConfigureComponent, canActivate: [CustomerPortalGuard], data: { title: 'Configure Asset' } },
+            { path: 'quote-requests', component: CustomerMarketplaceRequestsComponent, canActivate: [CustomerPortalGuard], data: { title: 'My Quote Requests' } },
+            { path: 'quote-requests/new', component: CustomerMarketplaceRequestsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Request Quotation' } },
             { path: 'documents', component: CustomerPortalDocumentsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Documents' } },
             { path: 'invoices', component: CustomerPortalInvoicesComponent, canActivate: [CustomerPortalGuard], data: { title: 'Invoices & payments' } },
             { path: 'maintenance', ...workspace('Maintenance', 'Maintenance schedules and service requests will be connected in the next portal phase.') },

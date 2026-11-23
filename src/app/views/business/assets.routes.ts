@@ -21,6 +21,11 @@ const placeholderPages: AssetPlaceholderPage[] = [
 
 export const ASSET_ROUTES: Routes = [
     {
+        path: 'assets/catalogue',
+        data: { title: 'Asset Catalogue', breadcrumb: 'Asset Catalogue' },
+        loadChildren: () => import('@/views/assets/assetCatalogue/assetCatalogue.module').then(m => m.AssetCatalogueModule)
+    },
+    {
         path: 'assets/dashboard',
         component: AssetDashboardComponent,
         data: { title: 'Asset Dashboard', breadcrumb: 'Asset Dashboard' }

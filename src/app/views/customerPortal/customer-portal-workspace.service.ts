@@ -87,6 +87,7 @@ export interface CustomerPortalAsset {
     EffectiveFrom?: string;
     EffectiveTo?: string;
 }
+export interface CustomerCatalogueItem { Id:number; CatalogueCode:string; CatalogueName:string; Description?:string; AssetCategoryName?:string; AssetTypeName?:string; AssetMakeName?:string; AssetModelName?:string; VariantName?:string; FulfilmentMode:string; LeadTimeDays?:number; Prices:Array<{PriceTypeCode:string;PriceAmount:number;CurrencyCode:string}>; EligibleLeaseTypes:Array<{LeaseTypeCode:string;MinTenureMonths:number;MaxTenureMonths:number}>; LeaseOptions:Array<{OptionCode:string;OptionName:string;Description?:string;IsRequired:boolean;IsCustomerSelectable:boolean}>; }
 
 export interface CustomerPortalInvoice {
     InvoiceId: number;
@@ -227,6 +228,7 @@ export class CustomerPortalWorkspaceService {
         }).pipe(catchError(this.baseService.handleError));
     }
     assets(): Observable<CustomerPortalAsset[]> { return this.get<CustomerPortalAsset[]>('assets'); }
+    catalogue(): Observable<CustomerCatalogueItem[]> { return this.get<CustomerCatalogueItem[]>('catalogue'); }
     invoices(): Observable<CustomerPortalInvoice[]> { return this.get<CustomerPortalInvoice[]>('invoices'); }
     initiatePayment(input: { InvoiceId:number; Amount:number; PaymentMethod:string }): Observable<CustomerPortalPaymentTransaction> { return this.post<CustomerPortalPaymentTransaction>('payments', input); }
     completePayment(id: number, outcome: 'SUCCESS'|'FAILED'|'CANCELLED'): Observable<CustomerPortalPaymentTransaction> { return this.post<CustomerPortalPaymentTransaction>(`payments/${id}/complete`, { Outcome: outcome }); }
