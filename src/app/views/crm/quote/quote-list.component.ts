@@ -27,7 +27,7 @@ interface QuoteFilters {
 })
 export class QuoteListComponent extends ListPageController<IQuoteList, QuoteFilters> implements OnInit, AfterViewInit, OnDestroy {
     override readonly sortOptions: ListSortOption[] = [
-        { key: 'latest', label: 'Latest Quotes First', field: 'QuoteDate', descending: true },
+        { key: 'latest', label: 'Latest Quotes First', field: 'Id', descending: true },
         { key: 'oldest', label: 'Oldest Quotes First', field: 'QuoteDate', descending: false },
         { key: 'quote-asc', label: 'Quote No. — Ascending', field: 'QuoteId', descending: false },
         { key: 'quote-desc', label: 'Quote No. — Descending', field: 'QuoteId', descending: true },

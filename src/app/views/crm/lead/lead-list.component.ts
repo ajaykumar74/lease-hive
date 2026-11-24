@@ -23,8 +23,8 @@ export class LeadListComponent implements OnInit {
   ) { }
   pgEvent: PageEvent = { first: 0, rows: 10 } as PageEvent;
   lstMain: ILead[] = [];
-  sortBy: string = 'Id';
-  IsDescending: boolean;
+  sortBy: string = 'CreatedDateTime';
+  IsDescending: boolean = true;
   totalNoOfRecords = 0;
   currentPage: number = 1;
   isAdvanceView: boolean = true;

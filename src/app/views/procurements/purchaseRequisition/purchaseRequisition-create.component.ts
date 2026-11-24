@@ -38,9 +38,12 @@ requestingorganisationunitidOptions: ISelectItem[] = [];
 requestedbyuseridOptions: ISelectItem[] = [];
 purchaserequisitionstatusidOptions: ISelectItem[] = [];
 sourcereferencetypeOptions: ISelectItem[] = [];
+sourceReferenceOptions: ISelectItem[] = [];
 linetypecodeOptions: ISelectItem[] = [];
 uomidOptions: ISelectItem[] = [];
 quoteAssetItemsLoading = false;
+isSourceReferenceLocked = false;
+quotationReferenceLabel = '';
 
   editForm: any; 
   objMaster : IPurchaseRequisition = {} as IPurchaseRequisition;
@@ -72,8 +75,8 @@ quoteAssetItemsLoading = false;
      Id: new FormControl(0, []),
 PRNo: new FormControl('', [Validators.required, Validators.maxLength(40), ]),
 BuyingOrganisationId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-RequestingOrganisationUnitId: new FormControl(0, [Validators.min(-2147483648), Validators.max(2147483647)]),
-RequestedByUserId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+RequestingOrganisationUnitId: new FormControl(this.getLoggedInOrganisationUnitId(), [Validators.min(-2147483648), Validators.max(2147483647)]),
+RequestedByUserId: new FormControl(this.getLoggedInUserId(), [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 PurchaseRequisitionStatusId: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
 RequisitionDate: new FormControl(new Date(), [Validators.required]),
 RequiredByDate: new FormControl(new Date(), []),
@@ -85,12 +88,12 @@ Justification: new FormControl('', [Validators.maxLength(250), ]),
 LineItems: this.fb.array([], Validators.required),
 
     });
-    this.Caption = 'Create PurchaseRequisition';
+    this.Caption = 'Create Purchase Requisition';
 this.loggedInUserService.bindEntityLookup(this.editForm, 'BuyingOrganisationId', 'organisations',
       options => this.buyingorganisationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'PurchaseRequisitionStatusId', 'purchase-requisition-statuses',
-      options => this.purchaserequisitionstatusidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
+      options => this.setPurchaseRequisitionStatusOptions(options), error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);
 this.loggedInUserService.bindEntityLookup(this.editForm, 'RequestedByUserId', 'application-users',
       options => this.requestedbyuseridOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
@@ -110,14 +113,59 @@ this.loadLineItemOptions();
     const currencyCode = this.route.snapshot.queryParamMap.get('currencyCode')?.trim();
 
     if (sourceReferenceType && Number.isInteger(sourceReferenceId) && sourceReferenceId > 0) {
+      this.isSourceReferenceLocked = true;
+      this.quotationReferenceLabel = sourceReferenceType.toUpperCase() === 'QUOTE'
+        ? `Quotation reference: ${sourceReferenceId}`
+        : `${sourceReferenceType} reference: ${sourceReferenceId}`;
       this.editForm.patchValue({
         SourceReferenceType: sourceReferenceType,
         SourceReferenceId: sourceReferenceId,
         CurrencyCode: currencyCode || this.editForm.get('CurrencyCode')?.value
       });
 
+      if (sourceReferenceType.toUpperCase() === 'QUOTE') {
+        this.loggedInUserService.getEntityLookupOptions('quotes', sourceReferenceId).subscribe({
+          next: options => this.sourceReferenceOptions = options,
+          error: error => this.showLookupError(error)
+        });
+      }
+
+      this.editForm.get('SourceReferenceType')?.disable({ emitEvent: false });
+      this.editForm.get('SourceReferenceId')?.disable({ emitEvent: false });
+
       if (sourceReferenceType.toUpperCase() === 'QUOTE') this.addQuoteAssetLineItems(sourceReferenceId, currencyCode);
     }
+  }
+
+  private setPurchaseRequisitionStatusOptions(options: ISelectItem[]): void {
+    this.purchaserequisitionstatusidOptions = options;
+    const statusControl = this.editForm.get('PurchaseRequisitionStatusId');
+    if (statusControl?.value) return;
+
+    const draft = options.find(option => {
+      const text = String(option.Text || '').trim().toUpperCase();
+      const code = `${option.Value || ''} ${option.Category || ''}`.trim().toUpperCase();
+      return text === 'DRAFT' || text.endsWith(' - DRAFT') || /(^|\s|-)DRAFT$/.test(code);
+    });
+    if (draft) statusControl?.setValue(draft.Value);
+  }
+
+  private getLoggedInUserId(): number {
+    const userId = Number(this.loggedInUserService.loggedInUser?.UserId);
+    return Number.isInteger(userId) && userId > 0 ? userId : 0;
+  }
+
+  private getLoggedInOrganisationUnitId(): number {
+    const user = this.loggedInUserService.loggedInUser as Record<string, any> | null;
+    const organisation = user?.['OrganisationData'] ?? user?.['Organisation'] ?? user?.['DefaultOrganisation'];
+    const candidates = [
+      organisation?.['OrganisationUnitId'],
+      organisation?.['DefaultOrganisationUnitId'],
+      organisation?.['Id'],
+      user?.['DefaultOrganisationUnitId']
+    ];
+    const organisationUnitId = candidates.map(Number).find(id => Number.isInteger(id) && id > 0);
+    return organisationUnitId ?? 0;
   }
 
   private addQuoteAssetLineItems(quoteId: number, currencyCode?: string): void {
@@ -332,7 +380,7 @@ Justification: obj.Justification || '',
         }	
 
 
-	const formValues  = this.editForm.value ;
+	const formValues  = this.editForm.getRawValue();
 	var createdObj = { 
       Id: this.objMaster.Id,
       RowVersionStr : this.objMaster.RowVersionStr,

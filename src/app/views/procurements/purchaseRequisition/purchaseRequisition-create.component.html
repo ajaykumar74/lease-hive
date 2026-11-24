@@ -23,7 +23,7 @@
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Buying Organisation Id" class="mb-1">BuyingOrganisationId</label>
+										<label for="BuyingOrganisationId" class="mb-1">Buying Organisation</label>
 										<p-dropdown inputId="BuyingOrganisationId"
 											[options]="buyingorganisationidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="BuyingOrganisationId"
@@ -37,8 +37,8 @@
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Requesting Organisation Unit Id"
-											class="mb-1">RequestingOrganisationUnitId</label>
+										<label for="RequestingOrganisationUnitId"
+											class="mb-1">Requesting Organisation Unit</label>
 										<p-dropdown inputId="RequestingOrganisationUnitId"
 											[options]="requestingorganisationunitidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="RequestingOrganisationUnitId"
@@ -50,7 +50,7 @@
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Requested By User Id" class="mb-1">RequestedByUserId</label>
+										<label for="RequestedByUserId" class="mb-1">Requested By</label>
 										<p-dropdown inputId="RequestedByUserId" [options]="requestedbyuseridOptions"
 											optionLabel="Text" optionValue="Value" formControlName="RequestedByUserId"
 											placeholder="Select One" class="w-full">
@@ -62,8 +62,8 @@
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="Purchase Requisition Status Id"
-											class="mb-1">PurchaseRequisitionStatusId</label>
+										<label for="PurchaseRequisitionStatusId"
+											class="mb-1">Requisition Status</label>
 										<p-dropdown inputId="PurchaseRequisitionStatusId"
 											[options]="purchaserequisitionstatusidOptions" optionLabel="Text"
 											optionValue="Value" formControlName="PurchaseRequisitionStatusId"
@@ -97,10 +97,10 @@
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Source Reference Type" class="mb-1">SourceReferenceType</label>
+										<label for="SourceReferenceType" class="mb-1">Source Reference Type</label>
 										<p-dropdown inputId="SourceReferenceType" [options]="sourcereferencetypeOptions"
 											optionLabel="Text" optionValue="Value" formControlName="SourceReferenceType"
-											placeholder="Select One" class="w-full">
+											placeholder="Select one" class="w-full">
 										</p-dropdown>
 										<app-validation-errors [type]="'text'"
 											[control]="editForm.get('SourceReferenceType')"
@@ -110,17 +110,22 @@
 								</div>
 								<div class="flex flex-col md:flex-row gap-4">
 									<div class="flex flex-col w-full">
-										<label for="SourceReferenceId">Source Reference Id
+										<label for="SourceReferenceId">Source Reference
 										</label>
-										<p-inputNumber id="SourceReferenceId" pSize="small"
+										<p-dropdown *ngIf="isSourceReferenceLocked" inputId="SourceReferenceId"
+											[options]="sourceReferenceOptions" optionLabel="Text" optionValue="Value"
+											formControlName="SourceReferenceId" placeholder="Selected reference" class="w-full">
+										</p-dropdown>
+										<p-inputNumber *ngIf="!isSourceReferenceLocked" id="SourceReferenceId" pSize="small"
 											formControlName="SourceReferenceId">
 										</p-inputNumber>
+										<small *ngIf="quotationReferenceLabel" class="text-color-secondary mt-1">{{ quotationReferenceLabel }}</small>
 										<app-validation-errors [type]="'number'"
 											[control]="editForm.get('SourceReferenceId')" label="Source Reference Id">
 										</app-validation-errors>
 									</div>
 									<div class="flex flex-col w-full">
-										<label for="Currency Code" class="mb-1">CurrencyCode</label>
+										<label for="CurrencyCode" class="mb-1">Currency</label>
 										<app-currency-dropdown inputId="CurrencyCode" formControlName="CurrencyCode"></app-currency-dropdown>
 										<app-validation-errors [type]="'text'" [control]="editForm.get('CurrencyCode')"
 											label="Currency Code">
@@ -153,10 +158,10 @@
 								</div>
 
 								<div class="flex flex-col gap-3 w-full mt-4" formArrayName="LineItems">
-									<div class="flex align-items-center justify-content-between gap-3">
-										<h3 class="m-0">Line items</h3><button pButton type="button"
-											label="Add line item" icon="pi pi-plus" size="small" style="width: auto"
-											(click)="addLineItem()"></button>
+									<div class="flex align-items-center w-full gap-3">
+										<h3 class="m-0 font-bold">Line Items</h3><button pButton type="button"
+											label="Add Line Item" icon="pi pi-plus" size="small" style="width: auto"
+											class="ml-auto" (click)="addLineItem()"></button>
 									</div>
 									<small *ngIf="quoteAssetItemsLoading" class="text-color-secondary">Loading items from the quotation assets…</small>
 									<small *ngIf="lineItems.invalid && editForm.dirty" class="text-red-500">Add a line
@@ -170,9 +175,9 @@
 												<th>Type</th>
 												<th>Qty</th>
 												<th>UOM</th>
-												<th>Estimated unit cost</th>
+													<th>Estimated Unit Cost</th>
 												<th>Currency</th>
-												<th>Required by</th>
+													<th>Required By</th>
 												<th></th>
 											</tr>
 										</ng-template>

@@ -17,6 +17,7 @@ export class CustomerMarketplaceService {
   configure(input:MarketplaceConfiguration):Observable<any> { return this.post('configure',input); }
   submit(input:unknown):Observable<MarketplaceQuoteRequest> { return this.post('quote-requests',input); }
   requests(input:unknown):Observable<{Records:MarketplaceQuoteRequest[];TotalRecords:number}> { return this.post('quote-requests/search',input); }
+  request(id:number):Observable<MarketplaceQuoteRequest> { return this.get(`quote-requests/${id}`); }
   private get<T>(path:string):Observable<T> { return this.http.get<{data:T}>(`${this.endpoint}/${path}`,{headers:this.base.getHeaders()}).pipe(map(x=>x.data),catchError(this.base.handleError)); }
   private post<T>(path:string,input:unknown):Observable<T> { return this.http.post<{data:T}>(`${this.endpoint}/${path}`,input,{headers:this.base.getHeaders()}).pipe(map(x=>x.data),catchError(this.base.handleError)); }
 }

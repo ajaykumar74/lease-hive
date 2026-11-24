@@ -19,6 +19,7 @@ import { CustomerPortalSupportDetailComponent } from './customer-portal-support-
 import { CustomerMarketplaceExploreComponent } from './customer-marketplace-explore.component';
 import { CustomerMarketplaceConfigureComponent } from './customer-marketplace-configure.component';
 import { CustomerMarketplaceRequestsComponent } from './customer-marketplace-requests.component';
+import { CustomerMarketplaceRequestDetailComponent } from './customer-marketplace-request-detail.component';
 
 const workspace = (title: string, description: string) => ({
     component: CustomerPortalWorkspaceComponent,
@@ -43,6 +44,7 @@ export const CUSTOMER_PORTAL_ROUTES: Routes = [
             { path: 'assets/explore/:id', component: CustomerMarketplaceConfigureComponent, canActivate: [CustomerPortalGuard], data: { title: 'Configure Asset' } },
             { path: 'quote-requests', component: CustomerMarketplaceRequestsComponent, canActivate: [CustomerPortalGuard], data: { title: 'My Quote Requests' } },
             { path: 'quote-requests/new', component: CustomerMarketplaceRequestsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Request Quotation' } },
+            { path: 'quote-requests/:id', component: CustomerMarketplaceRequestDetailComponent, canActivate: [CustomerPortalGuard], data: { title: 'Quote Request' } },
             { path: 'documents', component: CustomerPortalDocumentsComponent, canActivate: [CustomerPortalGuard], data: { title: 'Documents' } },
             { path: 'invoices', component: CustomerPortalInvoicesComponent, canActivate: [CustomerPortalGuard], data: { title: 'Invoices & payments' } },
             { path: 'maintenance', ...workspace('Maintenance', 'Maintenance schedules and service requests will be connected in the next portal phase.') },

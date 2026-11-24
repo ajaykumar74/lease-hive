@@ -253,8 +253,14 @@ export class QuotationWorkspaceComponent implements OnInit {
     assetOptions(): ISelectItem[] {
         return this.assets.controls.map((control) => {
             const row = control.getRawValue();
-            return { Id: row.Id || 0, Value: row.ClientKey, Text: `Line ${row.LineNo}: ${row.Description || 'Asset'}` } as ISelectItem;
+            return { Id: row.Id || 0, Value: row.ClientKey, Text: this.pricingAssetLabel(row) } as ISelectItem;
         });
+    }
+
+    private pricingAssetLabel(asset: IQuotationWorkspaceAsset): string {
+        const make = this.assetMakeOptions.find((option) => option.Id === Number(asset.AssetMakeId))?.Text || '';
+        const model = this.assetModelOptions.find((option) => option.Id === Number(asset.AssetModelId))?.Text || '';
+        return `Line ${asset.LineNo} : ${[make, model].filter(Boolean).join(' ') || 'Asset'}`;
     }
 
     bindAssetToRow(row: FormGroup, clientKey: string): void {

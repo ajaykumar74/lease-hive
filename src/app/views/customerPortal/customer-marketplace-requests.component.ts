@@ -53,6 +53,8 @@ import { CustomerPortalSupportParty, CustomerPortalWorkspaceService } from './cu
         .requests-card table { width: 100%; border-collapse: collapse; }
         .requests-card th, .requests-card td { padding: 1rem 1.15rem; }
         .requests-card th { background: #f7fafb; }
+        .request-details-link { color: #156e8b; font-size: .84rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+        .request-details-link:hover { text-decoration: underline; }
         @media (max-width: 850px) { .request-flow { grid-template-columns: 1fr; } }
         @media (max-width: 640px) { .quote-requests { padding-top: 1rem; } .request-header { display: block; } .explore-link { margin-top: 1rem; } .form-grid { grid-template-columns: 1fr; } .field--full { grid-column: auto; } .request-form__heading, .request-form__body, .asset-summary__banner, .asset-summary__body { padding-left: 1.15rem; padding-right: 1.15rem; } }
     `],
@@ -99,7 +101,7 @@ import { CustomerPortalSupportParty, CustomerPortalWorkspaceService } from './cu
 
             <p class="error" *ngIf="error">{{ error }}</p>
             <div class="requests-card" *ngIf="!isNew">
-                <table *ngIf="requests.length; else empty"><thead><tr><th>Request</th><th>Asset</th><th>Requested for</th><th>Estimate</th><th>Status</th><th>Submitted</th></tr></thead><tbody><tr *ngFor="let request of requests"><td><strong>{{ request.RequestNumber }}</strong></td><td>{{ request.AssetName }}<br><small>Qty {{ request.Quantity }}</small></td><td>{{ request.RequestedFor }}</td><td>{{ request.CurrencyCode }} {{ request.SubmittedMonthlyRental | number:'1.0-0' }} / month</td><td><span class="status">{{ request.Status }}</span></td><td>{{ request.SubmittedAt | date:'mediumDate' }}</td></tr></tbody></table>
+                <table *ngIf="requests.length; else empty"><thead><tr><th>Request</th><th>Asset</th><th>Requested for</th><th>Estimate</th><th>Status</th><th>Submitted</th><th></th></tr></thead><tbody><tr *ngFor="let request of requests"><td><strong>{{ request.RequestNumber }}</strong></td><td>{{ request.AssetName }}<br><small>Qty {{ request.Quantity }}</small></td><td>{{ request.RequestedFor }}</td><td>{{ request.CurrencyCode }} {{ request.SubmittedMonthlyRental | number:'1.0-0' }} / month</td><td><span class="status">{{ request.Status }}</span></td><td>{{ request.SubmittedAt | date:'mediumDate' }}</td><td><a class="request-details-link" [routerLink]="['/customer-portal/quote-requests', request.Id]">View details</a></td></tr></tbody></table>
                 <ng-template #empty><p class="state">You have not submitted a quote request yet.</p></ng-template>
             </div>
         </section>
@@ -131,9 +133,9 @@ export class CustomerMarketplaceRequestsComponent implements OnInit {
     ngOnInit(): void {
         this.configuration = history.state?.configuration;
         this.selectedOffer = history.state?.offer;
-        this.isNew = !!this.configuration;
+        this.isNew = this.router.url.startsWith('/customer-portal/quote-requests/new');
         if (!this.isNew) this.load();
-        if (!this.configuration) this.error = 'Choose an offering before submitting a request.';
+        if (this.isNew && !this.configuration) this.error = 'Choose an offering before submitting a request.';
         if (this.isNew) this.loadAvailableParties();
     }
 
