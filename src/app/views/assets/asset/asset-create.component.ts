@@ -102,7 +102,7 @@ export class AssetCreateComponent implements OnInit {
       this.entityLookupDestroyRef);
     this.loggedInUserService.bindEntityLookup(this.editForm, 'ResponsibleOrganisationUnitId', 'organisation-units',
       options => this.responsibleorganisationunitidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
-      this.entityLookupDestroyRef);
+      this.entityLookupDestroyRef, { OrganisationId: 'OwningOrganisationId' });
     this.loggedInUserService.bindEntityLookup(this.editForm, 'CurrentLocationId', 'locations',
       options => this.currentlocationidOptions = options, error => setTimeout(() => this.messageService?.showError(error)),
       this.entityLookupDestroyRef);

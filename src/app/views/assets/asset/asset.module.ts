@@ -27,6 +27,7 @@ import { AssetProfileComponent } from './asset-profile.component';
 import { AssetProfileOverviewComponent } from './asset-profile-overview.component';
 import { AssetProfileRecordsComponent } from './asset-profile-records.component';
 import { AssetProfileDocumentsComponent } from './asset-profile-documents.component';
+import { AssetProfileSpecialisedDetailsComponent } from './asset-profile-specialised-details.component';
 import { AssetRoutingModule } from './asset-routing.module';
 
 
@@ -62,7 +63,8 @@ import { AssetRoutingModule } from './asset-routing.module';
 		AssetProfileComponent,
 		AssetProfileOverviewComponent,
 		AssetProfileRecordsComponent,
-		AssetProfileDocumentsComponent
+		AssetProfileDocumentsComponent,
+		AssetProfileSpecialisedDetailsComponent
 	]
 })
 export class AssetModule { }

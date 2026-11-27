@@ -1,0 +1,11 @@
+<section class="asset-profile-specialised-details" *ngIf="loading; else detailsUnavailable">
+  <i class="pi pi-spin pi-spinner"></i>
+  <span>Opening asset-specific details…</span>
+</section>
+
+<ng-template #detailsUnavailable>
+  <section class="asset-profile-specialised-details asset-profile-specialised-details--message">
+    <i class="pi pi-info-circle"></i>
+    <span>{{ message }}</span>
+  </section>
+</ng-template>

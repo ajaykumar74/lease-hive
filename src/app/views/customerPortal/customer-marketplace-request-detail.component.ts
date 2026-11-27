@@ -14,7 +14,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
         .back-link { display: inline-flex; gap: .45rem; align-items: center; margin-bottom: 1.25rem; color: #156e8b; font-size: .88rem; font-weight: 700; text-decoration: none; }
         .detail-card { border: 1px solid #d9e5eb; border-radius: 1rem; background: var(--surface-card); box-shadow: 0 8px 24px rgb(26 75 97 / 5%); overflow: hidden; }
         .detail-card__header { display: flex; justify-content: space-between; gap: 1rem; padding: 1.35rem 1.5rem; border-bottom: 1px solid #e7eef2; }
-        .detail-card__header h1 { margin: 0; color: #14384e; font-size: 1.5rem; }
+        .detail-card__header h1 { margin: 0; color: #14384e; font-size: 2rem; font-weight: 400; line-height: 1.2; }
         .detail-card__header p { margin: .35rem 0 0; color: #617683; }
         .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; padding: 1.5rem; }
         .detail-grid div { display: grid; gap: .3rem; }.detail-grid dt { color: #71818a; font-size: .78rem; }.detail-grid dd { margin: 0; color: #234659; font-weight: 700; }

@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetStatus } from './assetStatus';
 import { AssetStatusService } from './assetStatus.service';
@@ -39,7 +40,8 @@ export class AssetStatusCreateComponent implements OnInit {
 	private router: Router, 	
 	private _location: Location, 
 	private assetStatusService: AssetStatusService,
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private lookupService: LookupService
 	
   ) {
   }
@@ -154,6 +156,7 @@ RecordStatus: 'Active',
 	  this.spinner.show(); 
     this.assetStatusService.create(createdObj).subscribe({
       next: data => {	   
+         this.lookupService.invalidateAssetStatuses();
          // this.messageService.showSuccess(AssetStatus +  'Details Updated sucessfully.');
 		 this._location.back();     
       },

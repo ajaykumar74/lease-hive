@@ -20,7 +20,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
     template: `
     <section class="portal-workspace">
       <div class="heading">
-        <div><p class="eyebrow">Customer Portal</p><h1>Create Support Ticket</h1><p>Give our support team the information needed to help you.</p></div>
+        <div><h1>Create Support Ticket</h1><p>Give our support team the information needed to help you.</p></div>
         <a routerLink="/customer-portal/support">Back to tickets</a>
       </div>
 

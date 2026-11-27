@@ -54,6 +54,7 @@ export class AssetProfileSidebar implements OnInit, OnDestroy {
     private navigationSubscription?: Subscription;
     readonly items: AssetProfileMenuItem[] = [
         { label: 'Overview', path: 'overview', icon: 'pi pi-home' },
+        { label: 'Details', path: 'details', icon: 'pi pi-info-circle' },
         { label: 'Acquisition & Purchase', path: 'acquisition', icon: 'pi pi-shopping-cart' },
         { label: 'Contracts', path: 'contracts', icon: 'pi pi-file-edit' },
         { label: 'Billing & Finance', path: 'finance', icon: 'pi pi-wallet' },
@@ -76,7 +77,9 @@ export class AssetProfileSidebar implements OnInit, OnDestroy {
         this.navigationSubscription = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => this.readAssetId());
     }
 
-    ngOnDestroy(): void { this.navigationSubscription?.unsubscribe(); }
+    ngOnDestroy(): void {
+        this.navigationSubscription?.unsubscribe();
+    }
 
     profileLink(path: string): any[] { return ['/business/assets/profile', this.assetId, path]; }
 

@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IParty } from './party';
 import { PartyService } from './party.service';
@@ -59,7 +60,8 @@ export class PartyEditComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private partyService: PartyService,
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private lookupService: LookupService
   ) {
   }
 
@@ -263,6 +265,7 @@ export class PartyEditComponent implements OnInit {
     this.spinner.show();
     this.partyService.update(this.party.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateParties();
         //this.messageService.showSuccess(Party +  'Details Updated sucessfully.');
         //this.editForm.reset();
         this._location.back();

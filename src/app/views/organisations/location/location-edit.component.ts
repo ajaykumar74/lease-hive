@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { ILocation } from './location';
 import { LocationService } from './location.service';
@@ -43,7 +44,8 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private locationService: LocationService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private lookupService: LookupService
 	) {
   }
   
@@ -211,6 +213,7 @@ EffectiveTo:  null,
 	this.spinner.show();  	   
     this.locationService.update(this.location.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateLocations();
         //this.messageService.showSuccess(Location +  'Details Updated sucessfully.');
 		//this.editForm.reset();
 		this._location.back();

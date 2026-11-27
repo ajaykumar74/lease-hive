@@ -17,7 +17,6 @@ type QuoteDecision = 'ACCEPTED' | 'REJECTED';
         <section class="portal-workspace">
             <div class="heading">
                 <div>
-                    <p class="eyebrow">Customer Portal</p>
                     <h1>Quotations</h1>
                     <p>Review lease quotations issued to your party and record an authorised decision.</p>
                 </div>

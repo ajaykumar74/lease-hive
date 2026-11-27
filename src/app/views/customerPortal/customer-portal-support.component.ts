@@ -13,7 +13,6 @@ import { workspaceStyles } from './customer-portal-contracts.component';
     <section class="portal-workspace">
       <div class="heading">
         <div>
-          <p class="eyebrow">Customer Portal</p>
           <h1>Support Tickets</h1>
           <p>Track requests and replies from the Leasora support team.</p>
         </div>

@@ -5,7 +5,6 @@ import { BaseService } from './IBaseService';
 import { LoggedInUserService } from './LoggedInUserService';
 import { OrganisationService } from '@/views/organisations/organisation/organisation.service';
 import { OrganisationUnitService } from '@/views/organisations/organisationUnit/organisationUnit.service';
-import { ApplicationUserService } from '@/views/applicationUser/applicationUser.service';
 import { PartyService } from '@/views/parties/party/party.service';
 
 export interface CurrencyDefaultContext {
@@ -63,8 +62,7 @@ export class CurrencyDefaultService {
     private readonly loggedInUserService: LoggedInUserService,
     private readonly partyService: PartyService,
     private readonly organisationService: OrganisationService,
-    private readonly organisationUnitService: OrganisationUnitService,
-    private readonly applicationUserService: ApplicationUserService
+    private readonly organisationUnitService: OrganisationUnitService
   ) {}
 
   /**
@@ -206,7 +204,7 @@ export class CurrencyDefaultService {
     const organisation = this.getLoggedInOrganisation();
     if (organisation) return of(organisation);
 
-    return this.applicationUserService.getCurrent().pipe(
+    return this.loggedInUserService.getCurrentApplicationUser().pipe(
       map(response => this.unwrap(response) as Record<string, any> | null),
       switchMap(applicationUser => {
         const organisationUnitId = applicationUser?.['DefaultOrganisationUnitId'];

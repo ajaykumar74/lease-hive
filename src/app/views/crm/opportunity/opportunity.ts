@@ -21,6 +21,7 @@ RecordStatus :string;
 EffectiveFrom :Date;
 EffectiveTo :Date | null;
 Description :string;
+PortalRequestConfigurationSnapshotJson?: string;
 
 }
 

@@ -1,9 +1,10 @@
 import { DestroyRef } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
-import { firstValueFrom, of, Subject } from 'rxjs';
+import { EMPTY, firstValueFrom, of, Subject } from 'rxjs';
 import { LoggedInUserService } from './LoggedInUserService';
 import { ISelectItem } from './ISelectItem';
+import { LookupService } from './lookup.service';
 
 describe('Entity lookups', () => {
   let service: LoggedInUserService;
@@ -14,7 +15,12 @@ describe('Entity lookups', () => {
     service = Object.create(LoggedInUserService.prototype);
     Object.defineProperty(service, 'loggedInUser', { value: { Tenant: { Id: 7 } }, configurable: true });
     get = jasmine.createSpy('get');
-    Object.assign(service, { http: { get }, baseService: { C_APP_URL: '/api', getHeaders: () => ({}) } });
+    const baseService = { C_APP_URL: '/api', getHeaders: () => ({}), isTokenUpdated: () => EMPTY };
+    Object.assign(service, {
+      http: { get },
+      baseService,
+      lookupService: new LookupService({ get } as any, baseService as any)
+    });
   });
 
   it('loads subsequent pages, sends tenant/selection/parent filters, and returns numeric IDs', async () => {

@@ -125,7 +125,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
   } 
 
   get supplierQuoteActionLabel(): string {
-    return this.supplierQuotationId ? 'View Supplier Quote' : 'Generate Supplier Quote';
+    return this.supplierQuotationId ? 'View Supplier Response' : 'Generate Supplier Quote';
   }
 
   private loadSupplierQuotation(): void {
@@ -148,7 +148,7 @@ this.recordstatusOptions = this.loggedInUserService.getPicklistOptions('RecordSt
     }
 
     if (this.supplierQuotationId) {
-      this.router.navigate(['/business/procurement/supplier-quotations/edit', this.supplierQuotationId]);
+      this.router.navigate(['/business/procurement/supplier-quotations/view', this.supplierQuotationId]);
       return;
     }
 

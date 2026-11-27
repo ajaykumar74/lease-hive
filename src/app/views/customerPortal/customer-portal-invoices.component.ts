@@ -44,7 +44,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
     `],
     template: `
         <section class="portal-workspace">
-            <div class="heading"><div><p class="eyebrow">Customer Portal</p><h1>Invoices &amp; payments</h1><p>Review issued invoices and payment activity.</p></div><a routerLink="/customer-portal/dashboard">Dashboard</a></div>
+            <div class="heading"><div><h1>Invoices &amp; payments</h1><p>Review issued invoices and payment activity.</p></div><a routerLink="/customer-portal/dashboard">Dashboard</a></div>
             <p *ngIf="loading" class="state">Loading invoices…</p><p *ngIf="error" class="error">{{ error }}</p>
             <ng-container *ngIf="!loading && !error">
                 <section class="billing-summary" aria-label="Invoice summary"><article class="summary-metric"><span>Unpaid invoices</span><strong>{{ unpaidCount }}</strong></article><article class="summary-metric outstanding"><span>Total outstanding</span><strong>{{ totalOutstanding | number:'1.2-2' }}</strong></article></section>

@@ -183,6 +183,20 @@
 
                </div></div>
 
+                    <section *ngIf="portalRequestDetails.length" class="portal-request-details">
+                        <h3>Portal request details</h3>
+                        <table>
+                            <thead><tr><th>Caption</th><th>Data</th></tr></thead>
+                            <tbody>
+                                <tr *ngFor="let detail of portalRequestDetails">
+                                    <th scope="row">{{ detail.caption }}</th>
+                                    <td>{{ detail.data }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+
 					<app-audit-details [model]="opportunity"></app-audit-details>
 					</div>
 				</div>

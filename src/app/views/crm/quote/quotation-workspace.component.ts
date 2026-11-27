@@ -25,7 +25,8 @@ import {
     IQuotationWorkspaceCharge,
     IQuotationWorkspaceHeader,
     IQuotationWorkspaceRequirementAsset,
-    IQuotationWorkspaceService
+    IQuotationWorkspaceService,
+    IQuotationPricingDefaults
 } from './quotation-workspace';
 
 @Component({
@@ -132,13 +133,13 @@ export class QuotationWorkspaceComponent implements OnInit {
         if (this.isReviewRoute) this.activeTab = 5;
         this.loadLookupOptions();
         this.assets.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
-        this.services.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
-        this.charges.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness());
         this.header.get('LeaseRequirementId')?.valueChanges.subscribe((value) => this.prefillAssetsFromLeaseRequirement(Number(value) || 0));
         this.header.get('OriginatingOrganisationId')?.valueChanges
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.syncCurrencyWithOriginatingOrganisation());
         ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount'].forEach((name) => this.header.get(name)?.valueChanges.subscribe(() => this.refreshCalculatedPricingStaleness()));
+        this.header.get('BillingFrequency')?.valueChanges.subscribe((value) => this.applyHeaderBillingFrequencyToUnsetAssets(value));
+        this.header.get('LeaseTypeCode')?.valueChanges.subscribe(() => this.assets.controls.forEach((asset) => this.applyPricingDefaults(asset)));
         if (this.quoteId > 0) {
             this.loadWorkspace();
         } else {
@@ -152,8 +153,7 @@ export class QuotationWorkspaceComponent implements OnInit {
 
     addAsset(asset?: Partial<IQuotationWorkspaceAsset>): void {
         const lineNo = this.assets.length + 1;
-        this.assets.push(
-            this.fb.group({
+        const group = this.fb.group({
                 Id: [asset?.Id || 0],
                 ClientKey: [asset?.ClientKey || this.newClientKey()],
                 RowVersionStr: [asset?.RowVersionStr || null],
@@ -182,9 +182,11 @@ export class QuotationWorkspaceComponent implements OnInit {
                 PricingCalculatedAt: [asset?.PricingCalculatedAt || null],
                 AppliedPricingScenarioId: [asset?.AppliedPricingScenarioId || null],
                 PricingIsStale: [asset?.PricingIsStale ?? false],
-                TaxCode: [asset?.TaxCode || '']
-            })
-        );
+                TaxCode: [asset?.TaxCode ?? 'GST']
+            });
+        this.assets.push(group);
+        ['AssetCategoryId', 'Quantity', 'UnitAssetCost'].forEach((name) =>
+            group.get(name)?.valueChanges.subscribe(() => this.applyPricingDefaults(group)));
         if (!this.selectedPricingAssetKey) this.selectedPricingAssetKey = asset?.ClientKey || this.assets.at(this.assets.length - 1).value.ClientKey;
     }
 
@@ -619,11 +621,9 @@ export class QuotationWorkspaceComponent implements OnInit {
     }
 
     /**
-     * Only an actual edit to data passed to the pricing engine can invalidate an
-     * applied scenario.  Form-array value changes also fire for harmless UI
-     * hydration and for descriptive fields on later tabs; treating those as
-     * pricing edits caused valid scenarios to become stale while completing the
-     * quotation workflow.
+     * A calculated asset price becomes stale only when its pricing assumptions
+     * change. Services and charges are commercial add-ons, so editing them must
+     * not invalidate the asset rental that has already been calculated.
      */
     private hasDirtyPricingInputs(asset: FormGroup): boolean {
         const isDirty = (group: FormGroup, names: string[]) => names.some((name) => group.get(name)?.dirty);
@@ -644,16 +644,7 @@ export class QuotationWorkspaceComponent implements OnInit {
             'ManualPeriodicRentalAmount'
         ];
         const headerInputNames = ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount'];
-        if (isDirty(asset, assetInputNames) || isDirty(this.header, headerInputNames)) return true;
-
-        const value = asset.getRawValue() as IQuotationWorkspaceAsset;
-        const belongsToAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) => row.QuoteAssetId === value.Id || row.QuoteAssetClientKey === value.ClientKey;
-        const serviceInputNames = ['QuoteAssetId', 'QuoteAssetClientKey', 'LeaseServiceId', 'IsIncluded', 'IsSeparatelyChargeable', 'ChargeFrequencyCode', 'UnitAmount', 'Quantity'];
-        const chargeInputNames = ['QuoteAssetId', 'QuoteAssetClientKey', 'ChargeDescription', 'IsRecurring', 'ChargeFrequencyCode', 'StartPeriodNo', 'EndPeriodNo', 'RateOrAmount'];
-
-        return (
-            this.services.controls.some((service) => belongsToAsset(service.getRawValue()) && isDirty(service, serviceInputNames)) || this.charges.controls.some((charge) => belongsToAsset(charge.getRawValue()) && isDirty(charge, chargeInputNames))
-        );
+        return isDirty(asset, assetInputNames) || isDirty(this.header, headerInputNames);
     }
 
     private markPricingInputsAsApplied(asset: FormGroup): void {
@@ -677,14 +668,6 @@ export class QuotationWorkspaceComponent implements OnInit {
         markPristine(asset, assetInputNames);
         markPristine(this.header, ['CurrencyCode', 'PaymentTimingCode', 'SecurityDepositAmount']);
 
-        const value = asset.getRawValue() as IQuotationWorkspaceAsset;
-        const belongsToAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) => row.QuoteAssetId === value.Id || row.QuoteAssetClientKey === value.ClientKey;
-        this.services.controls
-            .filter((service) => belongsToAsset(service.getRawValue()))
-            .forEach((service) => markPristine(service, ['QuoteAssetId', 'QuoteAssetClientKey', 'LeaseServiceId', 'IsIncluded', 'IsSeparatelyChargeable', 'ChargeFrequencyCode', 'UnitAmount', 'Quantity']));
-        this.charges.controls
-            .filter((charge) => belongsToAsset(charge.getRawValue()))
-            .forEach((charge) => markPristine(charge, ['QuoteAssetId', 'QuoteAssetClientKey', 'ChargeDescription', 'IsRecurring', 'ChargeFrequencyCode', 'StartPeriodNo', 'EndPeriodNo', 'RateOrAmount']));
     }
 
     private captureAppliedPricingInputSignatures(): void {
@@ -701,36 +684,11 @@ export class QuotationWorkspaceComponent implements OnInit {
     }
 
     private pricingInputSignature(asset: IQuotationWorkspaceAsset): string {
-        const sameAsset = (row: { QuoteAssetId: number; QuoteAssetClientKey?: string }) => row.QuoteAssetId === asset.Id || row.QuoteAssetClientKey === asset.ClientKey;
         const text = (value: unknown) =>
             String(value ?? '')
                 .trim()
                 .toUpperCase();
         const number = (value: unknown) => this.numberValue(value);
-        const services = (this.services.getRawValue() as IQuotationWorkspaceService[])
-            .filter(sameAsset)
-            .map((service) => ({
-                Id: service.Id || 0,
-                Name: text(service.ServiceNameSnapshot || service.LeaseServiceDisplayName),
-                IsIncluded: !!service.IsIncluded,
-                IsSeparatelyChargeable: !!service.IsSeparatelyChargeable,
-                ChargeFrequencyCode: text(service.ChargeFrequencyCode),
-                UnitAmount: number(service.UnitAmount),
-                Quantity: number(service.Quantity)
-            }))
-            .sort((left, right) => left.Id - right.Id || left.Name.localeCompare(right.Name));
-        const charges = (this.charges.getRawValue() as IQuotationWorkspaceCharge[])
-            .filter(sameAsset)
-            .map((charge) => ({
-                Id: charge.Id || 0,
-                Description: text(charge.ChargeDescription),
-                IsRecurring: !!charge.IsRecurring,
-                ChargeFrequencyCode: text(charge.ChargeFrequencyCode),
-                StartPeriodNo: charge.StartPeriodNo || null,
-                EndPeriodNo: charge.EndPeriodNo || null,
-                Amount: number(charge.RateOrAmount)
-            }))
-            .sort((left, right) => left.Id - right.Id || left.Description.localeCompare(right.Description));
 
         return JSON.stringify({
             CurrencyCode: text(this.header.value.CurrencyCode),
@@ -749,9 +707,7 @@ export class QuotationWorkspaceComponent implements OnInit {
             UsageAllowance: number(asset.UsageAllowance),
             ExpectedUsage: number(asset.ExpectedUsage),
             ExcessUsageRate: number(asset.ExcessUsageRate),
-            ManualPeriodicRentalAmount: number(asset.ManualPeriodicRentalAmount),
-            Services: services,
-            Charges: charges
+            ManualPeriodicRentalAmount: number(asset.ManualPeriodicRentalAmount)
         });
     }
 
@@ -1007,7 +963,7 @@ export class QuotationWorkspaceComponent implements OnInit {
     private createHeader(): FormGroup {
         const today = new Date();
         const validUntil = new Date(today);
-        validUntil.setDate(validUntil.getDate() + 30);
+        validUntil.setDate(validUntil.getDate() + 7);
         return this.fb.group({
             Id: [0],
             RowVersionStr: [null],
@@ -1115,7 +1071,9 @@ export class QuotationWorkspaceComponent implements OnInit {
                     ? requirementAssets.filter((asset) => Number(asset.Id) === this.contextRequirementAssetId)
                     : requirementAssets;
 
+                const firstAssetIndex = this.assets.length;
                 assetsToPrefill.forEach((asset) => this.addAsset(this.requirementAssetToQuoteAsset(asset)));
+                this.assets.controls.slice(firstAssetIndex).forEach((asset) => this.applyPricingDefaults(asset));
                 this.requirementAssetPrefillIsResolved = true;
 
                 if (assetsToPrefill.length) {
@@ -1175,6 +1133,72 @@ export class QuotationWorkspaceComponent implements OnInit {
             BillingFrequency: this.header.value.BillingFrequency || '',
             ExpectedUsage: asset.ExpectedAnnualUsage || 0
         };
+    }
+
+    private applyHeaderBillingFrequencyToUnsetAssets(billingFrequency: unknown): void {
+        const value = String(billingFrequency || '').trim();
+        if (!value) return;
+
+        this.assets.controls.forEach((asset) => {
+            if (!String(asset.get('BillingFrequency')?.value || '').trim()) {
+                asset.get('BillingFrequency')?.setValue(value);
+            }
+        });
+    }
+
+    private applyPricingDefaults(asset: FormGroup): void {
+        if (this.quoteId > 0 || this.isHydrating || this.readOnly) return;
+
+        const value = asset.getRawValue() as IQuotationWorkspaceAsset;
+        const assetCategoryId = this.numberValue(value.AssetCategoryId);
+        if (assetCategoryId <= 0) return;
+
+        const clientKey = value.ClientKey;
+        const input = {
+            AssetCategoryId: assetCategoryId,
+            LeaseTypeCode: this.header.getRawValue().LeaseTypeCode || '',
+            Quantity: this.numberValue(value.Quantity),
+            UnitAssetCost: this.numberValue(value.UnitAssetCost)
+        };
+        const inputSignature = this.pricingDefaultsSignature(input);
+        this.quoteService.getPricingDefaults(input).subscribe({
+            next: (response) => {
+                const currentAsset = this.assets.controls.find((control) => control.getRawValue().ClientKey === clientKey);
+                if (!currentAsset) return;
+                const currentValue = currentAsset.getRawValue() as IQuotationWorkspaceAsset;
+                if (this.pricingDefaultsSignature({
+                    AssetCategoryId: this.numberValue(currentValue.AssetCategoryId),
+                    LeaseTypeCode: this.header.getRawValue().LeaseTypeCode || '',
+                    Quantity: this.numberValue(currentValue.Quantity),
+                    UnitAssetCost: this.numberValue(currentValue.UnitAssetCost)
+                }) !== inputSignature) return;
+                this.applyPricingDefaultsToAsset(currentAsset, response.data);
+            },
+            error: (error) => this.messageService?.showError(error)
+        });
+    }
+
+    private pricingDefaultsSignature(input: { AssetCategoryId: number; LeaseTypeCode?: string; Quantity: number; UnitAssetCost: number }): string {
+        return [input.AssetCategoryId, input.LeaseTypeCode || '', input.Quantity, input.UnitAssetCost].join('|');
+    }
+
+    private applyPricingDefaultsToAsset(asset: FormGroup, defaults?: IQuotationPricingDefaults): void {
+        if (!defaults) return;
+
+        const setDefault = (control: FormGroup, name: string, value: unknown) => {
+            const target = control.get(name);
+            if (target && (target.pristine || target.value === null || target.value === undefined || target.value === '')) {
+                target.setValue(value, { emitEvent: false });
+            }
+        };
+
+        setDefault(this.header, 'BillingFrequency', defaults.BillingFrequency);
+        setDefault(this.header, 'PaymentTimingCode', defaults.PaymentTimingCode);
+        setDefault(asset, 'PricingMethodCode', defaults.PricingModeCode);
+        setDefault(asset, 'BillingFrequency', this.header.getRawValue().BillingFrequency || defaults.BillingFrequency);
+        setDefault(asset, 'AnnualFundingRate', defaults.AnnualFundingRate);
+        setDefault(asset, 'EstimatedResidualValueAmount', defaults.EstimatedResidualValueAmount);
+        setDefault(asset, 'NonRefundableDownPaymentAmount', defaults.NonRefundableDownPaymentAmount);
     }
 
     private requirementAssetDescription(asset: IQuotationWorkspaceRequirementAsset): string {

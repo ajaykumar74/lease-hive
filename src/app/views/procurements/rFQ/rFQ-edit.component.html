@@ -124,6 +124,13 @@
                          [ownerId]="rFQ?.Id" [allowUpload]="true" [allowRemove]="true">
                      </app-document-attachment-requirements>
 
+                     <section *ngIf="supplierQuotationId" class="mt-5 p-4 border-1 border-round border-200 surface-50">
+                        <h3 class="mt-0 mb-2">Supplier response documents</h3>
+                        <p class="mt-0 mb-3 text-600">Documents submitted through the Supplier Portal belong to the supplier quotation, rather than the RFQ's own document requirements.</p>
+                        <button type="button" pButton label="View and download supplier documents" icon="pi pi-paperclip"
+                            severity="secondary" [outlined]="true" (click)="openSupplierQuote()"></button>
+                     </section>
+
 			</div>
 		</div>
 	</div>

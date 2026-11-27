@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IOrganisation } from './organisation';
 import { OrganisationService } from './organisation.service';
@@ -45,7 +46,8 @@ statusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private organisationService: OrganisationService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private lookupService: LookupService
 	) {
   }
   
@@ -211,6 +213,7 @@ EffectiveTo:  null,
 	this.spinner.show();  	   
     this.organisationService.update(this.organisation.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateOrganisations();
         //this.messageService.showSuccess(Organisation +  'Details Updated sucessfully.');
 		//this.editForm.reset();
 		this._location.back();

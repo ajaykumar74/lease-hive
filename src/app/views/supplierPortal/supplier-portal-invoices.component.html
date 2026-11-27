@@ -1,11 +1,10 @@
 <section class="supplier-workspace">
   <div class="toolbar">
     <div>
-      <p class="eyebrow">Supplier Portal</p>
       <h1>{{ isNew ? 'Submit invoice' : isEdit ? 'Correct invoice' : id ? 'Supplier invoice' : 'Invoices' }}</h1>
     </div>
     <a *ngIf="isNew || id" routerLink="/supplier/invoices" class="secondary">Back to invoices</a>
-    <a *ngIf="!isNew && !id" routerLink="/supplier/invoices/new" class="supplier-action">Submit invoice</a>
+    <button *ngIf="!isNew && !id" type="button" routerLink="/supplier/invoices/new">Submit invoice</button>
   </div>
 
   <p *ngIf="error" class="error">{{ error }}</p>
@@ -31,6 +30,14 @@
   </ng-container>
 
   <form *ngIf="!loading && (isNew || isEdit)" [formGroup]="form" (ngSubmit)="submit()" class="card">
+    <div class="invoice-info" role="note">
+      <i class="pi pi-info-circle" aria-hidden="true"></i>
+      <span>You can submit an invoice before goods are received. Receipt, price, and tax matching are completed during internal review.</span>
+    </div>
+    <div *ngIf="lines.length" class="invoice-totals" aria-label="Invoice totals">
+      <div><span>Purchase order amount</span><strong>{{ selectedPurchaseOrderTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }}</strong></div>
+      <div><span>Current invoice total</span><strong>{{ currentInvoiceTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }}</strong></div>
+    </div>
     <div class="quote-notes">
       <label>Accepted purchase order
         <select formControlName="PurchaseOrderId" (change)="loadLines()" [disabled]="isEdit">
@@ -53,11 +60,9 @@
     </p>
     <div formArrayName="Lines" *ngIf="lines.length" class="table-wrap">
       <h2>Purchase order quantities</h2>
-      <p class="notice">You can submit an invoice before goods are received. Receipt, price and tax matching are completed during internal review.</p>
-      <p class="notice">Purchase order amount: {{ selectedPurchaseOrderTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }} · Current invoice total: {{ currentInvoiceTotal | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }}</p>
       <p *ngIf="exceedsPurchaseOrderTotal" class="error">The invoice total cannot exceed the selected purchase order amount.</p>
       <table>
-        <thead><tr><th>Line</th><th>Accepted</th><th>Previously invoiced</th><th>Remaining</th><th>Invoice qty.</th><th>PO price</th><th>Invoice price</th><th>Tax</th></tr></thead>
+        <thead><tr><th>Line</th><th>Accepted</th><th>Prev. invoiced</th><th>Remaining</th><th>Invoice qty.</th><th>PO price</th><th>Invoice price</th><th>Tax</th></tr></thead>
         <tbody>
           <tr *ngFor="let line of lines.controls; let i = index" [formGroupName]="i">
             <td>{{ line.value.LineNo }}. {{ line.value.Description }}</td>
@@ -65,7 +70,7 @@
             <td>{{ line.value.PreviouslyInvoicedQuantity }}</td>
             <td>{{ line.value.RemainingInvoiceQuantity }}</td>
             <td><input type="number" min="0" [max]="line.value.RemainingInvoiceQuantity" formControlName="InvoicedQuantity"></td>
-            <td>{{ line.value.PurchaseOrderUnitPrice }}</td>
+            <td>{{ line.value.PurchaseOrderUnitPrice | currency:(form.controls.CurrencyCode.value || 'INR'):'symbol':'1.2-2' }}</td>
             <td><input type="number" min="0" formControlName="UnitPrice"></td>
             <td><input type="number" min="0" formControlName="TaxAmount"></td>
           </tr>

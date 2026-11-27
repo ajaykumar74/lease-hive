@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { BaseService } from '@/shared/IBaseService';
 import { IQuote } from './quote';
-import { ILeasePricingInput, IQuotationWorkspace, IQuotationWorkspaceRequirementAsset } from './quotation-workspace';
+import { ILeasePricingInput, IQuotationPricingDefaults, IQuotationPricingDefaultsRequest, IQuotationWorkspace, IQuotationWorkspaceRequirementAsset } from './quotation-workspace';
 import { ICacheData } from '@/shared/ICacheData';
 import { BaseCrudService } from '@/shared/baseCrudService';
 import { ListPageState } from '@/shared/list-page.models';
@@ -115,6 +115,14 @@ export class QuoteService extends BaseCrudService<any> {
     getRequirementAssets(leaseRequirementId: number): Observable<{ data: IQuotationWorkspaceRequirementAsset[] }> {
         const url = `${this.baseService.C_APP_URL}/QuotationWorkspace/lease-requirements/${leaseRequirementId}/assets`;
         return this.http.get<{ data: IQuotationWorkspaceRequirementAsset[] }>(url, { headers: this.headers }).pipe(
+            tap((data) => this.baseService.onTapData(data)),
+            catchError(this.baseService.handleError)
+        );
+    }
+
+    getPricingDefaults(input: IQuotationPricingDefaultsRequest): Observable<{ data: IQuotationPricingDefaults }> {
+        const url = `${this.baseService.C_APP_URL}/QuotationPricing/defaults`;
+        return this.http.post<{ data: IQuotationPricingDefaults }>(url, input, { headers: this.headers }).pipe(
             tap((data) => this.baseService.onTapData(data)),
             catchError(this.baseService.handleError)
         );

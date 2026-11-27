@@ -16,7 +16,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
     imports: [CommonModule, RouterLink, DatePipe],
     template: `
     <section class="portal-workspace">
-      <div class="heading"><div><p class="eyebrow">Customer Portal</p><h1>Documents</h1><p>Documents are shown only when their requirement is enabled for your party.</p></div><a routerLink="/customer-portal/dashboard">Dashboard</a></div>
+      <div class="heading"><div><h1>Documents</h1><p>Documents are shown only when their requirement is enabled for your party.</p></div><a routerLink="/customer-portal/dashboard">Dashboard</a></div>
       <p *ngIf="loading" class="state">Loading document workspace…</p><p *ngIf="error" class="error">{{ error }}</p>
       <ng-container *ngIf="!loading && !error">
         <div class="owner-picker" *ngIf="owners.length"><label for="document-owner">Document group</label><select id="document-owner" [value]="selectedOwnerKey" (change)="selectOwner($any($event.target).value)"><option *ngFor="let owner of owners" [value]="ownerKey(owner)">{{ owner.OwnerCategory }} · {{ owner.OwnerLabel }}</option></select></div>

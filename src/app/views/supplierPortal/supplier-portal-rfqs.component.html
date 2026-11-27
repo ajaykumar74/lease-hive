@@ -1,7 +1,6 @@
 <section class="supplier-workspace">
     <div class="toolbar">
         <div>
-            <p class="eyebrow">Supplier Portal</p>
             <h1>{{ id ? 'RFQ response' : 'Requests for quotation' }}</h1>
         </div>
         <a *ngIf="id" routerLink="/supplier/rfqs" class="secondary">Back to RFQs</a>
@@ -40,7 +39,14 @@
         <ng-template #empty><div class="card empty">No RFQs have been issued to your supplier party.</div></ng-template></ng-container
     >
     <ng-container *ngIf="!loading && rfq"
-        ><div class="card metadata">
+        ><div *ngIf="!rfq.CanRespond" class="rfq-closed-alert" role="alert">
+            <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+            <div>
+                <strong>This RFQ can no longer be changed</strong>
+                <span>It is closed, expired, or has already been submitted.</span>
+            </div>
+        </div>
+        <div class="card metadata">
             <div>
                 <small>RFQ</small><strong>{{ rfq.RfqNo }}</strong>
             </div>
@@ -119,19 +125,27 @@
                 <label>Payment terms<input [(ngModel)]="rfq.Quotation!.PaymentTermCode" placeholder="Payment terms" /></label><label>Validity<input type="date" [(ngModel)]="rfq.Quotation!.ValidUntil" /></label
                 ><label>Lead time (days)<input type="number" min="0" [(ngModel)]="rfq.Quotation!.DeliveryDays" /></label><label class="wide">Remarks<textarea [(ngModel)]="rfq.Quotation!.Remarks"></textarea></label>
             </div>
+            <div *ngIf="rfq.CanRespond && !rfq.Quotation?.SupplierQuotationId" class="pending-documents">
+                <h2>Quotation documents</h2>
+                <p>Choose your quotation or supporting files now. They will upload when you save the draft or submit the quotation.</p>
+                <label class="document-picker">Choose files<input type="file" multiple accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png" (change)="queueQuotationDocuments($event)" /></label>
+                <ul *ngIf="pendingQuotationDocuments.length">
+                    <li *ngFor="let document of pendingQuotationDocuments; let index = index">
+                        {{ document.name }} <button type="button" class="link-button" (click)="removePendingQuotationDocument(index)" [disabled]="saving">Remove</button>
+                    </li>
+                </ul>
+            </div>
             <div *ngIf="rfq.CanRespond && rfq.Lines.length" class="actions"><button class="secondary" [disabled]="saving" (click)="save(false)">Save draft</button><button [disabled]="saving" (click)="save(true)">Submit final quotation</button></div>
-            <p *ngIf="!rfq.CanRespond" class="notice">This RFQ is closed, expired, or already submitted and cannot be changed.</p>
             <app-supplier-portal-documents ownerType="RFQ" [ownerId]="rfq.RfqId"></app-supplier-portal-documents>
-            <div *ngIf="rfq.CanRespond && !rfq.Quotation?.SupplierQuotationId" class="notice">Save a draft first to enable <strong>Upload Quotation</strong> and attach your official quotation PDF before final submission.</div>
             <app-supplier-portal-documents
                 *ngIf="rfq.Quotation?.SupplierQuotationId"
                 ownerType="SupplierQuotation"
                 [ownerId]="rfq.Quotation!.SupplierQuotationId"
                 [quotationId]="rfq.Quotation!.SupplierQuotationId"
-                [canUpload]="rfq.CanRespond && rfq.Quotation!.Status === 'DRAFT'"
+                [canUpload]="canUploadQuotationDocuments"
                 sectionTitle="Quotation documents"
-                uploadLabel="Upload Quotation (PDF)"
-                accept="application/pdf"
+                uploadLabel="Upload quotation or supporting document"
+                accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png"
             ></app-supplier-portal-documents></div
     ></ng-container>
 </section>

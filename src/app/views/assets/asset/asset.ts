@@ -51,3 +51,8 @@ export interface IAssetProfileDocument {
   ContentType: string;
   UploadedAtUtc: string;
 }
+
+export interface IAssetProfileSpecialisedDetail {
+  AssetType: string;
+  SpecialisedAssetId: number;
+}

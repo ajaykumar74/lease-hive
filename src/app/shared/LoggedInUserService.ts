@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { BaseService } from './IBaseService';
-import { BehaviorSubject, EMPTY, Observable, Subject, auditTime, catchError, distinctUntilChanged, expand, map, reduce, startWith, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, auditTime, catchError, distinctUntilChanged, map, shareReplay, startWith, switchMap, throwError } from 'rxjs';
 
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
@@ -12,6 +12,7 @@ import { loggedInUser } from './IloggedInUser';
 import { IBrandPartner } from '@/views/brandPartner/brandPartner';
 import { ISelectItem } from './ISelectItem';
 import { PermissionService } from './security/permission.service';
+import { LookupService } from './lookup.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,14 +25,17 @@ export class LoggedInUserService {
   public loggedInUserEvent$: Observable<loggedInUser>;
   private datePipe: DatePipe = new DatePipe('en-US');
   private picklistCache = new Map<string, ISelectItem[]>();
+  private currentApplicationUser$?: Observable<any>;
   // private _brandPartner : IBrandPartner ;
   constructor(
     private http: HttpClient,
     private baseService: BaseService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private lookupService: LookupService
   ) {
     this.initializeProperties();
     this.baseService.isTokenUpdated().subscribe(token => {
+      this.currentApplicationUser$ = undefined;
     });
   }
 
@@ -132,7 +136,10 @@ export class LoggedInUserService {
 
 
   public updateloggedInUser(user: loggedInUser): void {
+    // A login refresh can represent a tenant or permission-context change.
+    this.lookupService.clear();
     this.clearPicklistCache();
+    this.currentApplicationUser$ = undefined;
     localStorage.setItem('loggedInUser', JSON.stringify(user));
     this.baseService.timeZoneId = user.BrandPartner?.TimeZone;
     this.loggedInUserSubject.next(user);
@@ -142,6 +149,7 @@ export class LoggedInUserService {
 
   public logout(): void {
     this.permissionService.clear();
+    this.currentApplicationUser$ = undefined;
     this.loggedInUserSubject.next(null);
     this.baseService.updateJwtToken('');
     localStorage.removeItem('loggedInUser'); // Clear stored user
@@ -264,33 +272,13 @@ export class LoggedInUserService {
     const tenantId = tenant?.Id ?? tenant?.TenantId;
     if (!tenantId) return throwError(() => 'Tenant information is not available for the logged-in user.');
 
-    const page = (skip: number) => {
-      const params = new URLSearchParams({ tenantId: String(tenantId), pageSize: '100', skip: String(skip) });
-      if (selectedId) params.set(valueMode === 'reference' ? 'selectedValue' : 'selectedId', String(selectedId));
-      for (const [field, value] of Object.entries(filters)) {
-        if (value > 0) params.set(`filters[${field}]`, String(value));
-      }
-      return this.http.get<any>(`${this.baseService.C_APP_URL}/Lookups/${lookupType}?${params}`, { headers: this.headers }).pipe(
-        map(response => ({ skip, rows: response.data || [] as any[] }))
-      );
-    };
-    return page(0).pipe(
-      expand(result => result.rows.length === 100 ? page(result.skip + 100) : EMPTY),
-      reduce((items, result) => [...items, ...result.rows], [] as any[]),
-      map(items => {
-        const options = [...new Map(items.map(item => [item.Id, item])).values()].map(item => ({
-          Id: item.Id,
-          Value: valueMode === 'reference'
-            ? (item.ReferenceValue || item.ProfileCode || item.Code || item.Value)
-            : item.Id,
-          Text: item.DisplayText,
-          Category: item.Code,
-          ParentId: item.ParentId,
-          IsQualified: item.IsQualified === true
-        }));
-
-        return preserveServerOrder ? options : this.sortSelectItems(options);
-      })
+    return this.lookupService.getEntityLookupOptions(
+      lookupType,
+      tenantId,
+      selectedId,
+      filters,
+      valueMode,
+      preserveServerOrder
     );
   }
 
@@ -435,9 +423,28 @@ export class LoggedInUserService {
     );
   }
 
-  /** Resolve the tenant AppUser record for the authenticated session. */
+  /** Returns the signed-in AppUser once per authenticated session. */
+  getCurrentApplicationUser(): Observable<any> {
+    if (this.currentApplicationUser$) return this.currentApplicationUser$;
+
+    const request = this.http.get<any>(`${this.baseService.C_APP_URL}/ApplicationUsers/current`, { headers: this.headers }).pipe(
+      map(response => {
+        this.baseService.onTapData(response);
+        return response;
+      }),
+      catchError(error => {
+        this.currentApplicationUser$ = undefined;
+        return throwError(() => error);
+      }),
+      shareReplay({ bufferSize: 1, refCount: false })
+    );
+    this.currentApplicationUser$ = request;
+    return request;
+  }
+
+  /** Resolve the tenant AppUser ID from the cached signed-in user record. */
   getCurrentApplicationUserId(): Observable<number> {
-    return this.http.get<any>(`${this.baseService.C_APP_URL}/ApplicationUsers/current`, { headers: this.headers }).pipe(
+    return this.getCurrentApplicationUser().pipe(
       map(response => {
         const id = Number(response?.data?.Id);
         if (!Number.isSafeInteger(id) || id <= 0) {

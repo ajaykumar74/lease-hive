@@ -10,6 +10,7 @@ import { AssetProfileComponent } from './asset-profile.component';
 import { AssetProfileOverviewComponent } from './asset-profile-overview.component';
 import { AssetProfileRecordsComponent } from './asset-profile-records.component';
 import { AssetProfileDocumentsComponent } from './asset-profile-documents.component';
+import { AssetProfileSpecialisedDetailsComponent } from './asset-profile-specialised-details.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,7 @@ const routes: Routes = [
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'overview' },
           { path: 'overview', component: AssetProfileOverviewComponent, data: { title: 'Overview' } },
+          { path: 'details', component: AssetProfileSpecialisedDetailsComponent, data: { title: 'Details' } },
           { path: 'acquisition', component: AssetProfileRecordsComponent, data: { section: 'acquisition', title: 'Acquisition & Purchase' } },
           { path: 'contracts', component: AssetProfileRecordsComponent, data: { section: 'contracts', title: 'Contracts' } },
           { path: 'finance', component: AssetProfileRecordsComponent, data: { section: 'finance', title: 'Billing & Finance' } },

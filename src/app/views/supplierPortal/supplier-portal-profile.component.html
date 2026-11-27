@@ -1,5 +1,5 @@
 <section class="supplier-profile">
-    <div class="profile-heading"><div><p class="eyebrow">Supplier Portal</p><h1>Supplier Profile</h1><p>Company details and your authorised contact information are restricted to your assigned supplier parties.</p></div></div>
+    <div class="profile-heading"><div><h1>Supplier Profile</h1><p>Company details and your authorised contact information are restricted to your assigned supplier parties.</p></div></div>
     <p *ngIf="loading" class="state">Loading supplier profile…</p><p *ngIf="error" class="error">{{ error }}</p>
     <form *ngIf="profile" [formGroup]="form" (ngSubmit)="save()" class="profile-form">
         <section class="profile-card"><div class="card-heading"><h2>Company</h2><span *ngIf="!profile.CanEditCompanyDetails">View only</span></div>

@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetStatus } from './assetStatus';
 import { AssetStatusService } from './assetStatus.service';
@@ -39,7 +40,8 @@ export class AssetStatusEditComponent implements OnInit {
 	private router: Router, 	
 	private _location: Location,
 	private assetStatusService: AssetStatusService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private lookupService: LookupService
 	) {
   }
   
@@ -173,6 +175,7 @@ RecordStatus:  formValues.RecordStatus || null,
 	this.spinner.show();  	   
     this.assetStatusService.update(this.assetStatus.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateAssetStatuses();
         //this.messageService.showSuccess(AssetStatus +  'Details Updated sucessfully.');
 		//this.editForm.reset();
 		this._location.back();

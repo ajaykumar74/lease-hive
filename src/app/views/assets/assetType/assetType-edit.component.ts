@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component'; 
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IAssetType } from './assetType';
 import { AssetTypeService } from './assetType.service';
@@ -41,7 +42,8 @@ recordstatusOptions: ISelectItem[] = [];
 	private router: Router, 	
 	private _location: Location,
 	private assetTypeService: AssetTypeService, 
-	private loggedInUserService : LoggedInUserService
+	private loggedInUserService : LoggedInUserService,
+    private lookupService: LookupService
 	) {
   }
   
@@ -188,6 +190,7 @@ RecordStatus:  formValues.RecordStatus || null,
 	this.spinner.show();  	   
     this.assetTypeService.update(this.assetType.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateAssetTypes();
         //this.messageService.showSuccess(AssetType +  'Details Updated sucessfully.');
 		//this.editForm.reset();
 		this._location.back();

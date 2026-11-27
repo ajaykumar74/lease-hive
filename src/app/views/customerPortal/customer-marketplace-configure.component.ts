@@ -17,7 +17,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
         .back-link:hover { color: #0c5269; text-decoration: underline; }
         .asset-hero { display: flex; justify-content: space-between; gap: 2rem; align-items: flex-end; padding: 1.85rem 2rem; margin-bottom: 1.5rem; border: 1px solid #d9e5ed; border-radius: 1rem; background: linear-gradient(115deg, #f8fcff 0%, #eef7fb 100%); }
         .asset-hero .eyebrow { margin: 0 0 .55rem; }
-        .asset-hero h1 { margin: 0; color: #13354d; font-size: clamp(1.65rem, 3vw, 2.15rem); line-height: 1.2; }
+        .asset-hero h1 { margin: 0; color: #13354d; font-size: 2rem; font-weight: 400; line-height: 1.2; }
         .asset-subtitle { margin: .55rem 0 0; color: #5e7281; font-size: 1rem; }
         .fulfilment-chip { display: inline-flex; align-items: center; gap: .4rem; flex: 0 0 auto; padding: .55rem .85rem; border-radius: 999px; background: #fff; box-shadow: 0 2px 8px rgb(25 79 105 / 8%); color: #245c73; font-size: .8rem; font-weight: 700; white-space: nowrap; }
         .configuration-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(420px, 1.15fr); gap: 1.5rem; align-items: start; }

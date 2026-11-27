@@ -94,6 +94,23 @@ export interface IQuotationWorkspaceRequirementAsset {
     Remarks?: string;
 }
 
+export interface IQuotationPricingDefaultsRequest {
+    AssetCategoryId: number;
+    LeaseTypeCode?: string;
+    Quantity: number;
+    UnitAssetCost: number;
+}
+
+export interface IQuotationPricingDefaults {
+    PricingModeCode: string;
+    BillingFrequency: string;
+    PaymentTimingCode: string;
+    AnnualFundingRate: number;
+    EstimatedResidualValuePercent: number;
+    EstimatedResidualValueAmount: number;
+    NonRefundableDownPaymentAmount: number;
+}
+
 export interface IQuotationWorkspaceService {
     Id: number;
     ClientKey: string;

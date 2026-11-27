@@ -14,7 +14,7 @@ import { CustomerPortalSupportParty, CustomerPortalWorkspaceService } from './cu
         .quote-requests { max-width: 1200px; padding-top: 2rem; padding-bottom: 3rem; }
         .request-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; }
         .request-header .eyebrow { margin: 0 0 .45rem; }
-        .request-header h1 { margin: 0; color: #14384e; font-size: clamp(1.65rem, 3vw, 2.15rem); line-height: 1.2; }
+        .request-header h1 { margin: 0; color: #14384e; font-size: 2rem; font-weight: 400; line-height: 1.2; }
         .request-header p:not(.eyebrow) { margin: .55rem 0 0; color: #617683; font-size: .96rem; }
         .explore-link { display: inline-flex; align-items: center; gap: .5rem; flex: 0 0 auto; margin-top: .25rem; padding: .67rem .9rem; border: 1px solid #b8d7e3; border-radius: .55rem; color: #156e8b; font-size: .88rem; font-weight: 700; text-decoration: none; }
         .explore-link:hover { border-color: #6daec3; background: #f0fafc; }
@@ -62,7 +62,6 @@ import { CustomerPortalSupportParty, CustomerPortalWorkspaceService } from './cu
         <section class="portal-workspace quote-requests">
             <header class="request-header">
                 <div>
-                    <p class="eyebrow">Customer portal</p>
                     <h1>{{ isNew ? 'Request a quotation' : 'My quote requests' }}</h1>
                     <p>{{ isNew ? 'Review your selected lease terms and send a tailored quotation request.' : 'Track submitted requirements while our sales team prepares a quotation.' }}</p>
                 </div>

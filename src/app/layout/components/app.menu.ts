@@ -486,6 +486,12 @@ export class AppMenu implements OnInit, OnDestroy {
                                     tooltip: 'See your fleet/ actions and costs here'
                                 },
                                  {
+                                            label: 'Email Job Queues',
+                                            icon: 'pi pi-fw pi-inbox',
+                                            routerLink: ['/dashboard/emailJobQueues/'],
+                                            tooltip: 'Manage email job queues'
+                                        },
+                                 {
                                     label: 'Document Audit',
                                     icon: 'pi pi-fw pi-home',
                                     routerLink: ['/dashboard/documentAuditEvents/list/'],

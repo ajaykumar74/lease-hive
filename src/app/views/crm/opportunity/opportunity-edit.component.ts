@@ -19,6 +19,14 @@ import { LeadService } from '../lead/lead.service';
     selector: 'app-opportunity-edit',
     standalone: false,
     templateUrl: './opportunity-edit.component.html',
+    styles: [`
+        .portal-request-details { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #e2e8f0; }
+        .portal-request-details h3 { margin: 0 0 .85rem; color: #0f4c6a; font-size: 1.05rem; }
+        .portal-request-details table { width: 100%; border-collapse: collapse; }
+        .portal-request-details th, .portal-request-details td { padding: .7rem .85rem; border: 1px solid #dbe7ec; text-align: left; vertical-align: top; }
+        .portal-request-details th { width: 35%; background: #f1f8fa; color: #31576a; font-size: .8rem; text-transform: uppercase; }
+        .portal-request-details td { color: #173c52; white-space: pre-wrap; word-break: break-word; }
+    `],
     providers: [MessageService]
 })
 export class OpportunityEditComponent implements OnInit {
@@ -28,6 +36,7 @@ export class OpportunityEditComponent implements OnInit {
     opportunity: IOpportunity = null;
     permission = {} as IPermission;
     Caption: string = 'Loading...';
+    portalRequestDetails: Array<{ caption: string; data: string }> = [];
     leadidOptions: ISelectItem[] = [];
     partyidOptions: ISelectItem[] = [];
     originatingorganisationidOptions: ISelectItem[] = [];
@@ -159,6 +168,38 @@ export class OpportunityEditComponent implements OnInit {
         });
 
         this.Caption = 'Opportunity Details #' + obj.Id;
+        this.portalRequestDetails = this.formatPortalRequestDetails(obj.PortalRequestConfigurationSnapshotJson);
+    }
+
+    private formatPortalRequestDetails(snapshot?: string): Array<{ caption: string; data: string }> {
+        if (!snapshot) return [];
+
+        try {
+            const configuration = JSON.parse(snapshot);
+            if (!configuration || Array.isArray(configuration) || typeof configuration !== 'object') return [];
+
+            return Object.entries(configuration).map(([key, value]) => ({
+                caption: this.captionFor(key),
+                data: this.formatPortalRequestValue(value)
+            }));
+        } catch {
+            return [];
+        }
+    }
+
+    private captionFor(key: string): string {
+        return key
+            .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+            .replace(/[_-]+/g, ' ')
+            .replace(/\b\w/g, character => character.toUpperCase());
+    }
+
+    private formatPortalRequestValue(value: unknown): string {
+        if (Array.isArray(value)) return value.length ? value.join(', ') : 'None';
+        if (value === null || value === undefined || value === '') return '—';
+        if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+        if (typeof value === 'object') return JSON.stringify(value);
+        return String(value);
     }
 
     onOptionItemClicked(key: string): void {

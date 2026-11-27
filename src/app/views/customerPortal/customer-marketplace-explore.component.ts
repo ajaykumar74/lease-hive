@@ -15,7 +15,7 @@ import { workspaceStyles } from './customer-portal-contracts.component';
         .asset-explorer { max-width: 1240px; padding-top: 2rem; padding-bottom: 3rem; }
         .explorer-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; }
         .explorer-header .eyebrow { margin: 0 0 .45rem; }
-        .explorer-header h1 { margin: 0; color: #13354d; font-size: clamp(1.7rem, 3vw, 2.2rem); line-height: 1.2; }
+        .explorer-header h1 { margin: 0; color: #13354d; font-size: 2rem; font-weight: 400; line-height: 1.2; }
         .explorer-header p:not(.eyebrow) { margin: .55rem 0 0; color: #647784; font-size: .96rem; }
         .requests-link { display: inline-flex; align-items: center; gap: .5rem; flex: 0 0 auto; margin-top: .35rem; padding: .65rem .9rem; border: 1px solid #b9d8e4; border-radius: .55rem; color: #166f8d; font-size: .88rem; font-weight: 700; text-decoration: none; }
         .requests-link:hover { border-color: #6eafc4; background: #f1fafd; }
@@ -61,7 +61,6 @@ import { workspaceStyles } from './customer-portal-contracts.component';
         <section class="portal-workspace asset-explorer">
             <header class="explorer-header">
                 <div>
-                    <p class="eyebrow">Customer portal</p>
                     <h1>Explore lease options</h1>
                     <p>Compare indicative monthly rentals and configure the asset that best fits your needs.</p>
                 </div>

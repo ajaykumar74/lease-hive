@@ -9,6 +9,7 @@ import { MessageComponent } from '@/shared/message.component';
 import { IPermission } from '@/shared/IPermission';
 import { SpinnerComponent } from '@/shared/spinner.component';
 import { LoggedInUserService } from '@/shared/LoggedInUserService';
+import { LookupService } from '@/shared/lookup.service';
 import { ISelectItem } from '@/shared/ISelectItem';
 import { IOrganisationUnit } from './organisationUnit';
 import { OrganisationUnitService } from './organisationUnit.service';
@@ -44,7 +45,8 @@ export class OrganisationUnitEditComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private organisationUnitService: OrganisationUnitService,
-    private loggedInUserService: LoggedInUserService
+    private loggedInUserService: LoggedInUserService,
+    private lookupService: LookupService
   ) {
   }
 
@@ -233,6 +235,7 @@ export class OrganisationUnitEditComponent implements OnInit {
     this.spinner.show();
     this.organisationUnitService.update(this.organisationUnit.Id, updatedObj).subscribe({
       next: data => {
+        this.lookupService.invalidateOrganisationUnits();
         //this.messageService.showSuccess(OrganisationUnit +  'Details Updated sucessfully.');
         //this.editForm.reset();
         this._location.back();
